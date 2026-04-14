@@ -2113,7 +2113,7 @@
 </footer>
 
 <script>
-const API = 'http://localhost:8080';
+const API = 'https://escapii-backend.onrender.com';
 
 // ══════════ i18n
 const TR = {
