@@ -603,7 +603,7 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 
 <script>
-const API  = 'http://localhost:8080';
+const API  = 'https://escapii-backend.onrender.com';
 let ADMIN_KEY = '';
 let ALL_DESTINATIONS = [];
 let destTomSelect = null;
