@@ -955,10 +955,17 @@
     .pax-input, .pax-select {
       background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
       border-radius: 10px; padding: 10px 14px; color: white; font-size: 14px;
-      outline: none; width: 100%; transition: border .2s;
+      outline: none; width: 100%; transition: border .2s; box-sizing: border-box;
     }
     .pax-input:focus, .pax-select:focus { border-color: var(--gold); }
     .pax-input::placeholder { color: var(--gray2); }
+    .pax-select {
+      appearance: none; -webkit-appearance: none;
+      padding-right: 28px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
     .pax-select option { background: var(--navy3); }
     /* DOB row */
     .dob-wrap { display: grid; grid-template-columns: 1fr 2fr 1.4fr; gap: 8px; }
