@@ -961,10 +961,10 @@
     .pax-input::placeholder { color: var(--gray2); }
     .pax-select {
       appearance: none; -webkit-appearance: none;
-      padding-right: 28px;
+      padding-right: 36px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 10px center;
+      background-position: calc(100% - 12px) 50%;
     }
     .pax-select option { background: var(--navy3); }
     /* DOB row */
@@ -1446,8 +1446,8 @@
       .extra-card-sub { font-size: 11px; }
       .extra-card-price { font-size: 12px; margin-right: 4px; }
 
-      /* DOB grid — narrower day/year columns so month has room */
-      .dob-wrap { grid-template-columns: 0.7fr 1.8fr 1fr; gap: 6px; }
+      /* DOB grid — balanced columns with room for custom arrow */
+      .dob-wrap { grid-template-columns: 1fr 1.8fr 1.2fr; gap: 6px; }
 
       /* Choices.js full width in narrow cells */
       .choices { width: 100% !important; }
