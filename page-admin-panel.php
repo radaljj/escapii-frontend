@@ -1190,9 +1190,10 @@ function renderBookings() {
       ? new Date(b.returnDate).toLocaleDateString('sr-RS') : '—';
 
     const extras = [
-      b.hasInsurance    && '🛡 Osiguranje',
-      b.hasBreakfast    && '🍳 Doručak',
-      b.hasSeatsTogther && '💺 Sedišta zajedno',
+      b.hasInsurance         && '🛡 Osiguranje',
+      b.hasBreakfast         && '🍳 Doručak',
+      b.hasSeatsTogther      && '💺 Sedišta zajedno',
+      b.hasConnectingFlights && '✈✈ Presedanje',
       b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
       b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
     ].filter(Boolean).join(' · ') || '—';
@@ -1219,7 +1220,7 @@ function renderBookings() {
         <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
         <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
         <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
-        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
+        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}${b.passengerNames && b.passengerNames.length ? '<br><span style="font-size:11px;font-weight:400;color:var(--gray)">' + b.passengerNames.join(', ') + '</span>' : ''}</div></div>
         <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
         <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
         <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
