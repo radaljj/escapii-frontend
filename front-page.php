@@ -961,12 +961,22 @@
     .pax-input::placeholder { color: var(--gray2); }
     .pax-select {
       appearance: none; -webkit-appearance: none;
-      padding-right: 36px;
+      padding-right: 34px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: calc(100% - 12px) 50%;
     }
     .pax-select option { background: var(--navy3); }
+    /* DOB selects — wrapper with ::after arrow guarantees pixel-perfect centering */
+    .dob-sel { position: relative; }
+    .dob-sel::after {
+      content: '';
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      width: 11px; height: 7px; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-size: contain;
+    }
+    .dob-sel .pax-select { background-image: none; padding-right: 32px; }
     /* DOB row */
     .dob-wrap { display: grid; grid-template-columns: 1fr 2fr 1.4fr; gap: 8px; }
     /* Required asterisk */
@@ -3336,9 +3346,9 @@ function renderPax() {
         <div class="pax-field" id="pf-dob-${i}" style="grid-column:span 2">
           <label>${t('pax.dob')} <span class="req">*</span></label>
           <div class="dob-wrap">
-            <select class="pax-select" id="pd-d-${i}">${dobDays()}</select>
-            <select class="pax-select" id="pd-m-${i}">${dobMonths()}</select>
-            <select class="pax-select" id="pd-y-${i}">${dobYears()}</select>
+            <div class="dob-sel"><select class="pax-select" id="pd-d-${i}">${dobDays()}</select></div>
+            <div class="dob-sel"><select class="pax-select" id="pd-m-${i}">${dobMonths()}</select></div>
+            <div class="dob-sel"><select class="pax-select" id="pd-y-${i}">${dobYears()}</select></div>
           </div>
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
