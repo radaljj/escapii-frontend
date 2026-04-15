@@ -232,6 +232,18 @@ body {
 .bc-btn-cancel:not(:disabled):hover  { background: var(--red); color: white; }
 .bc-btn-pending { background: rgba(249,115,22,.15); color: var(--accent); border: 1px solid rgba(249,115,22,.3); }
 .bc-btn-pending:not(:disabled):hover { background: var(--accent); color: var(--navy); }
+.bc-btn-price { background: none; border: 1px solid rgba(255,255,255,.2); color: var(--gray); font-size: 11px; border-radius: 6px; padding: 2px 8px; cursor: pointer; margin-left: 6px; vertical-align: middle; }
+.bc-btn-price:hover { border-color: var(--accent); color: var(--accent); }
+.price-popup-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:9999; align-items:center; justify-content:center; }
+.price-popup-overlay.open { display:flex; }
+.price-popup { background:#1a1d2e; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:28px; min-width:320px; max-width:420px; width:90%; }
+.price-popup h3 { font-size:16px; margin-bottom:18px; color:var(--white); }
+.price-popup table { width:100%; border-collapse:collapse; font-size:13px; }
+.price-popup td { padding:7px 4px; border-bottom:1px solid rgba(255,255,255,.06); }
+.price-popup td:last-child { text-align:right; font-weight:600; color:var(--white); }
+.price-popup tr.total td { border-top:2px solid rgba(255,255,255,.15); border-bottom:none; padding-top:12px; font-size:15px; color:var(--accent); }
+.price-popup-close { margin-top:18px; width:100%; padding:9px; border-radius:8px; border:none; background:rgba(255,255,255,.08); color:var(--white); cursor:pointer; font-size:13px; }
+.price-popup-close:hover { background:rgba(255,255,255,.15); }
 @media (max-width: 700px) { .bc-body { grid-template-columns: 1fr 1fr; } }
 
 /* ── Panel ── */
@@ -447,6 +459,15 @@ tbody tr:last-child td { border-bottom: none; }
   </div>
 </div>
 
+<!-- ══ PRICE BREAKDOWN POPUP ══ -->
+<div class="price-popup-overlay" id="pricePopupOverlay" onclick="if(event.target===this)closePricePopup()">
+  <div class="price-popup">
+    <h3 id="pricePopupTitle"></h3>
+    <table id="pricePopupTable"></table>
+    <button class="price-popup-close" onclick="closePricePopup()">Zatvori</button>
+  </div>
+</div>
+
 <!-- ══ ADMIN PANEL ══ -->
 <div class="admin-wrap" id="adminWrap">
   <header class="admin-header">
@@ -632,6 +653,25 @@ function doLogin() {
 document.getElementById('keyInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
+
+function showPriceBreakdown(b) {
+  document.getElementById('pricePopupTitle').textContent = `Cenovnik — ${b.bookingRef}`;
+  const rows = [];
+  const tr = (label, val) => `<tr><td>${label}</td><td>${val}</td></tr>`;
+  rows.push(tr('Osnovna cena', `${b.basePricePerPerson}€/os`));
+  if (b.accommodationType === 'SUPERIOR') rows.push(tr('Superior hotel', '+100€/os'));
+  if (b.hasBreakfast)       rows.push(tr('Doručak', '+15€/os'));
+  if (b.cabinSuitcaseCount > 0) rows.push(tr(`Kofer × ${b.cabinSuitcaseCount}`, `+${50 * b.cabinSuitcaseCount}€/os`));
+  if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€ flat`));
+  if (b.hasInsurance)       rows.push(tr('Osiguranje', '+20€ flat'));
+  if (b.hasSeatsTogther)    rows.push(tr('Sedišta zajedno', '+20€/os'));
+  rows.push(`<tr class="total"><td><strong>${b.totalPricePerPerson}€/os × ${b.numberOfTravelers}</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
+  document.getElementById('pricePopupTable').innerHTML = rows.join('');
+  document.getElementById('pricePopupOverlay').classList.add('open');
+}
+function closePricePopup() {
+  document.getElementById('pricePopupOverlay').classList.remove('open');
+}
 
 function doLogout() {
   ADMIN_KEY = '';
@@ -1154,7 +1194,7 @@ function renderBookings() {
       b.hasBreakfast    && '🍳 Doručak',
       b.hasSeatsTogther && '💺 Sedišta zajedno',
       b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
-      b.exclusionCount  > 0 && `🚫 ${b.exclusionCount}× isključivanje`,
+      b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
     ].filter(Boolean).join(' · ') || '—';
 
     const isConfirmed = b.status === 'CONFIRMED';
@@ -1174,13 +1214,13 @@ function renderBookings() {
       </div>
 
       <div class="bc-body">
-        <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.fullName}</div></div>
+        <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.firstName} ${b.lastName}</div></div>
         <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${b.email}</div></div>
         <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
         <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
         <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
         <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
-        <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os</div></div>
+        <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
         <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
         <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
       </div>
