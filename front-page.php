@@ -664,7 +664,8 @@
     .month-meta { font-size: 12px; color: var(--gray); margin-top: 3px; }
     .month-chevron { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.07);
                      display: flex; align-items: center; justify-content: center;
-                     font-size: 14px; color: var(--gray); transition: all .25s; }
+                     font-size: 14px; color: var(--gray); transition: all .25s;
+                     flex-shrink: 0; align-self: center; }
     .month-header.open .month-chevron { transform: rotate(180deg); background: rgba(249,115,22,.2); color: var(--accent); }
     .month-body { display: none; padding: 10px; background: rgba(0,0,0,.18); }
     .month-body.open { display: block; animation: slideDown .2s ease; }
@@ -1267,6 +1268,7 @@
     .sr-badge.PENDING   { background: rgba(249,115,22,.15); color: var(--accent); }
     .sr-badge.CONFIRMED { background: rgba(34,197,94,.15);  color: #22c55e; }
     .sr-badge.CANCELLED { background: rgba(239,68,68,.15);  color: #f87171; }
+    .sr-label  { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 3px; }
     .sr-name   { font-size: 17px; font-weight: 800; color: var(--white); }
     .sr-ref    { font-size: 12px; color: var(--gray); }
     .sr-info   { display: flex; flex-direction: column; gap: 6px; }
@@ -1485,6 +1487,7 @@
     <button class="mob-menu-link" onclick="mobNav('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -2432,6 +2435,10 @@ function mobNav(id) {
   document.getElementById('mobMenu').classList.remove('open');
   setTimeout(() => escScrollTo(id), 180);
 }
+function closeMobMenu() {
+  document.getElementById('navBurger').classList.remove('open');
+  document.getElementById('mobMenu').classList.remove('open');
+}
 
 // ══════════ PROGRESS BAR
 function updateProgress() {
@@ -2511,7 +2518,8 @@ async function checkStatus() {
 
     resEl.innerHTML = `
       <div>
-        <div class="sr-name">${d.firstName}</div>
+        <div class="sr-label">${lang === 'sr' ? 'Nosilac rezervacije' : 'Booking holder'}</div>
+        <div class="sr-name">${d.firstName} ${d.lastName}</div>
         <div class="sr-ref">${d.bookingRef}</div>
       </div>
       <span class="sr-badge ${d.status}">${statusLabels[d.status] || d.status}</span>
