@@ -2939,6 +2939,17 @@ function pickAirport(el, code) {
   el.classList.add('on');
   S.airport = code;
   document.getElementById('btnN1').disabled = false;
+  // Učitaj destinacije filtrowane po aerodromu (za grid isključivanja u koraku 6)
+  loadDestinationsByAirport(code);
+}
+
+async function loadDestinationsByAirport(airport) {
+  try {
+    const r = await fetch(`${API}/api/destinations?airport=${airport}`);
+    if (!r.ok) throw new Error();
+    S.destinations = await r.json();
+    renderExclGrid();
+  } catch(e) { /* fallback — ostaje prethodni S.destinations */ }
 }
 
 // ══════════ STEP 2
