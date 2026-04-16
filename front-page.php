@@ -3256,12 +3256,7 @@ function updateExclStep() {
 }
 
 function renderExclGrid() {
-  // Koristi potentialDestinations iz izabranog datuma ako su dostupne,
-  // inače fallback na globalni S.destinations
-  const dests = (S.selectedDate && S.selectedDate.potentialDestinations && S.selectedDate.potentialDestinations.length)
-    ? S.selectedDate.potentialDestinations
-    : S.destinations;
-  document.getElementById('exclGrid').innerHTML = dests.map(d => `
+  document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
     <div class="excl-tile" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
       <div class="excl-overlay">
