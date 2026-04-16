@@ -188,6 +188,21 @@ body {
 .tab-badge:empty { display: none; }
 
 /* Booking cards */
+.booking-toolbar { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.booking-search {
+  flex: 1; min-width: 200px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px; padding: 8px 14px; color: var(--white); font-size: 14px;
+  outline: none; transition: border .2s; font-family: inherit;
+}
+.booking-search:focus { border-color: var(--accent); }
+.booking-search::placeholder { color: var(--gray2); }
+.btn-export {
+  padding: 8px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.06); color: var(--white); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.btn-export:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); }
 .booking-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 .filter-btn {
   padding: 6px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,.12);
@@ -195,6 +210,15 @@ body {
   cursor: pointer; transition: all .2s;
 }
 .filter-btn.active, .filter-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--navy); }
+/* Notes */
+.bc-note-wrap { margin-top: 14px; border-top: 1px solid rgba(255,255,255,.06); padding-top: 12px; }
+.bc-note-input {
+  width: 100%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+  border-radius: 8px; padding: 8px 12px; color: var(--white); font-size: 13px;
+  font-family: inherit; resize: vertical; min-height: 52px; outline: none; transition: border .2s;
+}
+.bc-note-input:focus { border-color: var(--accent); }
+.bc-note-status { font-size: 11px; color: var(--green); margin-top: 4px; min-height: 16px; }
 .booking-list { display: flex; flex-direction: column; gap: 12px; }
 .booking-card {
   background: var(--card); border: 1px solid rgba(255,255,255,.07);
@@ -563,6 +587,13 @@ tbody tr:last-child td { border-bottom: none; }
     <div class="panel" id="panel-bookings">
       <div class="panel-title">Rezervacije</div>
       <div class="panel-subtitle">Pregled svih upita — potvrdi ili otkaži rezervaciju</div>
+
+      <div class="booking-toolbar">
+        <input type="text" class="booking-search" id="bookingSearch"
+               placeholder="🔍 Pretraži po imenu, emailu, broju rezervacije..."
+               oninput="renderBookings()">
+        <button class="btn-export" onclick="exportCSV()">📥 Export CSV</button>
+      </div>
 
       <div class="booking-filters">
         <button class="filter-btn" onclick="filterBookings('ALL', this)">Sve</button>
@@ -1168,11 +1199,16 @@ function filterBookings(status, btn) {
   renderBookings();
 }
 
+function getFilteredBookings() {
+  const q = (document.getElementById('bookingSearch')?.value || '').toLowerCase().trim();
+  return ALL_BOOKINGS
+    .filter(b => activeFilter === 'ALL' || b.status === activeFilter)
+    .filter(b => !q || `${b.firstName} ${b.lastName} ${b.email} ${b.bookingRef}`.toLowerCase().includes(q));
+}
+
 function renderBookings() {
   const list = document.getElementById('bookingList');
-  const filtered = activeFilter === 'ALL'
-    ? ALL_BOOKINGS
-    : ALL_BOOKINGS.filter(b => b.status === activeFilter);
+  const filtered = getFilteredBookings();
 
   if (!filtered.length) {
     list.innerHTML = '<div class="empty-state">Nema rezervacija.</div>';
@@ -1226,7 +1262,17 @@ function renderBookings() {
         <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
       </div>
 
-      ${b.notes ? `<div class="bc-notes">💬 <em>${b.notes}</em></div>` : ''}
+      ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
+
+      <div class="bc-note-wrap">
+        <div class="bc-label" style="margin-bottom:6px;">📝 Interna napomena</div>
+        <textarea class="bc-note-input" id="note-${b.id}"
+          placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
+          onblur="saveNote(${b.id})"
+          onkeydown="if(event.ctrlKey&&event.key==='Enter'){saveNote(${b.id});this.blur();}"
+        >${getNote(b.id)}</textarea>
+        <div class="bc-note-status" id="note-status-${b.id}"></div>
+      </div>
 
       <div class="bc-actions">
         <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>
@@ -1239,6 +1285,77 @@ function renderBookings() {
       </div>
     </div>`;
   }).join('');
+}
+
+// ══ NOTES (localStorage) ══════════════════════════════════════════════════════
+function getNote(id) {
+  return localStorage.getItem(`esc_note_${id}`) || '';
+}
+function saveNote(id) {
+  const el  = document.getElementById(`note-${id}`);
+  const msg = document.getElementById(`note-status-${id}`);
+  if (!el) return;
+  localStorage.setItem(`esc_note_${id}`, el.value);
+  if (msg) {
+    msg.textContent = '✓ Sačuvano';
+    msg.style.color = 'var(--green)';
+    setTimeout(() => { msg.textContent = ''; }, 2000);
+  }
+}
+
+// ══ EXPORT CSV ════════════════════════════════════════════════════════════════
+function exportCSV() {
+  const filtered = getFilteredBookings();
+  if (!filtered.length) {
+    Swal.fire({ icon: 'info', title: 'Nema podataka', text: 'Nema rezervacija za export.', background: '#0b1929', color: '#fff' });
+    return;
+  }
+  const headers = [
+    'Broj rezervacije','Status','Ime','Prezime','Email','Telefon',
+    'Aerodrom','Datum polaska','Datum povratka','Putnici','Smeštaj',
+    'Osnovna cena/os','Ukupno/os','Ukupno EUR',
+    'Isključene destinacije','Dodaci','Napomena klijenta','Interna napomena','Primljeno'
+  ];
+  const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = filtered.map(b => [
+    b.bookingRef,
+    b.status,
+    b.firstName,
+    b.lastName,
+    b.email,
+    b.phone,
+    b.departureAirport,
+    b.departureDate || '',
+    b.returnDate || '',
+    b.numberOfTravelers,
+    b.accommodationType,
+    b.basePricePerPerson,
+    b.totalPricePerPerson,
+    b.totalPriceAll,
+    (b.excludedDestinations || []).join('; '),
+    [
+      b.hasInsurance         ? 'Osiguranje'       : '',
+      b.hasBreakfast         ? 'Doručak'           : '',
+      b.hasSeatsTogther      ? 'Sedišta zajedno'   : '',
+      b.hasConnectingFlights ? 'Presedanje'        : '',
+      b.cabinSuitcaseCount > 0 ? `Kofer×${b.cabinSuitcaseCount}` : '',
+    ].filter(Boolean).join('; '),
+    b.notes || '',
+    getNote(b.id),
+    b.createdAt ? new Date(b.createdAt).toLocaleString('sr-RS') : ''
+  ].map(esc).join(','));
+
+  const csv  = [headers.map(esc).join(','), ...rows].join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const date = new Date().toISOString().split('T')[0];
+  a.href     = url;
+  a.download = `escapii-${activeFilter.toLowerCase()}-${date}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 async function changeStatus(id, status) {

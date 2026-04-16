@@ -2127,7 +2127,6 @@
     <div class="footer-bottom-links">
       <a href="/uslovi-koristenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
-      <a href="#" data-i18n="footer.cookies">Kolačići</a>
     </div>
   </div>
 </footer>
