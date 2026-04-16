@@ -212,13 +212,22 @@ body {
 .filter-btn.active, .filter-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--navy); }
 /* Notes */
 .bc-note-wrap { margin-top: 14px; border-top: 1px solid rgba(255,255,255,.06); padding-top: 12px; }
+.bc-note-row { display: flex; gap: 8px; align-items: flex-start; }
 .bc-note-input {
-  width: 100%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+  flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
   border-radius: 8px; padding: 8px 12px; color: var(--white); font-size: 13px;
   font-family: inherit; resize: vertical; min-height: 52px; outline: none; transition: border .2s;
 }
 .bc-note-input:focus { border-color: var(--accent); }
-.bc-note-status { font-size: 11px; color: var(--green); margin-top: 4px; min-height: 16px; }
+.bc-note-save {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.3);
+  color: var(--green); font-size: 16px; cursor: pointer; transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.bc-note-save:hover { background: var(--green); color: var(--navy); }
+.bc-note-save.saving { opacity: .5; pointer-events: none; }
+.bc-note-status { font-size: 11px; margin-top: 5px; min-height: 15px; }
 .booking-list { display: flex; flex-direction: column; gap: 12px; }
 .booking-card {
   background: var(--card); border: 1px solid rgba(255,255,255,.07);
@@ -1266,11 +1275,13 @@ function renderBookings() {
 
       <div class="bc-note-wrap">
         <div class="bc-label" style="margin-bottom:6px;">📝 Interna napomena</div>
-        <textarea class="bc-note-input" id="note-${b.id}"
-          placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
-          onblur="saveNote(${b.id})"
-          onkeydown="if(event.ctrlKey&&event.key==='Enter'){saveNote(${b.id});this.blur();}"
-        >${getNote(b.id)}</textarea>
+        <div class="bc-note-row">
+          <textarea class="bc-note-input" id="note-${b.id}"
+            placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
+            onkeydown="if(event.ctrlKey&&event.key==='Enter')saveNote(${b.id})"
+          >${b.adminNotes || ''}</textarea>
+          <button class="bc-note-save" id="note-btn-${b.id}" onclick="saveNote(${b.id})" title="Sačuvaj napomenu (Ctrl+Enter)">✓</button>
+        </div>
         <div class="bc-note-status" id="note-status-${b.id}"></div>
       </div>
 
@@ -1287,19 +1298,35 @@ function renderBookings() {
   }).join('');
 }
 
-// ══ NOTES (localStorage) ══════════════════════════════════════════════════════
-function getNote(id) {
-  return localStorage.getItem(`esc_note_${id}`) || '';
-}
-function saveNote(id) {
+// ══ NOTES (API) ═══════════════════════════════════════════════════════════════
+async function saveNote(id) {
   const el  = document.getElementById(`note-${id}`);
+  const btn = document.getElementById(`note-btn-${id}`);
   const msg = document.getElementById(`note-status-${id}`);
   if (!el) return;
-  localStorage.setItem(`esc_note_${id}`, el.value);
-  if (msg) {
+
+  btn.classList.add('saving');
+  msg.textContent = '';
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/notes`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ adminNotes: el.value })
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    // Ažuriraj lokalni cache
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].adminNotes = updated.adminNotes;
     msg.textContent = '✓ Sačuvano';
     msg.style.color = 'var(--green)';
-    setTimeout(() => { msg.textContent = ''; }, 2000);
+  } catch {
+    msg.textContent = '✗ Greška pri čuvanju';
+    msg.style.color = 'var(--red)';
+  } finally {
+    btn.classList.remove('saving');
+    setTimeout(() => { msg.textContent = ''; }, 2500);
   }
 }
 
@@ -1341,7 +1368,7 @@ function exportCSV() {
       b.cabinSuitcaseCount > 0 ? `Kofer×${b.cabinSuitcaseCount}` : '',
     ].filter(Boolean).join('; '),
     b.notes || '',
-    getNote(b.id),
+    b.adminNotes || '',
     b.createdAt ? new Date(b.createdAt).toLocaleString('sr-RS') : ''
   ].map(esc).join(','));
 
