@@ -855,48 +855,6 @@
     /* SweetAlert custom */
     .swal-escapii { border: 1px solid rgba(249,115,22,.25) !important; border-radius: 20px !important; }
 
-    /* Step 6 — INI no-exclusion message */
-    .excl-ini-msg {
-      display: none;
-      text-align: center;
-      padding: 48px 24px 40px;
-      animation: exclIniFadeUp .45s ease both;
-    }
-    @keyframes exclIniFadeUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .excl-ini-icon {
-      font-size: 52px; line-height: 1;
-      margin-bottom: 20px;
-      display: block;
-      animation: exclIniFloat 3s ease-in-out infinite;
-    }
-    @keyframes exclIniFloat {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
-    }
-    .excl-ini-title {
-      font-size: 20px; font-weight: 900; color: var(--white);
-      margin-bottom: 12px; letter-spacing: -.3px;
-    }
-    .excl-ini-title span { color: var(--accent); }
-    .excl-ini-sub {
-      font-size: 14px; color: var(--gray); line-height: 1.7;
-      max-width: 380px; margin: 0 auto 28px;
-    }
-    .excl-ini-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
-      border-radius: 100px; padding: 8px 20px;
-      font-size: 13px; font-weight: 700; color: var(--accent);
-      animation: exclIniBadgePulse 2.5s ease-in-out infinite;
-    }
-    @keyframes exclIniBadgePulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(249,115,22,.15); }
-      50%      { box-shadow: 0 0 0 8px rgba(249,115,22,.0); }
-    }
-
     /* Step 6 — image grid */
     .excl-info {
       margin-bottom: 20px;
@@ -1967,25 +1925,17 @@
         <h2 data-i18n="s6.h">Isključite destinacije</h2>
         <p class="hint" data-i18n="s6.hint">Destinacije koje ne želite (opciono, max 5)</p>
 
-        <!-- INI — no exclusions message -->
-        <div class="excl-ini-msg" id="exclIniMsg">
-          <span class="excl-ini-icon">✈️</span>
-          <div class="excl-ini-title">Iznenađenje <span>zagarantovano</span></div>
-          <p class="excl-ini-sub">Zbog limitiranog broja letova iz Niša, isključivanje destinacija nije dostupno — ali upravo to garantuje pravo, autentično iznenađenje koje jedva čekaš.</p>
-          <div class="excl-ini-badge">🔒 Destinacija ostaje tajna do aerodroma</div>
-        </div>
-
         <div class="excl-info" id="exclInfoBlock">
           <div class="excl-info-tiers">
             <div class="excl-tier">
               <div class="excl-tier-label" data-i18n="s6.t1.lbl">1. isključivanje</div>
               <div class="excl-tier-price free" data-i18n="free">Besplatno</div>
             </div>
-            <div class="excl-tier">
-              <div class="excl-tier-label" data-i18n="s6.t2.lbl">2. i 3. isključivanje</div>
-              <div class="excl-tier-price low">+10€</div>
+            <div class="excl-tier" id="exclTier2">
+              <div class="excl-tier-label" id="exclTier2Label" data-i18n="s6.t2.lbl">2. i 3. isključivanje</div>
+              <div class="excl-tier-price low" id="exclTier2Price">+10€</div>
             </div>
-            <div class="excl-tier">
+            <div class="excl-tier" id="exclTier3">
               <div class="excl-tier-label" data-i18n="s6.t3.lbl">4. i 5. isključivanje</div>
               <div class="excl-tier-price high">+15€</div>
             </div>
@@ -3268,17 +3218,34 @@ function updateSuitUI() {
 // ══════════ STEP 6
 function updateExclStep() {
   const isINI = S.airport === 'INI';
-  // Ako je INI — resetuj isključivanja i prikaži poruku
-  if (isINI) {
-    S.excludedIds = [];
-    document.querySelectorAll('.excl-tile.on').forEach(t => t.classList.remove('on'));
+
+  // Ako je INI i korisnik je već izabrao >2 isključivanja, obreži na max 2
+  if (isINI && S.excludedIds.length > 2) {
+    S.excludedIds = S.excludedIds.slice(0, 2);
+    document.querySelectorAll('.excl-tile.on').forEach(t => {
+      const tileId = parseInt(t.id.replace('ex-', ''));
+      if (!S.excludedIds.includes(tileId)) t.classList.remove('on');
+    });
   }
-  document.getElementById('exclIniMsg').style.display   = isINI ? 'block' : 'none';
-  document.getElementById('exclInfoBlock').style.display = isINI ? 'none'  : '';
-  document.getElementById('exclGrid').style.display      = isINI ? 'none'  : '';
-  // Ažuriraj hint tekst
-  const hint = document.querySelector('#step6 .hint');
-  if (hint) hint.style.display = isINI ? 'none' : '';
+
+  // Ažuriraj tier prikaz i hint tekst za INI vs BEG
+  const tier2Label = document.getElementById('exclTier2Label');
+  const tier2Price = document.getElementById('exclTier2Price');
+  const tier3      = document.getElementById('exclTier3');
+  const hint       = document.querySelector('#step6 .hint');
+
+  if (isINI) {
+    if (tier2Label) tier2Label.textContent = '2. isključivanje';
+    if (tier2Price) { tier2Price.textContent = '+15€'; tier2Price.className = 'excl-tier-price high'; }
+    if (tier3)      tier3.style.display = 'none';
+    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 2)' : 'Destinacije koje ne želite (opciono, max 2)';
+  } else {
+    if (tier2Label) tier2Label.textContent = '2. i 3. isključivanje';
+    if (tier2Price) { tier2Price.textContent = '+10€'; tier2Price.className = 'excl-tier-price low'; }
+    if (tier3)      tier3.style.display = '';
+    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 5)' : 'Destinacije koje ne želite (opciono, max 5)';
+  }
+
   loadPrice();
 }
 
@@ -3300,15 +3267,19 @@ function togExcl(id, event) {
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    if (S.excludedIds.length >= 5) {
+    const isINI  = S.airport === 'INI';
+    const maxExcl = isINI ? 2 : 5;
+    if (S.excludedIds.length >= maxExcl) {
       Swal.fire({
         background: '#0d1b38',
         color: '#fff',
         icon: 'info',
         iconColor: '#f97316',
-        title: `<span style="color:#f97316;font-size:20px">${t('swal.excl.title')}</span>`,
-        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t('swal.excl.html')}</p>`,
-        confirmButtonText: t('swal.excl.btn'),
+        title: `<span style="color:#f97316;font-size:20px">${isINI ? 'Limit dostignut' : t('swal.excl.title')}</span>`,
+        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${isINI
+          ? 'Zbog limitiranog broja letova iz Niša nije moguće isključiti više opcija.'
+          : t('swal.excl.html')}</p>`,
+        confirmButtonText: 'OK',
         confirmButtonColor: '#f97316',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp animate__faster' },
@@ -3325,7 +3296,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? '🎁 1. gratis!' : (n <= 3 ? '+10€' : '+15€');
+      const label = n === 1 ? '🎁 1. gratis!' : (isINI ? '+15€' : (n <= 3 ? '+10€' : '+15€'));
       const color = n === 1 ? '#22c55e' : '#f97316';
       const el = document.createElement('div');
       el.className = 'price-float';
