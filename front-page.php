@@ -855,6 +855,48 @@
     /* SweetAlert custom */
     .swal-escapii { border: 1px solid rgba(249,115,22,.25) !important; border-radius: 20px !important; }
 
+    /* Step 6 — INI no-exclusion message */
+    .excl-ini-msg {
+      display: none;
+      text-align: center;
+      padding: 48px 24px 40px;
+      animation: exclIniFadeUp .45s ease both;
+    }
+    @keyframes exclIniFadeUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .excl-ini-icon {
+      font-size: 52px; line-height: 1;
+      margin-bottom: 20px;
+      display: block;
+      animation: exclIniFloat 3s ease-in-out infinite;
+    }
+    @keyframes exclIniFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .excl-ini-title {
+      font-size: 20px; font-weight: 900; color: var(--white);
+      margin-bottom: 12px; letter-spacing: -.3px;
+    }
+    .excl-ini-title span { color: var(--accent); }
+    .excl-ini-sub {
+      font-size: 14px; color: var(--gray); line-height: 1.7;
+      max-width: 380px; margin: 0 auto 28px;
+    }
+    .excl-ini-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
+      border-radius: 100px; padding: 8px 20px;
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      animation: exclIniBadgePulse 2.5s ease-in-out infinite;
+    }
+    @keyframes exclIniBadgePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(249,115,22,.15); }
+      50%      { box-shadow: 0 0 0 8px rgba(249,115,22,.0); }
+    }
+
     /* Step 6 — image grid */
     .excl-info {
       margin-bottom: 20px;
@@ -1924,7 +1966,16 @@
       <div class="card">
         <h2 data-i18n="s6.h">Isključite destinacije</h2>
         <p class="hint" data-i18n="s6.hint">Destinacije koje ne želite (opciono, max 5)</p>
-        <div class="excl-info">
+
+        <!-- INI — no exclusions message -->
+        <div class="excl-ini-msg" id="exclIniMsg">
+          <span class="excl-ini-icon">✈️</span>
+          <div class="excl-ini-title">Iznenađenje <span>zagarantovano</span></div>
+          <p class="excl-ini-sub">Zbog limitiranog broja letova iz Niša, isključivanje destinacija nije dostupno — ali upravo to garantuje pravo, autentično iznenađenje koje jedva čekaš.</p>
+          <div class="excl-ini-badge">🔒 Destinacija ostaje tajna do aerodroma</div>
+        </div>
+
+        <div class="excl-info" id="exclInfoBlock">
           <div class="excl-info-tiers">
             <div class="excl-tier">
               <div class="excl-tier-label" data-i18n="s6.t1.lbl">1. isključivanje</div>
@@ -2923,6 +2974,7 @@ function onEnter() {
   if(S.step===3) loadDates();
   if(S.step===4) updateSingleNotice();
   if(S.step===5) { updateSuitUI(); updateSeatsVisibility(); }
+  if(S.step===6) updateExclStep();
   if(S.step===7) {
     // Renderuj formu samo ako broj putnika ne odgovara — ne resetuj popunjena polja
     if(document.querySelectorAll('.pax-item').length !== S.travelers) renderPax();
@@ -3214,6 +3266,22 @@ function updateSuitUI() {
 }
 
 // ══════════ STEP 6
+function updateExclStep() {
+  const isINI = S.airport === 'INI';
+  // Ako je INI — resetuj isključivanja i prikaži poruku
+  if (isINI) {
+    S.excludedIds = [];
+    document.querySelectorAll('.excl-tile.on').forEach(t => t.classList.remove('on'));
+  }
+  document.getElementById('exclIniMsg').style.display   = isINI ? 'block' : 'none';
+  document.getElementById('exclInfoBlock').style.display = isINI ? 'none'  : '';
+  document.getElementById('exclGrid').style.display      = isINI ? 'none'  : '';
+  // Ažuriraj hint tekst
+  const hint = document.querySelector('#step6 .hint');
+  if (hint) hint.style.display = isINI ? 'none' : '';
+  loadPrice();
+}
+
 function renderExclGrid() {
   document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
     <div class="excl-tile" id="ex-${d.id}" onclick="togExcl(${d.id})">
