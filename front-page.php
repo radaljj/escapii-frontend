@@ -1942,7 +1942,7 @@
           </div>
           <div class="excl-info-note">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span data-i18n="s6.note">Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!</span>
+            <span id="exclNote" data-i18n="s6.note">Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!</span>
           </div>
         </div>
         <div class="excl-grid" id="exclGrid"></div>
@@ -3219,6 +3219,9 @@ function updateSuitUI() {
 function updateExclStep() {
   const isINI = S.airport === 'INI';
 
+  // Re-renduj grid sa destinacijama iz izabranog datuma
+  renderExclGrid();
+
   // Ako je INI i korisnik je već izabrao >2 isključivanja, obreži na max 2
   if (isINI && S.excludedIds.length > 2) {
     S.excludedIds = S.excludedIds.slice(0, 2);
@@ -3234,23 +3237,31 @@ function updateExclStep() {
   const tier3      = document.getElementById('exclTier3');
   const hint       = document.querySelector('#step6 .hint');
 
+  const note = document.getElementById('exclNote');
   if (isINI) {
     if (tier2Label) tier2Label.textContent = '2. isključivanje';
     if (tier2Price) { tier2Price.textContent = '+15€'; tier2Price.className = 'excl-tier-price high'; }
     if (tier3)      tier3.style.display = 'none';
     if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 2)' : 'Destinacije koje ne želite (opciono, max 2)';
+    if (note)       note.textContent = lang === 'en' ? 'Due to the limited number of flights from Niš, max 2 exclusions are allowed.' : 'Zbog ograničenog broja letova iz Niša, dozvoljeno je isključiti max 2 destinacije.';
   } else {
     if (tier2Label) tier2Label.textContent = '2. i 3. isključivanje';
     if (tier2Price) { tier2Price.textContent = '+10€'; tier2Price.className = 'excl-tier-price low'; }
     if (tier3)      tier3.style.display = '';
     if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 5)' : 'Destinacije koje ne želite (opciono, max 5)';
+    if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
   }
 
   loadPrice();
 }
 
 function renderExclGrid() {
-  document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
+  // Koristi potentialDestinations iz izabranog datuma ako su dostupne,
+  // inače fallback na globalni S.destinations
+  const dests = (S.selectedDate && S.selectedDate.potentialDestinations && S.selectedDate.potentialDestinations.length)
+    ? S.selectedDate.potentialDestinations
+    : S.destinations;
+  document.getElementById('exclGrid').innerHTML = dests.map(d => `
     <div class="excl-tile" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
       <div class="excl-overlay">
