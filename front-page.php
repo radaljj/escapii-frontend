@@ -3645,6 +3645,13 @@ async function submitBooking() {
     const r=await fetch(`${API}/api/booking`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const d=await r.json();
     if(r.ok){
+      // Sačuvaj podatke za boarding pass na hvala stranici
+      sessionStorage.setItem('esc_bp', JSON.stringify({
+        name:    (firstName + ' ' + lastName).toUpperCase(),
+        airport: (S.airport || '').toUpperCase(),
+        date:    S.selectedDate?.departureDate || '',
+        ref:     d.bookingRef
+      }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);
     } else if(r.status === 409) {
       await Swal.fire({

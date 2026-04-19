@@ -150,8 +150,101 @@
     .ty-ig a { color: var(--gold); text-decoration: none; font-weight: 600; }
     .ty-ig a:hover { text-decoration: underline; }
 
+    /* ── BOARDING PASS ── */
+    .bp-wrap {
+      display: flex; width: 100%;
+      background: #0a1628;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+    /* Lijeva narandžasta traka */
+    .bp-left {
+      background: var(--gold);
+      width: 52px; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 20px 0; gap: 8px;
+    }
+    .bp-left-plane {
+      font-size: 20px; color: #fff; transform: rotate(45deg);
+      display: block;
+    }
+    .bp-left-brand {
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-size: 10px; font-weight: 900; color: rgba(255,255,255,.85);
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    /* Srednji sadržaj */
+    .bp-main {
+      flex: 1; padding: 20px 20px 16px; min-width: 0;
+    }
+    .bp-row {
+      display: flex; gap: 4px; flex-wrap: wrap;
+    }
+    .bp-field {
+      flex: 1; min-width: 70px;
+      padding: 6px 8px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .bp-field.visible {
+      opacity: 1; transform: none;
+    }
+    .bp-label {
+      display: block;
+      font-size: 9px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,.38);
+      margin-bottom: 5px;
+    }
+    .bp-value {
+      display: block;
+      font-size: 13px; font-weight: 800; color: #fff;
+      letter-spacing: .3px; min-height: 18px;
+      font-family: 'Courier New', monospace;
+    }
+    .bp-value.bp-mystery {
+      color: var(--gold); letter-spacing: 3px;
+      animation: bpBlink 1.8s ease-in-out infinite;
+    }
+    @keyframes bpBlink {
+      0%,100% { opacity: 1; } 50% { opacity: .4; }
+    }
+    /* Tačkasta linija razdjelnica */
+    .bp-divider {
+      height: 1px; margin: 12px 0;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 6px, transparent 6px, transparent 12px);
+    }
+    /* Desna barcode traka */
+    .bp-right {
+      width: 44px; flex-shrink: 0;
+      background: rgba(255,255,255,.03);
+      border-left: 1px solid rgba(255,255,255,.08);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 6px; gap: 10px;
+    }
+    .bp-barcode {
+      display: flex; gap: 2px; height: 72px; align-items: flex-end;
+    }
+    .bp-barcode span {
+      display: block; width: 2px; background: rgba(255,255,255,.5);
+      border-radius: 1px;
+    }
+    .bp-ref-small {
+      writing-mode: vertical-rl;
+      font-size: 8px; font-weight: 700; color: rgba(255,255,255,.25);
+      letter-spacing: 1px; text-transform: uppercase;
+      opacity: 0; transition: opacity .5s ease;
+    }
+    .bp-ref-small.visible { opacity: 1; }
+
     @media (max-width: 560px) {
       .ty-card { padding: 36px 24px; border-radius: 20px; }
+      .bp-field { min-width: 60px; }
+      .bp-value { font-size: 11px; }
     }
   </style>
 </head>
@@ -168,9 +261,47 @@
   <h1 class="ty-h1">Upit je primljen!</h1>
   <p class="ty-sub">Javićemo ti se u roku od <strong style="color:white">24 sata</strong> sa svim detaljima. Tvoje tajno putovanje te čeka!</p>
 
-  <div class="ty-ref">
-    <div class="ty-ref-label">Broj rezervacije</div>
-    <div class="ty-ref-code" id="refCode">—</div>
+  <!-- BOARDING PASS -->
+  <div class="bp-wrap" id="boardingPass">
+    <div class="bp-left">
+      <span class="bp-left-plane">✈</span>
+      <span class="bp-left-brand">escapii</span>
+    </div>
+    <div class="bp-main">
+      <div class="bp-row">
+        <div class="bp-field" id="bpf-name">
+          <span class="bp-label">Putnik</span>
+          <span class="bp-value" id="bp-name">&nbsp;</span>
+        </div>
+        <div class="bp-field" id="bpf-ref">
+          <span class="bp-label">Rezervacija</span>
+          <span class="bp-value" id="bp-ref">&nbsp;</span>
+        </div>
+        <div class="bp-field" id="bpf-date">
+          <span class="bp-label">Datum</span>
+          <span class="bp-value" id="bp-date">&nbsp;</span>
+        </div>
+        <div class="bp-field" id="bpf-airport">
+          <span class="bp-label">Aerodrom</span>
+          <span class="bp-value" id="bp-airport">&nbsp;</span>
+        </div>
+      </div>
+      <div class="bp-divider"></div>
+      <div class="bp-row">
+        <div class="bp-field" id="bpf-flight">
+          <span class="bp-label">Broj leta</span>
+          <span class="bp-value bp-mystery">???</span>
+        </div>
+        <div class="bp-field" id="bpf-dest">
+          <span class="bp-label">Destinacija</span>
+          <span class="bp-value bp-mystery">???</span>
+        </div>
+      </div>
+    </div>
+    <div class="bp-right">
+      <div class="bp-barcode" id="bpBarcode"></div>
+      <div class="bp-ref-small" id="bp-ref-small">&nbsp;</div>
+    </div>
   </div>
 
   <div class="ty-steps">
@@ -207,9 +338,85 @@
 </div>
 
 <script>
-// ── Pročitaj ref iz URL params
-const ref = new URLSearchParams(window.location.search).get('ref');
-if (ref) document.getElementById('refCode').textContent = ref;
+// ── Boarding pass animacija ───────────────────────────────────────────────
+
+// Pročitaj iz sessionStorage (setuje se iz front-page.php prije redirecta)
+const bpRaw = sessionStorage.getItem('esc_bp');
+const bp    = bpRaw ? JSON.parse(bpRaw) : null;
+
+// Fallback: ref iz URL-a ako nema sessionStorage podataka
+const urlRef = new URLSearchParams(window.location.search).get('ref') || '';
+
+// Formatiraj datum iz "2026-04-20" → "20 APR 2026"
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('-');
+  const months = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
+  return d + ' ' + (months[parseInt(m, 10) - 1] || m) + ' ' + y;
+}
+
+// Typewriter efekat — upisuje karakter po karakter
+function typeIn(el, text, charDelay) {
+  el.textContent = '';
+  let i = 0;
+  const tick = () => {
+    if (i <= text.length) {
+      el.textContent = text.slice(0, i);
+      i++;
+      setTimeout(tick, charDelay);
+    }
+  };
+  tick();
+}
+
+// Generiši nasumični barcode
+function buildBarcode() {
+  const bar = document.getElementById('bpBarcode');
+  if (!bar) return;
+  const heights = [28,48,36,60,32,52,24,56,40,44,30,62,38,50,26,58,34,46,42,54];
+  bar.innerHTML = heights.map(h =>
+    `<span style="height:${h}px;opacity:${0.3 + Math.random()*0.6}"></span>`
+  ).join('');
+}
+
+// Animiraj jedno polje — pojavi ga, pa typewriter
+function animField(fieldId, valueEl, text, delay, charDelay) {
+  setTimeout(() => {
+    const field = document.getElementById(fieldId);
+    if (field) field.classList.add('visible');
+    if (valueEl) typeIn(valueEl, text, charDelay);
+  }, delay);
+}
+
+// Pojavi "???" polja (ne trebaju typewriter, već samo fade in)
+function animMystery(fieldId, delay) {
+  setTimeout(() => {
+    const field = document.getElementById(fieldId);
+    if (field) field.classList.add('visible');
+  }, delay);
+}
+
+// Pokreni boarding pass animaciju
+buildBarcode();
+
+const name    = bp?.name    || urlRef || '—';
+const airport = bp?.airport || '—';
+const date    = fmtDate(bp?.date || '');
+const ref     = bp?.ref     || urlRef;
+
+// Polja se pojavljuju jedno po jedno sa razmakom 350ms
+animField('bpf-name',    document.getElementById('bp-name'),    name,    400,  45);
+animField('bpf-ref',     document.getElementById('bp-ref'),     ref,     800,  40);
+animField('bpf-date',    document.getElementById('bp-date'),    date,    1200, 50);
+animField('bpf-airport', document.getElementById('bp-airport'), airport, 1600, 60);
+animMystery('bpf-flight', 2100);
+animMystery('bpf-dest',   2400);
+
+// Barcode ref
+setTimeout(() => {
+  const rs = document.getElementById('bp-ref-small');
+  if (rs) { rs.textContent = ref; rs.classList.add('visible'); }
+}, 2600);
 
 // ── Prevod na osnovu odabranog jezika
 const TY = {
@@ -234,7 +441,7 @@ const TY = {
   const tr = TY.en;
   document.querySelector('.ty-h1').textContent                      = tr.h1;
   document.querySelector('.ty-sub').innerHTML                       = tr.sub;
-  document.querySelector('.ty-ref-label').textContent               = tr.refLabel;
+  // boarding pass labels se ne prevode (kratice su iste)
   const steps = document.querySelectorAll('.ty-step');
   steps[0].querySelector('.ty-step-title').textContent              = tr.s1t;
   steps[0].querySelector('.ty-step-desc').textContent               = tr.s1d;
