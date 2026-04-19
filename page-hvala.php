@@ -217,34 +217,68 @@
       height: 1px; margin: 12px 0;
       background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 6px, transparent 6px, transparent 12px);
     }
-    /* Desna barcode traka */
+    /* Desna mystery traka */
     .bp-right {
-      width: 44px; flex-shrink: 0;
-      background: rgba(255,255,255,.03);
-      border-left: 1px solid rgba(255,255,255,.08);
+      width: 64px; flex-shrink: 0;
+      background: rgba(249,115,22,.05);
+      border-left: 1px solid rgba(249,115,22,.15);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 16px 6px; gap: 10px;
+      padding: 16px 8px; gap: 6px;
     }
-    .bp-barcode {
-      display: flex; gap: 2px; height: 72px; align-items: flex-end;
+    .bp-mq {
+      font-size: 26px; font-weight: 900; color: var(--gold);
+      line-height: 1; animation: mqPulse 2.4s ease-in-out infinite;
     }
-    .bp-barcode span {
-      display: block; width: 2px; background: rgba(255,255,255,.5);
-      border-radius: 1px;
+    .bp-mq:nth-child(2) { font-size: 18px; opacity: .55; animation-delay: .5s; }
+    .bp-mq:nth-child(3) { font-size: 13px; opacity: .3;  animation-delay: 1s;  }
+    @keyframes mqPulse {
+      0%,100% { opacity: 1;   transform: scale(1);    }
+      50%      { opacity: .2;  transform: scale(.82);  }
     }
-    .bp-ref-small {
-      writing-mode: vertical-rl;
-      font-size: 8px; font-weight: 700; color: rgba(255,255,255,.25);
-      letter-spacing: 1px; text-transform: uppercase;
-      opacity: 0; transition: opacity .5s ease;
+    .bp-mq:nth-child(2) { animation-name: mqPulse2; }
+    .bp-mq:nth-child(3) { animation-name: mqPulse3; }
+    @keyframes mqPulse2 {
+      0%,100% { opacity: .55; transform: scale(1);   }
+      50%      { opacity: .12; transform: scale(.85); }
     }
-    .bp-ref-small.visible { opacity: 1; }
+    @keyframes mqPulse3 {
+      0%,100% { opacity: .3;  transform: scale(1);   }
+      50%      { opacity: .06; transform: scale(.88); }
+    }
+    .bp-mq-label {
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-size: 8px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(249,115,22,.4);
+      margin-top: 6px;
+    }
+    /* Ref badge ispod boarding pass-a */
+    .bp-refbadge {
+      background: rgba(249,115,22,.08);
+      border: 1px solid rgba(249,115,22,.2);
+      border-radius: 10px;
+      padding: 12px 24px;
+      margin-bottom: 28px; margin-top: -20px;
+      text-align: center;
+      opacity: 0; transition: opacity .5s ease .3s;
+    }
+    .bp-refbadge.visible { opacity: 1; }
+    .bp-refbadge-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: 5px; display: block;
+    }
+    .bp-refbadge-value {
+      font-size: 20px; font-weight: 900; color: #f59e0b;
+      letter-spacing: 2px; font-family: 'Courier New', monospace;
+    }
 
     @media (max-width: 560px) {
       .ty-card { padding: 36px 24px; border-radius: 20px; }
-      .bp-field { min-width: 60px; }
+      .bp-field { min-width: 55px; }
       .bp-value { font-size: 11px; }
+      .bp-right { width: 52px; }
+      .bp-mq { font-size: 20px; }
     }
   </style>
 </head>
@@ -270,38 +304,41 @@
     <div class="bp-main">
       <div class="bp-row">
         <div class="bp-field" id="bpf-name">
-          <span class="bp-label">Putnik</span>
+          <span class="bp-label" id="bpl-name">Putnik</span>
           <span class="bp-value" id="bp-name">&nbsp;</span>
         </div>
-        <div class="bp-field" id="bpf-ref">
-          <span class="bp-label">Rezervacija</span>
-          <span class="bp-value" id="bp-ref">&nbsp;</span>
-        </div>
         <div class="bp-field" id="bpf-date">
-          <span class="bp-label">Datum</span>
+          <span class="bp-label" id="bpl-date">Datum polaska</span>
           <span class="bp-value" id="bp-date">&nbsp;</span>
         </div>
         <div class="bp-field" id="bpf-airport">
-          <span class="bp-label">Aerodrom</span>
+          <span class="bp-label" id="bpl-airport">Aerodrom</span>
           <span class="bp-value" id="bp-airport">&nbsp;</span>
         </div>
       </div>
       <div class="bp-divider"></div>
       <div class="bp-row">
         <div class="bp-field" id="bpf-flight">
-          <span class="bp-label">Broj leta</span>
+          <span class="bp-label" id="bpl-flight">Broj leta</span>
           <span class="bp-value bp-mystery">???</span>
         </div>
         <div class="bp-field" id="bpf-dest">
-          <span class="bp-label">Destinacija</span>
+          <span class="bp-label" id="bpl-dest">Destinacija</span>
           <span class="bp-value bp-mystery">???</span>
         </div>
       </div>
     </div>
     <div class="bp-right">
-      <div class="bp-barcode" id="bpBarcode"></div>
-      <div class="bp-ref-small" id="bp-ref-small">&nbsp;</div>
+      <span class="bp-mq">?</span>
+      <span class="bp-mq">?</span>
+      <span class="bp-mq">?</span>
     </div>
+  </div>
+
+  <!-- REF BADGE ispod boarding pass-a -->
+  <div class="bp-refbadge" id="bpRefBadge">
+    <span class="bp-refbadge-label" id="bpl-ref">Broj rezervacije</span>
+    <span class="bp-refbadge-value" id="refCode">—</span>
   </div>
 
   <div class="ty-steps">
@@ -348,10 +385,13 @@ const bp    = bpRaw ? JSON.parse(bpRaw) : null;
 const urlRef = new URLSearchParams(window.location.search).get('ref') || '';
 
 // Formatiraj datum iz "2026-04-20" → "20 APR 2026"
+const lang = localStorage.getItem('esc-lang') || 'sr';
 function fmtDate(iso) {
   if (!iso) return '—';
   const [y, m, d] = iso.split('-');
-  const months = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
+  const mSr = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
+  const mEn = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const months = lang === 'en' ? mEn : mSr;
   return d + ' ' + (months[parseInt(m, 10) - 1] || m) + ' ' + y;
 }
 
@@ -369,15 +409,7 @@ function typeIn(el, text, charDelay) {
   tick();
 }
 
-// Generiši nasumični barcode
-function buildBarcode() {
-  const bar = document.getElementById('bpBarcode');
-  if (!bar) return;
-  const heights = [28,48,36,60,32,52,24,56,40,44,30,62,38,50,26,58,34,46,42,54];
-  bar.innerHTML = heights.map(h =>
-    `<span style="height:${h}px;opacity:${0.3 + Math.random()*0.6}"></span>`
-  ).join('');
-}
+// (barcode zamijenjen mystery animacijom u CSS-u)
 
 // Animiraj jedno polje — pojavi ga, pa typewriter
 function animField(fieldId, valueEl, text, delay, charDelay) {
@@ -397,34 +429,38 @@ function animMystery(fieldId, delay) {
 }
 
 // Pokreni boarding pass animaciju
-buildBarcode();
-
-const name    = bp?.name    || urlRef || '—';
+const name    = bp?.name    || '—';
 const airport = bp?.airport || '—';
 const date    = fmtDate(bp?.date || '');
 const ref     = bp?.ref     || urlRef;
 
-// Polja se pojavljuju jedno po jedno sa razmakom 350ms
+// Polja se pojavljuju jedno po jedno sa razmakom 400ms
 animField('bpf-name',    document.getElementById('bp-name'),    name,    400,  45);
-animField('bpf-ref',     document.getElementById('bp-ref'),     ref,     800,  40);
-animField('bpf-date',    document.getElementById('bp-date'),    date,    1200, 50);
-animField('bpf-airport', document.getElementById('bp-airport'), airport, 1600, 60);
-animMystery('bpf-flight', 2100);
-animMystery('bpf-dest',   2400);
+animField('bpf-date',    document.getElementById('bp-date'),    date,    800,  50);
+animField('bpf-airport', document.getElementById('bp-airport'), airport, 1200, 60);
+animMystery('bpf-flight', 1700);
+animMystery('bpf-dest',   2000);
 
-// Barcode ref
+// Ref badge ispod karte
 setTimeout(() => {
-  const rs = document.getElementById('bp-ref-small');
-  if (rs) { rs.textContent = ref; rs.classList.add('visible'); }
-}, 2600);
+  const rc = document.getElementById('refCode');
+  const rb = document.getElementById('bpRefBadge');
+  if (rc) rc.textContent = ref || '—';
+  if (rb) rb.classList.add('visible');
+}, 2400);
 
 // ── Prevod na osnovu odabranog jezika
 const TY = {
   en: {
-    h1:      'Request received!',
-    sub:     'We\'ll get back to you within <strong style="color:white">24 hours</strong> with all the details. Your secret trip is waiting!',
-    refLabel:'Booking reference number',
-    s1t:     'Email confirmation ✉',
+    h1:        'Request received!',
+    sub:       'We\'ll get back to you within <strong style="color:white">24 hours</strong> with all the details. Your secret trip is waiting!',
+    refLabel:  'Booking reference',
+    bplName:   'Passenger',
+    bplDate:   'Departure date',
+    bplAirport:'Airport',
+    bplFlight: 'Flight no.',
+    bplDest:   'Destination',
+    s1t:       'Email confirmation ✉',
     s1d:     'A confirmation of your request has just been sent to your email. Check your spam folder if you don\'t see it.',
     s2t:     'We\'ll contact you within <strong>24h</strong>',
     s2d:     'We\'ll send you an email with payment details and all the next steps.',
@@ -436,12 +472,18 @@ const TY = {
 };
 
 (function applyLang() {
-  const lang = localStorage.getItem('esc-lang') || 'sr';
   if (lang !== 'en') return;
   const tr = TY.en;
   document.querySelector('.ty-h1').textContent                      = tr.h1;
   document.querySelector('.ty-sub').innerHTML                       = tr.sub;
-  // boarding pass labels se ne prevode (kratice su iste)
+  // Boarding pass labele
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('bpl-name',    tr.bplName);
+  set('bpl-date',    tr.bplDate);
+  set('bpl-airport', tr.bplAirport);
+  set('bpl-flight',  tr.bplFlight);
+  set('bpl-dest',    tr.bplDest);
+  set('bpl-ref',     tr.refLabel);
   const steps = document.querySelectorAll('.ty-step');
   steps[0].querySelector('.ty-step-title').textContent              = tr.s1t;
   steps[0].querySelector('.ty-step-desc').textContent               = tr.s1d;
