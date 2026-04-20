@@ -34,10 +34,11 @@
 
     /* ── LOGO ── */
     .rv-logo {
-      position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
       text-decoration: none; z-index: 10; display: inline-flex; align-items: center;
     }
-    .rv-logo img { height: 24px; width: auto; display: block; }
+    .rv-logo img { height: 32px; width: auto; display: block; }
+    @media (max-width: 560px) { .rv-logo img { height: 26px; } }
 
     /* ── CARD ── */
     .rv-card {

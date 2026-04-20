@@ -56,7 +56,7 @@ body {
   text-decoration: none;
   display: inline-flex; align-items: center;
 }
-.pp-logo img { height: 24px; width: auto; display: block; }
+.pp-logo img { height: 32px; width: auto; display: block; }
 .pp-back {
   font-size: 13px;
   color: var(--gray);

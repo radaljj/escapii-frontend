@@ -94,7 +94,8 @@
       transition: background .3s;
     }
     .esc-logo { display: inline-flex; align-items: center; text-decoration: none; }
-    .esc-logo img { height: 28px; width: auto; display: block; }
+    .esc-logo img { height: 36px; width: auto; display: block; }
+    @media (max-width: 768px) { .esc-logo img { height: 28px; } }
     .nav-right { display: flex; align-items: center; gap: 20px; }
     .lang-wrap { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
     .lang-btn { padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
@@ -1479,7 +1480,7 @@
 
 <!-- NAV -->
 <nav class="esc-nav" id="mainNav">
-  <a href="#" class="esc-logo">Escap<span>ii</span></a>
+  <a href="#" class="esc-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
   <div class="nav-right">
     <div class="lang-wrap">
       <button class="lang-btn on" onclick="setLang('sr')">SR</button>
