@@ -217,41 +217,30 @@
       height: 1px; margin: 12px 0;
       background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 6px, transparent 6px, transparent 12px);
     }
-    /* Desna mystery traka */
+    /* Desna barcode traka */
     .bp-right {
-      width: 64px; flex-shrink: 0;
-      background: rgba(249,115,22,.05);
-      border-left: 1px solid rgba(249,115,22,.15);
+      width: 56px; flex-shrink: 0;
+      background: rgba(255,255,255,.03);
+      border-left: 1px solid rgba(255,255,255,.08);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 16px 8px; gap: 6px;
+      padding: 14px 8px; gap: 8px;
     }
-    .bp-mq {
-      font-size: 26px; font-weight: 900; color: var(--gold);
-      line-height: 1; animation: mqPulse 2.4s ease-in-out infinite;
+    .bp-barcode {
+      display: flex; gap: 2px; height: 68px; align-items: flex-end;
     }
-    .bp-mq:nth-child(2) { font-size: 18px; opacity: .55; animation-delay: .5s; }
-    .bp-mq:nth-child(3) { font-size: 13px; opacity: .3;  animation-delay: 1s;  }
-    @keyframes mqPulse {
-      0%,100% { opacity: 1;   transform: scale(1);    }
-      50%      { opacity: .2;  transform: scale(.82);  }
+    .bp-barcode span {
+      display: block; width: 2px; border-radius: 1px;
+      background: rgba(255,255,255,.55);
     }
-    .bp-mq:nth-child(2) { animation-name: mqPulse2; }
-    .bp-mq:nth-child(3) { animation-name: mqPulse3; }
-    @keyframes mqPulse2 {
-      0%,100% { opacity: .55; transform: scale(1);   }
-      50%      { opacity: .12; transform: scale(.85); }
+    .bp-ref-small {
+      writing-mode: vertical-rl;
+      font-size: 7px; font-weight: 700;
+      color: rgba(255,255,255,.22);
+      letter-spacing: 1px; text-transform: uppercase;
+      opacity: 0; transition: opacity .6s ease;
     }
-    @keyframes mqPulse3 {
-      0%,100% { opacity: .3;  transform: scale(1);   }
-      50%      { opacity: .06; transform: scale(.88); }
-    }
-    .bp-mq-label {
-      writing-mode: vertical-rl; transform: rotate(180deg);
-      font-size: 8px; font-weight: 800; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(249,115,22,.4);
-      margin-top: 6px;
-    }
+    .bp-ref-small.visible { opacity: 1; }
     /* Ref badge ispod boarding pass-a */
     .bp-refbadge {
       background: rgba(249,115,22,.08);
@@ -278,7 +267,6 @@
       .bp-field { min-width: 55px; }
       .bp-value { font-size: 11px; }
       .bp-right { width: 52px; }
-      .bp-mq { font-size: 20px; }
     }
   </style>
 </head>
@@ -329,9 +317,8 @@
       </div>
     </div>
     <div class="bp-right">
-      <span class="bp-mq">?</span>
-      <span class="bp-mq">?</span>
-      <span class="bp-mq">?</span>
+      <div class="bp-barcode" id="bpBarcode"></div>
+      <div class="bp-ref-small" id="bp-ref-small">&nbsp;</div>
     </div>
   </div>
 
@@ -409,7 +396,25 @@ function typeIn(el, text, charDelay) {
   tick();
 }
 
-// (barcode zamijenjen mystery animacijom u CSS-u)
+// Generiši barcode vizual (random visine stubića)
+function buildBarcode() {
+  const bc = document.getElementById('bpBarcode');
+  if (!bc) return;
+  const bars = 18;
+  for (let i = 0; i < bars; i++) {
+    const s = document.createElement('span');
+    const h = Math.floor(Math.random() * 44) + 14; // 14–58px
+    s.style.height = h + 'px';
+    s.style.opacity = '0';
+    s.style.transition = 'opacity .4s ease ' + (i * 40) + 'ms';
+    bc.appendChild(s);
+  }
+  // Pojavi stubice nakon kratkog odgođaja
+  setTimeout(() => {
+    bc.querySelectorAll('span').forEach(s => { s.style.opacity = '1'; });
+  }, 2600);
+}
+buildBarcode();
 
 // Animiraj jedno polje — pojavi ga, pa typewriter
 function animField(fieldId, valueEl, text, delay, charDelay) {
@@ -441,12 +446,14 @@ animField('bpf-airport', document.getElementById('bp-airport'), airport, 1200, 6
 animMystery('bpf-flight', 1700);
 animMystery('bpf-dest',   2000);
 
-// Ref badge ispod karte
+// Ref badge ispod karte + mali ref u barcodu
 setTimeout(() => {
   const rc = document.getElementById('refCode');
   const rb = document.getElementById('bpRefBadge');
   if (rc) rc.textContent = ref || '—';
   if (rb) rb.classList.add('visible');
+  const rs = document.getElementById('bp-ref-small');
+  if (rs) { rs.textContent = ref || ''; rs.classList.add('visible'); }
 }, 2400);
 
 // ── Prevod na osnovu odabranog jezika
