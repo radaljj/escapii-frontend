@@ -28,7 +28,7 @@ if (!current_user_can('administrator')) {
   --navy:   #07102a;
   --navy2:  #0d1b38;
   --navy3:  #162040;
-  --accent: #f97316;
+  --accent: #52154E;
   --cream:  #f5ede0;
   --white:  #ffffff;
   --gray:   #94a3b8;
@@ -51,7 +51,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 30% 40%, rgba(249,115,22,.12) 0%, transparent 60%),
+  background: radial-gradient(ellipse at 30% 40%, rgba(82,21,78,.12) 0%, transparent 60%),
               radial-gradient(ellipse at 70% 70%, rgba(22,32,64,.8) 0%, transparent 60%),
               var(--navy);
 }
@@ -243,7 +243,7 @@ body {
   font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px;
   text-transform: uppercase; letter-spacing: .5px;
 }
-.bc-status.PENDING   { background: rgba(249,115,22,.15); color: var(--accent); }
+.bc-status.PENDING   { background: rgba(82,21,78,.15); color: var(--accent); }
 .bc-status.CONFIRMED { background: rgba(34,197,94,.15);  color: var(--green);  }
 .bc-status.CANCELLED { background: rgba(239,68,68,.15);  color: var(--red);    }
 .bc-body { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
@@ -261,8 +261,8 @@ body {
 .bc-btn-confirm:not(:disabled):hover { background: var(--green); color: var(--navy); }
 .bc-btn-cancel  { background: rgba(239,68,68,.15); color: var(--red); border: 1px solid rgba(239,68,68,.3); }
 .bc-btn-cancel:not(:disabled):hover  { background: var(--red); color: white; }
-.bc-btn-pending { background: rgba(249,115,22,.15); color: var(--accent); border: 1px solid rgba(249,115,22,.3); }
-.bc-btn-pending:not(:disabled):hover { background: var(--accent); color: var(--navy); }
+.bc-btn-pending { background: rgba(82,21,78,.15); color: var(--accent); border: 1px solid rgba(82,21,78,.3); }
+.bc-btn-pending:not(:disabled):hover { background: var(--accent); color: white; }
 .bc-btn-price { background: none; border: 1px solid rgba(255,255,255,.2); color: var(--gray); font-size: 11px; border-radius: 6px; padding: 2px 8px; cursor: pointer; margin-left: 6px; vertical-align: middle; }
 .bc-btn-price:hover { border-color: var(--accent); color: var(--accent); }
 .price-popup-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:9999; align-items:center; justify-content:center; }
@@ -375,11 +375,11 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-green { background: rgba(34,197,94,.12); color: var(--green); }
 .badge-red   { background: rgba(239,68,68,.12); color: var(--red); }
 .badge-gray  { background: rgba(148,163,184,.1); color: var(--gray); }
-.badge-accent { background: rgba(249,115,22,.12); color: var(--accent); }
+.badge-accent { background: rgba(82,21,78,.12); color: var(--accent); }
 
 .dest-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .dest-chip {
-  background: rgba(249,115,22,.12);
+  background: rgba(82,21,78,.12);
   color: var(--accent);
   border-radius: 6px;
   padding: 3px 8px;
@@ -398,7 +398,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 .btn-action:hover { opacity: .8; }
 .btn-toggle-on  { background: rgba(34,197,94,.15); color: var(--green); }
-.btn-toggle-off { background: rgba(249,115,22,.15); color: var(--accent); }
+.btn-toggle-off { background: rgba(82,21,78,.15); color: var(--accent); }
 .btn-delete     { background: rgba(239,68,68,.15); color: var(--red); }
 .btn-edit       { background: rgba(148,163,184,.1); color: var(--gray); }
 
@@ -430,7 +430,7 @@ tbody tr:last-child td { border-bottom: none; }
   color: white !important;
 }
 .ts-dropdown .option { color: rgba(255,255,255,.85) !important; padding: 10px 14px !important; }
-.ts-dropdown .option:hover, .ts-dropdown .option.active { background: rgba(249,115,22,.14) !important; color: var(--accent) !important; }
+.ts-dropdown .option:hover, .ts-dropdown .option.active { background: rgba(82,21,78,.14) !important; color: var(--accent) !important; }
 .ts-wrapper .item { background: var(--accent) !important; color: var(--navy) !important; border-radius: 6px !important; padding: 3px 10px !important; font-weight: 700 !important; font-size: 12px !important; border: none !important; }
 .ts-wrapper .item .remove { color: var(--navy) !important; }
 .ts-wrapper input { color: white !important; }
@@ -445,9 +445,9 @@ tbody tr:last-child td { border-bottom: none; }
   color: white !important;
 }
 .flatpickr-day { color: white !important; border-radius: 8px !important; }
-.flatpickr-day:hover { background: rgba(249,115,22,.2) !important; }
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange { background: var(--accent) !important; border-color: var(--accent) !important; color: var(--navy) !important; }
-.flatpickr-day.inRange { background: rgba(249,115,22,.15) !important; border-color: transparent !important; }
+.flatpickr-day:hover { background: rgba(82,21,78,.2) !important; }
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange { background: var(--accent) !important; border-color: var(--accent) !important; color: white !important; }
+.flatpickr-day.inRange { background: rgba(82,21,78,.15) !important; border-color: transparent !important; }
 .flatpickr-months { background: #0d1b38 !important; border-radius: 16px 16px 0 0 !important; }
 .flatpickr-month, .flatpickr-weekday, .flatpickr-current-month { color: white !important; fill: white !important; }
 .flatpickr-day.flatpickr-disabled { color: #334155 !important; }
@@ -462,7 +462,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 .swal2-title { color: white !important; }
 .swal2-html-container { color: var(--gray) !important; }
-.swal2-confirm { background: var(--accent) !important; color: var(--navy) !important; border-radius: 10px !important; font-weight: 700 !important; }
+.swal2-confirm { background: var(--accent) !important; color: white !important; border-radius: 10px !important; font-weight: 700 !important; }
 .swal2-cancel { background: rgba(239,68,68,.15) !important; color: var(--red) !important; border: 1px solid rgba(239,68,68,.2) !important; border-radius: 10px !important; font-weight: 700 !important; }
 
 @media (max-width: 768px) {
@@ -999,12 +999,12 @@ async function editSlots(id, currentSlots) {
   const { value, isConfirmed } = await Swal.fire({
     title: 'Izmeni broj mesta',
     html: `
-      <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutno: <strong style="color:#f97316;">${currentSlots} mesta</strong></div>
+      <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutno: <strong style="color:#52154E;">${currentSlots} mesta</strong></div>
       <input id="swal-slots" type="number" min="0" max="9999" value="${currentSlots}"
         class="swal2-input" style="width:140px;text-align:center;font-size:22px;font-weight:700;">
     `,
     confirmButtonText: 'Sačuvaj',
-    confirmButtonColor: '#f97316',
+    confirmButtonColor: '#52154E',
     cancelButtonText: 'Otkaži',
     showCancelButton: true,
     background: '#0b1929',
@@ -1161,7 +1161,7 @@ async function notifyWaitlist(airport) {
     showCancelButton: true,
     confirmButtonText: 'Pošalji',
     cancelButtonText: 'Odustani',
-    confirmButtonColor: '#f97316',
+    confirmButtonColor: '#52154E',
     background: '#0d1b38', color: '#fff'
   });
   if (!isConfirmed) return;
@@ -1386,7 +1386,7 @@ function exportCSV() {
 async function changeStatus(id, status) {
   const labels = { CONFIRMED: 'potvrditi', CANCELLED: 'otkazati', PENDING: 'vratiti na čekanje' };
   const icons  = { CONFIRMED: '✅', CANCELLED: '❌', PENDING: '⏳' };
-  const colors = { CONFIRMED: '#22c55e', CANCELLED: '#ef4444', PENDING: '#f97316' };
+  const colors = { CONFIRMED: '#22c55e', CANCELLED: '#ef4444', PENDING: '#52154E' };
 
   const confirm = await Swal.fire({
     title: `${icons[status]} ${labels[status]?.charAt(0).toUpperCase() + labels[status]?.slice(1)} rezervaciju?`,

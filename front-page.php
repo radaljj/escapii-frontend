@@ -55,22 +55,22 @@
     :focus:not(:focus-visible) { outline: none; }
 
     :root {
-      /* Teget — tamno plava pozadina */
-      --navy:    #06101f;
-      --navy2:   #0b1929;
-      --navy3:   #112236;
-      /* Narandžasto — akcent */
-      --accent:  #f97316;
-      --accent2: #ea6c0a;
-      --accent3: #fb923c;
-      /* Bez/krem — topli sekundarni ton */
-      --cream:   #f5ede0;
-      --cream2:  #e2c9a0;
-      --cream3:  #c9a870;
+      /* Parchment — svjetla pozadina */
+      --navy:    #EFE9E7;
+      --navy2:   #FFFFFF;
+      --navy3:   #F5F3F1;
+      /* Deep Purple — akcent */
+      --accent:  #52154E;
+      --accent2: #3d0f3a;
+      --accent3: #7a2d76;
+      /* Lavender — sekundarni ton */
+      --cream:   #DAE0F2;
+      --cream2:  #DAE0F2;
+      --cream3:  #c5cde8;
       /* Neutralno */
-      --white:   #ffffff;
-      --gray:    #94a3b8;
-      --gray2:   #64748b;
+      --white:   #111344;
+      --gray:    #7a6b87;
+      --gray2:   #7a6b87;
       --green:   #22c55e;
       --red:     #ef4444;
       /* backward-compat */
@@ -82,14 +82,14 @@
 
     /* scroll-behavior:smooth removed — conflicts with programmatic scrollTo on mobile */
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-           background: var(--navy); color: var(--white); overflow-x: hidden; }
+           background: #EFE9E7; color: #111344; overflow-x: hidden; }
 
     /* ══════════════════════ NAV */
     .esc-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 999;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 64px; height: 72px;
-      background: rgba(8,13,26,.92); backdrop-filter: blur(24px);
+      background: rgba(17,19,68,.92); backdrop-filter: blur(24px);
       border-bottom: 1px solid rgba(255,255,255,.07);
       transition: background .3s;
     }
@@ -101,7 +101,7 @@
     .lang-btn { padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
                 border: none; background: transparent; color: var(--gray);
                 letter-spacing: .5px; transition: all .2s; }
-    .lang-btn.on { background: var(--gold); color: var(--navy); }
+    .lang-btn.on { background: var(--gold); color: #ffffff; }
     .nav-status { background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.12);
                   color: var(--gray); border-radius: 8px; padding: 8px 14px;
                   font-size: 13px; font-weight: 600; font-family: inherit;
@@ -109,7 +109,7 @@
                   display: flex; align-items: center; gap: 6px; }
     .nav-status:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.22); color: var(--white); }
     .nav-status svg { flex-shrink: 0; }
-    .nav-book { background: var(--gold); color: var(--navy); border: none;
+    .nav-book { background: var(--gold); color: #ffffff; border: none;
                 padding: 11px 28px; border-radius: 8px; font-size: 14px;
                 font-weight: 800; cursor: pointer; transition: all .2s; }
     .nav-book:hover { background: var(--gold2); transform: translateY(-1px); }
@@ -126,7 +126,7 @@
     /* mobile menu */
     .mob-menu {
       display:none; position:fixed; top:72px; left:0; right:0; z-index:997;
-      background:rgba(6,10,20,.97); backdrop-filter:blur(28px);
+      background:rgba(17,19,68,.97); backdrop-filter:blur(28px);
       border-bottom:1px solid rgba(255,255,255,.07);
       flex-direction:column; padding:16px 24px 24px;
       transform:translateY(-8px); opacity:0;
@@ -141,7 +141,7 @@
     .mob-menu-link:last-child { border-bottom:none; }
     .mob-menu-link:hover { color:white; }
     .mob-menu-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:4px; }
-    .mob-menu-book { flex:1; background:var(--gold); color:var(--navy); border:none;
+    .mob-menu-book { flex:1; background:var(--gold); color:#ffffff; border:none;
                      padding:13px; border-radius:10px; font-size:14px; font-weight:800; cursor:pointer; }
 
     @media (max-width:768px) {
@@ -155,7 +155,7 @@
       position: fixed; top: 72px; left: 0; right: 0; z-index: 998;
       display: flex; align-items: center; justify-content: center;
       padding: 0 24px; height: 44px;
-      background: rgba(6,10,20,.82); backdrop-filter: blur(28px) saturate(180%);
+      background: rgba(17,19,68,.82); backdrop-filter: blur(28px) saturate(180%);
       border-bottom: 1px solid rgba(255,255,255,.05);
       overflow-x: auto; gap: 4px;
       transform: translateY(-116%); opacity: 0;
@@ -173,7 +173,7 @@
       background: none; border: none;
     }
     .sec-nav-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
-    .sec-nav-link.active { color: #08112a; background: var(--gold); }
+    .sec-nav-link.active { color: #ffffff; background: var(--gold); }
     @media (max-width: 768px) {
       .sec-nav { display: none !important; }
     }
@@ -185,12 +185,12 @@
       text-align: center; padding: 110px 24px 80px;
       position: relative; overflow: hidden;
       background:
-        linear-gradient(to bottom, rgba(6,16,31,.5) 0%, rgba(6,16,31,.82) 55%, rgba(6,16,31,1) 100%),
+        linear-gradient(to bottom, rgba(17,19,68,.5) 0%, rgba(17,19,68,.82) 55%, rgba(239,233,231,1) 100%),
         url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1920&q=85') center/cover no-repeat;
     }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
-      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.3);
+      background: rgba(82,21,78,.1); border: 1px solid rgba(82,21,78,.3);
       color: var(--gold); padding: 9px 22px; border-radius: 100px;
       font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
       margin-bottom: 36px; animation: fadeDown .8s ease both;
@@ -209,9 +209,9 @@
     .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
                  animation: fadeUp .9s .3s ease both; }
     .btn-gold {
-      background: var(--gold); color: var(--navy); border: none;
+      background: var(--gold); color: #ffffff; border: none;
       padding: 18px 52px; border-radius: 100px; font-size: 16px; font-weight: 800;
-      cursor: pointer; transition: all .25s; box-shadow: 0 8px 36px rgba(249,115,22,.4);
+      cursor: pointer; transition: all .25s; box-shadow: 0 8px 36px rgba(82,21,78,.4);
       position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px;
     }
     .btn-gold::before {
@@ -221,7 +221,7 @@
       transition: left .5s ease; pointer-events: none;
     }
     .btn-gold:hover::before { left: 150%; }
-    .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 48px rgba(249,115,22,.6); background: var(--gold3); }
+    .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 48px rgba(82,21,78,.6); background: var(--gold3); }
     .btn-gold:active { transform: translateY(0) scale(.97); }
     .btn-ghost {
       background: transparent; color: var(--white);
@@ -248,7 +248,7 @@
     }
     /* Step btn shimmer */
     .btn-next {
-      background: var(--gold); color: var(--navy);
+      background: var(--gold); color: #ffffff;
       border: none; padding: 14px 36px; border-radius: 12px;
       font-size: 15px; font-weight: 800; cursor: pointer; transition: all .25s;
       margin-left: auto; position: relative; overflow: hidden;
@@ -260,7 +260,7 @@
       transition: left .45s ease;
     }
     .btn-next:hover::before { left: 150%; }
-    .btn-next:hover:not(:disabled) { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,.4); }
+    .btn-next:hover:not(:disabled) { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(82,21,78,.4); }
     .hero-stats { display: flex; gap: 0; margin-top: 72px; animation: fadeUp .9s .4s ease both; }
     .hero-stat {
       padding: 22px 44px; text-align: center;
@@ -353,7 +353,7 @@
     .dest-card-overlay {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 40px 16px 18px;
-      background: linear-gradient(to top, rgba(8,13,26,.95) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(17,19,68,.95) 0%, transparent 100%);
     }
     .dest-card-name { font-size: 16px; font-weight: 800; color: white; }
     .dest-card-ctry { font-size: 12px; color: var(--gray); margin-top: 3px; }
@@ -362,7 +362,7 @@
     }
     .mystery-badge {
       display: inline-flex; align-items: center; gap: 10px;
-      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
+      background: rgba(82,21,78,.1); border: 1px solid rgba(82,21,78,.25);
       color: var(--gold); padding: 12px 28px; border-radius: 100px;
       font-size: 14px; font-weight: 700;
     }
@@ -381,10 +381,10 @@
       display: flex; gap: 24px; align-items: flex-start;
       transition: border-color .2s; box-sizing: border-box;
     }
-    .feat-card:hover { border-color: rgba(249,115,22,.3); }
+    .feat-card:hover { border-color: rgba(82,21,78,.3); }
     .feat-icon-wrap {
       width: 56px; height: 56px; flex-shrink: 0;
-      background: rgba(249,115,22,.12); border-radius: 16px;
+      background: rgba(82,21,78,.12); border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
       font-size: 28px;
     }
@@ -400,7 +400,7 @@
       background: rgba(0,0,0,.25); border-radius: 20px; padding: 36px 32px;
       border: 1px solid rgba(255,255,255,.08);
     }
-    .who-card.yes { border-color: rgba(249,115,22,.25); background: rgba(249,115,22,.04); }
+    .who-card.yes { border-color: rgba(82,21,78,.25); background: rgba(82,21,78,.04); }
     .who-card.no  { border-color: rgba(239,68,68,.18); background: rgba(239,68,68,.04); }
     .who-card-title {
       font-size: 16px; font-weight: 800; margin-bottom: 20px;
@@ -429,7 +429,7 @@
       overflow: hidden;
       transition: border-color .2s;
     }
-    .faq-item.open { border-color: rgba(249,115,22,.35); }
+    .faq-item.open { border-color: rgba(82,21,78,.35); }
     .faq-q {
       display: flex; align-items: center; justify-content: space-between;
       padding: 22px 28px; cursor: pointer; gap: 16px;
@@ -444,7 +444,7 @@
       font-size: 16px; color: var(--gray); font-weight: 300;
       transition: all .25s; line-height: 1;
     }
-    .faq-item.open .faq-icon { background: var(--gold); border-color: var(--gold); color: var(--navy); transform: rotate(45deg); }
+    .faq-item.open .faq-icon { background: var(--gold); border-color: var(--gold); color: #ffffff; transform: rotate(45deg); }
     .faq-a {
       max-height: 0; overflow: hidden;
       transition: max-height .35s ease, padding .35s ease;
@@ -511,7 +511,7 @@
       border: 2px solid rgba(255,255,255,.1); border-radius: 16px; padding: 28px 20px;
       text-align: center; cursor: pointer; transition: all .2s;
     }
-    .opt-tile:hover, .opt-tile.on { border-color: var(--gold); background: rgba(249,115,22,.07); }
+    .opt-tile:hover, .opt-tile.on { border-color: var(--gold); background: rgba(82,21,78,.07); }
     .opt-icon { font-size: 36px; margin-bottom: 10px; }
     .opt-label { font-size: 18px; font-weight: 800; }
     .opt-sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
@@ -527,7 +527,7 @@
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: all .2s; line-height: 1;
     }
-    .cb:hover:not(:disabled) { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .cb:hover:not(:disabled) { background: var(--gold); color: #ffffff; border-color: var(--gold); }
     .cb:disabled { opacity: .3; cursor: not-allowed; }
     .cv { font-size: 24px; font-weight: 900; min-width: 52px; text-align: center; }
     /* Step 3 */
@@ -543,7 +543,7 @@
     }
     .no-dates-icon {
       width: 72px; height: 72px; border-radius: 50%;
-      background: rgba(249,115,22,.08); border: 1.5px solid rgba(249,115,22,.18);
+      background: rgba(82,21,78,.08); border: 1.5px solid rgba(82,21,78,.18);
       display: flex; align-items: center; justify-content: center;
       font-size: 32px;
       animation: noDatesFloat 3s ease-in-out infinite;
@@ -587,7 +587,7 @@
     .waitlist-input::placeholder { color: rgba(255,255,255,.3); }
     .waitlist-input:focus {
       border-color: var(--accent);
-      background: rgba(249,115,22,.06);
+      background: rgba(82,21,78,.06);
     }
     .waitlist-btn {
       background: var(--accent); color: #fff; border: none;
@@ -595,9 +595,9 @@
       font-size: 14px; font-weight: 700; font-family: inherit;
       cursor: pointer; white-space: nowrap;
       transition: background .2s, transform .15s;
-      box-shadow: 0 4px 16px rgba(249,115,22,.35);
+      box-shadow: 0 4px 16px rgba(82,21,78,.35);
     }
-    .waitlist-btn:hover { background: #ea6c0a; transform: translateY(-1px); }
+    .waitlist-btn:hover { background: #3d0f3a; transform: translateY(-1px); }
     .waitlist-btn:active { transform: translateY(0); }
     .waitlist-msg { font-size: 13px; line-height: 1.6; padding: 0 8px; }
     .date-row {
@@ -605,8 +605,8 @@
       background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.08);
       border-radius: 16px; padding: 14px 18px; cursor: pointer; transition: all .25s ease; gap: 12px;
     }
-    .date-row:hover { border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.05); transform: translateX(3px); }
-    .date-row.on { border-color: var(--accent); background: rgba(249,115,22,.08); box-shadow: 0 0 0 3px rgba(249,115,22,.12); }
+    .date-row:hover { border-color: rgba(82,21,78,.4); background: rgba(82,21,78,.05); transform: translateX(3px); }
+    .date-row.on { border-color: var(--accent); background: rgba(82,21,78,.08); box-shadow: 0 0 0 3px rgba(82,21,78,.12); }
     /* Date row inner elements */
     .dr-segment { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
     .dr-date-block { text-align: center; min-width: 38px; flex-shrink: 0; }
@@ -660,14 +660,14 @@
       background: rgba(255,255,255,.04); transition: all .2s;
     }
     .month-header:hover { background: rgba(255,255,255,.065); }
-    .month-header.open { background: rgba(249,115,22,.09); border-bottom: 1px solid rgba(249,115,22,.18); }
+    .month-header.open { background: rgba(82,21,78,.09); border-bottom: 1px solid rgba(82,21,78,.18); }
     .month-name { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: .2px; }
     .month-meta { font-size: 12px; color: var(--gray); margin-top: 3px; }
     .month-chevron { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.07);
                      display: flex; align-items: center; justify-content: center;
                      font-size: 14px; color: var(--gray); transition: all .25s;
                      flex-shrink: 0; align-self: center; }
-    .month-header.open .month-chevron { transform: rotate(180deg); background: rgba(249,115,22,.2); color: var(--accent); }
+    .month-header.open .month-chevron { transform: rotate(180deg); background: rgba(82,21,78,.2); color: var(--accent); }
     .month-body { display: none; padding: 10px; background: rgba(0,0,0,.18); }
     .month-body.open { display: block; animation: slideDown .2s ease; }
     @keyframes slideDown { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
@@ -678,21 +678,21 @@
       margin-left: 10px; vertical-align: middle;
       background: rgba(100,116,139,.15);
       border: 1px solid rgba(100,116,139,.3);
-      color: #94a3b8; font-size: 11px; font-weight: 700;
+      color: #7a6b87; font-size: 11px; font-weight: 700;
       padding: 3px 9px; border-radius: 100px;
       letter-spacing: .3px; text-transform: uppercase;
     }
     /* Tippy custom theme */
     .tippy-box[data-theme~='escapii'] {
-      background: #0d1b38;
-      border: 1px solid rgba(249,115,22,.35);
+      background: #111344;
+      border: 1px solid rgba(82,21,78,.35);
       color: rgba(255,255,255,.9);
       font-size: 13px; font-weight: 500;
       border-radius: 10px;
       box-shadow: 0 8px 32px rgba(0,0,0,.6);
       max-width: 260px;
     }
-    .tippy-box[data-theme~='escapii'] .tippy-arrow { color: #0d1b38; }
+    .tippy-box[data-theme~='escapii'] .tippy-arrow { color: #111344; }
     .tippy-box[data-theme~='escapii'] .tippy-content { padding: 10px 14px; line-height: 1.5; }
     /* Step 4 */
     .accom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
@@ -701,14 +701,14 @@
       text-align: center; cursor: pointer; transition: all .25s;
       position: relative; overflow: hidden;
     }
-    .accom-tile:hover, .accom-tile.on { border-color: var(--gold); background: rgba(249,115,22,.07); }
+    .accom-tile:hover, .accom-tile.on { border-color: var(--gold); background: rgba(82,21,78,.07); }
     .a-icon  { font-size: 32px; margin-bottom: 10px; }
     .a-name  { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
     .a-badge { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 100px; margin-bottom: 8px; display: inline-block; }
     /* Hover overlay */
     .a-hover {
       position: absolute; left: 0; right: 0; bottom: -100%;
-      background: linear-gradient(to top, rgba(6,16,31,.97) 60%, rgba(6,16,31,.82));
+      background: linear-gradient(to top, rgba(17,19,68,.97) 60%, rgba(17,19,68,.82));
       padding: 16px 14px 14px; transition: bottom .28s ease;
       border-top: 2px solid var(--accent); text-align: left;
     }
@@ -717,13 +717,13 @@
     .a-hover-desc { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.55; }
     /* Single notice */
     .single-notice {
-      display: none; background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.3);
+      display: none; background: rgba(82,21,78,.1); border: 1px solid rgba(82,21,78,.3);
       border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
       font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.6;
     }
     .single-notice strong { color: var(--accent); }
     .a-badge.free { background: rgba(34,197,94,.15); color: var(--green); }
-    .a-badge.pay  { background: rgba(249,115,22,.15); color: var(--gold); }
+    .a-badge.pay  { background: rgba(82,21,78,.15); color: var(--gold); }
     .a-desc  { font-size: 12px; color: var(--gray); }
     /* Step 5 */
     .suit-row {
@@ -736,13 +736,13 @@
       background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
       border-radius: 14px; padding: 16px 18px; cursor: pointer; transition: all .2s;
     }
-    .extra-row:hover, .extra-row.on { border-color: var(--gold); background: rgba(249,115,22,.05); }
+    .extra-row:hover, .extra-row.on { border-color: var(--gold); background: rgba(82,21,78,.05); }
     .e-chk {
       width: 22px; height: 22px; border-radius: 6px;
       border: 2px solid rgba(255,255,255,.25); flex-shrink: 0;
       display: flex; align-items: center; justify-content: center; font-size: 13px;
     }
-    .extra-row.on .e-chk { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+    .extra-row.on .e-chk { background: var(--gold); border-color: var(--gold); color: #ffffff; }
     .e-icon { font-size: 22px; flex-shrink: 0; }
     .e-txt { flex: 1; }
     .e-label { font-size: 14px; font-weight: 700; }
@@ -757,21 +757,21 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.5);
     }
     .airport-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(255,255,255,.2); }
-    .airport-card.on { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(249,115,22,.25), 0 8px 32px rgba(0,0,0,.5); }
+    .airport-card.on { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(82,21,78,.25), 0 8px 32px rgba(0,0,0,.5); }
     .airport-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.55); transition: all .45s; }
     .airport-card:hover img { filter: brightness(.7); transform: scale(1.06); }
     .airport-card.on img { filter: brightness(.45); }
-    .airport-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: clamp(10px, 3vw, 20px); background: linear-gradient(to top, rgba(6,16,31,.98) 0%, rgba(6,16,31,.4) 60%, transparent 100%); }
+    .airport-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: clamp(10px, 3vw, 20px); background: linear-gradient(to top, rgba(17,19,68,.98) 0%, rgba(17,19,68,.4) 60%, transparent 100%); }
     .airport-iata { font-size: clamp(20px, 5vw, 36px); font-weight: 900; color: var(--accent); letter-spacing: clamp(1px, 0.5vw, 3px); line-height: 1; }
     .airport-city { font-size: clamp(13px, 3vw, 18px); font-weight: 800; color: white; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .airport-name { font-size: clamp(9px, 1.8vw, 11px); color: rgba(255,255,255,.55); margin-top: 2px; letter-spacing: .5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .airport-check {
       position: absolute; top: 14px; right: 14px;
       width: 34px; height: 34px; border-radius: 50%;
-      background: var(--accent); color: var(--navy);
+      background: var(--accent); color: #ffffff;
       display: none; align-items: center; justify-content: center;
       font-size: 16px; font-weight: 900;
-      box-shadow: 0 4px 12px rgba(249,115,22,.5);
+      box-shadow: 0 4px 12px rgba(82,21,78,.5);
       animation: popIn .3s cubic-bezier(.175,.885,.32,1.275);
     }
     .airport-card.on .airport-check { display: flex; }
@@ -785,15 +785,15 @@
       border-radius: 16px; padding: 16px 18px; cursor: pointer;
       transition: all .25s ease; user-select: none;
     }
-    .extra-card:hover { border-color: rgba(249,115,22,.3); background: rgba(249,115,22,.04); transform: translateX(4px); }
-    .extra-card.on { border-color: var(--accent); background: rgba(249,115,22,.07); }
+    .extra-card:hover { border-color: rgba(82,21,78,.3); background: rgba(82,21,78,.04); transform: translateX(4px); }
+    .extra-card.on { border-color: var(--accent); background: rgba(82,21,78,.07); }
     .extra-card-icon {
       width: 46px; height: 46px; border-radius: 14px;
       background: rgba(255,255,255,.06); display: flex;
       align-items: center; justify-content: center;
       font-size: 22px; flex-shrink: 0; transition: background .25s;
     }
-    .extra-card.on .extra-card-icon { background: rgba(249,115,22,.18); }
+    .extra-card.on .extra-card-icon { background: rgba(82,21,78,.18); }
     .extra-card-body { flex: 1; min-width: 0; }
     .extra-card-title { font-size: 14px; font-weight: 700; color: white; }
     .extra-card-sub { font-size: 12px; color: var(--gray); margin-top: 3px; }
@@ -817,8 +817,8 @@
     .connecting-tooltip-wrap { position: relative; }
     .connecting-tooltip {
       position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px);
-      background: linear-gradient(135deg, #0d1b38 0%, #0a1628 100%);
-      border: 1px solid rgba(249,115,22,.35); border-radius: 14px;
+      background: linear-gradient(135deg, #111344 0%, #1a1230 100%);
+      border: 1px solid rgba(82,21,78,.35); border-radius: 14px;
       padding: 14px 16px; width: 270px; pointer-events: none;
       opacity: 0; transition: opacity .22s ease, transform .22s ease;
       z-index: 50; box-shadow: 0 12px 36px rgba(0,0,0,.55);
@@ -829,7 +829,7 @@
     }
     .connecting-tooltip::after {
       content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      border: 7px solid transparent; border-top-color: rgba(249,115,22,.35);
+      border: 7px solid transparent; border-top-color: rgba(82,21,78,.35);
     }
     .connecting-tooltip-title {
       font-size: 13px; font-weight: 700; color: var(--accent3); margin-bottom: 6px; line-height: 1.4;
@@ -854,13 +854,13 @@
       100% { opacity: 0; transform: translateY(-70px) scale(1); }
     }
     /* SweetAlert custom */
-    .swal-escapii { border: 1px solid rgba(249,115,22,.25) !important; border-radius: 20px !important; }
+    .swal-escapii { border: 1px solid rgba(82,21,78,.25) !important; border-radius: 20px !important; }
 
     /* Step 6 — image grid */
     .excl-info {
       margin-bottom: 20px;
       border-radius: 14px;
-      border: 1px solid rgba(249,115,22,.18);
+      border: 1px solid rgba(82,21,78,.18);
       overflow: hidden;
     }
     .excl-info-tiers {
@@ -869,12 +869,12 @@
     .excl-tier {
       flex: 1; text-align: center; padding: 12px 8px;
       border-right: 1px solid rgba(255,255,255,.07);
-      background: rgba(249,115,22,.05);
+      background: rgba(82,21,78,.05);
       transition: background .2s;
       cursor: default;
     }
     .excl-tier:last-child { border-right: none; }
-    .excl-tier:hover { background: rgba(249,115,22,.12); }
+    .excl-tier:hover { background: rgba(82,21,78,.12); }
     .excl-tier-label {
       font-size: 10px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .8px; color: rgba(255,255,255,.4); margin-bottom: 4px;
@@ -884,7 +884,7 @@
     }
     .excl-tier-price.free { color: #4ade80; }
     .excl-tier-price.low  { color: var(--accent3); }
-    .excl-tier-price.high { color: rgba(249,115,22,.6); }
+    .excl-tier-price.high { color: rgba(82,21,78,.6); }
     .excl-info-note {
       display: flex; align-items: center; gap: 8px;
       padding: 9px 14px;
@@ -936,7 +936,7 @@
     .excl-overlay {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 28px 12px 12px;
-      background: linear-gradient(to top, rgba(6,16,31,.95) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(17,19,68,.95) 0%, transparent 100%);
       transition: opacity .3s;
     }
     .excl-name {
@@ -993,17 +993,17 @@
       color: white !important; font-size: 14px !important;
     }
     .choices__list--dropdown, .choices__list[aria-expanded] {
-      background: #0f172a !important; border: 1px solid rgba(255,255,255,.15) !important;
+      background: #111344 !important; border: 1px solid rgba(255,255,255,.15) !important;
       border-radius: 12px !important; box-shadow: 0 12px 40px rgba(0,0,0,.7) !important; z-index: 999 !important;
     }
     .choices__list--dropdown .choices__item {
       color: rgba(255,255,255,.85) !important; padding: 10px 14px !important; font-size: 14px !important;
     }
     .choices__list--dropdown .choices__item--selectable.is-highlighted {
-      background: rgba(249,115,22,.14) !important; color: var(--accent3) !important;
+      background: rgba(82,21,78,.14) !important; color: var(--accent3) !important;
     }
     .choices__list--dropdown .choices__item.is-selected {
-      background: rgba(249,115,22,.08) !important; color: var(--accent3) !important; font-weight: 600 !important;
+      background: rgba(82,21,78,.08) !important; color: var(--accent3) !important; font-weight: 600 !important;
     }
     .choices__list--single .choices__item { color: rgba(255,255,255,.45) !important; }
     .choices__list--single .choices__item.choices__item--selectable:not(.choices__placeholder) { color: var(--accent3) !important; font-weight: 600 !important; }
@@ -1046,7 +1046,7 @@
     }
     .ts-dropdown .option:hover,
     .ts-dropdown .option.active {
-      background: rgba(249,115,22,.14) !important; color: var(--accent3) !important;
+      background: rgba(82,21,78,.14) !important; color: var(--accent3) !important;
     }
     .ts-dropdown .optgroup-header {
       color: var(--gray) !important; font-size: 11px !important;
@@ -1054,14 +1054,14 @@
       letter-spacing: 1px !important;
     }
     .ts-wrapper .item {
-      background: var(--accent) !important; color: var(--navy) !important;
+      background: var(--accent) !important; color: #ffffff !important;
       border-radius: 8px !important; padding: 4px 8px 4px 12px !important;
       font-weight: 700 !important; font-size: 13px !important;
       border: none !important; display: inline-flex !important;
       align-items: center !important; gap: 6px !important;
     }
     .ts-wrapper .item .remove {
-      color: var(--navy) !important; opacity: .7 !important;
+      color: #ffffff !important; opacity: .7 !important;
       border: none !important; font-size: 16px !important;
       padding: 0 !important; line-height: 1 !important;
     }
@@ -1072,7 +1072,7 @@
     }
     /* Price box */
     .price-box {
-      background: rgba(249,115,22,.06); border: 1px solid rgba(249,115,22,.2);
+      background: rgba(82,21,78,.06); border: 1px solid rgba(82,21,78,.2);
       border-radius: 18px; padding: 24px; margin-top: 24px;
     }
     .price-box-title { font-size: 14px; font-weight: 800; color: var(--gold);
@@ -1085,7 +1085,7 @@
     .pr-total {
       display: flex; justify-content: space-between; align-items: flex-end;
       padding-top: 14px; margin-top: 4px;
-      border-top: 2px solid rgba(249,115,22,.3);
+      border-top: 2px solid rgba(82,21,78,.3);
     }
     .ptl { font-size: 16px; font-weight: 800; }
     .ptv { font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; }
@@ -1114,8 +1114,8 @@
 
     /* ══════════ BOOKING SUMMARY CARD (Step 8) */
     .booking-summary {
-      background: linear-gradient(135deg, rgba(249,115,22,.07) 0%, rgba(11,25,41,.95) 100%);
-      border: 1.5px solid rgba(249,115,22,.22);
+      background: linear-gradient(135deg, rgba(82,21,78,.07) 0%, rgba(255,255,255,.95) 100%);
+      border: 1.5px solid rgba(82,21,78,.22);
       border-radius: 20px; padding: 22px 24px; margin-bottom: 28px;
     }
     .bs-header {
@@ -1134,7 +1134,7 @@
     .bs-dates { font-size: 17px; font-weight: 800; color: white; }
     .bs-nights-lbl { font-size: 12px; color: var(--gray); margin-top: 2px; }
     .bs-mystery {
-      font-size: 32px; font-weight: 900; color: rgba(249,115,22,.25);
+      font-size: 32px; font-weight: 900; color: rgba(82,21,78,.25);
       letter-spacing: 4px; font-style: italic;
     }
     .bs-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
@@ -1155,13 +1155,13 @@
     .bs-total {
       display: flex; justify-content: space-between; align-items: flex-end;
       padding-top: 14px; margin-top: 6px;
-      border-top: 2px solid rgba(249,115,22,.35);
+      border-top: 2px solid rgba(82,21,78,.35);
     }
     .bs-total-label { font-size: 16px; font-weight: 800; }
     .bs-total-price { font-size: 34px; font-weight: 900; color: var(--accent); line-height: 1; }
 
     /* ══════════════════════ FOOTER */
-    .esc-footer { background: #080f1e; padding: 64px 64px 28px; border-top: 1px solid rgba(255,255,255,.07); }
+    .esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(17,19,68,.07); }
     .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
     .footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.75; margin-top: 16px; max-width: 280px; }
     .footer-col h4 { font-size: 11px; font-weight: 800; color: var(--white); letter-spacing: 1.5px;
@@ -1179,7 +1179,7 @@
       display: flex; align-items: center; justify-content: center;
       color: var(--gray); text-decoration: none; transition: all .2s;
     }
-    .social-icon:hover { background: var(--accent); border-color: var(--accent); color: var(--navy); }
+    .social-icon:hover { background: var(--accent); border-color: var(--accent); color: #ffffff; }
     .social-icon svg { width: 18px; height: 18px; fill: currentColor; }
     .footer-divider { height: 1px; background: rgba(255,255,255,.07); margin-bottom: 24px; }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center;
@@ -1269,7 +1269,7 @@
     .status-field input:focus { border-color: var(--accent); }
     .status-modal-btn {
       background: var(--accent); border: none; border-radius: 12px; padding: 13px;
-      color: var(--navy); font-size: 15px; font-weight: 800; font-family: inherit;
+      color: #ffffff; font-size: 15px; font-weight: 800; font-family: inherit;
       cursor: pointer; transition: opacity .2s; margin-top: 4px;
     }
     .status-modal-btn:hover { opacity: .88; }
@@ -1283,7 +1283,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       padding: 6px 14px; border-radius: 100px; font-size: 13px; font-weight: 700;
     }
-    .sr-badge.PENDING   { background: rgba(249,115,22,.15); color: var(--accent); }
+    .sr-badge.PENDING   { background: rgba(82,21,78,.15); color: var(--accent); }
     .sr-badge.CONFIRMED { background: rgba(34,197,94,.15);  color: #22c55e; }
     .sr-badge.CANCELLED { background: rgba(239,68,68,.15);  color: #f87171; }
     .sr-label  { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 3px; }
@@ -1304,15 +1304,15 @@
     .scroll-top {
       position: fixed; bottom: 28px; right: 28px; z-index: 996;
       width: 46px; height: 46px; border-radius: 14px;
-      background: var(--accent); color: var(--navy); border: none;
+      background: var(--accent); color: #ffffff; border: none;
       font-size: 20px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: translateY(16px);
       transition: opacity .3s, transform .3s;
-      box-shadow: 0 4px 20px rgba(249,115,22,.4);
+      box-shadow: 0 4px 20px rgba(82,21,78,.4);
     }
     .scroll-top.visible { opacity: 1; transform: translateY(0); }
-    .scroll-top:hover { background: var(--accent2); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(249,115,22,.5); }
+    .scroll-top:hover { background: var(--accent2); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(82,21,78,.5); }
 
     /* ══════════════════════ SKELETON SHIMMER */
     @keyframes skelShimmer {
@@ -1344,7 +1344,7 @@
 
     /* ══════════════════════ PAYMENT INFO */
     .payment-info {
-      background: rgba(249,115,22,.06); border: 1px solid rgba(249,115,22,.2);
+      background: rgba(82,21,78,.06); border: 1px solid rgba(82,21,78,.2);
       border-radius: 16px; padding: 20px 22px; margin-bottom: 20px;
     }
     .pi-header {
@@ -1374,9 +1374,9 @@
       transition: border-color .25s, background .25s, box-shadow .25s;
     }
     .terms-check-row:has(input:checked) {
-      border-color: rgba(249,115,22,.5);
-      background: rgba(249,115,22,.06);
-      box-shadow: 0 0 0 3px rgba(249,115,22,.08);
+      border-color: rgba(82,21,78,.5);
+      background: rgba(82,21,78,.06);
+      box-shadow: 0 0 0 3px rgba(82,21,78,.08);
     }
     .terms-check-row.terms-invalid {
       border-color: #ef4444 !important;
@@ -1411,7 +1411,7 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-    .terms-check-row:hover label::before { border-color: rgba(249,115,22,.5); }
+    .terms-check-row:hover label::before { border-color: rgba(82,21,78,.5); }
     .terms-check-row input:checked + label::before {
       background-color: var(--accent3);
       border-color: var(--accent3);
@@ -1545,153 +1545,7 @@
 
   <div class="hero-stats">
     <div class="hero-stat"><div class="stat-num" id="destCount">50+</div><div class="stat-label" data-i18n="hero.stat.dest">Destinacija</div></div>
-    <div class="hero-stat"><div class="stat-num">2</div><div class="stat-label" data-i18n="hero.stat.airports">Aerodroma polaska</div></div>
     <div class="hero-stat"><div class="stat-num">100%</div><div class="stat-label" data-i18n="hero.stat.surprise">Iznenađenje</div></div>
-  </div>
-</section>
-
-<!-- MANIFESTO -->
-<section class="esc-manifesto" id="esc-about">
-  <div class="mf-inner">
-    <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="mf-heading" data-i18n-html="mf.heading">Pusti destinaciju da te <em>iznenadi</em></h2>
-    <blockquote class="mf-quote" data-i18n-html="mf.quote">"Nije problem što ne putujemo dovoljno.<br>Problem je što putujemo <em>uvek isto</em>."</blockquote>
-    <p class="mf-body" data-i18n-html="mf.p1">ESCAPII je onaj osećaj kad kažeš "ajde" i ne znaš tačno gde ideš — ali znaš da će biti dobro. To je beg iz rutine. Iskustvo koje te malo pomeri.</p>
-    <p class="mf-body" data-i18n-html="mf.p2">Nije samo 2-3 dana. To je <strong>reset</strong>. Onaj momenat kad ti srce malo jače kuca jer ne znaš šta dolazi — i baš zato jedva čekaš.</p>
-    <p class="mf-body" data-i18n-html="mf.p3"><strong>ESCAPII nije destinacija. ESCAPII je osećaj.</strong></p>
-  </div>
-</section>
-
-<!-- DESTINATIONS CAROUSEL -->
-<section class="esc-dest" id="esc-dest">
-  <div class="dest-header">
-    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
-    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
-    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
-  </div>
-  <div class="carousel-outer">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-  <div class="dest-mystery-row">
-    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="esc-features" id="esc-how">
-  <div class="features-inner">
-    <div class="features-header">
-      <span class="sec-tag" data-i18n="how.tag">Kako funkcioniše</span>
-      <h2 class="sec-heading" data-i18n="how.heading">Putovanje bez razmišljanja</h2>
-      <p class="sec-sub" data-i18n="how.sub">Sve što treba je da odabereš polazak i budžet.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon-wrap">✈️</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c1.t">Odaberi polazak</h3>
-          <p data-i18n="how.c1.p">Aerodrom, broj putnika, termin. Bez komplikacija. Mi preuzimamo ostatak planiranja.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">🛏️</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c2.t">Kvalitetan smeštaj</h3>
-          <p data-i18n="how.c2.p">Hoteli centralno locirani, provereni, dobro ocenjeni.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">💶</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c3.t">Najbolja cena</h3>
-          <p data-i18n="how.c3.p">Iznenađujuća destinacija nam omogućava da pregovaramo drugačije — i da taj popust prenesemo na tebe.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">🎭</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c4.t">Avantura počinje pre puta</h3>
-          <p data-i18n="how.c4.p">Tri dana pre polaska otkrivamo tvoju destinaciju. Dovoljno da se pripremiš, ali ne i da pokvariš čar iznenađenja.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOR WHO -->
-<section class="esc-who" id="esc-who">
-  <div class="who-inner">
-    <div class="who-header">
-      <span class="sec-tag" data-i18n="who.tag">Za koga je Escapii</span>
-      <h2 class="sec-heading" data-i18n="who.heading">Nije za svakoga — i to je poenta</h2>
-    </div>
-    <div class="who-grid">
-      <div class="who-card yes">
-        <div class="who-card-title">✓ <span data-i18n="who.yes.title">Escapii je za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti je dosadilo da sve planiraš</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Želiš nešto novo, ali ne znaš šta tačno</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.3">Voliš spontanost, ali uz dobru organizaciju</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.4">Kažeš "a što da ne" češće nego "a šta ako"</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Hoćeš priču koju ćeš prepričavati</span></div>
-      </div>
-      <div class="who-card no">
-        <div class="who-card-title">✕ <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Moraš da znaš svaki detalj unapred</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Ideš samo tamo gde si već video na Instagramu</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Praviš plan za svaki sat 73 dana unapred</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Tražiš isto putovanje svaki put</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.5">Hoćeš klasičnu agenciju i klasičan aranžman</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="esc-stats">
-  <div class="stats-row">
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="0"><div class="stats-num" id="statsDestCount" data-countup="50">50+</div><div class="stats-lbl" data-i18n="stats.dest">Destinacija</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="100"><div class="stats-num" id="statAirports" data-countup="2">2</div><div class="stats-lbl" data-i18n="stats.airports">Aerodroma</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="200"><div class="stats-num">24h</div><div class="stats-lbl" data-i18n="stats.support">Podrška</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="300"><div class="stats-num" id="statSurprise" data-countup="100">100%</div><div class="stats-lbl" data-i18n="stats.surprise">Iznenađenje</div></div>
-  </div>
-</div>
-
-<!-- FAQ -->
-<section class="esc-faq" id="esc-faq">
-  <div class="faq-inner">
-    <div class="faq-header">
-      <span class="sec-tag" data-i18n="faq.tag">Česta pitanja</span>
-      <h2 class="sec-heading" data-i18n="faq.heading">Imaš pitanje?</h2>
-    </div>
-    <div class="faq-list">
-
-      <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.1.q">Šta je uključeno u putovanje?</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.1.a">Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.</div>
-      </div>
-
-      <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.2.q">Šta od prtljaga mogu da ponesem?</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.2.a">U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.</div>
-      </div>
-
-      <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.3.q">Izmene i otkazivanje</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.3.a">Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.</div>
-      </div>
-
-    </div>
   </div>
 </section>
 
@@ -1910,7 +1764,7 @@
             </div>
           </div>
         </div>
-        <div id="seatsNotice" style="display:none; margin-top:14px; background:rgba(249,115,22,.1); border:1px solid rgba(249,115,22,.3); border-radius:12px; padding:14px 16px; font-size:13px; color:rgba(255,255,255,.85); line-height:1.6;">
+        <div id="seatsNotice" style="display:none; margin-top:14px; background:rgba(82,21,78,.1); border:1px solid rgba(82,21,78,.3); border-radius:12px; padding:14px 16px; font-size:13px; color:rgba(255,255,255,.85); line-height:1.6;">
           💺 <span id="seatsNoticeText"></span>
         </div>
         <div class="step-btns" style="margin-top:28px;">
@@ -2047,6 +1901,150 @@
     </div>
 
     <!-- Success handled via SweetAlert2 -->
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="esc-manifesto" id="esc-about">
+  <div class="mf-inner">
+    <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+    <h2 class="mf-heading" data-i18n-html="mf.heading">Pusti destinaciju da te <em>iznenadi</em></h2>
+    <blockquote class="mf-quote" data-i18n-html="mf.quote">"Nije problem što ne putujemo dovoljno.<br>Problem je što putujemo <em>uvek isto</em>."</blockquote>
+    <p class="mf-body" data-i18n-html="mf.p1">ESCAPII je onaj osećaj kad kažeš "ajde" i ne znaš tačno gde ideš — ali znaš da će biti dobro. To je beg iz rutine. Iskustvo koje te malo pomeri.</p>
+    <p class="mf-body" data-i18n-html="mf.p2">Nije samo 2-3 dana. To je <strong>reset</strong>. Onaj momenat kad ti srce malo jače kuca jer ne znaš šta dolazi — i baš zato jedva čekaš.</p>
+    <p class="mf-body" data-i18n-html="mf.p3"><strong>ESCAPII nije destinacija. ESCAPII je osećaj.</strong></p>
+  </div>
+</section>
+
+<!-- DESTINATIONS CAROUSEL -->
+<section class="esc-dest" id="esc-dest">
+  <div class="dest-header">
+    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
+    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
+    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+  <div class="dest-mystery-row">
+    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="esc-features" id="esc-how">
+  <div class="features-inner">
+    <div class="features-header">
+      <span class="sec-tag" data-i18n="how.tag">Kako funkcioniše</span>
+      <h2 class="sec-heading" data-i18n="how.heading">Putovanje bez razmišljanja</h2>
+      <p class="sec-sub" data-i18n="how.sub">Sve što treba je da odabereš polazak i budžet.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon-wrap">✈️</div>
+        <div class="feat-content">
+          <h3 data-i18n="how.c1.t">Odaberi polazak</h3>
+          <p data-i18n="how.c1.p">Aerodrom, broj putnika, termin. Bez komplikacija. Mi preuzimamo ostatak planiranja.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">🛏️</div>
+        <div class="feat-content">
+          <h3 data-i18n="how.c2.t">Kvalitetan smeštaj</h3>
+          <p data-i18n="how.c2.p">Hoteli centralno locirani, provereni, dobro ocenjeni.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">💶</div>
+        <div class="feat-content">
+          <h3 data-i18n="how.c3.t">Najbolja cena</h3>
+          <p data-i18n="how.c3.p">Iznenađujuća destinacija nam omogućava da pregovaramo drugačije — i da taj popust prenesemo na tebe.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">🎭</div>
+        <div class="feat-content">
+          <h3 data-i18n="how.c4.t">Avantura počinje pre puta</h3>
+          <p data-i18n="how.c4.p">Tri dana pre polaska otkrivamo tvoju destinaciju. Dovoljno da se pripremiš, ali ne i da pokvariš čar iznenađenja.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section class="esc-who" id="esc-who">
+  <div class="who-inner">
+    <div class="who-header">
+      <span class="sec-tag" data-i18n="who.tag">Za koga je Escapii</span>
+      <h2 class="sec-heading" data-i18n="who.heading">Nije za svakoga — i to je poenta</h2>
+    </div>
+    <div class="who-grid">
+      <div class="who-card yes">
+        <div class="who-card-title">✓ <span data-i18n="who.yes.title">Escapii je za tebe ako...</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti je dosadilo da sve planiraš</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Želiš nešto novo, ali ne znaš šta tačno</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.3">Voliš spontanost, ali uz dobru organizaciju</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.4">Kažeš "a što da ne" češće nego "a šta ako"</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Hoćeš priču koju ćeš prepričavati</span></div>
+      </div>
+      <div class="who-card no">
+        <div class="who-card-title">✕ <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Moraš da znaš svaki detalj unapred</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Ideš samo tamo gde si već video na Instagramu</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Praviš plan za svaki sat 73 dana unapred</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Tražiš isto putovanje svaki put</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.5">Hoćeš klasičnu agenciju i klasičan aranžman</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="esc-stats">
+  <div class="stats-row">
+    <div class="stats-item" data-aos="fade-up" data-aos-delay="0"><div class="stats-num" id="statsDestCount" data-countup="50">50+</div><div class="stats-lbl" data-i18n="stats.dest">Destinacija</div></div>
+    <div class="stats-item" data-aos="fade-up" data-aos-delay="100"><div class="stats-num">24h</div><div class="stats-lbl" data-i18n="stats.support">Podrška</div></div>
+    <div class="stats-item" data-aos="fade-up" data-aos-delay="200"><div class="stats-num" id="statSurprise" data-countup="100">100%</div><div class="stats-lbl" data-i18n="stats.surprise">Iznenađenje</div></div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="esc-faq" id="esc-faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <span class="sec-tag" data-i18n="faq.tag">Česta pitanja</span>
+      <h2 class="sec-heading" data-i18n="faq.heading">Imaš pitanje?</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q">
+          <span data-i18n="faq.1.q">Šta je uključeno u putovanje?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a" data-i18n="faq.1.a">Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q">
+          <span data-i18n="faq.2.q">Šta od prtljaga mogu da ponesem?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a" data-i18n="faq.2.a">U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q">
+          <span data-i18n="faq.3.q">Izmene i otkazivanje</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a" data-i18n="faq.3.a">Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.</div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -2242,7 +2240,7 @@ const TR = {
     'faq.3.q':'Izmene i otkazivanje',
     'faq.3.a':'Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.',
     'swal.excl.title':'Maksimalno 5 isključivanja',
-    'swal.excl.html':'Već si iskoristio svih 5 dozvoljenih isključivanja.<br><br><strong style="color:#f97316">Hajde, prepusti se iznenađenju! 🌍</strong>',
+    'swal.excl.html':'Već si iskoristio svih 5 dozvoljenih isključivanja.<br><br><strong style="color:#52154E">Hajde, prepusti se iznenađenju! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
@@ -2389,7 +2387,7 @@ const TR = {
     'faq.3.q':'Changes and cancellations',
     'faq.3.a':'Your reservation is confirmed only after payment has been received. Once confirmed, the booking is processed within 24 hours and can no longer be canceled. If you wish to make changes to an already confirmed reservation, the conditions imposed by the airline or accommodation provider will apply. All costs arising from any changes are the responsibility of the traveler.',
     'swal.excl.title':'✈ Too many exclusions!',
-    'swal.excl.html':'You can exclude up to 5 destinations maximum.<br><br><strong style="color:#f97316">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
+    'swal.excl.html':'You can exclude up to 5 destinations maximum.<br><br><strong style="color:#52154E">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
@@ -2775,10 +2773,10 @@ async function submitWaitlist() {
         title: t('waitlist.swal.already.title'),
         html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${waitlistHtml('waitlist.swal.already.html')}</p>`,
         confirmButtonText: 'OK',
-        confirmButtonColor: '#f97316',
-        background: '#0d1b38',
+        confirmButtonColor: '#52154E',
+        background: '#111344',
         color: '#fff',
-        backdrop: 'rgba(6,16,31,0.85)',
+        backdrop: 'rgba(17,19,68,0.85)',
         customClass: { popup: 'swal-escapii' }
       });
     } else {
@@ -2788,10 +2786,10 @@ async function submitWaitlist() {
         title: t('waitlist.swal.ok.title'),
         html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${waitlistHtml('waitlist.swal.ok.html')}</p>`,
         confirmButtonText: 'OK',
-        confirmButtonColor: '#f97316',
-        background: '#0d1b38',
+        confirmButtonColor: '#52154E',
+        background: '#111344',
         color: '#fff',
-        backdrop: 'rgba(6,16,31,0.85)',
+        backdrop: 'rgba(17,19,68,0.85)',
         customClass: { popup: 'swal-escapii' }
       });
       if (emailEl) emailEl.value = '';
@@ -2801,8 +2799,8 @@ async function submitWaitlist() {
       icon: 'error',
       title: t('waitlist.swal.err.title'),
       text: t('waitlist.swal.err.text'),
-      confirmButtonColor: '#f97316',
-      background: '#0d1b38',
+      confirmButtonColor: '#52154E',
+      background: '#111344',
       color: '#fff'
     });
   }
@@ -3289,19 +3287,19 @@ function togExcl(id, event) {
     const maxExcl = isINI ? 2 : 5;
     if (S.excludedIds.length >= maxExcl) {
       Swal.fire({
-        background: '#0d1b38',
+        background: '#111344',
         color: '#fff',
         icon: 'info',
-        iconColor: '#f97316',
-        title: `<span style="color:#f97316;font-size:20px">${isINI ? 'Limit dostignut' : t('swal.excl.title')}</span>`,
+        iconColor: '#52154E',
+        title: `<span style="color:#52154E;font-size:20px">${isINI ? 'Limit dostignut' : t('swal.excl.title')}</span>`,
         html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${isINI
           ? 'Zbog limitiranog broja letova iz Niša nije moguće isključiti više opcija.'
           : t('swal.excl.html')}</p>`,
         confirmButtonText: 'OK',
-        confirmButtonColor: '#f97316',
+        confirmButtonColor: '#52154E',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp animate__faster' },
-        backdrop: 'rgba(6,16,31,0.85)',
+        backdrop: 'rgba(17,19,68,0.85)',
         customClass: { popup: 'swal-escapii' }
       });
       return;
@@ -3315,7 +3313,7 @@ function togExcl(id, event) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
       const label = n === 1 ? '🎁 1. gratis!' : (isINI ? '+15€' : (n <= 3 ? '+10€' : '+15€'));
-      const color = n === 1 ? '#22c55e' : '#f97316';
+      const color = n === 1 ? '#22c55e' : '#52154E';
       const el = document.createElement('div');
       el.className = 'price-float';
       el.textContent = label;
@@ -3659,13 +3657,13 @@ async function submitBooking() {
         icon: 'error',
         title: lang==='sr' ? '😔 Mesta su popunjena' : '😔 No spots available',
         html: lang==='sr'
-          ? `<p style="color:#94a3b8;line-height:1.7;">Nažalost, u trenutku slanja vaše rezervacije mesta su se popunila.<br><br>
+          ? `<p style="color:#7a6b87;line-height:1.7;">Nažalost, u trenutku slanja vaše rezervacije mesta su se popunila.<br><br>
              <strong style="color:white;">Molimo vas da odaberete drugi termin.</strong></p>`
-          : `<p style="color:#94a3b8;line-height:1.7;">Unfortunately, the remaining spots were taken just before your request was submitted.<br><br>
+          : `<p style="color:#7a6b87;line-height:1.7;">Unfortunately, the remaining spots were taken just before your request was submitted.<br><br>
              <strong style="color:white;">Please select a different date.</strong></p>`,
         confirmButtonText: lang==='sr' ? '← Odaberi drugi termin' : '← Choose another date',
-        confirmButtonColor: '#f97316',
-        background: '#0f172a',
+        confirmButtonColor: '#52154E',
+        background: '#111344',
         color: '#fff',
         allowOutsideClick: false
       });
@@ -3678,12 +3676,12 @@ async function submitBooking() {
       btn.disabled=false; btn.textContent=t('s8.submit');
     } else {
       Swal.fire({icon:'error',title:'Greška',text:d.error||t('err.srv'),
-        confirmButtonColor:'#f97316',background:'#0f172a',color:'#fff'});
+        confirmButtonColor:'#52154E',background:'#111344',color:'#fff'});
       btn.disabled=false; btn.textContent=t('s8.submit');
     }
   } catch(e) {
     Swal.fire({icon:'error',title:'Greška',text:t('err.srv'),
-      confirmButtonColor:'#f97316',background:'#0f172a',color:'#fff'});
+      confirmButtonColor:'#52154E',background:'#111344',color:'#fff'});
     btn.disabled=false; btn.textContent=t('s8.submit');
   }
 }
@@ -3691,7 +3689,7 @@ async function submitBooking() {
 // ══════════ SCROLL NAV EFFECT
 window.addEventListener('scroll',()=>{
   document.getElementById('mainNav').style.background =
-    window.scrollY>50 ? 'rgba(8,13,26,.98)' : 'rgba(8,13,26,.92)';
+    window.scrollY>50 ? 'rgba(17,19,68,.98)' : 'rgba(17,19,68,.92)';
 });
 
 // ══════════ INIT

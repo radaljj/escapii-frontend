@@ -16,12 +16,12 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy:  #080d1a;
-      --navy2: #0d1b38;
-      --gold:  #f97316;
-      --gold2: #ea6d0e;
-      --white: #f1f5f9;
-      --gray:  #94a3b8;
+      --navy:  #EFE9E7;
+      --navy2: #FFFFFF;
+      --gold:  #52154E;
+      --gold2: #3d0f3a;
+      --white: #111344;
+      --gray:  #7a6b87;
       --green: #22c55e;
     }
     body {
@@ -45,7 +45,7 @@
       position: relative; z-index: 1;
       max-width: 520px; width: 100%;
       background: var(--navy2);
-      border: 1px solid rgba(255,255,255,.08);
+      border: 1px solid rgba(17,19,68,.08);
       border-radius: 28px;
       padding: 52px 48px;
       text-align: center;
@@ -64,7 +64,7 @@
     }
     .rv-spinner {
       width: 48px; height: 48px;
-      border: 3px solid rgba(249,115,22,.2);
+      border: 3px solid rgba(82,21,78,.2);
       border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin .8s linear infinite;
@@ -96,8 +96,8 @@
     .rv-envelope-placeholder {
       margin: 0 0 32px;
       padding: 40px 24px;
-      background: rgba(249,115,22,.06);
-      border: 2px dashed rgba(249,115,22,.25);
+      background: rgba(82,21,78,.06);
+      border: 2px dashed rgba(82,21,78,.25);
       border-radius: 20px;
       /* TODO: zamijeniti animacijom koverte */
     }
@@ -135,8 +135,8 @@
     .rv-meta-row {
       display: flex; align-items: center; gap: 14px;
       padding: 12px 16px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(17,19,68,.04);
+      border: 1px solid rgba(17,19,68,.07);
       border-radius: 12px;
       opacity: 0; transform: translateY(10px);
       transition: opacity .4s ease, transform .4s ease;
@@ -154,15 +154,15 @@
     /* ── CTA dugme ── */
     .rv-btn {
       display: inline-block;
-      background: var(--gold); color: var(--navy);
+      background: var(--gold); color: #FFFFFF;
       border: none; padding: 15px 40px;
       border-radius: 100px; font-size: 15px; font-weight: 800;
       cursor: pointer; text-decoration: none;
-      transition: all .2s; box-shadow: 0 8px 28px rgba(249,115,22,.35);
+      transition: all .2s; box-shadow: 0 8px 28px rgba(82,21,78,.35);
     }
     .rv-btn:hover {
       background: var(--gold2); transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(249,115,22,.45);
+      box-shadow: 0 12px 36px rgba(82,21,78,.45);
     }
 
     /* ── CONFETTI CANVAS ── */

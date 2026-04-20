@@ -16,14 +16,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --navy:    #07102a;
-  --navy2:   #0d1b38;
-  --navy3:   #162040;
-  --accent:  #f97316;
-  --white:   #ffffff;
-  --gray:    #94a3b8;
-  --gray2:   #64748b;
-  --border:  rgba(255,255,255,.08);
+  --navy:    #EFE9E7;
+  --navy2:   #FFFFFF;
+  --navy3:   #F5F3F1;
+  --accent:  #52154E;
+  --white:   #111344;
+  --gray:    #7a6b87;
+  --gray2:   #7a6b87;
+  --border:  rgba(17,19,68,.08);
 }
 
 body {
@@ -36,7 +36,7 @@ body {
 
 /* ── Header ── */
 .pp-header {
-  background: rgba(13,27,56,.95);
+  background: rgba(17,19,68,.95);
   border-bottom: 1px solid var(--border);
   padding: 18px 0;
   position: sticky;
@@ -70,7 +70,7 @@ body {
 
 /* ── Hero ── */
 .pp-hero {
-  background: linear-gradient(135deg, rgba(249,115,22,.08) 0%, transparent 60%),
+  background: linear-gradient(135deg, rgba(82,21,78,.08) 0%, transparent 60%),
               var(--navy2);
   border-bottom: 1px solid var(--border);
   padding: 56px 24px 48px;
@@ -80,8 +80,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(249,115,22,.12);
-  border: 1px solid rgba(249,115,22,.25);
+  background: rgba(82,21,78,.12);
+  border: 1px solid rgba(82,21,78,.25);
   border-radius: 100px;
   padding: 5px 14px;
   font-size: 12px;
@@ -161,7 +161,7 @@ body {
   line-height: 1.4;
 }
 .pp-toc ul li a:hover {
-  background: rgba(249,115,22,.1);
+  background: rgba(82,21,78,.1);
   color: var(--accent);
 }
 
@@ -187,8 +187,8 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: rgba(249,115,22,.12);
-  border: 1px solid rgba(249,115,22,.2);
+  background: rgba(82,21,78,.12);
+  border: 1px solid rgba(82,21,78,.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,7 +231,7 @@ body {
   font-size: 13.5px;
 }
 .pp-table thead {
-  background: rgba(249,115,22,.08);
+  background: rgba(82,21,78,.08);
 }
 .pp-table th {
   text-align: left;
@@ -294,7 +294,7 @@ body {
   padding: 16px;
   transition: border-color .2s;
 }
-.pp-right-card:hover { border-color: rgba(249,115,22,.3); }
+.pp-right-card:hover { border-color: rgba(82,21,78,.3); }
 .pp-right-card-title {
   font-size: 13px;
   font-weight: 600;
@@ -309,8 +309,8 @@ body {
 
 /* ── Notice box ── */
 .pp-notice {
-  background: rgba(249,115,22,.07);
-  border: 1px solid rgba(249,115,22,.2);
+  background: rgba(82,21,78,.07);
+  border: 1px solid rgba(82,21,78,.2);
   border-radius: 12px;
   padding: 16px 18px;
   display: flex;
@@ -389,8 +389,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(249,115,22,.1);
-  border: 1px solid rgba(249,115,22,.25);
+  background: rgba(82,21,78,.1);
+  border: 1px solid rgba(82,21,78,.25);
   border-radius: 100px;
   padding: 8px 18px;
   font-size: 13px;
@@ -400,7 +400,7 @@ body {
   transition: all .2s;
 }
 .pp-contact-link:hover {
-  background: rgba(249,115,22,.2);
+  background: rgba(82,21,78,.2);
   border-color: var(--accent);
 }
 
