@@ -140,8 +140,8 @@
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
       text-decoration: none; z-index: 10; display: inline-flex; align-items: center;
     }
-    .ty-logo img { height: 32px; width: auto; display: block; }
-    @media (max-width: 560px) { .ty-logo img { height: 26px; } }
+    .ty-logo img { height: 42px; width: auto; display: block; }
+    @media (max-width: 560px) { .ty-logo img { height: 34px; } }
 
     /* ── INSTAGRAM ── */
     .ty-ig {

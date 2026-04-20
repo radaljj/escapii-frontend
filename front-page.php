@@ -94,8 +94,8 @@
       transition: background .3s;
     }
     .esc-logo { display: inline-flex; align-items: center; text-decoration: none; }
-    .esc-logo img { height: 36px; width: auto; display: block; }
-    @media (max-width: 768px) { .esc-logo img { height: 28px; } }
+    .esc-logo img { height: 48px; width: auto; display: block; }
+    @media (max-width: 768px) { .esc-logo img { height: 36px; } }
     .nav-right { display: flex; align-items: center; gap: 20px; }
     .lang-wrap { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
     .lang-btn { padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer;

@@ -68,7 +68,7 @@ body {
   margin-bottom: 12px;
   display: flex; align-items: center; justify-content: center;
 }
-.login-logo img { height: 38px; width: auto; display: block; }
+.login-logo img { height: 50px; width: auto; display: block; }
 .login-subtitle {
   font-size: 13px;
   color: var(--gray);
@@ -122,7 +122,7 @@ body {
   justify-content: space-between;
 }
 .admin-logo { display: flex; align-items: center; gap: 10px; }
-.admin-logo img { height: 30px; width: auto; display: block; }
+.admin-logo img { height: 38px; width: auto; display: block; }
 .admin-logo small {
   font-size: 11px;
   font-weight: 600;
