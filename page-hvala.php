@@ -217,33 +217,42 @@
       height: 1px; margin: 12px 0;
       background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 6px, transparent 6px, transparent 12px);
     }
-    /* Desna barcode traka */
+    /* Desna dokument-stub traka */
     .bp-right {
-      width: 48px; flex-shrink: 0;
-      background: rgba(255,255,255,.03);
-      border-left: 1px solid rgba(255,255,255,.08);
+      width: 64px; flex-shrink: 0;
+      background: #f1f5f9;
+      border-left: 1px solid rgba(255,255,255,.06);
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start;
-      padding: 10px 8px 8px; gap: 6px;
+      padding: 14px 10px 10px; gap: 0;
     }
-    .bp-barcode {
+    .bp-doc-dot {
+      width: 9px; height: 9px;
+      background: var(--gold);
+      border-radius: 50%; flex-shrink: 0;
+      margin-bottom: 11px;
+      opacity: 0; transition: opacity .4s ease;
+    }
+    .bp-doc-dot.visible { opacity: 1; }
+    .bp-doc-lines {
       flex: 1; align-self: stretch;
-      display: flex; flex-direction: row;
-      align-items: stretch; gap: 0;
-      overflow: hidden;
+      display: flex; flex-direction: column;
+      justify-content: center; gap: 5px;
+      padding: 0 4px;
     }
-    .bp-barcode span {
-      display: block; flex-shrink: 0;
-      border-radius: 0;
-      background: rgba(255,255,255,.58);
+    .bp-doc-line {
+      height: 2.5px; border-radius: 2px;
+      background: #94a3b8;
+      opacity: 0; transition: opacity .3s ease;
     }
+    .bp-doc-line.visible { opacity: 1; }
     .bp-ref-small {
-      writing-mode: vertical-rl;
-      font-size: 7px; font-weight: 700;
-      color: rgba(255,255,255,.25);
-      letter-spacing: 1px; text-transform: uppercase;
-      flex-shrink: 0;
+      font-size: 6.5px; font-weight: 700;
+      color: #64748b;
+      letter-spacing: .8px; text-transform: uppercase;
+      flex-shrink: 0; margin-top: 10px;
       opacity: 0; transition: opacity .6s ease;
+      white-space: nowrap;
     }
     .bp-ref-small.visible { opacity: 1; }
     /* Ref badge ispod boarding pass-a */
@@ -271,7 +280,7 @@
       .ty-card { padding: 36px 24px; border-radius: 20px; }
       .bp-field { min-width: 55px; }
       .bp-value { font-size: 11px; }
-      .bp-right { width: 44px; }
+      .bp-right { width: 58px; }
     }
   </style>
 </head>
@@ -322,7 +331,8 @@
       </div>
     </div>
     <div class="bp-right">
-      <div class="bp-barcode" id="bpBarcode"></div>
+      <div class="bp-doc-dot" id="bpDocDot"></div>
+      <div class="bp-doc-lines" id="bpDocLines"></div>
       <div class="bp-ref-small" id="bp-ref-small">&nbsp;</div>
     </div>
   </div>
@@ -401,22 +411,24 @@ function typeIn(el, text, charDelay) {
   tick();
 }
 
-// Generiši barcode vizual (prave visine, širina varira kao pravi barkod)
+// Generiši dokument-stub (horizontalne linije + tačka kao na referentnoj slici)
 function buildBarcode() {
-  const bc = document.getElementById('bpBarcode');
-  if (!bc) return;
-  // Uzorak širina: 1=tanka, 2=srednja, 3=debela crta (+ razmak iza svake)
-  const pattern = [2,1,1,3,1,2,1,1,3,1,2,3,1,1,2,1,3,1,2,1,1,2,3,1,1,2,1,3,1,2];
-  pattern.forEach((w, i) => {
-    const s = document.createElement('span');
-    s.style.width = w + 'px';
-    s.style.marginRight = (w === 3) ? '3px' : '2px';
-    s.style.opacity = '0';
-    s.style.transition = 'opacity .35s ease ' + (i * 50) + 'ms';
-    bc.appendChild(s);
+  const container = document.getElementById('bpDocLines');
+  if (!container) return;
+  // Širine linija kao % od kontejnera — variraju kao redovi teksta
+  const widths = [88, 70, 92, 60, 78, 88, 65, 80, 55, 72, 85, 62, 75, 90];
+  widths.forEach((w, i) => {
+    const line = document.createElement('div');
+    line.className = 'bp-doc-line';
+    line.style.width = w + '%';
+    line.style.transitionDelay = (i * 70) + 'ms';
+    container.appendChild(line);
   });
+  // Pojavi tačku i linije kad se ostala polja završe
   setTimeout(() => {
-    bc.querySelectorAll('span').forEach(s => { s.style.opacity = '1'; });
+    const dot = document.getElementById('bpDocDot');
+    if (dot) dot.classList.add('visible');
+    container.querySelectorAll('.bp-doc-line').forEach(l => l.classList.add('visible'));
   }, 2600);
 }
 buildBarcode();
