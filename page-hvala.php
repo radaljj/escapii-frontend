@@ -219,25 +219,30 @@
     }
     /* Desna barcode traka */
     .bp-right {
-      width: 56px; flex-shrink: 0;
+      width: 48px; flex-shrink: 0;
       background: rgba(255,255,255,.03);
       border-left: 1px solid rgba(255,255,255,.08);
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 14px 8px; gap: 8px;
+      align-items: center; justify-content: flex-start;
+      padding: 10px 8px 8px; gap: 6px;
     }
     .bp-barcode {
-      display: flex; gap: 2px; height: 68px; align-items: flex-end;
+      flex: 1; align-self: stretch;
+      display: flex; flex-direction: row;
+      align-items: stretch; gap: 0;
+      overflow: hidden;
     }
     .bp-barcode span {
-      display: block; width: 2px; border-radius: 1px;
-      background: rgba(255,255,255,.55);
+      display: block; flex-shrink: 0;
+      border-radius: 0;
+      background: rgba(255,255,255,.58);
     }
     .bp-ref-small {
       writing-mode: vertical-rl;
       font-size: 7px; font-weight: 700;
-      color: rgba(255,255,255,.22);
+      color: rgba(255,255,255,.25);
       letter-spacing: 1px; text-transform: uppercase;
+      flex-shrink: 0;
       opacity: 0; transition: opacity .6s ease;
     }
     .bp-ref-small.visible { opacity: 1; }
@@ -266,7 +271,7 @@
       .ty-card { padding: 36px 24px; border-radius: 20px; }
       .bp-field { min-width: 55px; }
       .bp-value { font-size: 11px; }
-      .bp-right { width: 52px; }
+      .bp-right { width: 44px; }
     }
   </style>
 </head>
@@ -396,20 +401,20 @@ function typeIn(el, text, charDelay) {
   tick();
 }
 
-// Generiši barcode vizual (random visine stubića)
+// Generiši barcode vizual (prave visine, širina varira kao pravi barkod)
 function buildBarcode() {
   const bc = document.getElementById('bpBarcode');
   if (!bc) return;
-  const bars = 18;
-  for (let i = 0; i < bars; i++) {
+  // Uzorak širina: 1=tanka, 2=srednja, 3=debela crta (+ razmak iza svake)
+  const pattern = [2,1,1,3,1,2,1,1,3,1,2,3,1,1,2,1,3,1,2,1,1,2,3,1,1,2,1,3,1,2];
+  pattern.forEach((w, i) => {
     const s = document.createElement('span');
-    const h = Math.floor(Math.random() * 44) + 14; // 14–58px
-    s.style.height = h + 'px';
+    s.style.width = w + 'px';
+    s.style.marginRight = (w === 3) ? '3px' : '2px';
     s.style.opacity = '0';
-    s.style.transition = 'opacity .4s ease ' + (i * 40) + 'ms';
+    s.style.transition = 'opacity .35s ease ' + (i * 50) + 'ms';
     bc.appendChild(s);
-  }
-  // Pojavi stubice nakon kratkog odgođaja
+  });
   setTimeout(() => {
     bc.querySelectorAll('span').forEach(s => { s.style.opacity = '1'; });
   }, 2600);
