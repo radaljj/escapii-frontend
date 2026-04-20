@@ -93,8 +93,8 @@
       border-bottom: 1px solid rgba(255,255,255,.07);
       transition: background .3s;
     }
-    .esc-logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; text-decoration: none; color: white; }
-    .esc-logo span { color: var(--gold); }
+    .esc-logo { display: inline-flex; align-items: center; text-decoration: none; }
+    .esc-logo img { height: 28px; width: auto; display: block; }
     .nav-right { display: flex; align-items: center; gap: 20px; }
     .lang-wrap { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
     .lang-btn { padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
@@ -2085,7 +2085,7 @@
 <footer class="esc-footer">
   <div class="footer-main">
     <div class="footer-brand">
-      <a href="#" class="esc-logo">Escap<span>ii</span></a>
+      <a href="#" class="esc-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
       <p data-i18n="footer.desc">Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
       <div class="footer-social">
         <h4 data-i18n="footer.social">Pratite nas</h4>

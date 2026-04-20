@@ -35,10 +35,9 @@
     /* ── LOGO ── */
     .rv-logo {
       position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
-      text-decoration: none; color: white; z-index: 10;
+      text-decoration: none; z-index: 10; display: inline-flex; align-items: center;
     }
-    .rv-logo span { color: var(--gold); }
+    .rv-logo img { height: 24px; width: auto; display: block; }
 
     /* ── CARD ── */
     .rv-card {
@@ -178,7 +177,7 @@
 <body>
 
 <canvas id="rv-confetti"></canvas>
-<a href="/" class="rv-logo">Escap<span>ii</span></a>
+<a href="/" class="rv-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
 
 <div class="rv-card">
 

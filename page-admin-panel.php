@@ -65,12 +65,10 @@ body {
   box-shadow: 0 24px 64px rgba(0,0,0,.6);
 }
 .login-logo {
-  font-size: 28px;
-  font-weight: 900;
-  letter-spacing: -1px;
   margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: center;
 }
-.login-logo span { color: var(--accent); }
+.login-logo img { height: 28px; width: auto; display: block; }
 .login-subtitle {
   font-size: 13px;
   color: var(--gray);
@@ -123,8 +121,8 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.admin-logo { font-size: 20px; font-weight: 900; letter-spacing: -1px; }
-.admin-logo span { color: var(--accent); }
+.admin-logo { display: flex; align-items: center; gap: 10px; }
+.admin-logo img { height: 22px; width: auto; display: block; }
 .admin-logo small {
   font-size: 11px;
   font-weight: 600;
@@ -479,7 +477,7 @@ tbody tr:last-child td { border-bottom: none; }
 <!-- ══ LOGIN ══ -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
-    <div class="login-logo">Escap<span>ii</span></div>
+    <div class="login-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></div>
     <div class="login-subtitle">Admin Panel — unesite ključ za pristup</div>
     <div class="form-group">
       <label>Admin ključ</label>
@@ -504,7 +502,7 @@ tbody tr:last-child td { border-bottom: none; }
 <!-- ══ ADMIN PANEL ══ -->
 <div class="admin-wrap" id="adminWrap">
   <header class="admin-header">
-    <div class="admin-logo">Escap<span>ii</span> <small>Admin</small></div>
+    <div class="admin-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"><small>Admin</small></div>
     <button class="btn-logout" onclick="doLogout()">Odjavi se</button>
   </header>
 

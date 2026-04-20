@@ -53,13 +53,10 @@ body {
   justify-content: space-between;
 }
 .pp-logo {
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
   text-decoration: none;
-  color: var(--white);
+  display: inline-flex; align-items: center;
 }
-.pp-logo span { color: var(--accent); }
+.pp-logo img { height: 24px; width: auto; display: block; }
 .pp-back {
   font-size: 13px;
   color: var(--gray);
@@ -424,7 +421,7 @@ body {
 <!-- Header -->
 <header class="pp-header">
   <div class="pp-header-inner">
-    <a href="<?php echo home_url('/'); ?>" class="pp-logo">escap<span>ii</span></a>
+    <a href="<?php echo home_url('/'); ?>" class="pp-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
     <a href="<?php echo home_url('/'); ?>" class="pp-back">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       Nazad na sajt

@@ -138,10 +138,9 @@
     /* ── LOGO ── */
     .ty-logo {
       position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
-      text-decoration: none; color: white; z-index: 10;
+      text-decoration: none; z-index: 10; display: inline-flex; align-items: center;
     }
-    .ty-logo span { color: var(--gold); }
+    .ty-logo img { height: 24px; width: auto; display: block; }
 
     /* ── INSTAGRAM ── */
     .ty-ig {
@@ -288,7 +287,7 @@
 
 <canvas id="confetti-canvas"></canvas>
 
-<a href="/" class="ty-logo">Escap<span>ii</span></a>
+<a href="/" class="ty-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
 
 <div class="ty-card">
 
