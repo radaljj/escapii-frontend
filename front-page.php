@@ -1422,6 +1422,54 @@
     .terms-err-msg { color: #f87171; font-size: 12px; margin-top: -4px; display: none; padding: 0 16px 10px; }
     .terms-err-msg.visible { display: block; }
 
+/* ══════════════════════ LIGHT-BG SECTION OVERRIDES
+   All rgba(255,255,255,…) styles were designed for dark backgrounds.
+   Sections that now use white/parchment need dark equivalents.
+   ═══════════════════════════════════════════════════════════════ */
+
+    /* --- FAQ (white bg) ---------------------------------------- */
+    .faq-item { border-color: rgba(17,19,68,.1); background: rgba(17,19,68,.025); }
+    .faq-item.open { border-color: rgba(82,21,78,.35); background: rgba(82,21,78,.03); }
+    .faq-q { color: #111344; }
+    .faq-icon { border-color: rgba(17,19,68,.18); color: #7a6b87; }
+    .faq-a { color: #5a4f6a; }
+
+    /* --- Features (white bg) ------------------------------------ */
+    .feat-card { background: #F5F3F1; border-color: rgba(17,19,68,.08); }
+    .feat-card:hover { border-color: rgba(82,21,78,.3); background: rgba(82,21,78,.04); }
+    .feat-icon-wrap { background: rgba(82,21,78,.1); }
+
+    /* --- For Who (light bg) ------------------------------------- */
+    .who-card { background: rgba(17,19,68,.04); border-color: rgba(17,19,68,.1); }
+    .who-card.yes { background: rgba(82,21,78,.05); border-color: rgba(82,21,78,.18); }
+    .who-card.no  { background: rgba(239,68,68,.04); border-color: rgba(239,68,68,.14); }
+
+    /* --- Stats (parchment bg) ----------------------------------- */
+    .esc-stats { border-top-color: rgba(17,19,68,.08); border-bottom-color: rgba(17,19,68,.08); }
+    .stats-item { border-right-color: rgba(17,19,68,.1); }
+
+    /* --- Footer (parchment bg) ---------------------------------- */
+    .social-icon { background: rgba(17,19,68,.07); border-color: rgba(17,19,68,.12); color: #7a6b87; }
+    .footer-divider { background: rgba(17,19,68,.08); }
+
+    /* --- Booking: keep card DARK so all form styles work -------- */
+    .card { background: #111344; border-color: rgba(255,255,255,.1); }
+    .booking-progress .bp-bar { background: rgba(255,255,255,.12); }
+    .sn-dot { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+    .sn-item.active .sn-dot { background: var(--gold); border-color: var(--gold); color: #ffffff; }
+
+    /* --- Status modal (white bg card) --------------------------- */
+    .status-modal-card { border-color: rgba(17,19,68,.1); }
+    .status-field input {
+      background: rgba(17,19,68,.05); border-color: rgba(17,19,68,.14);
+      color: var(--white);
+    }
+    .status-result { border-top-color: rgba(17,19,68,.08); }
+
+    /* Manifesto quote (white bg) */
+    .mf-quote { background: rgba(82,21,78,.04); border-left-color: var(--accent); }
+    .mf-quote em { color: var(--accent3); }  /* was var(--teal)=#DAE0F2 — invisible on white */
+
 /* ══════════════════════ ANIMATIONS */
     @keyframes fadeUp   { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:none; } }
     @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:none; } }
@@ -2084,7 +2132,7 @@
 <footer class="esc-footer">
   <div class="footer-main">
     <div class="footer-brand">
-      <a href="#" class="esc-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
+      <a href="#" class="esc-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-black.svg" alt="Escapii"></a>
       <p data-i18n="footer.desc">Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
       <div class="footer-social">
         <h4 data-i18n="footer.social">Pratite nas</h4>
