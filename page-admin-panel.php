@@ -208,6 +208,16 @@ body {
   cursor: pointer; transition: all .2s;
 }
 .filter-btn.active, .filter-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--navy); }
+/* Destination */
+.bc-field--full { grid-column: 1 / -1; }
+.bc-dest-row { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+.bc-dest-input {
+  flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+  border-radius: 8px; padding: 8px 12px; color: var(--white); font-size: 13px;
+  font-family: inherit; outline: none; transition: border .2s;
+}
+.bc-dest-input:focus { border-color: var(--accent); }
+.bc-reveal-sent { color: #4ade80; font-size: 11px; font-weight: 600; }
 /* Notes */
 .bc-note-wrap { margin-top: 14px; border-top: 1px solid rgba(255,255,255,.06); padding-top: 12px; }
 .bc-note-row { display: flex; gap: 8px; align-items: flex-start; }
@@ -1267,6 +1277,21 @@ function renderBookings() {
         <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
         <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
         <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
+        <div class="bc-field bc-field--full">
+          <div class="bc-label">✈ Dodeljena destinacija</div>
+          <div class="bc-dest-row">
+            <input class="bc-dest-input" id="dest-${b.id}" type="text"
+              placeholder="npr. Barcelona"
+              value="${b.assignedDestination || ''}"
+              onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />
+            <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju (Enter)">✓</button>
+          </div>
+          <div class="bc-note-status" id="dest-status-${b.id}">
+            ${b.revealSentAt
+              ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">Reveal još nije poslan</span>' : '')}
+          </div>
+        </div>
       </div>
 
       ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
@@ -1322,6 +1347,35 @@ async function saveNote(id) {
   } catch {
     msg.textContent = '✗ Greška pri čuvanju';
     msg.style.color = 'var(--red)';
+  } finally {
+    btn.classList.remove('saving');
+    setTimeout(() => { msg.textContent = ''; }, 2500);
+  }
+}
+
+// ══ DESTINATION (API) ═════════════════════════════════════════════════════════
+async function saveDestination(id) {
+  const el  = document.getElementById(`dest-${id}`);
+  const btn = document.getElementById(`dest-btn-${id}`);
+  const msg = document.getElementById(`dest-status-${id}`);
+  if (!el) return;
+
+  btn.classList.add('saving');
+  msg.textContent = '';
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/destination`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ destination: el.value.trim() })
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].assignedDestination = updated.assignedDestination;
+    msg.innerHTML = '<span style="color:var(--green);font-size:11px;">✓ Sačuvano</span>';
+  } catch {
+    msg.innerHTML = '<span style="color:var(--red);font-size:11px;">✗ Greška pri čuvanju</span>';
   } finally {
     btn.classList.remove('saving');
     setTimeout(() => { msg.textContent = ''; }, 2500);
