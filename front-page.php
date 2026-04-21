@@ -185,7 +185,7 @@
       text-align: center; padding: 110px 24px 80px;
       position: relative; overflow: hidden;
       background:
-        linear-gradient(to bottom, rgba(15,45,53,.5) 0%, rgba(15,45,53,.82) 55%, rgba(239,233,231,1) 100%),
+        linear-gradient(to bottom, rgba(10,30,38,.45) 0%, rgba(10,30,38,.72) 55%, rgba(10,30,38,.88) 100%),
         url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1920&q=85') center/cover no-repeat;
     }
     .hero-eyebrow {
@@ -197,12 +197,13 @@
     }
     .hero-h1 {
       font-size: clamp(40px, 6.5vw, 84px); font-weight: 900;
+      color: #ffffff;
       line-height: 1.04; letter-spacing: -2.5px; margin-bottom: 28px;
       max-width: 900px; animation: fadeUp .9s .1s ease both;
     }
     .hero-h1 em { color: var(--gold); font-style: normal; }
     .hero-sub {
-      font-size: clamp(16px, 2vw, 21px); color: var(--gray);
+      font-size: clamp(16px, 2vw, 21px); color: rgba(255,255,255,0.72);
       max-width: 580px; line-height: 1.65; margin-bottom: 52px;
       animation: fadeUp .9s .2s ease both;
     }
@@ -224,8 +225,8 @@
     .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 48px rgba(202,138,113,.6); background: var(--gold3); }
     .btn-gold:active { transform: translateY(0) scale(.97); }
     .btn-ghost {
-      background: transparent; color: var(--white);
-      border: 2px solid rgba(255,255,255,.22);
+      background: transparent; color: rgba(255,255,255,0.9);
+      border: 2px solid rgba(255,255,255,.35);
       padding: 18px 44px; border-radius: 100px; font-size: 16px; font-weight: 700;
       cursor: pointer; transition: all .25s; position: relative; overflow: hidden;
     }
@@ -1200,8 +1201,8 @@
       justify-content: center; margin-top: 28px;
       animation: fadeUp .9s .45s ease both;
     }
-    .trust-badge { font-size: 13px; color: rgba(255,255,255,.55); font-weight: 600; display: flex; align-items: center; gap: 5px; }
-    .trust-sep { color: rgba(255,255,255,.2); }
+    .trust-badge { font-size: 13px; color: rgba(255,255,255,.72); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+    .trust-sep { color: rgba(255,255,255,.3); }
 
     /* ══════════════════════ FORM VALIDATION ALERT */
     .form-alert {
