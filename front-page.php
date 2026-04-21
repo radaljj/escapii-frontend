@@ -1452,11 +1452,52 @@
     .social-icon { background: rgba(17,19,68,.07); border-color: rgba(17,19,68,.12); color: #7a6b87; }
     .footer-divider { background: rgba(17,19,68,.08); }
 
-    /* --- Booking: keep card DARK so all form styles work -------- */
-    .card { background: #111344; border-color: rgba(255,255,255,.1); }
+    /* --- Booking card — dark interior, all text must be light --- */
+    .card {
+      background: #1a1230;            /* deep purple-midnight */
+      border-color: rgba(255,255,255,.08);
+    }
+    /* Headings and hint text inside card (inherit dark from body → must override) */
+    .card h2    { color: #ffffff; }
+    .card .hint { color: rgba(255,255,255,.45); }
+
+    /* Passenger items */
+    .pax-num  { color: #F9CFF2 !important; }  /* Petal Frost — readable on dark */
+    .pax-item { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1); }
+    .pax-field label { color: rgba(255,255,255,.5); }
+    .pax-input { color: #ffffff; }
+    .pax-input::placeholder { color: rgba(255,255,255,.28); }
+    .pax-select { color: #ffffff; }
+    .pax-select option { background: #1a1230; color: #ffffff; }
+
+    /* Counter/trav inside card */
+    .trav-info h3 { color: #ffffff; }
+    .trav-row { background: rgba(255,255,255,.06); }
+
+    /* Choices.js — selected value lighter */
+    .choices__list--single .choices__item.choices__item--selectable:not(.choices__placeholder) {
+      color: #DAE0F2 !important;
+    }
+
+    /* Progress bar + step nav */
     .booking-progress .bp-bar { background: rgba(255,255,255,.12); }
     .sn-dot { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
     .sn-item.active .sn-dot { background: var(--gold); border-color: var(--gold); color: #ffffff; }
+
+    /* Price box inside card */
+    .pr-row { border-bottom-color: rgba(255,255,255,.07); }
+
+    /* Terms checkboxes */
+    .terms-check-row { border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.03); }
+
+    /* Date rows — dr-daynum was 'white' which is fine on dark */
+    .month-body { background: rgba(0,0,0,.2); }
+
+    /* Step nav labels */
+    .sn-label { color: rgba(255,255,255,.4); }
+
+    /* No-dates title */
+    .no-dates-title { color: #ffffff; }
 
     /* --- Status modal (white bg card) --------------------------- */
     .status-modal-card { border-color: rgba(17,19,68,.1); }
