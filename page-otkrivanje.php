@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Template Name: Otkrivanje Destinacije
  * Prikazuje se kada korisnik klikne magic link iz reveal emaila.
@@ -18,10 +18,10 @@
     :root {
       --navy:  #EFE9E7;
       --navy2: #FFFFFF;
-      --gold:  #52154E;
-      --gold2: #3d0f3a;
-      --white: #111344;
-      --gray:  #7a6b87;
+      --gold:  #CA8A71;
+      --gold2: #B57560;
+      --white: #2D5F6B;
+      --gray:  #7A9FA8;
       --green: #22c55e;
     }
     body {
@@ -45,7 +45,7 @@
       position: relative; z-index: 1;
       max-width: 520px; width: 100%;
       background: var(--navy2);
-      border: 1px solid rgba(17,19,68,.08);
+      border: 1px solid rgba(15,45,53,.08);
       border-radius: 28px;
       padding: 52px 48px;
       text-align: center;
@@ -64,7 +64,7 @@
     }
     .rv-spinner {
       width: 48px; height: 48px;
-      border: 3px solid rgba(82,21,78,.2);
+      border: 3px solid rgba(202,138,113,.2);
       border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin .8s linear infinite;
@@ -96,8 +96,8 @@
     .rv-envelope-placeholder {
       margin: 0 0 32px;
       padding: 40px 24px;
-      background: rgba(82,21,78,.06);
-      border: 2px dashed rgba(82,21,78,.25);
+      background: rgba(202,138,113,.06);
+      border: 2px dashed rgba(202,138,113,.25);
       border-radius: 20px;
       /* TODO: zamijeniti animacijom koverte */
     }
@@ -135,8 +135,8 @@
     .rv-meta-row {
       display: flex; align-items: center; gap: 14px;
       padding: 12px 16px;
-      background: rgba(17,19,68,.04);
-      border: 1px solid rgba(17,19,68,.07);
+      background: rgba(15,45,53,.04);
+      border: 1px solid rgba(15,45,53,.07);
       border-radius: 12px;
       opacity: 0; transform: translateY(10px);
       transition: opacity .4s ease, transform .4s ease;
@@ -158,11 +158,11 @@
       border: none; padding: 15px 40px;
       border-radius: 100px; font-size: 15px; font-weight: 800;
       cursor: pointer; text-decoration: none;
-      transition: all .2s; box-shadow: 0 8px 28px rgba(82,21,78,.35);
+      transition: all .2s; box-shadow: 0 8px 28px rgba(202,138,113,.35);
     }
     .rv-btn:hover {
       background: var(--gold2); transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(82,21,78,.45);
+      box-shadow: 0 12px 36px rgba(202,138,113,.45);
     }
 
     /* ── CONFETTI CANVAS ── */

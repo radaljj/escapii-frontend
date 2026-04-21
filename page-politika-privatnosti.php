@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Template Name: Privacy Policy
  */
@@ -19,11 +19,11 @@
   --navy:    #EFE9E7;
   --navy2:   #FFFFFF;
   --navy3:   #F5F3F1;
-  --accent:  #52154E;
-  --white:   #111344;
-  --gray:    #7a6b87;
-  --gray2:   #7a6b87;
-  --border:  rgba(17,19,68,.08);
+  --accent:  #CA8A71;
+  --white:   #2D5F6B;
+  --gray:    #7A9FA8;
+  --gray2:   #7A9FA8;
+  --border:  rgba(15,45,53,.08);
 }
 
 body {
@@ -36,7 +36,7 @@ body {
 
 /* ── Header ── */
 .pp-header {
-  background: rgba(17,19,68,.95);
+  background: rgba(15,45,53,.95);
   border-bottom: 1px solid var(--border);
   padding: 18px 0;
   position: sticky;
@@ -70,7 +70,7 @@ body {
 
 /* ── Hero ── */
 .pp-hero {
-  background: linear-gradient(135deg, rgba(82,21,78,.08) 0%, transparent 60%),
+  background: linear-gradient(135deg, rgba(202,138,113,.08) 0%, transparent 60%),
               var(--navy2);
   border-bottom: 1px solid var(--border);
   padding: 56px 24px 48px;
@@ -80,8 +80,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(82,21,78,.12);
-  border: 1px solid rgba(82,21,78,.25);
+  background: rgba(202,138,113,.12);
+  border: 1px solid rgba(202,138,113,.25);
   border-radius: 100px;
   padding: 5px 14px;
   font-size: 12px;
@@ -161,7 +161,7 @@ body {
   line-height: 1.4;
 }
 .pp-toc ul li a:hover {
-  background: rgba(82,21,78,.1);
+  background: rgba(202,138,113,.1);
   color: var(--accent);
 }
 
@@ -187,8 +187,8 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: rgba(82,21,78,.12);
-  border: 1px solid rgba(82,21,78,.2);
+  background: rgba(202,138,113,.12);
+  border: 1px solid rgba(202,138,113,.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,7 +231,7 @@ body {
   font-size: 13.5px;
 }
 .pp-table thead {
-  background: rgba(82,21,78,.08);
+  background: rgba(202,138,113,.08);
 }
 .pp-table th {
   text-align: left;
@@ -294,7 +294,7 @@ body {
   padding: 16px;
   transition: border-color .2s;
 }
-.pp-right-card:hover { border-color: rgba(82,21,78,.3); }
+.pp-right-card:hover { border-color: rgba(202,138,113,.3); }
 .pp-right-card-title {
   font-size: 13px;
   font-weight: 600;
@@ -309,8 +309,8 @@ body {
 
 /* ── Notice box ── */
 .pp-notice {
-  background: rgba(82,21,78,.07);
-  border: 1px solid rgba(82,21,78,.2);
+  background: rgba(202,138,113,.07);
+  border: 1px solid rgba(202,138,113,.2);
   border-radius: 12px;
   padding: 16px 18px;
   display: flex;
@@ -389,8 +389,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(82,21,78,.1);
-  border: 1px solid rgba(82,21,78,.25);
+  background: rgba(202,138,113,.1);
+  border: 1px solid rgba(202,138,113,.25);
   border-radius: 100px;
   padding: 8px 18px;
   font-size: 13px;
@@ -400,7 +400,7 @@ body {
   transition: all .2s;
 }
 .pp-contact-link:hover {
-  background: rgba(82,21,78,.2);
+  background: rgba(202,138,113,.2);
   border-color: var(--accent);
 }
 

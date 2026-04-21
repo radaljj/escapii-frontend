@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Template Name: Thank You Page
  * Prikazuje se nakon uspešnog slanja booking upita.
@@ -18,12 +18,12 @@
     :root {
       --navy:   #EFE9E7;
       --navy2:  #FFFFFF;
-      --gold:   #52154E;
-      --gold2:  #3d0f3a;
-      --white:  #111344;
-      --gray:   #7a6b87;
+      --gold:   #CA8A71;
+      --gold2:  #B57560;
+      --white:  #2D5F6B;
+      --gray:   #7A9FA8;
       --green:  #22c55e;
-      --teal:   #DAE0F2;
+      --teal:   #BFD8DE;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -43,7 +43,7 @@
       position: relative; z-index: 1;
       max-width: 560px; width: 100%;
       background: var(--navy2);
-      border: 1px solid rgba(17,19,68,.08);
+      border: 1px solid rgba(15,45,53,.08);
       border-radius: 28px;
       padding: 52px 48px;
       text-align: center;
@@ -82,8 +82,8 @@
 
     /* ── REF BADGE ── */
     .ty-ref {
-      background: rgba(82,21,78,.1);
-      border: 1px solid rgba(82,21,78,.25);
+      background: rgba(202,138,113,.1);
+      border: 1px solid rgba(202,138,113,.25);
       border-radius: 14px;
       padding: 18px 24px;
       margin-bottom: 36px;
@@ -93,7 +93,7 @@
       text-transform: uppercase; color: var(--gray); margin-bottom: 6px;
     }
     .ty-ref-code {
-      font-size: 24px; font-weight: 900; color: #52154E;
+      font-size: 24px; font-weight: 900; color: #CA8A71;
       letter-spacing: 2px;
     }
 
@@ -105,14 +105,14 @@
     .ty-step {
       display: flex; align-items: flex-start; gap: 16px;
       padding: 16px 0;
-      border-bottom: 1px solid rgba(17,19,68,.06);
+      border-bottom: 1px solid rgba(15,45,53,.06);
     }
     .ty-step:last-child { border-bottom: none; }
     .ty-step-num {
       flex-shrink: 0;
       width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(82,21,78,.15);
-      border: 1px solid rgba(82,21,78,.3);
+      background: rgba(202,138,113,.15);
+      border: 1px solid rgba(202,138,113,.3);
       display: flex; align-items: center; justify-content: center;
       font-size: 12px; font-weight: 800; color: var(--gold);
       margin-top: 1px;
@@ -122,7 +122,7 @@
       font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 2px;
     }
     .ty-step-desc { font-size: 13px; color: var(--gray); line-height: 1.5; }
-    .ty-step-desc strong { color: rgba(17,19,68,.85); }
+    .ty-step-desc strong { color: rgba(15,45,53,.85); }
 
     /* ── BUTTON ── */
     .ty-btn {
@@ -131,9 +131,9 @@
       border: none; padding: 15px 40px;
       border-radius: 100px; font-size: 15px; font-weight: 800;
       cursor: pointer; text-decoration: none;
-      transition: all .2s; box-shadow: 0 8px 28px rgba(82,21,78,.35);
+      transition: all .2s; box-shadow: 0 8px 28px rgba(202,138,113,.35);
     }
-    .ty-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(82,21,78,.45); }
+    .ty-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(202,138,113,.45); }
 
     /* ── LOGO ── */
     .ty-logo {
@@ -153,7 +153,7 @@
     /* ── BOARDING PASS ── */
     .bp-wrap {
       display: flex; width: 100%;
-      background: #1a1230;
+      background: #0D2E38;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 16px;
       overflow: hidden;
@@ -220,7 +220,7 @@
     /* Desna dokument-stub traka */
     .bp-right {
       width: 64px; flex-shrink: 0;
-      background: #111344;
+      background: #2D5F6B;
       border-left: 1px solid rgba(255,255,255,.06);
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start;
@@ -242,7 +242,7 @@
     }
     .bp-doc-line {
       height: 2.5px; border-radius: 2px;
-      background: #7a6b87;
+      background: #7A9FA8;
       opacity: 0; transition: opacity .3s ease;
     }
     .bp-doc-line.visible { opacity: 1; }
@@ -257,8 +257,8 @@
     .bp-ref-small.visible { opacity: 1; }
     /* Ref badge ispod boarding pass-a */
     .bp-refbadge {
-      background: rgba(82,21,78,.08);
-      border: 1px solid rgba(82,21,78,.2);
+      background: rgba(202,138,113,.08);
+      border: 1px solid rgba(202,138,113,.2);
       border-radius: 10px;
       padding: 12px 24px;
       margin-bottom: 28px; margin-top: -20px;
@@ -272,7 +272,7 @@
       margin-bottom: 5px; display: block;
     }
     .bp-refbadge-value {
-      font-size: 20px; font-weight: 900; color: #52154E;
+      font-size: 20px; font-weight: 900; color: #CA8A71;
       letter-spacing: 2px; font-family: 'Courier New', monospace;
     }
 
@@ -295,7 +295,7 @@
   <div class="ty-icon">✓</div>
 
   <h1 class="ty-h1">Upit je primljen!</h1>
-  <p class="ty-sub">Javićemo ti se u roku od <strong style="color:#111344">24 sata</strong> sa svim detaljima. Tvoje tajno putovanje te čeka!</p>
+  <p class="ty-sub">Javićemo ti se u roku od <strong style="color:#2D5F6B">24 sata</strong> sa svim detaljima. Tvoje tajno putovanje te čeka!</p>
 
   <!-- BOARDING PASS -->
   <div class="bp-wrap" id="boardingPass">
