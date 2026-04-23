@@ -1416,16 +1416,11 @@ function fmtTs(iso) {
 }
 
 function getBtnAttrs(b, type) {
-  var days = b.departureDate
-    ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
-    : 999;
   if (type === 'reveal') {
     if (b.revealSentAt)  return 'disabled title="Reveal je već poslan"';
-    if (days > 5)        return 'disabled title="Prerano — polazak je za ' + days + ' dana (max 5 dana pre)"';
     return 'onclick="sendReveal(' + b.id + ')"';
   } else {
     if (b.forecastSentAt) return 'disabled title="Prognoza je već poslata"';
-    if (days > 10)        return 'disabled title="Prerano — polazak je za ' + days + ' dana (max 10 dana pre)"';
     return 'onclick="sendForecast(' + b.id + ')"';
   }
 }
