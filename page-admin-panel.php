@@ -1311,16 +1311,30 @@ function renderBookings() {
           </div>
           ${b.assignedDestination ? `
           <div class="bc-send-row">
+            ${(() => {
+              const daysUntil = b.departureDate
+                ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
+                : 999;
+              const revealAlready  = !!b.revealSentAt;
+              const forecastAlready = !!b.forecastSentAt;
+              const revealTooEarly  = !revealAlready  && daysUntil > 5;
+              const forecastTooEarly = !forecastAlready && daysUntil > 10;
+              return `
             <button class="bc-btn-reveal"
               id="btn-reveal-${b.id}"
-              ${b.revealSentAt ? 'disabled title="Reveal je već poslan"' : `onclick="sendReveal(${b.id})"`}>
-              ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
+              ${revealAlready   ? 'disabled title="Reveal je već poslan"'
+                : revealTooEarly  ? \`disabled title="Prerano — polazak je za \${daysUntil} dana (max 5 dana pre)"\`
+                : \`onclick="sendReveal(\${b.id})"\`}>
+              ✉ ${revealAlready ? 'Reveal poslan' : 'Pošalji Reveal'}
             </button>
             <button class="bc-btn-forecast"
               id="btn-forecast-${b.id}"
-              ${b.forecastSentAt ? 'disabled title="Prognoza je već poslata"' : `onclick="sendForecast(${b.id})"`}>
-              🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
-            </button>
+              ${forecastAlready  ? 'disabled title="Prognoza je već poslata"'
+                : forecastTooEarly ? \`disabled title="Prerano — polazak je za \${daysUntil} dana (max 10 dana pre)"\`
+                : \`onclick="sendForecast(\${b.id})"\`}>
+              🌤 ${forecastAlready ? 'Prognoza poslata' : 'Pošalji Prognozu'}
+            </button>`;
+            })()}
           </div>` : ''}
         </div>
       </div>
@@ -1440,7 +1454,10 @@ async function sendReveal(id) {
   try {
     const r = await fetch(`${API}/api/admin/bookings/${id}/send-reveal`, {
       method: 'POST',
-      headers: { 'X-Admin-Key': ADMIN_KEY }
+      headers: {
+        'X-Admin-Key': ADMIN_KEY,
+        'X-Frontend-Url': '<?php echo esc_url(home_url()); ?>'
+      }
     });
     const data = await r.json();
 
