@@ -1311,30 +1311,12 @@ function renderBookings() {
           </div>
           ${b.assignedDestination ? `
           <div class="bc-send-row">
-            ${(() => {
-              const daysUntil = b.departureDate
-                ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
-                : 999;
-              const revealAlready  = !!b.revealSentAt;
-              const forecastAlready = !!b.forecastSentAt;
-              const revealTooEarly  = !revealAlready  && daysUntil > 5;
-              const forecastTooEarly = !forecastAlready && daysUntil > 10;
-              return `
-            <button class="bc-btn-reveal"
-              id="btn-reveal-${b.id}"
-              ${revealAlready   ? 'disabled title="Reveal je već poslan"'
-                : revealTooEarly  ? \`disabled title="Prerano — polazak je za \${daysUntil} dana (max 5 dana pre)"\`
-                : \`onclick="sendReveal(\${b.id})"\`}>
-              ✉ ${revealAlready ? 'Reveal poslan' : 'Pošalji Reveal'}
+            <button class="bc-btn-reveal" id="btn-reveal-${b.id}" ${getBtnAttrs(b, 'reveal')}>
+              ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
             </button>
-            <button class="bc-btn-forecast"
-              id="btn-forecast-${b.id}"
-              ${forecastAlready  ? 'disabled title="Prognoza je već poslata"'
-                : forecastTooEarly ? \`disabled title="Prerano — polazak je za \${daysUntil} dana (max 10 dana pre)"\`
-                : \`onclick="sendForecast(\${b.id})"\`}>
-              🌤 ${forecastAlready ? 'Prognoza poslata' : 'Pošalji Prognozu'}
-            </button>`;
-            })()}
+            <button class="bc-btn-forecast" id="btn-forecast-${b.id}" ${getBtnAttrs(b, 'forecast')}>
+              🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
+            </button>
           </div>` : ''}
         </div>
       </div>
@@ -1431,6 +1413,21 @@ async function saveDestination(id) {
 
 function fmtTs(iso) {
   return new Date(iso).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function getBtnAttrs(b, type) {
+  var days = b.departureDate
+    ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
+    : 999;
+  if (type === 'reveal') {
+    if (b.revealSentAt)  return 'disabled title="Reveal je već poslan"';
+    if (days > 5)        return 'disabled title="Prerano — polazak je za ' + days + ' dana (max 5 dana pre)"';
+    return 'onclick="sendReveal(' + b.id + ')"';
+  } else {
+    if (b.forecastSentAt) return 'disabled title="Prognoza je već poslata"';
+    if (days > 10)        return 'disabled title="Prerano — polazak je za ' + days + ' dana (max 10 dana pre)"';
+    return 'onclick="sendForecast(' + b.id + ')"';
+  }
 }
 
 async function sendReveal(id) {

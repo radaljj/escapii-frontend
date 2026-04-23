@@ -351,11 +351,6 @@
       transition: transform .4s;
     }
     .dest-card-c:hover img { transform: scale(1.08); }
-    .dest-card-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 40px 16px 18px;
-      background: linear-gradient(to top, rgba(15,45,53,.95) 0%, transparent 100%);
-    }
     .dest-card-name { font-size: 16px; font-weight: 800; color: white; }
     .dest-card-ctry { font-size: 12px; color: var(--gray); margin-top: 3px; }
     .dest-mystery-row {
@@ -2814,10 +2809,6 @@ function buildCarousel() {
   const html     = [...shuffled, ...shuffled].map(d => `
     <div class="dest-card-c">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">${destDisplayName(d.name)}</div>
-        <div class="dest-card-ctry">${FLAGS[d.country]||'🌍'} ${d.country}</div>
-      </div>
     </div>
   `).join('');
   track.innerHTML = html;
