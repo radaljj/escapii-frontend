@@ -218,6 +218,21 @@ body {
 }
 .bc-dest-input:focus { border-color: var(--accent); }
 .bc-reveal-sent { color: #4ade80; font-size: 11px; font-weight: 600; }
+/* Manual send buttons */
+.bc-send-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.bc-btn-reveal, .bc-btn-forecast {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px; border: none;
+  font-size: 12px; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all .2s;
+}
+.bc-btn-reveal  { background: rgba(74,222,128,.12); color: #4ade80; border: 1px solid rgba(74,222,128,.25); }
+.bc-btn-reveal:hover  { background: rgba(74,222,128,.22); }
+.bc-btn-forecast { background: rgba(56,189,248,.12); color: #38bdf8; border: 1px solid rgba(56,189,248,.25); }
+.bc-btn-forecast:hover { background: rgba(56,189,248,.22); }
+.bc-btn-reveal:disabled, .bc-btn-forecast:disabled {
+  opacity: 0.35; cursor: not-allowed;
+}
 /* Notes */
 .bc-note-wrap { margin-top: 14px; border-top: 1px solid rgba(255,255,255,.06); padding-top: 12px; }
 .bc-note-row { display: flex; gap: 8px; align-items: flex-start; }
@@ -1286,11 +1301,27 @@ function renderBookings() {
               onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />
             <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju (Enter)">✓</button>
           </div>
-          <div class="bc-note-status" id="dest-status-${b.id}">
+          <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
             ${b.revealSentAt
               ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
-              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">Reveal još nije poslan</span>' : '')}
+              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">✉ Reveal još nije poslan</span>' : '')}
+            ${b.forecastSentAt
+              ? `<span style="color:#38bdf8;font-size:11px;font-weight:600;">🌤 Prognoza poslata ${new Date(b.forecastSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">🌤 Prognoza još nije poslata</span>' : '')}
           </div>
+          ${b.assignedDestination ? `
+          <div class="bc-send-row">
+            <button class="bc-btn-reveal"
+              id="btn-reveal-${b.id}"
+              ${b.revealSentAt ? 'disabled title="Reveal je već poslan"' : `onclick="sendReveal(${b.id})"`}>
+              ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
+            </button>
+            <button class="bc-btn-forecast"
+              id="btn-forecast-${b.id}"
+              ${b.forecastSentAt ? 'disabled title="Prognoza je već poslata"' : `onclick="sendForecast(${b.id})"`}>
+              🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
+            </button>
+          </div>` : ''}
         </div>
       </div>
 
@@ -1379,6 +1410,119 @@ async function saveDestination(id) {
   } finally {
     btn.classList.remove('saving');
     setTimeout(() => { msg.textContent = ''; }, 2500);
+  }
+}
+
+// ══ MANUAL SEND REVEAL / FORECAST ════════════════════════════════════════════
+
+function fmtTs(iso) {
+  return new Date(iso).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+async function sendReveal(id) {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Pošalji Reveal email?',
+    html: '<span style="color:#94a3b8;font-size:13px;">Korisniku će biti poslan email sa destinacijom i magic linkom.<br>Nakon slanja <strong style="color:white;">automatsko slanje se neće ponoviti</strong> za ovaj booking.</span>',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '✉ Pošalji',
+    cancelButtonText: 'Otkaži',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#22c55e',
+    cancelButtonColor: '#374151',
+  });
+  if (!isConfirmed) return;
+
+  const btn = document.getElementById(`btn-reveal-${id}`);
+  btn.disabled = true;
+  btn.textContent = '⏳ Šaljem...';
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/send-reveal`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    const data = await r.json();
+
+    if (!r.ok) {
+      throw new Error(data.message || data.error || 'Greška pri slanju.');
+    }
+
+    // Ažuriraj lokalni cache i UI
+    const now = new Date().toISOString();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].revealSentAt = now;
+
+    btn.textContent = '✉ Reveal poslan';
+    btn.title = 'Reveal je već poslan';
+
+    const statusEl = document.getElementById(`dest-status-${id}`);
+    if (statusEl) {
+      const old = statusEl.querySelector('.rv-not-sent');
+      if (old) old.remove();
+      const span = document.createElement('span');
+      span.className = 'bc-reveal-sent';
+      span.textContent = `✉ Reveal poslan ${fmtTs(now)}`;
+      statusEl.prepend(span);
+    }
+
+    Swal.fire({ icon: 'success', title: 'Poslato!', text: data.message, background: '#0b1929', color: '#fff', timer: 2500, showConfirmButton: false });
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = '✉ Pošalji Reveal';
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0b1929', color: '#fff' });
+  }
+}
+
+async function sendForecast(id) {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Pošalji Prognozu?',
+    html: '<span style="color:#94a3b8;font-size:13px;">Korisniku će biti poslata vremenska prognoza za putovanje.<br>Nakon slanja <strong style="color:white;">automatsko slanje se neće ponoviti</strong> za ovaj booking.</span>',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: '🌤 Pošalji',
+    cancelButtonText: 'Otkaži',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#38bdf8',
+    cancelButtonColor: '#374151',
+  });
+  if (!isConfirmed) return;
+
+  const btn = document.getElementById(`btn-forecast-${id}`);
+  btn.disabled = true;
+  btn.textContent = '⏳ Preuzimam prognozu...';
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/send-forecast`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    const data = await r.json();
+
+    if (!r.ok) {
+      throw new Error(data.message || data.error || 'Greška pri slanju.');
+    }
+
+    const now = new Date().toISOString();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].forecastSentAt = now;
+
+    btn.textContent = '🌤 Prognoza poslata';
+    btn.title = 'Prognoza je već poslata';
+
+    const statusEl = document.getElementById(`dest-status-${id}`);
+    if (statusEl) {
+      const span = document.createElement('span');
+      span.style.cssText = 'color:#38bdf8;font-size:11px;font-weight:600;';
+      span.textContent = `🌤 Prognoza poslata ${fmtTs(now)}`;
+      statusEl.appendChild(span);
+    }
+
+    Swal.fire({ icon: 'success', title: 'Poslato!', text: data.message, background: '#0b1929', color: '#fff', timer: 2500, showConfirmButton: false });
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = '🌤 Pošalji Prognozu';
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0b1929', color: '#fff' });
   }
 }
 
