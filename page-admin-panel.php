@@ -569,8 +569,9 @@ tbody tr:last-child td { border-bottom: none; }
             <input type="text" class="form-input" id="fDeparture" placeholder="Izaberi datum...">
           </div>
           <div>
-            <label class="field-label">Datum povratka <span class="req">*</span></label>
-            <input type="text" class="form-input" id="fReturn" placeholder="Izaberi datum...">
+            <label class="field-label">Datum povratka</label>
+            <input type="text" class="form-input" id="fReturn" placeholder="Automatski se računa..."
+                   readonly style="opacity:.55;cursor:default;">
           </div>
           <div>
             <label class="field-label">Dostupna mesta <span class="req">*</span></label>
@@ -754,7 +755,8 @@ async function initAdmin() {
   });
 
   nightsTs = new TomSelect('#fNights', {
-    create: false, allowEmptyOption: false, controlInput: null
+    create: false, allowEmptyOption: false, controlInput: null,
+    onChange() { autoFillReturn(); }
   });
 
   initDestSelect();
@@ -921,13 +923,13 @@ async function addDate() {
   const airport  = getAdminAirport();
   const nights   = getAdminNights();
   const depDate  = document.getElementById('fDeparture')._flatpickr?.selectedDates[0];
-  const retDate  = document.getElementById('fReturn')._flatpickr?.selectedDates[0];
+  const retDate  = window._fReturnDate;
   const slots    = parseInt(document.getElementById('fSlots').value);
   const price    = parseInt(document.getElementById('fPrice').value);
   const destIds  = destTomSelect ? destTomSelect.getValue().map(Number) : [];
 
-  if (!depDate || !retDate) {
-    Swal.fire({ icon: 'warning', title: 'Nedostaju datumi', text: 'Izaberite datum polaska i povratka.', confirmButtonText: 'OK' });
+  if (!depDate) {
+    Swal.fire({ icon: 'warning', title: 'Nedostaje datum', text: 'Izaberite datum polaska.', confirmButtonText: 'OK' });
     return;
   }
 
@@ -969,7 +971,8 @@ function fmtIso(date) {
 
 function resetForm() {
   document.getElementById('fDeparture')._flatpickr?.clear();
-  document.getElementById('fReturn')._flatpickr?.clear();
+  document.getElementById('fReturn').value = '';
+  window._fReturnDate = null;
   document.getElementById('fSlots').value = 50;
   document.getElementById('fPrice').value = 279;
   if (destTomSelect) destTomSelect.clear();
@@ -1101,22 +1104,28 @@ async function deleteDate(id) {
 }
 
 // ══ FLATPICKR ══
+function autoFillReturn() {
+  const depPicker = document.getElementById('fDeparture')._flatpickr;
+  if (!depPicker?.selectedDates[0]) return;
+  const nights = getAdminNights();
+  const ret = new Date(depPicker.selectedDates[0]);
+  ret.setDate(ret.getDate() + nights);
+  // Format dd.mm.yyyy for display
+  const d = String(ret.getDate()).padStart(2, '0');
+  const m = String(ret.getMonth() + 1).padStart(2, '0');
+  const y = ret.getFullYear();
+  document.getElementById('fReturn').value = `${d}.${m}.${y}`;
+  window._fReturnDate = ret;
+}
+
 function initFlatpickr() {
   const depPicker = flatpickr('#fDeparture', {
     locale: 'sr',
     dateFormat: 'd.m.Y',
     minDate: 'today',
-    onChange([date]) {
-      retPicker.set('minDate', date);
-    }
-  });
-  const retPicker = flatpickr('#fReturn', {
-    locale: 'sr',
-    dateFormat: 'd.m.Y',
-    minDate: 'today'
+    onChange() { autoFillReturn(); }
   });
   document.getElementById('fDeparture')._flatpickr = depPicker;
-  document.getElementById('fReturn')._flatpickr = retPicker;
 }
 
 // ══ TABS ══
