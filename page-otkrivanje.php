@@ -1,9 +1,8 @@
 <?php
 /**
  * Template Name: Otkrivanje Destinacije
- * Prikazuje se kada korisnik klikne magic link iz reveal emaila.
- * URL: /otkrivanje?token=abc123
  */
+$logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -35,26 +34,43 @@
       z-index: 0;
     }
 
+    /* ── Background floating planes ── */
+    .bg-planes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .bg-plane {
+      position: absolute;
+      opacity: 0;
+      animation: bg-fly linear infinite;
+    }
+    .bg-plane svg { display: block; }
+
+    @keyframes bg-fly {
+      0%   { opacity: 0; transform: translate(0, 0)     rotate(var(--rot)); }
+      8%   { opacity: var(--max-op); }
+      92%  { opacity: var(--max-op); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+    }
+
     /* ── Logo top ── */
     .rv-logo {
       position: fixed;
-      top: 22px;
+      top: 24px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 21px;
-      font-weight: normal;
-      color: #fff;
-      text-decoration: none;
-      letter-spacing: -0.3px;
       z-index: 20;
+      line-height: 0;
     }
-    .rv-logo em { color: #CA8A71; font-style: normal; }
+    .rv-logo img { height: 26px; width: auto; }
 
     /* ── Scene ── */
     .scene {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -97,14 +113,15 @@
       letter-spacing: 2.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.28);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
-    /* Container — tall enough for BP above + envelope below */
+    /* Container */
     .env-scene {
       position: relative;
       width: 280px;
       height: 480px;
+      overflow: hidden; /* prevents card peeking below envelope */
     }
 
     /* ── Boarding pass ── */
@@ -117,47 +134,46 @@
       border-radius: 12px 12px 8px 8px;
       overflow: hidden;
       box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.3);
-      /* Start hidden inside envelope */
-      transform: translateY(280px);
-      transition: transform 1s 0.22s cubic-bezier(0.34, 1.08, 0.64, 1);
+      /* Start fully hidden below envelope — pushed down so even top edge is hidden */
+      transform: translateY(370px);
+      opacity: 0;
+      transition: transform 1s 0.25s cubic-bezier(0.34, 1.08, 0.64, 1),
+                  opacity   0.2s 0.25s ease;
     }
-    .env-scene.open .bp { transform: translateY(0); }
+    .env-scene.open .bp {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     /* BP header strip */
     .bp-head {
       background: #CA8A71;
-      padding: 11px 18px;
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .bp-head-logo {
-      font-family: Georgia, serif;
-      font-size: 16px;
-      font-weight: normal;
-      color: #fff;
-    }
-    .bp-head-logo em { font-style: normal; }
+    .bp-head img { height: 18px; width: auto; }
     .bp-head-label {
       font-size: 8.5px;
       font-weight: 700;
       letter-spacing: 2px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.75);
     }
 
     /* BP body */
-    .bp-body { padding: 16px 18px 14px; }
+    .bp-body { padding: 14px 16px 12px; }
 
     /* Route row */
     .bp-route {
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .bp-from { flex: 0 0 auto; }
     .bp-from-iata {
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 800;
       color: #08112a;
       line-height: 1;
@@ -176,11 +192,12 @@
     }
     .bp-to { flex: 0 1 auto; text-align: right; }
     .bp-dest {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       color: #CA8A71;
       line-height: 1.1;
       letter-spacing: -0.5px;
+      text-transform: capitalize;
     }
 
     /* Ticket tear line */
@@ -188,7 +205,7 @@
       position: relative;
       height: 1px;
       background: #f0f0f0;
-      margin: 0 -18px 12px;
+      margin: 0 -16px 10px;
     }
     .bp-tear::before,
     .bp-tear::after {
@@ -204,12 +221,13 @@
 
     /* Detail columns */
     .bp-details {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 4px;
+      margin-bottom: 10px;
     }
-    .bp-detail { flex: 1; }
     .bp-detail-lbl {
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -217,24 +235,26 @@
       margin-bottom: 3px;
     }
     .bp-detail-val {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #08112a;
+      line-height: 1.3;
     }
     .bp-detail-val.accent { color: #CA8A71; }
 
     /* Passenger row */
     .bp-pax {
-      margin-top: 12px;
-      padding-top: 10px;
+      padding-top: 9px;
       border-top: 1px dashed #e5e7eb;
-      font-size: 10px;
-      color: #9ca3af;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-    .bp-pax-name { font-weight: 700; color: #374151; }
+    .bp-pax-row {
+      font-size: 10px;
+      color: #374151;
+      font-weight: 600;
+      line-height: 1.5;
+      display: flex;
+      gap: 5px;
+    }
 
     /* ══════════════════════════════════════════════
        ENVELOPE WRAPPER
@@ -247,7 +267,7 @@
       cursor: pointer;
     }
 
-    /* Flap — triangle pointing DOWN when closed, rotates open */
+    /* Flap */
     .env-flap {
       width: 280px;
       height: 104px;
@@ -262,7 +282,7 @@
       transform: perspective(500px) rotateX(180deg);
     }
 
-    /* Envelope rectangular body */
+    /* Envelope body */
     .env-body {
       width: 280px;
       height: 178px;
@@ -271,7 +291,6 @@
       overflow: hidden;
     }
 
-    /* Left fold triangle */
     .env-fold-l {
       position: absolute;
       left: 0; top: 0;
@@ -280,8 +299,6 @@
       border-width: 89px 0 89px 140px;
       border-color: transparent transparent transparent #091e2e;
     }
-
-    /* Right fold triangle */
     .env-fold-r {
       position: absolute;
       right: 0; top: 0;
@@ -291,7 +308,7 @@
       border-color: transparent #091e2e transparent transparent;
     }
 
-    /* Favicon circle — center of envelope */
+    /* Logo circle */
     .env-fav {
       position: absolute;
       top: 50%; left: 50%;
@@ -313,13 +330,10 @@
     }
     .env-fav-fb {
       font-family: Georgia, serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      display: none;
+      font-size: 15px; font-weight: 700;
+      color: #fff; display: none;
     }
 
-    /* Envelope bottom strip */
     .env-bottom-strip {
       width: 280px;
       height: 10px;
@@ -329,7 +343,7 @@
 
     /* ── Click hint ── */
     .env-hint-click {
-      margin-top: 26px;
+      margin-top: 28px;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -351,7 +365,7 @@
       50%      { opacity: 1;   }
     }
 
-    /* ── Airplane SVG ── */
+    /* ── Airplane SVG (launch on open) ── */
     .rv-plane {
       position: fixed;
       width: 46px; height: 46px;
@@ -381,9 +395,16 @@
 
 <canvas id="rv-stars"></canvas>
 
-<a href="/" class="rv-logo">escapii<em>.</em></a>
+<!-- Background floating planes -->
+<div class="bg-planes" id="bgPlanes"></div>
 
-<!-- Paper plane SVG (hidden, positioned via JS on open) -->
+<!-- Top logo -->
+<a href="/" class="rv-logo">
+  <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
+       onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:20px;color:#fff;\'>escapii<em style=\'color:#CA8A71;font-style:normal;\'>.</em></span>'">
+</a>
+
+<!-- Paper plane SVG for launch animation -->
 <svg class="rv-plane" id="rvPlane" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
   <polygon points="44,4 4,20 18,24 22,40 28,30 40,36" fill="#ffffff" stroke="#CA8A71" stroke-width="1.4" stroke-linejoin="round"/>
   <line x1="18" y1="24" x2="26" y2="20" stroke="#CA8A71" stroke-width="1.4" stroke-linecap="round"/>
@@ -413,7 +434,8 @@
       <!-- Boarding pass (hidden initially, slides up on open) -->
       <div class="bp" id="rvBp">
         <div class="bp-head">
-          <span class="bp-head-logo">escapii<em>.</em></span>
+          <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
+               onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:15px;color:#fff;\'>escapii.</span>'">
           <span class="bp-head-label">BOARDING PASS</span>
         </div>
         <div class="bp-body">
@@ -429,21 +451,23 @@
           </div>
           <div class="bp-tear"></div>
           <div class="bp-details">
-            <div class="bp-detail">
-              <div class="bp-detail-lbl">Datum</div>
+            <div>
+              <div class="bp-detail-lbl">Polazak</div>
               <div class="bp-detail-val" id="bpDate">—</div>
             </div>
-            <div class="bp-detail">
-              <div class="bp-detail-lbl">Noći</div>
-              <div class="bp-detail-val" id="bpNights">—</div>
+            <div>
+              <div class="bp-detail-lbl">Povratak</div>
+              <div class="bp-detail-val" id="bpReturn">—</div>
             </div>
-            <div class="bp-detail">
+            <div>
               <div class="bp-detail-lbl">Rezervacija</div>
               <div class="bp-detail-val accent" id="bpRef">—</div>
             </div>
           </div>
           <div class="bp-pax">
-            ✈&nbsp;<span class="bp-pax-name" id="bpName">—</span>
+            <div class="bp-pax-row">
+              ✈&nbsp;<span id="bpPassengers">—</span>
+            </div>
           </div>
         </div>
       </div>
@@ -459,7 +483,7 @@
                  src="<?php echo esc_url(get_template_directory_uri()); ?>/images/favicon.png"
                  alt=""
                  onerror="this.style.display='none';document.getElementById('envFavFb').style.display='block';">
-            <span class="env-fav-fb" id="envFavFb">e?</span>
+            <span class="env-fav-fb" id="envFavFb">e</span>
           </div>
         </div>
         <div class="env-bottom-strip"></div>
@@ -475,18 +499,16 @@
 </div><!-- /scene -->
 
 <script>
-/* ── Config ── */
 const API = 'https://escapii-backend.onrender.com';
 let opened = false;
 
-/* ── Stars ───────────────────────────────────────────────────── */
+/* ── Stars ── */
 (function() {
   const c = document.getElementById('rv-stars');
   const ctx = c.getContext('2d');
   function resize() { c.width = innerWidth; c.height = innerHeight; }
   resize();
   addEventListener('resize', resize);
-
   const stars = Array.from({length: 200}, () => ({
     x: Math.random(), y: Math.random(),
     r: Math.random() * 1.5 + 0.2,
@@ -494,7 +516,6 @@ let opened = false;
     speed: Math.random() * 0.006 + 0.002,
     gold: Math.random() > 0.88
   }));
-
   function draw(t) {
     ctx.clearRect(0, 0, c.width, c.height);
     stars.forEach(s => {
@@ -511,20 +532,51 @@ let opened = false;
   requestAnimationFrame(draw);
 })();
 
-/* ── Date formatter ───────────────────────────────────────────── */
+/* ── Background floating planes ── */
+(function() {
+  const container = document.getElementById('bgPlanes');
+  const planeSvg = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="30,3 3,14 12,17 15,28 19,21 27,25" fill="rgba(255,255,255,0.18)" stroke="rgba(202,138,113,0.35)" stroke-width="1" stroke-linejoin="round"/>
+  </svg>`;
+
+  const configs = [
+    { size:22, startX:'-5vw', startY:'15vh', dx:'108vw', dy:'-8vh',  rot:'-22deg', dur:18, delay:0,    op:0.18 },
+    { size:16, startX:'-5vw', startY:'65vh', dx:'110vw', dy:'-20vh', rot:'-28deg', dur:24, delay:5,    op:0.13 },
+    { size:28, startX:'-5vw', startY:'40vh', dx:'108vw', dy:'-12vh', rot:'-18deg', dur:30, delay:11,   op:0.12 },
+    { size:14, startX:'-5vw', startY:'80vh', dx:'112vw', dy:'-30vh', rot:'-35deg', dur:20, delay:16,   op:0.14 },
+    { size:20, startX:'-5vw', startY:'28vh', dx:'110vw', dy:'-6vh',  rot:'-15deg', dur:26, delay:8,    op:0.10 },
+    { size:12, startX:'-5vw', startY:'55vh', dx:'110vw', dy:'-18vh', rot:'-25deg', dur:22, delay:20,   op:0.12 },
+  ];
+
+  configs.forEach(cfg => {
+    const el = document.createElement('div');
+    el.className = 'bg-plane';
+    el.innerHTML = planeSvg;
+    el.querySelector('svg').style.width  = cfg.size + 'px';
+    el.querySelector('svg').style.height = cfg.size + 'px';
+    el.style.left = cfg.startX;
+    el.style.top  = cfg.startY;
+    el.style.setProperty('--dx',     cfg.dx);
+    el.style.setProperty('--dy',     cfg.dy);
+    el.style.setProperty('--rot',    cfg.rot);
+    el.style.setProperty('--max-op', cfg.op);
+    el.style.animationDuration = cfg.dur + 's';
+    el.style.animationDelay    = cfg.delay + 's';
+    container.appendChild(el);
+  });
+})();
+
+/* ── Helpers ── */
 function fmtDate(iso) {
   if (!iso) return '—';
   const [y,m,d] = iso.split('-');
   const mon = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
   return d + '. ' + (mon[+m - 1] || m) + ' ' + y + '.';
 }
-
-/* ── Airport city map ─────────────────────────────────────────── */
 function airportCity(iata) {
   return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
 }
-
-/* ── Error state ──────────────────────────────────────────────── */
+/* ── Error state ── */
 function showError(status) {
   document.getElementById('rvLoading').classList.remove('active');
   document.getElementById('rvError').classList.add('active');
@@ -538,7 +590,7 @@ function showError(status) {
   document.getElementById('rvErrMsg').textContent   = m[2];
 }
 
-/* ── Show envelope ────────────────────────────────────────────── */
+/* ── Show envelope ── */
 function showEnvelope(data) {
   document.getElementById('rvLoading').classList.remove('active');
   document.getElementById('rvEnvState').classList.add('active');
@@ -547,79 +599,77 @@ function showEnvelope(data) {
   document.getElementById('bpFromIata').textContent = iata || '—';
   document.getElementById('bpFromCity').textContent = airportCity(iata);
   document.getElementById('bpDest').textContent     = data.destination || '—';
-  document.getElementById('bpDate').textContent     = fmtDate(data.departureDate);
-  document.getElementById('bpNights').textContent   = data.numberOfNights ? data.numberOfNights + ' noći' : '—';
-  document.getElementById('bpRef').textContent      = data.bookingRef || '—';
-  document.getElementById('bpName').textContent     = data.firstName || '—';
+  document.getElementById('bpDate').textContent   = fmtDate(data.departureDate);
+  document.getElementById('bpReturn').textContent = fmtDate(data.returnDate);
+  document.getElementById('bpRef').textContent    = data.bookingRef || '—';
+
+  const names = Array.isArray(data.passengers) && data.passengers.length
+      ? data.passengers.join(' · ')
+      : '—';
+  document.getElementById('bpPassengers').textContent = names;
 
   document.getElementById('envWrap').addEventListener('click', openEnvelope);
   document.getElementById('envScene').addEventListener('click', openEnvelope);
 }
 
-/* ── Open envelope ────────────────────────────────────────────── */
+/* ── Open envelope ── */
 function openEnvelope() {
   if (opened) return;
   opened = true;
 
   document.getElementById('envScene').classList.add('open');
 
-  /* Fade hint */
   const hint = document.getElementById('envHint');
   hint.style.transition = 'opacity 0.35s';
   hint.style.opacity = '0';
 
-  /* Launch plane at T+400ms (matches BP halfway up) */
   setTimeout(launchPlane, 420);
-
-  /* Sparkle burst at T+700ms (BP nearly fully visible) */
   setTimeout(sparkles, 700);
 }
 
-/* ── Airplane launch ──────────────────────────────────────────── */
+/* ── Airplane launch ── */
 function launchPlane() {
   const env   = document.getElementById('envWrap').getBoundingClientRect();
   const plane = document.getElementById('rvPlane');
 
-  plane.style.left      = (env.right - 30) + 'px';
-  plane.style.top       = (env.top + 10) + 'px';
+  plane.style.left      = (env.left + env.width * 0.6) + 'px';
+  plane.style.top       = (env.top + 20) + 'px';
   plane.style.transform = 'rotate(-38deg)';
   plane.style.opacity   = '1';
   plane.style.transition = 'none';
 
   requestAnimationFrame(() => requestAnimationFrame(() => {
-    /* Same duration as BP slide: 1s + 0.22s delay = 1.22s total → use ~1.1s for plane */
-    plane.style.transition = 'transform 1.1s cubic-bezier(0.3, 0.1, 0.65, 0.9), opacity 0.9s 0.2s ease-in';
-    plane.style.transform  = 'translate(320px, -280px) rotate(-42deg)';
+    plane.style.transition = 'transform 1.3s cubic-bezier(0.3, 0.1, 0.65, 0.9), opacity 1s 0.3s ease-in';
+    plane.style.transform  = 'translate(260px, -320px) rotate(-42deg)';
     plane.style.opacity    = '0';
   }));
 }
 
-/* ── Sparkles ─────────────────────────────────────────────────── */
+/* ── Sparkles ── */
 function sparkles() {
   const bp  = document.getElementById('rvBp').getBoundingClientRect();
   const cx  = bp.left + bp.width  / 2;
   const cy  = bp.top  + bp.height / 3;
   const cols = ['#CA8A71','#F5C9A8','#ffffff','#2D5F6B','#CA8A71'];
 
-  for (let i = 0; i < 18; i++) {
-    const el   = document.createElement('div');
+  for (let i = 0; i < 20; i++) {
+    const el  = document.createElement('div');
     el.className = 'rv-spark';
-    const sz   = Math.random() * 7 + 3;
-    const ang  = (Math.PI * 2 * i / 18) + (Math.random() - 0.5) * 0.4;
-    const dist = 55 + Math.random() * 90;
+    const sz  = Math.random() * 7 + 3;
+    const ang = (Math.PI * 2 * i / 20) + (Math.random() - 0.5) * 0.4;
+    const dist = 60 + Math.random() * 100;
 
-    el.style.width  = sz + 'px';
-    el.style.height = sz + 'px';
-    el.style.background   = cols[i % cols.length];
-    el.style.borderRadius = Math.random() > 0.45 ? '50%' : '2px';
-    el.style.left    = cx + 'px';
-    el.style.top     = cy + 'px';
-    el.style.transform = 'translate(-50%,-50%)';
-    el.style.opacity   = '1';
+    el.style.cssText = [
+      'width:' + sz + 'px', 'height:' + sz + 'px',
+      'background:' + cols[i % cols.length],
+      'border-radius:' + (Math.random() > 0.45 ? '50%' : '3px'),
+      'left:' + cx + 'px', 'top:' + cy + 'px',
+      'transform:translate(-50%,-50%)', 'opacity:1'
+    ].join(';');
     document.body.appendChild(el);
 
-    const tx = Math.cos(ang) * dist;
-    const ty = Math.sin(ang) * dist;
+    const tx  = Math.cos(ang) * dist;
+    const ty  = Math.sin(ang) * dist;
     const dur = 0.55 + Math.random() * 0.35;
     const del = Math.random() * 0.15;
 
@@ -628,17 +678,16 @@ function sparkles() {
       el.style.transform  = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
       el.style.opacity    = '0';
     }));
-
     setTimeout(() => el.remove(), (dur + del + 0.2) * 1000);
   }
 }
 
-/* ── API fetch ────────────────────────────────────────────────── */
+/* ── API fetch ── */
 (async function init() {
   const token = new URLSearchParams(location.search).get('token');
   if (!token) { showError(404); return; }
   try {
-    const res  = await fetch(`${API}/api/reveal?token=${encodeURIComponent(token)}`);
+    const res = await fetch(`${API}/api/reveal?token=${encodeURIComponent(token)}`);
     if (!res.ok) { showError(res.status); return; }
     showEnvelope(await res.json());
   } catch(e) {
