@@ -89,3 +89,17 @@ function escapii_create_hvala_page() {
 }
 add_action('after_switch_theme', 'escapii_create_hvala_page');
 add_action('init', 'escapii_create_hvala_page');
+
+// Automatski kreiraj /otkrivanje stranicu ako ne postoji
+function escapii_create_otkrivanje_page() {
+    if (get_page_by_path('otkrivanje')) return;
+    $id = wp_insert_post([
+        'post_title'  => 'Otkrivanje',
+        'post_name'   => 'otkrivanje',
+        'post_status' => 'publish',
+        'post_type'   => 'page',
+    ]);
+    update_post_meta($id, '_wp_page_template', 'page-otkrivanje.php');
+}
+add_action('after_switch_theme', 'escapii_create_otkrivanje_page');
+add_action('init', 'escapii_create_otkrivanje_page');
