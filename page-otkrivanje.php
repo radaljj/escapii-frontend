@@ -17,7 +17,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #08112a;
+      background: linear-gradient(160deg, #0D2E38 0%, #091e2e 55%, #06181f 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -213,7 +213,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       position: absolute;
       top: -7px;
       width: 14px; height: 14px;
-      background: #08112a;
+      background: #091e2e;
       border-radius: 50%;
     }
     .bp-tear::before { left: -7px; }
@@ -343,7 +343,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
     /* ── Click hint ── */
     .env-hint-click {
-      margin-top: 28px;
+      margin-top: 52px;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -389,6 +389,75 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       .env-fold-r { border-width: 89px 120px 89px 0; }
       .bp { left: 5px; right: 5px; }
     }
+
+    /* ── Scratch card ── */
+    .bp-to { position: relative; }
+    #scratchCanvas {
+      position: absolute;
+      border-radius: 8px;
+      cursor: crosshair;
+      z-index: 5;
+      touch-action: none;
+    }
+    #scratchCanvas:hover { cursor: crosshair; }
+    #scratchHint {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #CA8A71;
+      pointer-events: none;
+      animation: rv-pulse 2s ease-in-out infinite;
+      transform: translateX(-50%);
+    }
+
+    /* ── Background decoration ── */
+    .bg-deco {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    /* Planet circles */
+    .bg-planet {
+      position: absolute;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid rgba(202,138,113,0.09);
+      animation: planet-float ease-in-out infinite;
+    }
+    .bg-planet::after {
+      content: '';
+      position: absolute;
+      left: -30%;
+      top: 42%;
+      width: 160%;
+      height: 16%;
+      border-radius: 50%;
+      border: 1px solid rgba(202,138,113,0.07);
+      transform: rotate(-15deg);
+    }
+    @keyframes planet-float {
+      0%,100% { transform: translateY(0px);   }
+      50%      { transform: translateY(-14px); }
+    }
+    /* Question marks */
+    .bg-qmark {
+      position: absolute;
+      font-family: Georgia, serif;
+      font-weight: 700;
+      color: rgba(202,138,113,0.07);
+      pointer-events: none;
+      user-select: none;
+      animation: qm-drift ease-in-out infinite;
+    }
+    @keyframes qm-drift {
+      0%,100% { transform: translateY(0)    rotate(0deg);   opacity: 0.07; }
+      50%      { transform: translateY(-18px) rotate(6deg); opacity: 0.13; }
+    }
   </style>
 </head>
 <body>
@@ -397,6 +466,8 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
 <!-- Background floating planes -->
 <div class="bg-planes" id="bgPlanes"></div>
+<!-- Background decorations: planets + question marks -->
+<div class="bg-deco" id="bgDeco"></div>
 
 <!-- Top logo -->
 <a href="/" class="rv-logo">
@@ -532,20 +603,28 @@ let opened = false;
   requestAnimationFrame(draw);
 })();
 
-/* ── Background floating planes ── */
+/* ── Background floating planes (real airliner silhouette) ── */
 (function() {
   const container = document.getElementById('bgPlanes');
-  const planeSvg = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="30,3 3,14 12,17 15,28 19,21 27,25" fill="rgba(255,255,255,0.18)" stroke="rgba(202,138,113,0.35)" stroke-width="1" stroke-linejoin="round"/>
+  // Commercial airliner side-view SVG
+  const planeSvg = `<svg viewBox="0 0 80 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M72 14 C68 14 52 11 34 11 L10 11 C6.5 11 4 12.2 4 14 C4 15.8 6.5 17 10 17 L34 17 C52 17 68 17 72 14Z" fill="rgba(255,255,255,0.16)"/>
+    <path d="M10 11 L4 14 L10 17Z" fill="rgba(255,255,255,0.20)"/>
+    <path d="M40 11 L24 3  L29 11Z" fill="rgba(255,255,255,0.18)"/>
+    <path d="M40 17 L24 25 L29 17Z" fill="rgba(255,255,255,0.13)"/>
+    <path d="M66 11 L61 6  L63 11Z" fill="rgba(255,255,255,0.13)"/>
+    <path d="M66 17 L59 20 L62 17Z" fill="rgba(255,255,255,0.10)"/>
+    <circle cx="18" cy="14" r="2" fill="rgba(202,138,113,0.25)"/>
+    <circle cx="26" cy="14" r="2" fill="rgba(202,138,113,0.20)"/>
   </svg>`;
 
   const configs = [
-    { size:22, startX:'-5vw', startY:'15vh', dx:'108vw', dy:'-8vh',  rot:'-22deg', dur:18, delay:0,    op:0.18 },
-    { size:16, startX:'-5vw', startY:'65vh', dx:'110vw', dy:'-20vh', rot:'-28deg', dur:24, delay:5,    op:0.13 },
-    { size:28, startX:'-5vw', startY:'40vh', dx:'108vw', dy:'-12vh', rot:'-18deg', dur:30, delay:11,   op:0.12 },
-    { size:14, startX:'-5vw', startY:'80vh', dx:'112vw', dy:'-30vh', rot:'-35deg', dur:20, delay:16,   op:0.14 },
-    { size:20, startX:'-5vw', startY:'28vh', dx:'110vw', dy:'-6vh',  rot:'-15deg', dur:26, delay:8,    op:0.10 },
-    { size:12, startX:'-5vw', startY:'55vh', dx:'110vw', dy:'-18vh', rot:'-25deg', dur:22, delay:20,   op:0.12 },
+    { size:52, startX:'-8vw', startY:'12vh', dx:'114vw', dy:'-6vh',  rot:'-12deg', dur:22, delay:0,    op:0.22 },
+    { size:38, startX:'-8vw', startY:'62vh', dx:'116vw', dy:'-18vh', rot:'-18deg', dur:28, delay:6,    op:0.16 },
+    { size:60, startX:'-8vw', startY:'38vh', dx:'114vw', dy:'-10vh', rot:'-8deg',  dur:34, delay:12,   op:0.14 },
+    { size:32, startX:'-8vw', startY:'78vh', dx:'116vw', dy:'-28vh', rot:'-22deg', dur:24, delay:18,   op:0.18 },
+    { size:44, startX:'-8vw', startY:'25vh', dx:'114vw', dy:'-4vh',  rot:'-10deg', dur:30, delay:9,    op:0.13 },
+    { size:28, startX:'-8vw', startY:'52vh', dx:'115vw', dy:'-16vh', rot:'-15deg', dur:26, delay:22,   op:0.15 },
   ];
 
   configs.forEach(cfg => {
@@ -553,7 +632,7 @@ let opened = false;
     el.className = 'bg-plane';
     el.innerHTML = planeSvg;
     el.querySelector('svg').style.width  = cfg.size + 'px';
-    el.querySelector('svg').style.height = cfg.size + 'px';
+    el.querySelector('svg').style.height = (cfg.size * 28/80) + 'px';
     el.style.left = cfg.startX;
     el.style.top  = cfg.startY;
     el.style.setProperty('--dx',     cfg.dx);
@@ -563,6 +642,42 @@ let opened = false;
     el.style.animationDuration = cfg.dur + 's';
     el.style.animationDelay    = cfg.delay + 's';
     container.appendChild(el);
+  });
+})();
+
+/* ── Background planets + question marks ── */
+(function() {
+  const deco = document.getElementById('bgDeco');
+
+  // Planets
+  const planets = [
+    { size:90,  top:'8%',  left:'7%',  dur:9,  delay:0  },
+    { size:55,  top:'72%', left:'80%', dur:11, delay:3  },
+    { size:38,  top:'20%', left:'88%', dur:8,  delay:1  },
+    { size:70,  top:'55%', left:'4%',  dur:13, delay:5  },
+    { size:44,  top:'88%', left:'45%', dur:10, delay:2  },
+  ];
+  planets.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'bg-planet';
+    el.style.cssText = `width:${p.size}px;height:${p.size}px;top:${p.top};left:${p.left};animation-duration:${p.dur}s;animation-delay:${p.delay}s`;
+    deco.appendChild(el);
+  });
+
+  // Mystery question marks
+  const qmarks = [
+    { size:110, top:'6%',  left:'62%', dur:10, delay:0   },
+    { size:70,  top:'78%', left:'15%', dur:12, delay:4   },
+    { size:90,  top:'40%', left:'92%', dur:9,  delay:2   },
+    { size:55,  top:'60%', left:'58%', dur:14, delay:7   },
+    { size:130, top:'22%', left:'2%',  dur:11, delay:1   },
+  ];
+  qmarks.forEach(q => {
+    const el = document.createElement('div');
+    el.className = 'bg-qmark';
+    el.textContent = '?';
+    el.style.cssText = `font-size:${q.size}px;top:${q.top};left:${q.left};animation-duration:${q.dur}s;animation-delay:${q.delay}s`;
+    deco.appendChild(el);
   });
 })();
 
@@ -625,6 +740,8 @@ function openEnvelope() {
 
   setTimeout(launchPlane, 420);
   setTimeout(sparkles, 700);
+  // Scratch card appears after boarding pass slides fully into view
+  setTimeout(addScratchCard, 1450);
 }
 
 /* ── Airplane launch ── */
@@ -680,6 +797,133 @@ function sparkles() {
     }));
     setTimeout(() => el.remove(), (dur + del + 0.2) * 1000);
   }
+}
+
+/* ── Scratch card ── */
+function addScratchCard() {
+  const bpTo  = document.querySelector('.bp-to');
+  const dest  = document.getElementById('bpDest');
+  const route = document.querySelector('.bp-route');
+  if (!bpTo || !dest || !route) return;
+
+  // Measure destination element relative to .bp-route
+  const destRect  = dest.getBoundingClientRect();
+  const routeRect = route.getBoundingClientRect();
+  const pad = 10;
+  const offL = destRect.left - routeRect.left - pad;
+  const offT = destRect.top  - routeRect.top  - pad;
+  const cw   = destRect.width  + pad * 2;
+  const ch   = destRect.height + pad * 2;
+
+  // Canvas
+  const canvas = document.createElement('canvas');
+  canvas.id = 'scratchCanvas';
+  canvas.width  = Math.round(cw * (window.devicePixelRatio || 1));
+  canvas.height = Math.round(ch * (window.devicePixelRatio || 1));
+  canvas.style.cssText = `left:${offL}px;top:${offT}px;width:${cw}px;height:${ch}px;`;
+  route.style.position = 'relative';
+  route.appendChild(canvas);
+
+  // Draw scratch cover
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.width, H = canvas.height;
+
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#CA8A71');
+  grad.addColorStop(1, '#9e5e49');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  const r = 8 * dpr;
+  ctx.moveTo(r, 0); ctx.lineTo(W - r, 0);
+  ctx.quadraticCurveTo(W, 0, W, r);
+  ctx.lineTo(W, H - r); ctx.quadraticCurveTo(W, H, W - r, H);
+  ctx.lineTo(r, H); ctx.quadraticCurveTo(0, H, 0, H - r);
+  ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.closePath();
+  ctx.fill();
+
+  // "?" text on cover
+  ctx.fillStyle = 'rgba(255,255,255,0.65)';
+  ctx.font = `bold ${Math.round(H * 0.62)}px Georgia, serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('?', W / 2, H / 2);
+
+  // Hint label beneath
+  const hintEl = document.createElement('div');
+  hintEl.id = 'scratchHint';
+  hintEl.textContent = '✦ Ogrebi i otkrij destinaciju ✦';
+  hintEl.style.cssText = `left:${offL + cw / 2}px;top:${offT + ch + 6}px;`;
+  route.appendChild(hintEl);
+
+  // Scratch logic
+  let drawing = false;
+  let revealed = false;
+  const total = W * H;
+
+  function getXY(e) {
+    const rect = canvas.getBoundingClientRect();
+    const sx = W / rect.width, sy = H / rect.height;
+    const src = e.touches ? e.touches[0] : e;
+    return [(src.clientX - rect.left) * sx, (src.clientY - rect.top) * sy];
+  }
+
+  function scratchAt(x, y) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 22 * dpr, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+    if (!revealed) checkReveal();
+  }
+
+  function checkReveal() {
+    const data = ctx.getImageData(0, 0, W, H).data;
+    let cleared = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i] < 128) cleared++;
+    if (cleared / total > 0.52) { revealed = true; fullyReveal(); }
+  }
+
+  function fullyReveal() {
+    canvas.style.transition  = 'opacity 0.5s ease';
+    canvas.style.opacity     = '0';
+    hintEl.style.transition  = 'opacity 0.3s';
+    hintEl.style.opacity     = '0';
+    setTimeout(() => { canvas.remove(); hintEl.remove(); }, 550);
+    // Celebration burst on destination text
+    setTimeout(() => {
+      const r = dest.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const cols = ['#CA8A71','#F5C9A8','#ffffff','#2D5F6B'];
+      for (let i = 0; i < 22; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'rv-spark';
+        const sz = Math.random() * 7 + 3;
+        const ang = (Math.PI * 2 * i / 22) + (Math.random() - 0.5) * 0.5;
+        const dist = 50 + Math.random() * 90;
+        sp.style.cssText = `width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};` +
+          `border-radius:${Math.random()>.4?'50%':'3px'};left:${cx}px;top:${cy}px;` +
+          `transform:translate(-50%,-50%);opacity:1`;
+        document.body.appendChild(sp);
+        const tx = Math.cos(ang)*dist, ty = Math.sin(ang)*dist;
+        const dur = 0.5 + Math.random()*0.4, del = Math.random()*0.12;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          sp.style.transition = `transform ${dur}s ${del}s ease-out, opacity ${dur*.8}s ${del+.1}s ease-out`;
+          sp.style.transform  = `translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
+          sp.style.opacity    = '0';
+        }));
+        setTimeout(() => sp.remove(), (dur+del+.25)*1000);
+      }
+    }, 180);
+  }
+
+  canvas.addEventListener('mousedown',  e => { drawing = true;  const [x,y]=getXY(e); scratchAt(x,y); });
+  window.addEventListener('mouseup',    () => drawing = false);
+  canvas.addEventListener('mousemove',  e => { if (drawing) { const [x,y]=getXY(e); scratchAt(x,y); } });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true;  const [x,y]=getXY(e); scratchAt(x,y); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(drawing){ const [x,y]=getXY(e); scratchAt(x,y); } }, {passive:false});
+  canvas.addEventListener('touchend',   () => drawing = false);
 }
 
 /* ── API fetch ── */
