@@ -1318,7 +1318,7 @@ function renderBookings() {
               ? `<span style="color:#38bdf8;font-size:11px;font-weight:600;">🌤 Prognoza poslata ${new Date(b.forecastSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
               : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">🌤 Prognoza još nije poslata</span>' : '')}
           </div>
-          ${b.assignedDestination ? `
+          ${b.assignedDestination && b.status === 'CONFIRMED' ? `
           <div class="bc-send-row">
             <button class="bc-btn-reveal" id="btn-reveal-${b.id}" ${getBtnAttrs(b, 'reveal')}>
               ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
@@ -1326,7 +1326,10 @@ function renderBookings() {
             <button class="bc-btn-forecast" id="btn-forecast-${b.id}" ${getBtnAttrs(b, 'forecast')}>
               🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
             </button>
-          </div>` : ''}
+          </div>` : (b.assignedDestination && b.status !== 'CONFIRMED' ? `
+          <div style="font-size:11px;color:#f87171;margin-top:6px;">
+            ⚠️ Reveal i prognoza se mogu poslati samo za CONFIRMED rezervacije
+          </div>` : '')}
         </div>
       </div>
 
