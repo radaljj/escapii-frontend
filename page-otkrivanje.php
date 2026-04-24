@@ -167,8 +167,8 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.28);
-      margin-bottom: 32px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 64px;
     }
 
     /* Container */
@@ -446,26 +446,32 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     }
 
     /* ── Scratch card ── */
-    .bp-to { position: relative; }
     #scratchCanvas {
       position: absolute;
-      border-radius: 8px;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       cursor: crosshair;
       z-index: 5;
       touch-action: none;
+      border-radius: 0 0 8px 8px;
     }
-    #scratchCanvas:hover { cursor: crosshair; }
-    #scratchHint {
-      position: absolute;
-      white-space: nowrap;
-      font-size: 7.5px;
+    #scratchHintExternal {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 1.2px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: #CA8A71;
+      color: rgba(202,138,113,0.85);
       pointer-events: none;
-      animation: rv-pulse 2s ease-in-out infinite;
-      transform: translateX(-50%);
+      animation: rv-pulse 1.8s ease-in-out infinite;
+    }
+    #scratchHintExternal .sh-coin {
+      font-size: 16px;
+      animation: rv-pulse 1.8s ease-in-out infinite reverse;
     }
 
     /* ── Background decoration ── */
@@ -629,6 +635,12 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     <div class="env-hint-click" id="envHint">
       <span class="dot"></span> KLIKNI DA OTVORIŠ <span class="dot"></span>
     </div>
+
+    <div id="scratchHintExternal">
+      <span class="sh-coin">🪙</span>
+      OGREBI I OTKRIJ DESTINACIJU
+      <span class="sh-coin">🪙</span>
+    </div>
   </div>
 
 </div><!-- /scene -->
@@ -636,6 +648,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
 let opened = false;
+let errorShown = false;
 
 /* ── Stars ── */
 (function() {
@@ -757,6 +770,8 @@ function airportCity(iata) {
 }
 /* ── Error state ── */
 function showError(status) {
+  if (errorShown) return;
+  errorShown = true;
   document.getElementById('rvLoading').classList.remove('active');
   const m = {
     404: ['🔒','Link nije validan','Ovaj link nije ispravan ili je istekao. Proveri da li si kopirao ceo link iz emaila.'],
@@ -769,6 +784,10 @@ function showError(status) {
   document.getElementById('rvError').classList.add('active');
 }
 
+/* ── Global error handlers ── */
+window.onerror = function() { showError(0); return true; };
+window.addEventListener('unhandledrejection', function() { showError(0); });
+
 /* ── Show envelope ── */
 function showEnvelope(data) {
   document.getElementById('rvLoading').classList.remove('active');
@@ -777,7 +796,9 @@ function showEnvelope(data) {
   const iata = (data.departureAirport || '').toUpperCase();
   document.getElementById('bpFromIata').textContent = iata || '—';
   document.getElementById('bpFromCity').textContent = airportCity(iata);
-  document.getElementById('bpDest').textContent     = data.destination || '—';
+  const destEl = document.getElementById('bpDest');
+  destEl.textContent  = data.destination || '—';
+  destEl.style.color  = 'transparent'; // hidden until scratch card is removed
   document.getElementById('bpDate').textContent   = fmtDate(data.departureDate);
   document.getElementById('bpReturn').textContent = fmtDate(data.returnDate);
   document.getElementById('bpRef').textContent    = data.bookingRef || '—';
@@ -865,78 +886,88 @@ function sparkles() {
 
 /* ── Scratch card ── */
 function addScratchCard() {
-  const bpTo  = document.querySelector('.bp-to');
-  const dest  = document.getElementById('bpDest');
-  const route = document.querySelector('.bp-route');
-  if (!bpTo || !dest || !route) return;
+  const bpBody = document.querySelector('.bp-body');
+  const destEl = document.getElementById('bpDest');
+  if (!bpBody || !destEl) return;
 
-  // Measure destination element relative to .bp-route
-  const destRect  = dest.getBoundingClientRect();
-  const routeRect = route.getBoundingClientRect();
-  const pad = 10;
-  const offL = destRect.left - routeRect.left - pad;
-  const offT = destRect.top  - routeRect.top  - pad;
-  const cw   = destRect.width  + pad * 2;
-  const ch   = destRect.height + pad * 2;
+  const dpr  = window.devicePixelRatio || 1;
+  const rect = bpBody.getBoundingClientRect();
+  const cw   = rect.width;
+  const ch   = rect.height;
 
-  // Canvas
+  // Canvas covers entire .bp-body
   const canvas = document.createElement('canvas');
   canvas.id = 'scratchCanvas';
-  canvas.width  = Math.round(cw * (window.devicePixelRatio || 1));
-  canvas.height = Math.round(ch * (window.devicePixelRatio || 1));
-  canvas.style.cssText = `left:${offL}px;top:${offT}px;width:${cw}px;height:${ch}px;`;
-  route.style.position = 'relative';
-  route.appendChild(canvas);
+  canvas.width  = Math.round(cw * dpr);
+  canvas.height = Math.round(ch * dpr);
+  bpBody.style.position = 'relative';
+  bpBody.appendChild(canvas);
 
-  // Draw scratch cover
   const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
   const W = canvas.width, H = canvas.height;
 
+  // ── Draw cover: dark teal gradient matching site palette ──
   const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, '#CA8A71');
-  grad.addColorStop(1, '#9e5e49');
+  grad.addColorStop(0,   '#16424f');
+  grad.addColorStop(0.5, '#0D2E38');
+  grad.addColorStop(1,   '#091e2e');
   ctx.fillStyle = grad;
-  ctx.beginPath();
-  const r = 8 * dpr;
-  ctx.moveTo(r, 0); ctx.lineTo(W - r, 0);
-  ctx.quadraticCurveTo(W, 0, W, r);
-  ctx.lineTo(W, H - r); ctx.quadraticCurveTo(W, H, W - r, H);
-  ctx.lineTo(r, H); ctx.quadraticCurveTo(0, H, 0, H - r);
-  ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
-  ctx.closePath();
-  ctx.fill();
+  ctx.fillRect(0, 0, W, H);
 
-  // "?" text on cover
-  ctx.fillStyle = 'rgba(255,255,255,0.65)';
-  ctx.font = `bold ${Math.round(H * 0.62)}px Georgia, serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('?', W / 2, H / 2);
+  // Dot grid texture
+  ctx.fillStyle = 'rgba(202,138,113,0.07)';
+  const step = Math.round(16 * dpr);
+  for (let row = step; row < H; row += step) {
+    for (let col = (Math.floor(row / step) % 2 === 0 ? 0 : step / 2); col < W; col += step) {
+      ctx.beginPath();
+      ctx.arc(col, row, 1.2 * dpr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
 
-  // Hint label beneath
-  const hintEl = document.createElement('div');
-  hintEl.id = 'scratchHint';
-  hintEl.textContent = '✦ Ogrebi i otkrij destinaciju ✦';
-  hintEl.style.cssText = `left:${offL + cw / 2}px;top:${offT + ch + 6}px;`;
-  route.appendChild(hintEl);
+  // Subtle corner "?" decorations
+  ctx.font = `bold ${Math.round(28 * dpr)}px Georgia, serif`;
+  ctx.fillStyle = 'rgba(202,138,113,0.08)';
+  ctx.textAlign = 'left';   ctx.textBaseline = 'top';
+  ctx.fillText('?', 8 * dpr, 6 * dpr);
+  ctx.textAlign = 'right';  ctx.textBaseline = 'bottom';
+  ctx.fillText('?', W - 8 * dpr, H - 6 * dpr);
 
-  // Scratch logic
-  let drawing = false;
+  // Center: coin icon + main hint text
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+
+  ctx.font = `${Math.round(22 * dpr)}px serif`;
+  ctx.fillStyle = 'rgba(202,138,113,0.7)';
+  ctx.fillText('🪙', W / 2, H / 2 - Math.round(18 * dpr));
+
+  ctx.font = `bold ${Math.round(9 * dpr)}px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+  ctx.fillStyle = 'rgba(202,138,113,0.95)';
+  ctx.fillText('✦  OGREBI DA OTKRIJEŠ  ✦', W / 2, H / 2 + Math.round(2 * dpr));
+
+  ctx.font = `${Math.round(7.5 * dpr)}px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillText('svoju destinaciju', W / 2, H / 2 + Math.round(16 * dpr));
+
+  // Show external hint label
+  const hintExt = document.getElementById('scratchHintExternal');
+  if (hintExt) hintExt.style.display = 'flex';
+
+  // ── Scratch logic ──
+  let drawing  = false;
   let revealed = false;
-  const total = W * H;
+  const total  = W * H;
 
   function getXY(e) {
-    const rect = canvas.getBoundingClientRect();
-    const sx = W / rect.width, sy = H / rect.height;
+    const r  = canvas.getBoundingClientRect();
+    const sx = W / r.width, sy = H / r.height;
     const src = e.touches ? e.touches[0] : e;
-    return [(src.clientX - rect.left) * sx, (src.clientY - rect.top) * sy];
+    return [(src.clientX - r.left) * sx, (src.clientY - r.top) * sy];
   }
 
   function scratchAt(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 22 * dpr, 0, Math.PI * 2);
+    ctx.arc(x, y, 28 * dpr, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
     if (!revealed) checkReveal();
@@ -946,47 +977,60 @@ function addScratchCard() {
     const data = ctx.getImageData(0, 0, W, H).data;
     let cleared = 0;
     for (let i = 3; i < data.length; i += 4) if (data[i] < 128) cleared++;
-    if (cleared / total > 0.52) { revealed = true; fullyReveal(); }
+    if (cleared / total > 0.50) { revealed = true; fullyReveal(); }
   }
 
   function fullyReveal() {
-    canvas.style.transition  = 'opacity 0.5s ease';
-    canvas.style.opacity     = '0';
-    hintEl.style.transition  = 'opacity 0.3s';
-    hintEl.style.opacity     = '0';
-    setTimeout(() => { canvas.remove(); hintEl.remove(); }, 550);
+    // Restore destination text with a nice fade-in
+    destEl.style.transition = 'color 0.4s ease';
+    destEl.style.color      = '#CA8A71';
+
+    canvas.style.transition = 'opacity 0.55s ease';
+    canvas.style.opacity    = '0';
+    if (hintExt) {
+      hintExt.style.transition = 'opacity 0.3s';
+      hintExt.style.opacity    = '0';
+    }
+    setTimeout(() => {
+      canvas.remove();
+      if (hintExt) hintExt.style.display = 'none';
+    }, 600);
+
     // Celebration burst on destination text
     setTimeout(() => {
-      const r = dest.getBoundingClientRect();
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const r   = destEl.getBoundingClientRect();
+      const cx  = r.left + r.width / 2;
+      const cy  = r.top  + r.height / 2;
       const cols = ['#CA8A71','#F5C9A8','#ffffff','#2D5F6B'];
-      for (let i = 0; i < 22; i++) {
-        const sp = document.createElement('div');
+      for (let i = 0; i < 24; i++) {
+        const sp  = document.createElement('div');
         sp.className = 'rv-spark';
-        const sz = Math.random() * 7 + 3;
-        const ang = (Math.PI * 2 * i / 22) + (Math.random() - 0.5) * 0.5;
-        const dist = 50 + Math.random() * 90;
+        const sz  = Math.random() * 8 + 3;
+        const ang = (Math.PI * 2 * i / 24) + (Math.random() - 0.5) * 0.5;
+        const dist = 55 + Math.random() * 95;
         sp.style.cssText = `width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};` +
-          `border-radius:${Math.random()>.4?'50%':'3px'};left:${cx}px;top:${cy}px;` +
+          `border-radius:${Math.random() > .4 ? '50%' : '3px'};left:${cx}px;top:${cy}px;` +
           `transform:translate(-50%,-50%);opacity:1`;
         document.body.appendChild(sp);
-        const tx = Math.cos(ang)*dist, ty = Math.sin(ang)*dist;
-        const dur = 0.5 + Math.random()*0.4, del = Math.random()*0.12;
+        const tx  = Math.cos(ang) * dist;
+        const ty  = Math.sin(ang) * dist;
+        const dur = 0.5 + Math.random() * 0.4;
+        const del = Math.random() * 0.12;
         requestAnimationFrame(() => requestAnimationFrame(() => {
           sp.style.transition = `transform ${dur}s ${del}s ease-out, opacity ${dur*.8}s ${del+.1}s ease-out`;
           sp.style.transform  = `translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
           sp.style.opacity    = '0';
         }));
-        setTimeout(() => sp.remove(), (dur+del+.25)*1000);
+        setTimeout(() => sp.remove(), (dur + del + 0.25) * 1000);
       }
-    }, 180);
+    }, 200);
   }
 
-  canvas.addEventListener('mousedown',  e => { drawing = true;  const [x,y]=getXY(e); scratchAt(x,y); });
+  canvas.addEventListener('mousedown',  e => { drawing = true; const [x,y] = getXY(e); scratchAt(x,y); });
   window.addEventListener('mouseup',    () => drawing = false);
-  canvas.addEventListener('mousemove',  e => { if (drawing) { const [x,y]=getXY(e); scratchAt(x,y); } });
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true;  const [x,y]=getXY(e); scratchAt(x,y); }, {passive:false});
-  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(drawing){ const [x,y]=getXY(e); scratchAt(x,y); } }, {passive:false});
+  canvas.addEventListener('mousemove',  e => { if (drawing) { const [x,y] = getXY(e); scratchAt(x,y); } });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const [x,y] = getXY(e); scratchAt(x,y); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (drawing) { const [x,y] = getXY(e); scratchAt(x,y); } }, {passive:false});
   canvas.addEventListener('touchend',   () => drawing = false);
 }
 
