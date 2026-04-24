@@ -306,7 +306,7 @@
     <div class="bp-main">
       <div class="bp-row">
         <div class="bp-field" id="bpf-name">
-          <span class="bp-label" id="bpl-name">Putnik</span>
+          <span class="bp-label" id="bpl-name">Nosilac rezervacije</span>
           <span class="bp-value" id="bp-name">&nbsp;</span>
         </div>
         <div class="bp-field" id="bpf-date">

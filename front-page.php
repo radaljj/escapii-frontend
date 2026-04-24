@@ -1110,8 +1110,8 @@
 
     /* ══════════ BOOKING SUMMARY CARD (Step 8) */
     .booking-summary {
-      background: linear-gradient(135deg, rgba(202,138,113,.07) 0%, rgba(255,255,255,.95) 100%);
-      border: 1.5px solid rgba(202,138,113,.22);
+      background: linear-gradient(135deg, #2D5F6B 0%, #1a4450 100%);
+      border: 1.5px solid rgba(202,138,113,.30);
       border-radius: 20px; padding: 22px 24px; margin-bottom: 28px;
     }
     .bs-header {
@@ -1153,7 +1153,7 @@
       padding-top: 14px; margin-top: 6px;
       border-top: 2px solid rgba(202,138,113,.35);
     }
-    .bs-total-label { font-size: 16px; font-weight: 800; }
+    .bs-total-label { font-size: 16px; font-weight: 800; color: rgba(255,255,255,.9); }
     .bs-total-price { font-size: 34px; font-weight: 900; color: var(--accent); line-height: 1; }
 
     /* ══════════════════════ FOOTER */
@@ -2297,7 +2297,8 @@ const TR = {
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
     's8.h':'Kontakt podaci', 's8.hint':'Javićemo se u roku od 24 sata',
-    's8.name':'Ime i prezime nosioca rezervacije', 's8.email':'Email',
+    's8.name':'Ime i prezime nosioca rezervacije', 's8.firstname':'Ime nosioca rezervacije', 's8.lastname':'Prezime nosioca rezervacije',
+    's8.email':'Email',
     's8.phone':'Telefon', 's8.notes':'Napomene (opciono)', 's8.submit':'Pošalji upit ✓',
     'success.h':'Upit je primljen!',
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
@@ -2444,7 +2445,8 @@ const TR = {
     's7.h':'Passenger details', 's7.hint':'Enter details for each traveler',
     'price.title':'Price breakdown', 'price.total':'Total',
     's8.h':'Contact details', 's8.hint':'We\'ll get back to you within 24 hours',
-    's8.name':'Lead passenger full name', 's8.email':'Email',
+    's8.name':'Lead passenger full name', 's8.firstname':'Lead passenger first name', 's8.lastname':'Lead passenger last name',
+    's8.email':'Email',
     's8.phone':'Phone', 's8.notes':'Notes (optional)', 's8.submit':'Send inquiry ✓',
     'success.h':'Inquiry received!',
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
@@ -2670,17 +2672,34 @@ function setLang(l) {
   lang = l;
   localStorage.setItem('esc-lang', l);
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const v=t(el.dataset.i18n); if(v!==el.dataset.i18n) el.textContent=v;
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
-    const v=t(el.dataset.i18nHtml); if(v!==el.dataset.i18nHtml) el.innerHTML=v;
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
-    const v=t(el.dataset.i18nPh); if(v!==el.dataset.i18nPh) el.placeholder=v;
-  });
+  // Uvek primeni prevod bez uslova — garantuje tačan prevod pri svakom prelasku
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{ el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = t(el.dataset.i18nPh); });
+  // Re-renderuj sve dinamičke delove
   renderSteps(); updateProgress();
+  if(S.dates.length) renderDatesFromCache();          // lista termina u koraku 3
   if(S.destinations.length) { buildCarousel(); renderExclGrid(); }
+  // Re-renderuj formu putnika sačuvavši unesene vrednosti
+  if(document.querySelectorAll('.pax-item').length > 0) {
+    const savedPax = Array.from({length:S.travelers},(_,i)=>({
+      name:   (document.getElementById('pn'+i)||{}).value||'',
+      gender: (document.getElementById('pg'+i)||{}).value||'M',
+      dob_d:  (document.getElementById('pd-d-'+i)||{}).value||'',
+      dob_m:  (document.getElementById('pd-m-'+i)||{}).value||'',
+      dob_y:  (document.getElementById('pd-y-'+i)||{}).value||'',
+      visa:   (document.getElementById('pv'+i)||{}).value||''
+    }));
+    renderPax();
+    savedPax.forEach((p,i)=>{
+      const n=document.getElementById('pn'+i);    if(n) n.value=p.name;
+      const g=document.getElementById('pg'+i);    if(g) g.value=p.gender;
+      const dd=document.getElementById('pd-d-'+i);if(dd) dd.value=p.dob_d;
+      const dm=document.getElementById('pd-m-'+i);if(dm) dm.value=p.dob_m;
+      const dy=document.getElementById('pd-y-'+i);if(dy) dy.value=p.dob_y;
+      const v=document.getElementById('pv'+i);    if(v) v.value=p.visa;
+    });
+  }
   if(S.selectedDateId) loadPrice();
   updateSummaryCard();
 }
