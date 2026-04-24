@@ -90,18 +90,73 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     }
     @keyframes rv-spin { to { transform: rotate(360deg); } }
 
-    /* ── Error ── */
-    .rv-err-icon  { font-size: 50px; margin-bottom: 18px; }
-    .rv-err-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-    .rv-err-msg   {
-      font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65;
-      text-align: center; max-width: 300px; margin-bottom: 26px;
+    /* ── Error modal ── */
+    .rv-err-backdrop {
+      display: none;
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(6,24,31,0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .rv-err-backdrop.active { display: flex; animation: err-in .35s ease; }
+    @keyframes err-in {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+    .rv-err-card {
+      background: linear-gradient(145deg, #1a4450 0%, #0D2E38 100%);
+      border: 1px solid rgba(202,138,113,.25);
+      border-radius: 24px;
+      padding: 40px 32px 32px;
+      max-width: 360px; width: 100%;
+      text-align: center;
+      box-shadow: 0 32px 80px rgba(0,0,0,.55);
+      animation: card-up .4s .05s cubic-bezier(.34,1.08,.64,1) both;
+    }
+    @keyframes card-up {
+      from { opacity:0; transform:translateY(24px) scale(.96); }
+      to   { opacity:1; transform:translateY(0)    scale(1);   }
+    }
+    .rv-err-logo {
+      margin: 0 auto 22px;
+      width: 52px; height: 52px;
+      background: rgba(202,138,113,.15);
+      border: 1.5px solid rgba(202,138,113,.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rv-err-logo img { height: 24px; width: auto; }
+    .rv-err-icon-wrap {
+      font-size: 42px;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .rv-err-title {
+      font-size: 19px; font-weight: 800;
+      color: #fff; margin-bottom: 10px;
+      letter-spacing: -.3px;
+    }
+    .rv-err-msg {
+      font-size: 13.5px; color: rgba(255,255,255,.5);
+      line-height: 1.7; margin-bottom: 28px;
     }
     .rv-err-btn {
+      display: inline-block;
       background: #CA8A71; color: #fff; border: none;
-      padding: 12px 32px; border-radius: 100px;
+      padding: 13px 36px; border-radius: 100px;
       font-size: 14px; font-weight: 700;
       cursor: pointer; text-decoration: none;
+      transition: background .18s;
+    }
+    .rv-err-btn:hover { background: #b57560; }
+    .rv-err-contact {
+      margin-top: 16px;
+      font-size: 12px; color: rgba(255,255,255,.28);
+    }
+    .rv-err-contact a {
+      color: rgba(202,138,113,.7); text-decoration: none;
     }
 
     /* ══════════════════════════════════════════════
@@ -488,12 +543,21 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     <div class="rv-spinner"></div>
   </div>
 
-  <!-- ERROR -->
-  <div class="rv-state" id="rvError">
-    <div class="rv-err-icon" id="rvErrIcon">🔒</div>
-    <div class="rv-err-title" id="rvErrTitle">Link nije validan</div>
-    <div class="rv-err-msg"   id="rvErrMsg">Ovaj link nije ispravan ili je istekao.</div>
-    <a href="/" class="rv-err-btn">← Nazad na početnu</a>
+  <!-- ERROR (modal overlay) -->
+  <div class="rv-err-backdrop" id="rvError">
+    <div class="rv-err-card">
+      <div class="rv-err-logo">
+        <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
+             onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:15px;color:#CA8A71;\'>e</span>'">
+      </div>
+      <div class="rv-err-icon-wrap" id="rvErrIcon">⚠️</div>
+      <div class="rv-err-title"     id="rvErrTitle">Nešto je pošlo po krivu</div>
+      <div class="rv-err-msg"       id="rvErrMsg">Došlo je do neočekivane greške. Pokušaj ponovo ili nas kontaktiraj.</div>
+      <a href="/" class="rv-err-btn">← Nazad na početnu</a>
+      <div class="rv-err-contact">
+        Problem? Piši nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a>
+      </div>
+    </div>
   </div>
 
   <!-- ENVELOPE + BOARDING PASS -->
@@ -694,15 +758,15 @@ function airportCity(iata) {
 /* ── Error state ── */
 function showError(status) {
   document.getElementById('rvLoading').classList.remove('active');
-  document.getElementById('rvError').classList.add('active');
   const m = {
-    404: ['🔒','Link nije validan','Ovaj link nije ispravan ili je istekao.'],
-    410: ['✈','Putovanje je počelo','Tvoje putovanje je već počelo. Srećan put!'],
-    403: ['⏳','Destinacija nije dostupna','Rezervacija nije potvrđena ili destinacija još nije unesena.'],
-  }[status] || ['⚠️','Nešto je pošlo po krivu','Pokušaj ponovo ili nas kontaktiraj.'];
+    404: ['🔒','Link nije validan','Ovaj link nije ispravan ili je istekao. Proveri da li si kopirao ceo link iz emaila.'],
+    410: ['✈️','Putovanje je počelo!','Tvoje putovanje je već počelo. Srećan put i uživaj u iznenađenju!'],
+    403: ['⏳','Još nije dostupno','Rezervacija još nije potvrđena ili destinacija nije unesena. Pokušaj ponovo uskoro.'],
+  }[status] || ['🌍','Došlo je do neočekivane greške','Nešto nije pošlo kako treba. Pokušaj ponovo ili nas kontaktiraj — rešićemo to u najkraćem roku.'];
   document.getElementById('rvErrIcon').textContent  = m[0];
   document.getElementById('rvErrTitle').textContent = m[1];
   document.getElementById('rvErrMsg').textContent   = m[2];
+  document.getElementById('rvError').classList.add('active');
 }
 
 /* ── Show envelope ── */
