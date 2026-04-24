@@ -499,7 +499,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 </div><!-- /scene -->
 
 <script>
-const API = 'https://escapii-backend.onrender.com';
+const API = '<?php echo esc_js(escapii_api_url()); ?>';
 let opened = false;
 
 /* ── Stars ── */

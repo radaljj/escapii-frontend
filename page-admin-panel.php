@@ -687,7 +687,7 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 
 <script>
-const API  = 'https://escapii-backend.onrender.com';
+const API  = '<?php echo esc_js(escapii_api_url()); ?>';
 let ADMIN_KEY = '';
 let ALL_DESTINATIONS = [];
 let destTomSelect = null;
@@ -1417,10 +1417,14 @@ function fmtTs(iso) {
 
 function getBtnAttrs(b, type) {
   if (type === 'reveal') {
-    if (b.revealSentAt)  return 'disabled title="Reveal je već poslan"';
+    if (b.revealSentAt) return 'disabled title="Reveal je već poslan"';
     return 'onclick="sendReveal(' + b.id + ')"';
   } else {
     if (b.forecastSentAt) return 'disabled title="Prognoza je već poslata"';
+    var days = b.departureDate
+      ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
+      : 0;
+    if (days > 7) return 'disabled title="Prerano — polazak za ' + days + ' dana (prognoza je pouzdana max 7 dana unapred)"';
     return 'onclick="sendForecast(' + b.id + ')"';
   }
 }

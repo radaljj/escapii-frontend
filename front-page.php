@@ -2217,7 +2217,7 @@
 </footer>
 
 <script>
-const API = 'https://escapii-backend.onrender.com';
+const API = '<?php echo esc_js(escapii_api_url()); ?>';
 
 // ══════════ i18n
 const TR = {
