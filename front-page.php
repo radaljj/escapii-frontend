@@ -2841,10 +2841,11 @@ async function submitWaitlist() {
   }
 
   try {
+    const hp = (document.getElementById('waitlistHp') || {}).value || '';
     const r = await fetch(`${API}/api/waitlist`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, airport: airportCode })
+      body: JSON.stringify({ email, airport: airportCode, hp })
     });
     const data = await r.json();
 
@@ -3198,6 +3199,8 @@ async function loadDates() {
           <div class="no-dates-waitlist-card">
             <div class="no-dates-waitlist-label">${lang==='sr'?'Obavesti me kad se otvore termini':'Notify me when dates open up'}</div>
             <div class="waitlist-form" id="waitlistForm">
+              <input type="text" id="waitlistHp" name="website" autocomplete="off" tabindex="-1"
+                     style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" value="">
               <input class="waitlist-input" id="waitlistEmail" type="email" placeholder="${t('waitlist.ph')}">
               <button class="waitlist-btn" onclick="submitWaitlist()">${t('s3.nodates.btn')}</button>
             </div>
