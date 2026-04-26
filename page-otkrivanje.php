@@ -17,7 +17,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(160deg, #0D2E38 0%, #091e2e 55%, #06181f 100%);
+      background: linear-gradient(160deg, #0F2D35 0%, #0A1E26 55%, #071620 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -106,7 +106,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       to   { opacity:1; }
     }
     .rv-err-card {
-      background: linear-gradient(145deg, #1a4450 0%, #0D2E38 100%);
+      background: linear-gradient(145deg, #1a4450 0%, #0F2D35 100%);
       border: 1px solid rgba(202,138,113,.25);
       border-radius: 24px;
       padding: 40px 32px 32px;
@@ -217,7 +217,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     }
 
     /* BP body */
-    .bp-body { padding: 14px 16px 12px; }
+    .bp-body { padding: 14px 16px 12px; transition: opacity 0.2s ease; }
 
     /* Route row */
     .bp-route {
@@ -268,7 +268,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       position: absolute;
       top: -7px;
       width: 14px; height: 14px;
-      background: #091e2e;
+      background: #0A1E26;
       border-radius: 50%;
     }
     .bp-tear::before { left: -7px; }
@@ -326,7 +326,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     .env-flap {
       width: 280px;
       height: 104px;
-      background: #112438;
+      background: #0F2D35;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
       transform: perspective(500px) rotateX(0deg);
@@ -341,7 +341,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     .env-body {
       width: 280px;
       height: 178px;
-      background: #0D2E38;
+      background: #0F2D35;
       position: relative;
       overflow: hidden;
     }
@@ -352,7 +352,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       width: 0; height: 0;
       border-style: solid;
       border-width: 89px 0 89px 140px;
-      border-color: transparent transparent transparent #091e2e;
+      border-color: transparent transparent transparent #0A1E26;
     }
     .env-fold-r {
       position: absolute;
@@ -360,7 +360,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       width: 0; height: 0;
       border-style: solid;
       border-width: 89px 140px 89px 0;
-      border-color: transparent #091e2e transparent transparent;
+      border-color: transparent #0A1E26 transparent transparent;
     }
 
     /* Logo circle */
@@ -392,24 +392,39 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     .env-bottom-strip {
       width: 280px;
       height: 10px;
-      background: #091e2e;
+      background: #0A1E26;
       border-radius: 0 0 6px 6px;
     }
 
     /* ── Click hint ── */
     .env-hint-click {
-      margin-top: 52px;
+      margin-top: 88px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .env-click-arrow {
+      display: flex;
+      justify-content: center;
+      color: #CA8A71;
+      animation: bounce-down 1.6s ease-in-out infinite;
+    }
+    @keyframes bounce-down {
+      0%, 100% { transform: translateY(0);   opacity: 0.65; }
+      50%       { transform: translateY(8px); opacity: 1;    }
+    }
+    .env-hint-label {
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.55);
       display: flex;
       align-items: center;
       gap: 10px;
-      animation: rv-pulse 2.2s ease-in-out infinite;
     }
-    .env-hint-click .dot {
+    .env-hint-label .dot {
       width: 5px; height: 5px;
       background: #CA8A71;
       border-radius: 50%;
@@ -482,28 +497,21 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       z-index: 1;
       overflow: hidden;
     }
-    /* Planet circles */
+    /* Earth planets */
     .bg-planet {
       position: absolute;
       border-radius: 50%;
-      background: transparent;
-      border: 1.5px solid rgba(202,138,113,0.09);
+      overflow: hidden;
       animation: planet-float ease-in-out infinite;
+      opacity: 0;
+      animation-fill-mode: both;
     }
-    .bg-planet::after {
-      content: '';
-      position: absolute;
-      left: -30%;
-      top: 42%;
-      width: 160%;
-      height: 16%;
-      border-radius: 50%;
-      border: 1px solid rgba(202,138,113,0.07);
-      transform: rotate(-15deg);
-    }
+    .bg-planet svg { width: 100%; height: 100%; display: block; }
     @keyframes planet-float {
-      0%,100% { transform: translateY(0px);   }
-      50%      { transform: translateY(-14px); }
+      0%    { opacity: 0; transform: translateY(0px); }
+      8%    { opacity: var(--p-op); }
+      92%   { opacity: var(--p-op); }
+      100%  { opacity: 0; transform: translateY(-18px); }
     }
     /* Question marks */
     .bg-qmark {
@@ -516,8 +524,8 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       animation: qm-drift ease-in-out infinite;
     }
     @keyframes qm-drift {
-      0%,100% { transform: translateY(0)    rotate(0deg);   opacity: 0.07; }
-      50%      { transform: translateY(-18px) rotate(6deg); opacity: 0.13; }
+      0%,100% { transform: translateY(0)     rotate(0deg);  opacity: 0.10; }
+      50%      { transform: translateY(-18px) rotate(6deg); opacity: 0.20; }
     }
   </style>
 </head>
@@ -633,7 +641,15 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     </div><!-- /env-scene -->
 
     <div class="env-hint-click" id="envHint">
-      <span class="dot"></span> KLIKNI DA OTVORIŠ <span class="dot"></span>
+      <div class="env-click-arrow">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2 L14 13 L26 2" stroke="#CA8A71" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 9 L14 20 L26 9" stroke="#CA8A71" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+        </svg>
+      </div>
+      <div class="env-hint-label">
+        <span class="dot"></span> KLIKNI DA OTVORIŠ <span class="dot"></span>
+      </div>
     </div>
 
     <div id="scratchHintExternal">
@@ -726,18 +742,44 @@ let errorShown = false;
 (function() {
   const deco = document.getElementById('bgDeco');
 
-  // Planets
+  // Earth SVG — reused for all planet instances
+  const earthSvg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Atmosphere halo -->
+    <circle cx="50" cy="50" r="50" fill="rgba(60,130,220,0.06)"/>
+    <!-- Ocean -->
+    <circle cx="50" cy="50" r="45" fill="rgba(14,48,88,0.38)" stroke="rgba(55,120,210,0.20)" stroke-width="1.5"/>
+    <!-- Ice caps -->
+    <ellipse cx="50" cy="9"  rx="17" ry="7"  fill="rgba(200,225,255,0.16)"/>
+    <ellipse cx="50" cy="91" rx="12" ry="5"  fill="rgba(200,225,255,0.10)"/>
+    <!-- Europe / Africa -->
+    <ellipse cx="54" cy="46" rx="11" ry="17" fill="rgba(42,82,38,0.30)" transform="rotate(8 54 46)"/>
+    <!-- Americas -->
+    <ellipse cx="28" cy="52" rx="8"  ry="18" fill="rgba(48,82,38,0.26)" transform="rotate(-8 28 52)"/>
+    <!-- Asia -->
+    <ellipse cx="70" cy="37" rx="13" ry="10" fill="rgba(42,78,36,0.24)" transform="rotate(-20 70 37)"/>
+    <!-- Australia -->
+    <ellipse cx="73" cy="66" rx="7"  ry="5"  fill="rgba(85,68,35,0.24)"/>
+    <!-- Cloud streaks -->
+    <ellipse cx="44" cy="28" rx="13" ry="3"  fill="rgba(255,255,255,0.07)" transform="rotate(-18 44 28)"/>
+    <ellipse cx="62" cy="58" rx="10" ry="2.5" fill="rgba(255,255,255,0.05)" transform="rotate(12 62 58)"/>
+    <!-- Orbital ring -->
+    <ellipse cx="50" cy="50" rx="48" ry="12" fill="none" stroke="rgba(202,138,113,0.10)" stroke-width="1" transform="rotate(-20 50 50)"/>
+  </svg>`;
+
+  // Planet instances
   const planets = [
-    { size:90,  top:'8%',  left:'7%',  dur:9,  delay:0  },
-    { size:55,  top:'72%', left:'80%', dur:11, delay:3  },
-    { size:38,  top:'20%', left:'88%', dur:8,  delay:1  },
-    { size:70,  top:'55%', left:'4%',  dur:13, delay:5  },
-    { size:44,  top:'88%', left:'45%', dur:10, delay:2  },
+    { size:92,  top:'7%',  left:'6%',  dur:18, delay:0,  op:0.32 },
+    { size:58,  top:'71%', left:'79%', dur:22, delay:4,  op:0.26 },
+    { size:40,  top:'19%', left:'87%', dur:16, delay:2,  op:0.22 },
+    { size:72,  top:'54%', left:'3%',  dur:26, delay:6,  op:0.28 },
+    { size:46,  top:'87%', left:'44%', dur:20, delay:1,  op:0.22 },
   ];
   planets.forEach(p => {
     const el = document.createElement('div');
     el.className = 'bg-planet';
-    el.style.cssText = `width:${p.size}px;height:${p.size}px;top:${p.top};left:${p.left};animation-duration:${p.dur}s;animation-delay:${p.delay}s`;
+    el.innerHTML = earthSvg;
+    el.style.cssText = `width:${p.size}px;height:${p.size}px;top:${p.top};left:${p.left};` +
+      `animation-duration:${p.dur}s;animation-delay:${p.delay}s;--p-op:${p.op}`;
     deco.appendChild(el);
   });
 
@@ -798,7 +840,8 @@ function showEnvelope(data) {
   document.getElementById('bpFromCity').textContent = airportCity(iata);
   const destEl = document.getElementById('bpDest');
   destEl.textContent  = data.destination || '—';
-  destEl.style.color  = 'transparent'; // hidden until scratch card is removed
+  // Hide entire bp-body until scratch card is revealed
+  document.querySelector('.bp-body').style.opacity = '0';
   document.getElementById('bpDate').textContent   = fmtDate(data.departureDate);
   document.getElementById('bpReturn').textContent = fmtDate(data.returnDate);
   document.getElementById('bpRef').textContent    = data.bookingRef || '—';
@@ -891,6 +934,10 @@ function addScratchCard() {
   if (!bpBody || !destEl) return;
 
   const dpr  = window.devicePixelRatio || 1;
+
+  // Restore body visibility — canvas will immediately cover it
+  bpBody.style.opacity = '1';
+
   const rect = bpBody.getBoundingClientRect();
   const cw   = rect.width;
   const ch   = rect.height;
@@ -981,9 +1028,8 @@ function addScratchCard() {
   }
 
   function fullyReveal() {
-    // Restore destination text with a nice fade-in
-    destEl.style.transition = 'color 0.4s ease';
-    destEl.style.color      = '#CA8A71';
+    // Destination text is already correct color — just ensure visibility
+    destEl.style.color = '#CA8A71';
 
     canvas.style.transition = 'opacity 0.55s ease';
     canvas.style.opacity    = '0';
