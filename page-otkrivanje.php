@@ -126,7 +126,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       opacity: 0; animation: fadeUp 0.7s ease 0.8s both;
       transition: transform 0.7s cubic-bezier(.22,1,.36,1);
     }
-    .envelope-wrap.shifted { transform: translateY(72px); }
+    .envelope-wrap.shifted { transform: translateY(90px); }
 
     /* The envelope — 380×240 */
     .envelope {
@@ -257,43 +257,31 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     .envelope.opened .wax-seal { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(18deg); }
 
     /* ── Boarding pass: starts FULLY inside envelope, slides up on open ── */
+    /* Key: bottom:0 + height:220px → top sits at 240-0-220=20px inside envelope.
+       env-base (z:2) covers the ticket (z:1) while inside.
+       No overflow below envelope → no floor mask needed. */
     .env-ticket {
       position: absolute;
       left: 24px; right: 24px;
-      bottom: -64px;          /* pushed below so top starts at ~30px inside envelope */
-      height: 268px;
-      z-index: 1;             /* behind env-base (z:2) — hidden while inside */
+      bottom: 0;
+      height: 220px;
+      z-index: 1;           /* stays behind env-base (z:2) the whole time */
       border-radius: 10px;
       box-shadow: 0 -2px 16px rgba(0,0,0,0.12), 0 6px 28px rgba(0,0,0,0.3);
       background: #fff;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      /* No initial transform — ticket is naturally inside the envelope */
     }
 
-    /* The magic: when opened, slide ticket up above the envelope */
+    /* Slide ticket upward — NO z-index change, env-base naturally hides inside portion */
     .envelope.opened .env-ticket {
-      z-index: 10; /* above everything once it's out */
       animation: ticketRise 1.2s cubic-bezier(.22,1,.36,1) 0.55s both;
     }
     @keyframes ticketRise {
       0%   { transform: translateY(0); }
-      100% { transform: translateY(-214px); }
+      100% { transform: translateY(-252px); }
     }
-
-    /* Floor mask: hides the bottom of the ticket that sticks out below the envelope */
-    .env-floor-mask {
-      position: absolute;
-      top: 240px;          /* starts at envelope bottom */
-      left: -120px; right: -120px;
-      height: 400px;
-      background: var(--page-bg);
-      z-index: 15;         /* above ticket (z:1) but this element is outside ticket's stacking ctx */
-      pointer-events: none;
-    }
-    /* Remove mask once ticket is out */
-    .envelope.opened .env-floor-mask { display: none; }
 
     /* ── Ticket layout ── */
     .ticket-header {
@@ -397,8 +385,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     @keyframes hintPop { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.7); opacity: 1; } }
 
     #scratchHintExternal {
-      display: none; align-items: center; gap: 8px;
-      margin-top: 18px;
+      display: none; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 20px;
       font-size: 10px; font-weight: 700; letter-spacing: 2px;
       text-transform: uppercase; color: rgba(202,138,113,0.85);
       pointer-events: none; animation: hintPop 1.8s ease-in-out infinite;
@@ -452,11 +440,10 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       .env-flap { height: 114px; }
       .env-bottom-fold { height: 106px; }
       .env-bottom-fold::before { height: 106px; }
-      .env-ticket { left: 18px; right: 18px; bottom: -52px; height: 220px; }
-      .env-floor-mask { top: 196px; }
+      .env-ticket { left: 18px; right: 18px; bottom: 0; height: 180px; }
       @keyframes ticketRise {
         0%   { transform: translateY(0); }
-        100% { transform: translateY(-176px); }
+        100% { transform: translateY(-200px); }
       }
       .ticket-iata { font-size: 26px; }
       .teaser-big  { font-size: 24px; }
@@ -587,10 +574,15 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       </div>
     </div>
 
-    <!-- Floor mask: covers bottom overflow of ticket before animation -->
-    <div class="env-floor-mask"></div>
-
   </div><!-- /envelope -->
+
+  <!-- Scratch hint — inside envelope-wrap so it shifts down with it -->
+  <div id="scratchHintExternal">
+    <span class="sh-coin">🪙</span>
+    OGREBI I OTKRIJ DESTINACIJU
+    <span class="sh-coin">🪙</span>
+  </div>
+
 </div><!-- /envelope-wrap -->
 
 <!-- Click hint -->
@@ -598,13 +590,6 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   <div class="hint-pulse"></div>
   Klikni da otvoriš
   <div class="hint-pulse"></div>
-</div>
-
-<!-- Scratch hint (appears after ticket slides out) -->
-<div id="scratchHintExternal">
-  <span class="sh-coin">🪙</span>
-  OGREBI I OTKRIJ DESTINACIJU
-  <span class="sh-coin">🪙</span>
 </div>
 
 <!-- Success bar -->
@@ -730,13 +715,13 @@ function openEnv() {
   // Shift envelope down to make room for ticket above
   setTimeout(() => envWrap.classList.add('shifted'), 50);
 
+  // Add scratch card IMMEDIATELY — canvas covers ticket-body from the start,
+  // so the white background is never visible (even while ticket is still inside).
+  addScratchCard();
+
   // Confetti + takeoff plane
   setTimeout(spawnConfetti, 1200);
   setTimeout(launchTakeoff,  1400);
-
-  // Scratch card — add right as ticket animation finishes (0.55s delay + 1.2s duration = 1.75s)
-  // Give 150ms buffer → 1900ms total
-  setTimeout(addScratchCard, 1900);
 }
 
 /* ── Confetti ── */
