@@ -2,8 +2,8 @@
 /**
  * Template Name: Otkrivanje Destinacije
  */
-$logo_url      = get_template_directory_uri() . '/images/logo-white.svg';
-$logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
+$logo_url    = get_template_directory_uri() . '/images/logo-white.svg';
+$favicon_url = get_template_directory_uri() . '/images/favicon.png';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -16,10 +16,11 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
   <style>
     :root {
       --orange: #f97316;
-      --gold:   #fbbf24;
-      --cream:  #fdf8f0;
-      --ink:    #1a1a2e;
+      --teal:   #0F2D35;
+      --teal2:  #143843;
+      --teal3:  #0A1E26;
       --accent: #CA8A71;
+      --page-bg: #0a0f1e;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,7 +30,7 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
       overflow: hidden;
     }
     body {
-      background: #0a0f1e;
+      background: var(--page-bg);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -37,168 +38,127 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
       position: relative;
     }
 
-    /* ─── Starfield canvas ─── */
-    #sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-    /* ─── Takeoff canvas ─── */
-    #takeoff {
-      position: fixed; inset: 0; z-index: 40;
-      pointer-events: none; opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+    /* ── Canvases ── */
+    #sky     { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    #takeoff { position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
     #takeoff.active { opacity: 1; }
 
-    /* ─── Radial glow ─── */
+    /* ── Radial glow ── */
     .glow {
       position: fixed; left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      width: 600px; height: 420px;
-      background: radial-gradient(ellipse, rgba(249,115,22,0.10) 0%, transparent 70%);
+      width: 560px; height: 380px;
+      background: radial-gradient(ellipse, rgba(202,138,113,0.08) 0%, transparent 70%);
       z-index: 0; pointer-events: none;
     }
 
-    /* ─── Top logo ─── */
+    /* ── Top logo ── */
     .top-logo {
-      position: fixed; top: 28px; left: 50%;
+      position: fixed; top: 26px; left: 50%;
       transform: translateX(-50%);
       z-index: 20;
       display: flex; align-items: center; gap: 10px;
-      opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
+      opacity: 0; animation: fadeUp 0.7s ease 0.2s both;
     }
-    .top-logo img { height: 22px; width: auto; }
-    .logo-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
-    .logo-sub {
-      font-size: 11px; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(255,255,255,0.4);
-    }
+    .top-logo img  { height: 20px; width: auto; }
+    .logo-divider  { width: 1px; height: 16px; background: rgba(255,255,255,0.18); }
+    .logo-sub      { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
 
-    /* ─── Loading spinner ─── */
-    #rvLoading {
-      position: relative; z-index: 10;
-    }
+    /* ── Loading ── */
+    #rvLoading { position: relative; z-index: 10; }
     .rv-spinner {
-      width: 44px; height: 44px;
-      border: 2px solid rgba(249,115,22,0.15);
-      border-top-color: var(--orange);
+      width: 40px; height: 40px;
+      border: 2px solid rgba(202,138,113,0.15);
+      border-top-color: var(--accent);
       border-radius: 50%;
       animation: rv-spin .85s linear infinite;
     }
     @keyframes rv-spin { to { transform: rotate(360deg); } }
 
-    /* ─── Error modal ─── */
+    /* ── Error modal ── */
     .rv-err-backdrop {
-      display: none;
-      position: fixed; inset: 0; z-index: 100;
-      background: rgba(10,15,30,0.80);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      align-items: center; justify-content: center;
-      padding: 24px;
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,15,30,0.82); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 24px;
     }
     .rv-err-backdrop.active { display: flex; animation: err-in .35s ease; }
     @keyframes err-in { from { opacity:0; } to { opacity:1; } }
     .rv-err-card {
       background: linear-gradient(145deg, #1a2a4a 0%, #0a1525 100%);
-      border: 1px solid rgba(249,115,22,.2);
-      border-radius: 24px;
-      padding: 40px 32px 32px;
-      max-width: 360px; width: 100%;
-      text-align: center;
-      box-shadow: 0 32px 80px rgba(0,0,0,.7);
+      border: 1px solid rgba(202,138,113,.2); border-radius: 24px;
+      padding: 40px 32px 32px; max-width: 360px; width: 100%;
+      text-align: center; box-shadow: 0 32px 80px rgba(0,0,0,.7);
       animation: card-up .4s .05s cubic-bezier(.34,1.08,.64,1) both;
     }
     @keyframes card-up {
       from { opacity:0; transform:translateY(24px) scale(.96); }
       to   { opacity:1; transform:translateY(0) scale(1); }
     }
-    .rv-err-logo {
-      margin: 0 auto 22px; width: 52px; height: 52px;
-      background: rgba(249,115,22,.12);
-      border: 1.5px solid rgba(249,115,22,.3);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .rv-err-logo img { height: 24px; width: auto; }
-    .rv-err-icon-wrap { font-size: 42px; margin-bottom: 16px; line-height: 1; }
-    .rv-err-title { font-size: 19px; font-weight: 800; color: #fff; margin-bottom: 10px; letter-spacing: -.3px; }
-    .rv-err-msg { font-size: 13.5px; color: rgba(255,255,255,.5); line-height: 1.7; margin-bottom: 28px; }
-    .rv-err-btn {
-      display: inline-block;
-      background: var(--orange); color: #fff; border: none;
-      padding: 13px 36px; border-radius: 100px;
-      font-size: 14px; font-weight: 700;
-      cursor: pointer; text-decoration: none;
-      transition: background .18s;
-    }
-    .rv-err-btn:hover { background: #ea580c; }
-    .rv-err-contact { margin-top: 16px; font-size: 12px; color: rgba(255,255,255,.28); }
-    .rv-err-contact a { color: rgba(249,115,22,.7); text-decoration: none; }
+    .rv-err-logo { margin: 0 auto 20px; width: 48px; height: 48px; background: rgba(202,138,113,.12); border: 1.5px solid rgba(202,138,113,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .rv-err-logo img { height: 22px; width: auto; }
+    .rv-err-icon  { font-size: 40px; margin-bottom: 14px; line-height: 1; }
+    .rv-err-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .rv-err-msg   { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.7; margin-bottom: 26px; }
+    .rv-err-btn   { display: inline-block; background: var(--accent); color: #fff; border: none; padding: 12px 32px; border-radius: 100px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; transition: background .18s; }
+    .rv-err-btn:hover { background: #b57560; }
+    .rv-err-contact { margin-top: 14px; font-size: 11px; color: rgba(255,255,255,.25); }
+    .rv-err-contact a { color: rgba(202,138,113,.6); text-decoration: none; }
 
-    /* ─── Pre-open teaser ─── */
+    /* ── Teaser ── */
     .teaser {
-      position: relative; z-index: 10;
-      text-align: center;
-      margin-bottom: 56px;
-      opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
+      position: relative; z-index: 10; text-align: center;
+      margin-bottom: 44px;
+      opacity: 0; animation: fadeUp 0.7s ease 0.5s both;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
-    .teaser-label {
-      font-size: 11px; letter-spacing: 3px;
-      text-transform: uppercase; color: rgba(255,255,255,0.45);
-      margin-bottom: 6px;
-    }
-    .teaser-big {
-      font-family: Georgia, serif; font-size: 30px;
-      color: #fff; font-weight: normal; line-height: 1.25;
-    }
-    .teaser-big em { color: var(--orange); font-style: normal; font-weight: bold; }
+    .teaser.hide { opacity: 0 !important; pointer-events: none; transform: translateY(-10px); }
+    .teaser-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+    .teaser-big   { font-family: Georgia, serif; font-size: 28px; color: #fff; font-weight: normal; line-height: 1.3; }
+    .teaser-big em { color: var(--accent); font-style: normal; font-weight: bold; }
 
-    /* ─── Envelope wrapper ─── */
+    /* ═══════════════════════════════════
+       ENVELOPE SCENE
+    ═══════════════════════════════════ */
+
+    /* Outer wrapper: shifts down when opened to make room for ticket above */
     .envelope-wrap {
       position: relative; z-index: 10;
-      opacity: 0; animation: fadeUp 0.7s ease 0.8s forwards;
+      opacity: 0; animation: fadeUp 0.7s ease 0.8s both;
+      transition: transform 0.7s cubic-bezier(.22,1,.36,1);
     }
+    .envelope-wrap.shifted { transform: translateY(72px); }
 
-    /* ─── The envelope ─── */
+    /* The envelope — 380×240 */
     .envelope {
-      width: 420px; height: 280px;
-      position: relative; cursor: pointer;
-      perspective: 1200px;
-      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(249,115,22,0.12));
+      width: 380px; height: 240px;
+      position: relative;
+      cursor: pointer;
+      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 30px rgba(202,138,113,0.10));
       transition: filter 0.3s ease;
     }
     .envelope:hover:not(.opened) {
-      filter: drop-shadow(0 28px 70px rgba(0,0,0,0.7)) drop-shadow(0 0 60px rgba(249,115,22,0.25));
+      filter: drop-shadow(0 24px 64px rgba(0,0,0,0.65)) drop-shadow(0 0 50px rgba(202,138,113,0.20));
     }
 
     /* Cream base */
     .env-base {
       position: absolute; inset: 0;
-      background: var(--cream);
+      background: linear-gradient(160deg, var(--teal2) 0%, var(--teal) 100%);
       border-radius: 6px 6px 10px 10px;
-      border: 1px solid rgba(200,185,160,0.8);
-    }
-    .env-base::after {
-      content: ''; position: absolute; inset: 0; border-radius: inherit;
-      background: repeating-linear-gradient(
-        -45deg, transparent, transparent 6px,
-        rgba(200,185,160,0.12) 6px, rgba(200,185,160,0.12) 7px
-      );
-      pointer-events: none;
+      border: 1px solid rgba(202,138,113,0.2);
+      z-index: 2;
     }
 
     /* Bottom V-fold */
     .env-bottom-fold {
       position: absolute; bottom: 0; left: 0; right: 0;
-      height: 155px; z-index: 2; overflow: hidden;
-      border-radius: 0 0 10px 10px;
+      height: 130px; z-index: 3; overflow: hidden; border-radius: 0 0 10px 10px;
     }
     .env-bottom-fold::before {
       content: ''; position: absolute; bottom: -2px; left: -2px; right: -2px;
-      height: 155px;
-      background: linear-gradient(175deg, #efe8d8 0%, #e8dcc8 100%);
+      height: 130px;
+      background: linear-gradient(175deg, #143843 0%, #0A1E26 100%);
       clip-path: polygon(0 100%, 50% 0%, 100% 100%);
-      border-left: 1px solid rgba(180,165,140,0.5);
-      border-right: 1px solid rgba(180,165,140,0.5);
     }
 
     /* Left fold */
@@ -208,9 +168,9 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
     }
     .env-left-fold::before {
       content: ''; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 100%;
-      background: linear-gradient(125deg, #ece5d6 0%, #e4dbc8 100%);
+      background: linear-gradient(125deg, var(--teal2) 0%, var(--teal3) 100%);
       clip-path: polygon(0 0, 100% 50%, 0 100%);
-      border-right: 1px solid rgba(180,165,140,0.4);
+      border-right: 1px solid rgba(202,138,113,0.12);
     }
 
     /* Right fold */
@@ -220,259 +180,232 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
     }
     .env-right-fold::before {
       content: ''; position: absolute; right: -1px; top: -1px; bottom: -1px; width: 100%;
-      background: linear-gradient(235deg, #ece5d6 0%, #e4dbc8 100%);
+      background: linear-gradient(235deg, var(--teal2) 0%, var(--teal3) 100%);
       clip-path: polygon(100% 0, 0 50%, 100% 100%);
-      border-left: 1px solid rgba(180,165,140,0.4);
+      border-left: 1px solid rgba(202,138,113,0.12);
+    }
+
+    /* Airmail border — diagonal stripes in brand colors */
+    .env-airmail {
+      position: absolute; inset: 0;
+      border-radius: 6px 6px 10px 10px;
+      border: 7px solid transparent;
+      border-image: repeating-linear-gradient(
+        -45deg,
+        var(--accent) 0px, var(--accent) 8px,
+        var(--teal3)  8px, var(--teal3)  16px
+      ) 7;
+      z-index: 6; pointer-events: none; opacity: 0.75;
     }
 
     /* Top flap */
     .env-flap {
       position: absolute; top: -1px; left: -1px; right: -1px;
-      height: 160px; z-index: 5;
+      height: 140px; z-index: 5;
       transform-origin: top center;
       transform-style: preserve-3d;
-      transition: transform 1.3s cubic-bezier(.4,0,.15,1);
+      transition: transform 1.2s cubic-bezier(.4,0,.15,1);
     }
     .env-flap-inner { position: absolute; inset: 0; overflow: hidden; }
     .env-flap-inner::before {
       content: ''; position: absolute; top: -1px; left: -1px; right: -1px; height: 100%;
-      background: linear-gradient(195deg, #ede6d8 0%, #ddd4c0 60%, #cfc6b2 100%);
+      background: linear-gradient(195deg, var(--teal2) 0%, var(--teal) 60%, var(--teal3) 100%);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
-      border: 1px solid rgba(180,165,140,0.6);
+      border: 1px solid rgba(202,138,113,0.18);
     }
     .env-flap-inner::after {
       content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
-      height: 1px; background: rgba(160,145,120,0.4);
+      height: 1px; background: rgba(202,138,113,0.15);
     }
     .envelope.opened .env-flap { transform: rotateX(-192deg); }
 
-    /* Airmail border */
-    .env-airmail {
-      position: absolute; inset: 0;
-      border-radius: 6px 6px 10px 10px;
-      border: 8px solid transparent;
-      border-image: repeating-linear-gradient(
-        90deg, #f97316 0px, #f97316 12px, #08112a 12px, #08112a 24px
-      ) 8;
-      z-index: 6; pointer-events: none; opacity: 0.7;
-    }
-
-    /* Postage stamp */
+    /* Stamp */
     .env-stamp {
-      position: absolute; top: 18px; right: 18px;
-      width: 46px; height: 56px;
-      background: var(--orange); border-radius: 3px;
-      z-index: 7;
+      position: absolute; top: 14px; right: 14px;
+      width: 42px; height: 50px;
+      background: var(--accent); border-radius: 3px; z-index: 7;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      gap: 3px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
-    .env-stamp::before {
-      content: ''; position: absolute; inset: 3px;
-      border: 1px solid rgba(255,255,255,0.4); border-radius: 2px;
-    }
-    .env-stamp img { width: 28px; height: auto; }
-    .env-stamp-text { font-size: 6px; font-weight: 700; letter-spacing: 0.5px; color: rgba(255,255,255,0.8); text-transform: uppercase; }
+    .env-stamp::before { content: ''; position: absolute; inset: 3px; border: 1px solid rgba(255,255,255,0.35); border-radius: 2px; }
+    .env-stamp img { width: 22px; height: 22px; object-fit: contain; }
+    .env-stamp-text { font-size: 5.5px; font-weight: 700; letter-spacing: 0.5px; color: rgba(255,255,255,0.75); text-transform: uppercase; }
 
     /* Address lines */
-    .env-address { position: absolute; bottom: 54px; left: 28px; z-index: 4; }
-    .env-address-line { width: 80px; height: 2px; background: rgba(140,125,100,0.3); border-radius: 1px; margin-bottom: 5px; }
-    .env-address-line:nth-child(2) { width: 60px; }
-    .env-address-line:nth-child(3) { width: 70px; }
+    .env-address { position: absolute; bottom: 44px; left: 24px; z-index: 4; }
+    .env-address-line { width: 72px; height: 1.5px; background: rgba(202,138,113,0.2); border-radius: 1px; margin-bottom: 5px; }
+    .env-address-line:nth-child(2) { width: 55px; }
+    .env-address-line:nth-child(3) { width: 64px; }
 
     /* Wax seal */
     .wax-seal {
       position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 8;
-      transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+      transform: translate(-50%, -50%); z-index: 8;
+      transition: opacity 0.35s ease 0.1s, transform 0.35s ease 0.1s;
     }
     .wax-seal-circle {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: radial-gradient(circle at 38% 32%, #fb923c 0%, #f97316 40%, #c2410c 100%);
-      border: 2px solid rgba(255,255,255,0.2);
+      width: 60px; height: 60px; border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #d9906a 0%, var(--accent) 45%, #9a6248 100%);
+      border: 2px solid rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(200,100,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(202,138,113,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .wax-seal-circle img { width: 32px; height: auto; }
-    .wax-seal-circle:hover {
-      transform: scale(1.06);
-      box-shadow: 0 6px 24px rgba(249,115,22,0.5), 0 0 0 1px rgba(200,100,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
-    }
-    .envelope.opened .wax-seal {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.5) rotate(20deg);
-    }
+    .wax-seal-circle img { width: 28px; height: 28px; object-fit: contain; }
+    .wax-seal-circle:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(202,138,113,0.45), 0 0 0 1px rgba(202,138,113,0.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+    .envelope.opened .wax-seal { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(18deg); }
 
-    /* ─── Boarding pass (inside envelope, slides up on open) ─── */
+    /* ── Boarding pass: starts FULLY inside envelope, slides up on open ── */
     .env-ticket {
-      position: absolute; left: 28px; right: 28px; bottom: 12px;
-      height: 330px; z-index: 1;
-      transform: translateY(10px);
+      position: absolute;
+      left: 24px; right: 24px;
+      bottom: -64px;          /* pushed below so top starts at ~30px inside envelope */
+      height: 268px;
+      z-index: 1;             /* behind env-base (z:2) — hidden while inside */
       border-radius: 10px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.15), 0 8px 32px rgba(0,0,0,0.35);
-      overflow: hidden; background: #fff;
+      box-shadow: 0 -2px 16px rgba(0,0,0,0.12), 0 6px 28px rgba(0,0,0,0.3);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* No initial transform — ticket is naturally inside the envelope */
     }
+
+    /* The magic: when opened, slide ticket up above the envelope */
     .envelope.opened .env-ticket {
-      z-index: 10;
-      animation: ticketSlideUp 1.6s cubic-bezier(.22,1,.36,1) 0.9s both;
+      z-index: 10; /* above everything once it's out */
+      animation: ticketRise 1.2s cubic-bezier(.22,1,.36,1) 0.55s both;
     }
-    @keyframes ticketSlideUp {
-      0%   { transform: translateY(10px); }
-      100% { transform: translateY(-338px); }
+    @keyframes ticketRise {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-214px); }
     }
 
-    /* Ticket header */
+    /* Floor mask: hides the bottom of the ticket that sticks out below the envelope */
+    .env-floor-mask {
+      position: absolute;
+      top: 240px;          /* starts at envelope bottom */
+      left: -120px; right: -120px;
+      height: 400px;
+      background: var(--page-bg);
+      z-index: 15;         /* above ticket (z:1) but this element is outside ticket's stacking ctx */
+      pointer-events: none;
+    }
+    /* Remove mask once ticket is out */
+    .envelope.opened .env-floor-mask { display: none; }
+
+    /* ── Ticket layout ── */
     .ticket-header {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      padding: 13px 18px 11px;
-      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent) 0%, #b57257 100%);
+      padding: 11px 16px 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
     }
-    .ticket-header-logo img { height: 18px; width: auto; }
+    .ticket-header-logo img { height: 16px; width: auto; }
     .ticket-header-type {
-      font-size: 8px; font-weight: 700; letter-spacing: 2.5px;
-      text-transform: uppercase; color: rgba(255,255,255,0.65);
-      border: 1px solid rgba(255,255,255,0.3); padding: 3px 8px; border-radius: 100px;
+      font-size: 7.5px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.25); padding: 2px 7px; border-radius: 100px;
     }
 
-    /* Ticket body */
     .ticket-body {
-      padding: 16px 18px 14px;
-      display: flex; flex-direction: column; gap: 12px;
+      flex: 1; /* fills remaining ticket height */
+      padding: 14px 16px 12px;
+      display: flex; flex-direction: column; gap: 10px;
       background: #fff; position: relative;
+      min-height: 0; /* important for flex child */
     }
 
-    /* Route row */
+    /* Route */
     .ticket-route { display: flex; align-items: center; gap: 0; opacity: 0; }
-    .envelope.opened .ticket-route { animation: fadeSlide 0.5s ease 2.1s both; }
+    .envelope.opened .ticket-route { animation: fadeSlide 0.45s ease 1.8s both; }
 
     .ticket-airport { flex: 1; }
-    .ticket-airport-label {
-      font-size: 8px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: #9ca3af; margin-bottom: 3px;
-    }
-    .ticket-iata {
-      font-family: Georgia, serif; font-size: 38px;
-      line-height: 1; letter-spacing: -2px; font-weight: normal;
-    }
+    .ticket-airport-label { font-size: 7.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #9ca3af; margin-bottom: 2px; }
+    .ticket-iata { font-family: Georgia, serif; font-size: 34px; line-height: 1; letter-spacing: -2px; font-weight: normal; }
     .ticket-iata.from { color: #1f2937; }
-    .ticket-iata.to   { color: var(--orange); }
-    .ticket-city { font-size: 11px; font-weight: 600; color: #6b7280; margin-top: 3px; }
-    .ticket-city.to { color: var(--orange); font-weight: 700; }
+    .ticket-iata.to   { color: var(--accent); }
+    .ticket-city      { font-size: 10px; font-weight: 600; color: #6b7280; margin-top: 2px; }
+    .ticket-city.to   { color: var(--accent); font-weight: 700; }
 
     .ticket-route-mid {
       display: flex; flex-direction: column; align-items: center;
-      gap: 4px; padding: 0 16px; padding-top: 18px;
+      padding: 0 14px; padding-top: 14px;
     }
     .ticket-route-line {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, #e5e7eb, var(--orange), #e5e7eb);
+      width: 52px; height: 1px;
+      background: linear-gradient(90deg, #e5e7eb, var(--accent), #e5e7eb);
       position: relative;
     }
-    .ticket-route-plane {
-      font-size: 16px; position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
-    }
+    .ticket-route-plane { font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%); }
 
-    /* Tear line */
+    /* Tear */
     .ticket-tear {
       height: 1px;
-      background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 8px, transparent 8px, transparent 16px);
-      margin: 0 -18px; position: relative; opacity: 0;
+      background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 7px, transparent 7px, transparent 14px);
+      margin: 0 -16px; position: relative; opacity: 0;
     }
     .ticket-tear::before, .ticket-tear::after {
       content: ''; position: absolute; top: 50%; transform: translateY(-50%);
-      width: 16px; height: 16px; border-radius: 50%; background: #0a0f1e;
+      width: 14px; height: 14px; border-radius: 50%; background: var(--page-bg);
     }
-    .ticket-tear::before { left: -8px; }
-    .ticket-tear::after  { right: -8px; }
-    .envelope.opened .ticket-tear { animation: fadeSlide 0.4s ease 2.3s both; }
+    .ticket-tear::before { left: -7px; }
+    .ticket-tear::after  { right: -7px; }
+    .envelope.opened .ticket-tear { animation: fadeSlide 0.35s ease 2.0s both; }
 
-    /* Details row */
+    /* Details */
     .ticket-details { display: flex; gap: 0; opacity: 0; }
-    .envelope.opened .ticket-details { animation: fadeSlide 0.5s ease 2.5s both; }
+    .envelope.opened .ticket-details { animation: fadeSlide 0.45s ease 2.15s both; }
     .ticket-detail { flex: 1; }
-    .ticket-detail + .ticket-detail { border-left: 1px solid #f3f4f6; padding-left: 14px; }
-    .ticket-detail-label {
-      font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; color: #9ca3af; margin-bottom: 3px;
-    }
-    .ticket-detail-value { font-size: 12px; font-weight: 700; color: #1f2937; }
-    .ticket-detail-value.accent { color: var(--orange); }
+    .ticket-detail + .ticket-detail { border-left: 1px solid #f3f4f6; padding-left: 12px; }
+    .ticket-detail-label { font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #9ca3af; margin-bottom: 2px; }
+    .ticket-detail-value { font-size: 11px; font-weight: 700; color: #1f2937; }
+    .ticket-detail-value.accent { color: var(--accent); }
 
-    /* Passenger row */
-    .ticket-pax {
-      padding-top: 8px; border-top: 1px dashed #e5e7eb;
-      opacity: 0;
-    }
-    .envelope.opened .ticket-pax { animation: fadeSlide 0.5s ease 2.7s both; }
-    .ticket-pax-row { font-size: 10px; color: #374151; font-weight: 600; line-height: 1.5; }
+    /* Passengers */
+    .ticket-pax { padding-top: 8px; border-top: 1px dashed #e5e7eb; opacity: 0; flex-shrink: 0; }
+    .envelope.opened .ticket-pax { animation: fadeSlide 0.45s ease 2.3s both; }
+    .ticket-pax-row { font-size: 9.5px; color: #374151; font-weight: 600; line-height: 1.5; }
 
     @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── Scratch canvas over ticket body ─── */
+    /* ── Scratch canvas ── */
     #scratchCanvas {
       position: absolute; inset: 0; width: 100%; height: 100%;
-      cursor: crosshair; z-index: 5;
-      touch-action: none; border-radius: 0;
+      cursor: crosshair; z-index: 5; touch-action: none;
+      border-radius: 0 0 10px 10px;
     }
 
-    /* ─── Hint below envelope ─── */
+    /* ── Hints ── */
     .hint {
-      position: relative; z-index: 10;
-      margin-top: 32px;
+      position: relative; z-index: 10; margin-top: 28px;
       display: flex; align-items: center; gap: 10px;
-      color: rgba(255,255,255,0.45); font-size: 12px;
+      color: rgba(255,255,255,0.4); font-size: 11px;
       letter-spacing: 2px; text-transform: uppercase;
-      opacity: 0; animation: fadeUp 0.7s ease 1.2s forwards;
+      opacity: 0; animation: fadeUp 0.7s ease 1.2s both;
       transition: opacity 0.3s ease; user-select: none;
     }
     .hint.hide { opacity: 0 !important; pointer-events: none; }
     .hint-pulse {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--orange);
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
       animation: hintPop 1.6s ease-in-out infinite;
     }
-    @keyframes hintPop {
-      0%,100% { transform: scale(1); opacity: 0.5; }
-      50%      { transform: scale(1.6); opacity: 1; }
-    }
+    @keyframes hintPop { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.7); opacity: 1; } }
 
-    /* ─── Scratch hint below envelope ─── */
     #scratchHintExternal {
       display: none; align-items: center; gap: 8px;
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(249,115,22,0.85);
-      pointer-events: none;
-      animation: hintPop 1.8s ease-in-out infinite;
+      text-transform: uppercase; color: rgba(202,138,113,0.85);
+      pointer-events: none; animation: hintPop 1.8s ease-in-out infinite;
     }
-    #scratchHintExternal .sh-coin { font-size: 16px; }
+    #scratchHintExternal .sh-coin { font-size: 15px; }
 
-    /* ─── Marching dots ─── */
-    .march {
-      position: fixed; bottom: 36px; left: 50%;
-      transform: translateX(-50%); z-index: 10;
-      display: flex; gap: 6px;
-      opacity: 0; animation: fadeUp 0.6s ease 1.4s forwards;
-      transition: opacity 0.3s ease;
-    }
-    .march.hide { opacity: 0 !important; }
-    .mdot { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); animation: marchPop 1.4s ease-in-out infinite; }
-    .mdot:nth-child(2) { animation-delay: 0.18s; }
-    .mdot:nth-child(3) { animation-delay: 0.36s; }
-    .mdot:nth-child(4) { animation-delay: 0.54s; }
-    .mdot:nth-child(5) { animation-delay: 0.72s; }
-    @keyframes marchPop {
-      0%,100% { opacity: 0.2; transform: scale(0.7); }
-      50%      { opacity: 1;   transform: scale(1.4); }
-    }
-
-    /* ─── Confetti ─── */
+    /* ── Confetti ── */
     .confetti-el {
       position: fixed; z-index: 50; pointer-events: none; opacity: 0;
       animation: confettiFall var(--dur, 2s) ease var(--delay, 0s) forwards;
@@ -481,51 +414,53 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
       0%   { opacity: 0; transform: translate(0,0) rotate(0deg) scale(0.5); }
       8%   { opacity: 1; }
       85%  { opacity: 0.9; }
-      100% { opacity: 0; transform: translate(var(--tx), 180px) rotate(var(--rot)) scale(1.1); }
+      100% { opacity: 0; transform: translate(var(--tx), 160px) rotate(var(--rot)) scale(1.1); }
     }
 
-    /* ─── Success bar ─── */
+    /* ── Success bar ── */
     .success-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-      padding: 16px 24px;
-      display: flex; align-items: center; justify-content: center; gap: 14px;
+      padding: 14px 24px; display: flex; align-items: center; justify-content: center; gap: 14px;
       z-index: 60; transform: translateY(100%);
       transition: transform 0.7s cubic-bezier(.22,1,.36,1);
       font-size: 14px; color: rgba(255,255,255,0.9);
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
     .success-bar.show { transform: translateY(0); }
     .success-bar strong { color: #fff; }
     .success-btn {
-      background: var(--orange); color: #fff;
-      padding: 9px 22px; border-radius: 100px;
-      font-size: 12px; font-weight: 700; text-decoration: none;
-      letter-spacing: 0.5px; white-space: nowrap; transition: background 0.2s;
+      background: var(--accent); color: #fff; padding: 8px 20px;
+      border-radius: 100px; font-size: 12px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.5px; white-space: nowrap;
+      transition: background 0.2s;
     }
-    .success-btn:hover { background: #ea580c; }
+    .success-btn:hover { background: #b57257; }
 
-    /* ─── Sparkle particles ─── */
-    .rv-spark {
-      position: fixed; pointer-events: none; z-index: 51; border-radius: 50%;
-    }
+    /* ── Sparkles ── */
+    .rv-spark { position: fixed; pointer-events: none; z-index: 51; border-radius: 50%; }
 
-    /* ─── Shared animation ─── */
+    /* ── Shared animations ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 480px) {
-      .envelope { width: 320px; height: 215px; }
-      .env-flap { height: 124px; }
-      .env-ticket { left: 20px; right: 20px; height: 300px; }
-      @keyframes ticketSlideUp {
-        0%   { transform: translateY(10px); }
-        100% { transform: translateY(-300px); }
+    /* ── Mobile ── */
+    @media (max-width: 460px) {
+      .envelope { width: 310px; height: 196px; }
+      .env-flap { height: 114px; }
+      .env-bottom-fold { height: 106px; }
+      .env-bottom-fold::before { height: 106px; }
+      .env-ticket { left: 18px; right: 18px; bottom: -52px; height: 220px; }
+      .env-floor-mask { top: 196px; }
+      @keyframes ticketRise {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(-176px); }
       }
-      .ticket-iata { font-size: 28px; }
+      .ticket-iata { font-size: 26px; }
       .teaser-big  { font-size: 24px; }
+      .envelope-wrap.shifted { transform: translateY(56px); }
     }
   </style>
 </head>
@@ -540,11 +475,11 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
   <div class="rv-err-card">
     <div class="rv-err-logo">
       <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
-           onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:15px;color:#f97316;\'>e</span>'">
+           onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:15px;color:var(--accent);\'>e</span>'">
     </div>
-    <div class="rv-err-icon-wrap" id="rvErrIcon">⚠️</div>
-    <div class="rv-err-title"     id="rvErrTitle">Nešto je pošlo po krivu</div>
-    <div class="rv-err-msg"       id="rvErrMsg">Došlo je do neočekivane greške. Pokušaj ponovo ili nas kontaktiraj.</div>
+    <div class="rv-err-icon"  id="rvErrIcon">⚠️</div>
+    <div class="rv-err-title" id="rvErrTitle">Nešto je pošlo po krivu</div>
+    <div class="rv-err-msg"   id="rvErrMsg">Došlo je do neočekivane greške. Pokušaj ponovo ili nas kontaktiraj.</div>
     <a href="/" class="rv-err-btn">← Nazad na početnu</a>
     <div class="rv-err-contact">Problem? Piši nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
   </div>
@@ -552,8 +487,7 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
 
 <!-- Top logo -->
 <div class="top-logo">
-  <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
-       onerror="this.style.display='none'">
+  <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii" onerror="this.style.display='none'">
   <div class="logo-divider"></div>
   <div class="logo-sub">Mystery Travel</div>
 </div>
@@ -561,26 +495,29 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
 <!-- Loading -->
 <div id="rvLoading"><div class="rv-spinner"></div></div>
 
-<!-- Teaser (shown after API responds) -->
-<div class="teaser" id="rvTeaser" style="opacity:0;display:none;">
+<!-- Teaser -->
+<div class="teaser" id="rvTeaser" style="display:none;">
   <div class="teaser-label" id="teaserName">✦ Tvoje putovanje</div>
   <div class="teaser-big">Tvoja destinacija<br>čeka u koverti</div>
 </div>
 
-<!-- Envelope (shown after API responds) -->
-<div class="envelope-wrap" id="rvEnvWrap" style="opacity:0;display:none;">
+<!-- Envelope -->
+<div class="envelope-wrap" id="rvEnvWrap" style="display:none;">
   <div class="envelope" id="env" onclick="openEnv()">
 
+    <!-- Base & folds (z:2-3, naturally hide ticket while inside) -->
     <div class="env-base"></div>
     <div class="env-bottom-fold"></div>
     <div class="env-left-fold"></div>
     <div class="env-right-fold"></div>
+
+    <!-- Airmail decorative border -->
     <div class="env-airmail"></div>
 
-    <!-- Stamp with logo -->
+    <!-- Stamp with favicon -->
     <div class="env-stamp">
-      <img src="<?php echo esc_url($logo_url); ?>" alt="escapii"
-           onerror="this.outerHTML='<span style=\'font-size:10px;color:#fff;\'>✈</span>'">
+      <img src="<?php echo esc_url($favicon_url); ?>" alt=""
+           onerror="this.style.display='none'">
       <div class="env-stamp-text">escapii</div>
     </div>
 
@@ -591,12 +528,12 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
       <div class="env-address-line"></div>
     </div>
 
-    <!-- Boarding pass (slides up on open) -->
+    <!-- Boarding pass (z:1 — hidden behind folds while inside, slides above) -->
     <div class="env-ticket">
       <div class="ticket-header">
         <div class="ticket-header-logo">
           <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
-               onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:15px;color:#fff;\'>escapii.</span>'">
+               onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:14px;color:#fff;\'>escapii.</span>'">
         </div>
         <div class="ticket-header-type">Boarding Pass</div>
       </div>
@@ -605,7 +542,7 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
           <div class="ticket-airport">
             <div class="ticket-airport-label">Od</div>
             <div class="ticket-iata from" id="ticketFromIata">BEG</div>
-            <div class="ticket-city" id="ticketFromCity">Beograd</div>
+            <div class="ticket-city"      id="ticketFromCity">Beograd</div>
           </div>
           <div class="ticket-route-mid">
             <div class="ticket-route-line">
@@ -614,8 +551,8 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
           </div>
           <div class="ticket-airport" style="text-align:right;">
             <div class="ticket-airport-label" style="text-align:right;">Do</div>
-            <div class="ticket-iata to" id="ticketDestIata">???</div>
-            <div class="ticket-city to" id="ticketDestCity">—</div>
+            <div class="ticket-iata to" id="ticketDestIata">—</div>
+            <div class="ticket-city to"  id="ticketDestCity">—</div>
           </div>
         </div>
         <div class="ticket-tear"></div>
@@ -639,40 +576,35 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
       </div>
     </div>
 
-    <!-- Flap -->
-    <div class="env-flap">
-      <div class="env-flap-inner"></div>
-    </div>
+    <!-- Top flap (opens upward) -->
+    <div class="env-flap"><div class="env-flap-inner"></div></div>
 
-    <!-- Wax seal with logo -->
+    <!-- Wax seal with favicon -->
     <div class="wax-seal">
       <div class="wax-seal-circle">
-        <img src="<?php echo esc_url($logo_url); ?>" alt="e"
-             onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:20px;color:#fff;font-weight:bold;\'>e</span>'">
+        <img src="<?php echo esc_url($favicon_url); ?>" alt=""
+             onerror="this.style.display='none'">
       </div>
     </div>
+
+    <!-- Floor mask: covers bottom overflow of ticket before animation -->
+    <div class="env-floor-mask"></div>
 
   </div><!-- /envelope -->
 </div><!-- /envelope-wrap -->
 
-<!-- Hint: click to open -->
+<!-- Click hint -->
 <div class="hint" id="hint" style="display:none;">
   <div class="hint-pulse"></div>
   Klikni da otvoriš
   <div class="hint-pulse"></div>
 </div>
 
-<!-- Scratch hint (shown after ticket slides up) -->
+<!-- Scratch hint (appears after ticket slides out) -->
 <div id="scratchHintExternal">
   <span class="sh-coin">🪙</span>
   OGREBI I OTKRIJ DESTINACIJU
   <span class="sh-coin">🪙</span>
-</div>
-
-<!-- Marching dots -->
-<div class="march" id="march" style="display:none;">
-  <div class="mdot"></div><div class="mdot"></div><div class="mdot"></div>
-  <div class="mdot"></div><div class="mdot"></div>
 </div>
 
 <!-- Success bar -->
@@ -683,8 +615,7 @@ $logo_dark_url = get_template_directory_uri() . '/images/logo-black.svg';
 
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
-let opened    = false;
-let errorShown = false;
+let opened = false, errorShown = false;
 
 /* ── Global error handlers ── */
 window.onerror = function() { showError(0); return true; };
@@ -692,16 +623,15 @@ window.addEventListener('unhandledrejection', function() { showError(0); });
 
 /* ── Starfield ── */
 (function(){
-  const c = document.getElementById('sky');
-  const ctx = c.getContext('2d');
+  const c = document.getElementById('sky'), ctx = c.getContext('2d');
   let stars = [];
   function resize(){ c.width = innerWidth; c.height = innerHeight; }
   function init(){
-    stars = Array.from({length:160}, () => ({
+    stars = Array.from({length:150}, () => ({
       x: Math.random()*c.width, y: Math.random()*c.height,
-      r: Math.random()*1.4+0.2,
-      a: Math.random(), da: (Math.random()*0.005+0.001)*(Math.random()>.5?1:-1),
-      orange: Math.random()>.85
+      r: Math.random()*1.3+0.2,
+      a: Math.random(), da: (Math.random()*0.004+0.001)*(Math.random()>.5?1:-1),
+      accent: Math.random()>.88
     }));
   }
   function draw(){
@@ -710,7 +640,7 @@ window.addEventListener('unhandledrejection', function() { showError(0); });
       s.a += s.da;
       if(s.a>1){s.a=1;s.da*=-1;} if(s.a<0.04){s.a=0.04;s.da*=-1;}
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle = s.orange ? `rgba(249,115,22,${s.a*.8})` : `rgba(255,255,255,${s.a*.7})`;
+      ctx.fillStyle = s.accent ? `rgba(202,138,113,${s.a*.7})` : `rgba(255,255,255,${s.a*.65})`;
       ctx.fill();
     });
     requestAnimationFrame(draw);
@@ -724,16 +654,15 @@ function fmtDate(iso) {
   if (!iso) return '—';
   const [y,m,d] = iso.split('-');
   const mon = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
-  return d + '. ' + (mon[+m - 1] || m) + ' ' + y + '.';
+  return d + '. ' + (mon[+m-1] || m) + ' ' + y + '.';
 }
 function airportCity(iata) {
   return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
 }
 
-/* ── Error state ── */
+/* ── Error ── */
 function showError(status) {
-  if (errorShown) return;
-  errorShown = true;
+  if (errorShown) return; errorShown = true;
   document.getElementById('rvLoading').style.display = 'none';
   const m = {
     404: ['🔒','Link nije validan','Ovaj link nije ispravan ili je istekao. Proveri da li si kopirao ceo link iz emaila.'],
@@ -746,80 +675,88 @@ function showError(status) {
   document.getElementById('rvError').classList.add('active');
 }
 
-/* ── Show envelope after API ── */
+/* ── Show envelope ── */
 function showEnvelope(data) {
   document.getElementById('rvLoading').style.display = 'none';
 
-  // Populate ticket fields
   const iata = (data.departureAirport || '').toUpperCase();
-  document.getElementById('ticketFromIata').textContent   = iata || 'BEG';
-  document.getElementById('ticketFromCity').textContent   = airportCity(iata);
-  document.getElementById('ticketDestIata').textContent   = '???';
-  document.getElementById('ticketDestCity').textContent   = data.destination || '—';
-  document.getElementById('ticketDate').textContent       = fmtDate(data.departureDate);
-  document.getElementById('ticketReturn').textContent     = fmtDate(data.returnDate);
-  document.getElementById('ticketRef').textContent        = data.bookingRef || '—';
-  document.getElementById('success-city').textContent     = data.destination || 'vaše iznenađenje';
+  document.getElementById('ticketFromIata').textContent = iata || 'BEG';
+  document.getElementById('ticketFromCity').textContent = airportCity(iata);
+  document.getElementById('ticketDestIata').textContent = '—'; /* hidden under scratch card */
+  document.getElementById('ticketDestCity').textContent = data.destination || '—';
+  document.getElementById('ticketDate').textContent     = fmtDate(data.departureDate);
+  document.getElementById('ticketReturn').textContent   = fmtDate(data.returnDate);
+  document.getElementById('ticketRef').textContent      = data.bookingRef || '—';
+  document.getElementById('success-city').textContent   = data.destination || 'vaše iznenađenje';
 
   const names = Array.isArray(data.passengers) && data.passengers.length
     ? data.passengers.join(' · ') : '—';
   document.getElementById('ticketPassengers').textContent = names;
+  document.getElementById('teaserName').textContent = '✦ ' + (data.firstName || 'Tvoje putovanje');
 
-  // Teaser name
-  const firstName = data.firstName || '';
-  document.getElementById('teaserName').textContent = '✦ ' + (firstName || 'Tvoje putovanje');
+  // Store destination for post-scratch reveal
+  document.getElementById('ticketDestIata').dataset.dest = data.destination || '—';
 
-  // Show UI elements
   const teaser  = document.getElementById('rvTeaser');
   const envWrap = document.getElementById('rvEnvWrap');
   const hint    = document.getElementById('hint');
-  const march   = document.getElementById('march');
 
   teaser.style.display  = 'block';
   envWrap.style.display = 'block';
   hint.style.display    = 'flex';
-  march.style.display   = 'flex';
 
-  // Trigger fade-in animations
   requestAnimationFrame(() => {
     teaser.style.animation  = 'fadeUp 0.7s ease 0.1s both';
     teaser.style.opacity    = '';
-    envWrap.style.animation = 'fadeUp 0.7s ease 0.4s both';
+    envWrap.style.animation = 'fadeUp 0.7s ease 0.45s both';
     envWrap.style.opacity   = '';
   });
 }
 
 /* ── Open envelope ── */
-function openEnv(){
+function openEnv() {
   if (opened) return;
   opened = true;
-  document.getElementById('env').classList.add('opened');
-  document.getElementById('hint').classList.add('hide');
-  document.getElementById('march').classList.add('hide');
-  setTimeout(spawnConfetti, 1400);
-  setTimeout(launchTakeoff,  1600);
-  // Scratch card appears after ticket finishes sliding up (~2.5s after open)
-  setTimeout(addScratchCard, 2700);
+
+  const env     = document.getElementById('env');
+  const envWrap = document.getElementById('rvEnvWrap');
+  const hint    = document.getElementById('hint');
+  const teaser  = document.getElementById('rvTeaser');
+
+  env.classList.add('opened');
+  hint.classList.add('hide');
+  teaser.classList.add('hide');
+
+  // Shift envelope down to make room for ticket above
+  setTimeout(() => envWrap.classList.add('shifted'), 50);
+
+  // Confetti + takeoff plane
+  setTimeout(spawnConfetti, 1200);
+  setTimeout(launchTakeoff,  1400);
+
+  // Scratch card — add right as ticket animation finishes (0.55s delay + 1.2s duration = 1.75s)
+  // Give 150ms buffer → 1900ms total
+  setTimeout(addScratchCard, 1900);
 }
 
 /* ── Confetti ── */
 function spawnConfetti(){
-  const syms   = ['✦','✈','★','✦','✦','●'];
-  const colors = ['#f97316','#fbbf24','#fff','#fb923c','#fde68a'];
-  for(let i=0;i<44;i++){
+  const syms   = ['✦','✈','★','✦','●'];
+  const colors = ['#CA8A71','#f97316','#fbbf24','#fff','#fb923c'];
+  for(let i=0;i<40;i++){
     const el = document.createElement('div');
     el.className = 'confetti-el';
     el.textContent = syms[Math.floor(Math.random()*syms.length)];
     el.style.color    = colors[Math.floor(Math.random()*colors.length)];
     el.style.left     = (15+Math.random()*70)+'vw';
     el.style.top      = (10+Math.random()*55)+'vh';
-    el.style.fontSize = (9+Math.random()*14)+'px';
-    el.style.setProperty('--dur',   (1.4+Math.random()*2)+'s');
-    el.style.setProperty('--delay', (Math.random()*.7)+'s');
-    el.style.setProperty('--tx',    (Math.random()*240-120)+'px');
-    el.style.setProperty('--rot',   (Math.random()*720-360)+'deg');
+    el.style.fontSize = (9+Math.random()*13)+'px';
+    el.style.setProperty('--dur',   (1.4+Math.random()*1.8)+'s');
+    el.style.setProperty('--delay', (Math.random()*.65)+'s');
+    el.style.setProperty('--tx',    (Math.random()*220-110)+'px');
+    el.style.setProperty('--rot',   (Math.random()*700-350)+'deg');
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(), 4500);
+    setTimeout(()=>el.remove(), 4000);
   }
 }
 
@@ -830,56 +767,44 @@ function launchTakeoff(){
   canvas.classList.add('active');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
-  const DURATION = 3400;
-  let start = null;
-  const trail = [];
+  const DUR = 3200; let start = null; const trail = [];
 
   function easeIn(t){ return t*t*t; }
   function easeIO(t){ return t<.5?2*t*t:-1+(4-2*t)*t; }
 
   function plane(x,y,angle,sc,alpha){
-    ctx.save();
-    ctx.globalAlpha = alpha;
+    ctx.save(); ctx.globalAlpha=alpha;
     ctx.translate(x,y); ctx.rotate(angle); ctx.scale(sc,sc);
     ctx.fillStyle='#fff';
-    ctx.beginPath(); ctx.ellipse(0,0,30,9,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(30,0); ctx.lineTo(42,0); ctx.lineTo(30,-4); ctx.closePath(); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(-24,0); ctx.lineTo(-34,-18); ctx.lineTo(-18,-2); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0,0,28,8,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(28,0); ctx.lineTo(40,0); ctx.lineTo(28,-4); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-22,0); ctx.lineTo(-32,-16); ctx.lineTo(-16,-2); ctx.closePath(); ctx.fill();
     ctx.fillStyle='#e2e8f0';
-    ctx.beginPath(); ctx.moveTo(-4,0); ctx.lineTo(14,0); ctx.lineTo(2,-26); ctx.lineTo(-9,-20); ctx.closePath(); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(-4,0); ctx.lineTo(14,0); ctx.lineTo(2,26); ctx.lineTo(-9,20); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='rgba(100,200,255,.7)';
-    ctx.beginPath(); ctx.arc(8,-2,3.5,0,Math.PI*2); ctx.fill();
-    const eg=ctx.createLinearGradient(-36,0,-60,0);
-    eg.addColorStop(0,'rgba(249,115,22,.7)'); eg.addColorStop(1,'rgba(249,115,22,0)');
-    ctx.strokeStyle=eg; ctx.lineWidth=4; ctx.lineCap='round';
-    ctx.beginPath(); ctx.moveTo(-36,0); ctx.lineTo(-60,Math.sin(Date.now()/110)*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-4,0); ctx.lineTo(12,0); ctx.lineTo(2,-24); ctx.lineTo(-8,-18); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-4,0); ctx.lineTo(12,0); ctx.lineTo(2,24); ctx.lineTo(-8,18); ctx.closePath(); ctx.fill();
+    const eg=ctx.createLinearGradient(-32,0,-56,0);
+    eg.addColorStop(0,'rgba(202,138,113,.7)'); eg.addColorStop(1,'rgba(202,138,113,0)');
+    ctx.strokeStyle=eg; ctx.lineWidth=3.5; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(-32,0); ctx.lineTo(-56,Math.sin(Date.now()/100)*2); ctx.stroke();
     ctx.restore();
   }
 
   function frame(ts){
     if(!start) start=ts;
-    const t = Math.min((ts-start)/DURATION,1);
+    const t=Math.min((ts-start)/DUR,1);
     ctx.clearRect(0,0,W,H);
     let px,py,angle,sc;
-    const startX=W*.36, startY=H*.64;
-    if(t<.38){
-      const q=easeIO(t/.38); px=startX+q*W*.24; py=startY; angle=0; sc=1.1;
-    } else if(t<.62){
-      const q=easeIn((t-.38)/.24); px=startX+W*.24+q*W*.15; py=startY-q*H*.2; angle=-q*.32; sc=1.1+q*.08;
-    } else {
-      const q=easeIn((t-.62)/.38); px=startX+W*.39+q*W*.75; py=startY-H*.2-q*H*.72; angle=-.32-q*.18; sc=1.18-q*.45;
-    }
-    const alpha = t<.05 ? t/.05 : t>.85 ? (1-t)/.15 : 1;
-    trail.push({x:px,y:py});
-    if(trail.length>28) trail.shift();
+    const sx=W*.36, sy=H*.64;
+    if(t<.38){ const q=easeIO(t/.38); px=sx+q*W*.24; py=sy; angle=0; sc=1.1; }
+    else if(t<.62){ const q=easeIn((t-.38)/.24); px=sx+W*.24+q*W*.15; py=sy-q*H*.2; angle=-q*.32; sc=1.1+q*.08; }
+    else { const q=easeIn((t-.62)/.38); px=sx+W*.39+q*W*.75; py=sy-H*.2-q*H*.72; angle=-.32-q*.18; sc=1.18-q*.45; }
+    const alpha=t<.05?t/.05:t>.85?(1-t)/.15:1;
+    trail.push({x:px,y:py}); if(trail.length>26) trail.shift();
     if(trail.length>1){
-      ctx.save(); ctx.strokeStyle='rgba(255,255,255,.1)';
-      ctx.lineWidth=2; ctx.setLineDash([6,9]);
-      ctx.lineDashOffset=-(Date.now()/80)%15;
+      ctx.save(); ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=2; ctx.setLineDash([5,8]);
+      ctx.lineDashOffset=-(Date.now()/75)%13;
       ctx.beginPath(); ctx.moveTo(trail[0].x,trail[0].y);
-      trail.forEach(pt=>ctx.lineTo(pt.x,pt.y));
-      ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+      trail.forEach(pt=>ctx.lineTo(pt.x,pt.y)); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
     }
     plane(px,py,angle,sc,alpha);
     if(t<1) requestAnimationFrame(frame);
@@ -888,162 +813,139 @@ function launchTakeoff(){
   requestAnimationFrame(frame);
 }
 
-/* ── Scratch card (over ticket body) ── */
+/* ── Scratch card ── */
 function addScratchCard() {
   const ticketBody = document.querySelector('.ticket-body');
   if (!ticketBody) return;
 
+  // Force all ticket content visible (they're behind the canvas, revealed when scratched)
+  ticketBody.querySelectorAll('.ticket-route, .ticket-tear, .ticket-details, .ticket-pax').forEach(el => {
+    el.style.cssText = 'opacity:1;animation:none;transform:none;';
+  });
+
   const dpr  = window.devicePixelRatio || 1;
   const rect = ticketBody.getBoundingClientRect();
-  const cw   = rect.width;
-  const ch   = rect.height;
 
   const canvas = document.createElement('canvas');
   canvas.id = 'scratchCanvas';
-  canvas.width  = Math.round(cw * dpr);
-  canvas.height = Math.round(ch * dpr);
+  canvas.width  = Math.round(rect.width  * dpr);
+  canvas.height = Math.round(rect.height * dpr);
   ticketBody.style.position = 'relative';
   ticketBody.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
 
-  // Cover: orange-navy gradient matching envelope palette
+  /* Cover: dark gradient matching brand */
   const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0,   '#1a0a02');
-  grad.addColorStop(0.5, '#2d1200');
-  grad.addColorStop(1,   '#0a0810');
+  grad.addColorStop(0, '#1c0e06');
+  grad.addColorStop(0.5, '#2a1208');
+  grad.addColorStop(1, '#120a16');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
-  // Diagonal stripe texture (matches airmail)
+  /* Diagonal stripe texture (matches airmail border) */
   ctx.save();
-  for(let i = -H; i < W + H; i += 18 * dpr) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0); ctx.lineTo(i + H, H);
-    ctx.strokeStyle = 'rgba(249,115,22,0.06)';
-    ctx.lineWidth = 7 * dpr;
-    ctx.stroke();
+  ctx.strokeStyle = 'rgba(202,138,113,0.07)';
+  ctx.lineWidth = 8 * dpr;
+  for (let i = -H; i < W + H; i += 20 * dpr) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
   }
   ctx.restore();
 
-  // Center text
+  /* Center text */
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = `${Math.round(22 * dpr)}px serif`;
-  ctx.fillStyle = 'rgba(249,115,22,0.75)';
-  ctx.fillText('🪙', W / 2, H / 2 - Math.round(18 * dpr));
+  ctx.font = `${Math.round(20 * dpr)}px serif`;
+  ctx.fillStyle = 'rgba(202,138,113,0.8)';
+  ctx.fillText('🪙', W/2, H/2 - Math.round(16 * dpr));
 
-  ctx.font = `bold ${Math.round(8.5 * dpr)}px system-ui, sans-serif`;
-  ctx.fillStyle = 'rgba(249,115,22,0.95)';
-  ctx.fillText('✦  OGREBI DA OTKRIJEŠ  ✦', W / 2, H / 2 + Math.round(2 * dpr));
+  ctx.font = `bold ${Math.round(8 * dpr)}px system-ui, sans-serif`;
+  ctx.fillStyle = 'rgba(202,138,113,1)';
+  ctx.fillText('✦  OGREBI DA OTKRIJEŠ  ✦', W/2, H/2 + Math.round(2 * dpr));
 
-  ctx.font = `${Math.round(7 * dpr)}px system-ui, sans-serif`;
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  ctx.fillText('svoju destinaciju', W / 2, H / 2 + Math.round(16 * dpr));
+  ctx.font = `${Math.round(6.5 * dpr)}px system-ui, sans-serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillText('svoju destinaciju', W/2, H/2 + Math.round(15 * dpr));
 
-  // Show external hint
+  /* Show external hint */
   const hintExt = document.getElementById('scratchHintExternal');
   if (hintExt) hintExt.style.display = 'flex';
 
-  // Scratch logic
-  let drawing  = false;
-  let revealed = false;
-  const total  = W * H;
+  /* Scratch logic */
+  let drawing = false, revealed = false;
+  const total = W * H;
 
   function getXY(e) {
-    const r  = canvas.getBoundingClientRect();
-    const sx = W / r.width, sy = H / r.height;
+    const r = canvas.getBoundingClientRect();
+    const sx = W/r.width, sy = H/r.height;
     const src = e.touches ? e.touches[0] : e;
-    return [(src.clientX - r.left) * sx, (src.clientY - r.top) * sy];
+    return [(src.clientX - r.left)*sx, (src.clientY - r.top)*sy];
   }
   function scratchAt(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath(); ctx.arc(x, y, 28 * dpr, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, 26*dpr, 0, Math.PI*2); ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
     if (!revealed) checkReveal();
   }
   function checkReveal() {
-    const data = ctx.getImageData(0, 0, W, H).data;
+    const px = ctx.getImageData(0,0,W,H).data;
     let cleared = 0;
-    for (let i = 3; i < data.length; i += 4) if (data[i] < 128) cleared++;
-    if (cleared / total > 0.50) { revealed = true; fullyReveal(); }
+    for (let i=3; i<px.length; i+=4) if(px[i]<128) cleared++;
+    if (cleared/total > 0.50) { revealed = true; fullyReveal(); }
   }
   function fullyReveal() {
-    // Show real IATA code
-    const destIata = document.getElementById('ticketDestIata');
-    // Populate from stored data attribute
-    if (destIata && destIata.dataset.iata) {
-      destIata.textContent = destIata.dataset.iata;
-    }
+    // Show real destination name in IATA slot
+    const destEl = document.getElementById('ticketDestIata');
+    if (destEl) destEl.textContent = destEl.dataset.dest || '—';
 
-    canvas.style.transition = 'opacity 0.55s ease';
+    canvas.style.transition = 'opacity 0.5s ease';
     canvas.style.opacity    = '0';
-    if (hintExt) {
-      hintExt.style.transition = 'opacity 0.3s';
-      hintExt.style.opacity    = '0';
-    }
-    // Show success bar
-    setTimeout(() => { document.getElementById('success-bar').classList.add('show'); }, 400);
-    setTimeout(() => {
-      canvas.remove();
-      if (hintExt) hintExt.style.display = 'none';
-    }, 600);
+    if (hintExt) { hintExt.style.transition = 'opacity 0.3s'; hintExt.style.opacity = '0'; }
 
-    // Celebration sparkles on destination
+    setTimeout(() => { document.getElementById('success-bar').classList.add('show'); }, 350);
+    setTimeout(() => { canvas.remove(); if(hintExt) hintExt.style.display='none'; }, 550);
+
+    // Sparkle burst
     setTimeout(() => {
-      const r   = destIata ? destIata.getBoundingClientRect() : ticketBody.getBoundingClientRect();
-      const cx  = r.left + r.width / 2;
-      const cy  = r.top  + r.height / 2;
-      const cols = ['#f97316','#fbbf24','#fff','#fb923c'];
-      for (let i = 0; i < 24; i++) {
-        const sp  = document.createElement('div');
-        sp.className = 'rv-spark';
-        const sz  = Math.random() * 8 + 3;
-        const ang = (Math.PI * 2 * i / 24) + (Math.random() - 0.5) * 0.5;
-        const dist = 55 + Math.random() * 95;
-        sp.style.cssText = `width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};` +
-          `border-radius:${Math.random() > .4 ? '50%' : '3px'};left:${cx}px;top:${cy}px;` +
-          `transform:translate(-50%,-50%);opacity:1`;
+      const el = destEl || document.getElementById('ticketDestCity');
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left+r.width/2, cy = r.top+r.height/2;
+      const cols = ['#CA8A71','#fbbf24','#fff','#f97316'];
+      for(let i=0;i<22;i++){
+        const sp = document.createElement('div'); sp.className='rv-spark';
+        const sz=Math.random()*7+3, ang=(Math.PI*2*i/22)+(Math.random()-.5)*.5, dist=50+Math.random()*90;
+        sp.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};border-radius:${Math.random()>.4?'50%':'3px'};left:${cx}px;top:${cy}px;transform:translate(-50%,-50%);opacity:1`;
         document.body.appendChild(sp);
-        const tx  = Math.cos(ang) * dist, ty = Math.sin(ang) * dist;
-        const dur = 0.5 + Math.random() * 0.4, del = Math.random() * 0.12;
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          sp.style.transition = `transform ${dur}s ${del}s ease-out, opacity ${dur*.8}s ${del+.1}s ease-out`;
-          sp.style.transform  = `translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
-          sp.style.opacity    = '0';
+        const tx=Math.cos(ang)*dist, ty=Math.sin(ang)*dist;
+        const dur=0.45+Math.random()*.4, del=Math.random()*.1;
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          sp.style.transition=`transform ${dur}s ${del}s ease-out,opacity ${dur*.8}s ${del+.1}s ease-out`;
+          sp.style.transform=`translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
+          sp.style.opacity='0';
         }));
-        setTimeout(() => sp.remove(), (dur + del + 0.25) * 1000);
+        setTimeout(()=>sp.remove(),(dur+del+.2)*1000);
       }
-    }, 200);
+    }, 180);
   }
 
-  canvas.addEventListener('mousedown',  e => { drawing = true; const [x,y] = getXY(e); scratchAt(x,y); });
-  window.addEventListener('mouseup',    () => drawing = false);
-  canvas.addEventListener('mousemove',  e => { if (drawing) { const [x,y] = getXY(e); scratchAt(x,y); } });
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const [x,y] = getXY(e); scratchAt(x,y); }, {passive:false});
-  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (drawing) { const [x,y] = getXY(e); scratchAt(x,y); } }, {passive:false});
-  canvas.addEventListener('touchend',   () => drawing = false);
+  canvas.addEventListener('mousedown',  e=>{drawing=true;const[x,y]=getXY(e);scratchAt(x,y);});
+  window.addEventListener('mouseup',    ()=>drawing=false);
+  canvas.addEventListener('mousemove',  e=>{if(drawing){const[x,y]=getXY(e);scratchAt(x,y);}});
+  canvas.addEventListener('touchstart', e=>{e.preventDefault();drawing=true;const[x,y]=getXY(e);scratchAt(x,y);},{passive:false});
+  canvas.addEventListener('touchmove',  e=>{e.preventDefault();if(drawing){const[x,y]=getXY(e);scratchAt(x,y);}},{passive:false});
+  canvas.addEventListener('touchend',   ()=>drawing=false);
 }
 
 /* ── API fetch ── */
-(async function init() {
+(async function init(){
   const token = new URLSearchParams(location.search).get('token');
   if (!token) { showError(404); return; }
   try {
     const res = await fetch(`${API}/api/reveal?token=${encodeURIComponent(token)}`);
     if (!res.ok) { showError(res.status); return; }
-    const data = await res.json();
-
-    // Store IATA on element for scratch reveal
-    const destIata = document.getElementById('ticketDestIata');
-    if (destIata && data.destinationIata) {
-      destIata.dataset.iata = data.destinationIata;
-    }
-
-    showEnvelope(data);
-  } catch(e) {
-    showError(0);
-  }
+    showEnvelope(await res.json());
+  } catch(e) { showError(0); }
 })();
 </script>
 
