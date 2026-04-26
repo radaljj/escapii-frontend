@@ -2,7 +2,8 @@
 /**
  * Template Name: Otkrivanje Destinacije
  */
-$logo_url = get_template_directory_uri() . '/images/logo-white.svg';
+$logo_url       = get_template_directory_uri() . '/images/logo-white.svg';
+$logo_dark_url  = get_template_directory_uri() . '/images/logo-black.svg';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -17,7 +18,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(160deg, #0F2D35 0%, #0A1E26 55%, #071620 100%);
+      background: #efe9e7;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -94,9 +95,9 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     .rv-err-backdrop {
       display: none;
       position: fixed; inset: 0; z-index: 100;
-      background: rgba(6,24,31,0.72);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(239,233,231,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       align-items: center; justify-content: center;
       padding: 24px;
     }
@@ -167,7 +168,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      color: rgba(10,30,38,0.45);
       margin-bottom: 64px;
     }
 
@@ -268,7 +269,7 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       position: absolute;
       top: -7px;
       width: 14px; height: 14px;
-      background: #0A1E26;
+      background: #efe9e7;
       border-radius: 50%;
     }
     .bp-tear::before { left: -7px; }
@@ -398,28 +399,18 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
     /* ── Click hint ── */
     .env-hint-click {
-      margin-top: 88px;
+      margin-top: 64px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       gap: 10px;
-    }
-    .env-click-arrow {
-      display: flex;
-      justify-content: center;
-      color: #CA8A71;
-      animation: bounce-down 1.6s ease-in-out infinite;
-    }
-    @keyframes bounce-down {
-      0%, 100% { transform: translateY(0);   opacity: 0.65; }
-      50%       { transform: translateY(8px); opacity: 1;    }
+      animation: rv-pulse 2.2s ease-in-out infinite;
     }
     .env-hint-label {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
+      color: rgba(10,30,38,0.5);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -431,8 +422,8 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       display: inline-block;
     }
     @keyframes rv-pulse {
-      0%,100% { opacity: 0.4; }
-      50%      { opacity: 1;   }
+      0%,100% { opacity: 0.45; }
+      50%      { opacity: 1;    }
     }
 
     /* ── Airplane SVG (launch on open) ── */
@@ -518,14 +509,14 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
       position: absolute;
       font-family: Georgia, serif;
       font-weight: 700;
-      color: rgba(202,138,113,0.07);
+      color: rgba(10,30,38,0.06);
       pointer-events: none;
       user-select: none;
       animation: qm-drift ease-in-out infinite;
     }
     @keyframes qm-drift {
-      0%,100% { transform: translateY(0)     rotate(0deg);  opacity: 0.10; }
-      50%      { transform: translateY(-18px) rotate(6deg); opacity: 0.20; }
+      0%,100% { transform: translateY(0)     rotate(0deg);  opacity: 0.06; }
+      50%      { transform: translateY(-18px) rotate(6deg); opacity: 0.13; }
     }
   </style>
 </head>
@@ -540,8 +531,8 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
 
 <!-- Top logo -->
 <a href="/" class="rv-logo">
-  <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii"
-       onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:20px;color:#fff;\'>escapii<em style=\'color:#CA8A71;font-style:normal;\'>.</em></span>'">
+  <img src="<?php echo esc_url($logo_dark_url); ?>" alt="Escapii"
+       onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:20px;color:#0A1E26;\'>escapii<em style=\'color:#CA8A71;font-style:normal;\'>.</em></span>'">
 </a>
 
 <!-- Paper plane SVG for launch animation -->
@@ -641,12 +632,6 @@ $logo_url = get_template_directory_uri() . '/images/logo-white.svg';
     </div><!-- /env-scene -->
 
     <div class="env-hint-click" id="envHint">
-      <div class="env-click-arrow">
-        <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2 L14 13 L26 2" stroke="#CA8A71" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 9 L14 20 L26 9" stroke="#CA8A71" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
-        </svg>
-      </div>
       <div class="env-hint-label">
         <span class="dot"></span> KLIKNI DA OTVORIŠ <span class="dot"></span>
       </div>
@@ -673,20 +658,21 @@ let errorShown = false;
   function resize() { c.width = innerWidth; c.height = innerHeight; }
   resize();
   addEventListener('resize', resize);
-  const stars = Array.from({length: 200}, () => ({
+  // Subtle warm dust particles on light background
+  const stars = Array.from({length: 120}, () => ({
     x: Math.random(), y: Math.random(),
-    r: Math.random() * 1.5 + 0.2,
+    r: Math.random() * 1.2 + 0.3,
     phase: Math.random() * Math.PI * 2,
-    speed: Math.random() * 0.006 + 0.002,
-    gold: Math.random() > 0.88
+    speed: Math.random() * 0.005 + 0.001,
+    warm: Math.random() > 0.5
   }));
   function draw(t) {
     ctx.clearRect(0, 0, c.width, c.height);
     stars.forEach(s => {
-      const a = 0.25 + 0.75 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+      const a = 0.04 + 0.10 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
       ctx.beginPath();
       ctx.arc(s.x * c.width, s.y * c.height, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = s.gold ? '#F5C9A8' : '#ffffff';
+      ctx.fillStyle = s.warm ? 'rgba(202,138,113,1)' : 'rgba(10,30,38,1)';
       ctx.globalAlpha = a;
       ctx.fill();
     });
@@ -701,14 +687,14 @@ let errorShown = false;
   const container = document.getElementById('bgPlanes');
   // Commercial airliner side-view SVG
   const planeSvg = `<svg viewBox="0 0 80 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M72 14 C68 14 52 11 34 11 L10 11 C6.5 11 4 12.2 4 14 C4 15.8 6.5 17 10 17 L34 17 C52 17 68 17 72 14Z" fill="rgba(255,255,255,0.16)"/>
-    <path d="M10 11 L4 14 L10 17Z" fill="rgba(255,255,255,0.20)"/>
-    <path d="M40 11 L24 3  L29 11Z" fill="rgba(255,255,255,0.18)"/>
-    <path d="M40 17 L24 25 L29 17Z" fill="rgba(255,255,255,0.13)"/>
-    <path d="M66 11 L61 6  L63 11Z" fill="rgba(255,255,255,0.13)"/>
-    <path d="M66 17 L59 20 L62 17Z" fill="rgba(255,255,255,0.10)"/>
-    <circle cx="18" cy="14" r="2" fill="rgba(202,138,113,0.25)"/>
-    <circle cx="26" cy="14" r="2" fill="rgba(202,138,113,0.20)"/>
+    <path d="M72 14 C68 14 52 11 34 11 L10 11 C6.5 11 4 12.2 4 14 C4 15.8 6.5 17 10 17 L34 17 C52 17 68 17 72 14Z" fill="rgba(15,45,53,0.18)"/>
+    <path d="M10 11 L4 14 L10 17Z" fill="rgba(15,45,53,0.22)"/>
+    <path d="M40 11 L24 3  L29 11Z" fill="rgba(15,45,53,0.16)"/>
+    <path d="M40 17 L24 25 L29 17Z" fill="rgba(15,45,53,0.12)"/>
+    <path d="M66 11 L61 6  L63 11Z" fill="rgba(15,45,53,0.12)"/>
+    <path d="M66 17 L59 20 L62 17Z" fill="rgba(15,45,53,0.09)"/>
+    <circle cx="18" cy="14" r="2" fill="rgba(202,138,113,0.35)"/>
+    <circle cx="26" cy="14" r="2" fill="rgba(202,138,113,0.28)"/>
   </svg>`;
 
   const configs = [

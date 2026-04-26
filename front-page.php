@@ -2599,20 +2599,14 @@ async function checkStatus() {
     const d = await r.json();
 
     const statusLabels = {
-      PENDING:   lang === 'sr' ? '⏳ Na čekanju'  : '⏳ Pending',
-      CONFIRMED: lang === 'sr' ? '✅ Potvrđena'   : '✅ Confirmed',
-      CANCELLED: lang === 'sr' ? '❌ Otkazana'     : '❌ Cancelled',
+      PENDING:   '⏳ Na čekanju',
+      CONFIRMED: '✅ Potvrđena',
+      CANCELLED: '❌ Otkazana',
     };
     const statusMsgs = {
-      PENDING:   lang === 'sr'
-        ? 'Tvoj upit je primljen. Kontaktiraćemo te u roku od 24h sa podacima za uplatu.'
-        : 'Your request has been received. We will contact you within 24h with payment details.',
-      CONFIRMED: lang === 'sr'
-        ? 'Rezervacija je potvrđena! Tvoje iznenađujuće putovanje je sigurno. Vidimo se na aerodromu!'
-        : 'Your reservation is confirmed! Your surprise trip is locked in. See you at the airport!',
-      CANCELLED: lang === 'sr'
-        ? 'Ova rezervacija je otkazana. Kontaktiraj nas ako misliš da je greškom.'
-        : 'This reservation has been cancelled. Contact us if you think this is a mistake.',
+      PENDING:   'Tvoj upit je primljen. Kontaktiraćemo te u roku od 24h sa podacima za uplatu.',
+      CONFIRMED: 'Rezervacija je potvrđena! Tvoje iznenađujuće putovanje je sigurno. Vidimo se na aerodromu! ✈',
+      CANCELLED: 'Ova rezervacija je otkazana. Kontaktiraj nas ako misliš da je u pitanju greška.',
     };
 
     const airportNames = { BEG:'Beograd (BEG)', INI:'Niš (INI)', ZAG:'Zagreb (ZAG)', BUD:'Budimpešta (BUD)', TIM:'Timișoara (TIM)' };
@@ -2621,27 +2615,27 @@ async function checkStatus() {
 
     resEl.innerHTML = `
       <div>
-        <div class="sr-label">${lang === 'sr' ? 'Nosilac rezervacije' : 'Booking holder'}</div>
-        <div class="sr-name">${d.firstName} ${d.lastName}</div>
+        <div class="sr-label">Nosilac rezervacije</div>
+        <div class="sr-name">${d.firstName}${d.lastName ? ' ' + d.lastName : ''}</div>
         <div class="sr-ref">${d.bookingRef}</div>
       </div>
       <span class="sr-badge ${d.status}">${statusLabels[d.status] || d.status}</span>
       <div class="sr-info">
         <div class="sr-row">
-          <span class="sr-row-label">${lang === 'sr' ? 'Aerodrom polaska' : 'Departure'}</span>
+          <span class="sr-row-label">Aerodrom polaska</span>
           <span class="sr-row-val">${airportNames[d.departureAirport] || d.departureAirport}</span>
         </div>
         <div class="sr-row">
-          <span class="sr-row-label">${lang === 'sr' ? 'Termin' : 'Dates'}</span>
+          <span class="sr-row-label">Termin</span>
           <span class="sr-row-val">${dep} → ${ret}</span>
         </div>
         <div class="sr-row">
-          <span class="sr-row-label">${lang === 'sr' ? 'Putnici' : 'Travelers'}</span>
+          <span class="sr-row-label">Putnici</span>
           <span class="sr-row-val">${d.numberOfTravelers}</span>
         </div>
         ${d.passengerNames && d.passengerNames.length ? `
         <div class="sr-row sr-row-passengers">
-          <span class="sr-row-label">${lang === 'sr' ? 'Imena' : 'Names'}</span>
+          <span class="sr-row-label">Imena</span>
           <span class="sr-row-val sr-passengers">${d.passengerNames.join('<br>')}</span>
         </div>` : ''}
       </div>
