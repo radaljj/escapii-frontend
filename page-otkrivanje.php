@@ -126,13 +126,14 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       opacity: 0; animation: fadeUp 0.7s ease 0.8s both;
       transition: transform 0.7s cubic-bezier(.22,1,.36,1);
     }
-    .envelope-wrap.shifted { transform: translateY(90px); }
+    .envelope-wrap.shifted { transform: translateY(110px); }
 
     /* The envelope — 380×240 */
     .envelope {
       width: 380px; height: 240px;
       position: relative;
       cursor: pointer;
+      perspective: 1200px;        /* 3D context so flap backface-visibility works */
       filter: drop-shadow(0 20px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 30px rgba(202,138,113,0.10));
       transition: filter 0.3s ease;
     }
@@ -205,6 +206,10 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       transform-origin: top center;
       transform-style: preserve-3d;
       transition: transform 1.2s cubic-bezier(.4,0,.15,1);
+      /* When rotated past 90° the back face must be invisible so it
+         doesn't cover the ticket that's sliding out from underneath */
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     .env-flap-inner { position: absolute; inset: 0; overflow: hidden; }
     .env-flap-inner::before {
@@ -314,8 +319,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     .ticket-iata { font-family: Georgia, serif; font-size: 34px; line-height: 1; letter-spacing: -2px; font-weight: normal; }
     .ticket-iata.from { color: #1f2937; }
     .ticket-iata.to   { color: var(--accent); }
-    .ticket-city      { font-size: 10px; font-weight: 600; color: #6b7280; margin-top: 2px; }
-    .ticket-city.to   { color: var(--accent); font-weight: 700; }
+    .ticket-city      { display: none; }
+    .ticket-city.to   { display: none; }
 
     .ticket-route-mid {
       display: flex; flex-direction: column; align-items: center;
@@ -714,6 +719,13 @@ function openEnv() {
 
   // Shift envelope down to make room for ticket above
   setTimeout(() => envWrap.classList.add('shifted'), 50);
+
+  // Once ticket is almost fully out (1700ms ≈ 96% of animation),
+  // raise its z-index above everything so no element can cover it
+  setTimeout(() => {
+    const t = document.querySelector('.env-ticket');
+    if (t) t.style.zIndex = '20';
+  }, 1700);
 
   // Add scratch card IMMEDIATELY — canvas covers ticket-body from the start,
   // so the white background is never visible (even while ticket is still inside).
