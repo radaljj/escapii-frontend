@@ -184,10 +184,18 @@
       align-items: center; justify-content: center;
       text-align: center; padding: 110px 24px 80px;
       position: relative; overflow: hidden;
-      background:
-        linear-gradient(to bottom, rgba(10,30,38,.45) 0%, rgba(10,30,38,.72) 55%, rgba(10,30,38,.88) 100%),
-        url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1920&q=85') center/cover no-repeat;
+      background: #0a1e26;
     }
+    .hero-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      z-index: 0; pointer-events: none;
+    }
+    .hero-video-overlay {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(10,30,38,.5) 0%, rgba(10,30,38,.72) 55%, rgba(10,30,38,.92) 100%);
+    }
+    .esc-hero > *:not(.hero-video):not(.hero-video-overlay) { position: relative; z-index: 2; }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       background: rgba(202,138,113,.1); border: 1px solid rgba(202,138,113,.3);
@@ -1613,6 +1621,10 @@
 
 <!-- HERO -->
 <section class="esc-hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="<?= get_template_directory_uri() ?>/assets/hero-bg-opt.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
   <div class="hero-eyebrow" data-i18n="hero.badge">Iznenađenje garantovano</div>
   <h1 class="hero-h1" data-i18n-html="hero.h1">Putujte <em>a da ne znate</em> kuda idete</h1>
   <p class="hero-sub" data-i18n="hero.sub">Odaberite aerodrom, datum i budžet. Mi biramo destinaciju. Vi se iznenadite na aerodromu.</p>
@@ -2794,7 +2806,7 @@ async function loadDestinations() {
     if (!rActive.ok || !rAll.ok) throw new Error();
     S.destinations    = await rActive.json();
     S.allDestinations = await rAll.json();
-    const count = S.destinations.length;
+    const count = Math.max(S.destinations.length, 50);
     document.getElementById('destCount').textContent = count + '+';
     document.getElementById('statsDestCount').textContent = count + '+';
     buildCarousel();
