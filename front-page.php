@@ -361,6 +361,16 @@
     .dest-card-c:hover img { transform: scale(1.08); }
     .dest-card-name { font-size: 16px; font-weight: 800; color: white; }
     .dest-card-ctry { font-size: 12px; color: var(--gray); margin-top: 3px; }
+    .dest-card-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px 14px 14px;
+      background: linear-gradient(to top, rgba(10,20,30,.82) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .dest-card-label-name {
+      font-size: 15px; font-weight: 800; color: #ffffff;
+      letter-spacing: .3px; text-shadow: 0 1px 4px rgba(0,0,0,.5);
+    }
     .dest-mystery-row {
       text-align: center; margin-top: 48px; padding: 0 24px;
     }
@@ -1477,6 +1487,21 @@
     /* Counter/trav inside card */
     .trav-info h3 { color: #ffffff; }
     .trav-row { background: rgba(255,255,255,.06); }
+    /* Counter number — nasleđivalo bi tamni body color, mora biti belo */
+    .card .cv { color: #ffffff; }
+    /* Accom tiles inside card — text beo na tamnoj pozadini */
+    .card .a-name { color: #ffffff; }
+    .card .a-desc { color: rgba(255,255,255,.6); }
+    .card .accom-tile { border-color: rgba(255,255,255,.14); }
+    .card .accom-tile:hover,
+    .card .accom-tile.on { border-color: var(--gold); background: rgba(202,138,113,.1); }
+    /* Suit row / extras inside card */
+    .card .suit-row { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+    .card .e-label  { color: #ffffff; }
+    .card .e-desc   { color: rgba(255,255,255,.55); }
+    .card .e-price  { color: var(--gold); }
+    .card h3 { color: #ffffff; }
+    .card p, .card .sec-sub { color: rgba(255,255,255,.65); }
 
     /* Choices.js — selected value lighter */
     .choices__list--single .choices__item.choices__item--selectable:not(.choices__placeholder) {
@@ -2828,6 +2853,27 @@ const FALLBACK_DESTS = [
   {id:15,name:'Stokholm',country:'SE'}
 ];
 
+// Prevod naziva destinacija za carousel (EN → SR)
+const CAROUSEL_DEST_SR = {
+  'Athens':'Atina','Rome':'Rim','Paris':'Pariz','Lisbon':'Lisabon',
+  'Vienna':'Beč','Prague':'Prag','Amsterdam':'Amsterdam','Barcelona':'Barselona',
+  'Madrid':'Madrid','London':'London','Munich':'Minhen','Budapest':'Budimpešta',
+  'Crete':'Krit','Rhodes':'Rodos','Corfu':'Krf','Mykonos':'Mikonos',
+  'Santorini':'Santorini','Thessaloniki':'Solun','Florence':'Firenca',
+  'Venice':'Venecija','Naples':'Napulj','Milan':'Milano','Turin':'Torino',
+  'Seville':'Sevilja','Valencia':'Valensija','Ibiza':'Ibiza','Mallorca':'Majorka',
+  'Tenerife':'Tenerife','Nice':'Nica','Marseille':'Marsej','Lyon':'Lion',
+  'Brussels':'Brisel','Copenhagen':'Kopenhagen','Stockholm':'Stokholm',
+  'Warsaw':'Varšava','Krakow':'Krakov','Bucharest':'Bukurešt','Sofia':'Sofija',
+  'Istanbul':'Istanbul','Dubrovnik':'Dubrovnik','Split':'Split','Malta':'Malta',
+  'Salzburg':'Zalcburg','Zurich':'Cirih','Geneva':'Ženeva','Edinburgh':'Edinburg',
+};
+function carouselDestName(d) {
+  if (lang === 'en') return d.name;
+  // Ako je ime već na srpskom (fallback lista), vrati ga; inače prevedi
+  return CAROUSEL_DEST_SR[d.name] || d.name;
+}
+
 function buildCarousel() {
   const pool     = S.allDestinations.length ? S.allDestinations : (S.destinations.length ? S.destinations : FALLBACK_DESTS);
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
@@ -2835,6 +2881,9 @@ function buildCarousel() {
   const html     = [...shuffled, ...shuffled].map(d => `
     <div class="dest-card-c">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
+      <div class="dest-card-label">
+        <div class="dest-card-label-name">${carouselDestName(d)}</div>
+      </div>
     </div>
   `).join('');
   track.innerHTML = html;
