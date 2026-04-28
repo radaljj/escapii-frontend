@@ -1832,7 +1832,7 @@
                 <div class="extra-card-title" data-i18n="ext.ins">Putno osiguranje</div>
                 <div class="extra-card-sub" data-i18n="ext.ins.d">Medicinska pomoć, otkazivanje, prtljag</div>
               </div>
-              <div class="extra-card-price" data-i18n="ins.price">+10€/os</div>
+              <div class="extra-card-price" data-i18n="ins.price">+12€/os</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -1856,13 +1856,13 @@
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
-            <div class="extra-card" id="ec-hasSeatsTogther" onclick="togSeats(this)">
+            <div class="extra-card" id="ec-hasSeatsTogether" onclick="togSeats(this)">
               <div class="extra-card-icon">💺</div>
               <div class="extra-card-body">
                 <div class="extra-card-title" data-i18n="ext.seats">Sedišta zajedno</div>
-                <div class="extra-card-sub" data-i18n="ext.seats.d">10€/os/smer × 2 smera = 20€/os ukupno</div>
+                <div class="extra-card-sub" data-i18n="ext.seats.d">12€/os/smer × 2 smera = 24€/os ukupno</div>
               </div>
-              <div class="extra-card-price" data-i18n="seats.price">+20€/os</div>
+              <div class="extra-card-price" data-i18n="seats.price">+24€/os</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2319,7 +2319,7 @@ const TR = {
     'ext.suit':'Želim da moja karta uključuje ručni kofer', 'ext.suit.d':'50€/smer × 2 smera = 100€/os',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Medicinska pomoć, otkazivanje, prtljag',
     'ext.bfst':'Doručak', 'ext.bfst.d':'Svaki dan u hotelu',
-    'ext.seats':'Sedišta zajedno', 'ext.seats.d':'10€/os/smer × 2 smera = 20€/os ukupno',
+    'ext.seats':'Sedišta zajedno', 'ext.seats.d':'12€/os/smer × 2 smera = 24€/os ukupno',
     'ext.connecting':'Prihvatam presedanje', 'ext.connecting.d':'Prihvatam da moj let može uključivati presedanje',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu, otkazivanje leta i oštećen ili izgubljen prtljag. Preporučujemo svim putnicima.',
@@ -2384,7 +2384,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
     'accom.sup.badge':'+50€/os', 'accom.prem.badge':'+130€/os',
-    'ins.price':'+10€/os', 'bfst.price':'+13€/os', 'seats.price':'+20€/os',
+    'ins.price':'+12€/os', 'bfst.price':'+13€/os', 'seats.price':'+24€/os',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -2467,7 +2467,7 @@ const TR = {
     'ext.suit':'I want my ticket to include cabin luggage', 'ext.suit.d':'50€/way × 2 ways = 100€/person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Medical, cancellation, baggage',
     'ext.bfst':'Breakfast', 'ext.bfst.d':'Every day at the hotel',
-    'ext.seats':'Seats together', 'ext.seats.d':'10€/person/way × 2 ways = 20€/person total',
+    'ext.seats':'Seats together', 'ext.seats.d':'12€/person/way × 2 ways = 24€/person total',
     'ext.connecting':'I accept connecting flights', 'ext.connecting.d':'I accept that my flight may include a layover',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad, flight cancellation, and damaged or lost luggage. We recommend it for all travelers.',
@@ -2532,7 +2532,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
     'accom.sup.badge':'+50€/pp', 'accom.prem.badge':'+130€/pp',
-    'ins.price':'+10€/pp', 'bfst.price':'+13€/pp', 'seats.price':'+20€/pp',
+    'ins.price':'+12€/pp', 'bfst.price':'+13€/pp', 'seats.price':'+24€/pp',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -2795,7 +2795,7 @@ const FLAGS = {RS:'🇷🇸',DE:'🇩🇪',FR:'🇫🇷',ES:'🇪🇸',IT:'🇮�
 const S = {
   step:1, airport:null, travelers:1,
   selectedDateId:null, selectedDate:null, accommodationType:'STANDARD',
-  cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogther:false, hasConnectingFlights:false,
+  cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   lastPrice:null
 };
@@ -3319,12 +3319,12 @@ function togExtra(el, key) {
 }
 
 function updateSeatsVisibility() {
-  const card = document.getElementById('ec-hasSeatsTogther');
+  const card = document.getElementById('ec-hasSeatsTogether');
   if (!card) return;
   if (S.travelers <= 1) {
     card.style.display = 'none';
     // Reset state ako je bio upaljen
-    S.hasSeatsTogther = false;
+    S.hasSeatsTogether = false;
     card.classList.remove('on');
   } else {
     card.style.display = '';
@@ -3332,8 +3332,8 @@ function updateSeatsVisibility() {
 }
 
 function togSeats(el) {
-  S.hasSeatsTogther = !S.hasSeatsTogther;
-  el.classList.toggle('on', S.hasSeatsTogther);
+  S.hasSeatsTogether = !S.hasSeatsTogether;
+  el.classList.toggle('on', S.hasSeatsTogether);
   updateSeatsNotice();
 }
 
@@ -3342,7 +3342,7 @@ function updateSeatsNotice() {
   const text   = document.getElementById('seatsNoticeText');
   if (!notice || !text) return;
 
-  if (!S.hasSeatsTogther || S.travelers <= 1) {
+  if (!S.hasSeatsTogether || S.travelers <= 1) {
     notice.style.display = 'none';
     return;
   }
@@ -3589,7 +3589,7 @@ async function loadPrice() {
       cabinSuitcaseCount: S.cabinSuitcaseCount,
       hasInsurance: S.hasInsurance,
       hasBreakfast: S.hasBreakfast,
-      hasSeatsTogther: S.hasSeatsTogther
+      hasSeatsTogether: S.hasSeatsTogether
     });
     const r = await fetch(`${API}/api/booking/price-preview?${params}`);
     const p = await r.json();
@@ -3641,7 +3641,7 @@ function updateSummaryCard() {
   if (S.cabinSuitcaseCount > 0) tags.push(`🧳 ${S.cabinSuitcaseCount}× ${lang==='sr'?'kofer':'bag'}`);
   if (S.hasInsurance) tags.push(`🛡️ ${lang==='sr'?'Osiguranje':'Insurance'}`);
   if (S.hasBreakfast) tags.push(`🍳 ${lang==='sr'?'Doručak':'Breakfast'}`);
-  if (S.hasSeatsTogther) tags.push(`💺 ${lang==='sr'?'Sedišta':'Seats'}`);
+  if (S.hasSeatsTogether) tags.push(`💺 ${lang==='sr'?'Sedišta':'Seats'}`);
   if (S.hasConnectingFlights) tags.push(`🔄 ${lang==='sr'?'Presedanje OK':'Connecting OK'}`);
   if (S.excludedIds.length > 0) tags.push(`🚫 ${S.excludedIds.length} ${lang==='sr'?'isključeno':'excluded'}`);
 
@@ -3790,7 +3790,7 @@ async function submitBooking() {
     cabinSuitcaseCount:S.cabinSuitcaseCount,
     hasInsurance:S.hasInsurance,
     hasBreakfast:S.hasBreakfast,
-    hasSeatsTogther:S.hasSeatsTogther,
+    hasSeatsTogether:S.hasSeatsTogether,
     hasConnectingFlights:S.hasConnectingFlights,
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
