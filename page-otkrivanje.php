@@ -650,6 +650,60 @@ function airportCity(iata) {
   return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
 }
 
+/* ── Mapa prevoda destinacija (engleski → srpski prikaz) ── */
+const DEST_SR = {
+  // Grčka
+  'Athens':'Atina', 'Thessaloniki':'Solun', 'Crete':'Krit',
+  'Rhodes':'Rodos', 'Corfu':'Krf', 'Mykonos':'Mikonos',
+  'Santorini':'Santorini', 'Zakynthos':'Zakintos',
+  // Italija
+  'Rome':'Rim', 'Venice':'Venecija', 'Florence':'Firenca',
+  'Naples':'Napulj', 'Sicily':'Sicilija', 'Sardinia':'Sardinija',
+  'Milan':'Milano', 'Turin':'Torino',
+  // Španija
+  'Barcelona':'Barselona', 'Seville':'Sevilja', 'Valencia':'Valensija',
+  'Ibiza':'Ibiza', 'Mallorca':'Majorka', 'Tenerife':'Tenerife',
+  // Francuska
+  'Paris':'Pariz', 'Nice':'Nica', 'Marseille':'Marsej', 'Lyon':'Lion',
+  'Bordeaux':'Bordo',
+  // Portugal
+  'Lisbon':'Lisabon',
+  // Austrija
+  'Vienna':'Beč', 'Salzburg':'Zalcburg', 'Innsbruck':'Inzbruk',
+  // Nemačka
+  'Munich':'Minhen', 'Cologne':'Keln', 'Stuttgart':'Štutgart',
+  'Nuremberg':'Nirnberg', 'Leipzig':'Lajpcig', 'Dresden':'Drezden',
+  // Švajcarska
+  'Zurich':'Cirih', 'Geneva':'Ženeva', 'Basel':'Bazel',
+  // Belgija
+  'Brussels':'Brisel', 'Bruges':'Briž', 'Antwerp':'Antverpen',
+  // UK
+  'London':'London', 'Edinburgh':'Edinburg', 'Glasgow':'Glazgov',
+  'Manchester':'Mančester', 'Liverpool':'Liverpul',
+  // Skandinavija
+  'Copenhagen':'Kopenhagen', 'Stockholm':'Stokholm', 'Oslo':'Oslo',
+  'Helsinki':'Helsinki', 'Reykjavik':'Rejkjavik',
+  // Baltik / Istočna Evropa
+  'Warsaw':'Varšava', 'Krakow':'Krakov', 'Prague':'Prag',
+  'Bucharest':'Bukurešt', 'Sofia':'Sofija', 'Skopje':'Skoplje',
+  'Vilnius':'Vilnjus', 'Riga':'Riga', 'Tallinn':'Talin',
+  'Budapest':'Budimpešta', 'Luxembourg':'Luksemburg', 'Monaco':'Monako',
+  // Mediteran / Bliski Istok
+  'Istanbul':'Istanbul', 'Cyprus':'Kipar', 'Malta':'Malta',
+  'Cairo':'Kairo', 'Marrakech':'Marakеš', 'Casablanca':'Kazablanka',
+  'Dubai':'Dubai', 'Abu Dhabi':'Abu Dabi', 'Doha':'Doha',
+  // Daleki Istok / Ostalo
+  'Tokyo':'Tokio', 'Kyoto':'Kjoto', 'Seoul':'Seul',
+  'Beijing':'Peking', 'Shanghai':'Šangaj', 'Singapore':'Singapur',
+  'Bangkok':'Bangkok', 'Bali':'Bali', 'Maldives':'Maldivi',
+  'Sydney':'Sidnej', 'Melbourne':'Melburn',
+  'New York':'Njujork', 'Cape Town':'Kejptaun',
+};
+function translateDest(name) {
+  if (!name || name === '—') return name;
+  return DEST_SR[name] || name;
+}
+
 /* ── Error ── */
 function showError(status) {
   if (errorShown) return; errorShown = true;
@@ -673,19 +727,19 @@ function showEnvelope(data) {
   document.getElementById('ticketFromIata').textContent = iata || 'BEG';
   document.getElementById('ticketFromCity').textContent = airportCity(iata);
   document.getElementById('ticketDestIata').textContent = '—'; /* hidden under scratch card */
-  document.getElementById('ticketDestCity').textContent = data.destination || '—';
+  document.getElementById('ticketDestCity').textContent = translateDest(data.destination) || '—';
   document.getElementById('ticketDate').textContent     = fmtDate(data.departureDate);
   document.getElementById('ticketReturn').textContent   = fmtDate(data.returnDate);
   document.getElementById('ticketRef').textContent      = data.bookingRef || '—';
-  document.getElementById('success-city').textContent   = data.destination || 'vaše iznenađenje';
+  document.getElementById('success-city').textContent   = translateDest(data.destination) || 'vaše iznenađenje';
 
   const names = Array.isArray(data.passengers) && data.passengers.length
     ? data.passengers.join(' · ') : '—';
   document.getElementById('ticketPassengers').textContent = names;
   document.getElementById('teaserName').textContent = '✦ ' + (data.firstName || 'Tvoje putovanje');
 
-  // Store destination for post-scratch reveal
-  document.getElementById('ticketDestIata').dataset.dest = data.destination || '—';
+  // Store translated destination for post-scratch reveal
+  document.getElementById('ticketDestIata').dataset.dest = translateDest(data.destination) || '—';
 
   const teaser  = document.getElementById('rvTeaser');
   const envWrap = document.getElementById('rvEnvWrap');
