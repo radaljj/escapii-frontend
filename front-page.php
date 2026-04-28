@@ -2869,8 +2869,11 @@ const CAROUSEL_DEST_SR = {
   'Salzburg':'Zalcburg','Zurich':'Cirih','Geneva':'Ženeva','Edinburgh':'Edinburg',
 };
 function carouselDestName(d) {
-  if (lang === 'en') return d.name;
-  // Ako je ime već na srpskom (fallback lista), vrati ga; inače prevedi
+  if (lang === 'en') {
+    // Backend šalje engleski naziv → ostavi ga; fallback lista ima srpski → prevedi
+    return CITY_EN[d.name] || d.name;
+  }
+  // SR: backend šalje engleski → prevedi; fallback lista srpski → ostavi
   return CAROUSEL_DEST_SR[d.name] || d.name;
 }
 
