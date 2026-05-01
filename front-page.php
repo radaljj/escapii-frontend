@@ -1860,9 +1860,9 @@
               <div class="extra-card-icon">💺</div>
               <div class="extra-card-body">
                 <div class="extra-card-title" data-i18n="ext.seats">Sedišta zajedno</div>
-                <div class="extra-card-sub" data-i18n="ext.seats.d">12€/os/smer × 2 smera = 24€/os ukupno</div>
+                <div class="extra-card-sub" data-i18n="ext.seats.d">po smeru, oba smera leta</div>
               </div>
-              <div class="extra-card-price" data-i18n="seats.price">+24€/os</div>
+              <div class="extra-card-price" data-i18n="seats.price">+12€/os/smer</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2319,7 +2319,7 @@ const TR = {
     'ext.suit':'Želim da moja karta uključuje ručni kofer', 'ext.suit.d':'50€/smer × 2 smera = 100€/os',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Medicinska pomoć, otkazivanje, prtljag',
     'ext.bfst':'Doručak', 'ext.bfst.d':'Svaki dan u hotelu',
-    'ext.seats':'Sedišta zajedno', 'ext.seats.d':'12€/os/smer × 2 smera = 24€/os ukupno',
+    'ext.seats':'Sedišta zajedno', 'ext.seats.d':'po smeru, oba smera leta',
     'ext.connecting':'Prihvatam presedanje', 'ext.connecting.d':'Prihvatam da moj let može uključivati presedanje',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu, otkazivanje leta i oštećen ili izgubljen prtljag. Preporučujemo svim putnicima.',
@@ -2384,7 +2384,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
     'accom.sup.badge':'+50€/os', 'accom.prem.badge':'+130€/os',
-    'ins.price':'+12€/os', 'bfst.price':'+13€/os', 'seats.price':'+24€/os',
+    'ins.price':'+12€/os', 'bfst.price':'+13€/os', 'seats.price':'+12€/os/smer',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -2467,7 +2467,7 @@ const TR = {
     'ext.suit':'I want my ticket to include cabin luggage', 'ext.suit.d':'50€/way × 2 ways = 100€/person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Medical, cancellation, baggage',
     'ext.bfst':'Breakfast', 'ext.bfst.d':'Every day at the hotel',
-    'ext.seats':'Seats together', 'ext.seats.d':'12€/person/way × 2 ways = 24€/person total',
+    'ext.seats':'Seats together', 'ext.seats.d':'per flight, both ways',
     'ext.connecting':'I accept connecting flights', 'ext.connecting.d':'I accept that my flight may include a layover',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad, flight cancellation, and damaged or lost luggage. We recommend it for all travelers.',
@@ -2532,7 +2532,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
     'accom.sup.badge':'+50€/pp', 'accom.prem.badge':'+130€/pp',
-    'ins.price':'+12€/pp', 'bfst.price':'+13€/pp', 'seats.price':'+24€/pp',
+    'ins.price':'+12€/pp', 'bfst.price':'+13€/pp', 'seats.price':'+12€/pp/way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
