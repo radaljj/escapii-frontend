@@ -2936,7 +2936,7 @@ async function submitWaitlist() {
         confirmButtonColor: '#CA8A71',
         background: '#2D5F6B',
         color: '#fff',
-        backdrop: 'rgba(15,45,53,0.85)',
+        backdrop: 'rgba(0,0,0,0.55)',
         customClass: { popup: 'swal-escapii' }
       });
     } else {
@@ -2949,7 +2949,7 @@ async function submitWaitlist() {
         confirmButtonColor: '#CA8A71',
         background: '#2D5F6B',
         color: '#fff',
-        backdrop: 'rgba(15,45,53,0.85)',
+        backdrop: 'rgba(0,0,0,0.55)',
         customClass: { popup: 'swal-escapii' }
       });
       if (emailEl) emailEl.value = '';
@@ -3348,7 +3348,7 @@ function updateSeatsNotice() {
   }
 
   const n = S.travelers;
-  const totalCost = n * 20;
+  const totalCost = n * 24; // 12€/os/smer × 2 smera = 24€/os
   let arrangement = '';
 
   if (n <= 3) {
@@ -3370,8 +3370,8 @@ function updateSeatsNotice() {
   }
 
   const priceInfo = lang === 'sr'
-    ? `Sedišta zajedno važe u <strong>oba smera</strong> — 10€/os/smer = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
-    : `Seats together apply on <strong>both flights</strong> — 10€/person/way = <strong>${totalCost}€ total</strong> for ${n} travelers.`;
+    ? `Sedišta zajedno važe u <strong>oba smera</strong> — 12€/os/smer = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
+    : `Seats together apply on <strong>both flights</strong> — 12€/person/way = <strong>${totalCost}€ total</strong> for ${n} travelers.`;
 
   text.innerHTML = `${arrangement}<br><span style="color:var(--accent);">${priceInfo}</span>`;
   notice.style.display = 'block';
@@ -3461,7 +3461,7 @@ function togExcl(id, event) {
         confirmButtonColor: '#CA8A71',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp animate__faster' },
-        backdrop: 'rgba(15,45,53,0.85)',
+        backdrop: 'rgba(0,0,0,0.55)',
         customClass: { popup: 'swal-escapii' }
       });
       return;
