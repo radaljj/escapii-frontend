@@ -2636,44 +2636,66 @@ async function checkStatus() {
     if (!r.ok) throw new Error('server error');
     const d = await r.json();
 
-    const statusLabels = {
+    const isSr = lang === 'sr';
+    const statusLabels = isSr ? {
+      PENDING:   '⏳ Na čekanju',
+      CONFIRMED: '✅ Potvrđeno',
+      CANCELLED: '❌ Otkazano',
+    } : {
       PENDING:   '⏳ Pending',
       CONFIRMED: '✅ Confirmed',
       CANCELLED: '❌ Cancelled',
     };
-    const statusMsgs = {
+    const statusMsgs = isSr ? {
+      PENDING:   'Vaš upit je primljen. Kontaktiraćemo vas u roku od 24h sa detaljima za plaćanje.',
+      CONFIRMED: 'Rezervacija potvrđena! Vaše iznenađenje putovanje je osigurano. Vidimo se na aerodromu! ✈',
+      CANCELLED: 'Ova rezervacija je otkazana. Kontaktirajte nas ukoliko smatrate da je ovo greška.',
+    } : {
       PENDING:   'Your inquiry has been received. We will contact you within 24h with payment details.',
       CONFIRMED: 'Booking confirmed! Your surprise trip is secured. See you at the airport! ✈',
       CANCELLED: 'This booking has been cancelled. Contact us if you think this is a mistake.',
     };
+    const lbl = isSr ? {
+      leadTraveler: 'Nosilac rezervacije',
+      depAirport:   'Aerodrom polaska',
+      travelDates:  'Datumi putovanja',
+      travelers:    'Putnici',
+      names:        'Imena',
+    } : {
+      leadTraveler: 'Lead traveler',
+      depAirport:   'Departure airport',
+      travelDates:  'Travel dates',
+      travelers:    'Travelers',
+      names:        'Names',
+    };
 
     const airportNames = { BEG:'Beograd (BEG)', INI:'Niš (INI)', ZAG:'Zagreb (ZAG)', BUD:'Budimpešta (BUD)', TIM:'Timișoara (TIM)' };
-    const dep = new Date(d.departureDate).toLocaleDateString(lang === 'sr' ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
-    const ret = new Date(d.returnDate).toLocaleDateString(lang === 'sr' ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
+    const dep = new Date(d.departureDate).toLocaleDateString(isSr ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
+    const ret = new Date(d.returnDate).toLocaleDateString(isSr ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
 
     resEl.innerHTML = `
       <div>
-        <div class="sr-label">Lead traveler</div>
+        <div class="sr-label">${lbl.leadTraveler}</div>
         <div class="sr-name">${d.firstName}${d.lastName ? ' ' + d.lastName : ''}</div>
         <div class="sr-ref">${d.bookingRef}</div>
       </div>
       <span class="sr-badge ${d.status}">${statusLabels[d.status] || d.status}</span>
       <div class="sr-info">
         <div class="sr-row">
-          <span class="sr-row-label">Departure airport</span>
+          <span class="sr-row-label">${lbl.depAirport}</span>
           <span class="sr-row-val">${airportNames[d.departureAirport] || d.departureAirport}</span>
         </div>
         <div class="sr-row">
-          <span class="sr-row-label">Travel dates</span>
+          <span class="sr-row-label">${lbl.travelDates}</span>
           <span class="sr-row-val">${dep} → ${ret}</span>
         </div>
         <div class="sr-row">
-          <span class="sr-row-label">Travelers</span>
+          <span class="sr-row-label">${lbl.travelers}</span>
           <span class="sr-row-val">${d.numberOfTravelers}</span>
         </div>
         ${d.passengerNames && d.passengerNames.length ? `
         <div class="sr-row sr-row-passengers">
-          <span class="sr-row-label">Names</span>
+          <span class="sr-row-label">${lbl.names}</span>
           <span class="sr-row-val sr-passengers">${d.passengerNames.join('<br>')}</span>
         </div>` : ''}
       </div>
