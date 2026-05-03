@@ -385,29 +385,8 @@ body {
         <h2>Ko smo i šta radimo</h2>
       </div>
 
-      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Pružamo uslugu posredovanja pri organizovanju turističkih aranžmana — korisnik bira aerodrom, datume, broj putnika i preferencije, a mi zajedno sa partnerskom agencijom pronalazimo i organizujemo putovanje.</p>
-
-      <div class="pp-warning">
-        <div class="pp-warning-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div class="pp-warning-text">
-          <strong>Važno:</strong> Escapii <strong>nije turistička agencija</strong> i ne obavlja licenciranu delatnost organizovanja turističkih putovanja. Escapii je digitalni posrednik koji koordinira vaš zahtev sa licenciranim organizatorom putovanja.
-        </div>
-      </div>
-
-      <div class="pp-bta-card">
-        <div class="pp-bta-badge">Partner agencija</div>
-        <div class="pp-bta-body">
-          <p>Sva turistička putovanja organizovana putem Escapii platforme realizuju se u saradnji sa:</p>
-          <p>
-            <strong>BTA — Turistička agencija BTA</strong><br>
-            Takovska 6, Beograd, Republika Srbija<br>
-            <a href="https://www.bta.co.rs" target="_blank" rel="noopener">www.bta.co.rs</a> · <a href="mailto:office@bta.co.rs">office@bta.co.rs</a>
-          </p>
-          <p>Escapii nastupa kao <strong>subagent</strong> agencije BTA. BTA je licencirani organizator putovanja i u potpunosti je odgovoran za realizaciju turističkog aranžmana u skladu sa važećim Zakonom o turizmu Republike Srbije. Na svaki aranžman primenjuju se Opšti uslovi putovanja agencije BTA.</p>
-        </div>
-      </div>
+      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Korisnik bira aerodrom, datume, broj putnika i preferencije — mi pronalazimo i organizujemo putovanje.</p>
+      <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> licencirane turističke agencije koja u potpunosti odgovara za realizaciju aranžmana.</p>
     </section>
 
     <!-- Kako funkcionise -->
@@ -424,7 +403,7 @@ body {
       <h3>Koncept iznenađenja</h3>
       <ul class="pp-list">
         <li><strong>Korisnik bira:</strong> aerodrom, datume, broj putnika, tip smeštaja, dodaci (osiguranje, doručak, sedišta zajedno, prtljag) i do 5 destinacija koje želi isključiti</li>
-        <li><strong>Escapii i BTA biraju destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni</li>
+        <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni</li>
         <li><strong>Destinacija se otkriva</strong> korisniku emailom 72 sata pre polaska</li>
         <li>Slanjem upita korisnik <strong>prihvata iznenađenje kao sastavni deo usluge</strong> i ne može zahtevati promenu destinacije nakon potvrde rezervacije</li>
       </ul>
@@ -455,7 +434,7 @@ body {
           </thead>
           <tbody>
             <tr><td>1. Upit</td><td>Korisnik popunjava formu na sajtu i šalje upit. Dobija automatsku potvrdu prijema na email.</td></tr>
-            <tr><td>2. Pregled</td><td>Tim Escapii-ja i agencija BTA proveravaju dostupnost i cenu. Upit nije obavezujući za korisnika dok ne dođe do potvrde i uplate.</td></tr>
+            <tr><td>2. Pregled</td><td>Tim Escapii-ja proverava dostupnost i cenu. Upit nije obavezujući za korisnika dok ne dođe do potvrde i uplate.</td></tr>
             <tr><td>3. Potvrda i uplata</td><td>Korisnik prima email sa detaljima rezervacije i uputstvom za uplatu. Rezervacija se smatra zaključenom tek po prijemu uplate.</td></tr>
             <tr><td>4. Otkrivanje</td><td>72 sata pre polaska korisnik prima email sa destinacijom, linkom za vremensku prognozu i svim relevantnim informacijama.</td></tr>
           </tbody>
@@ -531,7 +510,7 @@ body {
         <h2>Otkaz i izmene rezervacije</h2>
       </div>
 
-      <p>Na otkaz i izmene aranžmana primenjuju se <strong>Opšti uslovi putovanja agencije BTA</strong>. Sledeće je okvirni pregled — tačne uslove možete dobiti od agencije BTA (<a href="mailto:office@bta.co.rs" style="color:var(--accent);text-decoration:none;">office@bta.co.rs</a>) ili od Escapii tima.</p>
+      <p>Na otkaz i izmene aranžmana primenjuju se uslovi partnerske turističke agencije koja realizuje putovanje. Sledeće je okvirni pregled — tačne uslove možete dobiti od Escapii tima na <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
@@ -540,8 +519,8 @@ body {
           </thead>
           <tbody>
             <tr><td>Pre uplate avansa</td><td>Bez troškova — upit nije obavezujuć</td></tr>
-            <tr><td>Nakon uplate avansa, više od 30 dana pre polaska</td><td>Zadržava se avans (po uslovima BTA)</td></tr>
-            <tr><td>15–30 dana pre polaska</td><td>Deo ukupne cene (po uslovima BTA)</td></tr>
+            <tr><td>Nakon uplate avansa, više od 30 dana pre polaska</td><td>Zadržava se avans</td></tr>
+            <tr><td>15–30 dana pre polaska</td><td>Deo ukupne cene</td></tr>
             <tr><td>Manje od 15 dana pre polaska</td><td>Celokupan iznos može biti zadržan</td></tr>
           </tbody>
         </table>
@@ -557,10 +536,10 @@ body {
       </div>
 
       <h3>Izmena rezervacije</h3>
-      <p>Izmene potvrđene rezervacije (broj putnika, datumi, tip smeštaja) su moguće isključivo uz pisanu saglasnost Escapii tima i agencije BTA, i mogu biti praćene administrativnom naknadom. <strong>Promena destinacije nije moguća</strong> — destinacija se utvrđuje pri potvrdi rezervacije i ne može se naknadno menjati.</p>
+      <p>Izmene potvrđene rezervacije (broj putnika, datumi, tip smeštaja) su moguće isključivo uz pisanu saglasnost Escapii tima i mogu biti praćene administrativnom naknadom. <strong>Promena destinacije nije moguća</strong> — destinacija se utvrđuje pri potvrdi rezervacije i ne može se naknadno menjati.</p>
 
-      <h3>Otkaz od strane Escapii / BTA</h3>
-      <p>U slučaju otkazivanja putovanja od strane organizatora (BTA) iz razloga koji nisu na strani korisnika, korisniku se vraća celokupan uplaćen iznos ili se nudi alternativni aranžman odgovarajuće vrednosti.</p>
+      <h3>Otkaz od strane organizatora</h3>
+      <p>U slučaju otkazivanja putovanja od strane organizatora iz razloga koji nisu na strani korisnika, korisniku se vraća celokupan uplaćen iznos ili se nudi alternativni aranžman odgovarajuće vrednosti.</p>
     </section>
 
     <!-- Odgovornost -->
@@ -573,9 +552,9 @@ body {
       </div>
 
       <h3>Odgovornost Escapii</h3>
-      <p>Escapii je odgovoran isključivo za pravilno funkcionisanje digitalne platforme — prikupljanje upita, prenos informacija agenciji BTA i komunikaciju sa korisnikom. Escapii nije odgovoran za:</p>
+      <p>Escapii je odgovoran isključivo za pravilno funkcionisanje digitalne platforme — prikupljanje upita i komunikaciju sa korisnikom. Escapii nije odgovoran za:</p>
       <ul class="pp-list">
-        <li>Realizaciju turističkog aranžmana — ovo je odgovornost agencije BTA</li>
+        <li>Realizaciju turističkog aranžmana — ovo je odgovornost partnerske agencije koja organizuje putovanje</li>
         <li>Kvalitet letova, smeštaja ili pratećih usluga</li>
         <li>Kašnjenja, otkazivanja ili izmene letova od strane avio kompanija</li>
         <li>Vanredne okolnosti (prirodne katastrofe, epidemije, ratna dešavanja, štrajkovi)</li>
@@ -587,7 +566,7 @@ body {
       <p>Korisnik je finansijski odgovoran za sve troškove nastale usled netačnih ili nepotpunih podataka koje je dostavio pri popunjavanju upita, kao i za posledice propuštanja rokova uplate.</p>
 
       <h3>Viša sila</h3>
-      <p>Ni Escapii ni BTA nisu odgovorni za neispunjenje obaveza prouzrokovano okolnostima koje nisu mogli predvideti niti sprečiti (viša sila), uključujući ali ne ograničavajući se na: prirodne nepogode, epidemije, ratna dešavanja, vladine odluke o zabrani putovanja i slično.</p>
+      <p>Escapii nije odgovoran za neispunjenje obaveza prouzrokovano okolnostima koje nisu mogle biti predviđene niti sprečene (viša sila), uključujući ali ne ograničavajući se na: prirodne nepogode, epidemije, ratna dešavanja, vladine odluke o zabrani putovanja i slično.</p>
     </section>
 
     <!-- Viza i dokumenti -->
@@ -599,7 +578,7 @@ body {
         <h2>Viza i putni dokumenti</h2>
       </div>
 
-      <p>Korisnik je <strong>isključivo odgovoran</strong> za pribavljanje svih potrebnih putnih dokumenata, viza i zdravstvenih potvrda koje zahteva destinacija. Escapii i BTA pružaju informativnu podršku, ali konačna odgovornost leži na putniku.</p>
+      <p>Korisnik je <strong>isključivo odgovoran</strong> za pribavljanje svih potrebnih putnih dokumenata, viza i zdravstvenih potvrda koje zahteva destinacija. Konačna odgovornost leži na putniku.</p>
 
       <h3>Minimalni zahtevi</h3>
       <ul class="pp-list">
@@ -630,11 +609,7 @@ body {
       <p>Na ugovore zaključene putem Escapii platforme primenjuje se pravo <strong>Republike Srbije</strong>. Za eventualne sporove nadležni su sudovi u Beogradu.</p>
 
       <h3>Reklamacije</h3>
-      <p>Korisnik koji je nezadovoljan realizacijom putovanja može podneti pisanu reklamaciju:</p>
-      <ul class="pp-list">
-        <li><strong>Escapii-ju</strong> — emailom na <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a></li>
-        <li><strong>Agenciji BTA</strong> — emailom na <a href="mailto:office@bta.co.rs" style="color:var(--accent);text-decoration:none;">office@bta.co.rs</a></li>
-      </ul>
+      <p>Korisnik koji je nezadovoljan realizacijom putovanja može podneti pisanu reklamaciju na <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
       <p>Reklamacija mora biti podneta u roku od <strong>8 dana od povratka</strong> sa putovanja. Organizator je obavezan da odgovori u roku od 8 radnih dana od prijema.</p>
 
       <h3>Zaštita potrošača</h3>
@@ -685,7 +660,6 @@ body {
   <p>
     © <?php echo date('Y'); ?> Escapii · Republika Srbija ·
     <a href="<?php echo home_url('/politika-privatnosti'); ?>">Politika privatnosti</a> ·
-    Putovanja se realizuju u saradnji sa agencijom <a href="https://www.bta.co.rs" target="_blank" rel="noopener">BTA</a> ·
     Sastavljen u skladu sa Zakonom o turizmu („Sl. glasnik RS", br. 17/2019) i ZZP („Sl. glasnik RS", br. 88/2021)
   </p>
 </footer>
