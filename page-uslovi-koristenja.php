@@ -386,7 +386,7 @@ body {
       </div>
 
       <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Korisnik bira aerodrom, datume, broj putnika i preferencije — mi pronalazimo i organizujemo putovanje.</p>
-      <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> licencirane turističke agencije koja u potpunosti odgovara za realizaciju aranžmana.</p>
+      <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> licencirane turističke agencije koja u potpunosti odgovara za realizaciju aranžmana — turistička agencija <strong>BTA</strong> (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">bta.co.rs</a>).</p>
     </section>
 
     <!-- Kako funkcionise -->
