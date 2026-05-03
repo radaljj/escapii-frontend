@@ -2128,7 +2128,7 @@
 <div class="esc-stats">
   <div class="stats-row">
     <div class="stats-item" data-aos="fade-up" data-aos-delay="0"><div class="stats-num" id="statsDestCount" data-countup="50">50+</div><div class="stats-lbl" data-i18n="stats.dest">Destinacija</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="100"><div class="stats-num" id="statsTravelers" data-countup="500">500+</div><div class="stats-lbl" data-i18n="stats.travelers">Putnika</div></div>
+    <div class="stats-item" data-aos="fade-up" data-aos-delay="100"><div class="stats-num" id="statsTravelers" data-countup="15">15+</div><div class="stats-lbl" data-i18n="stats.travelers">Godina iskustva</div></div>
     <div class="stats-item" data-aos="fade-up" data-aos-delay="200"><div class="stats-num">24h</div><div class="stats-lbl" data-i18n="stats.support">Podrška</div></div>
     <div class="stats-item" data-aos="fade-up" data-aos-delay="300"><div class="stats-num" id="statSurprise" data-countup="100">100%</div><div class="stats-lbl" data-i18n="stats.surprise">Iznenađenje</div></div>
   </div>
@@ -2300,7 +2300,7 @@ const TR = {
     'who.no.3':'Praviš plan za svaki sat 73 dana unapred',
     'who.no.4':'Tražiš isto putovanje svaki put',
     'who.no.5':'Hoćeš klasičnu agenciju i klasičan aranžman',
-    'stats.dest':'Destinacija', 'stats.travelers':'Putnika', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
+    'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
     'book.tag':'Rezervacija', 'book.heading':'Krenite na avanturu', 'book.sub':'Popunite formu u par koraka',
     'loading':'Učitavanje...', 'btn.next':'Nastavi →', 'btn.back':'← Nazad', 'free':'Besplatno',
     's1.h':'Odakle putujete?', 's1.hint':'Izaberite aerodrom polaska',
@@ -2448,7 +2448,7 @@ const TR = {
     'who.no.3':'You plan every hour 73 days in advance',
     'who.no.4':'You want the same trip every time',
     'who.no.5':'You want a classic travel agency',
-    'stats.dest':'Destinations', 'stats.travelers':'Travelers', 'stats.support':'Support', 'stats.surprise':'Surprise',
+    'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
     'book.tag':'Book', 'book.heading':'Start your adventure', 'book.sub':'Fill out the form in a few steps',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
     's1.h':'Where are you departing from?', 's1.hint':'Select departure airport',
