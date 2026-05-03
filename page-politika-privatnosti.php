@@ -439,7 +439,7 @@ body {
   <p>Transparentno objašnjavamo koje podatke prikupljamo, zašto i kako ih štitimo.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Poslednje ažuriranje: April 2026
+    Poslednje ažuriranje: Maj 2026
   </div>
 </div>
 
@@ -474,7 +474,8 @@ body {
         </div>
         <h2>Ko smo mi</h2>
       </div>
-      <p>Escapii je servis za organizaciju iznenađujućih putovanja iz Srbije. Uslugu pruža <strong>Escapii</strong>, sa sedištem u Republici Srbiji.</p>
+      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. <strong>Escapii nije turistička agencija</strong> i ne obavlja delatnost organizovanja turističkih putovanja kao licencirani organizator.</p>
+      <p>Putovanja se organizuju u saradnji sa licenciranom turističkom agencijom <strong>BTA — Turistička agencija BTA</strong>, Takovska 6, Beograd (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.bta.co.rs</a>). Escapii nastupa kao <strong>subagent</strong> agencije BTA u smislu posredovanja pri formiranju turističkih aranžmana.</p>
       <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
@@ -564,8 +565,9 @@ body {
       <h3>Treće strane</h3>
       <p>Vaše podatke delimo sa sledećim kategorijama primaoca, isključivo u meri neophodnoj za organizaciju putovanja:</p>
       <ul class="pp-list">
-        <li><strong>Avio kompanije</strong> — radi rezervacije letova (ime i prezime putnika, aerodrom)</li>
-        <li><strong>Hoteli i smeštajni objekti</strong> — radi rezervacije smeštaja (ime i prezime, broj noći)</li>
+        <li><strong>BTA — Turistička agencija BTA</strong> — kao naš principalni organizator putovanja, BTA prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja). BTA je obavezan da vaše podatke obrađuje isključivo u svrhu izvršenja aranžmana</li>
+        <li><strong>Avio kompanije</strong> — radi rezervacije letova, posredstvom agencije BTA</li>
+        <li><strong>Hoteli i smeštajni objekti</strong> — radi rezervacije smeštaja, posredstvom agencije BTA</li>
         <li><strong>Osiguravajuće kompanije</strong> — isključivo ukoliko ste odabrali putno osiguranje</li>
         <li><strong>Google (Gmail)</strong> — emailovi koje šaljemo prolaze kroz Google infrastrukturu</li>
       </ul>
