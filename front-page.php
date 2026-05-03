@@ -2000,7 +2000,7 @@
         <div class="terms-wrap">
           <div class="terms-check-row" id="terms-row">
             <input type="checkbox" id="chkTerms">
-            <label for="chkTerms" data-i18n-html="terms.check">Prihvatam <a href="/uslovi-koristenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></label>
+            <label for="chkTerms" data-i18n-html="terms.check">Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></label>
           </div>
           <div class="terms-err-msg" id="terms-err" data-i18n="err.terms">Morate prihvatiti uslove korišćenja.</div>
           <div class="terms-check-row" id="privacy-row">
@@ -2248,7 +2248,7 @@
   <div class="footer-bottom">
     <span>© 2026 Escapii — Sva prava zadržana</span>
     <div class="footer-bottom-links">
-      <a href="/uslovi-koristenja" data-i18n="footer.terms">Uslovi korišćenja</a>
+      <a href="/uslovi-koriscenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
     </div>
   </div>
@@ -2375,7 +2375,7 @@ const TR = {
     'err.terms':'Morate prihvatiti uslove korišćenja.',
     'err.privacy':'Morate prihvatiti politiku privatnosti.',
     'err.gdpr':'Morate dati saglasnost za obradu podataka.',
-    'terms.check':'Prihvatam <a href="/uslovi-koristenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
+    'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
     'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
     'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
     'err.srv':'Greška. Pokušajte ponovo.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
@@ -2523,7 +2523,7 @@ const TR = {
     'err.terms':'You must accept the Terms & Conditions.',
     'err.privacy':'You must accept the Privacy Policy.',
     'err.gdpr':'You must consent to data processing.',
-    'terms.check':'I accept the <a href="/uslovi-koristenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
+    'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
     'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
     'err.srv':'Error. Please try again.', 'success.ref': id=>`Booking reference: ${id}`,
