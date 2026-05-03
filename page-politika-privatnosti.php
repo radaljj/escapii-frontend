@@ -205,7 +205,7 @@ body {
 
 .pp-section p {
   font-size: 14.5px;
-  color: rgba(255,255,255,.75);
+  color: rgba(45,95,107,.85);
   margin-bottom: 14px;
   line-height: 1.75;
 }
@@ -245,12 +245,12 @@ body {
 }
 .pp-table td {
   padding: 12px 16px;
-  color: rgba(255,255,255,.75);
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: rgba(45,95,107,.85);
+  border-bottom: 1px solid rgba(15,45,53,.05);
   vertical-align: top;
 }
 .pp-table tr:last-child td { border-bottom: none; }
-.pp-table tr:hover td { background: rgba(255,255,255,.02); }
+.pp-table tr:hover td { background: rgba(202,138,113,.03); }
 .pp-table td:first-child { color: var(--white); font-weight: 500; }
 
 /* ── List ── */
@@ -263,7 +263,7 @@ body {
 }
 .pp-list li {
   font-size: 14.5px;
-  color: rgba(255,255,255,.75);
+  color: rgba(45,95,107,.85);
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -319,7 +319,7 @@ body {
   margin: 16px 0;
 }
 .pp-notice-icon { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
-.pp-notice-text { font-size: 13.5px; color: rgba(255,255,255,.8); line-height: 1.6; }
+.pp-notice-text { font-size: 13.5px; color: rgba(45,95,107,.9); line-height: 1.6; }
 .pp-notice-text strong { color: var(--white); }
 .pp-notice-text a { color: var(--accent); text-decoration: none; }
 .pp-notice-text a:hover { text-decoration: underline; }
@@ -348,7 +348,7 @@ body {
 }
 .pp-not-collected ul li {
   font-size: 13.5px;
-  color: rgba(255,255,255,.7);
+  color: rgba(45,95,107,.8);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -474,8 +474,7 @@ body {
         </div>
         <h2>Ko smo mi</h2>
       </div>
-      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. <strong>Escapii nije turistička agencija</strong> i ne obavlja delatnost organizovanja turističkih putovanja kao licencirani organizator.</p>
-      <p>Putovanja se organizuju u saradnji sa licenciranom turističkom agencijom <strong>BTA — Turistička agencija BTA</strong>, Takovska 6, Beograd (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.bta.co.rs</a>). Escapii nastupa kao <strong>subagent</strong> agencije BTA u smislu posredovanja pri formiranju turističkih aranžmana.</p>
+      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. Nismo turistička agencija — nastupamo kao <strong>subagent</strong> licencirane turističke agencije i posredujemo pri formiranju aranžmana.</p>
       <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
@@ -565,9 +564,8 @@ body {
       <h3>Treće strane</h3>
       <p>Vaše podatke delimo sa sledećim kategorijama primaoca, isključivo u meri neophodnoj za organizaciju putovanja:</p>
       <ul class="pp-list">
-        <li><strong>BTA — Turistička agencija BTA</strong> — kao naš principalni organizator putovanja, BTA prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja). BTA je obavezan da vaše podatke obrađuje isključivo u svrhu izvršenja aranžmana</li>
-        <li><strong>Avio kompanije</strong> — radi rezervacije letova, posredstvom agencije BTA</li>
-        <li><strong>Hoteli i smeštajni objekti</strong> — radi rezervacije smeštaja, posredstvom agencije BTA</li>
+        <li><strong>Partnerska turistička agencija</strong> — prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja), isključivo u svrhu izvršenja aranžmana</li>
+        <li><strong>Avio kompanije i hoteli</strong> — radi rezervacije, posredstvom partnerske agencije</li>
         <li><strong>Osiguravajuće kompanije</strong> — isključivo ukoliko ste odabrali putno osiguranje</li>
         <li><strong>Google (Gmail)</strong> — emailovi koje šaljemo prolaze kroz Google infrastrukturu</li>
       </ul>
