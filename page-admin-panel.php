@@ -988,7 +988,10 @@ function initDestSelect() {
 
 // ══ DATES ══
 async function loadDates() {
-  const r = await fetch(`${API}/api/admin/dates`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+  const r = await fetch(`${API}/api/admin/dates`, {
+    headers: { 'X-Admin-Key': ADMIN_KEY },
+    cache: 'no-store'
+  });
   const dates = await r.json();
   renderDatesTable(dates);
 }
