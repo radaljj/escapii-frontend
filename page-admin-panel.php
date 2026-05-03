@@ -989,36 +989,60 @@ async function editDestinations(dateId) {
   const filteredForAirport = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(date.departureAirport)
   );
-  const options = filteredForAirport.map(d =>
-    `<option value="${d.id}" ${currentIds.includes(String(d.id)) ? 'selected' : ''}>${d.name} (${d.airportCode})</option>`
-  ).join('');
 
-  const { value: formValues } = await Swal.fire({
+  let swalTs = null;
+  let selectedIds = [...currentIds];
+
+  const { isConfirmed } = await Swal.fire({
     title: `Destinacije — termin #${dateId}`,
+    background: '#0d1b38',
+    color: '#fff',
+    width: 540,
     html: `
-      <div style="text-align:left;margin-bottom:8px;font-size:13px;color:#94a3b8;">
-        Termin: <strong style="color:white;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong> | ${date.departureAirport}
+      <div style="text-align:left;margin-bottom:12px;font-size:13px;color:#94a3b8;">
+        <strong style="color:white;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong>
+        &nbsp;<span style="background:rgba(202,138,113,.15);color:#CA8A71;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;">${date.departureAirport}</span>
       </div>
-      <select id="swalDestSelect" multiple style="width:100%;min-height:200px;background:#0d1b38;color:white;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px;">
-        ${options}
-      </select>`,
+      <select id="swalDestSelect" multiple placeholder="Pretraži destinacije..."></select>`,
     confirmButtonText: 'Sačuvaj',
+    confirmButtonColor: '#CA8A71',
     cancelButtonText: 'Otkaži',
     showCancelButton: true,
+    didOpen: () => {
+      swalTs = new TomSelect('#swalDestSelect', {
+        maxItems: 20,
+        options: filteredForAirport.map(d => ({ value: String(d.id), text: `${d.name} (${d.airportCode})` })),
+        items: currentIds,
+        placeholder: filteredForAirport.length
+          ? `Pretraži ${date.departureAirport} destinacije...`
+          : 'Nema destinacija za ovaj aerodrom',
+        plugins: ['remove_button'],
+        onChange: (vals) => { selectedIds = vals.map(Number); },
+        render: {
+          option: (d) => `<div class="option">${d.text}</div>`,
+          item:   (d) => `<div>${d.text}</div>`,
+        }
+      });
+    },
     preConfirm: () => {
-      const sel = document.getElementById('swalDestSelect');
-      return Array.from(sel.selectedOptions).map(o => parseInt(o.value));
-    }
+      selectedIds = swalTs ? swalTs.getValue().map(Number) : [];
+      return true;
+    },
+    willClose: () => { if (swalTs) { swalTs.destroy(); swalTs = null; } }
   });
 
-  if (formValues !== undefined) {
-    await fetch(`${API}/api/admin/dates/${dateId}/destinations`, {
+  if (isConfirmed) {
+    const res = await fetch(`${API}/api/admin/dates/${dateId}/destinations`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify(formValues)
+      body: JSON.stringify(selectedIds)
     });
-    Swal.fire({ icon: 'success', title: 'Sačuvano!', confirmButtonText: 'OK', timer: 1500 });
-    loadDates();
+    if (res.ok) {
+      await loadDates();
+      Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1400, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
+    } else {
+      Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
+    }
   }
 }
 
