@@ -353,6 +353,17 @@ body {
 }
 .pp-footer a { color: var(--gray); text-decoration: none; }
 .pp-footer a:hover { color: var(--white); }
+
+/* ── Lang toggle ── */
+.pp-lang-wrap { display: flex; background: rgba(255,255,255,.1); border-radius: 8px; overflow: hidden; }
+.pp-lang-btn {
+  padding: 6px 14px; font-size: 12px; font-weight: 700; cursor: pointer;
+  border: none; background: transparent; color: rgba(255,255,255,.5);
+  letter-spacing: .5px; transition: all .2s; text-decoration: none;
+  display: inline-flex; align-items: center;
+}
+.pp-lang-btn.on { background: #CA8A71; color: #fff; }
+.pp-lang-btn:hover:not(.on) { color: rgba(255,255,255,.85); }
 </style>
 </head>
 <body>
@@ -361,10 +372,16 @@ body {
 <header class="pp-header">
   <div class="pp-header-inner">
     <a href="<?php echo home_url('/'); ?>" class="pp-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
-    <a href="<?php echo home_url('/'); ?>" class="pp-back">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Back to site
-    </a>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="pp-lang-wrap">
+        <a href="<?php echo home_url('/politika-privatnosti'); ?>" class="pp-lang-btn">SR</a>
+        <span class="pp-lang-btn on">EN</span>
+      </div>
+      <a href="<?php echo home_url('/'); ?>" class="pp-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to site
+      </a>
+    </div>
   </div>
 </header>
 
