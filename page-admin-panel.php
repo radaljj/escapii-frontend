@@ -1107,9 +1107,7 @@ async function editDestinations(dateId) {
 
   _dpDateId = dateId;
   _dpSelected = new Set((date.potentialDestinations || []).map(d => d.id));
-  _dpItems = ALL_DESTINATIONS.filter(d =>
-    Array.isArray(d.departureAirports) && d.departureAirports.includes(date.departureAirport)
-  );
+  _dpItems = ALL_DESTINATIONS;
 
   document.getElementById('destPickerTitle').textContent = `Destinacije — termin #${dateId}`;
   document.getElementById('destPickerSub').innerHTML =
@@ -1156,17 +1154,29 @@ function closeDestPicker() {
 async function saveDestPicker() {
   if (!_dpDateId) return;
   const ids = Array.from(_dpSelected);
-  const res = await fetch(`${API}/api/admin/dates/${_dpDateId}/destinations`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-    body: JSON.stringify(ids)
-  });
+  console.log('[destPicker] saving dateId=', _dpDateId, 'ids=', ids);
+  let res;
+  try {
+    res = await fetch(`${API}/api/admin/dates/${_dpDateId}/destinations`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify(ids)
+    });
+  } catch(e) {
+    console.error('[destPicker] fetch error:', e);
+    Swal.fire({ icon: 'error', title: 'Greška mreže', text: e.message, background: '#0d1b38', color: '#fff' });
+    return;
+  }
+  console.log('[destPicker] response status:', res.status);
+  const dateIdSaved = _dpDateId;
   closeDestPicker();
   if (res.ok) {
     await loadDates();
     Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1200, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
   } else {
-    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
+    const errText = await res.text().catch(() => '');
+    console.error('[destPicker] error response:', errText);
+    Swal.fire({ icon: 'error', title: `Greška ${res.status}`, text: errText || 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
   }
 }
 
