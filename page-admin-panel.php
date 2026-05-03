@@ -412,6 +412,122 @@ tbody tr:last-child td { border-bottom: none; }
   font-weight: 700;
 }
 
+/* ── Dest picker modal ── */
+#destPickerOverlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+#destPickerOverlay.open { display: flex; }
+#destPickerBox {
+  background: #0d1b38;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  width: 480px;
+  max-width: 95vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#destPickerHeader {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+#destPickerTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+#destPickerSub {
+  font-size: 12px;
+  color: #64748b;
+}
+#destPickerSearch {
+  width: 100%;
+  margin-top: 12px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #fff;
+  outline: none;
+}
+#destPickerSearch::placeholder { color: #64748b; }
+#destPickerSearch:focus { border-color: rgba(202,138,113,.5); }
+#destPickerList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+}
+.dp-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s;
+  user-select: none;
+}
+.dp-item:hover { background: rgba(255,255,255,.05); }
+.dp-item.selected { background: rgba(202,138,113,.12); }
+.dp-check {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,.2);
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.dp-item.selected .dp-check {
+  background: #CA8A71;
+  border-color: #CA8A71;
+}
+.dp-check-icon { display: none; color: #fff; font-size: 11px; font-weight: 700; }
+.dp-item.selected .dp-check-icon { display: block; }
+.dp-name { font-size: 14px; color: #e2e8f0; font-weight: 500; }
+.dp-code { font-size: 11px; color: #64748b; margin-left: auto; }
+#destPickerFooter {
+  padding: 14px 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#destPickerCount { font-size: 12px; color: #64748b; }
+#destPickerCount strong { color: #CA8A71; }
+.dp-btn-cancel {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.dp-btn-cancel:hover { background: rgba(255,255,255,.1); color: #fff; }
+.dp-btn-save {
+  background: #CA8A71;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.dp-btn-save:hover { opacity: .85; }
+
 .btn-action {
   border: none;
   border-radius: 8px;
@@ -979,72 +1095,87 @@ function resetForm() {
 }
 
 // ══ EDIT DESTINATIONS ══
+let _dpDateId = null;
+let _dpSelected = new Set();
+let _dpItems = [];
+
 async function editDestinations(dateId) {
   const r = await fetch(`${API}/api/admin/dates`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
   const dates = await r.json();
   const date = dates.find(d => d.id === dateId);
   if (!date) return;
 
-  const currentIds = (date.potentialDestinations || []).map(d => String(d.id));
-  const filteredForAirport = ALL_DESTINATIONS.filter(d =>
+  _dpDateId = dateId;
+  _dpSelected = new Set((date.potentialDestinations || []).map(d => d.id));
+  _dpItems = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(date.departureAirport)
   );
 
-  let swalTs = null;
-  let selectedIds = [...currentIds];
+  document.getElementById('destPickerTitle').textContent = `Destinacije — termin #${dateId}`;
+  document.getElementById('destPickerSub').innerHTML =
+    `<strong style="color:#e2e8f0;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong>
+     &nbsp;<span style="background:rgba(202,138,113,.15);color:#CA8A71;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;">${date.departureAirport}</span>`;
+  document.getElementById('destPickerSearch').value = '';
 
-  const { isConfirmed } = await Swal.fire({
-    title: `Destinacije — termin #${dateId}`,
-    background: '#0d1b38',
-    color: '#fff',
-    width: 540,
-    html: `
-      <div style="text-align:left;margin-bottom:12px;font-size:13px;color:#94a3b8;">
-        <strong style="color:white;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong>
-        &nbsp;<span style="background:rgba(202,138,113,.15);color:#CA8A71;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;">${date.departureAirport}</span>
-      </div>
-      <select id="swalDestSelect" multiple placeholder="Pretraži destinacije..."></select>`,
-    confirmButtonText: 'Sačuvaj',
-    confirmButtonColor: '#CA8A71',
-    cancelButtonText: 'Otkaži',
-    showCancelButton: true,
-    didOpen: () => {
-      swalTs = new TomSelect('#swalDestSelect', {
-        maxItems: 20,
-        options: filteredForAirport.map(d => ({ value: String(d.id), text: `${d.name} (${d.airportCode})` })),
-        items: currentIds,
-        placeholder: filteredForAirport.length
-          ? `Pretraži ${date.departureAirport} destinacije...`
-          : 'Nema destinacija za ovaj aerodrom',
-        plugins: ['remove_button'],
-        onChange: (vals) => { selectedIds = vals.map(Number); },
-        render: {
-          option: (d) => `<div class="option">${d.text}</div>`,
-          item:   (d) => `<div>${d.text}</div>`,
-        }
-      });
-    },
-    preConfirm: () => {
-      selectedIds = swalTs ? swalTs.getValue().map(Number) : [];
-      return true;
-    },
-    willClose: () => { if (swalTs) { swalTs.destroy(); swalTs = null; } }
+  renderDestPickerList('');
+  document.getElementById('destPickerOverlay').classList.add('open');
+  document.getElementById('destPickerSearch').focus();
+}
+
+function renderDestPickerList(query) {
+  const q = query.toLowerCase();
+  const filtered = q ? _dpItems.filter(d => d.name.toLowerCase().includes(q) || d.airportCode.toLowerCase().includes(q)) : _dpItems;
+  const list = document.getElementById('destPickerList');
+  list.innerHTML = filtered.map(d => `
+    <div class="dp-item ${_dpSelected.has(d.id) ? 'selected' : ''}" onclick="toggleDpItem(${d.id})">
+      <div class="dp-check"><span class="dp-check-icon">✓</span></div>
+      <div class="dp-name">${d.name}</div>
+      <div class="dp-code">${d.airportCode}</div>
+    </div>`).join('');
+  updateDpCount();
+}
+
+function toggleDpItem(id) {
+  if (_dpSelected.has(id)) _dpSelected.delete(id);
+  else _dpSelected.add(id);
+  // Toggle just the clicked element without re-rendering whole list
+  const q = document.getElementById('destPickerSearch').value;
+  renderDestPickerList(q);
+}
+
+function updateDpCount() {
+  document.getElementById('destPickerCount').innerHTML =
+    `<strong>${_dpSelected.size}</strong> odabrano`;
+}
+
+function closeDestPicker() {
+  document.getElementById('destPickerOverlay').classList.remove('open');
+  _dpDateId = null;
+}
+
+async function saveDestPicker() {
+  if (!_dpDateId) return;
+  const ids = Array.from(_dpSelected);
+  const res = await fetch(`${API}/api/admin/dates/${_dpDateId}/destinations`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+    body: JSON.stringify(ids)
   });
-
-  if (isConfirmed) {
-    const res = await fetch(`${API}/api/admin/dates/${dateId}/destinations`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify(selectedIds)
-    });
-    if (res.ok) {
-      await loadDates();
-      Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1400, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
-    } else {
-      Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
-    }
+  closeDestPicker();
+  if (res.ok) {
+    await loadDates();
+    Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1200, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
+  } else {
+    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('destPickerSearch').addEventListener('input', e => renderDestPickerList(e.target.value));
+  document.getElementById('destPickerOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('destPickerOverlay')) closeDestPicker();
+  });
+});
 
 // ══ EDIT SLOTS ══
 async function editSlots(id, currentSlots) {
@@ -1673,5 +1804,24 @@ async function changeStatus(id, status) {
   }
 }
 </script>
+
+<!-- Dest Picker Modal -->
+<div id="destPickerOverlay">
+  <div id="destPickerBox">
+    <div id="destPickerHeader">
+      <div id="destPickerTitle">Destinacije</div>
+      <div id="destPickerSub"></div>
+      <input id="destPickerSearch" type="text" placeholder="Pretraži destinacije...">
+    </div>
+    <div id="destPickerList"></div>
+    <div id="destPickerFooter">
+      <div id="destPickerCount"><strong>0</strong> odabrano</div>
+      <div style="display:flex;gap:8px;">
+        <button class="dp-btn-cancel" onclick="closeDestPicker()">Otkaži</button>
+        <button class="dp-btn-save" onclick="saveDestPicker()">Sačuvaj</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
