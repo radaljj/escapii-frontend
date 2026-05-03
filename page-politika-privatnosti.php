@@ -535,7 +535,7 @@ body {
         <div class="pp-not-collected-title">Ne prikupljamo</div>
         <ul>
           <li>Podatke o platnoj kartici — plaćanje se vrši bankovnim transferom</li>
-          <li>Podatke o putovnicama ili ličnim dokumentima</li>
+          <li>Podatke o pasošima ili ličnim dokumentima</li>
           <li>Kolačiće za praćenje ili profilisanje korisnika</li>
         </ul>
       </div>
