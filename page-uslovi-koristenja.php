@@ -503,7 +503,7 @@ body {
         <li>Unese <strong>tačno ime i prezime svakog putnika</strong> onako kako stoji u putnom dokumentu koji će se koristiti za putovanje</li>
         <li>Unese <strong>tačan datum rođenja</strong> svakog putnika</li>
         <li>Proveri <strong>rok važnosti putnog dokumenta</strong> — pasoš mora biti važeći najmanje 6 meseci nakon datuma povratka</li>
-        <li>Poseduje <strong>validnu vizu</strong> ili pravo ulaska za destinaciju, ukoliko ovo nije unapred poznato (destinacija je tajna), putnik je odgovoran da proveri visovne uslove za sve realno moguće destinacije ili da prihvati odgovornost za eventualne probleme</li>
+        <li>U polju <strong>Napomene</strong> pri slanju upita naglasi ukoliko mu je potrebna viza za neku od potencijalnih destinacija, ili ukoliko poseduje aktivnu vizu za određene države (za sve putnike, ne samo nosioca rezervacije) — ovo nam omogućava da prilagodimo izbor destinacije</li>
         <li>Pravovremeno uplati avans i ostatak iznosa prema dogovorenim rokovima</li>
         <li>Stigne na aerodrom u vreme koje odredi avio kompanija (najkasnije 2 sata pre polaska za evropske letove)</li>
       </ul>
@@ -513,7 +513,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vizni rizik i koncept iznenađenja:</strong> Budući da je destinacija tajna do 72 sata pre polaska, korisnik koji nema pravo bezpasošnog ulaska u sve destinacije u okviru odabranog programa treba da nas o tome obavesti pre potvrde rezervacije ili da isključi destinacije za koje nije siguran. Escapii i BTA nisu odgovorni za posledice nedostatka viznih isprava.
+          <strong>Vize i dokumenta:</strong> Budući da destinacija ostaje tajna do 72 sata pre polaska, korisnik je dužan da pri slanju upita u polju <strong>Napomene</strong> navede: (1) za koje države putnici poseduju aktivnu vizu, i (2) ukoliko nekom od putnika može biti potrebna viza za određene destinacije. Na osnovu tih informacija Escapii prilagođava izbor destinacije. Korisnik snosi isključivu odgovornost za putne isprave svih putnika na rezervaciji.
         </div>
       </div>
     </section>
@@ -553,7 +553,7 @@ body {
       </div>
 
       <h3>Izmena rezervacije</h3>
-      <p>Izmene potvrđene rezervacije (broj putnika, datumi, tip smeštaja) su moguće isključivo uz pisanu saglasnost Escapii tima i mogu biti praćene administrativnom naknadom. <strong>Promena destinacije nije moguća</strong> — destinacija se utvrđuje pri potvrdi rezervacije i ne može se naknadno menjati.</p>
+      <p><strong>Nakon potvrde rezervacije izmene nisu moguće.</strong> Potvrdom rezervacije korisnik prihvata sve uslove putovanja (destinacija, datumi, broj putnika, tip smeštaja i dodaci) kao konačne. Jedina opcija nakon potvrde je otkaz rezervacije uz primenu odgovarajuće naknade prema tabeli iznad.</p>
 
       <h3>Otkaz od strane organizatora</h3>
       <p>U slučaju otkazivanja putovanja od strane organizatora iz razloga koji nisu na strani korisnika, korisniku se vraća celokupan uplaćen iznos ili se nudi alternativni aranžman odgovarajuće vrednosti.</p>
