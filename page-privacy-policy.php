@@ -1,14 +1,14 @@
-﻿<?php
+<?php
 /**
- * Template Name: Privacy Policy
+ * Template Name: Privacy Policy EN
  */
 ?>
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Politika privatnosti — Escapii</title>
+  <title>Privacy Policy — Escapii</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <?php wp_head(); ?>
@@ -166,15 +166,12 @@ body {
 }
 
 /* ── Content ── */
-.pp-content {
-  min-width: 0;
-}
+.pp-content { min-width: 0; }
 
 .pp-section {
   margin-bottom: 52px;
   scroll-margin-top: 100px;
 }
-
 .pp-section-header {
   display: flex;
   align-items: center;
@@ -196,27 +193,10 @@ body {
   color: var(--accent);
 }
 .pp-section-icon svg { width: 18px; height: 18px; }
-.pp-section h2 {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -.3px;
-  color: var(--white);
-}
-
-.pp-section p {
-  font-size: 14.5px;
-  color: rgba(255,255,255,.75);
-  margin-bottom: 14px;
-  line-height: 1.75;
-}
+.pp-section h2 { font-size: 18px; font-weight: 700; letter-spacing: -.3px; color: var(--white); }
+.pp-section p { font-size: 14.5px; color: rgba(255,255,255,.75); margin-bottom: 14px; line-height: 1.75; }
 .pp-section p:last-child { margin-bottom: 0; }
-
-.pp-section h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--white);
-  margin: 20px 0 10px;
-}
+.pp-section h3 { font-size: 14px; font-weight: 600; color: var(--white); margin: 20px 0 10px; }
 
 /* ── Table ── */
 .pp-table-wrap {
@@ -225,14 +205,8 @@ body {
   border: 1px solid var(--border);
   margin: 16px 0;
 }
-.pp-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13.5px;
-}
-.pp-table thead {
-  background: rgba(202,138,113,.08);
-}
+.pp-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.pp-table thead { background: rgba(202,138,113,.08); }
 .pp-table th {
   text-align: left;
   padding: 12px 16px;
@@ -295,17 +269,8 @@ body {
   transition: border-color .2s;
 }
 .pp-right-card:hover { border-color: rgba(202,138,113,.3); }
-.pp-right-card-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--white);
-  margin-bottom: 5px;
-}
-.pp-right-card-desc {
-  font-size: 12.5px;
-  color: var(--gray);
-  line-height: 1.5;
-}
+.pp-right-card-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+.pp-right-card-desc { font-size: 12.5px; color: var(--gray); line-height: 1.5; }
 
 /* ── Notice box ── */
 .pp-notice {
@@ -340,12 +305,7 @@ body {
   color: #22c55e;
   margin-bottom: 10px;
 }
-.pp-not-collected ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.pp-not-collected ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .pp-not-collected ul li {
   font-size: 13.5px;
   color: rgba(255,255,255,.7);
@@ -353,14 +313,9 @@ body {
   align-items: center;
   gap: 8px;
 }
-.pp-not-collected ul li::before {
-  content: '✓';
-  color: #22c55e;
-  font-weight: 700;
-  font-size: 12px;
-}
+.pp-not-collected ul li::before { content: '✓'; color: #22c55e; font-weight: 700; font-size: 12px; }
 
-/* ── Contact footer ── */
+/* ── Contact ── */
 .pp-contact {
   background: rgba(255,255,255,.03);
   border: 1px solid var(--border);
@@ -369,22 +324,9 @@ body {
   text-align: center;
   margin-top: 16px;
 }
-.pp-contact h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.pp-contact p {
-  font-size: 13.5px;
-  color: var(--gray);
-  margin-bottom: 18px;
-}
-.pp-contact-links {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.pp-contact h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.pp-contact p { font-size: 13.5px; color: var(--gray); margin-bottom: 18px; }
+.pp-contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .pp-contact-link {
   display: inline-flex;
   align-items: center;
@@ -399,10 +341,7 @@ body {
   text-decoration: none;
   transition: all .2s;
 }
-.pp-contact-link:hover {
-  background: rgba(202,138,113,.2);
-  border-color: var(--accent);
-}
+.pp-contact-link:hover { background: rgba(202,138,113,.2); border-color: var(--accent); }
 
 /* ── Footer ── */
 .pp-footer {
@@ -424,7 +363,7 @@ body {
     <a href="<?php echo home_url('/'); ?>" class="pp-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
     <a href="<?php echo home_url('/'); ?>" class="pp-back">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Nazad na sajt
+      Back to site
     </a>
   </div>
 </header>
@@ -433,13 +372,13 @@ body {
 <div class="pp-hero">
   <div class="pp-hero-badge">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    Pravni dokument
+    Legal document
   </div>
-  <h1>Politika privatnosti</h1>
-  <p>Transparentno objašnjavamo koje podatke prikupljamo, zašto i kako ih štitimo.</p>
+  <h1>Privacy Policy</h1>
+  <p>We transparently explain what data we collect, why we collect it, and how we protect it.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Poslednje ažuriranje: Maj 2026
+    Last updated: May 2026
   </div>
 </div>
 
@@ -448,193 +387,193 @@ body {
 
   <!-- TOC Sidebar -->
   <nav class="pp-toc">
-    <div class="pp-toc-title">Sadržaj</div>
+    <div class="pp-toc-title">Contents</div>
     <ul>
-      <li><a href="#ko-smo-mi">Ko smo mi</a></li>
-      <li><a href="#koji-podaci">Koje podatke prikupljamo</a></li>
-      <li><a href="#zasto">Zašto obrađujemo podatke</a></li>
-      <li><a href="#pristup">Ko ima pristup</a></li>
-      <li><a href="#cuvanje">Koliko dugo čuvamo</a></li>
-      <li><a href="#prava">Vaša prava</a></li>
-      <li><a href="#bezbednost">Bezbednost</a></li>
-      <li><a href="#kolacici">Kolačići</a></li>
-      <li><a href="#izmene">Izmene politike</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#who-we-are">Who we are</a></li>
+      <li><a href="#what-data">What data we collect</a></li>
+      <li><a href="#why">Why we process your data</a></li>
+      <li><a href="#access">Who has access</a></li>
+      <li><a href="#retention">How long we keep data</a></li>
+      <li><a href="#rights">Your rights</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#cookies">Cookies</a></li>
+      <li><a href="#changes">Policy changes</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- Content -->
   <main class="pp-content">
 
-    <!-- Ko smo mi -->
-    <section class="pp-section" id="ko-smo-mi">
+    <!-- Who we are -->
+    <section class="pp-section" id="who-we-are">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
-        <h2>Ko smo mi</h2>
+        <h2>Who we are</h2>
       </div>
-      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. <strong>Escapii nije turistička agencija</strong> i ne obavlja delatnost organizovanja turističkih putovanja kao licencirani organizator.</p>
-      <p>Putovanja se organizuju u saradnji sa licenciranom turističkom agencijom <strong>BTA — Turistička agencija BTA</strong>, Takovska 6, Beograd (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.bta.co.rs</a>). Escapii nastupa kao <strong>subagent</strong> agencije BTA u smislu posredovanja pri formiranju turističkih aranžmana.</p>
-      <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>escapii.team@gmail.com</strong>.</p>
+      <p><strong>Escapii</strong> is a digital platform for organising surprise trips from Serbia. <strong>Escapii is not a travel agency</strong> and does not hold a licence to operate as a travel organiser.</p>
+      <p>All trips are organised in partnership with the licensed travel agency <strong>BTA — Tourist Agency BTA</strong>, Takovska 6, Belgrade (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.bta.co.rs</a>). Escapii acts as a <strong>sub-agent</strong> of BTA, facilitating the creation of travel packages on its behalf.</p>
+      <p>For any questions regarding the processing of your personal data, please contact us at <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
-    <!-- Koji podaci -->
-    <section class="pp-section" id="koji-podaci">
+    <!-- What data -->
+    <section class="pp-section" id="what-data">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         </div>
-        <h2>Koje podatke prikupljamo</h2>
+        <h2>What data we collect</h2>
       </div>
 
-      <h3>Podaci koje direktno unosite</h3>
+      <h3>Data you provide directly</h3>
       <div class="pp-table-wrap">
         <table class="pp-table">
           <thead>
-            <tr><th>Podatak</th><th>Svrha</th></tr>
+            <tr><th>Data</th><th>Purpose</th></tr>
           </thead>
           <tbody>
-            <tr><td>Ime i prezime</td><td>Identifikacija i komunikacija</td></tr>
-            <tr><td>Email adresa</td><td>Slanje potvrda i informacija o putovanju</td></tr>
-            <tr><td>Broj telefona</td><td>Hitna komunikacija u vezi sa putovanjem</td></tr>
-            <tr><td>Datum polaska i povratka</td><td>Organizacija putovanja</td></tr>
-            <tr><td>Aerodrom polaska</td><td>Pronalazak odgovarajućih letova</td></tr>
-            <tr><td>Broj putnika</td><td>Rezervacija kapaciteta</td></tr>
-            <tr><td>Tip smeštaja</td><td>Organizacija smeštaja</td></tr>
-            <tr><td>Isključene destinacije</td><td>Prilagođavanje iznenađenja vašim preferencama</td></tr>
-            <tr><td>Preference (doručak, sedišta, prtljag, osiguranje)</td><td>Personalizacija ponude</td></tr>
+            <tr><td>Full name</td><td>Identification and communication</td></tr>
+            <tr><td>Email address</td><td>Sending confirmations and travel information</td></tr>
+            <tr><td>Phone number</td><td>Emergency communication regarding the trip</td></tr>
+            <tr><td>Departure and return dates</td><td>Trip organisation</td></tr>
+            <tr><td>Departure airport</td><td>Finding suitable flights</td></tr>
+            <tr><td>Number of travellers</td><td>Capacity reservation</td></tr>
+            <tr><td>Accommodation type</td><td>Accommodation arrangement</td></tr>
+            <tr><td>Excluded destinations</td><td>Personalising the surprise to your preferences</td></tr>
+            <tr><td>Preferences (breakfast, seats, luggage, insurance)</td><td>Offer personalisation</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3>Podaci koje prikupljamo automatski</h3>
+      <h3>Data we collect automatically</h3>
       <ul class="pp-list">
-        <li><strong>IP adresa</strong> — isključivo za zaštitu od zloupotrebe (ograničavamo broj upita po IP adresi), čuva se 24 sata</li>
-        <li><strong>Datum i vreme slanja upita</strong> — radi evidentiranja rezervacije</li>
+        <li><strong>IP address</strong> — solely to prevent abuse (we rate-limit requests per IP); stored for 24 hours</li>
+        <li><strong>Date and time of submission</strong> — for booking records</li>
       </ul>
 
-      <h3>Šta ne prikupljamo</h3>
+      <h3>What we do NOT collect</h3>
       <div class="pp-not-collected">
-        <div class="pp-not-collected-title">Ne prikupljamo</div>
+        <div class="pp-not-collected-title">We do not collect</div>
         <ul>
-          <li>Podatke o platnoj kartici — plaćanje se vrši bankovnim transferom</li>
-          <li>Podatke o putovnicama ili ličnim dokumentima</li>
-          <li>Kolačiće za praćenje ili profilisanje korisnika</li>
+          <li>Payment card details — payments are made by bank transfer</li>
+          <li>Passport or ID document details</li>
+          <li>Tracking or profiling cookies</li>
         </ul>
       </div>
     </section>
 
-    <!-- Zasto -->
-    <section class="pp-section" id="zasto">
+    <!-- Why -->
+    <section class="pp-section" id="why">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-        <h2>Zašto obrađujemo vaše podatke</h2>
+        <h2>Why we process your data</h2>
       </div>
-      <p>Vaše podatke koristimo isključivo za:</p>
+      <p>We use your data solely for:</p>
       <ul class="pp-list">
-        <li><strong>Obradu vašeg upita za putovanje</strong> — bez ovih podataka ne možemo organizovati putovanje</li>
-        <li><strong>Slanje potvrde upita na email</strong> — automatski, odmah po prijemu upita</li>
-        <li><strong>Komunikaciju u vezi sa rezervacijom</strong> — slanje detalja o uplati, potvrde rezervacije, obaveštenja o izmenama ili otkazivanjima</li>
-        <li><strong>Waitlist notifikacije</strong> — ukoliko ste se prijavili za obaveštenje o novim terminima za određeni aerodrom</li>
+        <li><strong>Processing your travel enquiry</strong> — without this data we cannot organise your trip</li>
+        <li><strong>Sending an enquiry confirmation to your email</strong> — automatically, immediately upon receipt</li>
+        <li><strong>Booking-related communication</strong> — sending payment instructions, booking confirmation, and notifications of any changes or cancellations</li>
+        <li><strong>Waitlist notifications</strong> — if you signed up to be notified about new dates for a particular airport</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="pp-notice-text">
-          <strong>Pravni osnov:</strong> Izvršenje ugovora (čl. 12. st. 1. tač. 2. Zakona o zaštiti podataka o ličnosti) i vaša saglasnost (čl. 12. st. 1. tač. 1.) za komunikaciju i waitlist.
+          <strong>Legal basis:</strong> Performance of a contract (Art. 6(1)(b) GDPR) and your consent (Art. 6(1)(a) GDPR) for communications and waitlist.
         </div>
       </div>
     </section>
 
-    <!-- Pristup -->
-    <section class="pp-section" id="pristup">
+    <!-- Access -->
+    <section class="pp-section" id="access">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
-        <h2>Ko ima pristup vašim podacima</h2>
+        <h2>Who has access to your data</h2>
       </div>
 
-      <h3>Unutar Escapii</h3>
-      <p>Samo osobe koje direktno organizuju vaše putovanje imaju pristup vašim podacima.</p>
+      <h3>Within Escapii</h3>
+      <p>Only the people directly involved in organising your trip have access to your personal data.</p>
 
-      <h3>Treće strane</h3>
-      <p>Vaše podatke delimo sa sledećim kategorijama primaoca, isključivo u meri neophodnoj za organizaciju putovanja:</p>
+      <h3>Third parties</h3>
+      <p>We share your data with the following categories of recipients, strictly to the extent necessary to organise your trip:</p>
       <ul class="pp-list">
-        <li><strong>BTA — Turistička agencija BTA</strong> — kao naš principalni organizator putovanja, BTA prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja). BTA je obavezan da vaše podatke obrađuje isključivo u svrhu izvršenja aranžmana</li>
-        <li><strong>Avio kompanije</strong> — radi rezervacije letova, posredstvom agencije BTA</li>
-        <li><strong>Hoteli i smeštajni objekti</strong> — radi rezervacije smeštaja, posredstvom agencije BTA</li>
-        <li><strong>Osiguravajuće kompanije</strong> — isključivo ukoliko ste odabrali putno osiguranje</li>
-        <li><strong>Google (Gmail)</strong> — emailovi koje šaljemo prolaze kroz Google infrastrukturu</li>
+        <li><strong>BTA — Tourist Agency BTA</strong> — as our principal travel organiser, BTA receives the data required to book your flight and accommodation (full names of travellers, airport, dates, number of travellers, accommodation type). BTA is required to process your data solely for the purpose of fulfilling the travel package</li>
+        <li><strong>Airlines</strong> — for flight bookings, through BTA</li>
+        <li><strong>Hotels and accommodation providers</strong> — for accommodation bookings, through BTA</li>
+        <li><strong>Insurance companies</strong> — only if you selected travel insurance</li>
+        <li><strong>Google (Gmail)</strong> — emails we send pass through Google infrastructure</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-        <div class="pp-notice-text">Ne prodajemo vaše podatke trećim stranama. Ne delimo podatke u marketinške svrhe.</div>
+        <div class="pp-notice-text">We do not sell your data to third parties. We do not share data for marketing purposes.</div>
       </div>
     </section>
 
-    <!-- Cuvanje -->
-    <section class="pp-section" id="cuvanje">
+    <!-- Retention -->
+    <section class="pp-section" id="retention">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
-        <h2>Koliko dugo čuvamo podatke</h2>
+        <h2>How long we keep your data</h2>
       </div>
       <div class="pp-table-wrap">
         <table class="pp-table">
           <thead>
-            <tr><th>Vrsta podatka</th><th>Period čuvanja</th></tr>
+            <tr><th>Type of data</th><th>Retention period</th></tr>
           </thead>
           <tbody>
-            <tr><td>Podaci o rezervaciji</td><td>3 godine od datuma putovanja (zakonska obaveza za poslovnu dokumentaciju)</td></tr>
-            <tr><td>Waitlist email</td><td>Do slanja obaveštenja ili do vašeg zahteva za brisanje</td></tr>
-            <tr><td>IP adrese (rate limiting)</td><td>24 sata</td></tr>
-            <tr><td>Email prepiska</td><td>2 godine</td></tr>
+            <tr><td>Booking data</td><td>3 years from the date of travel (statutory requirement for business records)</td></tr>
+            <tr><td>Waitlist email</td><td>Until notification is sent or until you request deletion</td></tr>
+            <tr><td>IP addresses (rate limiting)</td><td>24 hours</td></tr>
+            <tr><td>Email correspondence</td><td>2 years</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- Prava -->
-    <section class="pp-section" id="prava">
+    <!-- Rights -->
+    <section class="pp-section" id="rights">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h2>Vaša prava</h2>
+        <h2>Your rights</h2>
       </div>
-      <p>Prema Zakonu o zaštiti podataka o ličnosti (ZZPL) i GDPR-u, imate sledeća prava:</p>
+      <p>Under GDPR (EU) 2016/679, you have the following rights:</p>
       <div class="pp-rights">
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo pristupa</div>
-          <div class="pp-right-card-desc">Možete zatražiti kopiju svih podataka koje imamo o vama</div>
+          <div class="pp-right-card-title">Right of access</div>
+          <div class="pp-right-card-desc">You can request a copy of all data we hold about you</div>
         </div>
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo na ispravku</div>
-          <div class="pp-right-card-desc">Možete zatražiti ispravku netačnih ili nepotpunih podataka</div>
+          <div class="pp-right-card-title">Right to rectification</div>
+          <div class="pp-right-card-desc">You can request correction of inaccurate or incomplete data</div>
         </div>
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo na brisanje</div>
-          <div class="pp-right-card-desc">Možete zatražiti brisanje podataka, osim onih koje smo zakonski obavezni da čuvamo</div>
+          <div class="pp-right-card-title">Right to erasure</div>
+          <div class="pp-right-card-desc">You can request deletion of your data, except where we are legally required to retain it</div>
         </div>
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo na ograničenje</div>
-          <div class="pp-right-card-desc">Možete zatražiti da privremeno prestanemo sa obradom vaših podataka</div>
+          <div class="pp-right-card-title">Right to restriction</div>
+          <div class="pp-right-card-desc">You can request that we temporarily stop processing your data</div>
         </div>
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo na prigovor</div>
-          <div class="pp-right-card-desc">Možete se usprotiviti obradi u određenim slučajevima</div>
+          <div class="pp-right-card-title">Right to object</div>
+          <div class="pp-right-card-desc">You can object to processing in certain circumstances</div>
         </div>
         <div class="pp-right-card">
-          <div class="pp-right-card-title">Pravo na prenosivost</div>
-          <div class="pp-right-card-desc">Možete zatražiti vaše podatke u mašinski čitljivom formatu</div>
+          <div class="pp-right-card-title">Right to portability</div>
+          <div class="pp-right-card-desc">You can request your data in a machine-readable format</div>
         </div>
       </div>
       <div class="pp-notice">
@@ -642,63 +581,63 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="pp-notice-text">
-          <strong>Kako ostvariti prava:</strong> Pošaljite email na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a> sa naznakom „Zahtev za zaštitu podataka". Odgovorićemo u roku od 30 dana.<br><br>
-          Ukoliko smatrate da vaša prava nisu zaštićena, možete podneti pritužbu <a href="https://www.poverenik.rs" target="_blank" rel="noopener">Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti</a>.
+          <strong>How to exercise your rights:</strong> Send an email to <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a> with the subject "Data Protection Request". We will respond within 30 days.<br><br>
+          If you believe your rights have not been respected, you may lodge a complaint with your local supervisory authority. For residents of Serbia: <a href="https://www.poverenik.rs" target="_blank" rel="noopener">Commissioner for Information of Public Importance and Personal Data Protection</a>.
         </div>
       </div>
     </section>
 
-    <!-- Bezbednost -->
-    <section class="pp-section" id="bezbednost">
+    <!-- Security -->
+    <section class="pp-section" id="security">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
-        <h2>Bezbednost podataka</h2>
+        <h2>Data security</h2>
       </div>
       <ul class="pp-list">
-        <li><strong>HTTPS enkripcija</strong> — sva komunikacija između vašeg browsera i našeg servisa je šifrovana</li>
-        <li><strong>Ograničen pristup</strong> — samo ovlašćene osobe imaju pristup podacima</li>
-        <li><strong>Rate limiting</strong> — automatska zaštita od masovnih napada i zloupotrebe API-ja</li>
-        <li><strong>Zaštićen admin pristup</strong> — admin panel dostupan isključivo autentikovanim korisnicima</li>
+        <li><strong>HTTPS encryption</strong> — all communication between your browser and our service is encrypted</li>
+        <li><strong>Restricted access</strong> — only authorised personnel have access to personal data</li>
+        <li><strong>Rate limiting</strong> — automatic protection against bulk attacks and API abuse</li>
+        <li><strong>Secured admin access</strong> — the admin panel is accessible only to authenticated users</li>
       </ul>
     </section>
 
-    <!-- Kolacici -->
-    <section class="pp-section" id="kolacici">
+    <!-- Cookies -->
+    <section class="pp-section" id="cookies">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
         </div>
-        <h2>Kolačići (Cookies)</h2>
+        <h2>Cookies</h2>
       </div>
-      <p>Koristimo isključivo tehničke kolačiće neophodne za funkcionisanje sajta (npr. WordPress sesija za admin panel). Ne koristimo kolačiće za praćenje, profilisanje ili ciljano oglašavanje korisnika.</p>
-      <p>Ukoliko u budućnosti dodamo analitiku (npr. Google Analytics 4), ažuriraćemo ovu politiku i prikazaćemo banner za saglasnost u skladu sa GDPR zahtevima.</p>
+      <p>We use only essential technical cookies required for the site to function (e.g. WordPress session cookies for the admin panel). We do not use cookies for tracking, profiling, or targeted advertising.</p>
+      <p>If we add analytics in the future (e.g. Google Analytics 4), we will update this policy and display a consent banner in accordance with GDPR requirements.</p>
     </section>
 
-    <!-- Izmene -->
-    <section class="pp-section" id="izmene">
+    <!-- Changes -->
+    <section class="pp-section" id="changes">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </div>
-        <h2>Izmene politike</h2>
+        <h2>Policy changes</h2>
       </div>
-      <p>Možemo ažurirati ovu politiku kako bismo odrazili promene u načinu rada ili zakonskim obavezama. Datum poslednjeg ažuriranja uvek je prikazan na vrhu stranice.</p>
-      <p>Za značajne izmene koje utiču na vaša prava, obavestićemo vas emailom ako imamo vašu adresu.</p>
+      <p>We may update this policy to reflect changes in our practices or legal obligations. The date of the last update is always shown at the top of this page.</p>
+      <p>For significant changes that affect your rights, we will notify you by email if we have your address.</p>
     </section>
 
-    <!-- Kontakt -->
-    <section class="pp-section" id="kontakt">
+    <!-- Contact -->
+    <section class="pp-section" id="contact">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <h2>Kontakt</h2>
+        <h2>Contact</h2>
       </div>
       <div class="pp-contact">
-        <h3>Imate pitanje o privatnosti?</h3>
-        <p>Slobodno nam se obratite — odgovaramo u roku od 48 sati.</p>
+        <h3>Have a privacy question?</h3>
+        <p>Feel free to reach out — we respond within 48 hours.</p>
         <div class="pp-contact-links">
           <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -718,9 +657,9 @@ body {
 <!-- Footer -->
 <footer class="pp-footer">
   <p>
-    © <?php echo date('Y'); ?> Escapii · Republika Srbija ·
-    <a href="<?php echo home_url('/uslovi-koriscenja'); ?>">Uslovi korišćenja</a> ·
-    Sastavljen u skladu sa ZZPL („Sl. glasnik RS", br. 87/2018) i GDPR (EU) 2016/679
+    © <?php echo date('Y'); ?> Escapii · Republic of Serbia ·
+    <a href="<?php echo home_url('/terms-of-use'); ?>">Terms of Use</a> ·
+    Compiled in accordance with GDPR (EU) 2016/679
   </p>
 </footer>
 
