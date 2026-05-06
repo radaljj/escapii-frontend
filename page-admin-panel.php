@@ -402,6 +402,30 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-gray  { background: rgba(148,163,184,.1); color: var(--gray); }
 .badge-accent { background: rgba(202,138,113,.12); color: var(--accent); }
 
+/* ── ERROR LOG ─────────────────────────────────────────── */
+.err-row { cursor: pointer; transition: background .15s; }
+.err-row:hover { background: rgba(255,255,255,.03); }
+.err-row.resolved td { opacity: .45; }
+.err-type { font-size: 12px; font-weight: 700; color: #ff7b72; font-family: monospace; }
+.err-endpoint { font-size: 11px; color: var(--gray); font-family: monospace; margin-top: 2px; }
+.err-msg { font-size: 12px; color: #e6edf3; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.err-count { display: inline-block; background: rgba(255,123,114,.15); color: #ff7b72; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+.err-time { font-size: 11px; color: var(--gray); }
+.err-stack-wrap { display: none; background: #0d1117; border-top: 1px solid rgba(255,255,255,.06); padding: 16px 20px; }
+.err-stack-wrap.open { display: table-row; }
+.err-stack { font-family: monospace; font-size: 11px; color: #a5d6ff; white-space: pre-wrap; word-break: break-word; max-height: 300px; overflow-y: auto; }
+.err-actions { display: flex; gap: 8px; align-items: center; }
+.btn-resolve { background: rgba(34,197,94,.1); color: var(--green); border: 1px solid rgba(34,197,94,.2); border-radius: 8px; padding: 5px 12px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all .15s; }
+.btn-resolve:hover { background: rgba(34,197,94,.2); }
+.err-badge-resolved { background: rgba(34,197,94,.1); color: var(--green); border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+.err-header-actions { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.btn-clear-resolved { background: rgba(148,163,184,.08); color: var(--gray); border: 1px solid rgba(148,163,184,.15); border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+.btn-clear-resolved:hover { background: rgba(148,163,184,.15); color: #fff; }
+.btn-clear-all { background: rgba(239,68,68,.08); color: var(--red); border: 1px solid rgba(239,68,68,.15); border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+.btn-clear-all:hover { background: rgba(239,68,68,.15); }
+.err-empty { text-align: center; padding: 48px 20px; color: var(--gray); font-size: 14px; }
+.err-empty-icon { font-size: 40px; margin-bottom: 12px; }
+
 .dest-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .dest-chip {
   background: rgba(202,138,113,.12);
@@ -653,6 +677,7 @@ tbody tr:last-child td { border-bottom: none; }
       <button class="tab-btn" onclick="switchTab('bookings')">📋 Rezervacije <span class="tab-badge" id="bookingsBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('destinations')">✈️ Destinacije</button>
       <button class="tab-btn" onclick="switchTab('waitlist')">🔔 Lista čekanja <span class="tab-badge" id="waitlistBadge"></span></button>
+      <button class="tab-btn" onclick="switchTab('errors')">🚨 Greške <span class="tab-badge" id="errorsBadge"></span></button>
     </div>
 
     <!-- ══ TERMINI ══ -->
@@ -775,6 +800,21 @@ tbody tr:last-child td { border-bottom: none; }
       </div>
     </div>
 
+    <!-- ══ GREŠKE ══ -->
+    <div class="panel" id="panel-errors">
+      <div class="panel-title">Log grešaka</div>
+      <div class="panel-subtitle">Neočekivane greške aplikacije — ista greška se grupiše, email se šalje samo pri prvoj pojavi</div>
+      <div class="card">
+        <div class="err-header-actions">
+          <button class="btn-clear-resolved" onclick="clearResolvedErrors()">🧹 Obriši rešene</button>
+          <button class="btn-clear-all" onclick="clearAllErrors()">🗑 Obriši sve</button>
+        </div>
+        <div id="errorsContent">
+          <div class="empty-state">Učitavanje...</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ══ DESTINACIJE ══ -->
     <div class="panel" id="panel-destinations">
       <div class="panel-title">Pregled destinacija</div>
@@ -863,7 +903,7 @@ let airportTs = null;
 let nightsTs  = null;
 
 async function initAdmin() {
-  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist()]);
+  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
 
   airportTs = new TomSelect('#fAirport', {
     create: false, allowEmptyOption: false, controlInput: null,
@@ -1304,6 +1344,127 @@ function switchTab(tab) {
   event.currentTarget.classList.add('active');
   if (tab === 'bookings') loadBookings();
   if (tab === 'waitlist') loadWaitlist();
+  if (tab === 'errors')   loadErrors();
+}
+
+// ══ GREŠKE ═══════════════════════════════════════════════════════════════════
+async function loadErrors() {
+  const el = document.getElementById('errorsContent');
+  try {
+    const r    = await fetch(`${API}/api/admin/errors`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
+    const errors = await r.json();
+
+    const unresolved = errors.filter(e => !e.resolved).length;
+    document.getElementById('errorsBadge').textContent = unresolved > 0 ? unresolved : '';
+
+    if (!errors.length) {
+      el.innerHTML = `<div class="err-empty"><div class="err-empty-icon">✅</div>Nema zabeleženih grešaka</div>`;
+      return;
+    }
+
+    const rows = errors.map(e => {
+      const firstSeen = new Date(e.firstSeenAt).toLocaleString('sr-RS');
+      const lastSeen  = new Date(e.lastSeenAt).toLocaleString('sr-RS');
+      const statusBadge = e.resolved
+        ? `<span class="err-badge-resolved">✓ Rešeno</span>`
+        : `<button class="btn-resolve" onclick="resolveError(${e.id}, this)">Označi kao rešeno</button>`;
+      return `
+        <tr class="err-row ${e.resolved ? 'resolved' : ''}" onclick="toggleErrStack('stack-${e.id}')">
+          <td>
+            <div class="err-type">${e.exceptionType}</div>
+            <div class="err-endpoint">${e.endpoint}</div>
+          </td>
+          <td><div class="err-msg" title="${e.message?.replace(/"/g,"'") || ''}">${e.message || '—'}</div></td>
+          <td><span class="err-count">${e.count}×</span></td>
+          <td class="err-time">${firstSeen}</td>
+          <td class="err-time">${e.count > 1 ? lastSeen : '—'}</td>
+          <td class="err-actions" onclick="event.stopPropagation()">${statusBadge}</td>
+        </tr>
+        <tr id="stack-${e.id}" class="err-stack-wrap">
+          <td colspan="6">
+            <div class="err-stack">${e.stackTrace || 'nema stack trace-a'}</div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tip / Endpoint</th>
+              <th>Poruka</th>
+              <th>Puta</th>
+              <th>Prva pojava</th>
+              <th>Poslednji put</th>
+              <th>Akcija</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch(e) {
+    el.innerHTML = `<div class="empty-state">Greška pri učitavanju: ${e.message}</div>`;
+  }
+}
+
+async function loadErrorsBadge() {
+  try {
+    const r = await fetch(`${API}/api/admin/errors/count`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
+    const { count } = await r.json();
+    document.getElementById('errorsBadge').textContent = count > 0 ? count : '';
+  } catch(_) {}
+}
+
+function toggleErrStack(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+async function resolveError(id, btn) {
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    await fetch(`${API}/api/admin/errors/${id}/resolve`, {
+      method: 'PATCH',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    await loadErrors();
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Označi kao rešeno';
+  }
+}
+
+async function clearResolvedErrors() {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Obriši rešene greške?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Da, obriši',
+    cancelButtonText: 'Otkaži',
+    confirmButtonColor: '#CA8A71',
+    background: '#0d1b38', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  await fetch(`${API}/api/admin/errors/resolved`, { method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY } });
+  loadErrors();
+}
+
+async function clearAllErrors() {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Obriši SVE greške?',
+    text: 'Ovo briše i nerešene greške.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Da, obriši sve',
+    cancelButtonText: 'Otkaži',
+    confirmButtonColor: '#ef4444',
+    background: '#0d1b38', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  await fetch(`${API}/api/admin/errors`, { method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY } });
+  loadErrors();
 }
 
 // ══ LISTA ČEKANJA ════════════════════════════════════════════════════════════
