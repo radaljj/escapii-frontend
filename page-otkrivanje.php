@@ -411,16 +411,39 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
 
     /* ── Reveal CTA (ispod karte, posle grebalice) ── */
+    @keyframes ctaReveal {
+      0%   { opacity: 0; transform: translateY(22px) scale(0.93); filter: blur(4px); }
+      60%  { opacity: 1; filter: blur(0px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+    }
+    @keyframes ctaLabelReveal {
+      0%   { opacity: 0; transform: translateY(10px); letter-spacing: 4px; }
+      100% { opacity: 1; transform: translateY(0);    letter-spacing: 2.5px; }
+    }
+    @keyframes ctaHomeReveal {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
     #revealCTA {
       display: none;
       flex-direction: column;
       align-items: center;
       gap: 10px;
       margin-top: 28px;
-      opacity: 0;
-      animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) forwards;
     }
     #revealCTA.show { display: flex; }
+
+    #revealCTA.show .rv-cta-label {
+      animation: ctaLabelReveal 0.7s cubic-bezier(.22,1,.36,1) 0.15s both;
+    }
+    #revealCTA.show .rv-cta-btn {
+      animation: ctaReveal 0.85s cubic-bezier(.22,1,.36,1) 0.28s both;
+    }
+    #revealCTA.show .rv-cta-home {
+      animation: ctaHomeReveal 0.6s ease 0.7s both;
+    }
+
     .rv-cta-label {
       font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
       color: rgba(255,255,255,0.35); user-select: none;
