@@ -1318,6 +1318,9 @@ function addScratchCard() {
       // Prikaži CTA dugme ispod karte
       const cta = document.getElementById('revealCTA');
       if (cta) cta.classList.add('show');
+      // Obavesti backend da je korisnik ogrebaо (fire-and-forget)
+      const _tok = new URLSearchParams(location.search).get('token');
+      if (_tok) fetch(`${API}/api/reveal/confirm?token=${encodeURIComponent(_tok)}`, { method: 'POST' }).catch(() => {});
     }, 550);
 
     // Sparkle burst

@@ -1657,6 +1657,9 @@ function renderBookings() {
             ${b.forecastSentAt
               ? `<span style="color:#38bdf8;font-size:11px;font-weight:600;">🌤 Prognoza poslata ${new Date(b.forecastSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
               : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">🌤 Prognoza još nije poslata</span>' : '')}
+            ${b.destinationRevealedAt
+              ? `<span style="color:#fbbf24;font-size:11px;font-weight:600;">👁 Korisnik video destinaciju ${new Date(b.destinationRevealedAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+              : ''}
           </div>
           ${b.assignedDestination && b.status === 'CONFIRMED' ? `
           <div class="bc-send-row">
