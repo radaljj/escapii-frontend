@@ -476,9 +476,10 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       -webkit-backdrop-filter: blur(0px);
       z-index: 300;
       display: flex; align-items: center; justify-content: center;
-      padding: 24px;
+      padding: 16px;
       pointer-events: none;
       transition: background 0.6s, backdrop-filter 0.6s;
+      overflow: hidden; /* sprečava horizontalni scroll od tp-glow */
     }
     .tp-backdrop.open {
       background: rgba(8,12,22,0.82);
@@ -488,36 +489,40 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
 
     .tp-modal {
-      width: min(680px, 100%);
-      max-height: 92vh;
+      width: min(600px, 100%);
+      max-height: calc(100vh - 32px);
       overflow-y: auto;
+      overflow-x: hidden;
       background: linear-gradient(180deg, #14202f 0%, #0d1726 100%);
-      border-radius: 28px;
+      border-radius: 22px;
       position: relative;
       color: var(--ink);
       font-family: system-ui, 'Segoe UI', sans-serif;
       box-shadow:
-        0 40px 100px -20px rgba(0,0,0,0.85),
+        0 32px 80px -16px rgba(0,0,0,0.85),
         0 0 0 1px rgba(246,241,230,0.06);
-      transform: translateY(40px) scale(0.94);
+      transform: translateY(32px) scale(0.95);
       opacity: 0;
-      transition: transform 0.7s cubic-bezier(0.2,0.85,0.25,1), opacity 0.5s;
+      transition: transform 0.65s cubic-bezier(0.2,0.85,0.25,1), opacity 0.45s;
+      scrollbar-width: none;
     }
+    .tp-modal::-webkit-scrollbar { display: none; }
     .tp-backdrop.open .tp-modal {
       transform: translateY(0) scale(1);
       opacity: 1;
     }
 
+    /* Glow ostaje unutar modala — bez negativnih offsets */
     .tp-glow {
-      position: absolute; top: -100px; left: -100px; right: -100px;
-      height: 300px;
-      background: radial-gradient(ellipse at center top, rgba(217,152,119,0.22), transparent 70%);
-      pointer-events: none; border-radius: 28px;
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 180px;
+      background: radial-gradient(ellipse at center top, rgba(217,152,119,0.20), transparent 70%);
+      pointer-events: none;
     }
 
     .tp-close {
-      position: absolute; top: 16px; right: 16px;
-      width: 36px; height: 36px;
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px;
       border-radius: 100px;
       background: rgba(246,241,230,0.06);
       border: 1px solid rgba(246,241,230,0.1);
@@ -525,28 +530,28 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.25s, transform 0.25s;
-      z-index: 5; font-size: 16px; line-height: 1;
+      z-index: 5; font-size: 14px; line-height: 1;
     }
     .tp-close:hover { background: rgba(246,241,230,0.12); transform: rotate(90deg); }
 
-    .tp-inner { padding: 40px 44px 36px; position: relative; }
+    .tp-inner { padding: 24px 28px 20px; position: relative; }
 
     .tp-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 10px; letter-spacing: 0.32em;
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 9px; letter-spacing: 0.30em;
       text-transform: uppercase;
       color: var(--pop-accent2);
       font-weight: 700;
-      padding: 7px 14px;
+      padding: 5px 12px;
       background: rgba(217,152,119,0.1);
       border: 1px solid rgba(217,152,119,0.22);
       border-radius: 100px;
     }
     .tp-eyebrow .tp-dot {
-      width: 6px; height: 6px;
+      width: 5px; height: 5px;
       background: var(--pop-accent);
       border-radius: 100px;
-      box-shadow: 0 0 10px var(--pop-accent);
+      box-shadow: 0 0 8px var(--pop-accent);
       animation: tp-pulse 1.6s ease-in-out infinite;
     }
     @keyframes tp-pulse {
@@ -556,24 +561,24 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
     .tp-title {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(30px, 4.2vw, 44px);
+      font-size: clamp(22px, 3.5vw, 32px);
       font-weight: 500;
       line-height: 1.05;
-      margin-top: 16px;
+      margin-top: 10px;
     }
     .tp-title em { font-style: italic; color: var(--pop-accent2); }
-    .tp-sub { color: var(--ink-dim); font-size: 14px; margin-top: 8px; line-height: 1.6; }
+    .tp-sub { color: var(--ink-dim); font-size: 12px; margin-top: 4px; line-height: 1.5; }
 
     .tp-route {
-      margin-top: 28px;
+      margin-top: 14px;
       background: rgba(246,241,230,0.03);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px 24px;
+      border-radius: 14px;
+      padding: 14px 18px;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       position: relative;
     }
     .tp-route::before {
@@ -585,82 +590,80 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
     .tp-rs { position: relative; z-index: 1; }
     .tp-rs.r { text-align: right; }
-    .tp-rs .lab { font-size: 9px; letter-spacing: 0.3em; color: var(--ink-faint); font-weight: 700; }
-    .tp-rs .city { font-size: 26px; font-weight: 700; margin-top: 5px; }
-    .tp-rs .city.dest { font-family: Georgia, serif; font-style: italic; color: var(--pop-accent2); font-weight: 500; font-size: 30px; }
-    .tp-rs .when { font-size: 12px; color: var(--ink-dim); margin-top: 3px; }
+    .tp-rs .lab { font-size: 8px; letter-spacing: 0.28em; color: var(--ink-faint); font-weight: 700; }
+    .tp-rs .city { font-size: 22px; font-weight: 700; margin-top: 3px; }
+    .tp-rs .city.dest { font-family: Georgia, serif; font-style: italic; color: var(--pop-accent2); font-weight: 500; font-size: 26px; }
+    .tp-rs .when { font-size: 11px; color: var(--ink-dim); margin-top: 2px; }
     .tp-plane-ic {
       position: relative; z-index: 1;
-      width: 52px; height: 52px;
+      width: 42px; height: 42px;
       background: linear-gradient(135deg, var(--pop-accent), #c5856a);
       border-radius: 100px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 8px 26px -6px rgba(217,152,119,0.55);
+      font-size: 17px;
+      box-shadow: 0 6px 20px -5px rgba(217,152,119,0.55);
     }
 
     .tp-stats {
-      margin-top: 16px;
+      margin-top: 10px;
       display: grid;
       grid-template-columns: repeat(3,1fr);
-      gap: 10px;
+      gap: 8px;
     }
     .tp-stat {
       background: rgba(246,241,230,0.03);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex; flex-direction: column; gap: 5px;
-      transition: background 0.25s, transform 0.25s;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex; flex-direction: column; gap: 3px;
     }
-    .tp-stat:hover { background: rgba(217,152,119,0.06); transform: translateY(-2px); }
-    .tp-stat .ic { font-size: 20px; line-height: 1; }
-    .tp-stat .lab { font-size: 9px; letter-spacing: 0.28em; color: var(--ink-faint); font-weight: 700; }
-    .tp-stat .v { font-size: 15px; font-weight: 700; }
+    .tp-stat .ic { font-size: 16px; line-height: 1; }
+    .tp-stat .lab { font-size: 8px; letter-spacing: 0.26em; color: var(--ink-faint); font-weight: 700; }
+    .tp-stat .v { font-size: 13px; font-weight: 700; }
 
     .tp-details {
-      margin-top: 16px;
+      margin-top: 10px;
       background: rgba(246,241,230,0.03);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 4px 20px;
+      border-radius: 14px;
+      padding: 2px 16px;
     }
     .tp-det-row {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 13px 0;
+      padding: 9px 0;
       border-bottom: 1px solid var(--line);
-      gap: 14px;
+      gap: 12px;
     }
     .tp-det-row:last-child { border-bottom: none; }
-    .tp-det-row .l { color: var(--ink-dim); font-size: 13px; flex-shrink: 0; }
-    .tp-det-row .v { font-weight: 700; font-size: 13px; text-align: right; }
+    .tp-det-row .l { color: var(--ink-dim); font-size: 12px; flex-shrink: 0; }
+    .tp-det-row .v { font-weight: 700; font-size: 12px; text-align: right; }
 
     .tp-inbox {
-      margin-top: 20px;
-      background: linear-gradient(135deg, rgba(30,107,84,0.18), rgba(217,152,119,0.08));
-      border: 1px solid rgba(30,107,84,0.32);
-      border-radius: 16px;
-      padding: 18px 20px;
-      display: flex; gap: 14px; align-items: flex-start;
+      margin-top: 10px;
+      background: linear-gradient(135deg, rgba(30,107,84,0.16), rgba(217,152,119,0.07));
+      border: 1px solid rgba(30,107,84,0.28);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex; gap: 12px; align-items: flex-start;
     }
     .tp-inbox-ic {
-      width: 40px; height: 40px; flex-shrink: 0;
-      background: rgba(30,107,84,0.28);
-      border-radius: 10px;
+      width: 34px; height: 34px; flex-shrink: 0;
+      background: rgba(30,107,84,0.25);
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
+      font-size: 15px;
     }
     .tp-inbox-tx h4 {
-      font-family: Georgia, serif; font-size: 17px; font-weight: 600; margin-bottom: 3px;
+      font-family: Georgia, serif; font-size: 14px; font-weight: 600; margin-bottom: 2px;
       color: var(--ink);
     }
-    .tp-inbox-tx p { color: var(--ink-dim); font-size: 12px; line-height: 1.55; }
+    .tp-inbox-tx p { color: var(--ink-dim); font-size: 11px; line-height: 1.5; }
 
     .tp-foot {
-      margin-top: 22px;
+      margin-top: 12px;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px;
-      padding-top: 20px;
+      gap: 10px;
+      padding-top: 12px;
       border-top: 1px solid var(--line);
     }
     .tp-foot .small { font-size: 11px; color: var(--ink-faint); }
@@ -668,29 +671,29 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       background: var(--pop-accent);
       color: #1a1410;
       font-weight: 700;
-      padding: 11px 22px;
+      padding: 10px 20px;
       border: none;
       border-radius: 100px;
       cursor: pointer;
       font-size: 13px;
       transition: transform 0.25s, box-shadow 0.25s;
     }
-    .tp-foot .ok:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -5px rgba(217,152,119,0.5); }
+    .tp-foot .ok:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -5px rgba(217,152,119,0.5); }
 
     /* Stagger */
-    .tp-stagger > * { opacity: 0; transform: translateY(12px); transition: opacity 0.55s, transform 0.55s; }
+    .tp-stagger > * { opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
     .tp-backdrop.open .tp-stagger > * { opacity: 1; transform: translateY(0); }
-    .tp-backdrop.open .tp-stagger > *:nth-child(1) { transition-delay: 0.12s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(2) { transition-delay: 0.19s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(3) { transition-delay: 0.26s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(4) { transition-delay: 0.33s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(5) { transition-delay: 0.40s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(6) { transition-delay: 0.47s; }
-    .tp-backdrop.open .tp-stagger > *:nth-child(7) { transition-delay: 0.54s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(1) { transition-delay: 0.10s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(2) { transition-delay: 0.16s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(3) { transition-delay: 0.22s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(4) { transition-delay: 0.28s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(5) { transition-delay: 0.34s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(6) { transition-delay: 0.40s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(7) { transition-delay: 0.46s; }
 
     /* Modal confetti */
-    .tp-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 28px; }
-    .tp-confetti span { position: absolute; width: 6px; height: 6px; border-radius: 100px; opacity: 0; }
+    .tp-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 22px; }
+    .tp-confetti span { position: absolute; width: 5px; height: 5px; border-radius: 100px; opacity: 0; }
     .tp-backdrop.open .tp-confetti span {
       animation: tp-confetti-fall 1.3s cubic-bezier(0.2,0.8,0.3,1) forwards;
     }
@@ -698,13 +701,6 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       0%   { opacity: 0; transform: translate(0,0) scale(0); }
       18%  { opacity: 1; }
       100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1); }
-    }
-
-    @media (max-width: 520px) {
-      .tp-inner { padding: 28px 20px 24px; }
-      .tp-rs .city { font-size: 20px; }
-      .tp-rs .city.dest { font-size: 24px; }
-      .tp-title { font-size: 26px; }
     }
 
     /* ── Mobile ── */
