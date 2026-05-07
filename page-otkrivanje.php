@@ -871,7 +871,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 </div>
 
 <!-- Trip details popup -->
-<div class="tp-backdrop" id="tripModal">
+<div class="tp-backdrop" id="tripModal" style="display:none;">
   <div class="tp-modal" role="dialog" aria-modal="true">
     <div class="tp-glow"></div>
     <div class="tp-confetti" id="tpConfetti"></div>
