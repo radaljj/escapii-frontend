@@ -410,25 +410,43 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       100% { opacity: 0; transform: translate(var(--tx), 160px) rotate(var(--rot)) scale(1.1); }
     }
 
-    /* ── Success bar ── */
-    .success-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-      padding: 14px 24px; display: flex; align-items: center; justify-content: center; gap: 14px;
-      z-index: 60; transform: translateY(100%);
-      transition: transform 0.7s cubic-bezier(.22,1,.36,1);
-      font-size: 14px; color: rgba(255,255,255,0.9);
-      border-top: 1px solid rgba(255,255,255,0.08);
+    /* ── Reveal CTA (ispod karte, posle grebalice) ── */
+    #revealCTA {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) forwards;
     }
-    .success-bar.show { transform: translateY(0); }
-    .success-bar strong { color: #fff; }
-    .success-btn {
-      background: var(--accent); color: #fff; padding: 8px 20px;
-      border-radius: 100px; font-size: 12px; font-weight: 700;
-      text-decoration: none; letter-spacing: 0.5px; white-space: nowrap;
-      transition: background 0.2s;
+    #revealCTA.show { display: flex; }
+    .rv-cta-label {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); user-select: none;
     }
-    .success-btn:hover { background: #b57257; }
+    .rv-cta-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 16px 36px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 14px 40px -10px rgba(202,138,113,0.65);
+      transition: transform 0.35s, box-shadow 0.35s;
+      letter-spacing: 0.3px;
+    }
+    .rv-cta-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 20px 48px -10px rgba(202,138,113,0.75);
+    }
+    .rv-cta-home {
+      font-size: 11px; color: rgba(255,255,255,0.25);
+      text-decoration: none; letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .rv-cta-home:hover { color: rgba(255,255,255,0.5); }
 
     /* ── Sparkles ── */
     .rv-spark { position: fixed; pointer-events: none; z-index: 51; border-radius: 50%; }
@@ -450,22 +468,6 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       --pop-accent2: #e8b89a;
       --line: rgba(246,241,230,0.1);
     }
-
-    .trip-cta-btn {
-      background: var(--accent);
-      color: #1a1410;
-      font-family: system-ui, 'Segoe UI', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 100px;
-      cursor: pointer;
-      box-shadow: 0 12px 36px -8px rgba(202,138,113,0.55);
-      transition: transform 0.35s, box-shadow 0.35s;
-      white-space: nowrap;
-    }
-    .trip-cta-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 18px 44px -8px rgba(202,138,113,0.65); }
 
     .tp-backdrop {
       position: fixed; inset: 0;
@@ -854,6 +856,13 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     <span class="sh-coin">🪙</span>
   </div>
 
+  <!-- CTA dugme — pojavljuje se posle grebalice, na mestu hinta -->
+  <div id="revealCTA">
+    <div class="rv-cta-label">✦ destinacija otkrivena</div>
+    <button class="rv-cta-btn" onclick="openTripPopup()">Vidi detalje putovanja</button>
+    <a class="rv-cta-home" href="/">← Nazad na početnu</a>
+  </div>
+
 </div><!-- /envelope-wrap -->
 
 <!-- Click hint -->
@@ -863,12 +872,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   <div class="hint-pulse"></div>
 </div>
 
-<!-- Success bar -->
-<div class="success-bar" id="success-bar">
-  <span>🎉 Dobrodošli u <strong id="success-city">vaše iznenađenje</strong>!</span>
-  <button class="trip-cta-btn" id="openTripDetails" onclick="openTripPopup()">✦ Vidi detalje putovanja</button>
-  <a class="success-btn" href="/">← Početna</a>
-</div>
+<!-- success-city hidden span — koristi se samo za JS -->
+<span id="success-city" style="display:none;"></span>
 
 <!-- Trip details popup -->
 <div class="tp-backdrop" id="tripModal" style="display:none;">
@@ -1066,7 +1071,7 @@ function showEnvelope(data) {
   document.getElementById('ticketDate').textContent     = fmtDate(data.departureDate);
   document.getElementById('ticketReturn').textContent   = fmtDate(data.returnDate);
   document.getElementById('ticketRef').textContent      = data.bookingRef || '—';
-  document.getElementById('success-city').textContent   = translateDest(data.destination) || 'vaše iznenađenje';
+  // (success-city se ne prikazuje više — sklonjen success bar)
 
   const names = Array.isArray(data.passengers) && data.passengers.length
     ? data.passengers.join(' · ') : '—';
@@ -1288,8 +1293,13 @@ function addScratchCard() {
     canvas.style.opacity    = '0';
     if (hintExt) { hintExt.style.transition = 'opacity 0.3s'; hintExt.style.opacity = '0'; }
 
-    setTimeout(() => { document.getElementById('success-bar').classList.add('show'); }, 350);
-    setTimeout(() => { canvas.remove(); if(hintExt) hintExt.style.display='none'; }, 550);
+    setTimeout(() => {
+      canvas.remove();
+      if (hintExt) hintExt.style.display = 'none';
+      // Prikaži CTA dugme ispod karte
+      const cta = document.getElementById('revealCTA');
+      if (cta) cta.classList.add('show');
+    }, 550);
 
     // Sparkle burst
     setTimeout(() => {
