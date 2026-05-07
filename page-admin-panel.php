@@ -1598,7 +1598,7 @@ function renderBookings() {
     const extras = [
       b.hasInsurance         && '🛡 Osiguranje',
       b.hasBreakfast         && '🍳 Doručak',
-      b.hasSeatsTogther      && '💺 Sedišta zajedno',
+      b.hasSeatsTogether     && '💺 Sedišta zajedno',
       b.hasConnectingFlights && '✈✈ Presedanje',
       b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
       b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
@@ -1638,6 +1638,17 @@ function renderBookings() {
               value="${b.assignedDestination || ''}"
               onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />
             <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju (Enter)">✓</button>
+          </div>
+          <div style="margin-top:6px;">
+            <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
+              style="width:100%;font-size:11px;opacity:.8;"
+              placeholder="🌤 Grad za prognozu (opcionalno) — npr. Santa Cruz de Tenerife, Spain"
+              value="${b.weatherCity || ''}"
+              onkeydown="if(event.key==='Enter')saveWeatherCity(${b.id})"
+              onblur="saveWeatherCity(${b.id})" />
+            <div id="weather-city-status-${b.id}" style="font-size:10px;color:var(--gray);margin-top:2px;">
+              ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
+            </div>
           </div>
           <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
             ${b.revealSentAt
@@ -1747,6 +1758,36 @@ async function saveDestination(id) {
   } finally {
     btn.classList.remove('saving');
     setTimeout(() => { msg.textContent = ''; }, 2500);
+  }
+}
+
+// ══ WEATHER CITY (API) ════════════════════════════════════════════════════════
+async function saveWeatherCity(id) {
+  const el  = document.getElementById(`weather-city-${id}`);
+  const msg = document.getElementById(`weather-city-status-${id}`);
+  if (!el) return;
+
+  const val = el.value.trim();
+
+  // Ako je isti kao cache, ne šalji request
+  const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+  if (idx > -1 && (ALL_BOOKINGS[idx].weatherCity || '') === val) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/weather-city`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ weatherCity: val })
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    if (idx > -1) ALL_BOOKINGS[idx].weatherCity = updated.weatherCity;
+    msg.innerHTML = updated.weatherCity
+      ? `🌤 Prognoza koristi: <strong>${updated.weatherCity}</strong>`
+      : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>';
+  } catch {
+    msg.innerHTML = '<span style="color:var(--red);">✗ Greška pri čuvanju</span>';
+    setTimeout(() => { msg.innerHTML = ''; }, 2000);
   }
 }
 
@@ -1962,7 +2003,15 @@ async function changeStatus(id, status) {
 
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
-    if (idx > -1) ALL_BOOKINGS[idx] = updated;
+    if (idx > -1) {
+      // Čuvamo lokalno weatherCity u slučaju race condition-a
+      // (saveWeatherCity request možda još uvek u toku kad changeStatus pročita DB)
+      const localWeatherCity = ALL_BOOKINGS[idx].weatherCity;
+      ALL_BOOKINGS[idx] = updated;
+      if (!ALL_BOOKINGS[idx].weatherCity && localWeatherCity) {
+        ALL_BOOKINGS[idx].weatherCity = localWeatherCity;
+      }
+    }
 
     updateBookingBadge();
     renderBookings();

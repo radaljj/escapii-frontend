@@ -439,6 +439,272 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ═══════════════════════════════════════════════════
+       TRIP DETAILS POPUP
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --ink: #f6f1e6;
+      --ink-dim: rgba(246,241,230,0.62);
+      --ink-faint: rgba(246,241,230,0.36);
+      --pop-accent: #d99877;
+      --pop-accent2: #e8b89a;
+      --line: rgba(246,241,230,0.1);
+    }
+
+    .trip-cta-btn {
+      background: var(--accent);
+      color: #1a1410;
+      font-family: system-ui, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 12px 36px -8px rgba(202,138,113,0.55);
+      transition: transform 0.35s, box-shadow 0.35s;
+      white-space: nowrap;
+    }
+    .trip-cta-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 18px 44px -8px rgba(202,138,113,0.65); }
+
+    .tp-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(8,12,22,0);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      pointer-events: none;
+      transition: background 0.6s, backdrop-filter 0.6s;
+    }
+    .tp-backdrop.open {
+      background: rgba(8,12,22,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      pointer-events: auto;
+    }
+
+    .tp-modal {
+      width: min(680px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #14202f 0%, #0d1726 100%);
+      border-radius: 28px;
+      position: relative;
+      color: var(--ink);
+      font-family: system-ui, 'Segoe UI', sans-serif;
+      box-shadow:
+        0 40px 100px -20px rgba(0,0,0,0.85),
+        0 0 0 1px rgba(246,241,230,0.06);
+      transform: translateY(40px) scale(0.94);
+      opacity: 0;
+      transition: transform 0.7s cubic-bezier(0.2,0.85,0.25,1), opacity 0.5s;
+    }
+    .tp-backdrop.open .tp-modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .tp-glow {
+      position: absolute; top: -100px; left: -100px; right: -100px;
+      height: 300px;
+      background: radial-gradient(ellipse at center top, rgba(217,152,119,0.22), transparent 70%);
+      pointer-events: none; border-radius: 28px;
+    }
+
+    .tp-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px;
+      border-radius: 100px;
+      background: rgba(246,241,230,0.06);
+      border: 1px solid rgba(246,241,230,0.1);
+      color: var(--ink);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, transform 0.25s;
+      z-index: 5; font-size: 16px; line-height: 1;
+    }
+    .tp-close:hover { background: rgba(246,241,230,0.12); transform: rotate(90deg); }
+
+    .tp-inner { padding: 40px 44px 36px; position: relative; }
+
+    .tp-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--pop-accent2);
+      font-weight: 700;
+      padding: 7px 14px;
+      background: rgba(217,152,119,0.1);
+      border: 1px solid rgba(217,152,119,0.22);
+      border-radius: 100px;
+    }
+    .tp-eyebrow .tp-dot {
+      width: 6px; height: 6px;
+      background: var(--pop-accent);
+      border-radius: 100px;
+      box-shadow: 0 0 10px var(--pop-accent);
+      animation: tp-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes tp-pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.5; transform:scale(0.78); }
+    }
+
+    .tp-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(30px, 4.2vw, 44px);
+      font-weight: 500;
+      line-height: 1.05;
+      margin-top: 16px;
+    }
+    .tp-title em { font-style: italic; color: var(--pop-accent2); }
+    .tp-sub { color: var(--ink-dim); font-size: 14px; margin-top: 8px; line-height: 1.6; }
+
+    .tp-route {
+      margin-top: 28px;
+      background: rgba(246,241,230,0.03);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+    }
+    .tp-route::before {
+      content: '';
+      position: absolute; left: 50%; top: 50%;
+      width: 56%; height: 1px;
+      border-top: 1px dashed rgba(246,241,230,0.15);
+      transform: translate(-50%, -50%);
+    }
+    .tp-rs { position: relative; z-index: 1; }
+    .tp-rs.r { text-align: right; }
+    .tp-rs .lab { font-size: 9px; letter-spacing: 0.3em; color: var(--ink-faint); font-weight: 700; }
+    .tp-rs .city { font-size: 26px; font-weight: 700; margin-top: 5px; }
+    .tp-rs .city.dest { font-family: Georgia, serif; font-style: italic; color: var(--pop-accent2); font-weight: 500; font-size: 30px; }
+    .tp-rs .when { font-size: 12px; color: var(--ink-dim); margin-top: 3px; }
+    .tp-plane-ic {
+      position: relative; z-index: 1;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--pop-accent), #c5856a);
+      border-radius: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 8px 26px -6px rgba(217,152,119,0.55);
+    }
+
+    .tp-stats {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+    }
+    .tp-stat {
+      background: rgba(246,241,230,0.03);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex; flex-direction: column; gap: 5px;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .tp-stat:hover { background: rgba(217,152,119,0.06); transform: translateY(-2px); }
+    .tp-stat .ic { font-size: 20px; line-height: 1; }
+    .tp-stat .lab { font-size: 9px; letter-spacing: 0.28em; color: var(--ink-faint); font-weight: 700; }
+    .tp-stat .v { font-size: 15px; font-weight: 700; }
+
+    .tp-details {
+      margin-top: 16px;
+      background: rgba(246,241,230,0.03);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 4px 20px;
+    }
+    .tp-det-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      gap: 14px;
+    }
+    .tp-det-row:last-child { border-bottom: none; }
+    .tp-det-row .l { color: var(--ink-dim); font-size: 13px; flex-shrink: 0; }
+    .tp-det-row .v { font-weight: 700; font-size: 13px; text-align: right; }
+
+    .tp-inbox {
+      margin-top: 20px;
+      background: linear-gradient(135deg, rgba(30,107,84,0.18), rgba(217,152,119,0.08));
+      border: 1px solid rgba(30,107,84,0.32);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .tp-inbox-ic {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(30,107,84,0.28);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .tp-inbox-tx h4 {
+      font-family: Georgia, serif; font-size: 17px; font-weight: 600; margin-bottom: 3px;
+      color: var(--ink);
+    }
+    .tp-inbox-tx p { color: var(--ink-dim); font-size: 12px; line-height: 1.55; }
+
+    .tp-foot {
+      margin-top: 22px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .tp-foot .small { font-size: 11px; color: var(--ink-faint); }
+    .tp-foot .ok {
+      background: var(--pop-accent);
+      color: #1a1410;
+      font-weight: 700;
+      padding: 11px 22px;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .tp-foot .ok:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -5px rgba(217,152,119,0.5); }
+
+    /* Stagger */
+    .tp-stagger > * { opacity: 0; transform: translateY(12px); transition: opacity 0.55s, transform 0.55s; }
+    .tp-backdrop.open .tp-stagger > * { opacity: 1; transform: translateY(0); }
+    .tp-backdrop.open .tp-stagger > *:nth-child(1) { transition-delay: 0.12s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(2) { transition-delay: 0.19s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(3) { transition-delay: 0.26s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(4) { transition-delay: 0.33s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(5) { transition-delay: 0.40s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(6) { transition-delay: 0.47s; }
+    .tp-backdrop.open .tp-stagger > *:nth-child(7) { transition-delay: 0.54s; }
+
+    /* Modal confetti */
+    .tp-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 28px; }
+    .tp-confetti span { position: absolute; width: 6px; height: 6px; border-radius: 100px; opacity: 0; }
+    .tp-backdrop.open .tp-confetti span {
+      animation: tp-confetti-fall 1.3s cubic-bezier(0.2,0.8,0.3,1) forwards;
+    }
+    @keyframes tp-confetti-fall {
+      0%   { opacity: 0; transform: translate(0,0) scale(0); }
+      18%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1); }
+    }
+
+    @media (max-width: 520px) {
+      .tp-inner { padding: 28px 20px 24px; }
+      .tp-rs .city { font-size: 20px; }
+      .tp-rs .city.dest { font-size: 24px; }
+      .tp-title { font-size: 26px; }
+    }
+
     /* ── Mobile ── */
     @media (max-width: 460px) {
       .envelope { width: 310px; height: 196px; }
@@ -599,13 +865,81 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
 <!-- Success bar -->
 <div class="success-bar" id="success-bar">
-  <span>🎉 Dobrodošli u <strong id="success-city">vaše iznenađenje</strong>! Svi detalji su na vašem emailu.</span>
+  <span>🎉 Dobrodošli u <strong id="success-city">vaše iznenađenje</strong>!</span>
+  <button class="trip-cta-btn" id="openTripDetails" onclick="openTripPopup()">✦ Vidi detalje putovanja</button>
   <a class="success-btn" href="/">← Početna</a>
+</div>
+
+<!-- Trip details popup -->
+<div class="tp-backdrop" id="tripModal">
+  <div class="tp-modal" role="dialog" aria-modal="true">
+    <div class="tp-glow"></div>
+    <div class="tp-confetti" id="tpConfetti"></div>
+    <button class="tp-close" id="tpClose" aria-label="Zatvori" onclick="closeTripPopup()">✕</button>
+
+    <div class="tp-inner tp-stagger">
+      <span class="tp-eyebrow"><span class="tp-dot"></span>Putovanje potvrđeno</span>
+      <h2 class="tp-title">Detalji vašeg <em>putovanja</em></h2>
+      <p class="tp-sub">Rezervacija <strong id="tpRef">—</strong> · spremamo sve za vaš odlazak.</p>
+
+      <div class="tp-route">
+        <div class="tp-rs">
+          <div class="lab">POLAZAK</div>
+          <div class="city" id="tpFrom">—</div>
+          <div class="when" id="tpDepDate">—</div>
+        </div>
+        <div class="tp-plane-ic">✈</div>
+        <div class="tp-rs r">
+          <div class="lab">DESTINACIJA</div>
+          <div class="city dest" id="tpDest">—</div>
+          <div class="when" id="tpRetDate">—</div>
+        </div>
+      </div>
+
+      <div class="tp-stats">
+        <div class="tp-stat">
+          <div class="ic">👥</div>
+          <div class="lab">PUTNIKA</div>
+          <div class="v" id="tpTravelers">—</div>
+        </div>
+        <div class="tp-stat">
+          <div class="ic">📅</div>
+          <div class="lab">TRAJANJE</div>
+          <div class="v" id="tpNights">—</div>
+        </div>
+        <div class="tp-stat">
+          <div class="ic">📍</div>
+          <div class="lab">DESTINACIJA</div>
+          <div class="v" id="tpDestCity">—</div>
+        </div>
+      </div>
+
+      <div class="tp-details">
+        <div class="tp-det-row"><span class="l">Polazni let</span><span class="v" id="tpFlight1">—</span></div>
+        <div class="tp-det-row"><span class="l">Povratni let</span><span class="v" id="tpFlight2">—</span></div>
+        <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">—</span></div>
+        <div class="tp-det-row"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">—</span></div>
+      </div>
+
+      <div class="tp-inbox">
+        <div class="tp-inbox-ic">✉️</div>
+        <div class="tp-inbox-tx">
+          <h4>Uskoro stiže email sa boarding kartama</h4>
+          <p>Poslaćemo ti zvanični email sa svim daljim koracima — check-in instrukcije, boarding pass i savete za putovanje. Proveri inbox u narednih 24h.</p>
+        </div>
+      </div>
+
+      <div class="tp-foot">
+        <span class="small">🔒 Sigurna rezervacija</span>
+        <button class="ok" onclick="closeTripPopup()">Razumem, hvala</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
-let opened = false, errorShown = false;
+let opened = false, errorShown = false, revealData = null;
 
 /* ── Global error handlers ── */
 window.onerror = function() { showError(0); return true; };
@@ -721,6 +1055,7 @@ function showError(status) {
 
 /* ── Show envelope ── */
 function showEnvelope(data) {
+  revealData = data;
   document.getElementById('rvLoading').style.display = 'none';
 
   const iata = (data.departureAirport || '').toUpperCase();
@@ -987,6 +1322,97 @@ function addScratchCard() {
   canvas.addEventListener('touchmove',  e=>{e.preventDefault();if(drawing){const[x,y]=getXY(e);scratchAt(x,y);}},{passive:false});
   canvas.addEventListener('touchend',   ()=>drawing=false);
 }
+
+/* ── Trip popup helpers ── */
+function fmtDateLong(iso) {
+  if (!iso) return '—';
+  const [y,m,d] = iso.split('-');
+  const mon = ['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec'];
+  return d + '. ' + (mon[+m-1] || m) + ' ' + y + '.';
+}
+
+function airportCityFull(iata) {
+  return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
+}
+
+function fmtMoney(eur) {
+  if (!eur && eur !== 0) return '—';
+  return '€' + Number(eur).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function setupModalConfetti() {
+  const c = document.getElementById('tpConfetti');
+  if (!c) return;
+  c.innerHTML = '';
+  const colors = ['#d99877','#e8b89a','#fff','#f97316','#fbbf24','#fb923c'];
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement('span');
+    s.style.cssText = `background:${colors[i%colors.length]};left:${Math.random()*90+5}%;top:${Math.random()*50}%;`;
+    s.style.setProperty('--dx', (Math.random()*340-170)+'px');
+    s.style.setProperty('--dy', (Math.random()*220+60)+'px');
+    s.style.animationDelay = (Math.random()*0.4)+'s';
+    c.appendChild(s);
+  }
+}
+
+function openTripPopup() {
+  if (!revealData) return;
+  const d = revealData;
+  const dest      = translateDest(d.destination) || d.destination || '—';
+  const fromCity  = airportCityFull(d.departureAirport);
+  const nights    = d.numberOfNights;
+  const travelers = d.numberOfTravelers || 1;
+  const addons    = Array.isArray(d.addons) ? d.addons : [];
+
+  document.getElementById('tpRef').textContent       = d.bookingRef || '—';
+  document.getElementById('tpFrom').textContent      = fromCity;
+  document.getElementById('tpDest').textContent      = dest;
+  document.getElementById('tpDepDate').textContent   = fmtDateLong(d.departureDate);
+  document.getElementById('tpRetDate').textContent   = 'povratak · ' + fmtDateLong(d.returnDate);
+  document.getElementById('tpTravelers').textContent = travelers + (travelers === 1 ? ' osoba' : travelers < 5 ? ' osobe' : ' osoba');
+  document.getElementById('tpNights').textContent    = nights + (nights === 1 ? ' noć' : nights < 5 ? ' noći' : ' noći');
+  document.getElementById('tpDestCity').textContent  = dest;
+
+  document.getElementById('tpFlight1').textContent  = (d.departureAirport||'BEG') + ' → ' + dest + ' · ' + fmtDateLong(d.departureDate);
+  document.getElementById('tpFlight2').textContent  = dest + ' → ' + (d.departureAirport||'BEG') + ' · ' + fmtDateLong(d.returnDate);
+
+  const addonsEl = document.getElementById('tpAddons');
+  const addonsRow = document.getElementById('tpAddonsRow');
+  if (addons.length > 0) {
+    addonsEl.innerHTML = addons.join('<br>');
+    addonsRow.style.display = 'flex';
+  } else {
+    addonsRow.style.display = 'none';
+  }
+
+  document.getElementById('tpTotal').textContent = fmtMoney(d.totalPriceAll);
+
+  setupModalConfetti();
+
+  const modal = document.getElementById('tripModal');
+  modal.style.display = 'flex';
+  requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTripPopup() {
+  const modal = document.getElementById('tripModal');
+  modal.classList.remove('open');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 500);
+}
+
+// Close on backdrop click
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('tripModal');
+  if (modal) {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeTripPopup();
+    });
+  }
+});
 
 /* ── API fetch ── */
 (async function init(){
