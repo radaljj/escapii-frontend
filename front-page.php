@@ -6,23 +6,6 @@
   <title>Escapii — Iznenadite se</title>
   <meta name="description" content="Surprise putovanja iz Srbije — odaberi aerodrom, datum i budžet. Mi biramo destinaciju. Ti se iznenadis na aerodromu.">
 
-  <!-- Open Graph (Facebook, Instagram, WhatsApp, Viber) -->
-  <meta property="og:type"        content="website">
-  <meta property="og:url"         content="<?php echo home_url('/'); ?>">
-  <meta property="og:title"       content="Escapii — Putuj a da ne znaš kuda ideš">
-  <meta property="og:description" content="Surprise putovanja iz Srbije. Odaberi aerodrom, datum i budžet — mi biramo destinaciju. Saznaš tek na aerodromu.">
-  <meta property="og:image"       content="<?php echo get_template_directory_uri(); ?>/images/og-image.jpg">
-  <meta property="og:image:width"  content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale"      content="sr_RS">
-  <meta property="og:site_name"   content="Escapii">
-
-  <!-- Twitter / X card -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Escapii — Putuj a da ne znaš kuda ideš">
-  <meta name="twitter:description" content="Surprise putovanja iz Srbije. Saznaš destinaciju tek na aerodromu.">
-  <meta name="twitter:image"       content="<?php echo get_template_directory_uri(); ?>/images/og-image.jpg">
-
   <?php wp_head(); ?>
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">

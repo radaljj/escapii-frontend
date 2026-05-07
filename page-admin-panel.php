@@ -13,6 +13,9 @@ if (!current_user_can('administrator')) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escapii — Admin Panel</title>
+  <link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri(); ?>/images/favicon.svg">
+  <link rel="icon" type="image/png"     href="<?php echo get_template_directory_uri(); ?>/images/favicon.png">
+  <link rel="apple-touch-icon"          href="<?php echo get_template_directory_uri(); ?>/images/favicon-white.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css">
