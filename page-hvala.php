@@ -150,95 +150,87 @@
     .ty-ig a { color: var(--gold); text-decoration: none; font-weight: 600; }
     .ty-ig a:hover { text-decoration: underline; }
 
-    /* ── BOARDING PASS (reveal-style) ── */
-    .bp-wrap {
+    /* ── TICKET (same style as reveal page) ── */
+    .ticket-wrap {
       width: 100%;
-      background: #1a3a42;
-      border: 1px solid rgba(202,138,113,.25);
-      border-radius: 16px;
+      border-radius: 10px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.35);
+      background: #fff;
+      display: flex; flex-direction: column;
       overflow: hidden;
       margin-bottom: 28px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.45);
       opacity: 0; transform: translateY(16px);
-      transition: opacity .6s ease .4s, transform .6s ease .4s;
+      transition: opacity .6s ease .3s, transform .6s ease .3s;
     }
-    .bp-wrap.visible { opacity: 1; transform: none; }
-    .bp-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 20px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .bp-brand {
-      font-size: 13px; font-weight: 900; color: var(--gold);
-      letter-spacing: .5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    .bp-badge {
-      font-size: 9px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(255,255,255,.35);
-      border: 1px solid rgba(255,255,255,.15); border-radius: 4px;
-      padding: 2px 7px;
-    }
-    .bp-route {
+    .ticket-wrap.visible { opacity: 1; transform: none; }
+    .ticket-header {
+      background: linear-gradient(135deg, #CA8A71 0%, #b57257 100%);
+      padding: 11px 16px 10px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 20px 14px; gap: 10px;
+      flex-shrink: 0;
     }
-    .bp-airport { flex: 0 0 auto; }
-    .bp-airport-lbl {
-      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; color: rgba(255,255,255,.35);
-      margin-bottom: 2px;
+    .ticket-header-logo img { height: 16px; width: auto; }
+    .ticket-header-type {
+      font-size: 7.5px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.25); padding: 2px 7px; border-radius: 100px;
     }
-    .bp-iata {
-      font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    .ticket-body {
+      flex: 1; padding: 14px 16px 12px;
+      display: flex; flex-direction: column; gap: 10px;
+      background: #fff; position: relative;
     }
-    .bp-iata.from { color: #fff; }
-    .bp-iata.to   { color: var(--gold); }
-    .bp-iata.mystery { color: var(--gold); letter-spacing: 3px; animation: bpBlink 1.8s ease-in-out infinite; }
-    @keyframes bpBlink { 0%,100% { opacity:1; } 50% { opacity:.35; } }
-    .bp-city { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
-    .bp-mid {
-      flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px;
+    .ticket-route { display: flex; align-items: center; gap: 0; }
+    .ticket-airport { flex: 1; }
+    .ticket-airport-label {
+      font-size: 7.5px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #9ca3af; margin-bottom: 2px;
     }
-    .bp-mid-line {
-      width: 100%; height: 1px;
-      background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 5px, transparent 5px, transparent 10px);
+    .ticket-iata {
+      font-family: Georgia, serif; font-size: 34px; line-height: 1;
+      letter-spacing: -2px; font-weight: normal;
     }
-    .bp-mid-plane { font-size: 18px; color: rgba(255,255,255,.6); }
-    .bp-footer {
-      display: flex; gap: 0;
-      border-top: 1px dashed rgba(255,255,255,.1);
+    .ticket-iata.from { color: #1f2937; }
+    .ticket-iata.to   { color: #CA8A71; }
+    .ticket-iata.mystery { color: #CA8A71; letter-spacing: 3px; animation: tickBlink 1.8s ease-in-out infinite; }
+    @keyframes tickBlink { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+    .ticket-route-mid {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 14px; padding-top: 14px;
     }
-    .bp-detail {
-      flex: 1; padding: 12px 16px;
-      border-right: 1px solid rgba(255,255,255,.06);
-      opacity: 0; transform: translateY(6px);
-      transition: opacity .35s ease, transform .35s ease;
+    .ticket-route-line {
+      width: 52px; height: 1px;
+      background: linear-gradient(90deg, #e5e7eb, #CA8A71, #e5e7eb);
+      position: relative;
     }
-    .bp-detail:last-child { border-right: none; }
-    .bp-detail.visible { opacity: 1; transform: none; }
-    .bp-detail-lbl {
-      font-size: 8.5px; font-weight: 700; letter-spacing: 1.3px;
-      text-transform: uppercase; color: rgba(255,255,255,.32); margin-bottom: 4px;
+    .ticket-route-plane { font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%); }
+    .ticket-tear {
+      height: 1px;
+      background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 7px, transparent 7px, transparent 14px);
+      margin: 0 -16px; position: relative;
     }
-    .bp-detail-val {
-      font-size: 12px; font-weight: 800; color: #fff;
-      font-family: -apple-system, sans-serif; line-height: 1.3;
+    .ticket-tear::before, .ticket-tear::after {
+      content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; border-radius: 50%; background: #EFE9E7;
     }
-    .bp-detail-val.accent { color: var(--gold); }
-    .bp-pax {
-      padding: 10px 16px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      font-size: 11px; color: rgba(255,255,255,.45);
-      text-align: left;
-      opacity: 0; transition: opacity .5s ease .8s;
+    .ticket-tear::before { left: -7px; }
+    .ticket-tear::after  { right: -7px; }
+    .ticket-details { display: flex; gap: 0; }
+    .ticket-detail { flex: 1; }
+    .ticket-detail + .ticket-detail { border-left: 1px solid #f3f4f6; padding-left: 12px; }
+    .ticket-detail-label {
+      font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #9ca3af; margin-bottom: 2px;
     }
-    .bp-pax.visible { opacity: 1; }
+    .ticket-detail-value { font-size: 11px; font-weight: 700; color: #1f2937; }
+    .ticket-detail-value.accent { color: #CA8A71; }
+    .ticket-pax { padding-top: 8px; border-top: 1px dashed #e5e7eb; flex-shrink: 0; }
+    .ticket-pax-row { font-size: 9.5px; color: #374151; font-weight: 600; line-height: 1.5; }
 
     @media (max-width: 480px) {
       .ty-card { padding: 28px 16px; border-radius: 20px; }
-      .bp-iata { font-size: 30px; }
-      .bp-detail { padding: 10px 12px; }
+      .ticket-iata { font-size: 26px; }
+      .ticket-detail + .ticket-detail { padding-left: 8px; }
     }
   </style>
 </head>
@@ -255,45 +247,49 @@
   <h1 class="ty-h1">Upit je primljen!</h1>
   <p class="ty-sub">Javićemo ti se u roku od <strong style="color:#2D5F6B">24 sata</strong> sa svim detaljima. Tvoje tajno putovanje te čeka!</p>
 
-  <!-- BOARDING PASS -->
-  <div class="bp-wrap" id="boardingPass">
-    <div class="bp-header">
-      <span class="bp-brand">escapii</span>
-      <span class="bp-badge" id="bpl-badge">BOARDING PASS</span>
+  <!-- BOARDING PASS (ticket style) -->
+  <div class="ticket-wrap" id="boardingPass">
+    <div class="ticket-header">
+      <div class="ticket-header-logo">
+        <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-white.svg" alt="Escapii"
+             onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-size:14px;color:#fff;\'>escapii.</span>'">
+      </div>
+      <div class="ticket-header-type">Boarding Pass</div>
     </div>
-    <div class="bp-route">
-      <div class="bp-airport">
-        <div class="bp-airport-lbl" id="bpl-from">OD</div>
-        <div class="bp-iata from" id="bp-iata-from">—</div>
-        <div class="bp-city" id="bp-city-from">&nbsp;</div>
+    <div class="ticket-body">
+      <div class="ticket-route">
+        <div class="ticket-airport">
+          <div class="ticket-airport-label" id="bpl-from">Od</div>
+          <div class="ticket-iata from" id="bp-iata-from">—</div>
+        </div>
+        <div class="ticket-route-mid">
+          <div class="ticket-route-line">
+            <span class="ticket-route-plane">✈</span>
+          </div>
+        </div>
+        <div class="ticket-airport" style="text-align:right;">
+          <div class="ticket-airport-label" id="bpl-to" style="text-align:right;">Do</div>
+          <div class="ticket-iata to mystery">???</div>
+        </div>
       </div>
-      <div class="bp-mid">
-        <div class="bp-mid-line"></div>
-        <div class="bp-mid-plane">✈</div>
-        <div class="bp-mid-line"></div>
+      <div class="ticket-tear"></div>
+      <div class="ticket-details">
+        <div class="ticket-detail">
+          <div class="ticket-detail-label" id="bpl-depart">Polazak</div>
+          <div class="ticket-detail-value" id="bp-date">—</div>
+        </div>
+        <div class="ticket-detail">
+          <div class="ticket-detail-label" id="bpl-return">Povratak</div>
+          <div class="ticket-detail-value" id="bp-return">—</div>
+        </div>
+        <div class="ticket-detail">
+          <div class="ticket-detail-label" id="bpl-ref">Rezervacija</div>
+          <div class="ticket-detail-value accent" id="refCode">—</div>
+        </div>
       </div>
-      <div class="bp-airport" style="text-align:right;">
-        <div class="bp-airport-lbl" id="bpl-to" style="text-align:right;">DO</div>
-        <div class="bp-iata to mystery" id="bp-iata-to">???</div>
-        <div class="bp-city" id="bp-city-to" style="text-align:right;">&nbsp;</div>
+      <div class="ticket-pax">
+        <div class="ticket-pax-row">✈&nbsp;<span id="bp-pax-names">—</span></div>
       </div>
-    </div>
-    <div class="bp-footer">
-      <div class="bp-detail" id="bpd-date">
-        <div class="bp-detail-lbl" id="bpl-depart">POLAZAK</div>
-        <div class="bp-detail-val" id="bp-date">—</div>
-      </div>
-      <div class="bp-detail" id="bpd-return">
-        <div class="bp-detail-lbl" id="bpl-return">POVRATAK</div>
-        <div class="bp-detail-val" id="bp-return">—</div>
-      </div>
-      <div class="bp-detail" id="bpd-ref">
-        <div class="bp-detail-lbl" id="bpl-ref">REZERVACIJA</div>
-        <div class="bp-detail-val accent" id="refCode">—</div>
-      </div>
-    </div>
-    <div class="bp-pax" id="bpPax">
-      ✈ <span id="bp-pax-names">—</span>
     </div>
   </div>
 
@@ -381,29 +377,23 @@ function fillBoardingPass() {
   const wrap = document.getElementById('boardingPass');
   if (wrap) setTimeout(() => wrap.classList.add('visible'), 200);
 
-  // IATA od
+  // IATA od — typewriter efekat
   const iataFrom = document.getElementById('bp-iata-from');
-  const cityFrom = document.getElementById('bp-city-from');
-  if (iataFrom) { setTimeout(() => typeIn(iataFrom, airport || 'BEG', 80), 500); }
-  if (cityFrom) { setTimeout(() => { cityFrom.textContent = airportCity(airport); }, 800); }
+  if (iataFrom) setTimeout(() => typeIn(iataFrom, airport || 'BEG', 80), 500);
 
-  // Footer detalji
-  function showDetail(id, delay) {
-    setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('visible'); }, delay);
-  }
-  showDetail('bpd-date',   700);
-  showDetail('bpd-return', 900);
-  showDetail('bpd-ref',    1100);
-
-  // Vrednosti
+  // Datum polaska
   setTimeout(() => {
     const dEl = document.getElementById('bp-date');
     if (dEl) typeIn(dEl, date || '—', 40);
   }, 750);
+
+  // Datum povratka
   setTimeout(() => {
     const rEl = document.getElementById('bp-return');
     if (rEl) rEl.textContent = returnDt || '—';
   }, 950);
+
+  // Ref — typewriter
   setTimeout(() => {
     const rc = document.getElementById('refCode');
     if (rc) typeIn(rc, ref || '—', 55);
@@ -411,10 +401,8 @@ function fillBoardingPass() {
 
   // Putnici
   setTimeout(() => {
-    const paxEl   = document.getElementById('bp-pax-names');
-    const paxWrap = document.getElementById('bpPax');
+    const paxEl = document.getElementById('bp-pax-names');
     if (paxEl) paxEl.textContent = pax;
-    if (paxWrap) paxWrap.classList.add('visible');
   }, 1400);
 }
 
@@ -425,7 +413,7 @@ const TY = {
   en: {
     h1:    'Request received!',
     sub:   'We\'ll get back to you within <strong style="color:white">24 hours</strong> with all the details. Your secret trip is waiting!',
-    bpFrom:'FROM', bpTo:'TO', bpDepart:'DEPARTURE', bpReturn:'RETURN', bpRef:'BOOKING',
+    bpFrom:'From', bpTo:'To', bpDepart:'Departure', bpReturn:'Return', bpRef:'Booking',
     s1t:   'Email confirmation ✉',
     s1d:   'A confirmation of your request has just been sent to your email. Check your spam folder if you don\'t see it.',
     s2t:   'We\'ll contact you within <strong>24h</strong>',

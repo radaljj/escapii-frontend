@@ -983,6 +983,30 @@
     .field-error-msg { color: #f87171; font-size: 12px; margin-top: 4px; display: none; }
     .field-error .field-error-msg { display: block; }
 
+    /* Custom styled checkbox for passport validity */
+    .pax-chk-wrap {
+      display: flex; align-items: flex-start; gap: 10px;
+      cursor: pointer; padding: 10px 12px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      transition: background .15s, border-color .15s;
+      user-select: none;
+    }
+    .pax-chk-wrap:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
+    .pax-chk-native { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+    .pax-chk-box {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px;
+      border: 2px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06);
+      transition: all .18s; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pax-chk-native:checked ~ .pax-chk-box { background: var(--gold); border-color: var(--gold); }
+    .pax-chk-native:checked ~ .pax-chk-box::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; line-height: 1; }
+    .pax-chk-text { font-size: 13px; color: var(--gray); line-height: 1.45; }
+    .pax-chk-wrap.field-error { border-color: var(--red) !important; background: rgba(239,68,68,.07); }
+    .pax-chk-err { color: #f87171; font-size: 12px; margin-top: 6px; display: none; }
+    .pax-chk-wrap.field-error + .pax-chk-err { display: block; }
+
     /* Choices.js dark override */
     .choices__inner {
       background: rgba(255,255,255,.07) !important; border: 1px solid rgba(255,255,255,.12) !important;
@@ -2366,8 +2390,9 @@ const TR = {
     'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i} — Ime i prezime`,
     'gender.m':'Muški', 'gender.f':'Ženski',
     'pax.num': n=>`Putnik ${n}`, 'pax.name':'Ime i prezime', 'pax.name.err':'Unesite ime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
-    'pax.passport':'Broj pasoša (opciono)', 'pax.passport.ph':'npr. AA1234567',
+    'pax.passport':'Zemlja pasoša', 'pax.passport.ph':'npr. Srbija', 'pax.passport.err':'Unesite zemlju pasoša.',
     'pax.valid.passport':'Putnik ima validan pasoš (važeći min. 6 meseci od povratka)',
+    'pax.valid.passport.err':'Putnik mora imati validan pasoš da bi nastavio.',
     'pax.gender':'Pol', 'pax.dob':'Datum rođenja',
     'pax.visa':'Aktivne vize (opciono)', 'pax.visa.ph':'npr. Engleska, Irska, Maroko...',
     's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Constantine the Great',
@@ -2521,8 +2546,9 @@ const TR = {
     'pax.num': n=>`Traveler ${n}`, 'pax.name':'Full name', 'pax.name.err':'Please enter traveler name.', 'pax.dob.err':'Each traveler must be at least 18 years old.',
     'pax.gender':'Gender', 'pax.dob':'Date of birth',
     'pax.visa':'Active visas (optional)', 'pax.visa.ph':'e.g. England, Ireland, Morocco...',
-    'pax.passport':'Passport number (optional)', 'pax.passport.ph':'e.g. AA1234567',
+    'pax.passport':'Passport country', 'pax.passport.ph':'e.g. Serbia', 'pax.passport.err':'Please enter passport country.',
     'pax.valid.passport':'Traveler has a valid passport (valid for at least 6 months after return)',
+    'pax.valid.passport.err':'Traveler must have a valid passport to proceed.',
     's1.beg.name':'Nikola Tesla Airport', 's1.ini.name':'Constantine the Great Airport',
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
@@ -3086,6 +3112,7 @@ function validatePassengers() {
   let ok = true;
   let underage = false;
   for(let i=0;i<S.travelers;i++){
+    // Name
     const name=(document.getElementById('pn'+i)||{}).value||'';
     const wrap=document.getElementById('pf-name-'+i);
     if(!name.trim()){
@@ -3094,6 +3121,7 @@ function validatePassengers() {
     } else {
       if(wrap) wrap.classList.remove('field-error');
     }
+    // DOB
     const dob = getPaxDob(i);
     const dobWrap = document.getElementById('pf-dob-'+i);
     if(!isAtLeast18(dob)){
@@ -3102,6 +3130,24 @@ function validatePassengers() {
     } else {
       if(dobWrap) dobWrap.classList.remove('field-error');
     }
+    // Passport country (required)
+    const ppVal=(document.getElementById('pp'+i)||{}).value||'';
+    const ppWrap=document.getElementById('pf-passport-'+i);
+    if(!ppVal.trim()){
+      if(ppWrap) ppWrap.classList.add('field-error');
+      ok=false;
+    } else {
+      if(ppWrap) ppWrap.classList.remove('field-error');
+    }
+    // Valid passport checkbox (must be checked)
+    const chk=document.getElementById('phv'+i);
+    const chkWrap=document.getElementById('pf-hvpassport-'+i);
+    if(chk && !chk.checked){
+      if(chkWrap) chkWrap.classList.add('field-error');
+      ok=false;
+    } else {
+      if(chkWrap) chkWrap.classList.remove('field-error');
+    }
   }
   if(!ok) {
     const firstErr = document.querySelector('#step7 .field-error');
@@ -3109,7 +3155,7 @@ function validatePassengers() {
       const top = firstErr.getBoundingClientRect().top + window.scrollY - 120;
       window.scrollTo({ top, behavior: 'instant' });
     }
-    const msg = underage ? t('pax.dob.err') : (lang === 'sr' ? 'Unesite ime za svakog putnika.' : 'Please enter a name for each traveler.');
+    const msg = underage ? t('pax.dob.err') : (lang === 'sr' ? 'Unesite sva obavezna polja za svakog putnika.' : 'Please fill in all required fields for each traveler.');
     showFormAlert(msg);
   }
   return ok;
@@ -3606,15 +3652,18 @@ function renderPax() {
           <label>${t('pax.visa')}</label>
           <input class="pax-input" id="pv${i}" type="text" placeholder="${t('pax.visa.ph')}" maxlength="500" autocomplete="off">
         </div>
-        <div class="pax-field" style="grid-column:span 2">
-          <label>${t('pax.passport')}</label>
-          <input class="pax-input" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="50" autocomplete="off" style="text-transform:uppercase;">
+        <div class="pax-field" style="grid-column:span 2" id="pf-passport-${i}">
+          <label>${t('pax.passport')} <span class="req">*</span></label>
+          <input class="pax-input" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="100" autocomplete="off">
+          <div class="field-error-msg">${t('pax.passport.err')}</div>
         </div>
         <div class="pax-field" style="grid-column:span 2">
-          <label class="pax-checkbox-label">
-            <input type="checkbox" id="phv${i}" checked style="width:16px;height:16px;accent-color:#CA8A71;margin-right:8px;cursor:pointer;">
-            ${t('pax.valid.passport')}
+          <label class="pax-chk-wrap" id="pf-hvpassport-${i}">
+            <input type="checkbox" id="phv${i}" class="pax-chk-native">
+            <span class="pax-chk-box"></span>
+            <span class="pax-chk-text">${t('pax.valid.passport')}</span>
           </label>
+          <div class="pax-chk-err" id="pf-hvpassport-err-${i}">${t('pax.valid.passport.err')}</div>
         </div>
       </div>
     </div>`
@@ -3821,8 +3870,8 @@ async function submitBooking() {
   const email=document.getElementById('fEmail').value.trim();
   const phone=document.getElementById('fPhone').value.trim();
   const passengers=Array.from({length:S.travelers},(_,i)=>({
-    passportNumber:(document.getElementById('pp'+i)||{}).value?.trim().toUpperCase()||'',
-    hasValidPassport:!!(document.getElementById('phv'+i)||{checked:true}).checked,
+    passportNumber:(document.getElementById('pp'+i)||{}).value?.trim()||'',
+    hasValidPassport:!!(document.getElementById('phv'+i)||{checked:false}).checked,
     name:(document.getElementById('pn'+i)||{}).value||'',
     gender:(document.getElementById('pg'+i)||{}).value||'M',
     dateOfBirth:getPaxDob(i),
