@@ -13,8 +13,10 @@ function escapii_assets() {
 add_action('wp_enqueue_scripts', 'escapii_assets');
 
 // API URL za backend (lokalno ili produkcija)
+// Lokalni wp-config.php definiše ESCAPII_API_URL = http://localhost:8080
+// InfinityFree nema tu konstantu → automatski koristi Render
 function escapii_api_url() {
-    return defined('ESCAPII_API_URL') ? ESCAPII_API_URL : 'http://localhost:8080';
+    return defined('ESCAPII_API_URL') ? ESCAPII_API_URL : 'https://escapii-backend.onrender.com';
 }
 
 // ── Favicon & OG meta tagovi ─────────────────────────────────────────────────

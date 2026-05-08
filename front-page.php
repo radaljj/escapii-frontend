@@ -589,18 +589,15 @@
       display: flex; gap: 10px; width: 100%; max-width: 340px; margin-top: 6px;
     }
     .waitlist-input {
-      flex: 1; background: rgba(255,255,255,.06);
-      border: 1.5px solid rgba(255,255,255,.14);
-      border-radius: 12px; padding: 12px 16px;
+      flex: 1; background: transparent;
+      border: none; border-bottom: 1.5px solid rgba(255,255,255,.22);
+      border-radius: 0; padding: 12px 4px;
       font-size: 14px; color: var(--white); font-family: inherit;
-      outline: none; transition: border-color .2s, background .2s;
+      outline: none; transition: border-color .25s;
       min-width: 0;
     }
     .waitlist-input::placeholder { color: rgba(255,255,255,.3); }
-    .waitlist-input:focus {
-      border-color: var(--accent);
-      background: rgba(202,138,113,.06);
-    }
+    .waitlist-input:focus { border-bottom-color: var(--accent); }
     .waitlist-btn {
       background: var(--accent); color: #fff; border: none;
       border-radius: 12px; padding: 12px 20px;
@@ -957,70 +954,108 @@
     }
     .excl-tile.on .excl-overlay { opacity: .4; }
     .excl-x { display: none; } /* handled via ::after pseudo-element */
-    /* Step 7 */
-    .pax-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
-    .pax-item { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: 16px; padding: 20px; }
-    .pax-num { font-size: 12px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-    .pax-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .pax-fields.full { grid-column: span 2; }
-    .pax-field { display: flex; flex-direction: column; gap: 6px; }
-    .pax-field label { font-size: 12px; color: var(--gray); font-weight: 600; }
-    .pax-input, .pax-select {
-      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
-      border-radius: 10px; padding: 10px 14px; color: white; font-size: 14px;
-      outline: none; width: 100%; transition: border .2s; box-sizing: border-box;
+    /* Step 7 — Traveler cards */
+    .pax-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+    .pax-item {
+      background: rgba(246,241,230,.03); border: 1px solid rgba(246,241,230,.08);
+      border-radius: 18px; padding: 26px 28px; position: relative; transition: border-color .3s;
     }
-    .pax-input:focus, .pax-select:focus { border-color: var(--gold); }
-    .pax-input::placeholder { color: var(--gray2); }
-    .pax-select {
-      appearance: none; -webkit-appearance: none;
-      padding-right: 34px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: calc(100% - 12px) 50%;
+    .pax-item:hover { border-color: rgba(246,241,230,.14); }
+    .traveler-head {
+      display: flex; align-items: center;
+      margin-bottom: 22px; padding-bottom: 16px;
+      border-bottom: 1px solid rgba(246,241,230,.08);
     }
-    .pax-select option { background: var(--navy3); }
-    /* DOB selects — wrapper with ::after arrow guarantees pixel-perfect centering */
-    .dob-sel { position: relative; }
-    .dob-sel::after {
-      content: '';
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      width: 11px; height: 7px; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-size: contain;
-    }
-    .dob-sel .pax-select { background-image: none; padding-right: 32px; }
-    /* DOB row */
-    .dob-wrap { display: grid; grid-template-columns: 1fr 2fr 1.4fr; gap: 8px; }
-    /* Required asterisk */
-    .req { color: var(--gold); margin-left: 3px; }
-    .field-error input, .field-error select, .field-error .choices__inner { border-color: var(--red) !important; }
-    .field-error-msg { color: #f87171; font-size: 12px; margin-top: 4px; display: none; }
-    .field-error .field-error-msg { display: block; }
-
-    /* Custom styled checkbox for passport validity */
-    .pax-chk-wrap {
-      display: flex; align-items: flex-start; gap: 10px;
-      cursor: pointer; padding: 10px 12px; border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(255,255,255,.04);
-      transition: background .15s, border-color .15s;
-      user-select: none;
-    }
-    .pax-chk-wrap:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
-    .pax-chk-native { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-    .pax-chk-box {
-      flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px;
-      border: 2px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06);
-      transition: all .18s; margin-top: 1px;
+    .traveler-num {
+      width: 32px; height: 32px; border-radius: 100px;
+      background: linear-gradient(135deg, var(--gold), #c8775a);
+      color: #fff; font-weight: 700; font-size: 13px;
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 18px -4px rgba(202,138,113,.5); flex-shrink: 0;
     }
-    .pax-chk-native:checked ~ .pax-chk-box { background: var(--gold); border-color: var(--gold); }
-    .pax-chk-native:checked ~ .pax-chk-box::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; line-height: 1; }
-    .pax-chk-text { font-size: 13px; color: var(--gray); line-height: 1.45; }
-    .pax-chk-wrap.field-error { border-color: var(--red) !important; background: rgba(239,68,68,.07); }
+    .traveler-lbl {
+      font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
+      font-weight: 700; color: rgba(246,241,230,.8); margin-left: 10px;
+    }
+    .traveler-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .traveler-grid > .full { grid-column: 1 / -1; }
+    .traveler-triple { display: grid; grid-template-columns: 90px 1fr 110px; gap: 12px; }
+    /* Field */
+    .traveler-field { display: flex; flex-direction: column; gap: 8px; }
+    .traveler-field > label:not(.passport-check) {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(246,241,230,.34); font-weight: 700;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s; user-select: none;
+    }
+    .traveler-field:focus-within > label:not(.passport-check) { color: var(--gold); }
+    .traveler-field label .req { color: var(--gold); font-size: 12px; line-height: 1; }
+    .traveler-field label .opt { font-size: 9px; letter-spacing: .2em; color: rgba(246,241,230,.28); font-weight: 500; margin-left: 2px; }
+    /* Input / select */
+    .t-control {
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.09);
+      border-radius: 12px; padding: 14px 16px;
+      color: rgba(246,241,230,.95); font-family: inherit; font-size: 15px; font-weight: 500;
+      width: 100%; transition: background .2s, border-color .2s, box-shadow .2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .t-control::placeholder { color: rgba(246,241,230,.22); font-weight: 400; }
+    .t-control:hover { background: rgba(246,241,230,.07); border-color: rgba(246,241,230,.16); }
+    .t-control:focus { outline: none; background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
+    .t-control option { background: #0d1f29; }
+    /* Icon prefix */
+    .t-field-ic { position: relative; }
+    .t-field-ic .t-ic { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: rgba(246,241,230,.28); pointer-events: none; transition: color .2s; }
+    .t-field-ic .t-control { padding-left: 44px; }
+    .t-field-ic:focus-within .t-ic { color: var(--gold); }
+    /* Select — hide native arrow, inject SVG via background-image */
+    .t-sel-wrap { position: relative; }
+    .t-sel-wrap .t-control {
+      padding-right: 40px; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ca8a71' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: calc(100% - 14px) 50%;
+      appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    }
+    /* Tag input (visa) */
+    .t-tags {
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.09);
+      border-radius: 12px; padding: 10px 12px;
+      display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; align-items: center;
+      transition: background .2s, border-color .2s, box-shadow .2s; cursor: text;
+    }
+    .t-tags:focus-within { background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
+    .t-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(202,138,113,.14); border: 1px solid rgba(202,138,113,.3); color: #f0b094; padding: 5px 10px 5px 12px; border-radius: 100px; font-size: 13px; font-weight: 500; animation: chip-in .25s cubic-bezier(.2,.8,.2,1); }
+    .t-chip button { background: none; border: none; color: inherit; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; opacity: .6; transition: opacity .2s; padding: 0; }
+    .t-chip button:hover { opacity: 1; }
+    .t-chip svg { width: 11px; height: 11px; }
+    @keyframes chip-in { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .t-tags input { flex: 1; min-width: 100px; background: none; border: none; outline: none; color: rgba(246,241,230,.9); font-size: 14px; padding: 4px 6px; font-family: inherit; }
+    .t-tags input::placeholder { color: rgba(246,241,230,.22); }
+    /* Passport validity checkbox */
+    .passport-check {
+      background: linear-gradient(135deg, rgba(202,138,113,.1), rgba(202,138,113,.04));
+      border: 1px solid rgba(202,138,113,.28); border-radius: 14px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+      cursor: pointer; transition: background .3s, border-color .3s; user-select: none;
+    }
+    .passport-check:hover { background: linear-gradient(135deg, rgba(202,138,113,.18), rgba(202,138,113,.08)); border-color: rgba(202,138,113,.5); }
+    .passport-check input[type="checkbox"] { display: none; }
+    .t-chk-box { width: 24px; height: 24px; border-radius: 6px; background: rgba(246,241,230,.06); border: 2px solid rgba(246,241,230,.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+    .passport-check input:checked ~ .t-chk-box { background: var(--gold); border-color: var(--gold); box-shadow: 0 4px 12px -3px rgba(202,138,113,.6); }
+    .t-chk-box svg { color: #fff; width: 14px; height: 14px; stroke-width: 3; opacity: 0; transition: opacity .15s; }
+    .passport-check input:checked ~ .t-chk-box svg { opacity: 1; }
+    .passport-check .t-chk-tx { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: rgba(246,241,230,.9); line-height: 1.4; }
+    .passport-check .t-chk-tx small { display: block; color: rgba(246,241,230,.5); font-weight: 500; letter-spacing: .04em; text-transform: none; margin-top: 4px; font-size: 12px; }
+    .passport-check.field-error { border-color: var(--red) !important; background: rgba(239,68,68,.08) !important; }
     .pax-chk-err { color: #f87171; font-size: 12px; margin-top: 6px; display: none; }
-    .pax-chk-wrap.field-error + .pax-chk-err { display: block; }
+    .passport-check.field-error + .pax-chk-err { display: block; }
+    /* Error states */
+    .req { color: var(--gold); margin-left: 3px; }
+    .field-error-msg { color: #f87171; font-size: 12px; margin-top: 2px; display: none; }
+    .traveler-field.field-error .t-control { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
+    .traveler-field.field-error .t-tags { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
+    .traveler-field.field-error .field-error-msg { display: block; }
 
     /* Choices.js dark override */
     .choices__inner {
@@ -1126,19 +1161,31 @@
     .ptl { font-size: 16px; font-weight: 800; }
     .ptv { font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; }
     .pr-per { font-size: 12px; color: var(--gray); text-align: right; margin-top: 4px; }
-    /* Step 8 */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    /* Step 8 — box style matching traveler form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
     .form-field { display: flex; flex-direction: column; gap: 8px; }
     .form-field.full { grid-column: span 2; }
-    .f-label { font-size: 13px; color: var(--gray); font-weight: 600; }
-    .f-input {
-      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
-      border-radius: 12px; padding: 14px; color: white; font-size: 15px; outline: none;
-      width: 100%; transition: border .2s; resize: vertical;
+    .f-label {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(246,241,230,.34); font-weight: 700;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
     }
-    .f-input:focus { border-color: var(--gold); }
-    .f-input::placeholder { color: var(--gray2); }
+    .form-field:focus-within .f-label { color: var(--gold); }
+    .f-input-wrap { /* wrapper kept for JS compat — no special styling */ }
+    .f-input {
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.09);
+      border-radius: 12px; padding: 14px 16px;
+      color: rgba(246,241,230,.95); font-family: inherit; font-size: 15px; font-weight: 500;
+      width: 100%; resize: none;
+      transition: background .2s, border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    .f-input::placeholder { color: rgba(246,241,230,.22); font-weight: 400; }
+    .f-input:hover { background: rgba(246,241,230,.07); border-color: rgba(246,241,230,.16); }
+    .f-input:focus { background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
     textarea.f-input { min-height: 90px; }
+    .field-error .f-input { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .err-msg { color: #f87171; font-size: 13px; margin-top: 12px; display: none; }
     /* Success */
     .success-wrap { display: none; text-align: center; padding: 48px 32px; }
@@ -1513,11 +1560,7 @@
     .card .hint { color: rgba(255,255,255,.45); }
 
     /* Passenger items */
-    .pax-num  { color: #F9CFF2 !important; }  /* Petal Frost — readable on dark */
-    .pax-item { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1); }
-    .pax-field label { color: rgba(255,255,255,.5); }
-    .pax-input { color: #ffffff; }
-    .pax-input::placeholder { color: rgba(255,255,255,.28); }
+    /* traveler cards already styled for dark — no overrides needed */
     .pax-select { color: #ffffff; }
     .pax-select option { background: #0D2E38; color: #ffffff; }
 
@@ -1998,27 +2041,27 @@
         <div class="form-grid">
           <div class="form-field" id="ff-firstname">
             <div class="f-label"><span data-i18n="s8.firstname">Ime nosioca rezervacije</span> <span class="req">*</span></div>
-            <input class="f-input" type="text" id="fFirstName" placeholder="Marko" autocomplete="given-name">
+            <div class="f-input-wrap"><input class="f-input" type="text" id="fFirstName" placeholder="Marko" autocomplete="given-name"></div>
             <div class="field-error-msg" data-i18n="err.required"></div>
           </div>
           <div class="form-field" id="ff-lastname">
             <div class="f-label"><span data-i18n="s8.lastname">Prezime nosioca rezervacije</span> <span class="req">*</span></div>
-            <input class="f-input" type="text" id="fLastName" placeholder="Marković" autocomplete="family-name">
+            <div class="f-input-wrap"><input class="f-input" type="text" id="fLastName" placeholder="Marković" autocomplete="family-name"></div>
             <div class="field-error-msg" data-i18n="err.required"></div>
           </div>
           <div class="form-field" id="ff-email">
             <div class="f-label">Email <span class="req">*</span></div>
-            <input class="f-input" type="email" id="fEmail" placeholder="youremail@gmail.com">
+            <div class="f-input-wrap"><input class="f-input" type="email" id="fEmail" placeholder="youremail@gmail.com"></div>
             <div class="field-error-msg" data-i18n="err.email"></div>
           </div>
           <div class="form-field" id="ff-phone">
             <div class="f-label"><span data-i18n="s8.phone">Telefon</span> <span class="req">*</span></div>
-            <input class="f-input" type="tel" id="fPhone" placeholder="+381641234567">
+            <div class="f-input-wrap"><input class="f-input" type="tel" id="fPhone" placeholder="+381641234567"></div>
             <div class="field-error-msg" data-i18n="err.required"></div>
           </div>
           <div class="form-field full">
             <div class="f-label" data-i18n="s8.notes">Napomene (opciono)</div>
-            <textarea class="f-input" id="fNotes" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea>
+            <div class="f-input-wrap"><textarea class="f-input" id="fNotes" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea></div>
           </div>
         </div>
         <div class="payment-info">
@@ -2812,7 +2855,7 @@ function setLang(l) {
       dob_d:  (document.getElementById('pd-d-'+i)||{}).value||'',
       dob_m:  (document.getElementById('pd-m-'+i)||{}).value||'',
       dob_y:  (document.getElementById('pd-y-'+i)||{}).value||'',
-      visa:   (document.getElementById('pv'+i)||{}).value||''
+      visa:   getVisaValue(i)
     }));
     renderPax();
     savedPax.forEach((p,i)=>{
@@ -2821,7 +2864,11 @@ function setLang(l) {
       const dd=document.getElementById('pd-d-'+i);if(dd) dd.value=p.dob_d;
       const dm=document.getElementById('pd-m-'+i);if(dm) dm.value=p.dob_m;
       const dy=document.getElementById('pd-y-'+i);if(dy) dy.value=p.dob_y;
-      const v=document.getElementById('pv'+i);    if(v) v.value=p.visa;
+      // Restore visa chips
+      const pvTags=document.getElementById('pv-tags-'+i);
+      if(pvTags && p.visa) {
+        p.visa.split(',').map(s=>s.trim()).filter(Boolean).forEach(v=>addChip(pvTags,v));
+      }
     });
   }
   if(S.selectedDateId) loadPrice();
@@ -3642,52 +3689,133 @@ function initChoices() {
   }
 }
 
+// ── Tag input helpers ──────────────────────────────────────────────────────────
+function addChip(container, text) {
+  const inp = container.querySelector('input');
+  const chip = document.createElement('span');
+  chip.className = 't-chip';
+  chip.innerHTML = '<span class="chip-label">' + text + '</span>'
+    + '<button type="button" aria-label="Ukloni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+  chip.querySelector('button').addEventListener('click', () => chip.remove());
+  container.insertBefore(chip, inp);
+}
+
+function initTagInputs() {
+  document.querySelectorAll('.t-tags').forEach(container => {
+    const inp = container.querySelector('input');
+    if (!inp || inp._tagInited) return;
+    inp._tagInited = true;
+    inp.addEventListener('keydown', function(e) {
+      if ((e.key === 'Enter' || e.key === ',') && this.value.trim()) {
+        e.preventDefault();
+        addChip(container, this.value.trim());
+        this.value = '';
+      }
+      if (e.key === 'Backspace' && !this.value) {
+        const chips = container.querySelectorAll('.t-chip');
+        if (chips.length) chips[chips.length - 1].remove();
+      }
+    });
+    inp.addEventListener('input', function() {
+      if (this.value.endsWith(',')) {
+        const val = this.value.slice(0, -1).trim();
+        if (val) addChip(container, val);
+        this.value = '';
+      }
+    });
+    container.addEventListener('click', () => inp.focus());
+  });
+}
+
+function getVisaValue(i) {
+  const container = document.getElementById('pv-tags-' + i);
+  if (!container) return (document.getElementById('pv' + i) || {}).value || '';
+  const chips = [...container.querySelectorAll('.chip-label')].map(s => s.textContent.trim()).filter(Boolean);
+  const inp = ((document.getElementById('pv' + i) || {}).value || '').trim();
+  return [...chips, ...(inp ? [inp] : [])].join(', ');
+}
+
 function renderPax() {
+  // Format return date for passport validity hint
+  let retHint = '';
+  if (S.selectedDate) {
+    const [ry, rm, rd] = S.selectedDate.returnDate.split('-');
+    const ms = lang === 'sr'
+      ? ['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec']
+      : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    retHint = `${+rd}. ${ms[+rm-1]}. ${ry}.`;
+  }
+  const passportSmall = (lang === 'sr' ? 'Važeći najmanje 6 meseci od datuma povratka' : 'Valid at least 6 months from return date')
+    + (retHint ? ' (' + retHint + ')' : '');
+
   document.getElementById('paxList').innerHTML = Array.from({length:S.travelers},(_,i) => `
     <div class="pax-item">
-      <div class="pax-num">${t('pax.num', i+1)}</div>
-      <div class="pax-fields">
-        <div class="pax-field" style="grid-column:span 2" id="pf-name-${i}">
+      <div class="traveler-head">
+        <div class="traveler-num">${i+1}</div>
+        <span class="traveler-lbl">${lang==='sr'?'Putnik':'Traveler'} ${i+1}</span>
+      </div>
+      <div class="traveler-grid">
+
+        <div class="traveler-field full" id="pf-name-${i}">
           <label>${t('pax.name')} <span class="req">*</span></label>
-          <input class="pax-input" id="pn${i}" type="text" placeholder="${t('pax.ph',i+1)}">
+          <div class="t-field-ic">
+            <input class="t-control" id="pn${i}" type="text" placeholder="${t('pax.ph',i+1)}" autocomplete="off">
+            <svg class="t-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
           <div class="field-error-msg">${t('pax.name.err')}</div>
         </div>
-        <div class="pax-field">
+
+        <div class="traveler-field">
           <label>${t('pax.gender')} <span class="req">*</span></label>
-          <select class="pax-select" id="pg${i}">
-            <option value="M">${t('gender.m')}</option>
-            <option value="F">${t('gender.f')}</option>
-          </select>
+          <div class="t-sel-wrap">
+            <select class="t-control" id="pg${i}">
+              <option value="M">${t('gender.m')}</option>
+              <option value="F">${t('gender.f')}</option>
+            </select>
+          </div>
         </div>
-        <div class="pax-field" id="pf-dob-${i}" style="grid-column:span 2">
+
+        <div class="traveler-field" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
-          <div class="dob-wrap">
-            <div class="dob-sel"><select class="pax-select" id="pd-d-${i}">${dobDays()}</select></div>
-            <div class="dob-sel"><select class="pax-select" id="pd-m-${i}">${dobMonths()}</select></div>
-            <div class="dob-sel"><select class="pax-select" id="pd-y-${i}">${dobYears()}</select></div>
+          <div class="traveler-triple">
+            <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}">${dobDays()}</select></div>
+            <div class="t-sel-wrap"><select class="t-control" id="pd-m-${i}">${dobMonths()}</select></div>
+            <div class="t-sel-wrap"><select class="t-control" id="pd-y-${i}">${dobYears()}</select></div>
           </div>
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
-        <div class="pax-field" style="grid-column:span 2">
-          <label>${t('pax.visa')}</label>
-          <input class="pax-input" id="pv${i}" type="text" placeholder="${t('pax.visa.ph')}" maxlength="500" autocomplete="off">
+
+        <div class="traveler-field full">
+          <label>${t('pax.visa')} <span class="opt">${lang==='sr'?'opciono':'optional'}</span></label>
+          <div class="t-tags" id="pv-tags-${i}">
+            <input id="pv${i}" type="text" placeholder="${t('pax.visa.ph')}" autocomplete="off" maxlength="100">
+          </div>
         </div>
-        <div class="pax-field" style="grid-column:span 2" id="pf-passport-${i}">
+
+        <div class="traveler-field full" id="pf-passport-${i}">
           <label>${t('pax.passport')} <span class="req">*</span></label>
-          <input class="pax-input" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="100" autocomplete="off">
+          <input class="t-control" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="100" autocomplete="off">
           <div class="field-error-msg">${t('pax.passport.err')}</div>
         </div>
-        <div class="pax-field" style="grid-column:span 2">
-          <label class="pax-chk-wrap" id="pf-hvpassport-${i}">
-            <input type="checkbox" id="phv${i}" class="pax-chk-native">
-            <span class="pax-chk-box"></span>
-            <span class="pax-chk-text">${t('pax.valid.passport')}</span>
+
+        <div class="traveler-field full">
+          <label class="passport-check" id="pf-hvpassport-${i}">
+            <input type="checkbox" id="phv${i}">
+            <div class="t-chk-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="t-chk-tx">
+              ${t('pax.valid.passport')}
+              <small>${passportSmall}</small>
+            </div>
           </label>
           <div class="pax-chk-err" id="pf-hvpassport-err-${i}">${t('pax.valid.passport.err')}</div>
         </div>
+
       </div>
     </div>`
   ).join('');
+  initTagInputs();
   setTimeout(initChoices, 0);
 }
 
