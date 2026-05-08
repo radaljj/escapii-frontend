@@ -1846,9 +1846,14 @@ async function saveAirlineName(id) {
     el.value = updated.airlineName || '';
     const statusEl = document.getElementById(`airline-name-status-${id}`);
     if (statusEl) {
-      statusEl.innerHTML = updated.airlineName
-        ? `<span style="color:#22c55e;font-size:11px;">✓ ${updated.airlineName}</span>`
-        : `<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>`;
+      if (updated.airlineName) {
+        const sp = document.createElement('span');
+        sp.style.cssText = 'color:#22c55e;font-size:11px';
+        sp.textContent = '✓ ' + updated.airlineName;
+        statusEl.replaceChildren(sp);
+      } else {
+        statusEl.innerHTML = `<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>`;
+      }
     }
   } catch {
     const statusEl = document.getElementById(`airline-name-status-${id}`);
