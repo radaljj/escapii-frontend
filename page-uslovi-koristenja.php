@@ -506,6 +506,7 @@ body {
         <li>U polju <strong>Napomene</strong> pri slanju upita naglasi ukoliko mu je potrebna viza za neku od potencijalnih destinacija, ili ukoliko poseduje aktivnu vizu za određene države (za sve putnike, ne samo nosioca rezervacije) — ovo nam omogućava da prilagodimo izbor destinacije</li>
         <li>Pravovremeno uplati avans i ostatak iznosa prema dogovorenim rokovima</li>
         <li>Stigne na aerodrom u vreme koje odredi avio kompanija (najkasnije 2 sata pre polaska za evropske letove)</li>
+        <li><strong>Samostalno izvrši check-in</strong> kod avio kompanije nakon što primi obaveštenje o destinaciji (72h pre polaska) — Escapii dostavlja booking kod avio kompanije putem reveal linka, a svaki putnik je odgovoran da se prijavi za let na vreme i u skladu sa uslovima prevoznika</li>
       </ul>
 
       <div class="pp-warning">

@@ -1653,6 +1653,14 @@ function renderBookings() {
               ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
             </div>
           </div>
+          <div style="margin-top:6px;">
+            <input class="bc-dest-input" id="airline-code-${b.id}" type="text"
+              style="width:100%;font-size:11px;text-transform:uppercase;letter-spacing:1px;"
+              placeholder="✈ Airline booking kod za check-in (npr. ABC123)"
+              value="${b.airlineBookingCode || ''}"
+              onkeydown="if(event.key==='Enter')saveAirlineCode(${b.id})"
+              onblur="saveAirlineCode(${b.id})" />
+          </div>
           <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
             ${b.revealSentAt
               ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
@@ -1794,6 +1802,28 @@ async function saveWeatherCity(id) {
   } catch {
     msg.innerHTML = '<span style="color:var(--red);">✗ Greška pri čuvanju</span>';
     setTimeout(() => { msg.innerHTML = ''; }, 2000);
+  }
+}
+
+async function saveAirlineCode(id) {
+  const el = document.getElementById(`airline-code-${id}`);
+  if (!el) return;
+  const val = el.value.trim().toUpperCase();
+  const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+  if (idx > -1 && (ALL_BOOKINGS[idx].airlineBookingCode || '') === val) return;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/airline-code`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ code: val })
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    if (idx > -1) ALL_BOOKINGS[idx].airlineBookingCode = updated.airlineBookingCode;
+    el.value = updated.airlineBookingCode || '';
+  } catch {
+    el.style.borderColor = 'var(--red)';
+    setTimeout(() => { el.style.borderColor = ''; }, 2000);
   }
 }
 

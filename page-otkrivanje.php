@@ -848,6 +848,10 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
             <div class="ticket-detail-label">Rezervacija</div>
             <div class="ticket-detail-value accent" id="ticketRef">—</div>
           </div>
+          <div class="ticket-detail" id="ticketAirlineRow" style="display:none;">
+            <div class="ticket-detail-label">Check-in kod</div>
+            <div class="ticket-detail-value accent" id="ticketAirlineCode">—</div>
+          </div>
         </div>
         <div class="ticket-pax">
           <div class="ticket-pax-row">✈&nbsp;<span id="ticketPassengers">—</span></div>
@@ -939,9 +943,9 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       </div>
 
       <div class="tp-details">
-        <div class="tp-det-row"><span class="l">Polazni let</span><span class="v" id="tpFlight1">—</span></div>
-        <div class="tp-det-row"><span class="l">Povratni let</span><span class="v" id="tpFlight2">—</span></div>
+        <div class="tp-det-row" id="tpAirlineRow" style="display:none;"><span class="l">✈ Check-in kod</span><span class="v" id="tpAirlineCode" style="color:var(--pop-accent2);font-weight:700;letter-spacing:1px;">—</span></div>
         <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">—</span></div>
+        <div class="tp-det-row"><span class="l">Putnici</span><span class="v" id="tpPassengerList">—</span></div>
         <div class="tp-det-row"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">—</span></div>
       </div>
 
@@ -1090,6 +1094,12 @@ function showEnvelope(data) {
   document.getElementById('ticketDate').textContent     = fmtDate(data.departureDate);
   document.getElementById('ticketReturn').textContent   = fmtDate(data.returnDate);
   document.getElementById('ticketRef').textContent      = data.bookingRef || '—';
+  // Airline booking code — prikazuje se tek kad admin unese
+  if (data.airlineBookingCode) {
+    document.getElementById('ticketAirlineCode').textContent = data.airlineBookingCode;
+    const airlineRow = document.getElementById('ticketAirlineRow');
+    if (airlineRow) airlineRow.style.display = '';
+  }
   // (success-city se ne prikazuje više — sklonjen success bar)
 
   const names = Array.isArray(data.passengers) && data.passengers.length
@@ -1405,8 +1415,15 @@ function openTripPopup() {
   document.getElementById('tpNights').textContent    = nights + (nights === 1 ? ' noć' : nights < 5 ? ' noći' : ' noći');
   document.getElementById('tpDestCity').textContent  = dest;
 
-  document.getElementById('tpFlight1').textContent  = (d.departureAirport||'BEG') + ' → ' + dest + ' · ' + fmtDateLong(d.departureDate);
-  document.getElementById('tpFlight2').textContent  = dest + ' → ' + (d.departureAirport||'BEG') + ' · ' + fmtDateLong(d.returnDate);
+  // Airline booking code
+  const airlineCodeEl  = document.getElementById('tpAirlineCode');
+  const airlineCodeRow = document.getElementById('tpAirlineRow');
+  if (d.airlineBookingCode && airlineCodeEl && airlineCodeRow) {
+    airlineCodeEl.textContent  = d.airlineBookingCode;
+    airlineCodeRow.style.display = 'flex';
+  } else if (airlineCodeRow) {
+    airlineCodeRow.style.display = 'none';
+  }
 
   const addonsEl = document.getElementById('tpAddons');
   const addonsRow = document.getElementById('tpAddonsRow');
@@ -1415,6 +1432,13 @@ function openTripPopup() {
     addonsRow.style.display = 'flex';
   } else {
     addonsRow.style.display = 'none';
+  }
+
+  // Putnici
+  const paxEl = document.getElementById('tpPassengerList');
+  if (paxEl) {
+    const paxNames = Array.isArray(d.passengers) && d.passengers.length ? d.passengers : [];
+    paxEl.textContent = paxNames.length ? paxNames.join(', ') : '—';
   }
 
   document.getElementById('tpTotal').textContent = fmtMoney(d.totalPriceAll);

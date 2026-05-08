@@ -150,137 +150,95 @@
     .ty-ig a { color: var(--gold); text-decoration: none; font-weight: 600; }
     .ty-ig a:hover { text-decoration: underline; }
 
-    /* ── BOARDING PASS ── */
+    /* ── BOARDING PASS (reveal-style) ── */
     .bp-wrap {
-      display: flex; width: 100%;
-      background: #0D2E38;
-      border: 1px solid rgba(255,255,255,.1);
+      width: 100%;
+      background: #1a3a42;
+      border: 1px solid rgba(202,138,113,.25);
       border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 36px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+      margin-bottom: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .6s ease .4s, transform .6s ease .4s;
     }
-    /* Lijeva narandžasta traka */
-    .bp-left {
-      background: var(--gold);
-      width: 52px; flex-shrink: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 20px 0; gap: 8px;
+    .bp-wrap.visible { opacity: 1; transform: none; }
+    .bp-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
-    .bp-left-plane {
-      font-size: 20px; color: #fff; transform: rotate(45deg);
-      display: block;
+    .bp-brand {
+      font-size: 13px; font-weight: 900; color: var(--gold);
+      letter-spacing: .5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
-    .bp-left-brand {
-      writing-mode: vertical-rl; transform: rotate(180deg);
-      font-size: 10px; font-weight: 900; color: rgba(255,255,255,.85);
-      letter-spacing: 2px; text-transform: uppercase;
+    .bp-badge {
+      font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+      border: 1px solid rgba(255,255,255,.15); border-radius: 4px;
+      padding: 2px 7px;
     }
-    /* Srednji sadržaj */
-    .bp-main {
-      flex: 1; padding: 20px 20px 16px; min-width: 0;
+    .bp-route {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px 14px; gap: 10px;
     }
-    .bp-row {
-      display: flex; gap: 4px; flex-wrap: wrap;
+    .bp-airport { flex: 0 0 auto; }
+    .bp-airport-lbl {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+      margin-bottom: 2px;
     }
-    .bp-field {
-      flex: 1; min-width: 70px;
-      padding: 6px 8px;
-      opacity: 0; transform: translateY(8px);
+    .bp-iata {
+      font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .bp-iata.from { color: #fff; }
+    .bp-iata.to   { color: var(--gold); }
+    .bp-iata.mystery { color: var(--gold); letter-spacing: 3px; animation: bpBlink 1.8s ease-in-out infinite; }
+    @keyframes bpBlink { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+    .bp-city { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+    .bp-mid {
+      flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px;
+    }
+    .bp-mid-line {
+      width: 100%; height: 1px;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 5px, transparent 5px, transparent 10px);
+    }
+    .bp-mid-plane { font-size: 18px; color: rgba(255,255,255,.6); }
+    .bp-footer {
+      display: flex; gap: 0;
+      border-top: 1px dashed rgba(255,255,255,.1);
+    }
+    .bp-detail {
+      flex: 1; padding: 12px 16px;
+      border-right: 1px solid rgba(255,255,255,.06);
+      opacity: 0; transform: translateY(6px);
       transition: opacity .35s ease, transform .35s ease;
     }
-    .bp-field.visible {
-      opacity: 1; transform: none;
+    .bp-detail:last-child { border-right: none; }
+    .bp-detail.visible { opacity: 1; transform: none; }
+    .bp-detail-lbl {
+      font-size: 8.5px; font-weight: 700; letter-spacing: 1.3px;
+      text-transform: uppercase; color: rgba(255,255,255,.32); margin-bottom: 4px;
     }
-    .bp-label {
-      display: block;
-      font-size: 9px; font-weight: 700; letter-spacing: 1.2px;
-      text-transform: uppercase; color: rgba(255,255,255,.38);
-      margin-bottom: 5px;
+    .bp-detail-val {
+      font-size: 12px; font-weight: 800; color: #fff;
+      font-family: -apple-system, sans-serif; line-height: 1.3;
     }
-    .bp-value {
-      display: block;
-      font-size: 13px; font-weight: 800; color: #fff;
-      letter-spacing: .3px; min-height: 18px;
-      font-family: 'Courier New', monospace;
+    .bp-detail-val.accent { color: var(--gold); }
+    .bp-pax {
+      padding: 10px 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: 11px; color: rgba(255,255,255,.45);
+      text-align: left;
+      opacity: 0; transition: opacity .5s ease .8s;
     }
-    .bp-value.bp-mystery {
-      color: var(--gold); letter-spacing: 3px;
-      animation: bpBlink 1.8s ease-in-out infinite;
-    }
-    @keyframes bpBlink {
-      0%,100% { opacity: 1; } 50% { opacity: .4; }
-    }
-    /* Tačkasta linija razdjelnica */
-    .bp-divider {
-      height: 1px; margin: 12px 0;
-      background: repeating-linear-gradient(90deg, rgba(255,255,255,.15) 0, rgba(255,255,255,.15) 6px, transparent 6px, transparent 12px);
-    }
-    /* Desna dokument-stub traka */
-    .bp-right {
-      width: 64px; flex-shrink: 0;
-      background: #2D5F6B;
-      border-left: 1px solid rgba(255,255,255,.06);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-start;
-      padding: 14px 10px 10px; gap: 0;
-    }
-    .bp-doc-dot {
-      width: 9px; height: 9px;
-      background: var(--gold);
-      border-radius: 50%; flex-shrink: 0;
-      margin-bottom: 11px;
-      opacity: 0; transition: opacity .4s ease;
-    }
-    .bp-doc-dot.visible { opacity: 1; }
-    .bp-doc-lines {
-      flex: 1; align-self: stretch;
-      display: flex; flex-direction: column;
-      justify-content: center; gap: 5px;
-      padding: 0 4px;
-    }
-    .bp-doc-line {
-      height: 2.5px; border-radius: 2px;
-      background: #7A9FA8;
-      opacity: 0; transition: opacity .3s ease;
-    }
-    .bp-doc-line.visible { opacity: 1; }
-    .bp-ref-small {
-      font-size: 6.5px; font-weight: 700;
-      color: #64748b;
-      letter-spacing: .8px; text-transform: uppercase;
-      flex-shrink: 0; margin-top: 10px;
-      opacity: 0; transition: opacity .6s ease;
-      white-space: nowrap;
-    }
-    .bp-ref-small.visible { opacity: 1; }
-    /* Ref badge ispod boarding pass-a */
-    .bp-refbadge {
-      background: rgba(202,138,113,.08);
-      border: 1px solid rgba(202,138,113,.2);
-      border-radius: 10px;
-      padding: 12px 24px;
-      margin-bottom: 28px; margin-top: -20px;
-      text-align: center;
-      opacity: 0; transition: opacity .5s ease .3s;
-    }
-    .bp-refbadge.visible { opacity: 1; }
-    .bp-refbadge-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--gray);
-      margin-bottom: 5px; display: block;
-    }
-    .bp-refbadge-value {
-      font-size: 20px; font-weight: 900; color: #CA8A71;
-      letter-spacing: 2px; font-family: 'Courier New', monospace;
-    }
+    .bp-pax.visible { opacity: 1; }
 
-    @media (max-width: 560px) {
-      .ty-card { padding: 36px 24px; border-radius: 20px; }
-      .bp-field { min-width: 55px; }
-      .bp-value { font-size: 11px; }
-      .bp-right { width: 58px; }
+    @media (max-width: 480px) {
+      .ty-card { padding: 28px 16px; border-radius: 20px; }
+      .bp-iata { font-size: 30px; }
+      .bp-detail { padding: 10px 12px; }
     }
   </style>
 </head>
@@ -299,48 +257,44 @@
 
   <!-- BOARDING PASS -->
   <div class="bp-wrap" id="boardingPass">
-    <div class="bp-left">
-      <span class="bp-left-plane">✈</span>
-      <span class="bp-left-brand">escapii</span>
+    <div class="bp-header">
+      <span class="bp-brand">escapii</span>
+      <span class="bp-badge" id="bpl-badge">BOARDING PASS</span>
     </div>
-    <div class="bp-main">
-      <div class="bp-row">
-        <div class="bp-field" id="bpf-name">
-          <span class="bp-label" id="bpl-name">Nosilac rezervacije</span>
-          <span class="bp-value" id="bp-name">&nbsp;</span>
-        </div>
-        <div class="bp-field" id="bpf-date">
-          <span class="bp-label" id="bpl-date">Datum polaska</span>
-          <span class="bp-value" id="bp-date">&nbsp;</span>
-        </div>
-        <div class="bp-field" id="bpf-airport">
-          <span class="bp-label" id="bpl-airport">Aerodrom</span>
-          <span class="bp-value" id="bp-airport">&nbsp;</span>
-        </div>
+    <div class="bp-route">
+      <div class="bp-airport">
+        <div class="bp-airport-lbl" id="bpl-from">OD</div>
+        <div class="bp-iata from" id="bp-iata-from">—</div>
+        <div class="bp-city" id="bp-city-from">&nbsp;</div>
       </div>
-      <div class="bp-divider"></div>
-      <div class="bp-row">
-        <div class="bp-field" id="bpf-flight">
-          <span class="bp-label" id="bpl-flight">Broj leta</span>
-          <span class="bp-value bp-mystery">???</span>
-        </div>
-        <div class="bp-field" id="bpf-dest">
-          <span class="bp-label" id="bpl-dest">Destinacija</span>
-          <span class="bp-value bp-mystery">???</span>
-        </div>
+      <div class="bp-mid">
+        <div class="bp-mid-line"></div>
+        <div class="bp-mid-plane">✈</div>
+        <div class="bp-mid-line"></div>
+      </div>
+      <div class="bp-airport" style="text-align:right;">
+        <div class="bp-airport-lbl" id="bpl-to" style="text-align:right;">DO</div>
+        <div class="bp-iata to mystery" id="bp-iata-to">???</div>
+        <div class="bp-city" id="bp-city-to" style="text-align:right;">&nbsp;</div>
       </div>
     </div>
-    <div class="bp-right">
-      <div class="bp-doc-dot" id="bpDocDot"></div>
-      <div class="bp-doc-lines" id="bpDocLines"></div>
-      <div class="bp-ref-small" id="bp-ref-small">&nbsp;</div>
+    <div class="bp-footer">
+      <div class="bp-detail" id="bpd-date">
+        <div class="bp-detail-lbl" id="bpl-depart">POLAZAK</div>
+        <div class="bp-detail-val" id="bp-date">—</div>
+      </div>
+      <div class="bp-detail" id="bpd-return">
+        <div class="bp-detail-lbl" id="bpl-return">POVRATAK</div>
+        <div class="bp-detail-val" id="bp-return">—</div>
+      </div>
+      <div class="bp-detail" id="bpd-ref">
+        <div class="bp-detail-lbl" id="bpl-ref">REZERVACIJA</div>
+        <div class="bp-detail-val accent" id="refCode">—</div>
+      </div>
     </div>
-  </div>
-
-  <!-- REF BADGE ispod boarding pass-a -->
-  <div class="bp-refbadge" id="bpRefBadge">
-    <span class="bp-refbadge-label" id="bpl-ref">Broj rezervacije</span>
-    <span class="bp-refbadge-value" id="refCode">—</span>
+    <div class="bp-pax" id="bpPax">
+      ✈ <span id="bp-pax-names">—</span>
+    </div>
   </div>
 
   <div class="ty-steps">
@@ -411,113 +365,92 @@ function typeIn(el, text, charDelay) {
   tick();
 }
 
-// Generiši dokument-stub (horizontalne linije + tačka kao na referentnoj slici)
-function buildBarcode() {
-  const container = document.getElementById('bpDocLines');
-  if (!container) return;
-  // Širine linija kao % od kontejnera — variraju kao redovi teksta
-  const widths = [88, 70, 92, 60, 78, 88, 65, 80, 55, 72, 85, 62, 75, 90];
-  widths.forEach((w, i) => {
-    const line = document.createElement('div');
-    line.className = 'bp-doc-line';
-    line.style.width = w + '%';
-    line.style.transitionDelay = (i * 70) + 'ms';
-    container.appendChild(line);
-  });
-  // Pojavi tačku i linije kad se ostala polja završe
+// Airport city helper
+const AIRPORT_CITIES = { BEG:'Beograd', INI:'Niš', ZAG:'Zagreb', BUD:'Budimpešta', TIM:'Timișoara' };
+function airportCity(iata) { return AIRPORT_CITIES[iata] || iata; }
+
+// Popuni boarding pass
+function fillBoardingPass() {
+  const airport  = (bp?.airport || '').toUpperCase();
+  const date     = fmtDate(bp?.date || '');
+  const returnDt = fmtDate(bp?.returnDate || '');
+  const ref      = bp?.ref || urlRef;
+  const pax      = bp?.name || '—';
+
+  // Pojavi kartu
+  const wrap = document.getElementById('boardingPass');
+  if (wrap) setTimeout(() => wrap.classList.add('visible'), 200);
+
+  // IATA od
+  const iataFrom = document.getElementById('bp-iata-from');
+  const cityFrom = document.getElementById('bp-city-from');
+  if (iataFrom) { setTimeout(() => typeIn(iataFrom, airport || 'BEG', 80), 500); }
+  if (cityFrom) { setTimeout(() => { cityFrom.textContent = airportCity(airport); }, 800); }
+
+  // Footer detalji
+  function showDetail(id, delay) {
+    setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('visible'); }, delay);
+  }
+  showDetail('bpd-date',   700);
+  showDetail('bpd-return', 900);
+  showDetail('bpd-ref',    1100);
+
+  // Vrednosti
   setTimeout(() => {
-    const dot = document.getElementById('bpDocDot');
-    if (dot) dot.classList.add('visible');
-    container.querySelectorAll('.bp-doc-line').forEach(l => l.classList.add('visible'));
-  }, 2600);
-}
-buildBarcode();
-
-// Animiraj jedno polje — pojavi ga, pa typewriter
-function animField(fieldId, valueEl, text, delay, charDelay) {
+    const dEl = document.getElementById('bp-date');
+    if (dEl) typeIn(dEl, date || '—', 40);
+  }, 750);
   setTimeout(() => {
-    const field = document.getElementById(fieldId);
-    if (field) field.classList.add('visible');
-    if (valueEl) typeIn(valueEl, text, charDelay);
-  }, delay);
-}
-
-// Pojavi "???" polja (ne trebaju typewriter, već samo fade in)
-function animMystery(fieldId, delay) {
+    const rEl = document.getElementById('bp-return');
+    if (rEl) rEl.textContent = returnDt || '—';
+  }, 950);
   setTimeout(() => {
-    const field = document.getElementById(fieldId);
-    if (field) field.classList.add('visible');
-  }, delay);
+    const rc = document.getElementById('refCode');
+    if (rc) typeIn(rc, ref || '—', 55);
+  }, 1150);
+
+  // Putnici
+  setTimeout(() => {
+    const paxEl   = document.getElementById('bp-pax-names');
+    const paxWrap = document.getElementById('bpPax');
+    if (paxEl) paxEl.textContent = pax;
+    if (paxWrap) paxWrap.classList.add('visible');
+  }, 1400);
 }
 
-// Pokreni boarding pass animaciju
-const name    = bp?.name    || '—';
-const airport = bp?.airport || '—';
-const date    = fmtDate(bp?.date || '');
-const ref     = bp?.ref     || urlRef;
-
-// Polja se pojavljuju jedno po jedno sa razmakom 400ms
-animField('bpf-name',    document.getElementById('bp-name'),    name,    400,  45);
-animField('bpf-date',    document.getElementById('bp-date'),    date,    800,  50);
-animField('bpf-airport', document.getElementById('bp-airport'), airport, 1200, 60);
-animMystery('bpf-flight', 1700);
-animMystery('bpf-dest',   2000);
-
-// Ref badge ispod karte + mali ref u barcodu
-setTimeout(() => {
-  const rc = document.getElementById('refCode');
-  const rb = document.getElementById('bpRefBadge');
-  if (rc) rc.textContent = ref || '—';
-  if (rb) rb.classList.add('visible');
-  const rs = document.getElementById('bp-ref-small');
-  if (rs) { rs.textContent = ref || ''; rs.classList.add('visible'); }
-}, 2400);
+fillBoardingPass();
 
 // ── Prevod na osnovu odabranog jezika
 const TY = {
   en: {
-    h1:        'Request received!',
-    sub:       'We\'ll get back to you within <strong style="color:white">24 hours</strong> with all the details. Your secret trip is waiting!',
-    refLabel:  'Booking reference',
-    bplName:   'Passenger',
-    bplDate:   'Departure date',
-    bplAirport:'Airport',
-    bplFlight: 'Flight no.',
-    bplDest:   'Destination',
-    s1t:       'Email confirmation ✉',
-    s1d:     'A confirmation of your request has just been sent to your email. Check your spam folder if you don\'t see it.',
-    s2t:     'We\'ll contact you within <strong>24h</strong>',
-    s2d:     'We\'ll send you an email with payment details and all the next steps.',
-    s3t:     'Payment → Reservation confirmed 🎉',
-    s3d:     'Once payment is received, your reservation is officially yours. The destination remains a mystery until the airport!',
-    btn:     '← Back to home',
-    ig:      'Follow us on Instagram for sneak peeks →',
+    h1:    'Request received!',
+    sub:   'We\'ll get back to you within <strong style="color:white">24 hours</strong> with all the details. Your secret trip is waiting!',
+    bpFrom:'FROM', bpTo:'TO', bpDepart:'DEPARTURE', bpReturn:'RETURN', bpRef:'BOOKING',
+    s1t:   'Email confirmation ✉',
+    s1d:   'A confirmation of your request has just been sent to your email. Check your spam folder if you don\'t see it.',
+    s2t:   'We\'ll contact you within <strong>24h</strong>',
+    s2d:   'We\'ll send you an email with payment details and all the next steps.',
+    s3t:   'Payment → Reservation confirmed 🎉',
+    s3d:   'Once payment is received, your reservation is officially yours. The destination remains a mystery until the airport!',
+    btn:   '← Back to home',
+    ig:    'Follow us on Instagram for sneak peeks →',
   }
 };
 
 (function applyLang() {
   if (lang !== 'en') return;
   const tr = TY.en;
-  document.querySelector('.ty-h1').textContent                      = tr.h1;
-  document.querySelector('.ty-sub').innerHTML                       = tr.sub;
-  // Boarding pass labele
+  document.querySelector('.ty-h1').textContent  = tr.h1;
+  document.querySelector('.ty-sub').innerHTML   = tr.sub;
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  set('bpl-name',    tr.bplName);
-  set('bpl-date',    tr.bplDate);
-  set('bpl-airport', tr.bplAirport);
-  set('bpl-flight',  tr.bplFlight);
-  set('bpl-dest',    tr.bplDest);
-  set('bpl-ref',     tr.refLabel);
+  set('bpl-from', tr.bpFrom); set('bpl-to', tr.bpTo);
+  set('bpl-depart', tr.bpDepart); set('bpl-return', tr.bpReturn); set('bpl-ref', tr.bpRef);
   const steps = document.querySelectorAll('.ty-step');
-  steps[0].querySelector('.ty-step-title').textContent              = tr.s1t;
-  steps[0].querySelector('.ty-step-desc').textContent               = tr.s1d;
-  steps[1].querySelector('.ty-step-title').innerHTML                = tr.s2t;
-  steps[1].querySelector('.ty-step-desc').textContent               = tr.s2d;
-  steps[2].querySelector('.ty-step-title').textContent              = tr.s3t;
-  steps[2].querySelector('.ty-step-desc').textContent               = tr.s3d;
-  document.querySelector('.ty-btn').textContent                     = tr.btn;
-  document.querySelector('.ty-ig').innerHTML                        =
-    tr.ig + ' <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener">@escapii.rs</a>';
+  if (steps[0]) { steps[0].querySelector('.ty-step-title').textContent = tr.s1t; steps[0].querySelector('.ty-step-desc').textContent = tr.s1d; }
+  if (steps[1]) { steps[1].querySelector('.ty-step-title').innerHTML = tr.s2t; steps[1].querySelector('.ty-step-desc').textContent = tr.s2d; }
+  if (steps[2]) { steps[2].querySelector('.ty-step-title').textContent = tr.s3t; steps[2].querySelector('.ty-step-desc').textContent = tr.s3d; }
+  document.querySelector('.ty-btn').textContent = tr.btn;
+  document.querySelector('.ty-ig').innerHTML = tr.ig + ' <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener">@escapii.rs</a>';
 })();
 
 // ── Confetti animacija

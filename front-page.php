@@ -1158,6 +1158,21 @@
     .bs-total-price { font-size: 34px; font-weight: 900; color: var(--accent); line-height: 1; }
 
     /* ══════════════════════ FOOTER */
+    /* ── Call-us section ── */
+    .call-us-section { background: linear-gradient(135deg, #1a3a42 0%, #2D5F6B 60%, #1e4a54 100%); padding: 80px 24px; text-align: center; }
+    .call-us-inner { max-width: 620px; margin: 0 auto; }
+    .call-us-icon { font-size: 44px; margin-bottom: 18px; }
+    .call-us-heading { font-size: clamp(26px, 4vw, 36px); font-weight: 800; color: #fff; margin-bottom: 14px; }
+    .call-us-sub { font-size: 16px; color: rgba(255,255,255,.75); line-height: 1.7; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .call-us-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+    .call-us-btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 28px; border-radius: 50px; font-size: 15px; font-weight: 700; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .call-us-btn.primary { background: #CA8A71; color: #fff; box-shadow: 0 6px 24px rgba(202,138,113,.4); }
+    .call-us-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(202,138,113,.6); }
+    .call-us-btn.secondary { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+    .call-us-btn.secondary:hover { background: rgba(255,255,255,.2); transform: translateY(-2px); }
+    .call-us-note { font-size: 13px; color: rgba(255,255,255,.5); }
+    .call-us-note strong { color: rgba(255,255,255,.75); }
+
     .esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(15,45,53,.07); }
     .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
     .footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.75; margin-top: 16px; max-width: 280px; }
@@ -1893,11 +1908,7 @@
             </div>
             <div class="excl-tier" id="exclTier2">
               <div class="excl-tier-label" id="exclTier2Label" data-i18n="s6.t2.lbl">2. i 3. isključivanje</div>
-              <div class="excl-tier-price low" id="exclTier2Price">+10€</div>
-            </div>
-            <div class="excl-tier" id="exclTier3">
-              <div class="excl-tier-label" data-i18n="s6.t3.lbl">4. i 5. isključivanje</div>
-              <div class="excl-tier-price high">+15€</div>
+              <div class="excl-tier-price high" id="exclTier2Price">+15€/os.</div>
             </div>
           </div>
           <div class="excl-info-note">
@@ -2186,6 +2197,26 @@
 <!-- SCROLL TO TOP -->
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
+<!-- CALL US SECTION -->
+<section class="call-us-section" id="esc-contact-cta">
+  <div class="call-us-inner">
+    <div class="call-us-icon">📞</div>
+    <h2 class="call-us-heading" data-i18n="callus.h">Nisi siguran? Pozovi nas!</h2>
+    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Pozovi nas i sve ti objasnimo u par minuta.</p>
+    <div class="call-us-actions">
+      <a class="call-us-btn primary" href="tel:+381693414430">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +381 69 341 44 30
+      </a>
+      <a class="call-us-btn secondary" href="mailto:escapii.team@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        escapii.team@gmail.com
+      </a>
+    </div>
+    <p class="call-us-note" data-i18n="callus.note">Dostupni smo <strong>pon–sub, 9h–21h</strong></p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="esc-footer">
   <div class="footer-main">
@@ -2313,7 +2344,7 @@ const TR = {
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje nam otvara <strong>više mogućnosti</strong> — destinacije do kojih nema direktnih letova postaju dostupne. Tvoje iznenađenje može biti još <strong>spektakularnije</strong>.',
     's6.h':'Isključite destinacije', 's6.hint':'Destinacije koje ne želite (opciono, max 5)',
-    's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2. i 3. isključivanje', 's6.t3.lbl':'4. i 5. isključivanje',
+    's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2. i 3. isključivanje',
     's6.note':'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
@@ -2323,6 +2354,9 @@ const TR = {
     's8.phone':'Telefon', 's8.notes':'Napomene (opciono)', 's8.submit':'Pošalji upit ✓',
     'success.h':'Upit je primljen!',
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
+    'callus.h':'Nisi siguran? Pozovi nas!',
+    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Pozovi nas i sve ti objasnimo u par minuta.',
+    'callus.note':'Dostupni smo pon–sub, 9h–21h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
     'footer.how':'Kako funkcioniše', 'footer.who':'Za koga', 'footer.faq':'FAQ',
@@ -2332,6 +2366,8 @@ const TR = {
     'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i} — Ime i prezime`,
     'gender.m':'Muški', 'gender.f':'Ženski',
     'pax.num': n=>`Putnik ${n}`, 'pax.name':'Ime i prezime', 'pax.name.err':'Unesite ime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
+    'pax.passport':'Broj pasoša (opciono)', 'pax.passport.ph':'npr. AA1234567',
+    'pax.valid.passport':'Putnik ima validan pasoš (važeći min. 6 meseci od povratka)',
     'pax.gender':'Pol', 'pax.dob':'Datum rođenja',
     'pax.visa':'Aktivne vize (opciono)', 'pax.visa.ph':'npr. Engleska, Irska, Maroko...',
     's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Constantine the Great',
@@ -2346,8 +2382,8 @@ const TR = {
     'faq.2.a':'U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.',
     'faq.3.q':'Izmene i otkazivanje',
     'faq.3.a':'Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.',
-    'swal.excl.title':'Maksimalno 5 isključivanja',
-    'swal.excl.html':'Već si iskoristio svih 5 dozvoljenih isključivanja.<br><br><strong style="color:#CA8A71">Hajde, prepusti se iznenađenju! 🌍</strong>',
+    'swal.excl.title':'Maksimalno 3 isključivanja',
+    'swal.excl.html':'Već si iskoristio sva 3 dozvoljena isključivanja.<br><br><strong style="color:#CA8A71">Hajde, prepusti se iznenađenju! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
@@ -2461,7 +2497,7 @@ const TR = {
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
     'ext.connecting.tip.body':'Accepting connecting flights opens up <strong>more possibilities</strong> — destinations without a direct flight become available. Your surprise could be <strong>even more spectacular</strong>.',
     's6.h':'Exclude destinations', 's6.hint':'Destinations you don\'t want (optional, max 5)',
-    's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd & 3rd', 's6.t3.lbl':'4th & 5th',
+    's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd & 3rd',
     's6.note':'We recommend up to 3 exclusions — the fewer you exclude, the bigger the surprise!',
     's7.h':'Passenger details', 's7.hint':'Enter details for each traveler',
     'price.title':'Price breakdown', 'price.total':'Total',
@@ -2471,6 +2507,9 @@ const TR = {
     's8.phone':'Phone', 's8.notes':'Notes (optional)', 's8.submit':'Send inquiry ✓',
     'success.h':'Inquiry received!',
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
+    'callus.h':'Not sure? Give us a call!',
+    'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Call us and we\'ll explain everything in a few minutes.',
+    'callus.note':'Available Mon–Sat, 9am–9pm',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About', 'footer.dest':'Destinations',
     'footer.how':'How it works', 'footer.who':'Who\'s it for', 'footer.faq':'FAQ',
@@ -2482,6 +2521,8 @@ const TR = {
     'pax.num': n=>`Traveler ${n}`, 'pax.name':'Full name', 'pax.name.err':'Please enter traveler name.', 'pax.dob.err':'Each traveler must be at least 18 years old.',
     'pax.gender':'Gender', 'pax.dob':'Date of birth',
     'pax.visa':'Active visas (optional)', 'pax.visa.ph':'e.g. England, Ireland, Morocco...',
+    'pax.passport':'Passport number (optional)', 'pax.passport.ph':'e.g. AA1234567',
+    'pax.valid.passport':'Traveler has a valid passport (valid for at least 6 months after return)',
     's1.beg.name':'Nikola Tesla Airport', 's1.ini.name':'Constantine the Great Airport',
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
@@ -2495,7 +2536,7 @@ const TR = {
     'faq.3.q':'Changes and cancellations',
     'faq.3.a':'Your reservation is confirmed only after payment has been received. Once confirmed, the booking is processed within 24 hours and can no longer be canceled. If you wish to make changes to an already confirmed reservation, the conditions imposed by the airline or accommodation provider will apply. All costs arising from any changes are the responsibility of the traveler.',
     'swal.excl.title':'✈ Too many exclusions!',
-    'swal.excl.html':'You can exclude up to 5 destinations maximum.<br><br><strong style="color:#CA8A71">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
+    'swal.excl.html':'You can exclude up to 3 destinations maximum.<br><br><strong style="color:#CA8A71">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
@@ -3411,23 +3452,14 @@ function updateExclStep() {
   // Ažuriraj tier prikaz i hint tekst za INI vs BEG
   const tier2Label = document.getElementById('exclTier2Label');
   const tier2Price = document.getElementById('exclTier2Price');
-  const tier3      = document.getElementById('exclTier3');
   const hint       = document.querySelector('#step6 .hint');
+  const note       = document.getElementById('exclNote');
 
-  const note = document.getElementById('exclNote');
-  if (isINI) {
-    if (tier2Label) tier2Label.textContent = '2. isključivanje';
-    if (tier2Price) { tier2Price.textContent = '+15€'; tier2Price.className = 'excl-tier-price high'; }
-    if (tier3)      tier3.style.display = 'none';
-    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 2)' : 'Destinacije koje ne želite (opciono, max 2)';
-    if (note)       note.textContent = lang === 'en' ? 'Due to the limited number of flights from Niš, max 2 exclusions are allowed.' : 'Zbog ograničenog broja letova iz Niša, dozvoljeno je isključiti max 2 destinacije.';
-  } else {
-    if (tier2Label) tier2Label.textContent = '2. i 3. isključivanje';
-    if (tier2Price) { tier2Price.textContent = '+10€'; tier2Price.className = 'excl-tier-price low'; }
-    if (tier3)      tier3.style.display = '';
-    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 5)' : 'Destinacije koje ne želite (opciono, max 5)';
-    if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
-  }
+  // Svi aerodromi: max 3, cena 15€/os. za 2. i 3.
+  if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd & 3rd exclusion' : '2. i 3. isključivanje';
+  if (tier2Price) { tier2Price.textContent = '+15€/os.'; tier2Price.className = 'excl-tier-price high'; }
+  if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 3)' : 'Destinacije koje ne želite (opciono, max 3)';
+  if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
 
   loadPrice();
 }
@@ -3450,18 +3482,15 @@ function togExcl(id, event) {
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    const isINI  = S.airport === 'INI';
-    const maxExcl = isINI ? 2 : 5;
+    const maxExcl = 3;
     if (S.excludedIds.length >= maxExcl) {
       Swal.fire({
         background: '#2D5F6B',
         color: '#fff',
         icon: 'info',
         iconColor: '#CA8A71',
-        title: `<span style="color:#CA8A71;font-size:20px">${isINI ? 'Limit dostignut' : t('swal.excl.title')}</span>`,
-        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${isINI
-          ? 'Zbog limitiranog broja letova iz Niša nije moguće isključiti više opcija.'
-          : t('swal.excl.html')}</p>`,
+        title: `<span style="color:#CA8A71;font-size:20px">${t('swal.excl.title')}</span>`,
+        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t('swal.excl.html')}</p>`,
         confirmButtonText: 'OK',
         confirmButtonColor: '#CA8A71',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
@@ -3479,7 +3508,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? '🎁 1. gratis!' : (isINI ? '+15€' : (n <= 3 ? '+10€' : '+15€'));
+      const label = n === 1 ? '🎁 1. gratis!' : '+15€/os.';
       const color = n === 1 ? '#22c55e' : '#CA8A71';
       const el = document.createElement('div');
       el.className = 'price-float';
@@ -3576,6 +3605,16 @@ function renderPax() {
         <div class="pax-field" style="grid-column:span 2">
           <label>${t('pax.visa')}</label>
           <input class="pax-input" id="pv${i}" type="text" placeholder="${t('pax.visa.ph')}" maxlength="500" autocomplete="off">
+        </div>
+        <div class="pax-field" style="grid-column:span 2">
+          <label>${t('pax.passport')}</label>
+          <input class="pax-input" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="50" autocomplete="off" style="text-transform:uppercase;">
+        </div>
+        <div class="pax-field" style="grid-column:span 2">
+          <label class="pax-checkbox-label">
+            <input type="checkbox" id="phv${i}" checked style="width:16px;height:16px;accent-color:#CA8A71;margin-right:8px;cursor:pointer;">
+            ${t('pax.valid.passport')}
+          </label>
         </div>
       </div>
     </div>`
@@ -3782,6 +3821,8 @@ async function submitBooking() {
   const email=document.getElementById('fEmail').value.trim();
   const phone=document.getElementById('fPhone').value.trim();
   const passengers=Array.from({length:S.travelers},(_,i)=>({
+    passportNumber:(document.getElementById('pp'+i)||{}).value?.trim().toUpperCase()||'',
+    hasValidPassport:!!(document.getElementById('phv'+i)||{checked:true}).checked,
     name:(document.getElementById('pn'+i)||{}).value||'',
     gender:(document.getElementById('pg'+i)||{}).value||'M',
     dateOfBirth:getPaxDob(i),
@@ -3800,8 +3841,6 @@ async function submitBooking() {
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
     excludedDestination3Id:S.excludedIds[2]||null,
-    excludedDestination4Id:S.excludedIds[3]||null,
-    excludedDestination5Id:S.excludedIds[4]||null,
     passengers,
     firstName:firstName, lastName:lastName, email:email, phone:phone,
     notes:document.getElementById('fNotes').value
@@ -3813,10 +3852,11 @@ async function submitBooking() {
     if(r.ok){
       // Sačuvaj podatke za boarding pass na hvala stranici
       sessionStorage.setItem('esc_bp', JSON.stringify({
-        name:    (firstName + ' ' + lastName).toUpperCase(),
-        airport: (S.airport || '').toUpperCase(),
-        date:    S.selectedDate?.departureDate || '',
-        ref:     d.bookingRef
+        name:       (firstName + ' ' + lastName).toUpperCase(),
+        airport:    (S.airport || '').toUpperCase(),
+        date:       S.selectedDate?.departureDate || '',
+        returnDate: S.selectedDate?.returnDate || '',
+        ref:        d.bookingRef
       }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);
     } else if(r.status === 409) {
