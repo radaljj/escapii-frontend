@@ -1653,14 +1653,6 @@ function renderBookings() {
               ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
             </div>
           </div>
-          <div style="margin-top:6px;">
-            <input class="bc-dest-input" id="airline-code-${b.id}" type="text"
-              style="width:100%;font-size:11px;text-transform:uppercase;letter-spacing:1px;"
-              placeholder="✈ Airline booking kod za check-in (npr. ABC123)"
-              value="${b.airlineBookingCode || ''}"
-              onkeydown="if(event.key==='Enter')saveAirlineCode(${b.id})"
-              onblur="saveAirlineCode(${b.id})" />
-          </div>
           <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
             ${b.revealSentAt
               ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
@@ -1688,6 +1680,22 @@ function renderBookings() {
       </div>
 
       ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
+
+      <div class="bc-note-wrap">
+        <div class="bc-label" style="margin-bottom:6px;">✈ Airline booking kod (check-in)</div>
+        <div class="bc-note-row">
+          <input class="bc-note-input" id="airline-code-${b.id}" type="text"
+            style="text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-size:14px;font-weight:700;"
+            placeholder="npr. ABC123"
+            value="${b.airlineBookingCode || ''}"
+            onkeydown="if(event.key==='Enter')saveAirlineCode(${b.id})"
+            onblur="saveAirlineCode(${b.id})" />
+          <button class="bc-note-save" onclick="saveAirlineCode(${b.id})" title="Sačuvaj (Enter)">✓</button>
+        </div>
+        <div class="bc-note-status" id="airline-code-status-${b.id}">
+          ${b.airlineBookingCode ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>` : '<span style="opacity:.45;font-size:11px;">Unesi kod — biće vidljiv korisniku na reveal stranici</span>'}
+        </div>
+      </div>
 
       <div class="bc-note-wrap">
         <div class="bc-label" style="margin-bottom:6px;">📝 Interna napomena</div>
@@ -1821,6 +1829,12 @@ async function saveAirlineCode(id) {
     const updated = await r.json();
     if (idx > -1) ALL_BOOKINGS[idx].airlineBookingCode = updated.airlineBookingCode;
     el.value = updated.airlineBookingCode || '';
+    const statusEl = document.getElementById(`airline-code-status-${id}`);
+    if (statusEl) {
+      statusEl.innerHTML = updated.airlineBookingCode
+        ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>`
+        : `<span style="opacity:.45;font-size:11px;">Unesi kod — biće vidljiv korisniku na reveal stranici</span>`;
+    }
   } catch {
     el.style.borderColor = 'var(--red)';
     setTimeout(() => { el.style.borderColor = ''; }, 2000);
