@@ -157,9 +157,24 @@
     }
     .sec-nav-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
     .sec-nav-link.active { color: #ffffff; background: var(--gold); }
+    /* "Pozovi nas" pill u secondary navu */
+    .sec-nav-call {
+      white-space: nowrap; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+      color: var(--gold);
+      background: rgba(202,138,113,.12);
+      border: 1px solid rgba(202,138,113,.3);
+      transition: all .2s;
+    }
+    .sec-nav-call:hover { background: rgba(202,138,113,.22); border-color: rgba(202,138,113,.55); }
     @media (max-width: 768px) {
       .sec-nav { display: none !important; }
     }
+    /* Mobile menu — "Pozovi nas" red */
+    .mob-menu-call { color: var(--accent) !important; }
+    .mob-menu-call-hours { display: block; font-size: 11px; color: rgba(255,255,255,.38); font-weight: 500; margin-top: 3px; }
 
     /* ══════════════════════ HERO */
     .esc-hero {
@@ -1645,6 +1660,10 @@
     <button class="mob-menu-link" onclick="mobNav('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
+    <button class="mob-menu-link mob-menu-call" onclick="mobNav('esc-contact-cta')">
+      <span data-i18n="snav.call">📞 Pozovi nas</span>
+      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">Dostupni pon–pet, 10h–17h</span>
+    </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
   </div>
   <div class="mob-menu-bottom">
@@ -1662,8 +1681,9 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
-  <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"     data-i18n="snav.faq">FAQ</button>
-  <button class="sec-nav-link" onclick="escScrollTo('esc-booking')" data-i18n="snav.book">Rezerviši</button>
+  <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
+  <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">📞 Pozovi nas</button>
+  <button class="sec-nav-link" onclick="escScrollTo('esc-booking')"     data-i18n="snav.book">Rezerviši</button>
 </nav>
 
 <!-- HERO -->
@@ -2237,7 +2257,7 @@
         escapii.team@gmail.com
       </a>
     </div>
-    <p class="call-us-note" data-i18n="callus.note">Dostupni smo <strong>pon–sub, 9h–21h</strong></p>
+    <p class="call-us-note" data-i18n="callus.note">Dostupni smo <strong>pon–pet, 10h–17h</strong></p>
   </div>
 </section>
 
@@ -2380,7 +2400,7 @@ const TR = {
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
     'callus.h':'Nisi siguran? Pozovi nas!',
     'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Pozovi nas i sve ti objasnimo u par minuta.',
-    'callus.note':'Dostupni smo pon–sub, 9h–21h',
+    'callus.note':'Dostupni smo pon–pet, 10h–17h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
     'footer.how':'Kako funkcioniše', 'footer.who':'Za koga', 'footer.faq':'FAQ',
@@ -2399,7 +2419,7 @@ const TR = {
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.book':'Rezerviši',
+    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'📞 Pozovi nas', 'snav.call.hours':'Dostupni pon–pet, 10h–17h', 'snav.book':'Rezerviši',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u putovanje?',
     'faq.1.a':'Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.',
@@ -2534,7 +2554,7 @@ const TR = {
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
     'callus.h':'Not sure? Give us a call!',
     'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Call us and we\'ll explain everything in a few minutes.',
-    'callus.note':'Available Mon–Sat, 9am–9pm',
+    'callus.note':'Available Mon–Fri, 10am–5pm',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About', 'footer.dest':'Destinations',
     'footer.how':'How it works', 'footer.who':'Who\'s it for', 'footer.faq':'FAQ',
@@ -2553,7 +2573,7 @@ const TR = {
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.book':'Book now',
+    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'📞 Call us', 'snav.call.hours':'Available Mon–Fri, 10am–5pm', 'snav.book':'Book now',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What does the trip include?',
     'faq.1.a':'Every trip includes round-trip flights and accommodation. Transportation within the destination city is not included in the price.',
