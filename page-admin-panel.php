@@ -1682,6 +1682,21 @@ function renderBookings() {
       ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
 
       <div class="bc-note-wrap">
+        <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
+        <div class="bc-note-row">
+          <input class="bc-note-input" id="airline-name-${b.id}" type="text"
+            placeholder="npr. Wizz Air, Ryanair..."
+            value="${b.airlineName || ''}"
+            onkeydown="if(event.key==='Enter')saveAirlineName(${b.id})"
+            onblur="saveAirlineName(${b.id})" />
+          <button class="bc-note-save" onclick="saveAirlineName(${b.id})" title="Sačuvaj (Enter)">✓</button>
+        </div>
+        <div class="bc-note-status" id="airline-name-status-${b.id}">
+          ${b.airlineName ? `<span style="color:#22c55e;font-size:11px;">✓ ${b.airlineName}</span>` : '<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>'}
+        </div>
+      </div>
+
+      <div class="bc-note-wrap">
         <div class="bc-label" style="margin-bottom:6px;">✈ Airline booking kod (check-in)</div>
         <div class="bc-note-row">
           <input class="bc-note-input" id="airline-code-${b.id}" type="text"
@@ -1810,6 +1825,34 @@ async function saveWeatherCity(id) {
   } catch {
     msg.innerHTML = '<span style="color:var(--red);">✗ Greška pri čuvanju</span>';
     setTimeout(() => { msg.innerHTML = ''; }, 2000);
+  }
+}
+
+async function saveAirlineName(id) {
+  const el = document.getElementById(`airline-name-${id}`);
+  if (!el) return;
+  const val = el.value.trim();
+  const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+  if (idx > -1 && (ALL_BOOKINGS[idx].airlineName || '') === val) return;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/airline-name`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ name: val })
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    if (idx > -1) ALL_BOOKINGS[idx].airlineName = updated.airlineName;
+    el.value = updated.airlineName || '';
+    const statusEl = document.getElementById(`airline-name-status-${id}`);
+    if (statusEl) {
+      statusEl.innerHTML = updated.airlineName
+        ? `<span style="color:#22c55e;font-size:11px;">✓ ${updated.airlineName}</span>`
+        : `<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>`;
+    }
+  } catch {
+    const statusEl = document.getElementById(`airline-name-status-${id}`);
+    if (statusEl) statusEl.innerHTML = `<span style="color:#ef4444;font-size:11px;">Greška pri čuvanju</span>`;
   }
 }
 

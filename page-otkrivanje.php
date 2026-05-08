@@ -849,7 +849,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
             <div class="ticket-detail-value accent" id="ticketRef">—</div>
           </div>
           <div class="ticket-detail" id="ticketAirlineRow" style="display:none;">
-            <div class="ticket-detail-label">Check-in kod</div>
+            <div class="ticket-detail-label" id="ticketAirlineLabel">Check-in kod</div>
             <div class="ticket-detail-value accent" id="ticketAirlineCode">—</div>
           </div>
         </div>
@@ -943,6 +943,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       </div>
 
       <div class="tp-details">
+        <div class="tp-det-row" id="tpAirlineNameRow" style="display:none;"><span class="l">🛫 Avio kompanija</span><span class="v" id="tpAirlineName">—</span></div>
         <div class="tp-det-row" id="tpAirlineRow" style="display:none;"><span class="l">✈ Check-in kod</span><span class="v" id="tpAirlineCode" style="color:var(--pop-accent2);font-weight:700;letter-spacing:1px;">—</span></div>
         <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">—</span></div>
         <div class="tp-det-row"><span class="l">Putnici</span><span class="v" id="tpPassengerList">—</span></div>
@@ -1097,6 +1098,11 @@ function showEnvelope(data) {
   // Airline booking code — prikazuje se tek kad admin unese
   if (data.airlineBookingCode) {
     document.getElementById('ticketAirlineCode').textContent = data.airlineBookingCode;
+    // Ako je uneta i avio kompanija, koristi je kao labelu na tiketu
+    if (data.airlineName) {
+      const lbl = document.getElementById('ticketAirlineLabel');
+      if (lbl) lbl.textContent = data.airlineName;
+    }
     const airlineRow = document.getElementById('ticketAirlineRow');
     if (airlineRow) airlineRow.style.display = '';
   }
@@ -1415,6 +1421,15 @@ function openTripPopup() {
   document.getElementById('tpNights').textContent    = nights + (nights === 1 ? ' noć' : nights < 5 ? ' noći' : ' noći');
   document.getElementById('tpDestCity').textContent  = dest;
 
+  // Avio kompanija
+  const airlineNameEl  = document.getElementById('tpAirlineName');
+  const airlineNameRow = document.getElementById('tpAirlineNameRow');
+  if (d.airlineName && airlineNameEl && airlineNameRow) {
+    airlineNameEl.textContent  = d.airlineName;
+    airlineNameRow.style.display = 'flex';
+  } else if (airlineNameRow) {
+    airlineNameRow.style.display = 'none';
+  }
   // Airline booking code
   const airlineCodeEl  = document.getElementById('tpAirlineCode');
   const airlineCodeRow = document.getElementById('tpAirlineRow');
