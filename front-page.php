@@ -398,7 +398,7 @@
       width: 56px; height: 56px; flex-shrink: 0;
       background: rgba(202,138,113,.12); border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 28px;
+      font-size: 20px; font-weight: 900; color: var(--gold); letter-spacing: -0.5px;
     }
     .feat-content h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
     .feat-content p { font-size: 15px; color: var(--gray); line-height: 1.65; }
@@ -1843,10 +1843,6 @@
       <div class="card">
         <h2 data-i18n="s3.h">Izaberi datum putovanja</h2>
         <div class="dates-list" id="datesList"><div style="color:var(--gray);text-align:center;padding:30px;" data-i18n="loading">Učitavanje...</div></div>
-        <div style="margin-top:14px;padding:14px 16px;background:rgba(246,241,230,.04);border:1px solid rgba(246,241,230,.09);border-radius:12px;font-size:13px;color:rgba(246,241,230,.6);line-height:1.6;">
-          📅 <strong style="color:rgba(246,241,230,.8);">Ne vidiš datum koji ti odgovara?</strong>
-          Piši nam na <a href="mailto:podrska@escapii.com" style="color:var(--gold);text-decoration:none;">podrska@escapii.com</a> ili putem <a href="#pozovi-nas" onclick="escScrollTo('pozovi-nas');return false;" style="color:var(--gold);text-decoration:none;">kontakt forme</a> — pronalazimo personalizovanu opciju.
-        </div>
         <div class="step-btns">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
           <button class="btn-next" id="btnN3" disabled onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
@@ -2005,8 +2001,8 @@
     <!-- Step 6: Exclusions -->
     <div class="step-wrap" id="step6">
       <div class="card">
-        <h2 data-i18n="s6.h">Isključite destinacije</h2>
-        <p class="hint" data-i18n="s6.hint">Destinacije koje ne želite (opciono, max 5)</p>
+        <h2 data-i18n="s6.h">Isključi destinacije na koje ne želiš da te odvedemo</h2>
+        <p class="hint" data-i18n="s6.hint">Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.</p>
 
         <div class="excl-info" id="exclInfoBlock">
           <div class="excl-info-tiers">
@@ -2015,13 +2011,13 @@
               <div class="excl-tier-price free" data-i18n="free">Besplatno</div>
             </div>
             <div class="excl-tier" id="exclTier2">
-              <div class="excl-tier-label" id="exclTier2Label" data-i18n="s6.t2.lbl">2. i 3. isključivanje</div>
+              <div class="excl-tier-label" id="exclTier2Label" data-i18n="s6.t2.lbl">2., 3. i 4. isključivanje</div>
               <div class="excl-tier-price high" id="exclTier2Price">+15€/os.</div>
             </div>
           </div>
-          <div class="excl-info-note">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span id="exclNote" data-i18n="s6.note">Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!</span>
+          <div class="excl-info-note" id="exclSavetNote" style="cursor:default;">
+            <span style="font-size:15px;">💡</span>
+            <span id="exclNote" data-i18n="s6.note">Escapii savet: ne isključuj previše destinacija.</span>
           </div>
         </div>
         <div class="excl-grid" id="exclGrid"></div>
@@ -2088,10 +2084,10 @@
         <div class="payment-info">
           <div class="pi-header">
             <span class="pi-icon">💳</span>
-            <span data-i18n="pay.heading">Kako funkcioniše uplata?</span>
+            <span data-i18n="pay.heading">Kako funkcioniše plaćanje?</span>
           </div>
           <ol class="pi-steps">
-            <li data-i18n-html="pay.s1">Pošalji upit klikom na dugme ispod</li>
+            <li data-i18n-html="pay.s1">Pošalji upit klikom na dugme ispod — besplatno i bez obaveza</li>
             <li data-i18n-html="pay.s2">U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun</li>
             <li data-i18n-html="pay.s3">Izvrši uplatu — rezervacija se <strong>potvrđuje tek nakon uplate</strong></li>
             <li data-i18n-html="pay.s4">Potvrda stiže na email — putovanje je tvoje! ✓</li>
@@ -2132,11 +2128,15 @@
 <section class="esc-manifesto" id="esc-about">
   <div class="mf-inner">
     <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="mf-heading" data-i18n-html="mf.heading">Pusti destinaciju da te <em>iznenadi</em></h2>
-    <blockquote class="mf-quote" data-i18n-html="mf.quote">"Nije problem što ne putujemo dovoljno.<br>Problem je što putujemo <em>uvek isto</em>."</blockquote>
-    <p class="mf-body" data-i18n-html="mf.p1">ESCAPII je onaj osećaj kad kažeš "ajde" i ne znaš tačno gde ideš — ali znaš da će biti dobro. To je beg iz rutine. Iskustvo koje te malo pomeri.</p>
-    <p class="mf-body" data-i18n-html="mf.p2">Nije samo 2-3 dana. To je <strong>reset</strong>. Onaj momenat kad ti srce malo jače kuca jer ne znaš šta dolazi — i baš zato jedva čekaš.</p>
-    <p class="mf-body" data-i18n-html="mf.p3"><strong>ESCAPII nije destinacija. ESCAPII je osećaj.</strong></p>
+    <h2 class="mf-heading" data-i18n="mf.heading">Prva platforma za putovanja iznenađenja u Srbiji.</h2>
+    <p class="mf-body" style="font-size:clamp(17px,1.8vw,20px);font-weight:700;margin-bottom:8px;" data-i18n="mf.why">Zašto Escapii?</p>
+    <p class="mf-body" data-i18n-html="mf.p1">Jer najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em></p>
+    <p class="mf-body" data-i18n-html="mf.p2">Svi znamo onaj osećaj. Ili si ti osoba koja planira i organizuje sva putovanja, ili si ona za koju drugi organizuju, ali te prijatelji i dalje zatrpavaju pitanjima. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let je poskupeo već treći put u 24h, ili je dobar smeštaj već rasprodat — i vraćate se na početak. Ili završiš na vikend putovanju po regionu (nema ni tu ništa loše, ali si maštao/la o Siciliji).</p>
+    <p class="mf-body" data-i18n-html="mf.p3">Pretražio/la si isti sajt 4.328 puta, znaš mapu mesta na koje ideš napamet, postao/la si ekspert za tu destinaciju — ali kad kreneš na put, već vrlo dobro znaš šta te čeka. Faktor iznenađenja? <strong>Ne postoji.</strong></p>
+    <p class="mf-body" data-i18n-html="mf.p4">A da li znaš da sada imaš mogućnost da rezervišeš vikend putovanje iznenađenja u Evropi — bez trošenja sati na istraživanje, dogovaranje i proveru hotela? Plus da na sve to dobiješ iskustvo koje ćeš pamtiti ceo život?</p>
+    <p class="mf-body" data-i18n-html="mf.p5">Escapii smo kreirali baš zbog toga. Pronađeš datum koji ti odgovara, a naša ekipa se pobrine za sve ostalo. Nema stresa, nema Excel tabela, nema 75.430 poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.</p>
+    <p class="mf-body" data-i18n-html="mf.p6">I tu počinje zezanje. Svi se radujete i hajpujete sve do 3 dana pred put — analizirate vremensku prognozu i pokušavate da provalite destinaciju, a onaj ko pogodi ne plaća skupu kafu na aerodromu.</p>
+    <blockquote class="mf-quote" data-i18n-html="mf.quote">Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.</blockquote>
   </div>
 </section>
 
@@ -2162,36 +2162,35 @@
   <div class="features-inner">
     <div class="features-header">
       <span class="sec-tag" data-i18n="how.tag">Kako funkcioniše</span>
-      <h2 class="sec-heading" data-i18n="how.heading">Putovanje bez razmišljanja</h2>
-      <p class="sec-sub" data-i18n="how.sub">Sve što treba je da odabereš polazak i budžet.</p>
+      <h2 class="sec-heading" data-i18n="how.heading">Četiri koraka do tvoje Escapii avanture</h2>
     </div>
     <div class="features-grid">
       <div class="feat-card">
-        <div class="feat-icon-wrap">✈️</div>
+        <div class="feat-icon-wrap">01</div>
         <div class="feat-content">
-          <h3 data-i18n="how.c1.t">Odaberi polazak</h3>
-          <p data-i18n="how.c1.p">Aerodrom, broj putnika, termin. Bez komplikacija. Mi preuzimamo ostatak planiranja.</p>
+          <h3 data-i18n="how.c1.t">Kreiraj svoje Escapii putovanje iznenađenja</h3>
+          <p data-i18n="how.c1.p">Izaberi datum, broj putnika, budžet i opcione dodatke. Isključi destinacije koje ne želiš.</p>
         </div>
       </div>
       <div class="feat-card">
-        <div class="feat-icon-wrap">🛏️</div>
+        <div class="feat-icon-wrap">02</div>
         <div class="feat-content">
-          <h3 data-i18n="how.c2.t">Kvalitetan smeštaj</h3>
-          <p data-i18n="how.c2.p">Hoteli centralno locirani, provereni, dobro ocenjeni.</p>
+          <h3 data-i18n="how.c2.t">Mi kreiramo tvoju avanturu</h3>
+          <p data-i18n="how.c2.p">Naša ekipa u saradnji sa partnerskom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, sve.</p>
         </div>
       </div>
       <div class="feat-card">
-        <div class="feat-icon-wrap">💶</div>
+        <div class="feat-icon-wrap">03</div>
         <div class="feat-content">
-          <h3 data-i18n="how.c3.t">Najbolja cena</h3>
-          <p data-i18n="how.c3.p">Iznenađujuća destinacija nam omogućava da pregovaramo drugačije — i da taj popust prenesemo na tebe.</p>
+          <h3 data-i18n="how.c3.t">Hintovi i uzbuđenje</h3>
+          <p data-i18n="how.c3.p">7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 72h pre polaska.</p>
         </div>
       </div>
       <div class="feat-card">
-        <div class="feat-icon-wrap">🎭</div>
+        <div class="feat-icon-wrap">04</div>
         <div class="feat-content">
-          <h3 data-i18n="how.c4.t">Avantura počinje pre puta</h3>
-          <p data-i18n="how.c4.p">Tri dana pre polaska otkrivamo tvoju destinaciju. Dovoljno da se pripremiš, ali ne i da pokvariš čar iznenađenja.</p>
+          <h3 data-i18n="how.c4.t">Stvori priču vrednu prepričavanja</h3>
+          <p data-i18n="how.c4.p">"Otputovali smo za vikend, a nismo pojma imali gde" — ovo je mnogo bolja priča od "rezervisali smo putovanje u Pariz na sajmu turizma".</p>
         </div>
       </div>
     </div>
@@ -2202,8 +2201,8 @@
 <section class="esc-who" id="esc-who">
   <div class="who-inner">
     <div class="who-header">
-      <span class="sec-tag" data-i18n="who.tag">Za koga je Escapii</span>
-      <h2 class="sec-heading" data-i18n="who.heading">Nije za svakoga — i to je poenta</h2>
+      <span class="sec-tag" data-i18n="who.tag">Budimo iskreni — Escapii nije za svakoga</span>
+      <h2 class="sec-heading" data-i18n="who.heading">I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.</h2>
     </div>
     <div class="who-grid">
       <div class="who-card yes">
@@ -2395,21 +2394,25 @@ const TR = {
     'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
-    'mf.heading':'Pusti destinaciju da te <em>iznenadi</em>',
-    'mf.quote':'"Nije problem što ne putujemo dovoljno.<br>Problem je što putujemo <em>uvek isto</em>."',
-    'mf.p1':'ESCAPII je onaj osećaj kad kažeš "ajde" i ne znaš tačno gde ideš — ali znaš da će biti dobro. To je beg iz rutine. Iskustvo koje te malo pomeri.',
-    'mf.p2':'Nije samo 2-3 dana. To je <strong>reset</strong>. Onaj momenat kad ti srce malo jače kuca jer ne znaš šta dolazi — i baš zato jedva čekaš.',
-    'mf.p3':'<strong>ESCAPII nije destinacija. ESCAPII je osećaj.</strong>',
+    'mf.heading':'Prva platforma za putovanja iznenađenja u Srbiji.',
+    'mf.why':'Zašto Escapii?',
+    'mf.p1':'Jer najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em>',
+    'mf.p2':'Svi znamo onaj osećaj. Ili si ti osoba koja planira i organizuje sva putovanja, ili si ona za koju drugi organizuju, ali te prijatelji i dalje zatrpavaju pitanjima. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let je poskupeo već treći put u 24h, ili je dobar smeštaj već rasprodat — i vraćate se na početak. Ili završiš na vikend putovanju po regionu (nema ni tu ništa loše, ali si maštao/la o Siciliji).',
+    'mf.p3':'Pretražio/la si isti sajt 4.328 puta, znaš mapu mesta na koje ideš napamet, postao/la si ekspert za tu destinaciju — ali kad kreneš na put, već vrlo dobro znaš šta te čeka. Faktor iznenađenja? <strong>Ne postoji.</strong>',
+    'mf.p4':'A da li znaš da sada imaš mogućnost da rezervišeš vikend putovanje iznenađenja u Evropi — bez trošenja sati na istraživanje, dogovaranje i proveru hotela? Plus da na sve to dobiješ iskustvo koje ćeš pamtiti ceo život?',
+    'mf.p5':'Escapii smo kreirali baš zbog toga. Pronađeš datum koji ti odgovara, a naša ekipa se pobrine za sve ostalo. Nema stresa, nema Excel tabela, nema 75.430 poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.',
+    'mf.p6':'I tu počinje zezanje. Svi se radujete i hajpujete sve do 3 dana pred put — analizirate vremensku prognozu i pokušavate da provalite destinaciju, a onaj ko pogodi ne plaća skupu kafu na aerodromu.',
+    'mf.quote':'Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.',
     'dest.tag':'Naše destinacije', 'dest.heading':'Sve ovo te čeka…',
     'dest.sub':'Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija',
     'dest.mystery':'Ali ne znaš šta ćeš dobiti',
-    'how.tag':'Kako funkcioniše', 'how.heading':'Putovanje bez razmišljanja',
+    'how.tag':'Kako funkcioniše', 'how.heading':'Četiri koraka do tvoje Escapii avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
-    'how.c1.t':'Odaberi polazak', 'how.c1.p':'Aerodrom, broj putnika, termin. Bez komplikacija. Mi preuzimamo ostatak planiranja.',
-    'how.c2.t':'Kvalitetan smeštaj', 'how.c2.p':'Provereni i visoko ocenjeni — uz mogućnost da odabereš i višu kategoriju smeštaja.',
-    'how.c3.t':'Najbolja cena', 'how.c3.p':'Iznenađujuća destinacija nam omogućava da pregovaramo drugačije — i da taj popust prenesemo na tebe.',
-    'how.c4.t':'Otkrij na aerodromu', 'how.c4.p':'Kovertu sa destinacijom otvaraš tek na aerodromu. Let, hotel, transfer — sve rezervisano. Tebi ostaje uzbuđenje.',
-    'who.tag':'Za koga je Escapii', 'who.heading':'Nije za svakoga — i to je poenta',
+    'how.c1.t':'Kreiraj svoje Escapii putovanje iznenađenja', 'how.c1.p':'Izaberi datum, broj putnika, budžet i opcione dodatke. Isključi destinacije koje ne želiš.',
+    'how.c2.t':'Mi kreiramo tvoju avanturu', 'how.c2.p':'Naša ekipa u saradnji sa partnerskom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, sve.',
+    'how.c3.t':'Hintovi i uzbuđenje', 'how.c3.p':'7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 72h pre polaska.',
+    'how.c4.t':'Stvori priču vrednu prepričavanja', 'how.c4.p':'"Otputovali smo za vikend, a nismo pojma imali gde" — ovo je mnogo bolja priča od "rezervisali smo putovanje u Pariz na sajmu turizma".',
+    'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
     'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da sve planiraš',
     'who.yes.2':'Želiš nešto novo, ali ne znaš šta tačno',
@@ -2449,9 +2452,9 @@ const TR = {
     'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
-    's6.h':'Isključite destinacije', 's6.hint':'Destinacije koje ne želite (opciono, max 5)',
+    's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2. i 3. isključivanje',
-    's6.note':'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!',
+    's6.note':'Escapii savet: ne isključuj previše destinacija.',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
     's8.h':'Kontakt podaci', 's8.hint':'Javićemo se u roku od 24 sata',
@@ -2489,8 +2492,8 @@ const TR = {
     'faq.2.a':'U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.',
     'faq.3.q':'Izmene i otkazivanje',
     'faq.3.a':'Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.',
-    'swal.excl.title':'Maksimalno 3 isključivanja',
-    'swal.excl.html':'Već si iskoristio sva 3 dozvoljena isključivanja.<br><br><strong style="color:#CA8A71">Hajde, prepusti se iznenađenju! 🌍</strong>',
+    'swal.excl.title':'Maksimalno 4 isključivanja',
+    'swal.excl.html':'Već si iskoristio sva 4 dozvoljena isključivanja.<br><br><strong style="color:#CA8A71">Hajde, prepusti se iznenađenju! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
@@ -2525,8 +2528,8 @@ const TR = {
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
     'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju saznaješ 72h pre polaska', 'trust.3':'Putno osiguranje dostupno',
-    'pay.heading':'Kako funkcioniše uplata?',
-    'pay.s1':'Pošalji upit klikom na dugme ispod',
+    'pay.heading':'Kako funkcioniše plaćanje?',
+    'pay.s1':'Pošalji upit klikom na dugme ispod — besplatno i bez obaveza',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
     'pay.s3':'Izvrši uplatu — rezervacija se <strong>potvrđuje tek nakon uplate</strong>',
     'pay.s4':'Potvrda stiže na email — putovanje je tvoje! ✓',
@@ -2642,7 +2645,7 @@ const TR = {
     'faq.3.q':'Changes and cancellations',
     'faq.3.a':'Your reservation is confirmed only after payment has been received. Once confirmed, the booking is processed within 24 hours and can no longer be canceled. If you wish to make changes to an already confirmed reservation, the conditions imposed by the airline or accommodation provider will apply. All costs arising from any changes are the responsibility of the traveler.',
     'swal.excl.title':'✈ Too many exclusions!',
-    'swal.excl.html':'You can exclude up to 3 destinations maximum.<br><br><strong style="color:#CA8A71">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
+    'swal.excl.html':'You can exclude up to 4 destinations maximum.<br><br><strong style="color:#CA8A71">Trust the surprise — you\'ll love where you end up. 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
@@ -3396,6 +3399,20 @@ function renderDatesFromCache() {
 
   tippy('[data-tippy-content]', { theme:'escapii', placement:'top', arrow:true, duration:[200,150] });
 
+  // Escapii savet tooltip na excl-info-note
+  const savetEl = document.getElementById('exclSavetNote');
+  if (savetEl) {
+    tippy(savetEl, {
+      content: '💡 <strong>Escapii savet</strong><br>Ne isključuj previše destinacija. Čak i destinacije koje poznaješ izgledaju potpuno drugačije kroz Escapii iskustvo.<br><em>Možeš nas poslušati — a i ne moraš.</em>',
+      allowHTML: true,
+      theme: 'escapii',
+      placement: 'top',
+      arrow: true,
+      duration: [200, 150],
+      maxWidth: 280,
+    });
+  }
+
   if(S.selectedDateId) {
     const sel = S.dates.find(d => d.id === S.selectedDateId);
     if(sel && sel.availableSlots < S.travelers) {
@@ -3585,10 +3602,10 @@ function updateExclStep() {
   const hint       = document.querySelector('#step6 .hint');
   const note       = document.getElementById('exclNote');
 
-  // Svi aerodromi: max 3, cena 15€/os. za 2. i 3.
+  // Svi aerodromi: max 4, cena 15€/os. za 2., 3. i 4.
   if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd & 3rd exclusion' : '2. i 3. isključivanje';
   if (tier2Price) { tier2Price.textContent = '+15€/os.'; tier2Price.className = 'excl-tier-price high'; }
-  if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 3)' : 'Destinacije koje ne želite (opciono, max 3)';
+  if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
   if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
 
   loadPrice();
@@ -3612,7 +3629,7 @@ function togExcl(id, event) {
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    const maxExcl = 3;
+    const maxExcl = 4;
     if (S.excludedIds.length >= maxExcl) {
       Swal.fire({
         background: '#2D5F6B',
