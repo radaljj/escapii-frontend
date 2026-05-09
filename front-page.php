@@ -1025,10 +1025,21 @@
       transition: background .2s, border-color .2s, box-shadow .2s; cursor: text;
     }
     .t-tags:focus-within { background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
-    .t-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(202,138,113,.14); border: 1px solid rgba(202,138,113,.3); color: #f0b094; padding: 5px 10px 5px 12px; border-radius: 100px; font-size: 13px; font-weight: 500; animation: chip-in .25s cubic-bezier(.2,.8,.2,1); }
-    .t-chip button { background: none; border: none; color: inherit; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; opacity: .6; transition: opacity .2s; padding: 0; }
-    .t-chip button:hover { opacity: 1; }
-    .t-chip svg { width: 11px; height: 11px; }
+    .t-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(246,241,230,.1); border: 1px solid rgba(246,241,230,.18);
+      color: rgba(246,241,230,.85); padding: 4px 6px 4px 10px;
+      border-radius: 100px; font-size: 12px; font-weight: 600;
+      animation: chip-in .25s cubic-bezier(.2,.8,.2,1); white-space: nowrap;
+    }
+    .t-chip button {
+      background: rgba(246,241,230,.12); border: none; color: rgba(246,241,230,.6);
+      cursor: pointer; width: 18px; height: 18px; border-radius: 100px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s; padding: 0; flex-shrink: 0;
+    }
+    .t-chip button:hover { background: rgba(239,68,68,.25); color: #fca5a5; }
+    .t-chip svg { width: 9px; height: 9px; }
     @keyframes chip-in { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .t-tags input { flex: 1; min-width: 100px; background: none; border: none; outline: none; color: rgba(246,241,230,.9); font-size: 14px; padding: 4px 6px; font-family: inherit; }
     .t-tags input::placeholder { color: rgba(246,241,230,.22); }
@@ -3722,6 +3733,10 @@ function initTagInputs() {
         if (val) addChip(container, val);
         this.value = '';
       }
+    });
+    inp.addEventListener('blur', function() {
+      const val = this.value.trim();
+      if (val) { addChip(container, val); this.value = ''; }
     });
     container.addEventListener('click', () => inp.focus());
   });
