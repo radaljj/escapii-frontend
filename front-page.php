@@ -3,8 +3,8 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escapii — Iznenadite se</title>
-  <meta name="description" content="Surprise putovanja iz Srbije — odaberi aerodrom, datum i budžet. Mi biramo destinaciju. Ti se iznenadis na aerodromu.">
+  <title>Escapii - Putovanja iznenađenja već od 239€</title>
+  <meta name="description" content="Prva platforma za putovanja iznenađenja u Srbiji. Ti biraš datum, mi biramo destinaciju. Saznaš kuda ideš 72h pre polaska.">
 
   <?php wp_head(); ?>
   <!-- SweetAlert2 -->
@@ -1746,24 +1746,23 @@
     <source src="<?= get_template_directory_uri() ?>/assets/hero-bg-opt.mp4" type="video/mp4">
   </video>
   <div class="hero-video-overlay"></div>
-  <div class="hero-eyebrow" data-i18n="hero.badge">Iznenađenje garantovano</div>
-  <h1 class="hero-h1" data-i18n-html="hero.h1">Putujte <em>a da ne znate</em> kuda idete</h1>
-  <p class="hero-sub" data-i18n="hero.sub">Odaberite aerodrom, datum i budžet. Mi biramo destinaciju. Vi se iznenadite na aerodromu.</p>
+  <div class="hero-eyebrow" data-i18n="hero.badge">Putovanja iznenađenja</div>
+  <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš datum. <em>Mi biramo destinaciju.</em></h1>
+  <p class="hero-sub" data-i18n="hero.sub">Odaberi datum svog Escapii vikenda. Destinaciju saznaš 72h pre polaska.</p>
   <div class="hero-btns">
-    <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Otkrij svoju avanturu</button>
+    <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše?</button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
-    <span class="trust-badge">✓ <span data-i18n="trust.1">Potvrda u 24h</span></span>
+    <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">🔒 <span data-i18n="trust.2">Bez skrivenih troškova</span></span>
+    <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju saznaješ 72h pre polaska</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">⭐ <span data-i18n="trust.3">Sigurna rezervacija</span></span>
+    <span class="trust-badge">🛡️ <span data-i18n="trust.3">Putno osiguranje dostupno</span></span>
   </div>
 
   <div class="hero-stats">
     <div class="hero-stat"><div class="stat-num" id="destCount">50+</div><div class="stat-label" data-i18n="hero.stat.dest">Destinacija</div></div>
-    <div class="hero-stat"><div class="stat-num">100%</div><div class="stat-label" data-i18n="hero.stat.surprise">Iznenađenje</div></div>
   </div>
 </section>
 
@@ -1771,9 +1770,8 @@
 <section class="esc-booking" id="esc-booking">
   <div class="booking-inner">
     <div class="booking-header">
-      <span class="sec-tag" data-i18n="book.tag">Rezervacija</span>
-      <h2 class="sec-heading" data-i18n="book.heading">Krenite na avanturu</h2>
-      <p class="sec-sub" data-i18n="book.sub">Popunite formu u par koraka</p>
+      <span class="sec-tag" data-i18n="book.tag">Rezervacija putovanja iznenađenja</span>
+      <h2 class="sec-heading" data-i18n="book.heading">Pokreni svoju Escapii avanturu</h2>
     </div>
 
     <div class="booking-progress" id="bookingProgress">
@@ -1789,8 +1787,8 @@
     <!-- Step 1: Airport -->
     <div class="step-wrap on" id="step1">
       <div class="card">
-        <h2 data-i18n="s1.h">Odakle putujete?</h2>
-        <p class="hint" data-i18n="s1.hint">Izaberite aerodrom polaska</p>
+        <h2 data-i18n="s1.h">Odakle kreće tvoja avantura?</h2>
+        <p class="hint" data-i18n="s1.hint">Izaberi aerodrom polaska</p>
         <div class="airport-cards">
           <div class="airport-card" id="ap-BEG" onclick="pickAirport(this,'BEG')">
             <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd">
@@ -1820,11 +1818,11 @@
     <!-- Step 2: Travelers -->
     <div class="step-wrap" id="step2">
       <div class="card">
-        <h2 data-i18n="s2.h">Koliko vas putuje?</h2>
+        <h2 data-i18n="s2.h">Izaberi broj putnika (Escapera)</h2>
         <p class="hint" data-i18n="s2.hint"></p>
         <div class="trav-row">
           <div class="trav-info">
-            <h3 data-i18n="s2.label">Broj putnika</h3>
+            <h3 data-i18n="s2.label">Broj Escapera</h3>
             <p data-i18n="s2.sub">1 do 6 osoba</p>
           </div>
           <div class="counter">
@@ -1843,9 +1841,12 @@
     <!-- Step 3: Date -->
     <div class="step-wrap" id="step3">
       <div class="card">
-        <h2 data-i18n="s3.h">Izaberite termin</h2>
-        <p class="hint" data-i18n="s3.hint">Dostupni termini za izabrani aerodrom</p>
+        <h2 data-i18n="s3.h">Izaberi datum putovanja</h2>
         <div class="dates-list" id="datesList"><div style="color:var(--gray);text-align:center;padding:30px;" data-i18n="loading">Učitavanje...</div></div>
+        <div style="margin-top:14px;padding:14px 16px;background:rgba(246,241,230,.04);border:1px solid rgba(246,241,230,.09);border-radius:12px;font-size:13px;color:rgba(246,241,230,.6);line-height:1.6;">
+          📅 <strong style="color:rgba(246,241,230,.8);">Ne vidiš datum koji ti odgovara?</strong>
+          Piši nam na <a href="mailto:podrska@escapii.com" style="color:var(--gold);text-decoration:none;">podrska@escapii.com</a> ili putem <a href="#pozovi-nas" onclick="escScrollTo('pozovi-nas');return false;" style="color:var(--gold);text-decoration:none;">kontakt forme</a> — pronalazimo personalizovanu opciju.
+        </div>
         <div class="step-btns">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
           <button class="btn-next" id="btnN3" disabled onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
@@ -1856,8 +1857,8 @@
     <!-- Step 4: Accommodation -->
     <div class="step-wrap" id="step4">
       <div class="card">
-        <h2 data-i18n="s4.h">Tip smeštaja</h2>
-        <p class="hint" data-i18n="s4.hint">Izaberi kategoriju hotela</p>
+        <h2 data-i18n="s4.h">Izaberi kategoriju smeštaja</h2>
+        <p class="hint" data-i18n="s4.hint">Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.</p>
         <div id="singleNotice" class="single-notice">
           🛏️ <strong data-i18n="single.warn">Napomena:</strong>
           <span data-i18n="single.msg"> Putujete sami — hotelske sobe se uglavnom rezervišu za minimum 2 osobe, pa se primenjuje doplata za jednokrevetnu sobu.</span>
@@ -1868,30 +1869,20 @@
             <div class="a-icon">🏨</div>
             <div class="a-name" data-i18n="accom.std">Standard</div>
             <div class="a-badge free" data-i18n="accom.std.p">Uključeno</div>
-            <div class="a-desc" data-i18n="accom.std.d">Ugodan hotel, odlična lokacija</div>
+            <div class="a-desc" data-i18n="accom.std.d">3★ hotel ili apartman, dobra lokacija</div>
             <div class="a-hover">
               <div class="a-hover-stars">★★★</div>
-              <div class="a-hover-desc" data-i18n="accom.std.hover">Hotel sa 3 zvezdice ili apartman na dobroj lokaciji. Udoban smeštaj sa svim osnovnim sadržajima.</div>
+              <div class="a-hover-desc" data-i18n="accom.std.hover">Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.</div>
             </div>
           </div>
           <div class="accom-tile" onclick="pickAccom(this,'SUPERIOR')">
             <div class="a-icon">⭐</div>
             <div class="a-name" data-i18n="accom.sup">Superior</div>
-            <div class="a-badge pay" data-i18n="accom.sup.badge">+50€/os</div>
-            <div class="a-desc" data-i18n="accom.sup.d">Viša kategorija, bolji pogled</div>
+            <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
+            <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★ hotel, viši komfor</div>
             <div class="a-hover">
               <div class="a-hover-stars">★★★★</div>
-              <div class="a-hover-desc" data-i18n="accom.sup.hover">Hotel sa 4 zvezdice, pažljivo odabrani hoteli koji garantuju udobnost, visok nivo usluge i prijatan boravak.</div>
-            </div>
-          </div>
-          <div class="accom-tile" onclick="pickAccom(this,'PREMIUM')">
-            <div class="a-icon">💎</div>
-            <div class="a-name" data-i18n="accom.prem">Premium</div>
-            <div class="a-badge pay" data-i18n="accom.prem.badge">+130€/os</div>
-            <div class="a-desc" data-i18n="accom.prem.d">Luksuz i ekskluzivnost</div>
-            <div class="a-hover">
-              <div class="a-hover-stars">★★★★★</div>
-              <div class="a-hover-desc" data-i18n="accom.prem.hover">Hotel sa 5 zvezdica, luksuzni smeštaj sa ekskluzivnim sadržajima i vrhunskom uslugom.</div>
+              <div class="a-hover-desc" data-i18n="accom.sup.hover">4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.</div>
             </div>
           </div>
         </div>
@@ -1907,11 +1898,27 @@
       <div class="card">
         <h2 data-i18n="s5.h">Dodaci</h2>
         <p class="hint" data-i18n="s5.hint">Sve je opciono</p>
+        <!-- Ranac — uvek uključen -->
+        <div class="suit-row" style="opacity:.75;pointer-events:none;margin-bottom:6px;">
+          <div class="e-icon">🎒</div>
+          <div class="e-txt" style="flex:1;">
+            <div class="e-label">Ranac / personal item (do 10kg)</div>
+            <div class="e-desc">Uključeno u svako Escapii putovanje</div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:#4ade80;">✓ Uključeno</div>
+        </div>
+
+        <!-- Upozorenje o koferu -->
+        <div style="margin-bottom:10px;padding:12px 15px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-left:3px solid #fbbf24;border-radius:10px;font-size:12px;color:rgba(246,241,230,.75);line-height:1.6;">
+          ⚠️ <strong style="color:#fcd34d;">Važno:</strong> Sva Escapii putovanja su po defaultu sa rancem (do 10kg). U zavisnosti od aviokompanije i termina, nekada možemo da obezbedimo i ručni kofer bez doplate — ali to nije zagarantovano. Ako vam je neophodno da putujete sa ručnim kofrom, <strong style="color:#fcd34d;">obavezno izaberite ovu opciju pre rezervacije.</strong>
+        </div>
+
+        <!-- Ručni kofer — opciono -->
         <div class="suit-row" id="suitRow">
           <div class="e-icon">🧳</div>
           <div class="e-txt">
-            <div class="e-label" data-i18n="ext.suit">Želim da moja karta uključuje ručni kofer</div>
-            <div class="e-desc" data-i18n="ext.suit.d">50€/smer × 2 smera = 100€/os</div>
+            <div class="e-label" data-i18n="ext.suit">Dodaj ručni kofer (carry-on)</div>
+            <div class="e-desc" data-i18n="ext.suit.d">Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os</div>
           </div>
           <div class="counter">
             <button class="cb" id="suitD" onclick="chSuit(-1)">−</button>
@@ -1920,65 +1927,68 @@
           </div>
           <div class="e-price" id="suitPrice">0€</div>
         </div>
+        <div style="margin-top:6px;margin-bottom:4px;font-size:11px;color:rgba(246,241,230,.4);line-height:1.6;padding:0 4px;">
+          Cena je po osobi. Ukoliko želite kofer za sve putnike, podesite odgovarajući broj. Ako želite kofer samo za jednog putnika, navedite ime tog putnika u napomeni na kraju rezervacije.
+        </div>
         <div class="extras-grid">
           <div class="connecting-tooltip-wrap">
             <div class="extra-card" id="ec-hasInsurance" onclick="togExtra(this,'hasInsurance')">
               <div class="extra-card-icon">🛡️</div>
               <div class="extra-card-body">
                 <div class="extra-card-title" data-i18n="ext.ins">Putno osiguranje</div>
-                <div class="extra-card-sub" data-i18n="ext.ins.d">Medicinska pomoć, otkazivanje, prtljag</div>
+                <div class="extra-card-sub" data-i18n="ext.ins.d">Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.</div>
               </div>
               <div class="extra-card-price" data-i18n="ins.price">+12€/os</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.ins.tip.title">🛡️ Putno osiguranje</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.ins.tip.body">Pokriva <strong>medicinske troškove</strong> u inostranstvu, otkazivanje leta i oštećen ili izgubljen prtljag. Preporučujemo svim putnicima.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.ins.tip.body">Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.</div>
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
             <div class="extra-card" id="ec-hasBreakfast" onclick="togExtra(this,'hasBreakfast')">
               <div class="extra-card-icon">🍳</div>
               <div class="extra-card-body">
-                <div class="extra-card-title" data-i18n="ext.bfst">Doručak</div>
-                <div class="extra-card-sub" data-i18n="ext.bfst.d">Svaki dan u hotelu uključen</div>
+                <div class="extra-card-title" data-i18n="ext.bfst">Doručak u hotelu</div>
+                <div class="extra-card-sub" data-i18n="ext.bfst.d">Doručak u hotelu uključen za svaki dan boravka.</div>
               </div>
-              <div class="extra-card-price" data-i18n="bfst.price">+13€/os</div>
+              <div class="extra-card-price" data-i18n="bfst.price">+20€/os</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.bfst.tip.title">🍳 Doručak u hotelu</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.bfst.tip.body">Svako jutro krećeš odmoran i sit — doručak u hotelu je uključen <strong>svakog dana</strong> boravka. Nema brige šta i gde ćeš jesti ujutru.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.bfst.tip.body">Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit — nema brige šta i gde ćeš jesti ujutru.</div>
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
             <div class="extra-card" id="ec-hasSeatsTogether" onclick="togSeats(this)">
               <div class="extra-card-icon">💺</div>
               <div class="extra-card-body">
-                <div class="extra-card-title" data-i18n="ext.seats">Sedišta zajedno</div>
-                <div class="extra-card-sub" data-i18n="ext.seats.d">po smeru, oba smera leta</div>
+                <div class="extra-card-title" data-i18n="ext.seats">Sedišta jedan pored drugog</div>
+                <div class="extra-card-sub" data-i18n="ext.seats.d">po osobi, po smeru leta</div>
               </div>
               <div class="extra-card-price" data-i18n="seats.price">+12€/os/smer</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.seats.tip.title">💺 Sedišta zajedno</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.seats.tip.body">Garantujemo da cela vaša grupa sedi <strong>zajedno u istom redu</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.seats.tip.body">Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.</div>
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
             <div class="extra-card" id="ec-hasConnectingFlights" onclick="togExtra(this,'hasConnectingFlights')">
               <div class="extra-card-icon">🔄</div>
               <div class="extra-card-body">
-                <div class="extra-card-title" data-i18n="ext.connecting">Prihvatam presedanje</div>
-                <div class="extra-card-sub" data-i18n="ext.connecting.d">Prihvatam da moj let može uključivati presedanje</div>
+                <div class="extra-card-title" data-i18n="ext.connecting">Prihvatam let sa presedanjem</div>
+                <div class="extra-card-sub" data-i18n="ext.connecting.d">Letovi sa presedanjem, više destinacija</div>
               </div>
               <div class="extra-card-price" data-i18n="free" style="color:var(--accent3);font-size:12px;font-weight:700">Besplatno</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.connecting.tip.title">✈️ Više destinacija, više iznenađenja</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje nam otvara <strong>više mogućnosti</strong> — destinacije do kojih nema direktnih letova postaju dostupne. Tvoje iznenađenje može biti još <strong>spektakularnije</strong>.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong></div>
             </div>
           </div>
         </div>
@@ -2379,10 +2389,10 @@ const TR = {
     'status.ref':'Broj rezervacije',
     'status.surname':'Prezime',
     'status.btn':'Proveri →',
-    'hero.badge':'Iznenađenje garantovano',
-    'hero.h1':'Putujte <em>a da ne znate</em> kuda idete',
-    'hero.sub':'Odaberite aerodrom, datum i budžet. Mi biramo destinaciju. Vi se iznenadite na aerodromu.',
-    'hero.cta':'Otkrij svoju avanturu', 'hero.how':'Kako funkcioniše?',
+    'hero.badge':'Putovanja iznenađenja',
+    'hero.h1':'Ti biraš datum. <em>Mi biramo destinaciju.</em>',
+    'hero.sub':'Odaberi datum svog Escapii vikenda. Destinaciju saznaš 72h pre polaska.',
+    'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
     'mf.heading':'Pusti destinaciju da te <em>iznenadi</em>',
@@ -2413,34 +2423,32 @@ const TR = {
     'who.no.4':'Tražiš isto putovanje svaki put',
     'who.no.5':'Hoćeš klasičnu agenciju i klasičan aranžman',
     'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
-    'book.tag':'Rezervacija', 'book.heading':'Krenite na avanturu', 'book.sub':'Popunite formu u par koraka',
+    'book.tag':'Rezervacija putovanja iznenađenja', 'book.heading':'Pokreni svoju Escapii avanturu',
     'loading':'Učitavanje...', 'btn.next':'Nastavi →', 'btn.back':'← Nazad', 'free':'Besplatno',
-    's1.h':'Odakle putujete?', 's1.hint':'Izaberite aerodrom polaska',
-    's2.h':'Koliko vas putuje?', 's2.hint':'Svaki putnik unosi ime i pasoš',
-    's2.label':'Broj putnika', 's2.sub':'1 do 6 osoba',
-    's3.h':'Izaberite termin', 's3.hint':'Dostupni termini za izabrani aerodrom',
-    's4.h':'Tip smeštaja', 's4.hint':'Izaberi kategoriju hotela',
-    'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'Ugodan hotel, odlična lokacija',
-    'accom.sup':'Superior', 'accom.sup.d':'Viša kategorija, bolji pogled',
-    'accom.prem':'Premium', 'accom.prem.d':'Luksuz i ekskluzivnost',
-    'accom.std.hover':'Hotel sa 3 zvezdice ili apartman na dobroj lokaciji. Udoban smeštaj sa svim osnovnim sadržajima.',
-    'accom.sup.hover':'Hotel sa 4 zvezdice, viša kategorija smeštaja i usluge.',
-    'accom.prem.hover':'Hotel sa 5 zvezdica, luksuzni smeštaj sa ekskluzivnim sadržajima i vrhunskom uslugom.',
+    's1.h':'Odakle kreće tvoja avantura?', 's1.hint':'Izaberi aerodrom polaska',
+    's2.h':'Izaberi broj putnika (Escapera)', 's2.hint':'Svaki putnik unosi ime i pasoš',
+    's2.label':'Broj Escapera', 's2.sub':'1 do 6 osoba',
+    's3.h':'Izaberi datum putovanja', 's3.hint':'',
+    's4.h':'Izaberi kategoriju smeštaja', 's4.hint':'Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.',
+    'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'3★ hotel ili apartman, dobra lokacija',
+    'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★ hotel, viši komfor',
+    'accom.std.hover':'Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.',
+    'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.',
     'single.warn':'Napomena:', 'single.msg':' Putujete sami — hotelske sobe se uglavnom rezervišu za minimum 2 osobe, pa se primenjuje doplata.',
     's5.h':'Dodaci', 's5.hint':'Sve je opciono',
-    'ext.suit':'Želim da moja karta uključuje ručni kofer', 'ext.suit.d':'50€/smer × 2 smera = 100€/os',
-    'ext.ins':'Putno osiguranje', 'ext.ins.d':'Medicinska pomoć, otkazivanje, prtljag',
-    'ext.bfst':'Doručak', 'ext.bfst.d':'Svaki dan u hotelu',
-    'ext.seats':'Sedišta zajedno', 'ext.seats.d':'po smeru, oba smera leta',
-    'ext.connecting':'Prihvatam presedanje', 'ext.connecting.d':'Prihvatam da moj let može uključivati presedanje',
+    'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os',
+    'ext.ins':'Putno osiguranje', 'ext.ins.d':'Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.',
+    'ext.bfst':'Doručak u hotelu', 'ext.bfst.d':'Doručak u hotelu uključen za svaki dan boravka.',
+    'ext.seats':'Sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
+    'ext.connecting':'Prihvatam let sa presedanjem', 'ext.connecting.d':'Letovi sa presedanjem, više destinacija',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
-    'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu, otkazivanje leta i oštećen ili izgubljen prtljag. Preporučujemo svim putnicima.',
+    'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
-    'ext.bfst.tip.body':'Svako jutro krećeš odmoran i sit — doručak u hotelu je uključen <strong>svakog dana</strong> boravka. Nema brige šta i gde ćeš jesti ujutru.',
-    'ext.seats.tip.title':'💺 Sedišta zajedno',
-    'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>zajedno u istom redu</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
+    'ext.bfst.tip.body':'Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit — nema brige šta i gde ćeš jesti ujutru.',
+    'ext.seats.tip.title':'💺 Sedišta jedan pored drugog',
+    'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
-    'ext.connecting.tip.body':'Saglasnost na presedanje nam otvara <strong>više mogućnosti</strong> — destinacije do kojih nema direktnih letova postaju dostupne. Tvoje iznenađenje može biti još <strong>spektakularnije</strong>.',
+    'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
     's6.h':'Isključite destinacije', 's6.hint':'Destinacije koje ne želite (opciono, max 5)',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2. i 3. isključivanje',
     's6.note':'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!',
@@ -2501,8 +2509,8 @@ const TR = {
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email — javljamo ti čim se otvore novi.',
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
-    'accom.sup.badge':'+50€/os', 'accom.prem.badge':'+130€/os',
-    'ins.price':'+12€/os', 'bfst.price':'+13€/os', 'seats.price':'+12€/os/smer',
+    'accom.sup.badge':'+100€/os',
+    'ins.price':'+12€/os', 'bfst.price':'+20€/os', 'seats.price':'+12€/os/smer',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -2516,7 +2524,7 @@ const TR = {
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
-    'trust.1':'Potvrda u 24h', 'trust.2':'Bez skrivenih troškova', 'trust.3':'Sigurna rezervacija',
+    'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju saznaješ 72h pre polaska', 'trust.3':'Putno osiguranje dostupno',
     'pay.heading':'Kako funkcioniše uplata?',
     'pay.s1':'Pošalji upit klikom na dugme ispod',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
@@ -2567,34 +2575,32 @@ const TR = {
     'who.no.4':'You want the same trip every time',
     'who.no.5':'You want a classic travel agency',
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
-    'book.tag':'Book', 'book.heading':'Start your adventure', 'book.sub':'Fill out the form in a few steps',
+    'book.tag':'Book a surprise trip', 'book.heading':'Start your Escapii adventure',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
     's1.h':'Where are you departing from?', 's1.hint':'Select departure airport',
     's2.h':'How many travelers?', 's2.hint':'Each traveler enters name and passport',
     's2.label':'Number of travelers', 's2.sub':'1 to 6 persons',
-    's3.h':'Select a date', 's3.hint':'Available dates for the selected airport',
-    's4.h':'Accommodation type', 's4.hint':'Select hotel category',
-    'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'Comfortable hotel, great location',
-    'accom.sup':'Superior', 'accom.sup.d':'Higher category, better view',
-    'accom.prem':'Premium', 'accom.prem.d':'Luxury and exclusivity',
-    'accom.std.hover':'3-star hotel or apartment in a great location. Comfortable accommodation with all the essentials.',
-    'accom.sup.hover':'4-star hotel, higher category accommodation, better views and premium facilities.',
-    'accom.prem.hover':'5-star hotel, luxury accommodation with exclusive facilities and top-tier service.',
+    's3.h':'Select travel date', 's3.hint':'',
+    's4.h':'Choose accommodation category', 's4.hint':'All our hotels are located near the city center or in well-connected areas.',
+    'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
+    'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★ hotel, higher comfort',
+    'accom.std.hover':'3-star hotel or apartment. Comfortable accommodation with all the essentials — everything you need for a perfect surprise weekend.',
+    'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service — for those who want a little more.',
     'single.warn':'Note:', 'single.msg':' You are traveling alone — hotel rooms are typically reserved for a minimum of 2 people, so a single room supplement applies.',
     's5.h':'Add-ons', 's5.hint':'All optional',
-    'ext.suit':'I want my ticket to include cabin luggage', 'ext.suit.d':'50€/way × 2 ways = 100€/person',
-    'ext.ins':'Travel insurance', 'ext.ins.d':'Medical, cancellation, baggage',
-    'ext.bfst':'Breakfast', 'ext.bfst.d':'Every day at the hotel',
-    'ext.seats':'Seats together', 'ext.seats.d':'per flight, both ways',
-    'ext.connecting':'I accept connecting flights', 'ext.connecting.d':'I accept that my flight may include a layover',
+    'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€/person',
+    'ext.ins':'Travel insurance', 'ext.ins.d':'Covers medical expenses abroad. Recommended for all travelers.',
+    'ext.bfst':'Hotel breakfast', 'ext.bfst.d':'Hotel breakfast included for every day of stay.',
+    'ext.seats':'Seats next to each other', 'ext.seats.d':'per person, per flight direction',
+    'ext.connecting':'I accept a connecting flight', 'ext.connecting.d':'Connecting flights, more destinations',
     'ext.ins.tip.title':'🛡️ Travel insurance',
-    'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad, flight cancellation, and damaged or lost luggage. We recommend it for all travelers.',
+    'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
-    'ext.bfst.tip.body':'Start every morning refreshed — hotel breakfast is included <strong>every day</strong> of your stay. No need to worry about where to eat in the morning.',
-    'ext.seats.tip.title':'💺 Seats together',
-    'ext.seats.tip.body':'We guarantee your entire group sits <strong>together in the same row</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
+    'ext.bfst.tip.body':'Hotel breakfast included <strong>every day of your stay</strong>. Start refreshed — no need to worry about where to eat in the morning.',
+    'ext.seats.tip.title':'💺 Seats next to each other',
+    'ext.seats.tip.body':'We guarantee your entire group sits <strong>next to each other</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
-    'ext.connecting.tip.body':'Accepting connecting flights opens up <strong>more possibilities</strong> — destinations without a direct flight become available. Your surprise could be <strong>even more spectacular</strong>.',
+    'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities — destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
     's6.h':'Exclude destinations', 's6.hint':'Destinations you don\'t want (optional, max 5)',
     's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd & 3rd',
     's6.note':'We recommend up to 3 exclusions — the fewer you exclude, the bigger the surprise!',
@@ -2655,8 +2661,8 @@ const TR = {
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email — we\'ll notify you when new ones open.',
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
-    'accom.sup.badge':'+50€/pp', 'accom.prem.badge':'+130€/pp',
-    'ins.price':'+12€/pp', 'bfst.price':'+13€/pp', 'seats.price':'+12€/pp/way',
+    'accom.sup.badge':'+100€/pp',
+    'ins.price':'+12€/pp', 'bfst.price':'+20€/pp', 'seats.price':'+12€/pp/way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -2670,7 +2676,7 @@ const TR = {
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
     's8.notes.ph':'Allergies, special requests...',
-    'trust.1':'Confirmed in 24h', 'trust.2':'No hidden fees', 'trust.3':'Secure booking',
+    'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 72h before departure', 'trust.3':'Travel insurance available',
     'pay.heading':'How does payment work?',
     'pay.s1':'Submit your inquiry by clicking the button below',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
