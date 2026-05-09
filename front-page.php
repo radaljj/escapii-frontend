@@ -704,26 +704,32 @@
     .tippy-box[data-theme~='escapii'] .tippy-arrow { color: #2D5F6B; }
     .tippy-box[data-theme~='escapii'] .tippy-content { padding: 10px 14px; line-height: 1.5; }
     /* Step 4 */
-    .accom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+    .accom-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 16px; }
     .accom-tile {
-      border: 2px solid rgba(255,255,255,.1); border-radius: 16px; padding: 22px 16px;
+      border: 2px solid rgba(255,255,255,.1); border-radius: 18px; padding: 0;
       text-align: center; cursor: pointer; transition: all .25s;
       position: relative; overflow: hidden;
     }
-    .accom-tile:hover, .accom-tile.on { border-color: var(--gold); background: rgba(202,138,113,.07); }
-    .a-icon  { font-size: 32px; margin-bottom: 10px; }
-    .a-name  { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .accom-tile:hover, .accom-tile.on { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
+    .a-tile-img {
+      width: 100%; height: 130px; object-fit: cover; display: block;
+      transition: transform .35s ease;
+    }
+    .accom-tile:hover .a-tile-img { transform: scale(1.04); }
+    .a-tile-body { padding: 18px 16px 16px; }
+    .a-icon  { display: none; }
+    .a-name  { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
     .a-badge { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 100px; margin-bottom: 8px; display: inline-block; }
     /* Hover overlay */
     .a-hover {
       position: absolute; left: 0; right: 0; bottom: -100%;
       background: linear-gradient(to top, rgba(15,45,53,.97) 60%, rgba(15,45,53,.82));
-      padding: 16px 14px 14px; transition: bottom .28s ease;
+      padding: 14px 16px; transition: bottom .28s ease;
       border-top: 2px solid var(--accent); text-align: left;
     }
     .accom-tile:hover .a-hover { bottom: 0; }
-    .a-hover-stars { color: #fbbf24; font-size: 20px; letter-spacing: 2px; margin-bottom: 6px; }
-    .a-hover-desc { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.55; }
+    .a-hover-stars { display: none; }
+    .a-hover-desc { font-size: 12px; color: rgba(255,255,255,.85); line-height: 1.6; }
     /* Single notice */
     .single-notice {
       display: none; background: rgba(202,138,113,.1); border: 1px solid rgba(202,138,113,.3);
@@ -1585,7 +1591,7 @@
     .card .a-desc { color: rgba(255,255,255,.6); }
     .card .accom-tile { border-color: rgba(255,255,255,.14); }
     .card .accom-tile:hover,
-    .card .accom-tile.on { border-color: var(--gold); background: rgba(202,138,113,.1); }
+    .card .accom-tile.on { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); background: transparent; }
     /* Suit row / extras inside card */
     .card .suit-row { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
     .card .e-label  { color: #ffffff; }
@@ -1862,22 +1868,24 @@
         </div>
         <div class="accom-grid">
           <div class="accom-tile on" onclick="pickAccom(this,'STANDARD')">
-            <div class="a-icon">🏨</div>
-            <div class="a-name" data-i18n="accom.std">Standard</div>
-            <div class="a-badge free" data-i18n="accom.std.p">Uključeno</div>
-            <div class="a-desc" data-i18n="accom.std.d">3★ hotel ili apartman, dobra lokacija</div>
+            <img class="a-tile-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80&auto=format&fit=crop" alt="Standard hotel">
+            <div class="a-tile-body">
+              <div class="a-name" data-i18n="accom.std">Standard</div>
+              <div class="a-badge free" data-i18n="accom.std.p">Uključeno</div>
+              <div class="a-desc" data-i18n="accom.std.d">3★ hotel ili apartman, dobra lokacija</div>
+            </div>
             <div class="a-hover">
-              <div class="a-hover-stars">★★★</div>
               <div class="a-hover-desc" data-i18n="accom.std.hover">Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.</div>
             </div>
           </div>
           <div class="accom-tile" onclick="pickAccom(this,'SUPERIOR')">
-            <div class="a-icon">⭐</div>
-            <div class="a-name" data-i18n="accom.sup">Superior</div>
-            <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
-            <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★ hotel, viši komfor</div>
+            <img class="a-tile-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80&auto=format&fit=crop" alt="Superior hotel">
+            <div class="a-tile-body">
+              <div class="a-name" data-i18n="accom.sup">Superior</div>
+              <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
+              <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★ hotel, viši komfor</div>
+            </div>
             <div class="a-hover">
-              <div class="a-hover-stars">★★★★</div>
               <div class="a-hover-desc" data-i18n="accom.sup.hover">4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.</div>
             </div>
           </div>
@@ -2453,7 +2461,7 @@ const TR = {
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
     's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
-    's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2. i 3. isključivanje',
+    's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
@@ -2544,27 +2552,30 @@ const TR = {
     'status.ref':'Booking reference',
     'status.surname':'Last name',
     'status.btn':'Check →',
-    'hero.badge':'Surprise guaranteed',
+    'hero.badge':'Surprise travel experiences',
     'hero.h1':'Travel <em>without knowing</em> where you\'re going',
-    'hero.sub':'Choose airport, date and budget. We pick the destination. You\'re surprised at the airport.',
-    'hero.cta':'Discover your adventure', 'hero.how':'How does it work?',
+    'hero.sub':'Choose your Escapii weekend date. You\'ll find out the destination 72h before departure.',
+    'hero.cta':'Book your surprise', 'hero.how':'How does it work?',
     'hero.stat.dest':'Destinations', 'hero.stat.airports':'Departure airports', 'hero.stat.surprise':'Surprise',
     'mf.tag':'What is Escapii?',
-    'mf.heading':'Let the destination <em>surprise you</em>',
-    'mf.quote':'"The problem isn\'t that we don\'t travel enough.<br>The problem is we travel <em>the same way</em> every time."',
-    'mf.p1':'ESCAPII is that feeling when you say "let\'s go" and you don\'t know exactly where — but you know it\'ll be good. It\'s an escape from routine.',
-    'mf.p2':'It\'s not just 2-3 days. It\'s a <strong>reset</strong>. That moment when your heart beats faster because you don\'t know what\'s coming.',
-    'mf.p3':'<strong>ESCAPII is not a destination. ESCAPII is a feeling.</strong>',
+    'mf.heading':'The first surprise travel platform in Serbia.',
+    'mf.why':'Why Escapii?',
+    'mf.p1':'Because the best stories start with <em style="color:var(--gold);font-style:normal;">"we\'re traveling next weekend, but we don\'t know where."</em>',
+    'mf.p2':'We all know that feeling. You\'re either the person who plans and organizes every trip, or the one others plan for — yet your friends still bombard you with questions. You vote on a destination, pick a hotel, and it turns out it\'s too expensive, the flight went up in price for the third time in 24 hours, or the good accommodation is already sold out — and you\'re back to square one. Or you end up on a weekend trip in the region (nothing wrong with that, but you were dreaming of Sicily).',
+    'mf.p3':'You\'ve searched the same website 4,328 times, you know the map of your destination by heart, you\'ve become an expert — but when you finally go, you already know exactly what to expect. The element of surprise? <strong>Doesn\'t exist.</strong>',
+    'mf.p4':'Did you know you can now book a surprise weekend trip in Europe — without spending hours researching, coordinating, and checking hotels? Plus get an experience you\'ll remember for life?',
+    'mf.p5':'That\'s exactly why we created Escapii. You find a date that works for you, and our team handles everything else. No stress, no spreadsheets, no 75,430 messages in the group chat. Just you, your crew, and that little flutter in your stomach as you wait to find out where you\'re headed.',
+    'mf.p6':'And that\'s where the fun starts. Everyone gets excited and hyped up until 3 days before departure — analyzing the weather forecast and trying to guess the destination, and whoever figures it out doesn\'t pay for the expensive coffee at the airport.',
+    'mf.quote':'Escapii is not a trip you\'ll forget. Escapii is an adventure you\'ll be telling stories about <em>forever</em>.',
     'dest.tag':'Our destinations', 'dest.heading':'All this awaits you…',
     'dest.sub':'Choose to exclude what you don\'t like — the rest stays a mystery',
     'dest.mystery':'But you don\'t know what you\'ll get',
-    'how.tag':'How it works', 'how.heading':'Travel without planning ahead',
-    'how.sub':'All you need is to choose your departure and budget.',
-    'how.c1.t':'Choose departure', 'how.c1.p':'Airport, travelers, date. Simple as that. We handle the rest.',
-    'how.c2.t':'Quality accommodation', 'how.c2.p':'Hotels centrally located, verified, well-rated. You can also choose a higher category.',
-    'how.c3.t':'Best price', 'how.c3.p':'The surprise destination lets us negotiate differently — and pass those savings on to you.',
-    'how.c4.t':'Discover at the airport', 'how.c4.p':'You open the destination envelope at the airport. Flight, hotel, transfer — all booked. You just enjoy.',
-    'who.tag':'Who is Escapii for', 'who.heading':'Not for everyone — and that\'s the point',
+    'how.tag':'How it works', 'how.heading':'Four steps to your Escapii adventure',
+    'how.c1.t':'Create your Escapii surprise trip', 'how.c1.p':'Choose your date, number of travelers, budget and optional add-ons. Exclude destinations you don\'t want.',
+    'how.c2.t':'We create your adventure', 'how.c2.p':'Our team, together with our partner agency, analyzes your preferences and creates a package tailored just for you — flight, hotel, everything.',
+    'how.c3.t':'Hints and excitement', 'how.c3.p':'7 days before departure you get a weather forecast for your destination — without revealing it. Start guessing! 😄 You\'ll find out the destination 72h before departure.',
+    'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We went away for the weekend and had no idea where" — that\'s a much better story than "we booked a trip to Paris at a travel fair".',
+    'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
     'who.yes.1':'You love traveling but are tired of planning everything',
     'who.yes.2':'You want something new but don\'t know what exactly',
@@ -2580,9 +2591,9 @@ const TR = {
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
     'book.tag':'Book a surprise trip', 'book.heading':'Start your Escapii adventure',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
-    's1.h':'Where are you departing from?', 's1.hint':'Select departure airport',
-    's2.h':'How many travelers?', 's2.hint':'Each traveler enters name and passport',
-    's2.label':'Number of travelers', 's2.sub':'1 to 6 persons',
+    's1.h':'Where does your adventure begin?', 's1.hint':'Select departure airport',
+    's2.h':'Select number of travelers (Escapers)', 's2.hint':'Each traveler enters name and passport',
+    's2.label':'Number of Escapers', 's2.sub':'1 to 6 persons',
     's3.h':'Select travel date', 's3.hint':'',
     's4.h':'Choose accommodation category', 's4.hint':'All our hotels are located near the city center or in well-connected areas.',
     'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
@@ -2604,9 +2615,10 @@ const TR = {
     'ext.seats.tip.body':'We guarantee your entire group sits <strong>next to each other</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
     'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities — destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
-    's6.h':'Exclude destinations', 's6.hint':'Destinations you don\'t want (optional, max 5)',
-    's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd & 3rd',
-    's6.note':'We recommend up to 3 exclusions — the fewer you exclude, the bigger the surprise!',
+    's6.h':'Exclude destinations you don\'t want us to take you to',
+    's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +15€ per person.',
+    's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd, 3rd & 4th exclusion',
+    's6.note':'Escapii tip: don\'t exclude too many destinations.',
     's7.h':'Passenger details', 's7.hint':'Enter details for each traveler',
     'price.title':'Price breakdown', 'price.total':'Total',
     's8.h':'Contact details', 's8.hint':'We\'ll get back to you within 24 hours',
@@ -2681,7 +2693,7 @@ const TR = {
     's8.notes.ph':'Allergies, special requests...',
     'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 72h before departure', 'trust.3':'Travel insurance available',
     'pay.heading':'How does payment work?',
-    'pay.s1':'Submit your inquiry by clicking the button below',
+    'pay.s1':'Submit your inquiry by clicking the button below — free and with no obligation',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
     'pay.s3':'Make the transfer — your booking is <strong>confirmed only after payment</strong>',
     'pay.s4':'Confirmation arrives by email — the trip is yours! ✓',
@@ -3403,7 +3415,9 @@ function renderDatesFromCache() {
   const savetEl = document.getElementById('exclSavetNote');
   if (savetEl) {
     tippy(savetEl, {
-      content: '💡 <strong>Escapii savet</strong><br>Ne isključuj previše destinacija. Čak i destinacije koje poznaješ izgledaju potpuno drugačije kroz Escapii iskustvo.<br><em>Možeš nas poslušati — a i ne moraš.</em>',
+      content: lang === 'en'
+        ? '💡 <strong>Escapii tip</strong><br>Don\'t exclude too many destinations. Even places you\'ve visited before look completely different through the Escapii experience.<br><em>You can take our word for it — or not.</em>'
+        : '💡 <strong>Escapii savet</strong><br>Ne isključuj previše destinacija. Čak i destinacije koje poznaješ izgledaju potpuno drugačije kroz Escapii iskustvo.<br><em>Možeš nas poslušati — a i ne moraš.</em>',
       allowHTML: true,
       theme: 'escapii',
       placement: 'top',
@@ -3603,7 +3617,7 @@ function updateExclStep() {
   const note       = document.getElementById('exclNote');
 
   // Svi aerodromi: max 4, cena 15€/os. za 2., 3. i 4.
-  if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd & 3rd exclusion' : '2. i 3. isključivanje';
+  if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
   if (tier2Price) { tier2Price.textContent = '+15€/os.'; tier2Price.className = 'excl-tier-price high'; }
   if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
   if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
