@@ -2050,8 +2050,8 @@
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
     <button class="mob-menu-link mob-menu-call" onclick="mobNav('esc-contact-cta')">
-      <span data-i18n="snav.call">📞 Pozovi nas</span>
-      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">Dostupni pon–pet, 10h–17h</span>
+      <span data-i18n="snav.call">✉ Kontaktiraj nas</span>
+      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
   </div>
@@ -2071,7 +2071,7 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
-  <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">📞 Pozovi nas</button>
+  <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-booking')"     data-i18n="snav.book">Rezerviši</button>
 </nav>
 
@@ -2752,20 +2752,16 @@
 <!-- CALL US SECTION -->
 <section class="call-us-section" id="esc-contact-cta">
   <div class="call-us-inner">
-    <div class="call-us-icon">📞</div>
-    <h2 class="call-us-heading" data-i18n="callus.h">Nisi siguran? Pozovi nas!</h2>
-    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Pozovi nas i sve ti objasnimo u par minuta.</p>
+    <div class="call-us-icon">✉️</div>
+    <h2 class="call-us-heading" data-i18n="callus.h">Nisi siguran? Kontaktiraj nas!</h2>
+    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.</p>
     <div class="call-us-actions">
-      <a class="call-us-btn primary" href="tel:+381693414430">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        +381 69 341 44 30
-      </a>
-      <a class="call-us-btn secondary" href="mailto:escapii.team@gmail.com">
+      <a class="call-us-btn primary" href="mailto:escapii.team@gmail.com">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         escapii.team@gmail.com
       </a>
     </div>
-    <p class="call-us-note" data-i18n="callus.note">Dostupni smo <strong>pon–pet, 10h–17h</strong></p>
+    <p class="call-us-note" data-i18n="callus.note">Odgovaramo u roku od 24h</p>
   </div>
 </section>
 
@@ -2933,9 +2929,9 @@ const TR = {
     's8.phone':'Telefon', 's8.notes':'Napomene (opciono)', 's8.submit':'Pošalji upit ✓',
     'success.h':'Upit je primljen!',
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
-    'callus.h':'Nisi siguran? Pozovi nas!',
-    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Pozovi nas i sve ti objasnimo u par minuta.',
-    'callus.note':'Dostupni smo pon–pet, 10h–17h',
+    'callus.h':'Nisi siguran? Kontaktiraj nas!',
+    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.',
+    'callus.note':'Odgovaramo u roku od 24h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
     'footer.how':'Kako funkcioniše', 'footer.who':'Za koga', 'footer.faq':'FAQ',
@@ -2957,7 +2953,7 @@ const TR = {
     'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'📞 Pozovi nas', 'snav.call.hours':'Dostupni pon–pet, 10h–17h', 'snav.book':'Rezerviši',
+    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u putovanje?',
     'faq.1.a':'Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.',
@@ -3116,9 +3112,9 @@ const TR = {
     's8.phone':'Phone', 's8.notes':'Notes (optional)', 's8.submit':'Send inquiry ✓',
     'success.h':'Inquiry received!',
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
-    'callus.h':'Not sure? Give us a call!',
-    'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Call us and we\'ll explain everything in a few minutes.',
-    'callus.note':'Available Mon–Fri, 10am–5pm',
+    'callus.h':'Not sure? Contact us!',
+    'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Write to us and we\'ll get back to you as soon as possible.',
+    'callus.note':'We respond within 24 hours',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About', 'footer.dest':'Destinations',
     'footer.how':'How it works', 'footer.who':'Who\'s it for', 'footer.faq':'FAQ',
@@ -3140,7 +3136,7 @@ const TR = {
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'📞 Call us', 'snav.call.hours':'Available Mon–Fri, 10am–5pm', 'snav.book':'Book now',
+    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What does the trip include?',
     'faq.1.a':'Every trip includes round-trip flights and accommodation. Transportation within the destination city is not included in the price.',
