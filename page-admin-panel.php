@@ -842,9 +842,9 @@ tbody td  { padding: 11px 12px; }
         <button class="btn-add" onclick="addDate()">Dodaj termin</button>
       </div>
 
-      <!-- Tabela termina -->
+      <!-- Tabela javnih termina -->
       <div class="card">
-        <div class="card-title">📋 Svi termini</div>
+        <div class="card-title">📋 Javni termini</div>
         <div class="table-wrap">
           <table id="datesTable">
             <thead>
@@ -863,6 +863,28 @@ tbody td  { padding: 11px 12px; }
             </thead>
             <tbody id="datesBody">
               <tr><td colspan="10" class="empty-state">Učitavanje...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tabela privatnih termina -->
+      <div class="card" id="privateDatesCard" style="display:none;">
+        <div class="card-title">🔒 Privatni termini</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Aerodrom</th>
+                <th>Polazak → Povratak</th>
+                <th>Mesta / Cena</th>
+                <th>Privatni link</th>
+                <th>Ističe</th>
+                <th>Akcije</th>
+              </tr>
+            </thead>
+            <tbody id="privateDatesBody">
+              <tr><td colspan="6" class="empty-state">Nema privatnih termina.</td></tr>
             </tbody>
           </table>
         </div>
@@ -1180,42 +1202,95 @@ async function loadDates() {
 }
 
 function renderDatesTable(dates) {
+  const publicDates  = dates.filter(d => !d.isPrivate);
+  const privateDates = dates.filter(d =>  d.isPrivate);
+
+  // ── Javni termini ──────────────────────────────────────────────────────────
   const tbody = document.getElementById('datesBody');
-  if (!dates.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema termina. Dodajte prvi termin iznad.</td></tr>';
-    return;
+  if (!publicDates.length) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema javnih termina. Dodajte prvi termin iznad.</td></tr>';
+  } else {
+    tbody.innerHTML = publicDates.map(d => {
+      const chips = (d.potentialDestinations || [])
+        .map(pd => `<span class="dest-chip">${pd.name}</span>`).join('');
+      const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">—</span>`;
+      return `
+      <tr>
+        <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
+        <td><span class="badge badge-accent">${d.departureAirport}</span></td>
+        <td><strong>${formatDate(d.departureDate)}</strong></td>
+        <td><strong>${formatDate(d.returnDate)}</strong></td>
+        <td>${d.numberOfNights}n</td>
+        <td>${d.availableSlots}</td>
+        <td><strong>${d.basePrice}€</strong></td>
+        <td>${d.active ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>'}</td>
+        <td>${destHtml}</td>
+        <td style="white-space:nowrap;">
+          <button class="btn-action ${d.active ? 'btn-toggle-off' : 'btn-toggle-on'}"
+            onclick="toggleDate(${d.id}, ${!d.active})">
+            ${d.active ? 'Deaktiviraj' : 'Aktiviraj'}
+          </button>
+          <button class="btn-action btn-edit" onclick="editDestinations(${d.id})" style="margin-left:4px;">Destinacije</button>
+          <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
+          <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
+        </td>
+      </tr>`;
+    }).join('');
   }
-  tbody.innerHTML = dates.map(d => {
-    const chips = (d.potentialDestinations || [])
-      .map(pd => `<span class="dest-chip">${pd.name}</span>`).join('');
-    const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">—</span>`;
-    return `
-    <tr>
-      <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
-      <td><span class="badge badge-accent">${d.departureAirport}</span></td>
-      <td><strong>${formatDate(d.departureDate)}</strong></td>
-      <td><strong>${formatDate(d.returnDate)}</strong></td>
-      <td>${d.numberOfNights}n</td>
-      <td>${d.availableSlots}</td>
-      <td><strong>${d.basePrice}€</strong></td>
-      <td>
-        ${d.isPrivate
-          ? `<span class="badge" style="background:rgba(202,138,113,.15);color:#e09070;border:1px solid rgba(202,138,113,.3);">🔒 Privatni</span>`
-          : (d.active ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>')
-        }
-      </td>
-      <td>${destHtml}</td>
-      <td style="white-space:nowrap;">
-        <button class="btn-action ${d.active ? 'btn-toggle-off' : 'btn-toggle-on'}"
-          onclick="toggleDate(${d.id}, ${!d.active})">
-          ${d.active ? 'Deaktiviraj' : 'Aktiviraj'}
-        </button>
-        <button class="btn-action btn-edit" onclick="editDestinations(${d.id})" style="margin-left:4px;">Destinacije</button>
-        <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
-        <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
-      </td>
-    </tr>`;
-  }).join('');
+
+  // ── Privatni termini ───────────────────────────────────────────────────────
+  const privateCard = document.getElementById('privateDatesCard');
+  const privateTbody = document.getElementById('privateDatesBody');
+  privateCard.style.display = privateDates.length ? '' : 'none';
+
+  if (privateDates.length) {
+    const now = new Date();
+    privateTbody.innerHTML = privateDates.map(d => {
+      const expires   = d.expiresAt ? new Date(d.expiresAt) : null;
+      const expired   = expires && expires < now;
+      const expiryStr = expires
+        ? expires.toLocaleString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
+        : '—';
+      const expiryHtml = expired
+        ? `<span style="color:#ef4444;font-size:12px;">⛔ Istekao<br><span style="opacity:.65;">${expiryStr}</span></span>`
+        : `<span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span>`;
+
+      const privateUrl = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
+
+      return `
+      <tr style="${expired ? 'opacity:.55;' : ''}">
+        <td><span class="badge badge-accent">${d.departureAirport}</span></td>
+        <td>
+          <strong>${formatDate(d.departureDate)} → ${formatDate(d.returnDate)}</strong>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${d.numberOfNights} noći</div>
+        </td>
+        <td>
+          <span style="font-size:13px;">${d.availableSlots} mesta</span><br>
+          <strong>${d.basePrice}€/os</strong>
+        </td>
+        <td>
+          <button class="btn-action" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;"
+            onclick="copyPrivateLink('${privateUrl}', this)">📋 Kopiraj link</button>
+        </td>
+        <td>${expiryHtml}</td>
+        <td>
+          <button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+function copyPrivateLink(url, btn) {
+  navigator.clipboard.writeText(url).then(() => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ Kopirano!';
+    btn.style.background = 'rgba(34,197,94,.15)';
+    btn.style.color = '#86efac';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; }, 2000);
+  }).catch(() => {
+    prompt('Kopiraj link:', url);
+  });
 }
 
 function formatDate(str) {
