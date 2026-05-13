@@ -1045,11 +1045,29 @@ function getAdminNights() {
   return nightsTs ? parseInt(nightsTs.getValue()) : parseInt(document.getElementById('fNights').value);
 }
 
+// ══ ERROR HELPER ══
+// Swal toast — ne blokira, auto-dismiss za 4s. Koristi se za API greške u load funkcijama.
+function apiErr(msg) {
+  Swal.fire({
+    toast: true, position: 'top-end', icon: 'error',
+    title: msg || 'Greška pri učitavanju. Pokušajte ponovo.',
+    showConfirmButton: false, timer: 4000, timerProgressBar: true,
+    background: '#1e0f0f', color: '#fca5a5',
+    didOpen: (el) => { el.addEventListener('mouseenter', Swal.stopTimer); el.addEventListener('mouseleave', Swal.resumeTimer); }
+  });
+}
+
 // ══ DESTINATIONS ══
 async function loadDestinations() {
-  const r = await fetch(`${API}/api/admin/destinations`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
-  ALL_DESTINATIONS = await r.json();
-  renderDestTable();
+  try {
+    const r = await fetch(`${API}/api/admin/destinations`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    ALL_DESTINATIONS = await r.json();
+    renderDestTable();
+  } catch (e) {
+    apiErr('Greška pri učitavanju destinacija.');
+    console.error('[loadDestinations]', e);
+  }
 }
 
 function renderDestTable() {
@@ -1147,12 +1165,18 @@ function initDestSelect() {
 
 // ══ DATES ══
 async function loadDates() {
-  const r = await fetch(`${API}/api/admin/dates`, {
-    headers: { 'X-Admin-Key': ADMIN_KEY },
-    cache: 'no-store'
-  });
-  const dates = await r.json();
-  renderDatesTable(dates);
+  try {
+    const r = await fetch(`${API}/api/admin/dates`, {
+      headers: { 'X-Admin-Key': ADMIN_KEY },
+      cache: 'no-store'
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const dates = await r.json();
+    renderDatesTable(dates);
+  } catch (e) {
+    apiErr('Greška pri učitavanju termina.');
+    console.error('[loadDates]', e);
+  }
 }
 
 function renderDatesTable(dates) {
@@ -1638,6 +1662,7 @@ async function loadWaitlist() {
   } catch(err) {
     document.getElementById('waitlistBody').innerHTML =
       '<tr><td colspan="3" class="empty-state">Greška pri učitavanju.</td></tr>';
+    apiErr('Greška pri učitavanju liste čekanja.');
   }
 }
 
@@ -1686,6 +1711,7 @@ async function loadBookings() {
     renderBookings();
   } catch (e) {
     list.innerHTML = '<div class="empty-state" style="color:#f87171;">Greška pri učitavanju.</div>';
+    apiErr('Greška pri učitavanju rezervacija.');
   }
 }
 

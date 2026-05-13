@@ -2976,7 +2976,7 @@ const TR = {
     'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
     'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
     'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
-    'err.srv':'Greška. Pokušajte ponovo.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
+    'err.srv':'Greška. Pokušajte ponovo.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na escapii.team@gmail.com.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
     's3.nodates.title':'Nema dostupnih termina',
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email — javljamo ti čim se otvore novi.',
     's3.nodates.btn':'Obavesti me',
@@ -3159,7 +3159,7 @@ const TR = {
     'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
     'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
-    'err.srv':'Error. Please try again.', 'success.ref': id=>`Booking reference: ${id}`,
+    'err.srv':'Error. Please try again.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at escapii.team@gmail.com.', 'success.ref': id=>`Booking reference: ${id}`,
     's3.nodates.title':'No available dates',
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email — we\'ll notify you when new ones open.',
     's3.nodates.btn':'Notify me',
@@ -4635,13 +4635,22 @@ async function submitBooking() {
       showStep(3);
       loadDates();
       btn.disabled=false; btn.textContent=t('s8.submit');
+    } else if (r.status >= 500) {
+      Swal.fire({icon:'error',title:lang==='sr'?'Neočekivana greška':'Unexpected error',
+        text:t('err.unexpected'),
+        confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
+      btn.disabled=false; btn.textContent=t('s8.submit');
     } else {
-      Swal.fire({icon:'error',title:'Greška',text:d.error||t('err.srv'),
+      // 4xx — prikaži specifičnu poruku iz backenda (validacija, poslovna greška…)
+      Swal.fire({icon:'error',title:lang==='sr'?'Greška':'Error',
+        text:d.error||t('err.srv'),
         confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
       btn.disabled=false; btn.textContent=t('s8.submit');
     }
   } catch(e) {
-    Swal.fire({icon:'error',title:'Greška',text:t('err.srv'),
+    // Mrežna greška (fetch sam failovao — backend nedostupan, timeout…)
+    Swal.fire({icon:'error',title:lang==='sr'?'Mrežna greška':'Network error',
+      text:t('err.unexpected'),
       confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
     btn.disabled=false; btn.textContent=t('s8.submit');
   }
