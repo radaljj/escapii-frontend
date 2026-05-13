@@ -280,6 +280,53 @@ body {
 .bc-value { color: var(--white); font-weight: 600; }
 .bc-notes { font-size: 13px; color: var(--gray); background: rgba(255,255,255,.04); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
 .bc-actions { display: flex; gap: 8px; }
+/* Passenger section */
+.bc-passengers-wrap {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 10px;
+}
+.bc-passengers-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--gray); margin-bottom: 10px;
+}
+.bc-passenger-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.bc-passenger-row:last-child { border-bottom: none; padding-bottom: 0; }
+.bc-passenger-row:first-of-type { padding-top: 0; }
+.bc-passenger-name {
+  font-size: 14px; font-weight: 700; color: var(--white);
+  display: flex; align-items: center; gap: 8px;
+}
+.bc-passenger-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(202,138,113,.18); color: var(--accent);
+  font-size: 10px; font-weight: 800; flex-shrink: 0;
+}
+.bc-passenger-gender {
+  font-size: 10px; font-weight: 700; padding: 2px 7px;
+  border-radius: 100px; flex-shrink: 0;
+}
+.bc-passenger-gender.M { background: rgba(56,189,248,.12); color: #38bdf8; }
+.bc-passenger-gender.F { background: rgba(244,114,182,.12); color: #f472b6; }
+.bc-passenger-meta {
+  grid-column: 1 / -1;
+  display: flex; flex-wrap: wrap; gap: 6px 20px;
+  font-size: 12px; color: var(--gray);
+}
+.bc-passenger-meta span { display: flex; align-items: center; gap: 5px; }
+.bc-passenger-meta strong { color: var(--white); font-weight: 600; }
+.bc-passport-ok   { color: #4ade80; }
+.bc-passport-warn { color: #f87171; }
 .bc-btn {
   padding: 7px 16px; border-radius: 8px; border: none; font-size: 12px; font-weight: 700;
   cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 5px;
@@ -404,6 +451,24 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-red   { background: rgba(239,68,68,.12); color: var(--red); }
 .badge-gray  { background: rgba(148,163,184,.1); color: var(--gray); }
 .badge-accent { background: rgba(202,138,113,.12); color: var(--accent); }
+
+/* ── Inquiry / private-date status pills ──────────────── */
+.iq-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: 100px;
+  font-size: 11px; font-weight: 700; letter-spacing: .3px;
+  white-space: nowrap; border: 1px solid transparent;
+}
+.iq-PENDING      { background: rgba(251,191,36,.12); color: #fbbf24; border-color: rgba(251,191,36,.25); }
+.iq-PRIVATE_SENT { background: rgba(202,138,113,.15); color: #e09070; border-color: rgba(202,138,113,.35); }
+.iq-status-sel {
+  font-size: 11px; padding: 4px 8px; border-radius: 6px; margin-top: 5px;
+  background: #0d1b38; border: 1px solid rgba(255,255,255,.18);
+  color: #e2e8f0; cursor: pointer; outline: none; display: block; width: 100%;
+  appearance: auto; -webkit-appearance: auto;
+}
+.iq-status-sel:focus { border-color: var(--accent); }
+.iq-status-sel option { background: #0d1b38; color: #e2e8f0; }
 
 /* ── ERROR LOG ─────────────────────────────────────────── */
 .err-row { cursor: pointer; transition: background .15s; }
@@ -633,10 +698,53 @@ tbody tr:last-child td { border-bottom: none; }
 .swal2-confirm { background: var(--accent) !important; color: white !important; border-radius: 10px !important; font-weight: 700 !important; }
 .swal2-cancel { background: rgba(239,68,68,.15) !important; color: var(--red) !important; border: 1px solid rgba(239,68,68,.2) !important; border-radius: 10px !important; font-weight: 700 !important; }
 
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* Compact table globally */
+thead th { padding: 10px 12px; }
+tbody td  { padding: 11px 12px; }
+
 @media (max-width: 768px) {
   .form-grid, .form-grid.three { grid-template-columns: 1fr; }
   .form-span { grid-column: span 1; }
-  .admin-main { padding: 20px 16px; }
+  .admin-main { padding: 16px 12px; }
+}
+
+/* Header */
+@media (max-width: 600px) {
+  .admin-header { padding: 12px 14px; }
+  .admin-logo img { height: 30px; }
+  .admin-logo small { display: none; }
+  .btn-logout { padding: 7px 12px; font-size: 12px; }
+}
+
+/* Tabs — horizontally scrollable on mobile */
+@media (max-width: 900px) {
+  .tabs {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 9px 16px; font-size: 13px; white-space: nowrap; }
+}
+
+/* Tables on mobile */
+@media (max-width: 768px) {
+  table { font-size: 12px; }
+  thead th { padding: 8px 9px; font-size: 10px; }
+  tbody td  { padding: 9px 9px; }
+}
+
+/* Booking cards */
+@media (max-width: 500px) {
+  .bc-body { grid-template-columns: 1fr; }
+  .bc-header { flex-direction: column; align-items: flex-start; }
+  .bc-actions { flex-wrap: wrap; }
+  .panel-title { font-size: 18px; }
+  .card { padding: 16px; }
 }
 </style>
 </head>
@@ -679,6 +787,7 @@ tbody tr:last-child td { border-bottom: none; }
       <button class="tab-btn active" onclick="switchTab('dates')">📅 Termini</button>
       <button class="tab-btn" onclick="switchTab('bookings')">📋 Rezervacije <span class="tab-badge" id="bookingsBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('destinations')">✈️ Destinacije</button>
+      <button class="tab-btn" onclick="switchTab('inquiries')">📩 Upiti <span class="tab-badge" id="inquiriesBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('waitlist')">🔔 Lista čekanja <span class="tab-badge" id="waitlistBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('errors')">🚨 Greške <span class="tab-badge" id="errorsBadge"></span></button>
     </div>
@@ -782,6 +891,13 @@ tbody tr:last-child td { border-bottom: none; }
       <div class="booking-list" id="bookingList">
         <div class="empty-state">Učitavanje rezervacija...</div>
       </div>
+    </div>
+
+    <!-- ══ UPITI ZA CUSTOM TERMINE ══ -->
+    <div class="panel" id="panel-inquiries">
+      <div class="panel-title">Upiti za prilagođene termine</div>
+      <div class="panel-subtitle">Korisnici koji nisu pronašli odgovarajući datum u ponudi</div>
+      <div id="inquiriesTable" style="margin-top:16px;">Učitavanje...</div>
     </div>
 
     <!-- ══ LISTA ČEKANJA ══ -->
@@ -1058,7 +1174,12 @@ function renderDatesTable(dates) {
       <td>${d.numberOfNights}n</td>
       <td>${d.availableSlots}</td>
       <td><strong>${d.basePrice}€</strong></td>
-      <td>${d.active ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>'}</td>
+      <td>
+        ${d.isPrivate
+          ? `<span class="badge" style="background:rgba(202,138,113,.15);color:#e09070;border:1px solid rgba(202,138,113,.3);">🔒 Privatni</span>`
+          : (d.active ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>')
+        }
+      </td>
       <td>${destHtml}</td>
       <td style="white-space:nowrap;">
         <button class="btn-action ${d.active ? 'btn-toggle-off' : 'btn-toggle-on'}"
@@ -1345,9 +1466,10 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
   event.currentTarget.classList.add('active');
-  if (tab === 'bookings') loadBookings();
-  if (tab === 'waitlist') loadWaitlist();
-  if (tab === 'errors')   loadErrors();
+  if (tab === 'bookings')  loadBookings();
+  if (tab === 'waitlist')  loadWaitlist();
+  if (tab === 'errors')    loadErrors();
+  if (tab === 'inquiries') loadInquiries();
 }
 
 // ══ GREŠKE ═══════════════════════════════════════════════════════════════════
@@ -1579,6 +1701,52 @@ function getFilteredBookings() {
     .filter(b => !q || `${b.firstName} ${b.lastName} ${b.email} ${b.bookingRef}`.toLowerCase().includes(q));
 }
 
+function buildPassengersSection(passengers) {
+  if (!passengers || !passengers.length) return '';
+
+  const rows = passengers.map((p, i) => {
+    const dob = p.dateOfBirth
+      ? new Date(p.dateOfBirth).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' })
+      : null;
+
+    const passportIcon = p.hasValidPassport === false
+      ? `<span class="bc-passport-warn" title="Pasoš nije validan">⚠</span>`
+      : `<span class="bc-passport-ok" title="Pasoš validan">✓</span>`;
+
+    const passportInfo = p.passportNumber
+      ? `<span>${passportIcon} Pasoš: <strong>${p.passportNumber}</strong></span>`
+      : `<span style="opacity:.45;">Broj pasoša nije unesen</span>`;
+
+    const dobInfo = dob
+      ? `<span>📅 Datum rođenja: <strong>${dob}</strong></span>`
+      : '';
+
+    const visaInfo = p.visaInfo
+      ? `<span>🛂 Vize: <strong>${p.visaInfo}</strong></span>`
+      : '';
+
+    return `
+      <div class="bc-passenger-row">
+        <div class="bc-passenger-name">
+          <span class="bc-passenger-num">${i + 1}</span>
+          ${p.name}
+          <span class="bc-passenger-gender ${p.gender || ''}">${p.gender === 'F' ? 'Ž' : p.gender || '—'}</span>
+        </div>
+        <div class="bc-passenger-meta">
+          ${dobInfo}
+          ${passportInfo}
+          ${visaInfo}
+        </div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="bc-passengers-wrap bc-field--full">
+      <div class="bc-passengers-title">👤 Putnici — detalji</div>
+      ${rows}
+    </div>`;
+}
+
 function renderBookings() {
   const list = document.getElementById('bookingList');
   const filtered = getFilteredBookings();
@@ -1629,7 +1797,8 @@ function renderBookings() {
         <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
         <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
         <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
-        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}${b.passengerNames && b.passengerNames.length ? '<br><span style="font-size:11px;font-weight:400;color:var(--gray)">' + b.passengerNames.join(', ') + '</span>' : ''}</div></div>
+        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
+        ${buildPassengersSection(b.passengers)}
         <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
         <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
         <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
@@ -2123,6 +2292,328 @@ async function changeStatus(id, status) {
   } catch {
     Swal.fire({ icon: 'error', title: 'Greška', text: 'Status nije promenjen.', background: '#0b1929', color: '#fff' });
   }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// UPITI ZA CUSTOM TERMINE
+// ══════════════════════════════════════════════════════════════════════════════
+
+let _inquiries = [];
+
+// Format LocalDate — handles both "2026-06-15" string and [2026,6,15] Java array
+function fmtLocalDate(d) {
+  if (!d) return '—';
+  if (Array.isArray(d)) {
+    // Java serializes LocalDate as [year, month(1-indexed), day]
+    const [y, m, day] = d;
+    return `${String(day).padStart(2,'0')}.${String(m).padStart(2,'0')}.${y}.`;
+  }
+  const parts = String(d).split('-');
+  if (parts.length === 3) return `${parts[2]}.${parts[1]}.${parts[0]}.`;
+  return String(d);
+}
+
+const INQ_STATUS_LABELS = {
+  PENDING:      'Na čekanju',
+  PRIVATE_SENT: 'Link poslat'
+};
+const INQ_STATUS_ICONS = {
+  PENDING: '●', PRIVATE_SENT: '🔒'
+};
+
+async function loadInquiries() {
+  const el = document.getElementById('inquiriesTable');
+  el.innerHTML = 'Učitavanje...';
+  try {
+    const r = await fetch(`${API}/api/admin/inquiries`, {
+      headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store'
+    });
+    _inquiries = await r.json();
+
+    const pending = _inquiries.filter(i => i.status === 'PENDING').length;
+    document.getElementById('inquiriesBadge').textContent = pending > 0 ? pending : '';
+
+    if (!_inquiries.length) {
+      el.innerHTML = `<div style="text-align:center;padding:40px;color:#8899aa;">Nema upita.</div>`;
+      return;
+    }
+
+    renderInquiries();
+  } catch(e) {
+    el.innerHTML = `<div style="color:#f87171;">Greška pri učitavanju upita.</div>`;
+  }
+}
+
+function renderInquiries() {
+  const el = document.getElementById('inquiriesTable');
+  const rows = _inquiries.map(i => {
+    const created = new Date(i.createdAt).toLocaleString('sr-RS');
+    const depDate  = fmtLocalDate(i.desiredDepartureDate);
+    const retDate  = (() => {
+      if (!i.desiredDepartureDate || !i.nights) return '—';
+      let d;
+      if (Array.isArray(i.desiredDepartureDate)) {
+        d = new Date(i.desiredDepartureDate[0], i.desiredDepartureDate[1]-1, i.desiredDepartureDate[2]);
+      } else {
+        const p = String(i.desiredDepartureDate).split('-');
+        d = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+      }
+      d.setDate(d.getDate() + i.nights);
+      return fmtLocalDate([d.getFullYear(), d.getMonth()+1, d.getDate()]);
+    })();
+    const period = `${depDate} → ${retDate}`;
+    const rawDepISO = Array.isArray(i.desiredDepartureDate)
+      ? `${i.desiredDepartureDate[0]}-${String(i.desiredDepartureDate[1]).padStart(2,'0')}-${String(i.desiredDepartureDate[2]).padStart(2,'0')}`
+      : String(i.desiredDepartureDate);
+    const createdShort = new Date(i.createdAt).toLocaleString('sr-RS', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `
+      <tr>
+        <td style="white-space:nowrap;font-size:12px;color:var(--gray);">${createdShort}</td>
+        <td><strong>${i.airport}</strong></td>
+        <td style="text-align:center;">${i.travelers}</td>
+        <td style="white-space:nowrap;">${period} <span style="color:var(--gray);font-size:11px;">${i.nights}🌙</span></td>
+        <td><a href="mailto:${i.email}" style="color:#60a5fa;word-break:break-all;">${i.email}</a></td>
+        <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '—'}</td>
+        <td>
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:110px;">
+            <input type="number" min="0" max="99999" step="1"
+              value="${i.price != null ? i.price : ''}"
+              placeholder="npr. 279"
+              title="Ukupna cena u EUR (za sve putnike)"
+              onchange="updateInquiryPrice(${i.id}, this)"
+              style="width:100%;padding:5px 8px;border-radius:6px;font-size:13px;font-weight:700;
+                background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+                color:#f6f1e6;outline:none;text-align:right;">
+            <span style="font-size:10px;color:#64748b;text-align:right;">
+              ${i.price != null
+                ? `≈ <strong style="color:#CA8A71">${Math.round(i.price / i.travelers)}€</strong>/os.`
+                : '<span style="color:#475569">unesi cenu</span>'}
+            </span>
+          </div>
+        </td>
+        <td>
+          <span class="iq-pill iq-${i.status}">${INQ_STATUS_ICONS[i.status] || '●'} ${INQ_STATUS_LABELS[i.status] || i.status}</span>
+          <select class="iq-status-sel" onchange="updateInquiryStatus(${i.id}, this.value)">
+            ${Object.keys(INQ_STATUS_LABELS).map(s =>
+              `<option value="${s}" ${i.status === s ? 'selected' : ''}>${INQ_STATUS_LABELS[s]}</option>`
+            ).join('')}
+          </select>
+        </td>
+        <td>
+          <button onclick="promptMakePrivate(${i.id}, '${i.airport}', ${i.travelers}, '${period}', ${i.price != null ? i.price : 'null'})" style="
+            padding:5px 10px;border-radius:6px;font-size:12px;background:#1a4a5a;
+            border:1px solid #2a6a7a;color:#fff;cursor:pointer;white-space:nowrap;
+          ">🔒 Privatni termin</button>
+        </td>
+      </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Datum upita</th><th>Aerodrom</th><th>Putnici</th>
+          <th>Period</th><th>Email</th><th>Napomena</th>
+          <th>Cena (€)</th><th>Status</th><th>Akcija</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+async function updateInquiryStatus(id, status) {
+  try {
+    await fetch(`${API}/api/admin/inquiries/${id}/status?value=${status}`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+
+    if (status === 'PRIVATE_SENT') {
+      // Automatski briši upit čim je link poslat
+      await fetch(`${API}/api/admin/inquiries/${id}`, {
+        method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY }
+      });
+      _inquiries = _inquiries.filter(x => x.id !== id);
+      const pending = _inquiries.filter(i => i.status === 'PENDING').length;
+      document.getElementById('inquiriesBadge').textContent = pending > 0 ? pending : '';
+      if (!_inquiries.length) {
+        document.getElementById('inquiriesTable').innerHTML =
+          `<div style="text-align:center;padding:40px;color:#8899aa;">Nema upita.</div>`;
+      } else {
+        renderInquiries();
+      }
+      return; // toast se prikazuje u promptMakePrivate, ovde ne treba
+    }
+
+    const i = _inquiries.find(x => x.id === id);
+    if (i) i.status = status;
+    const pending = _inquiries.filter(i => i.status === 'PENDING').length;
+    document.getElementById('inquiriesBadge').textContent = pending > 0 ? pending : '';
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Status ažuriran',
+      showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+  } catch {
+    Swal.fire({ icon:'error', title:'Greška', text:'Status nije promenjen.', background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function updateInquiryPrice(id, inputEl) {
+  const raw = inputEl.value.trim();
+  const value = raw === '' ? null : parseFloat(raw);
+  if (value !== null && (isNaN(value) || value < 0)) {
+    inputEl.style.borderColor = '#ef4444';
+    return;
+  }
+  inputEl.style.borderColor = '';
+  try {
+    const url = value !== null
+      ? `${API}/api/admin/inquiries/${id}/price?value=${value}`
+      : `${API}/api/admin/inquiries/${id}/price`;
+    const resp = await fetch(url, { method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!resp.ok) throw new Error();
+    const updated = await resp.json();
+    const i = _inquiries.find(x => x.id === id);
+    if (i) i.price = updated.price;
+    // Osveži /os prikaz ispod inputa
+    const priceCell = inputEl.closest('td');
+    const ppEl = priceCell?.querySelector('span:last-child');
+    if (ppEl) {
+      ppEl.innerHTML = updated.price != null
+        ? `≈ <strong style="color:#CA8A71">${Math.round(updated.price / updated.travelers)}€</strong>/os.`
+        : '<span style="color:#475569">unesi cenu</span>';
+    }
+    inputEl.style.borderColor = 'rgba(34,197,94,.5)';
+    setTimeout(() => { inputEl.style.borderColor = ''; }, 1200);
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Cena sačuvana',
+      showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+  } catch {
+    inputEl.style.borderColor = '#ef4444';
+    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri čuvanju cene',
+      showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  }
+}
+
+function fallbackCopy(inp, btn) {
+  inp.select(); inp.setSelectionRange(0, 99999);
+  try { document.execCommand('copy'); } catch {}
+  btn.innerHTML = '✅ Kopirano!';
+  btn.style.background = 'rgba(34,197,94,.15)';
+  btn.style.borderColor = 'rgba(34,197,94,.35)';
+  btn.style.color = '#86efac';
+}
+
+async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, inquiryPrice) {
+  const suggestedPrice = (inquiryPrice != null && travelers > 0)
+    ? Math.round(inquiryPrice / travelers) : '';
+
+  const { value: formValues } = await Swal.fire({
+    title: '🔒 Kreiraj privatni termin',
+    html: `
+      <p style="margin-bottom:10px;font-size:13px;color:#aaa;">
+        Upit #${inquiryId} · <strong style="color:#fff;">${airport}</strong> · ${travelers} os.
+      </p>
+      <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.25);
+                  border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#e09070;text-align:left;">
+        📅 Privatni termin: <strong>${desiredPeriod}</strong>
+      </div>
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Broj putnika (slobodnih mesta):</label>
+      <input id="swal-travelers" type="number" value="${travelers}" min="1" max="50"
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">
+        Cena po osobi (€) <span style="color:#ef4444;">*</span>
+      </label>
+      <input id="swal-price" type="number" min="1" value="${suggestedPrice}" placeholder="npr. 299"
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Link važi (sati):</label>
+      <input id="swal-expiry" type="number" value="72" min="1" max="720"
+        style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+    `,
+    showCancelButton: true,
+    confirmButtonText: '🔒 Generiši privatni link',
+    confirmButtonColor: '#1a4a5a',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    preConfirm: () => {
+      const priceVal = document.getElementById('swal-price').value.trim();
+      if (!priceVal || parseInt(priceVal) < 1) {
+        Swal.showValidationMessage('Cena po osobi je obavezna.');
+        return false;
+      }
+      return {
+        travelers:      parseInt(document.getElementById('swal-travelers').value),
+        expiresInHours: parseInt(document.getElementById('swal-expiry').value),
+        pricePerPerson: parseInt(priceVal)
+      };
+    }
+  });
+
+  if (!formValues) return;
+
+  try {
+    // Jedan atomični poziv — termin je privatan od prvog trenutka, nema race conditiona
+    const res = await fetch(`${API}/api/admin/inquiries/${inquiryId}/create-private-date`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pricePerPerson: formValues.pricePerPerson,
+        travelers:      formValues.travelers,
+        expiresInHours: formValues.expiresInHours
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return Swal.fire({ icon:'error', title:'Greška',
+        text: err.message || err.error || 'Kreiranje nije uspelo.',
+        background:'#0b1929', color:'#fff' });
+    }
+
+    const dateResp    = await res.json();
+    const privateLink = `${window.location.origin}/?privateDate=${dateResp.privateToken}`;
+
+    await updateInquiryStatus(inquiryId, 'PRIVATE_SENT');
+
+    await Swal.fire({
+      title: '✅ Privatni termin kreiran!',
+      html: `
+        <p style="margin-bottom:10px;font-size:13px;color:#aaa;">Pošalji korisniku ovaj link:</p>
+        <input id="privateLinkInput" readonly value="${privateLink}"
+          style="width:100%;padding:9px 12px;border-radius:8px;background:#0d2035;border:1px solid #1e3a55;
+                 color:#7dd3fc;font-size:12px;font-family:monospace;">
+        <button id="swalCopyBtn" style="
+          margin-top:10px;width:100%;padding:10px;border-radius:8px;
+          background:rgba(202,138,113,.15);border:1px solid rgba(202,138,113,.35);
+          color:#e09070;cursor:pointer;font-size:13px;font-weight:700;transition:background .2s;">
+          📋 Kopiraj link
+        </button>
+        <p style="margin-top:10px;font-size:11px;color:#64748b;">
+          ⏱ Link ističe za <strong style="color:#94a3b8">${formValues.expiresInHours}h</strong>
+          &nbsp;·&nbsp; 📅 ${desiredPeriod}
+        </p>
+      `,
+      confirmButtonText: 'Zatvori',
+      confirmButtonColor: 'var(--accent)',
+      background: '#0b1929', color: '#fff',
+      didOpen: () => {
+        const btn = document.getElementById('swalCopyBtn');
+        const inp = document.getElementById('privateLinkInput');
+        btn.addEventListener('click', () => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(inp.value)
+              .then(() => { btn.innerHTML = '✅ Kopirano!'; btn.style.background='rgba(34,197,94,.15)'; btn.style.borderColor='rgba(34,197,94,.35)'; btn.style.color='#86efac'; })
+              .catch(() => fallbackCopy(inp, btn));
+          } else { fallbackCopy(inp, btn); }
+        });
+      }
+    });
+
+    loadDates();
+
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text:'Mrežna greška. Pokušaj ponovo.', background:'#0b1929', color:'#fff' });
+  }
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 

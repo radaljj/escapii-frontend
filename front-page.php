@@ -479,6 +479,8 @@
                  letter-spacing: 1px; margin-top: 8px; }
 
     /* ══════════════════════ BOOKING */
+    /* Private link mode — hide Back button only on step 4 (can't go back to steps 1-3) */
+    .private-mode #step4 .btn-back { display: none !important; }
     .esc-booking { background: var(--navy2); padding: 100px 24px; overflow-anchor: none; }
     .step-wrap { overflow-anchor: none; }
     .booking-inner { max-width: 700px; margin: 0 auto; }
@@ -589,15 +591,15 @@
       display: flex; gap: 10px; width: 100%; max-width: 340px; margin-top: 6px;
     }
     .waitlist-input {
-      flex: 1; background: transparent;
-      border: none; border-bottom: 1.5px solid rgba(255,255,255,.22);
-      border-radius: 0; padding: 12px 4px;
+      flex: 1; background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px; padding: 10px 14px;
       font-size: 14px; color: var(--white); font-family: inherit;
       outline: none; transition: border-color .25s;
       min-width: 0;
     }
     .waitlist-input::placeholder { color: rgba(255,255,255,.3); }
-    .waitlist-input:focus { border-bottom-color: var(--accent); }
+    .waitlist-input:focus { border-color: var(--accent); }
     .waitlist-btn {
       background: var(--accent); color: #fff; border: none;
       border-radius: 12px; padding: 12px 20px;
@@ -609,88 +611,342 @@
     .waitlist-btn:hover { background: #B57560; transform: translateY(-1px); }
     .waitlist-btn:active { transform: translateY(0); }
     .waitlist-msg { font-size: 13px; line-height: 1.6; padding: 0 8px; }
-    .date-row {
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.08);
-      border-radius: 16px; padding: 14px 18px; cursor: pointer; transition: all .25s ease; gap: 12px;
+    /* ── Term card (date row) ─────────────────────── */
+    .term {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      background: rgba(0,0,0,.04);
+      border: 1.5px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: border-color .25s, background .25s, transform .2s, box-shadow .25s;
+      position: relative;
+      margin-bottom: 8px;
     }
-    .date-row:hover { border-color: rgba(202,138,113,.4); background: rgba(202,138,113,.05); transform: translateX(3px); }
-    .date-row.on { border-color: var(--accent); background: rgba(202,138,113,.08); box-shadow: 0 0 0 3px rgba(202,138,113,.12); }
-    /* Date row inner elements */
-    .dr-segment { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-    .dr-date-block { text-align: center; min-width: 38px; flex-shrink: 0; }
-    .dr-dayname { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 1px; }
-    .dr-daynum { font-size: 20px; font-weight: 900; color: white; line-height: 1; }
-    .dr-month { font-size: 11px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .3px; margin-top: 1px; }
-    .dr-divider { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 4px; flex-shrink: 0; }
-    .dr-plane { font-size: 13px; color: var(--gray2); }
-    .dr-line { width: 28px; height: 1px; background: rgba(255,255,255,.12); }
-    .dr-meta { margin-left: 4px; }
-    .dr-nights { font-size: 12px; color: var(--gray); font-weight: 600; }
-    .dr-price-block { text-align: right; flex-shrink: 0; }
-    .dr-price { font-size: 22px; font-weight: 900; color: var(--accent); line-height: 1; }
-    .dr-per { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    .term:last-child { margin-bottom: 0; }
+    .term:hover {
+      border-color: rgba(202,138,113,.45);
+      background: rgba(202,138,113,.05);
+      transform: translateY(-2px);
+    }
+    .term.on {
+      border-color: var(--accent);
+      background: rgba(202,138,113,.07);
+      box-shadow: 0 0 0 1px var(--accent), 0 12px 28px -12px rgba(202,138,113,.45);
+    }
+    .term.on::after {
+      content: '✓';
+      position: absolute;
+      top: -8px; right: -8px;
+      width: 20px; height: 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 20px;
+      text-align: center;
+    }
+    .term.disabled {
+      opacity: .45; cursor: not-allowed;
+      border-color: rgba(0,0,0,.05) !important;
+      background: transparent !important;
+      transform: none !important;
+    }
+    .term-dates { display: flex; align-items: center; gap: 10px; }
+    .t-date-block { text-align: center; min-width: 36px; }
+    .t-dow {
+      font-size: 9px; letter-spacing: .22em; color: var(--gray);
+      font-weight: 700; text-transform: uppercase; margin-bottom: 2px;
+    }
+    .t-num {
+      font-size: 28px; font-weight: 900; color: var(--white);
+      line-height: 1; letter-spacing: -.02em;
+    }
+    .t-mon {
+      font-size: 10px; letter-spacing: .2em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin-top: 3px;
+    }
+    .t-plane-sep {
+      width: 28px; height: 28px; border-radius: 100px;
+      background: rgba(202,138,113,.1);
+      border: 1px solid rgba(202,138,113,.22);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 13px; flex-shrink: 0;
+    }
+    .term-mid { display: flex; flex-direction: column; gap: 6px; }
+    .t-nights-pill {
+      font-size: 11px; color: var(--gray);
+      background: rgba(0,0,0,.05);
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 3px 10px; border-radius: 100px; font-weight: 600;
+      display: inline-block; width: fit-content;
+    }
+    .term-price { text-align: right; flex-shrink: 0; }
+    .t-price-v {
+      font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1;
+    }
+    .t-price-unit { font-size: 11px; color: var(--gray); margin-top: 3px; letter-spacing: .06em; }
+    /* Stock badges */
     .low-stock-badge {
       display: inline-flex; align-items: center; gap: 4px;
-      margin-left: 10px; vertical-align: middle;
-      background: rgba(239,68,68,.12);
-      border: 1px solid rgba(239,68,68,.35);
-      color: #fca5a5; font-size: 11px; font-weight: 700;
-      padding: 3px 9px; border-radius: 100px;
+      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
+      color: #dc2626; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 100px;
       letter-spacing: .3px; text-transform: uppercase;
-      box-shadow: 0 0 12px rgba(239,68,68,.2);
       animation: pulse-badge 2s ease-in-out infinite;
     }
     .low-stock-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: #ef4444;
-      animation: blink-dot 1s ease-in-out infinite;
-      flex-shrink: 0;
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: #ef4444; animation: blink-dot 1s ease-in-out infinite; flex-shrink: 0;
     }
-    @keyframes pulse-badge {
-      0%, 100% { box-shadow: 0 0 8px rgba(239,68,68,.2); }
-      50%       { box-shadow: 0 0 18px rgba(239,68,68,.45); }
-    }
-    @keyframes blink-dot {
-      0%, 100% { opacity: 1; } 50% { opacity: .3; }
-    }
-    /* Disabled datum */
-    .date-row.disabled {
-      opacity: .5; cursor: not-allowed;
-      border-color: rgba(255,255,255,.05) !important;
-      background: transparent !important;
-    }
-    .date-row.disabled .date-price { color: var(--gray); }
-    /* Month accordion */
-    .month-group { margin-bottom: 10px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }
-    .month-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 20px; cursor: pointer; user-select: none;
-      background: rgba(255,255,255,.04); transition: all .2s;
-    }
-    .month-header:hover { background: rgba(255,255,255,.065); }
-    .month-header.open { background: rgba(202,138,113,.09); border-bottom: 1px solid rgba(202,138,113,.18); }
-    .month-name { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: .2px; }
-    .month-meta { font-size: 12px; color: var(--gray); margin-top: 3px; }
-    .month-chevron { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.07);
-                     display: flex; align-items: center; justify-content: center;
-                     font-size: 14px; color: var(--gray); transition: all .25s;
-                     flex-shrink: 0; align-self: center; }
-    .month-header.open .month-chevron { transform: rotate(180deg); background: rgba(202,138,113,.2); color: var(--accent); }
-    .month-body { display: none; padding: 10px; background: rgba(0,0,0,.18); }
-    .month-body.open { display: block; animation: slideDown .2s ease; }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-    .date-row { margin-bottom: 4px; }
-    .date-row:last-child { margin-bottom: 0; }
     .sold-out-badge {
       display: inline-flex; align-items: center; gap: 4px;
-      margin-left: 10px; vertical-align: middle;
-      background: rgba(100,116,139,.15);
-      border: 1px solid rgba(100,116,139,.3);
-      color: #7A9FA8; font-size: 11px; font-weight: 700;
-      padding: 3px 9px; border-radius: 100px;
+      background: rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.1);
+      color: var(--gray); font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 100px;
       letter-spacing: .3px; text-transform: uppercase;
     }
+    @keyframes pulse-badge { 0%,100%{box-shadow:0 0 6px rgba(239,68,68,.15);} 50%{box-shadow:0 0 14px rgba(239,68,68,.4);} }
+    @keyframes blink-dot { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+    /* ── Month accordion ──────────────────────────── */
+    .month-card {
+      margin-bottom: 12px; border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      transition: border-color .3s;
+    }
+    .month-card.open { border-color: rgba(202,138,113,.3); }
+    .month-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; cursor: pointer; user-select: none;
+      background: rgba(0,0,0,.03); transition: background .2s;
+    }
+    .month-head:hover { background: rgba(0,0,0,.055); }
+    .month-card.open .month-head { background: rgba(202,138,113,.07); border-bottom: 1px solid rgba(202,138,113,.15); }
+    .month-head-left h3 { font-size: 17px; font-weight: 800; color: var(--white); line-height: 1.1; }
+    .month-head-left .month-meta { font-size: 12px; color: var(--gray); margin-top: 3px; }
+    .chev {
+      width: 32px; height: 32px; border-radius: 100px;
+      background: rgba(0,0,0,.06); border: 1px solid rgba(0,0,0,.08);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray); flex-shrink: 0;
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), background .3s, color .3s;
+    }
+    .chev svg { width: 14px; height: 14px; }
+    .month-card.open .chev { transform: rotate(180deg); background: rgba(202,138,113,.15); color: var(--accent); }
+    .month-body { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1); }
+    .month-card.open .month-body { max-height: 800px; }
+    .month-body-inner { padding: 12px 14px 14px; display: flex; flex-direction: column; }
+    /* ── Custom CTA ───────────────────────────────── */
+    .custom-cta {
+      width: 100%; margin-top: 12px; padding: 16px 18px;
+      background: linear-gradient(135deg, rgba(202,138,113,.07), rgba(202,138,113,.02));
+      border: 1.5px dashed rgba(202,138,113,.38);
+      border-radius: 16px; color: var(--white); font-family: inherit;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      transition: background .3s, border-color .3s, transform .25s;
+      position: relative; overflow: hidden; text-align: left;
+    }
+    .custom-cta::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(202,138,113,.2) 50%, transparent 70%);
+      transform: translateX(-100%); transition: transform .7s;
+    }
+    .custom-cta:hover {
+      background: linear-gradient(135deg, rgba(202,138,113,.13), rgba(202,138,113,.05));
+      border-color: var(--accent); transform: translateY(-2px);
+    }
+    .custom-cta:hover::after { transform: translateX(100%); }
+    .custom-cta .cta-ic {
+      width: 34px; height: 34px; background: rgba(202,138,113,.15);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      color: var(--accent); flex-shrink: 0;
+    }
+    .custom-cta .cta-tx { flex: 1; }
+    .custom-cta .cta-tx strong { display: block; font-size: 14px; color: var(--white); margin-bottom: 2px; }
+    .custom-cta .cta-tx small { color: var(--gray); font-weight: 400; font-size: 12px; }
+    .custom-cta .cta-arr {
+      width: 26px; height: 26px; background: var(--accent); color: #fff;
+      border-radius: 100px; display: flex; align-items: center; justify-content: center;
+      transition: transform .3s; flex-shrink: 0;
+    }
+    .cta-arr svg { width: 13px; height: 13px; }
+    .custom-cta:hover .cta-arr { transform: translateX(4px); }
+    /* ── Inquiry view (custom calendar) ──────────── */
+    .inq-panel {
+      background: linear-gradient(180deg,#102530 0%,#0d1f29 100%);
+      border-radius: 18px; padding: 24px; color: #f6f1e6;
+      margin-top: 0;
+    }
+    .inq-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: none; color: rgba(246,241,230,.5);
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      margin-bottom: 18px; font-family: inherit; padding: 0;
+      transition: color .2s;
+    }
+    .inq-back:hover { color: rgba(246,241,230,.9); }
+    .inq-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(202,138,113,.12); border: 1px solid rgba(202,138,113,.28);
+      color: #f0b094; padding: 5px 12px; border-radius: 100px;
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 14px;
+    }
+    .inq-badge .dot { width: 5px; height: 5px; border-radius: 100px; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+    .inq-h { font-size: 22px; font-weight: 800; color: #f6f1e6; margin-bottom: 5px; }
+    .inq-sub { font-size: 13px; color: rgba(246,241,230,.55); margin-bottom: 22px; line-height: 1.5; }
+    .inq-label {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(246,241,230,.35); font-weight: 700; margin-bottom: 10px; display: block;
+    }
+    .inq-label .opt { font-size: 9px; letter-spacing: .18em; margin-left: 6px; font-weight: 500; }
+    .inq-field { margin-bottom: 20px; }
+    /* Calendar */
+    .inq-cal {
+      background: rgba(246,241,230,.025); border: 1px solid rgba(246,241,230,.08);
+      border-radius: 14px; padding: 16px;
+    }
+    .inq-cal-head {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+    }
+    .inq-cal-month { font-size: 18px; font-weight: 800; color: #f6f1e6; }
+    .inq-cal-nav { display: flex; gap: 5px; }
+    .inq-cal-nav button {
+      width: 30px; height: 30px; border-radius: 100px;
+      background: rgba(246,241,230,.05); border: 1px solid rgba(246,241,230,.08);
+      color: rgba(246,241,230,.6); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .inq-cal-nav button:hover { background: rgba(202,138,113,.15); color: #f0b094; border-color: rgba(202,138,113,.35); }
+    .inq-cal-nav button svg { width: 13px; height: 13px; }
+    .inq-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+    .inq-cal-dow {
+      text-align: center; font-size: 9px; letter-spacing: .18em;
+      color: rgba(246,241,230,.3); font-weight: 700; text-transform: uppercase;
+      padding: 5px 0 7px;
+    }
+    .inq-cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      background: transparent; border: 1px solid transparent; border-radius: 9px;
+      color: #f6f1e6; font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: background .18s, border-color .18s, transform .18s;
+      font-family: inherit;
+    }
+    .inq-cal-day:hover:not(:disabled):not(.muted) {
+      background: rgba(202,138,113,.12); border-color: rgba(202,138,113,.35); transform: scale(1.06);
+    }
+    .inq-cal-day.muted { color: rgba(246,241,230,.25); cursor: default; }
+    .inq-cal-day.today { box-shadow: inset 0 0 0 1px rgba(246,241,230,.2); }
+    .inq-cal-day.selected {
+      background: var(--accent); color: #fff; font-weight: 700;
+      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
+    }
+    .inq-cal-day:disabled { opacity: .2; cursor: not-allowed; }
+    /* Range selection in calendar */
+    .inq-cal-day.dep {
+      background: var(--accent); color: #fff; font-weight: 700;
+      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
+      border-radius: 9px 0 0 9px;
+    }
+    .inq-cal-day.ret {
+      background: var(--accent); color: #fff; font-weight: 700;
+      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
+      border-radius: 0 9px 9px 0;
+    }
+    .inq-cal-day.dep.ret { border-radius: 9px; }
+    .inq-cal-day.in-range {
+      background: rgba(202,138,113,.18); border-radius: 0;
+      border-color: transparent;
+    }
+    .inq-cal-day.in-range-preview {
+      background: rgba(202,138,113,.08); border-radius: 0;
+      border-color: transparent;
+    }
+    .inq-cal-day.dep-hover {
+      background: rgba(202,138,113,.2); border-radius: 9px 0 0 9px;
+    }
+    /* Range status indicator */
+    .inq-range-status {
+      margin-top: 10px; padding: 9px 13px; border-radius: 10px;
+      font-size: 12px; line-height: 1.5; text-align: center;
+      transition: all .2s;
+    }
+    .inq-range-status.hint {
+      background: rgba(246,241,230,.04); color: rgba(246,241,230,.4);
+      border: 1px dashed rgba(246,241,230,.1);
+    }
+    .inq-range-status.dep-set {
+      background: rgba(202,138,113,.1); color: #f0b094;
+      border: 1px solid rgba(202,138,113,.25);
+    }
+    .inq-range-status.valid {
+      background: rgba(74,222,128,.08); color: #86efac;
+      border: 1px solid rgba(74,222,128,.2);
+    }
+    .inq-range-status.invalid {
+      background: rgba(239,68,68,.08); color: #fca5a5;
+      border: 1px solid rgba(239,68,68,.2);
+      animation: fadeInDown .25s ease;
+    }
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);} }
+    /* Inquiry text inputs */
+    .inq-control {
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.08);
+      border-radius: 12px; padding: 12px 14px; color: #f6f1e6;
+      font-family: inherit; font-size: 14px; font-weight: 500; width: 100%;
+      transition: background .2s, border-color .2s, box-shadow .2s;
+    }
+    .inq-control::placeholder { color: rgba(246,241,230,.28); font-weight: 400; }
+    .inq-control:focus {
+      outline: none; background: rgba(246,241,230,.08);
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(202,138,113,.12);
+    }
+    textarea.inq-control { resize: vertical; min-height: 80px; font-family: inherit; }
+    .inq-field-ic { position: relative; }
+    .inq-field-ic .ic {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; color: rgba(246,241,230,.3); pointer-events: none;
+    }
+    .inq-field-ic .inq-control { padding-left: 40px; }
+    /* Summary card */
+    .inq-summary {
+      background: linear-gradient(135deg,rgba(202,138,113,.08),rgba(202,138,113,.02));
+      border: 1px solid rgba(202,138,113,.22); border-radius: 12px;
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px; font-size: 13px; color: rgba(246,241,230,.6);
+    }
+    .inq-summary .sum-ic {
+      width: 32px; height: 32px; background: rgba(202,138,113,.15); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0;
+    }
+    .inq-summary strong { color: #f6f1e6; }
+    /* Submit button */
+    .inq-submit {
+      width: 100%; padding: 16px; background: var(--accent); color: #fff;
+      border: none; border-radius: 13px; font-family: inherit;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      box-shadow: 0 14px 40px -10px rgba(202,138,113,.55);
+      transition: transform .3s, box-shadow .3s, opacity .2s;
+      position: relative; overflow: hidden;
+    }
+    .inq-submit::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+      transform: translateX(-100%); transition: transform .7s;
+    }
+    .inq-submit:hover { transform: translateY(-2px); box-shadow: 0 20px 50px -10px rgba(202,138,113,.7); }
+    .inq-submit:hover::before { transform: translateX(100%); }
+    .inq-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .inq-submit svg { width: 15px; height: 15px; }
     /* Tippy custom theme */
     .tippy-box[data-theme~='escapii'] {
       background: #2D5F6B;
@@ -791,6 +1047,59 @@
     }
     .airport-card.on .airport-check { display: flex; }
     @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* ── Coming soon airports tooltip ── */
+    .ap-soon-wrap {
+      position: relative; display: flex; justify-content: center;
+      margin: 14px 0 4px;
+    }
+    .ap-soon-trigger {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--gray); cursor: default;
+      padding: 5px 12px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      transition: color .2s, border-color .2s, background .2s;
+      user-select: none;
+    }
+    .ap-soon-wrap:hover .ap-soon-trigger {
+      color: var(--accent); border-color: rgba(202,138,113,.3);
+      background: rgba(202,138,113,.06);
+    }
+    .ap-soon-tooltip {
+      position: absolute; bottom: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: #0e2530; border: 1px solid rgba(202,138,113,.25);
+      border-radius: 12px; padding: 14px 18px; min-width: 230px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 50;
+    }
+    .ap-soon-tooltip::after {
+      content: ''; position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: rgba(202,138,113,.25);
+    }
+    .ap-soon-wrap:hover .ap-soon-tooltip {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
+    .ap-soon-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    .ap-soon-list {
+      display: flex; flex-direction: column; gap: 7px; margin-bottom: 10px;
+    }
+    .ap-soon-list span {
+      font-size: 13px; color: rgba(255,255,255,.85); font-weight: 500;
+    }
+    .ap-soon-list em { color: var(--gray); font-style: normal; font-weight: 400; }
+    .ap-soon-note {
+      font-size: 11px; color: var(--gray); line-height: 1.5;
+      padding-top: 8px; border-top: 1px solid rgba(255,255,255,.07);
+    }
 
     /* Modern Extra Toggle Cards */
     .extras-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
@@ -1619,6 +1928,23 @@
     /* Date rows — dr-daynum was 'white' which is fine on dark */
     .month-body { background: rgba(0,0,0,.2); }
 
+    /* ── Term cards & month accordion inside dark card ── */
+    .card .month-card { border-color: rgba(255,255,255,.1); }
+    .card .month-head { background: rgba(255,255,255,.04); }
+    .card .month-head:hover { background: rgba(255,255,255,.07); }
+    .card .month-card.open .month-head { background: rgba(202,138,113,.1); border-bottom-color: rgba(202,138,113,.2); }
+    .card .month-head-left h3 { color: #ffffff; }
+    .card .month-head-left .month-meta { color: rgba(255,255,255,.45); }
+    .card .chev { color: rgba(255,255,255,.5); }
+    .card .month-card.open .chev { color: var(--accent); }
+    .card .term { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.12); }
+    .card .term:hover { background: rgba(202,138,113,.08); border-color: rgba(202,138,113,.45); }
+    .card .term.on { background: rgba(202,138,113,.1); }
+    .card .t-num { color: #ffffff; }
+    .card .t-dow { color: rgba(255,255,255,.45); }
+    .card .t-nights-pill { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.1); color: rgba(255,255,255,.5); }
+    .card .t-price-unit { color: rgba(255,255,255,.45); }
+
     /* Step nav labels */
     .sn-label { color: rgba(255,255,255,.4); }
 
@@ -1815,7 +2141,24 @@
             <div class="airport-check">✓</div>
           </div>
         </div>
-        <div class="step-btns" style="margin-top:24px;">
+
+        <!-- Coming soon airports hint -->
+        <div class="ap-soon-wrap">
+          <span class="ap-soon-trigger">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:-1px;opacity:.7;"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="4.5" x2="8" y2="8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r=".8" fill="currentColor"/></svg>
+            <span data-i18n="s1.soon">Uskoro i polasci iz susednih zemalja</span>
+          </span>
+          <div class="ap-soon-tooltip" role="tooltip">
+            <div class="ap-soon-title" data-i18n="s1.soon.title">Planirana polazišta</div>
+            <div class="ap-soon-list">
+              <span>✈ Zagreb (ZAG) <em data-i18n="s1.soon.hr">· Hrvatska</em></span>
+              <span>✈ Budimpešta (BUD) <em data-i18n="s1.soon.hu">· Mađarska</em></span>
+              <span>✈ Temišvar (TSR) <em data-i18n="s1.soon.ro">· Rumunija</em></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-btns" style="margin-top:16px;">
           <button class="btn-next" id="btnN1" disabled onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
         </div>
       </div>
@@ -1847,11 +2190,97 @@
     <!-- Step 3: Date -->
     <div class="step-wrap" id="step3">
       <div class="card">
-        <h2 data-i18n="s3.h">Izaberi datum putovanja</h2>
-        <div class="dates-list" id="datesList"><div style="color:var(--gray);text-align:center;padding:30px;" data-i18n="loading">Učitavanje...</div></div>
-        <div class="step-btns">
-          <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
-          <button class="btn-next" id="btnN3" disabled onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
+        <!-- VIEW A: date list -->
+        <div id="s3DateView">
+          <h2 data-i18n="s3.h">Izaberi datum putovanja</h2>
+          <div class="dates-list" id="datesList"><div style="color:var(--gray);text-align:center;padding:30px;" data-i18n="loading">Učitavanje...</div></div>
+
+          <!-- CTA za custom termin -->
+          <button class="custom-cta" onclick="showInquiryView()" type="button">
+            <div class="cta-ic">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="cta-tx">
+              <strong data-i18n="s3.noDates.title">Ne vidim datum koji mi odgovara</strong>
+              <small data-i18n="s3.noDates.sub">Pošalji upit za prilagođeni termin</small>
+            </div>
+            <span class="cta-arr">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+
+          <div class="step-btns">
+            <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
+            <button class="btn-next" id="btnN3" disabled onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
+          </div>
+        </div>
+
+        <!-- VIEW B: custom date inquiry -->
+        <div id="s3InquiryView" style="display:none;">
+          <div class="inq-panel">
+            <button class="inq-back" onclick="hideInquiryView()" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+              <span data-i18n="inq.back">Nazad na termine</span>
+            </button>
+
+            <div class="inq-badge"><span class="dot"></span><span data-i18n="inq.badge">Prilagođeni termin</span></div>
+            <h3 class="inq-h" data-i18n="inq.title">Izaberi <em style="font-style:italic;color:#f0b094;">svoj</em> datum putovanja</h3>
+            <p class="inq-sub" data-i18n="inq.sub">Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira privatni termin za tebe.</p>
+
+            <!-- Calendar -->
+            <div class="inq-field">
+              <label class="inq-label" data-i18n="inq.date">Datum polaska</label>
+              <div class="inq-cal">
+                <div class="inq-cal-head">
+                  <div class="inq-cal-month" id="inqCalMonth">—</div>
+                  <div class="inq-cal-nav">
+                    <button id="inqPrevM" type="button" aria-label="Prethodni mesec">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button id="inqNextM" type="button" aria-label="Sledeći mesec">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="inq-cal-grid" id="inqCalGrid"></div>
+              </div>
+              <!-- Range status -->
+              <div class="inq-range-status hint" id="inqRangeStatus" data-i18n="inq.range.hint">
+                Odaberi datum polaska, pa datum povratka (2 ili 3 noći)
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="inq-field">
+              <label class="inq-label">Email <span class="opt" data-i18n="inq.email.label">ZA SLANJE LINKA</span></label>
+              <div class="inq-field-ic">
+                <span class="ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <input type="email" id="inqEmail" class="inq-control" data-i18n-ph="inq.email.ph" placeholder="ime@gmail.com">
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="inq-field">
+              <label class="inq-label"><span data-i18n="inq.notes">Napomena</span> <span class="opt" data-i18n="inq.notes.opt">OPCIONO</span></label>
+              <textarea id="inqNotes" class="inq-control" rows="2" data-i18n-ph="inq.notes.ph" placeholder="Npr. preferišem vikend…"></textarea>
+            </div>
+
+            <!-- Summary -->
+            <div class="inq-summary">
+              <div class="sum-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div data-i18n-html="inq.summary">Naš tim odgovara <strong>u roku od 24h</strong>. Ako termin bude dostupan, dobićeš link za rezervaciju.</div>
+            </div>
+
+            <!-- Submit -->
+            <button class="inq-submit" id="inqSubmitBtn" onclick="submitInquiry()" type="button">
+              <span data-i18n="inq.submit">Pošalji upit</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2440,6 +2869,29 @@ const TR = {
     's2.h':'Izaberi broj putnika (Escapera)', 's2.hint':'Svaki putnik unosi ime i pasoš',
     's2.label':'Broj Escapera', 's2.sub':'1 do 6 osoba',
     's3.h':'Izaberi datum putovanja', 's3.hint':'',
+    's3.noDates.title':'Ne vidim datum koji mi odgovara',
+    's3.noDates.sub':'Pošalji upit za prilagođeni termin',
+    'inq.back':'Nazad na termine',
+    'inq.badge':'Prilagođeni termin',
+    'inq.title':'Izaberi svoj datum putovanja',
+    'inq.sub':'Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira privatni termin za tebe.',
+    'inq.date':'Datum polaska',
+    'inq.nights':'Broj noćenja',
+    'inq.nights.alert':'Trenutno nudimo termine samo za <strong>2 ili 3 noćenja</strong>. Odaberi jednu od ovih opcija.',
+    'inq.email.label':'ZA SLANJE LINKA',
+    'inq.email.ph':'ime@gmail.com',
+    'inq.notes':'Napomena',
+    'inq.notes.opt':'OPCIONO',
+    'inq.notes.ph':'Npr. preferišem vikend…',
+    'inq.summary':'Naš tim odgovara <strong>u roku od 24h</strong>. Ako termin bude dostupan, dobićeš link za rezervaciju.',
+    'inq.submit':'Pošalji upit',
+    'inq.ok.t':'Upit primljen!',
+    'inq.ok.m':'Naš tim će proveriti dostupnost i javiti ti se na email.',
+    'inq.err.date':'Izaberi datum polaska.',
+    'inq.err.nights':'Izaberi broj noćenja (2 ili 3 noći).',
+    'inq.err.email':'Unesi validnu email adresu.',
+    'inq.err.ret':'Odaberi datum povratka.',
+    'inq.range.hint':'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)',
     's4.h':'Izaberi kategoriju smeštaja', 's4.hint':'Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.',
     'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'3★ hotel ili apartman, dobra lokacija',
     'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★ hotel, viši komfor',
@@ -2489,7 +2941,10 @@ const TR = {
     'pax.gender':'Pol', 'pax.dob':'Datum rođenja',
     'pax.visa':'Aktivne vize (opciono)', 'pax.visa.ph':'npr. Engleska, Irska, Maroko...',
     's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Constantine the Great',
+    's1.soon':'Uskoro i polasci iz susednih zemalja', 's1.soon.title':'Planirana polazišta',
+    's1.soon.hr':'· Hrvatska', 's1.soon.hu':'· Mađarska', 's1.soon.ro':'· Rumunija',
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
+    'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
     'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'📞 Pozovi nas', 'snav.call.hours':'Dostupni pon–pet, 10h–17h', 'snav.book':'Rezerviši',
@@ -2521,7 +2976,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
     'accom.sup.badge':'+100€/os',
-    'ins.price':'+12€/os', 'bfst.price':'+20€/os', 'seats.price':'+12€/os/smer',
+    'ins.price':'+12€/os', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -2571,6 +3026,7 @@ const TR = {
     'dest.sub':'Choose to exclude what you don\'t like — the rest stays a mystery',
     'dest.mystery':'But you don\'t know what you\'ll get',
     'how.tag':'How it works', 'how.heading':'Four steps to your Escapii adventure',
+    'how.sub':'All you need to do is pick a date and a budget.',
     'how.c1.t':'Create your Escapii surprise trip', 'how.c1.p':'Choose your date, number of travelers, budget and optional add-ons. Exclude destinations you don\'t want.',
     'how.c2.t':'We create your adventure', 'how.c2.p':'Our team, together with our partner agency, analyzes your preferences and creates a package tailored just for you — flight, hotel, everything.',
     'how.c3.t':'Hints and excitement', 'how.c3.p':'7 days before departure you get a weather forecast for your destination — without revealing it. Start guessing! 😄 You\'ll find out the destination 72h before departure.',
@@ -2595,6 +3051,29 @@ const TR = {
     's2.h':'Select number of travelers (Escapers)', 's2.hint':'Each traveler enters name and passport',
     's2.label':'Number of Escapers', 's2.sub':'1 to 6 persons',
     's3.h':'Select travel date', 's3.hint':'',
+    's3.noDates.title':"I don't see a date that works for me",
+    's3.noDates.sub':'Send a request for a custom date',
+    'inq.back':'Back to dates',
+    'inq.badge':'Custom Date',
+    'inq.title':'Pick your own travel date',
+    'inq.sub':'Select your preferred departure date and number of nights. Our team checks availability and creates a private slot for you.',
+    'inq.date':'Departure date',
+    'inq.nights':'Number of nights',
+    'inq.nights.alert':'We currently offer trips for <strong>2 or 3 nights</strong> only. Please choose one of these options.',
+    'inq.email.label':'FOR SENDING THE LINK',
+    'inq.email.ph':'name@gmail.com',
+    'inq.notes':'Note',
+    'inq.notes.opt':'OPTIONAL',
+    'inq.notes.ph':'E.g. I prefer weekends…',
+    'inq.summary':'Our team replies <strong>within 24h</strong>. If the date is available, you\'ll get a booking link by email.',
+    'inq.submit':'Send inquiry',
+    'inq.ok.t':'Inquiry received!',
+    'inq.ok.m':'Our team will check availability and get back to you by email.',
+    'inq.err.date':'Please select a departure date.',
+    'inq.err.nights':'Please select 2 or 3 nights.',
+    'inq.err.email':'Please enter a valid email address.',
+    'inq.err.ret':'Please select a return date.',
+    'inq.range.hint':'Select departure date, then return date (2 or 3 nights)',
     's4.h':'Choose accommodation category', 's4.hint':'All our hotels are located near the city center or in well-connected areas.',
     'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
     'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★ hotel, higher comfort',
@@ -2645,7 +3124,10 @@ const TR = {
     'pax.valid.passport':'Traveler has a valid passport (valid for at least 6 months after return)',
     'pax.valid.passport.err':'Traveler must have a valid passport to proceed.',
     's1.beg.name':'Nikola Tesla Airport', 's1.ini.name':'Constantine the Great Airport',
+    's1.soon':'Departures from neighboring countries coming soon', 's1.soon.title':'Planned departures',
+    's1.soon.hr':'· Croatia', 's1.soon.hu':'· Hungary', 's1.soon.ro':'· Romania',
     'footer.social':'Follow us', 'footer.contact':'Contact',
+    'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'📞 Call us', 'snav.call.hours':'Available Mon–Fri, 10am–5pm', 'snav.book':'Book now',
@@ -2677,7 +3159,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
     'accom.sup.badge':'+100€/pp',
-    'ins.price':'+12€/pp', 'bfst.price':'+20€/pp', 'seats.price':'+12€/pp/way',
+    'ins.price':'+12€/pp', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -3266,6 +3748,9 @@ function nextStep() {
 }
 function prevStep() {
   const from = S.step;
+  // Private-mode guard: cannot navigate below step 4
+  const isPrivate = document.getElementById('esc-booking')?.classList.contains('private-mode');
+  if (isPrivate && S.step <= 4) return;
   S.step--; onEnter();
   showStep(S.step, !(from === 7 && S.step === 6));
 }
@@ -3317,53 +3802,58 @@ function chTrav(d) {
 }
 
 function buildDateRow(d) {
-  const ms = ['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec'];
+  const MONTHS_SR = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
+  const MONTHS_EN = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
   const daysSr = ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'];
   const daysEn = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const [,dm,dd] = d.departureDate.split('-');
   const [,rm,rd] = d.returnDate.split('-');
   const depDay = +dd; const retDay = +rd;
-  const depMon = ms[+dm-1]; const retMon = ms[+rm-1];
+  const depMon = (lang==='sr' ? MONTHS_SR : MONTHS_EN)[+dm-1];
+  const retMon = (lang==='sr' ? MONTHS_SR : MONTHS_EN)[+rm-1];
   const depDow = (lang==='sr' ? daysSr : daysEn)[new Date(d.departureDate).getDay()];
   const retDow = (lang==='sr' ? daysSr : daysEn)[new Date(d.returnDate).getDay()];
   const notEnoughSlots = d.availableSlots < S.travelers;
   const isLowStock     = d.availableSlots <= 5 && !notEnoughSlots;
+  const isSelected = S.selectedDateId === d.id;
+
   const stockBadge = notEnoughSlots
     ? `<span class="sold-out-badge">⛔ ${lang==='sr'?`Samo ${d.availableSlots} mesta`:`Only ${d.availableSlots} spots`}</span>`
     : isLowStock
       ? `<span class="low-stock-badge">${lang==='sr'?`Ostalo ${d.availableSlots}`:`${d.availableSlots} left`}</span>`
       : '';
+
+  const cls = notEnoughSlots ? 'term disabled' : `term${isSelected?' on':''}`;
+  const onclick = notEnoughSlots ? '' : `onclick="pickDate(this,${d.id},${JSON.stringify(d).replace(/"/g,'&quot;')})"`;
   const tooltipText = notEnoughSlots
     ? (lang==='sr'
-        ? `Nema dovoljno mesta — izabrali ste ${S.travelers} putnika, a dostupno je samo ${d.availableSlots} mesta.`
-        : `Not enough spots — you selected ${S.travelers} travelers but only ${d.availableSlots} spots are available.`)
+        ? `Nema dovoljno mesta — izabrali ste ${S.travelers} putnika, dostupno ${d.availableSlots}.`
+        : `Not enough spots — you picked ${S.travelers} travelers, only ${d.availableSlots} available.`)
     : '';
-  const isSelected = S.selectedDateId === d.id;
-  const cls = notEnoughSlots ? 'date-row disabled' : `date-row${isSelected?' on':''}`;
-  const onclick = notEnoughSlots ? '' : `onclick="pickDate(this,${d.id},${JSON.stringify(d).replace(/"/g,'&quot;')})"`;
   const tooltip = notEnoughSlots ? `data-tippy-content="${tooltipText}"` : '';
   const nightLabel = lang==='sr' ? `${d.numberOfNights} noći` : `${d.numberOfNights} nights`;
+
   return `<div class="${cls}" ${onclick} ${tooltip}>
-    <div class="dr-segment">
-      <div class="dr-date-block">
-        <div class="dr-dayname">${depDow}</div>
-        <div class="dr-daynum">${depDay}</div>
-        <div class="dr-month">${depMon}</div>
+    <div class="term-dates">
+      <div class="t-date-block">
+        <div class="t-dow">${depDow}</div>
+        <div class="t-num">${depDay}</div>
+        <div class="t-mon">${depMon}</div>
       </div>
-      <div class="dr-divider"><div class="dr-line"></div><div class="dr-plane">✈</div><div class="dr-line"></div></div>
-      <div class="dr-date-block">
-        <div class="dr-dayname">${retDow}</div>
-        <div class="dr-daynum">${retDay}</div>
-        <div class="dr-month">${retMon}</div>
-      </div>
-      <div class="dr-meta">
-        <div class="dr-nights">${nightLabel}</div>
-        ${stockBadge}
+      <div class="t-plane-sep">✈</div>
+      <div class="t-date-block">
+        <div class="t-dow">${retDow}</div>
+        <div class="t-num">${retDay}</div>
+        <div class="t-mon">${retMon}</div>
       </div>
     </div>
-    <div class="dr-price-block">
-      <div class="dr-price">${d.basePrice}€</div>
-      <div class="dr-per">${t('per.p')}</div>
+    <div class="term-mid">
+      <span class="t-nights-pill">${nightLabel}</span>
+      ${stockBadge}
+    </div>
+    <div class="term-price">
+      <div class="t-price-v">${d.basePrice}€</div>
+      <div class="t-price-unit">${t('per.p')}</div>
     </div>
   </div>`;
 }
@@ -3395,16 +3885,20 @@ function renderDatesFromCache() {
     // Otvori prvi mesec ili mesec selektovanog datuma
     const hasSelectedInGroup = g.dates.some(d => d.id === S.selectedDateId);
     const isOpen = hasSelectedInGroup || (!hasSelected && i === 0);
-    return `<div class="month-group">
-      <div class="month-header${isOpen?' open':''}" onclick="toggleMonth(this)">
-        <div>
-          <div class="month-name">${mName} ${g.year}</div>
+    return `<div class="month-card${isOpen?' open':''}">
+      <div class="month-head" onclick="toggleMonth(this)">
+        <div class="month-head-left">
+          <h3>${mName} ${g.year}</h3>
           <div class="month-meta">${available}/${total} ${lang==='sr'?'termina dostupno':'dates available'}</div>
         </div>
-        <div class="month-chevron">⌄</div>
+        <div class="chev">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div class="month-body${isOpen?' open':''}">
-        ${g.dates.map(d => buildDateRow(d)).join('')}
+      <div class="month-body">
+        <div class="month-body-inner">
+          ${g.dates.map(d => buildDateRow(d)).join('')}
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -3436,10 +3930,8 @@ function renderDatesFromCache() {
 }
 
 function toggleMonth(header) {
-  const body = header.nextElementSibling;
-  const isOpen = header.classList.contains('open');
-  header.classList.toggle('open', !isOpen);
-  body.classList.toggle('open', !isOpen);
+  const card = header.parentElement;
+  card.classList.toggle('open');
 }
 
 function updateSingleNotice() {
@@ -3505,7 +3997,7 @@ async function loadDates() {
 }
 
 function pickDate(el,id,d) {
-  document.querySelectorAll('.date-row').forEach(r => r.classList.remove('on'));
+  document.querySelectorAll('.term').forEach(r => r.classList.remove('on'));
   el.classList.add('on');
   S.selectedDateId = id;
   S.selectedDate = d;
@@ -3627,7 +4119,7 @@ function updateExclStep() {
 
 function renderExclGrid() {
   document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
-    <div class="excl-tile" id="ex-${d.id}" onclick="togExcl(${d.id})">
+    <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
       <div class="excl-overlay">
         <div class="excl-name">${destDisplayName(d.name)}</div>
@@ -3893,9 +4385,9 @@ async function loadPrice() {
     if(p.accommodationExtraPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.accom')}</span><span>+${p.accommodationExtraPerPerson}€${pp}</span></div>`;
     if(p.cabinSuitcaseTotal>0) html+=`<div class="pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson}€${pp}</span></div>`;
-    if(p.breakfastPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.bfst')}</span><span>+${p.breakfastPerPerson}€${pp}</span></div>`;
+    if(p.breakfastPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson}€${pp}</span></div>`;
     if(p.seatsTogtherPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogtherPerPerson}€${pp}</span></div>`;
-    if(p.exclusionCostFlat>0) html+=`<div class="pr-row"><span>${t('pr.excl')}</span><span>+${p.exclusionCostFlat}€</span></div>`;
+    if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${pp}</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
     rows.innerHTML = html;
     document.getElementById('priceTotal').textContent = p.totalEurAll+'€';
@@ -3953,11 +4445,13 @@ function updateSummaryCard() {
     if (p.insurancePerPerson > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson * n}€</span></div>`;
     if (p.breakfastPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')}</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
     if (p.seatsTogtherPerPerson > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogtherPerPerson * n}€</span></div>`;
-    if (p.exclusionCostFlat > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${p.exclusionCostFlat}€</span></div>`;
+    if (p.exclusionCostFlat > 0) {
+      const exclPP = Math.round(p.exclusionCostFlat / n);
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${t('per.p')} × ${n} = +${p.exclusionCostFlat}€</span></div>`;
+    }
     if (p.soloSurcharge > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
     totalHtml = `${p.totalEurAll}€`;
@@ -4105,7 +4599,9 @@ async function submitBooking() {
         airport:    (S.airport || '').toUpperCase(),
         date:       S.selectedDate?.departureDate || '',
         returnDate: S.selectedDate?.returnDate || '',
-        ref:        d.bookingRef
+        ref:        d.bookingRef,
+        travelers:  S.travelers || 1,
+        passengers: passengers.map(p => (p.name || '').toUpperCase()).filter(Boolean)
       }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);
     } else if(r.status === 409) {
@@ -4275,6 +4771,333 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 window.addEventListener('load', equalFeatCards);
 window.addEventListener('resize', equalFeatCards);
+
+// ══════════════════════════════════════════════════════════════════
+// CUSTOM DATE INQUIRY — range calendar picker (2 or 3 nights only)
+// ══════════════════════════════════════════════════════════════════
+
+let _inqDep      = null;   // departure Date
+let _inqRet      = null;   // return Date
+let _inqCurMonth = null;   // displayed month (1st of month)
+let _inqHover    = null;   // hovered date (for range preview)
+
+const INQ_MONTHS_SR = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
+const INQ_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const INQ_DOWS_SR   = ['PON','UTO','SRE','ČET','PET','SUB','NED'];
+const INQ_DOWS_EN   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const INQ_DAYS_SR   = ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'];
+const INQ_DAYS_EN   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+function showInquiryView() {
+  document.getElementById('s3DateView').style.display = 'none';
+  document.getElementById('s3InquiryView').style.display = 'block';
+  const now = new Date();
+  _inqCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  _inqDep = null; _inqRet = null; _inqHover = null;
+  renderInqCalendar();
+  updateInqRangeStatus();
+  const emailEl = document.getElementById('contactEmail');
+  if (emailEl && emailEl.value) document.getElementById('inqEmail').value = emailEl.value;
+}
+
+function hideInquiryView() {
+  document.getElementById('s3InquiryView').style.display = 'none';
+  document.getElementById('s3DateView').style.display = 'block';
+}
+
+function inqDateDiff(a, b) {
+  // Returns difference in whole days (b - a)
+  return Math.round((b - a) / 86400000);
+}
+
+function inqFmtDate(date) {
+  const days  = lang === 'sr' ? INQ_DAYS_SR  : INQ_DAYS_EN;
+  const months= lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
+  return `${days[date.getDay()]}, ${date.getDate()}. ${months[date.getMonth()].slice(0,3).toLowerCase()}.`;
+}
+
+function updateInqRangeStatus() {
+  const el = document.getElementById('inqRangeStatus');
+  if (!el) return;
+  el.className = 'inq-range-status';
+  if (!_inqDep && !_inqRet) {
+    el.className += ' hint';
+    el.textContent = lang==='sr'
+      ? 'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)'
+      : 'Select departure, then return date (2 or 3 nights)';
+  } else if (_inqDep && !_inqRet) {
+    el.className += ' dep-set';
+    el.innerHTML = (lang==='sr'
+      ? `✈️ Polazak: <strong>${inqFmtDate(_inqDep)}</strong> — sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${inqFmtDate(_inqDep)}</strong> — now select return date`);
+  } else if (_inqDep && _inqRet) {
+    const nights = inqDateDiff(_inqDep, _inqRet);
+    el.className += ' valid';
+    el.innerHTML = `✓ ${inqFmtDate(_inqDep)} → ${inqFmtDate(_inqRet)} &nbsp;·&nbsp; <strong>${nights} ${lang==='sr'?'noći':'nights'}</strong>`;
+  }
+}
+
+// Lightweight hover update — never re-renders the grid, so clicks are never disrupted
+function updateInqHoverClasses() {
+  const grid = document.getElementById('inqCalGrid');
+  if (!grid) return;
+  const hoverDiff = (_inqDep && _inqHover) ? inqDateDiff(_inqDep, _inqHover) : 0;
+  grid.querySelectorAll('button.inq-cal-day').forEach(btn => {
+    const ts  = Number(btn.dataset.ts);
+    const d   = new Date(ts);
+    btn.classList.remove('in-range-preview', 'dep-hover');
+    if (!_inqDep || _inqRet || !_inqHover) return;
+    if (d > _inqDep && d < _inqHover && (hoverDiff === 2 || hoverDiff === 3))
+      btn.classList.add('in-range-preview');
+    if (d.toDateString() === _inqHover.toDateString() && hoverDiff > 0)
+      btn.classList.add('dep-hover');
+  });
+}
+
+function renderInqCalendar() {
+  const monthNames = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
+  const dows       = lang === 'sr' ? INQ_DOWS_SR   : INQ_DOWS_EN;
+  document.getElementById('inqCalMonth').textContent =
+    `${monthNames[_inqCurMonth.getMonth()]} ${_inqCurMonth.getFullYear()}`;
+
+  const grid = document.getElementById('inqCalGrid');
+  grid.innerHTML = '';
+  dows.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-dow'; el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const today    = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+  const maxDate  = new Date(today); maxDate.setMonth(today.getMonth() + 3);
+
+  const firstDay = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth(), 1);
+  const lastDay  = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth() + 1, 0);
+  let startDow = firstDay.getDay() - 1; if (startDow < 0) startDow = 6;
+  const prevLast = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth(), 0).getDate();
+
+  // Prev month trailing days (muted)
+  for (let i = startDow; i > 0; i--) {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-day muted'; el.textContent = prevLast - i + 1;
+    grid.appendChild(el);
+  }
+
+  // Current month days
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth(), d);
+    const el = document.createElement('button');
+    el.type = 'button'; el.textContent = d;
+
+    const tooEarly = date < tomorrow;
+    const tooLate  = date > maxDate;
+
+    if (tooEarly || tooLate) {
+      el.className = 'inq-cal-day'; el.disabled = true;
+      grid.appendChild(el); continue;
+    }
+
+    let cls = 'inq-cal-day';
+    if (date.toDateString() === today.toDateString()) cls += ' today';
+
+    const isDep = _inqDep && date.toDateString() === _inqDep.toDateString();
+    const isRet = _inqRet && date.toDateString() === _inqRet.toDateString();
+
+    if (isDep) cls += ' dep';
+    if (isRet) cls += ' ret';
+
+    // In-range highlight (between dep and ret)
+    if (_inqDep && _inqRet && date > _inqDep && date < _inqRet) cls += ' in-range';
+
+    // Hover preview: if dep is set, ret isn't, and user is hovering
+    if (_inqDep && !_inqRet && _inqHover) {
+      const diff = inqDateDiff(_inqDep, _inqHover);
+      if ((diff === 2 || diff === 3) && date > _inqDep && date < _inqHover) cls += ' in-range-preview';
+      if (date.toDateString() === _inqHover.toDateString() && diff > 0) cls += ' dep-hover';
+    }
+
+    el.className = cls;
+    el.dataset.ts = date.getTime(); // needed for lightweight hover update
+
+    el.addEventListener('click', () => {
+      if (!_inqDep || _inqRet) {
+        // Start fresh: set as departure
+        _inqDep = date; _inqRet = null;
+      } else {
+        // Dep is set, set return
+        const diff = inqDateDiff(_inqDep, date);
+        if (diff < 1) {
+          // Clicked before or on departure — restart
+          _inqDep = date; _inqRet = null;
+        } else if (diff === 2 || diff === 3) {
+          _inqRet = date;
+        } else {
+          // Invalid range — show error in status
+          const statusEl = document.getElementById('inqRangeStatus');
+          if (statusEl) {
+            statusEl.className = 'inq-range-status invalid';
+            statusEl.innerHTML = lang==='sr'
+              ? `⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.`
+              : `⚠️ Only <strong>2 or 3 nights</strong> are allowed. Try again.`;
+            setTimeout(() => updateInqRangeStatus(), 2500);
+          }
+          return; // don't re-render, keep dep selected
+        }
+      }
+      _inqHover = null;
+      renderInqCalendar();
+      updateInqRangeStatus();
+    });
+
+    // Hover preview — update classes only (no full re-render, avoids click disruption)
+    el.addEventListener('mouseenter', () => {
+      if (_inqDep && !_inqRet) { _inqHover = date; updateInqHoverClasses(); }
+    });
+    el.addEventListener('mouseleave', () => {
+      if (_inqDep && !_inqRet) { _inqHover = null; updateInqHoverClasses(); }
+    });
+
+    grid.appendChild(el);
+  }
+
+  // Next month leading days (muted)
+  const total = startDow + lastDay.getDate();
+  const trail = (7 - (total % 7)) % 7;
+  for (let i = 1; i <= trail; i++) {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-day muted'; el.textContent = i;
+    grid.appendChild(el);
+  }
+}
+
+// Calendar nav — attached once on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('inqPrevM').addEventListener('click', () => {
+    const prev = new Date(_inqCurMonth); prev.setMonth(prev.getMonth() - 1);
+    const now  = new Date(); now.setHours(0,0,0,0);
+    const minMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    if (prev >= minMonth) { _inqCurMonth = prev; renderInqCalendar(); }
+  });
+  document.getElementById('inqNextM').addEventListener('click', () => {
+    const next = new Date(_inqCurMonth); next.setMonth(next.getMonth() + 1);
+    const now  = new Date(); now.setHours(0,0,0,0);
+    const maxMonth = new Date(now.getFullYear(), now.getMonth() + 4, 1);
+    if (next < maxMonth) { _inqCurMonth = next; renderInqCalendar(); }
+  });
+});
+
+async function submitInquiry() {
+  if (!_inqDep) return showFormAlert(t('inq.err.date'));
+  if (!_inqRet) return showFormAlert(t('inq.err.ret'));
+  const emailVal = document.getElementById('inqEmail').value.trim();
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal))
+                 return showFormAlert(t('inq.err.email'));
+
+  const btn = document.getElementById('inqSubmitBtn');
+  btn.disabled = true;
+
+  const pad     = n => String(n).padStart(2,'0');
+  const dateStr = `${_inqDep.getFullYear()}-${pad(_inqDep.getMonth()+1)}-${pad(_inqDep.getDate())}`;
+  const nights  = inqDateDiff(_inqDep, _inqRet);
+
+  try {
+    const r = await fetch(`${API}/api/inquiries/custom-date`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        airport:              S.airport || 'BEG',
+        travelers:            S.travelers || 1,
+        desiredDepartureDate: dateStr,
+        nights:               nights,
+        email:                emailVal,
+        notes:                document.getElementById('inqNotes').value.trim() || null
+      })
+    });
+
+    if (r.ok) {
+      hideInquiryView();
+      await Swal.fire({
+        title: t('inq.ok.t'), text: t('inq.ok.m'), icon: 'success',
+        confirmButtonColor: 'var(--accent)',
+        background: '#1a3a42', color: '#f6f1e6',
+      });
+    } else {
+      const err = await r.json().catch(() => ({}));
+      showFormAlert(err.error || (lang==='sr' ? 'Greška pri slanju.' : 'Send error.'));
+      btn.disabled = false;
+    }
+  } catch(e) {
+    showFormAlert(lang==='sr' ? 'Greška pri slanju. Proveri konekciju.' : 'Send error. Check connection.');
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PRIVATE DATE DETECTION (?privateDate=TOKEN)
+// Korisnik dolazi sa privatnim linkom koji mu admin pošalje.
+// API vraća DateResponse koji sadrži: id, departureAirport, availableSlots, ...
+// Frontend pre-popunjava S i preskače direktno na Korak 4.
+// ══════════════════════════════════════════════════════════════════
+
+async function checkPrivateDateToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get('privateDate');
+  if (!token) return;
+
+  // Prikaži overlay za učitavanje
+  const sectionEl = document.getElementById('booking');
+  sectionEl?.scrollIntoView({ behavior: 'smooth' });
+
+  try {
+    const r = await fetch(`${API}/api/dates/private?token=${encodeURIComponent(token)}`);
+    if (!r.ok) {
+      const msg = r.status === 410
+        ? (lang === 'sr' ? 'Privatni link je istekao. Kontaktirajte Escapii tim.' : 'This private link has expired. Contact the Escapii team.')
+        : (lang === 'sr' ? 'Privatni link nije validan.' : 'This private link is not valid.');
+      await Swal.fire({ title: '⛔', text: msg, icon: 'error', confirmButtonColor: 'var(--accent)', background: '#1a3a42', color: '#f6f1e6' });
+      return;
+    }
+
+    const date = await r.json();
+
+    // Pre-popuni S state
+    S.airport        = date.departureAirport;
+    S.travelers      = date.availableSlots;     // admin je postavio slots = travelers iz upita
+    S.selectedDateId = date.id;
+    S.selectedDate   = date;                    // potrebno za boarding pass datume na hvala stranici
+    S.dates          = [date];                  // niz sa jednim datumom (za price preview)
+    S.step           = 4;
+
+    // Ukloni token iz URL-a (bez reload-a)
+    const cleanUrl = window.location.pathname + window.location.hash;
+    window.history.replaceState({}, '', cleanUrl);
+
+    // Prikaži korak 4 — sakrij Back dugmad (korisnik ne sme da se vrati na prethodne korake)
+    document.getElementById('esc-booking')?.classList.add('private-mode');
+    onEnter();
+    showStep(4);
+
+    // Notify korisnika
+    const departureFmt = new Date(date.departureDate).toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
+    await Swal.fire({
+      title: lang === 'sr' ? '🔒 Privatni termin' : '🔒 Private slot',
+      html:  lang === 'sr'
+        ? `Tvoj privatni termin je spreman!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} ${date.numberOfNights === 1 ? 'noć' : 'noći'} · ${S.travelers} ${S.travelers === 1 ? 'putnik' : 'putnika'}<br><br>Nastavi sa izborom smeštaja.`
+        : `Your private slot is ready!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} night${date.numberOfNights !== 1 ? 's' : ''} · ${S.travelers} traveller${S.travelers !== 1 ? 's' : ''}<br><br>Continue with accommodation selection.`,
+      icon:  'success',
+      confirmButtonColor: 'var(--accent)',
+      background: '#1a3a42',
+      color: '#f6f1e6',
+    });
+
+  } catch(e) {
+    console.warn('[Escapii] Private date check failed:', e);
+  }
+}
+
+// Pokreni proveru privatnog linka čim je DOM spreman
+document.addEventListener('DOMContentLoaded', checkPrivateDateToken);
 
 // ── feat-card tilt on hover (desktop only — 3D transforms trigger scroll correction on mobile)
 if (isHoverDevice) {
