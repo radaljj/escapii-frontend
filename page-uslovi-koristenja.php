@@ -260,33 +260,6 @@ body {
 .pp-table tr:hover td { background: rgba(202,138,113,.03); }
 .pp-table td:first-child { color: var(--white); font-weight: 500; }
 
-.pp-bta-card {
-  background: rgba(202,138,113,.06);
-  border: 1px solid rgba(202,138,113,.2);
-  border-radius: 14px;
-  padding: 22px 24px;
-  margin: 16px 0;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-.pp-bta-badge {
-  background: var(--accent);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  border-radius: 6px;
-  padding: 4px 10px;
-  white-space: nowrap;
-  margin-top: 2px;
-}
-.pp-bta-body p { font-size: 14px; color: rgba(45,95,107,.85); margin-bottom: 8px; line-height: 1.65; }
-.pp-bta-body p:last-child { margin-bottom: 0; }
-.pp-bta-body a { color: var(--accent); text-decoration: none; }
-.pp-bta-body a:hover { text-decoration: underline; }
-
 .pp-contact {
   background: rgba(255,255,255,.03);
   border: 1px solid var(--border);
@@ -403,7 +376,7 @@ body {
       </div>
 
       <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Korisnik bira aerodrom, datume, broj putnika i preferencije — mi pronalazimo i organizujemo putovanje.</p>
-      <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> licencirane turističke agencije koja u potpunosti odgovara za realizaciju aranžmana — turistička agencija <strong>BTA</strong> (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">bta.co.rs</a>).</p>
+      <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> partnerske turističke agencije koja u potpunosti odgovara za realizaciju aranžmana.</p>
     </section>
 
     <!-- Kako funkcionise -->
@@ -477,7 +450,7 @@ body {
         <li>Osnovna cena aranžmana po osobi (let + smeštaj)</li>
         <li>Doplata za tip smeštaja (Superior ili Premium, po potrebi)</li>
         <li>Dodaci koje je korisnik odabrao: putno osiguranje, doručak, sedišta zajedno, kabinski kofer</li>
-        <li>Naknada za isključivanje destinacija (2. i 3. isključivanje +10€, 4. i 5. +15€ — 1. isključivanje je besplatno)</li>
+        <li>Naknada za isključivanje destinacija (1. isključivanje je besplatno — svako naredno +15€ po osobi)</li>
       </ul>
 
       <h3>Načini plaćanja</h3>
@@ -664,7 +637,7 @@ body {
           </a>
           <a href="<?php echo home_url('/'); ?>" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            escapii.com
+            escapii.rs
           </a>
         </div>
       </div>

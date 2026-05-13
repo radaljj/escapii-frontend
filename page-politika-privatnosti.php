@@ -520,6 +520,9 @@ body {
             <tr><td>Tip smeštaja</td><td>Organizacija smeštaja</td></tr>
             <tr><td>Isključene destinacije</td><td>Prilagođavanje iznenađenja vašim preferencama</td></tr>
             <tr><td>Preference (doručak, sedišta, prtljag, osiguranje)</td><td>Personalizacija ponude</td></tr>
+            <tr><td>Podaci o putnicima (ime, pol, datum rođenja)</td><td>Rezervacija leta i smeštaja kod partnerske agencije</td></tr>
+            <tr><td>Broj pasoša (opciono)</td><td>Olakšavanje check-in procesa — putnik ga unosi po sopstvenom nahođenju</td></tr>
+            <tr><td>Informacije o vizama</td><td>Prilagođavanje destinacije viznom statusu putnika</td></tr>
           </tbody>
         </table>
       </div>
@@ -535,8 +538,8 @@ body {
         <div class="pp-not-collected-title">Ne prikupljamo</div>
         <ul>
           <li>Podatke o platnoj kartici — plaćanje se vrši bankovnim transferom</li>
-          <li>Podatke o pasošima ili ličnim dokumentima</li>
           <li>Kolačiće za praćenje ili profilisanje korisnika</li>
+          <li>Biometrijske podatke niti kopije putnih isprava</li>
         </ul>
       </div>
     </section>
@@ -721,7 +724,7 @@ body {
           </a>
           <a href="<?php echo home_url('/'); ?>" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            escapii.com
+            escapii.rs
           </a>
         </div>
       </div>
