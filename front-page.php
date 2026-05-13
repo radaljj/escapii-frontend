@@ -510,6 +510,9 @@
     .sn-label { font-size: 10px; color: var(--gray); }
     .step-wrap { display: none; }
     .step-wrap.on { display: block; }
+    /* Anti-bot honeypot — nevidljivo za ljude, bots ga popune */
+    .hp-field { position:absolute; left:-9999px; top:-9999px; width:1px; height:1px;
+                opacity:0; pointer-events:none; tab-index:-1; }
     .step-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
     .btn-next:disabled { opacity: .4; cursor: not-allowed; }
     .btn-back {
@@ -2118,6 +2121,11 @@
 
     <!-- Step 1: Airport -->
     <div class="step-wrap on" id="step1">
+      <!-- Anti-bot honeypot — ne diraj ovo polje -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="hp_website">Website</label>
+        <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off">
+      </div>
       <div class="card">
         <h2 data-i18n="s1.h">Odakle kreće tvoja avantura?</h2>
         <p class="hint" data-i18n="s1.hint">Izaberi aerodrom polaska</p>
@@ -2814,6 +2822,8 @@
 
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
+// Anti-bot: beleži vreme učitavanja stranice
+const _FORM_START = Date.now();
 
 // ══════════ i18n
 const TR = {
@@ -4586,7 +4596,10 @@ async function submitBooking() {
     excludedDestination3Id:S.excludedIds[2]||null,
     passengers,
     firstName:firstName, lastName:lastName, email:email, phone:phone,
-    notes:document.getElementById('fNotes').value
+    notes:document.getElementById('fNotes').value,
+    // Anti-bot polja
+    website: document.getElementById('hp_website')?.value || '',
+    formDuration: Math.round((Date.now() - _FORM_START) / 1000)
   };
   btn.disabled=true; btn.textContent = lang==='sr' ? 'Slanje...' : 'Sending...';
   try {
