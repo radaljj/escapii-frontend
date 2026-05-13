@@ -521,7 +521,6 @@ body {
             <tr><td>Isključene destinacije</td><td>Prilagođavanje iznenađenja vašim preferencama</td></tr>
             <tr><td>Preference (doručak, sedišta, prtljag, osiguranje)</td><td>Personalizacija ponude</td></tr>
             <tr><td>Podaci o putnicima (ime, pol, datum rođenja)</td><td>Rezervacija leta i smeštaja kod partnerske agencije</td></tr>
-            <tr><td>Broj pasoša (opciono)</td><td>Olakšavanje check-in procesa — putnik ga unosi po sopstvenom nahođenju</td></tr>
             <tr><td>Informacije o vizama</td><td>Prilagođavanje destinacije viznom statusu putnika</td></tr>
           </tbody>
         </table>
@@ -538,8 +537,8 @@ body {
         <div class="pp-not-collected-title">Ne prikupljamo</div>
         <ul>
           <li>Podatke o platnoj kartici — plaćanje se vrši bankovnim transferom</li>
+          <li>Brojeve pasoša niti kopije putnih isprava</li>
           <li>Kolačiće za praćenje ili profilisanje korisnika</li>
-          <li>Biometrijske podatke niti kopije putnih isprava</li>
         </ul>
       </div>
     </section>
