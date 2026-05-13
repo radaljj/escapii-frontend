@@ -1427,10 +1427,18 @@ async function deleteDate(id) {
   });
   if (!isConfirmed) return;
 
-  await fetch(`${API}/api/admin/dates/${id}`, {
+  const res = await fetch(`${API}/api/admin/dates/${id}`, {
     method: 'DELETE',
     headers: { 'X-Admin-Key': ADMIN_KEY }
   });
+
+  if (!res.ok) {
+    let msg = 'Greška pri brisanju termina.';
+    try { const body = await res.json(); msg = body.message || msg; } catch {}
+    Swal.fire({ icon: 'error', title: 'Nije moguće obrisati', text: msg, confirmButtonText: 'OK' });
+    return;
+  }
+
   Swal.fire({ icon: 'success', title: 'Termin obrisan', confirmButtonText: 'OK', timer: 1500 });
   loadDates();
 }
