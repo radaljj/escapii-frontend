@@ -2112,6 +2112,11 @@ function renderBookings() {
           ❌ Otkaži
         </button>
         ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')" >⏳ Vrati na čekanje</button>` : ''}
+        ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
+        <button class="bc-btn" onclick="deleteBooking(${b.id},'${b.bookingRef}')"
+          style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
+          🗑 Obriši
+        </button>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -2502,6 +2507,47 @@ async function changeStatus(id, status) {
     });
   } catch {
     Swal.fire({ icon: 'error', title: 'Greška', text: 'Status nije promenjen.', background: '#0b1929', color: '#fff' });
+  }
+}
+
+async function deleteBooking(id, ref) {
+  const confirm = await Swal.fire({
+    title: '🗑 Obriši rezervaciju?',
+    html: `<p style="color:#9ca3af;line-height:1.7;">Rezervacija <strong style="color:#fff;">${ref}</strong> biće trajno obrisana.<br>
+           Ova radnja se ne može poništiti.</p>`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Da, obriši',
+    cancelButtonText: 'Odustani',
+    confirmButtonColor: '#ef4444',
+    background: '#0b1929',
+    color: '#fff'
+  });
+  if (!confirm.isConfirmed) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const d = await r.json().catch(() => ({}));
+      apiErr(d.error || 'Greška pri brisanju rezervacije.');
+      return;
+    }
+
+    ALL_BOOKINGS = ALL_BOOKINGS.filter(b => b.id !== id);
+    updateBookingBadge();
+    renderBookings();
+
+    Swal.fire({
+      toast: true, position: 'top-end', icon: 'success',
+      title: `Rezervacija ${ref} obrisana`,
+      showConfirmButton: false, timer: 2500,
+      background: '#0b1929', color: '#fff'
+    });
+  } catch {
+    apiErr('Greška pri brisanju rezervacije.');
   }
 }
 
