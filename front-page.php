@@ -4614,27 +4614,42 @@ async function submitBooking() {
       }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);
     } else if(r.status === 409) {
-      await Swal.fire({
-        icon: 'error',
-        title: lang==='sr' ? '😔 Mesta su popunjena' : '😔 No spots available',
-        html: lang==='sr'
-          ? `<p style="color:#7A9FA8;line-height:1.7;">Nažalost, u trenutku slanja vaše rezervacije mesta su se popunila.<br><br>
-             <strong style="color:white;">Molimo vas da odaberete drugi termin.</strong></p>`
-          : `<p style="color:#7A9FA8;line-height:1.7;">Unfortunately, the remaining spots were taken just before your request was submitted.<br><br>
-             <strong style="color:white;">Please select a different date.</strong></p>`,
-        confirmButtonText: lang==='sr' ? '← Odaberi drugi termin' : '← Choose another date',
-        confirmButtonColor: '#CA8A71',
-        background: '#2D5F6B',
-        color: '#fff',
-        allowOutsideClick: false
-      });
-      // Vrati korisnika na korak 3 (izbor datuma) i osvezi listu
-      S.step = 3;
-      S.selectedDateId = null;
-      S.selectedDate = null;
-      showStep(3);
-      loadDates();
-      btn.disabled=false; btn.textContent=t('s8.submit');
+      const errMsg409 = d.error || '';
+      if (errMsg409.includes('slobodnih mesta') || errMsg409.includes('No spots')) {
+        // Mesta popunjena — vrati na korak 3
+        await Swal.fire({
+          icon: 'error',
+          title: lang==='sr' ? '😔 Mesta su popunjena' : '😔 No spots available',
+          html: lang==='sr'
+            ? `<p style="color:#7A9FA8;line-height:1.7;">Nažalost, u trenutku slanja vaše rezervacije mesta su se popunila.<br><br>
+               <strong style="color:white;">Molimo vas da odaberete drugi termin.</strong></p>`
+            : `<p style="color:#7A9FA8;line-height:1.7;">Unfortunately, the remaining spots were taken just before your request was submitted.<br><br>
+               <strong style="color:white;">Please select a different date.</strong></p>`,
+          confirmButtonText: lang==='sr' ? '← Odaberi drugi termin' : '← Choose another date',
+          confirmButtonColor: '#CA8A71',
+          background: '#2D5F6B',
+          color: '#fff',
+          allowOutsideClick: false
+        });
+        // Vrati korisnika na korak 3 (izbor datuma) i osvezi listu
+        S.step = 3;
+        S.selectedDateId = null;
+        S.selectedDate = null;
+        showStep(3);
+        loadDates();
+        btn.disabled=false; btn.textContent=t('s8.submit');
+      } else {
+        // Duplikat rezervacije ili drugi 409 — prikaži konkretnu poruku
+        await Swal.fire({
+          icon: 'warning',
+          title: lang==='sr' ? 'Rezervacija nije moguća' : 'Booking not allowed',
+          text: errMsg409 || t('err.srv'),
+          confirmButtonColor: '#CA8A71',
+          background: '#2D5F6B',
+          color: '#fff'
+        });
+        btn.disabled=false; btn.textContent=t('s8.submit');
+      }
     } else {
       // Sve ostale greške (4xx, 5xx) — user-friendly poruka, bez backend detalja
       Swal.fire({icon:'error',title:lang==='sr'?'Nešto nije u redu':'Something went wrong',
