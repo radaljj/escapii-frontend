@@ -4392,7 +4392,7 @@ async function loadPrice() {
     if(p.cabinSuitcaseTotal>0) html+=`<div class="pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson}€${pp}</span></div>`;
     if(p.breakfastPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson}€${pp}</span></div>`;
-    if(p.seatsTogtherPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogtherPerPerson}€${pp}</span></div>`;
+    if(p.seatsTogether>0) html+=`<div class="pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether}€${pp}</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${pp}</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
     rows.innerHTML = html;
@@ -4452,8 +4452,8 @@ function updateSummaryCard() {
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson * n}€</span></div>`;
     if (p.breakfastPerPerson > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
-    if (p.seatsTogtherPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogtherPerPerson * n}€</span></div>`;
+    if (p.seatsTogether > 0)
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether * n}€</span></div>`;
     if (p.exclusionCostFlat > 0) {
       const exclPP = Math.round(p.exclusionCostFlat / n);
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${t('per.p')} × ${n} = +${p.exclusionCostFlat}€</span></div>`;
