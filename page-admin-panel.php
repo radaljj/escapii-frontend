@@ -188,6 +188,41 @@ body {
 }
 .tab-badge:empty { display: none; }
 
+/* Dates sub-tabs */
+.dates-sub-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+.dates-sub-btn {
+  padding: 8px 20px;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.dates-sub-btn.active {
+  background: rgba(var(--accent-rgb, 200,169,113),.18);
+  color: var(--accent);
+  border: 1px solid rgba(var(--accent-rgb, 200,169,113),.3);
+}
+.dates-sub-btn:not(.active):hover {
+  background: rgba(255,255,255,.05);
+  color: #ccc;
+}
+.dates-sub-panel { display: none; }
+.dates-sub-panel.active { display: block; }
+
 /* Booking cards */
 .booking-toolbar { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
 .booking-search {
@@ -842,9 +877,15 @@ tbody td  { padding: 11px 12px; }
         <button class="btn-add" onclick="addDate()">Dodaj termin</button>
       </div>
 
-      <!-- Tabela javnih termina -->
-      <div class="card">
-        <div class="card-title">📋 Javni termini</div>
+      <!-- Sub-tabovi za termine -->
+      <div class="dates-sub-tabs">
+        <button class="dates-sub-btn active" onclick="switchDatesTab('javni', this)">📋 Javni termini</button>
+        <button class="dates-sub-btn" onclick="switchDatesTab('privatni', this)">🔒 Privatni <span class="tab-badge" id="privateBadge"></span></button>
+        <button class="dates-sub-btn" onclick="switchDatesTab('deaktivirani', this)">📦 Deaktivirani <span class="tab-badge" id="deaktivBadge"></span></button>
+      </div>
+
+      <!-- Javni termini -->
+      <div class="dates-sub-panel active" id="sub-javni">
         <div class="table-wrap">
           <table id="datesTable">
             <thead>
@@ -856,21 +897,19 @@ tbody td  { padding: 11px 12px; }
                 <th>Noći</th>
                 <th>Mesta</th>
                 <th>Cena</th>
-                <th>Status</th>
                 <th>Pot. destinacije</th>
                 <th>Akcije</th>
               </tr>
             </thead>
             <tbody id="datesBody">
-              <tr><td colspan="10" class="empty-state">Učitavanje...</td></tr>
+              <tr><td colspan="9" class="empty-state">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Tabela privatnih termina -->
-      <div class="card" id="privateDatesCard" style="display:none;">
-        <div class="card-title">🔒 Privatni termini</div>
+      <!-- Privatni termini -->
+      <div class="dates-sub-panel" id="sub-privatni">
         <div class="table-wrap">
           <table>
             <thead>
@@ -884,7 +923,29 @@ tbody td  { padding: 11px 12px; }
               </tr>
             </thead>
             <tbody id="privateDatesBody">
-              <tr><td colspan="6" class="empty-state">Nema privatnih termina.</td></tr>
+              <tr><td colspan="6" class="empty-state">Nema aktivnih privatnih termina.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Deaktivirani termini (javni inactive + privatni expired) -->
+      <div class="dates-sub-panel" id="sub-deaktivirani">
+        <div class="table-wrap">
+          <table id="deactivatedTable">
+            <thead>
+              <tr>
+                <th>Tip</th>
+                <th>Aerodrom</th>
+                <th>Polazak → Povratak</th>
+                <th>Noći</th>
+                <th>Mesta / Cena</th>
+                <th>Razlog</th>
+                <th>Akcije</th>
+              </tr>
+            </thead>
+            <tbody id="deactivatedBody">
+              <tr><td colspan="7" class="empty-state">Nema deaktiviranih termina.</td></tr>
             </tbody>
           </table>
         </div>
@@ -1202,15 +1263,25 @@ async function loadDates() {
 }
 
 function renderDatesTable(dates) {
-  const publicDates  = dates.filter(d => !d.isPrivate);
-  const privateDates = dates.filter(d =>  d.isPrivate);
+  const now = new Date();
+
+  const javni       = dates.filter(d => !d.isPrivate && d.active);
+  const privatni    = dates.filter(d =>  d.isPrivate && !(d.expiresAt && new Date(d.expiresAt) < now));
+  const deaktivirani = dates.filter(d =>
+    (!d.isPrivate && !d.active) ||
+    ( d.isPrivate &&  d.expiresAt && new Date(d.expiresAt) < now)
+  );
+
+  // Badges na sub-tab dugmadima
+  document.getElementById('privateBadge').textContent  = privatni.length     || '';
+  document.getElementById('deaktivBadge').textContent  = deaktivirani.length || '';
 
   // ── Javni termini ──────────────────────────────────────────────────────────
   const tbody = document.getElementById('datesBody');
-  if (!publicDates.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema javnih termina. Dodajte prvi termin iznad.</td></tr>';
+  if (!javni.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
   } else {
-    tbody.innerHTML = publicDates.map(d => {
+    tbody.innerHTML = javni.map(d => {
       const chips = (d.potentialDestinations || [])
         .map(pd => `<span class="dest-chip">${pd.name}</span>`).join('');
       const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">—</span>`;
@@ -1223,13 +1294,10 @@ function renderDatesTable(dates) {
         <td>${d.numberOfNights}n</td>
         <td>${d.availableSlots}</td>
         <td><strong>${d.basePrice}€</strong></td>
-        <td>${d.active ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>'}</td>
         <td>${destHtml}</td>
         <td style="white-space:nowrap;">
-          <button class="btn-action ${d.active ? 'btn-toggle-off' : 'btn-toggle-on'}"
-            onclick="toggleDate(${d.id}, ${!d.active})">
-            ${d.active ? 'Deaktiviraj' : 'Aktiviraj'}
-          </button>
+          <button class="btn-action btn-toggle-off"
+            onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
           <button class="btn-action btn-edit" onclick="editDestinations(${d.id})" style="margin-left:4px;">Destinacije</button>
           <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
@@ -1239,26 +1307,18 @@ function renderDatesTable(dates) {
   }
 
   // ── Privatni termini ───────────────────────────────────────────────────────
-  const privateCard = document.getElementById('privateDatesCard');
   const privateTbody = document.getElementById('privateDatesBody');
-  privateCard.style.display = privateDates.length ? '' : 'none';
-
-  if (privateDates.length) {
-    const now = new Date();
-    privateTbody.innerHTML = privateDates.map(d => {
+  if (!privatni.length) {
+    privateTbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nema aktivnih privatnih termina.</td></tr>';
+  } else {
+    privateTbody.innerHTML = privatni.map(d => {
       const expires   = d.expiresAt ? new Date(d.expiresAt) : null;
-      const expired   = expires && expires < now;
       const expiryStr = expires
         ? expires.toLocaleString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
         : '—';
-      const expiryHtml = expired
-        ? `<span style="color:#ef4444;font-size:12px;">⛔ Istekao<br><span style="opacity:.65;">${expiryStr}</span></span>`
-        : `<span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span>`;
-
       const privateUrl = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
-
       return `
-      <tr style="${expired ? 'opacity:.55;' : ''}">
+      <tr>
         <td><span class="badge badge-accent">${d.departureAirport}</span></td>
         <td>
           <strong>${formatDate(d.departureDate)} → ${formatDate(d.returnDate)}</strong>
@@ -1272,13 +1332,55 @@ function renderDatesTable(dates) {
           <button class="btn-action" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;"
             onclick="copyPrivateLink('${privateUrl}', this)">📋 Kopiraj link</button>
         </td>
-        <td>${expiryHtml}</td>
+        <td><span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span></td>
         <td>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>
         </td>
       </tr>`;
     }).join('');
   }
+
+  // ── Deaktivirani termini ───────────────────────────────────────────────────
+  const deaktivTbody = document.getElementById('deactivatedBody');
+  if (!deaktivirani.length) {
+    deaktivTbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nema deaktiviranih termina.</td></tr>';
+  } else {
+    deaktivTbody.innerHTML = deaktivirani.map(d => {
+      const isPriv  = d.isPrivate;
+      const tipHtml = isPriv
+        ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;">🔒 Privatni</span>`
+        : `<span class="badge" style="background:rgba(255,255,255,.07);color:var(--gray);">📋 Javni</span>`;
+      const razlog  = isPriv
+        ? `<span style="color:#ef4444;font-size:12px;">⛔ Istekao link</span>`
+        : `<span style="color:var(--gray);font-size:12px;">● Deaktiviran</span>`;
+      const akcije  = isPriv
+        ? `<button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>`
+        : `<button class="btn-action btn-toggle-on" onclick="toggleDate(${d.id}, true)">Aktiviraj</button>
+           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>`;
+      return `
+      <tr style="opacity:.7;">
+        <td>${tipHtml}</td>
+        <td><span class="badge badge-accent">${d.departureAirport}</span></td>
+        <td>
+          <strong>${formatDate(d.departureDate)} → ${formatDate(d.returnDate)}</strong>
+        </td>
+        <td>${d.numberOfNights}n</td>
+        <td>
+          <span style="font-size:13px;">${d.availableSlots} mesta</span><br>
+          <strong>${d.basePrice}€/os</strong>
+        </td>
+        <td>${razlog}</td>
+        <td style="white-space:nowrap;">${akcije}</td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+function switchDatesTab(tab, btn) {
+  document.querySelectorAll('.dates-sub-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dates-sub-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sub-' + tab).classList.add('active');
 }
 
 function copyPrivateLink(url, btn) {
