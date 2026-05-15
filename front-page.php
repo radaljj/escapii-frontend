@@ -2017,6 +2017,11 @@
       .traveler-grid { grid-template-columns: 1fr; }
       .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
+      /* Date row price — ne izlazi van granica */
+      .term-price { min-width: 0; }
+      .t-price-v { font-size: 21px; }
+      .date-row { overflow: hidden; }
+
       /* Accom tiles 1 col on very small */
       .accom-grid { grid-template-columns: 1fr; }
 
@@ -4022,17 +4027,23 @@ function skelDateRow() {
 
 async function loadDates() {
   const el = document.getElementById('datesList');
-  el.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:16px">
-      <div style="font-size:52px;animation:spinGlobe 1.8s linear infinite;display:inline-block;line-height:1">🌍</div>
-      <div style="font-size:13px;letter-spacing:.12em;color:rgba(246,241,230,.5);text-align:center;font-weight:500">
-        ${lang==='sr' ? 'Učitavaju se termini...' : 'Loading dates...'}
+  el.innerHTML = '';
+
+  // Loader se prikazuje tek nakon 400ms — da ne treperi ako backend odgovori brzo
+  const loaderTimer = setTimeout(() => {
+    el.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:16px">
+        <div style="font-size:52px;animation:spinGlobe 1.8s linear infinite;display:inline-block;line-height:1">🌍</div>
+        <div style="font-size:13px;letter-spacing:.12em;color:rgba(246,241,230,.5);text-align:center;font-weight:500">
+          ${lang==='sr' ? 'Učitavaju se termini...' : 'Loading dates...'}
+        </div>
       </div>
-    </div>
-    <style>@keyframes spinGlobe{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.1)}100%{transform:rotate(360deg) scale(1)}}</style>
-  `;
+      <style>@keyframes spinGlobe{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.1)}100%{transform:rotate(360deg) scale(1)}}</style>
+    `;
+  }, 400);
   try {
     const r = await fetch(`${API}/api/dates?airport=${S.airport}`);
+    clearTimeout(loaderTimer);
     S.dates = await r.json();
     if(!S.dates.length) {
       const aName = airportName(S.airport || 'BEG');
@@ -4060,6 +4071,7 @@ async function loadDates() {
     renderDatesFromCache();
 
   } catch(e) {
+    clearTimeout(loaderTimer);
     el.innerHTML=`<div style="color:#f87171;text-align:center;padding:30px;">${t('err.dates.load')}</div>`;
   }
 }
