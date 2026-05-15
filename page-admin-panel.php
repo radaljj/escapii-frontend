@@ -1106,6 +1106,10 @@ let airportTs = null;
 let nightsTs  = null;
 
 async function initAdmin() {
+  // Briši autofill iz search polja — browser ponekad ubaci korisničko ime
+  const bs = document.getElementById('bookingSearch');
+  if (bs) { bs.value = ''; bs.setAttribute('readonly', 'true'); setTimeout(() => bs.removeAttribute('readonly'), 100); }
+
   await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
 
   airportTs = new TomSelect('#fAirport', {
