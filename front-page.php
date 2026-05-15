@@ -341,6 +341,8 @@
       animation: carouselScroll 90s linear infinite;
     }
     .carousel-track:hover { animation-play-state: paused; }
+    .carousel-track { cursor: grab; user-select: none; }
+    .carousel-track.is-dragging { cursor: grabbing; animation-play-state: paused; }
     @keyframes carouselScroll {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
@@ -3549,6 +3551,54 @@ function buildCarousel() {
     </div>
   `).join('');
   track.innerHTML = html;
+  initCarouselDrag(track);
+}
+
+function initCarouselDrag(track) {
+  if (!track || track._dragInit) return;
+  track._dragInit = true;
+
+  let isDragging = false, startX = 0, currentX = 0, hasDragged = false;
+
+  function getTranslateX() {
+    const matrix = new DOMMatrix(window.getComputedStyle(track).transform);
+    return matrix.m41;
+  }
+
+  function startDrag(x) {
+    isDragging = true; hasDragged = false;
+    startX = x; currentX = getTranslateX();
+    track.classList.add('is-dragging');
+    track.style.animation = 'none';
+    track.style.transform = `translateX(${currentX}px)`;
+  }
+
+  function moveDrag(x) {
+    if (!isDragging) return;
+    const delta = x - startX;
+    if (Math.abs(delta) > 3) hasDragged = true;
+    track.style.transform = `translateX(${currentX + delta}px)`;
+  }
+
+  function endDrag(x) {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('is-dragging');
+    const finalX = currentX + (x - startX);
+    const half = track.scrollWidth / 2;
+    let norm = finalX % half;
+    if (norm > 0) norm -= half;
+    const delay = -(Math.abs(norm) / half) * 90;
+    track.style.transform = '';
+    track.style.animation = `carouselScroll 90s linear ${delay}s infinite`;
+  }
+
+  track.addEventListener('mousedown', e => { e.preventDefault(); startDrag(e.clientX); });
+  window.addEventListener('mousemove', e => moveDrag(e.clientX));
+  window.addEventListener('mouseup',   e => endDrag(e.clientX));
+  track.addEventListener('touchstart', e => startDrag(e.touches[0].clientX), { passive: true });
+  track.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); moveDrag(e.touches[0].clientX); } }, { passive: false });
+  track.addEventListener('touchend',   e => endDrag(e.changedTouches[0].clientX));
 }
 
 // ══════════ AIRPORT NAME LOOKUP
