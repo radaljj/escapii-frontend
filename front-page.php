@@ -2584,14 +2584,14 @@
 <section class="esc-manifesto" id="esc-about">
   <div class="mf-inner">
     <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="mf-heading" data-i18n="mf.heading">Prva platforma za putovanja iznenađenja u Srbiji.</h2>
-    <p class="mf-body" style="font-size:clamp(17px,1.8vw,20px);font-weight:700;margin-bottom:8px;" data-i18n="mf.why">Zašto Escapii?</p>
-    <p class="mf-body" data-i18n-html="mf.p1">Jer najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em></p>
-    <p class="mf-body" data-i18n-html="mf.p2">Svi znamo onaj osećaj. Ili si ti osoba koja planira i organizuje sva putovanja, ili si ona za koju drugi organizuju, ali te prijatelji i dalje zatrpavaju pitanjima. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let je poskupeo već treći put u 24h, ili je dobar smeštaj već rasprodat — i vraćate se na početak. Ili završiš na vikend putovanju po regionu (nema ni tu ništa loše, ali si maštao/la o Siciliji).</p>
-    <p class="mf-body" data-i18n-html="mf.p3">Pretražio/la si isti sajt 4.328 puta, znaš mapu mesta na koje ideš napamet, postao/la si ekspert za tu destinaciju — ali kad kreneš na put, već vrlo dobro znaš šta te čeka. Faktor iznenađenja? <strong>Ne postoji.</strong></p>
-    <p class="mf-body" data-i18n-html="mf.p4">A da li znaš da sada imaš mogućnost da rezervišeš vikend putovanje iznenađenja u Evropi — bez trošenja sati na istraživanje, dogovaranje i proveru hotela? Plus da na sve to dobiješ iskustvo koje ćeš pamtiti ceo život?</p>
-    <p class="mf-body" data-i18n-html="mf.p5">Escapii smo kreirali baš zbog toga. Pronađeš datum koji ti odgovara, a naša ekipa se pobrine za sve ostalo. Nema stresa, nema Excel tabela, nema 75.430 poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.</p>
-    <p class="mf-body" data-i18n-html="mf.p6">I tu počinje zezanje. Svi se radujete i hajpujete sve do 3 dana pred put — analizirate vremensku prognozu i pokušavate da provalite destinaciju, a onaj ko pogodi ne plaća skupu kafu na aerodromu.</p>
+    <h2 class="mf-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
+    <p class="mf-body" style="font-size:clamp(17px,1.8vw,20px);font-weight:700;margin-bottom:8px;" data-i18n="mf.why">Zašto da putuješ sa Escapii ekipom?</p>
+    <p class="mf-body" data-i18n-html="mf.p1">Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em></p>
+    <p class="mf-body" data-i18n-html="mf.p2">Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).</p>
+    <p class="mf-body" data-i18n-html="mf.p3">A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la 'potvrdi rezervaciju'.</strong></p>
+    <p class="mf-body" data-i18n-html="mf.p4">Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu — bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.</p>
+    <p class="mf-body" data-i18n-html="mf.p5">Zato postoji Escapii. Pronađeš datum koji ti odgovara, a naša ekipa će se pobrinuti za sve ostalo. Nema stresa, nema beskrajnog dogovaranja, nema gomile dosadnih poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.</p>
+    <p class="mf-body" data-i18n-html="mf.p6">A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje — analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.</p>
     <blockquote class="mf-quote" data-i18n-html="mf.quote">Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.</blockquote>
   </div>
 </section>
@@ -2632,14 +2632,14 @@
         <div class="feat-icon-wrap">02</div>
         <div class="feat-content">
           <h3 data-i18n="how.c2.t">Mi kreiramo tvoju avanturu</h3>
-          <p data-i18n="how.c2.p">Naša ekipa u saradnji sa partnerskom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, sve.</p>
+          <p data-i18n="how.c2.p">Escapii ekipa u saradnji sa partnerskom turističkom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, i dodatne opcije koje si izabrao.</p>
         </div>
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">03</div>
         <div class="feat-content">
-          <h3 data-i18n="how.c3.t">Hintovi i uzbuđenje</h3>
-          <p data-i18n="how.c3.p">7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 72h pre polaska.</p>
+          <h3 data-i18n="how.c3.t">Otkrivanje destinacije</h3>
+          <p data-i18n="how.c3.p">7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 48h pre polaska.</p>
         </div>
       </div>
       <div class="feat-card">
@@ -2848,14 +2848,14 @@ const TR = {
     'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
-    'mf.heading':'Prva platforma za putovanja iznenađenja u Srbiji.',
-    'mf.why':'Zašto Escapii?',
-    'mf.p1':'Jer najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em>',
-    'mf.p2':'Svi znamo onaj osećaj. Ili si ti osoba koja planira i organizuje sva putovanja, ili si ona za koju drugi organizuju, ali te prijatelji i dalje zatrpavaju pitanjima. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let je poskupeo već treći put u 24h, ili je dobar smeštaj već rasprodat — i vraćate se na početak. Ili završiš na vikend putovanju po regionu (nema ni tu ništa loše, ali si maštao/la o Siciliji).',
-    'mf.p3':'Pretražio/la si isti sajt 4.328 puta, znaš mapu mesta na koje ideš napamet, postao/la si ekspert za tu destinaciju — ali kad kreneš na put, već vrlo dobro znaš šta te čeka. Faktor iznenađenja? <strong>Ne postoji.</strong>',
-    'mf.p4':'A da li znaš da sada imaš mogućnost da rezervišeš vikend putovanje iznenađenja u Evropi — bez trošenja sati na istraživanje, dogovaranje i proveru hotela? Plus da na sve to dobiješ iskustvo koje ćeš pamtiti ceo život?',
-    'mf.p5':'Escapii smo kreirali baš zbog toga. Pronađeš datum koji ti odgovara, a naša ekipa se pobrine za sve ostalo. Nema stresa, nema Excel tabela, nema 75.430 poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.',
-    'mf.p6':'I tu počinje zezanje. Svi se radujete i hajpujete sve do 3 dana pred put — analizirate vremensku prognozu i pokušavate da provalite destinaciju, a onaj ko pogodi ne plaća skupu kafu na aerodromu.',
+    'mf.heading':'Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi',
+    'mf.why':'Zašto da putuješ sa Escapii ekipom?',
+    'mf.p1':'Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em>',
+    'mf.p2':'Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).',
+    'mf.p3':'A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la \'potvrdi rezervaciju\'.</strong>',
+    'mf.p4':'Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu — bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.',
+    'mf.p5':'Zato postoji Escapii. Pronađeš datum koji ti odgovara, a naša ekipa će se pobrinuti za sve ostalo. Nema stresa, nema beskrajnog dogovaranja, nema gomile dosadnih poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.',
+    'mf.p6':'A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje — analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.',
     'mf.quote':'Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.',
     'dest.tag':'Naše destinacije', 'dest.heading':'Sve ovo te čeka…',
     'dest.sub':'Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija',
@@ -2863,8 +2863,8 @@ const TR = {
     'how.tag':'Kako funkcioniše', 'how.heading':'Četiri koraka do tvoje Escapii avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
     'how.c1.t':'Kreiraj svoje Escapii putovanje iznenađenja', 'how.c1.p':'Izaberi datum, broj putnika, budžet i opcione dodatke. Isključi destinacije koje ne želiš.',
-    'how.c2.t':'Mi kreiramo tvoju avanturu', 'how.c2.p':'Naša ekipa u saradnji sa partnerskom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, sve.',
-    'how.c3.t':'Hintovi i uzbuđenje', 'how.c3.p':'7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 72h pre polaska.',
+    'how.c2.t':'Mi kreiramo tvoju avanturu', 'how.c2.p':'Escapii ekipa u saradnji sa partnerskom turističkom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, i dodatne opcije koje si izabrao.',
+    'how.c3.t':'Otkrivanje destinacije', 'how.c3.p':'7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 48h pre polaska.',
     'how.c4.t':'Stvori priču vrednu prepričavanja', 'how.c4.p':'"Otputovali smo za vikend, a nismo pojma imali gde" — ovo je mnogo bolja priča od "rezervisali smo putovanje u Pariz na sajmu turizma".',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
@@ -2929,7 +2929,7 @@ const TR = {
     'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
-    's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
+    's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
