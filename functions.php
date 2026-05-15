@@ -36,20 +36,20 @@ function escapii_head_meta() {
     <meta property="og:type"         content="website">
     <meta property="og:url"          content="<?php echo esc_url($home); ?>">
     <meta property="og:site_name"    content="<?php echo esc_attr($site_name); ?>">
-    <meta property="og:title"        content="<?php echo esc_attr($site_name . ' — Mystery putovanje'); ?>">
+    <meta property="og:title"        content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
     <meta property="og:description"  content="<?php echo esc_attr($desc); ?>">
     <meta property="og:image"        content="<?php echo esc_url($og_img); ?>">
     <meta property="og:image:type"   content="image/jpeg">
     <meta property="og:image:width"  content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt"    content="<?php echo esc_attr($site_name . ' — Mystery putovanje'); ?>">
+    <meta property="og:image:alt"    content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
 
     <!-- Twitter / X card (large image) -->
     <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="<?php echo esc_attr($site_name . ' — Mystery putovanje'); ?>">
+    <meta name="twitter:title"       content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr($desc); ?>">
     <meta name="twitter:image"       content="<?php echo esc_url($og_img); ?>">
-    <meta name="twitter:image:alt"   content="<?php echo esc_attr($site_name . ' — Mystery putovanje'); ?>">
+    <meta name="twitter:image:alt"   content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
     <?php
 }
 add_action('wp_head', 'escapii_head_meta', 1);

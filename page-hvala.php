@@ -291,15 +291,19 @@
     .bp-barcode span:nth-child(22){width:1px} .bp-barcode span:nth-child(23){width:3px} .bp-barcode span:nth-child(24){width:2px}
 
     @media (max-width: 560px) {
-      .ty-card { padding: 28px 16px; border-radius: 20px; }
-      .bp-head { padding: 16px 18px 72px; }
+      .ty-card { padding: 28px 12px; border-radius: 20px; }
+      .bp-wrap { border-radius: 20px; }
+      .bp-head { padding: 14px 14px 68px; }
       .bp-flight-no { display: none; }
-      .bp-body { margin: -42px 12px 0; padding: 24px 18px 20px; }
-      .bp-city .bp-iata { font-size: 40px; }
-      .bp-meta { grid-template-columns: 1fr auto 1fr auto 1fr; padding: 12px 2px; }
-      .bp-meta-cell { padding: 0 10px; }
-      .bp-meta-value { font-size: 11px; }
-      .bp-stub { grid-template-columns: 1fr 1fr; padding: 16px 18px 22px; }
+      .bp-body { margin: -42px 8px 0; padding: 20px 14px 16px; }
+      .bp-city .bp-iata { font-size: 34px; }
+      .bp-route { gap: 8px; }
+      .bp-path { min-width: 70px; }
+      .bp-meta { grid-template-columns: 1fr auto 1fr auto 1fr; padding: 10px 0; }
+      .bp-meta-cell { padding: 0 6px; }
+      .bp-meta-label { font-size: 7px; letter-spacing: 0.18em; }
+      .bp-meta-value { font-size: 10px; }
+      .bp-stub { grid-template-columns: 1fr 1fr; padding: 14px 14px 18px; }
       .bp-barcode { grid-column: 1 / -1; height: 32px; }
       .bp-bottom { flex-direction: column; gap: 12px; }
       .bp-ref { text-align: left; }

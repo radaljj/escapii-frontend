@@ -960,6 +960,7 @@ tbody td  { padding: 11px 12px; }
       <div class="booking-toolbar">
         <input type="text" class="booking-search" id="bookingSearch"
                placeholder="🔍 Pretraži po imenu, emailu, broju rezervacije..."
+               autocomplete="off" name="booking-search-field"
                oninput="renderBookings()">
         <button class="btn-export" onclick="exportCSV()">📥 Export CSV</button>
       </div>

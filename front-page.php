@@ -2013,6 +2013,10 @@
       /* Pax grid 1 col */
       .pax-fields { grid-template-columns: 1fr; }
 
+      /* Step 7 traveler form — 1 col on mobile */
+      .traveler-grid { grid-template-columns: 1fr; }
+      .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
       /* Accom tiles 1 col on very small */
       .accom-grid { grid-template-columns: 1fr; }
 
@@ -4018,7 +4022,15 @@ function skelDateRow() {
 
 async function loadDates() {
   const el = document.getElementById('datesList');
-  el.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px">${Array(5).fill(0).map(skelDateRow).join('')}</div>`;
+  el.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:16px">
+      <div style="font-size:52px;animation:spinGlobe 1.8s linear infinite;display:inline-block;line-height:1">🌍</div>
+      <div style="font-size:13px;letter-spacing:.12em;color:rgba(246,241,230,.5);text-align:center;font-weight:500">
+        ${lang==='sr' ? 'Učitavaju se termini...' : 'Loading dates...'}
+      </div>
+    </div>
+    <style>@keyframes spinGlobe{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.1)}100%{transform:rotate(360deg) scale(1)}}</style>
+  `;
   try {
     const r = await fetch(`${API}/api/dates?airport=${S.airport}`);
     S.dates = await r.json();
