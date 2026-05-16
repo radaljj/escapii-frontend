@@ -402,29 +402,8 @@ body {
         <h2>Who we are and what we do</h2>
       </div>
 
-      <p><strong>Escapii</strong> is a digital platform for organising surprise trips. We provide an intermediary service for arranging travel packages — the traveller selects an airport, dates, number of passengers, and preferences, and we work with our partner agency to find and organise the trip.</p>
-
-      <div class="pp-warning">
-        <div class="pp-warning-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div class="pp-warning-text">
-          <strong>Important:</strong> Escapii <strong>is not a travel agency</strong> and does not hold a licence to operate as a travel organiser. Escapii is a digital intermediary that coordinates your request with a licensed travel organiser.
-        </div>
-      </div>
-
-      <div class="pp-bta-card">
-        <div class="pp-bta-badge">Partner agency</div>
-        <div class="pp-bta-body">
-          <p>All travel packages booked through the Escapii platform are operated in partnership with:</p>
-          <p>
-            <strong>BTA — Tourist Agency BTA</strong><br>
-            Takovska 6, Belgrade, Republic of Serbia<br>
-            <a href="https://www.bta.co.rs" target="_blank" rel="noopener">www.bta.co.rs</a> · <a href="mailto:office@bta.co.rs">office@bta.co.rs</a>
-          </p>
-          <p>Escapii acts as a <strong>sub-agent</strong> of BTA. BTA is the licensed travel organiser and is fully responsible for executing the travel package in accordance with applicable Serbian tourism law. BTA's General Terms and Conditions of Travel apply to every booking.</p>
-        </div>
-      </div>
+      <p><strong>Escapii</strong> is a digital platform for organising surprise trips. The user selects an airport, dates, number of travellers, and preferences — we find and organise the trip.</p>
+      <p>Escapii <strong>is not a travel agency</strong> and does not act as a licensed travel organiser. We act as a <strong>sub-agent</strong> of a partner travel agency that is fully responsible for executing the travel package.</p>
     </section>
 
     <!-- How it works -->
@@ -498,7 +477,7 @@ body {
         <li>Base package price per person (flight + accommodation)</li>
         <li>Accommodation upgrade supplement (Superior or Premium, where applicable)</li>
         <li>Traveller-selected add-ons: travel insurance, breakfast, seats together, cabin bag</li>
-        <li>Destination exclusion fee (2nd and 3rd exclusion +€10 each, 4th and 5th +€15 each — 1st exclusion is free)</li>
+        <li>Destination exclusion fee (1st exclusion is free — each subsequent exclusion +15€ per person)</li>
       </ul>
 
       <h3>Payment method</h3>
@@ -524,9 +503,10 @@ body {
         <li>Provide the <strong>exact full name of each traveller</strong> as it appears on the travel document to be used for the trip</li>
         <li>Provide the <strong>correct date of birth</strong> of each traveller</li>
         <li>Check the <strong>expiry date of the travel document</strong> — the passport must be valid for at least 6 months after the return date</li>
-        <li>Hold a <strong>valid visa</strong> or right of entry for the destination; since the destination is a surprise, the traveller is responsible for verifying visa requirements for all realistically possible destinations, or for accepting responsibility for any resulting issues</li>
+        <li>State in the <strong>Notes field</strong> when submitting the enquiry which countries the travellers hold an active visa for, and whether any traveller may require a visa for certain destinations — this allows us to adapt the destination selection accordingly</li>
         <li>Pay the deposit and remaining balance by the agreed deadlines</li>
         <li>Arrive at the airport within the time required by the airline (at least 2 hours before departure for European flights)</li>
+        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (72 hours before departure) — Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
       </ul>
 
       <div class="pp-warning">
@@ -534,7 +514,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Visa risk and the surprise concept:</strong> As the destination remains secret until 72 hours before departure, travellers who do not have visa-free access to all destinations within the selected programme should inform us before confirming the booking, or exclude destinations for which they are unsure. Escapii and BTA are not liable for consequences arising from a lack of the necessary travel documents.
+          <strong>Visas and documents:</strong> As the destination remains secret until 72 hours before departure, the traveller is required to state in the <strong>Notes field</strong> when submitting the enquiry: (1) which countries the travellers hold an active visa for, and (2) whether any traveller may require a visa for certain destinations. Based on this information, Escapii adapts the destination selection. The traveller bears sole responsibility for the travel documents of all travellers on the booking.
         </div>
       </div>
     </section>
@@ -548,7 +528,7 @@ body {
         <h2>Cancellation &amp; changes</h2>
       </div>
 
-      <p>Cancellations and changes to bookings are governed by <strong>BTA's General Terms and Conditions of Travel</strong>. The table below is a general overview — exact conditions are available from BTA (<a href="mailto:office@bta.co.rs" style="color:var(--accent);text-decoration:none;">office@bta.co.rs</a>) or the Escapii team.</p>
+      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview — exact conditions are available from the Escapii team at <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
@@ -574,10 +554,10 @@ body {
       </div>
 
       <h3>Changes to a confirmed booking</h3>
-      <p>Changes to a confirmed booking (number of travellers, dates, accommodation type) are possible only with the written agreement of both the Escapii team and BTA, and may be subject to an administrative fee. <strong>The destination cannot be changed</strong> — it is determined at the time of booking confirmation and cannot be altered afterwards.</p>
+      <p><strong>No changes are possible after a booking has been confirmed.</strong> By confirming the booking, the traveller accepts all travel conditions (destination, dates, number of travellers, accommodation type, and add-ons) as final. The only option after confirmation is cancellation, subject to the applicable fees shown in the table above.</p>
 
-      <h3>Cancellation by Escapii / BTA</h3>
-      <p>If the travel organiser (BTA) cancels the trip for reasons not attributable to the traveller, the traveller will receive a full refund of all amounts paid, or an alternative package of equivalent value.</p>
+      <h3>Cancellation by the organiser</h3>
+      <p>If the travel organiser cancels the trip for reasons not attributable to the traveller, the traveller will receive a full refund of all amounts paid, or an alternative package of equivalent value.</p>
     </section>
 
     <!-- Liability -->
@@ -590,9 +570,9 @@ body {
       </div>
 
       <h3>Escapii's liability</h3>
-      <p>Escapii is liable solely for the proper functioning of the digital platform — collecting enquiries, passing information to BTA, and communicating with the traveller. Escapii is not liable for:</p>
+      <p>Escapii is liable solely for the proper functioning of the digital platform — collecting enquiries and communicating with the traveller. Escapii is not liable for:</p>
       <ul class="pp-list">
-        <li>Execution of the travel package — this is the responsibility of BTA</li>
+        <li>Execution of the travel package — this is the responsibility of the partner travel agency</li>
         <li>The quality of flights, accommodation, or ancillary services</li>
         <li>Flight delays, cancellations, or changes by airlines</li>
         <li>Force majeure events (natural disasters, epidemics, armed conflicts, strikes)</li>
@@ -604,7 +584,7 @@ body {
       <p>The traveller is financially responsible for all costs arising from inaccurate or incomplete information provided when submitting the enquiry, and for the consequences of missing payment deadlines.</p>
 
       <h3>Force majeure</h3>
-      <p>Neither Escapii nor BTA is liable for failure to fulfil obligations caused by circumstances beyond their reasonable control (force majeure), including but not limited to: natural disasters, epidemics, armed conflicts, and government travel bans.</p>
+      <p>Escapii is not liable for failure to fulfil obligations caused by circumstances beyond its reasonable control (force majeure), including but not limited to: natural disasters, epidemics, armed conflicts, and government travel bans.</p>
     </section>
 
     <!-- Visa & documents -->
@@ -616,7 +596,7 @@ body {
         <h2>Visa &amp; travel documents</h2>
       </div>
 
-      <p>The traveller is <strong>solely responsible</strong> for obtaining all required travel documents, visas, and health certificates for the destination. Escapii and BTA may provide informational support, but final responsibility lies with the traveller.</p>
+      <p>The traveller is <strong>solely responsible</strong> for obtaining all required travel documents, visas, and health certificates for the destination. Final responsibility lies with the traveller.</p>
 
       <h3>Minimum requirements</h3>
       <ul class="pp-list">
@@ -647,11 +627,7 @@ body {
       <p>Contracts concluded through the Escapii platform are governed by the law of the <strong>Republic of Serbia</strong>. The courts of Belgrade have exclusive jurisdiction over any disputes.</p>
 
       <h3>Complaints</h3>
-      <p>A traveller who is dissatisfied with the execution of a trip may submit a written complaint to:</p>
-      <ul class="pp-list">
-        <li><strong>Escapii</strong> — by email to <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a></li>
-        <li><strong>BTA</strong> — by email to <a href="mailto:office@bta.co.rs" style="color:var(--accent);text-decoration:none;">office@bta.co.rs</a></li>
-      </ul>
+      <p>A traveller who is dissatisfied with the execution of a trip may submit a written complaint to <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
       <p>Complaints must be submitted within <strong>8 days of returning</strong> from the trip. The organiser is required to respond within 8 working days of receiving the complaint.</p>
 
       <h3>Consumer protection</h3>
@@ -702,7 +678,6 @@ body {
   <p>
     © <?php echo date('Y'); ?> Escapii · Republic of Serbia ·
     <a href="<?php echo home_url('/privacy-policy'); ?>">Privacy Policy</a> ·
-    Trips are operated in partnership with <a href="https://www.bta.co.rs" target="_blank" rel="noopener">BTA</a> ·
     Prepared in accordance with the Tourism Act (Official Gazette of RS, No. 17/2019) and the Consumer Protection Act (Official Gazette of RS, No. 88/2021)
   </p>
 </footer>

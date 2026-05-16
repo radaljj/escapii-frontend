@@ -435,8 +435,7 @@ body {
         </div>
         <h2>Who we are</h2>
       </div>
-      <p><strong>Escapii</strong> is a digital platform for organising surprise trips from Serbia. <strong>Escapii is not a travel agency</strong> and does not hold a licence to operate as a travel organiser.</p>
-      <p>All trips are organised in partnership with the licensed travel agency <strong>BTA — Tourist Agency BTA</strong>, Takovska 6, Belgrade (<a href="https://www.bta.co.rs" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.bta.co.rs</a>). Escapii acts as a <strong>sub-agent</strong> of BTA, facilitating the creation of travel packages on its behalf.</p>
+      <p><strong>Escapii</strong> is a digital platform for organising surprise trips from Serbia. We are not a travel agency — we act as a <strong>sub-agent</strong> of a licensed travel agency and facilitate the creation of travel packages.</p>
       <p>For any questions regarding the processing of your personal data, please contact us at <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
@@ -465,6 +464,8 @@ body {
             <tr><td>Accommodation type</td><td>Accommodation arrangement</td></tr>
             <tr><td>Excluded destinations</td><td>Personalising the surprise to your preferences</td></tr>
             <tr><td>Preferences (breakfast, seats, luggage, insurance)</td><td>Offer personalisation</td></tr>
+            <tr><td>Passenger data (name, gender, date of birth)</td><td>Flight and accommodation booking with the partner agency</td></tr>
+            <tr><td>Visa information</td><td>Adapting the destination to the visa status of travellers</td></tr>
           </tbody>
         </table>
       </div>
@@ -526,9 +527,8 @@ body {
       <h3>Third parties</h3>
       <p>We share your data with the following categories of recipients, strictly to the extent necessary to organise your trip:</p>
       <ul class="pp-list">
-        <li><strong>BTA — Tourist Agency BTA</strong> — as our principal travel organiser, BTA receives the data required to book your flight and accommodation (full names of travellers, airport, dates, number of travellers, accommodation type). BTA is required to process your data solely for the purpose of fulfilling the travel package</li>
-        <li><strong>Airlines</strong> — for flight bookings, through BTA</li>
-        <li><strong>Hotels and accommodation providers</strong> — for accommodation bookings, through BTA</li>
+        <li><strong>Partner travel agency</strong> — receives the data required to book your flight and accommodation (full names of travellers, airport, dates, number of travellers, accommodation type), solely for the purpose of fulfilling the travel package</li>
+        <li><strong>Airlines and hotels</strong> — for booking purposes, through the partner agency</li>
         <li><strong>Insurance companies</strong> — only if you selected travel insurance</li>
         <li><strong>Google (Gmail)</strong> — emails we send pass through Google infrastructure</li>
       </ul>
@@ -681,7 +681,7 @@ body {
   <p>
     © <?php echo date('Y'); ?> Escapii · Republic of Serbia ·
     <a href="<?php echo home_url('/terms-of-use'); ?>">Terms of Use</a> ·
-    Compiled in accordance with GDPR (EU) 2016/679
+    Compiled in accordance with the Personal Data Protection Act (Official Gazette RS, No. 87/2018) and GDPR (EU) 2016/679
   </p>
 </footer>
 
