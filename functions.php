@@ -23,6 +23,7 @@ function escapii_api_url() {
 function escapii_head_meta() {
     $img_url = get_template_directory_uri() . '/images';
     $site_name = 'Escapii';
+    $og_title  = 'Escapii - Putovanja iznenađenja već od 239€';
     $desc      = 'Rezerviši putovanje iznenađenja — destinacija ostaje tajna do 3 dana pre polaska!';
     $og_img    = $img_url . '/og-image.jpg';
     $home      = home_url('/');
@@ -36,20 +37,20 @@ function escapii_head_meta() {
     <meta property="og:type"         content="website">
     <meta property="og:url"          content="<?php echo esc_url($home); ?>">
     <meta property="og:site_name"    content="<?php echo esc_attr($site_name); ?>">
-    <meta property="og:title"        content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
+    <meta property="og:title"        content="<?php echo esc_attr($og_title); ?>">
     <meta property="og:description"  content="<?php echo esc_attr($desc); ?>">
     <meta property="og:image"        content="<?php echo esc_url($og_img); ?>">
     <meta property="og:image:type"   content="image/jpeg">
     <meta property="og:image:width"  content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt"    content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
+    <meta property="og:image:alt"    content="<?php echo esc_attr($og_title); ?>">
 
     <!-- Twitter / X card (large image) -->
     <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
+    <meta name="twitter:title"       content="<?php echo esc_attr($og_title); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr($desc); ?>">
     <meta name="twitter:image"       content="<?php echo esc_url($og_img); ?>">
-    <meta name="twitter:image:alt"   content="<?php echo esc_attr($site_name . ' — Tajna putovanja'); ?>">
+    <meta name="twitter:image:alt"   content="<?php echo esc_attr($og_title); ?>">
     <?php
 }
 add_action('wp_head', 'escapii_head_meta', 1);

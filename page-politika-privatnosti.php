@@ -421,12 +421,13 @@ body {
 .pp-footer a:hover { color: var(--white); }
 
 /* ── Lang toggle ── */
-.pp-lang-wrap { display: flex; background: rgba(255,255,255,.1); border-radius: 8px; overflow: hidden; }
+.pp-lang-wrap { display: flex; background: rgba(255,255,255,.1); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
 .pp-lang-btn {
   padding: 6px 14px; font-size: 12px; font-weight: 700; cursor: pointer;
   border: none; background: transparent; color: rgba(255,255,255,.5);
   letter-spacing: .5px; transition: all .2s; text-decoration: none;
-  display: inline-flex; align-items: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  white-space: nowrap; line-height: 1;
 }
 .pp-lang-btn.on { background: #CA8A71; color: #fff; }
 .pp-lang-btn:hover:not(.on) { color: rgba(255,255,255,.85); }
