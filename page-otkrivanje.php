@@ -353,13 +353,13 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     .ticket-detail { flex: 1; }
     .ticket-detail + .ticket-detail { border-left: 1px solid #f3f4f6; padding-left: 12px; }
     .ticket-detail-label { font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #9ca3af; margin-bottom: 2px; }
-    .ticket-detail-value { font-size: 11px; font-weight: 700; color: #1f2937; }
-    .ticket-detail-value.accent { color: var(--accent); }
+    .ticket-detail-value { font-size: 11px; font-weight: 700; color: #1f2937; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ticket-detail-value.accent { color: var(--accent); font-size: 10px; }
 
     /* Passengers */
     .ticket-pax { padding-top: 8px; border-top: 1px dashed #e5e7eb; opacity: 0; flex-shrink: 0; }
     .envelope.opened .ticket-pax { animation: fadeSlide 0.45s ease 2.3s both; }
-    .ticket-pax-row { font-size: 9.5px; color: #374151; font-weight: 600; line-height: 1.5; }
+    .ticket-pax-row { font-size: 9.5px; color: #374151; font-weight: 600; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 
     @keyframes fadeSlide {
       from { opacity: 0; transform: translateY(5px); }
@@ -762,13 +762,6 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     <a href="/" class="rv-err-btn">← Nazad na početnu</a>
     <div class="rv-err-contact">Problem? Piši nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
   </div>
-</div>
-
-<!-- Top logo -->
-<div class="top-logo">
-  <img src="<?php echo esc_url($logo_url); ?>" alt="Escapii" onerror="this.style.display='none'">
-  <div class="logo-divider"></div>
-  <div class="logo-sub">Mystery Travel</div>
 </div>
 
 <!-- Loading -->

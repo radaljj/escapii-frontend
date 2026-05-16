@@ -59,14 +59,19 @@ body {
 .pp-logo img { height: 42px; width: auto; display: block; }
 .pp-back {
   font-size: 13px;
-  color: var(--gray);
+  color: rgba(255,255,255,.75);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 6px;
   transition: color .2s;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
 }
-.pp-back:hover { color: var(--white); }
+.pp-back:hover { color: #fff; background: rgba(255,255,255,.12); }
 
 /* ── Hero ── */
 .pp-hero {
@@ -377,7 +382,7 @@ body {
         <a href="<?php echo home_url('/politika-privatnosti'); ?>" class="pp-lang-btn">SR</a>
         <span class="pp-lang-btn on">EN</span>
       </div>
-      <a href="<?php echo home_url('/'); ?>" class="pp-back">
+      <a href="/" class="pp-back">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
         Back to site
       </a>

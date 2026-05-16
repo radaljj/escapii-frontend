@@ -23,7 +23,7 @@ function escapii_api_url() {
 function escapii_head_meta() {
     $img_url = get_template_directory_uri() . '/images';
     $site_name = 'Escapii';
-    $desc      = 'Rezerviši mystery putovanje — destinacija ostaje tajna do 3 dana pre polaska!';
+    $desc      = 'Rezerviši putovanje iznenađenja — destinacija ostaje tajna do 3 dana pre polaska!';
     $og_img    = $img_url . '/og-image.jpg';
     $home      = home_url('/');
     ?>

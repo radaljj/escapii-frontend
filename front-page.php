@@ -1668,7 +1668,8 @@
     .status-modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 2000;
       background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
-      align-items: center; justify-content: center; padding: 20px;
+      align-items: flex-start; justify-content: center; padding: 20px;
+      overflow-y: auto;
     }
     .status-modal-overlay.open { display: flex; }
     .status-modal-card {
@@ -1676,6 +1677,7 @@
       border-radius: 20px; padding: 36px 32px 32px; width: 100%; max-width: 420px;
       box-shadow: 0 24px 64px rgba(0,0,0,.5);
       animation: modalIn .22s cubic-bezier(.34,1.56,.64,1);
+      margin: auto;
     }
     @keyframes modalIn { from { opacity:0; transform:scale(.94) translateY(12px); } to { opacity:1; transform:none; } }
     .status-modal-close {
