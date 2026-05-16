@@ -70,6 +70,8 @@ body {
   border-radius: 8px;
   background: rgba(255,255,255,.07);
   border: 1px solid rgba(255,255,255,.12);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .pp-back:hover { color: #fff; background: rgba(255,255,255,.12); }
 

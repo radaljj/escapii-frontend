@@ -82,6 +82,20 @@ function escapii_create_privacy_page() {
 add_action('after_switch_theme', 'escapii_create_privacy_page');
 add_action('init', 'escapii_create_privacy_page');
 
+// Automatski kreiraj /privacy-policy stranicu ako ne postoji
+function escapii_create_privacy_policy_en_page() {
+    if (get_page_by_path('privacy-policy')) return;
+    $id = wp_insert_post([
+        'post_title'  => 'Privacy Policy',
+        'post_name'   => 'privacy-policy',
+        'post_status' => 'publish',
+        'post_type'   => 'page',
+    ]);
+    update_post_meta($id, '_wp_page_template', 'page-privacy-policy.php');
+}
+add_action('after_switch_theme', 'escapii_create_privacy_policy_en_page');
+add_action('init', 'escapii_create_privacy_policy_en_page');
+
 // Automatski kreiraj /hvala stranicu ako ne postoji
 function escapii_create_hvala_page() {
     if (get_page_by_path('hvala')) return;
