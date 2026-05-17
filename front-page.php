@@ -3555,7 +3555,7 @@ function buildCarousel() {
   const track    = document.getElementById('carouselTrack');
   const html     = [...shuffled, ...shuffled].map(d => `
     <div class="dest-card-c">
-      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
+      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="dest-card-label">
         <div class="dest-card-label-name">${carouselDestName(d)}</div>
       </div>
@@ -4084,6 +4084,24 @@ function pickDate(el,id,d) {
   S.selectedDateId = id;
   S.selectedDate = d;
   document.getElementById('btnN3').disabled = false;
+  updateBreakfastCardLabel(d.numberOfNights);
+}
+
+function updateBreakfastCardLabel(nights) {
+  const el = document.getElementById('ec-hasBreakfast');
+  if (!el) return;
+  const priceEl = el.querySelector('.extra-card-price');
+  if (!priceEl) return;
+  if (nights && nights > 1) {
+    const total = 20 * nights;
+    priceEl.textContent = lang === 'sr'
+      ? `+${total}€/os (${nights} noći)`
+      : `+${total}€/pp (${nights} nights)`;
+    priceEl.removeAttribute('data-i18n');
+  } else {
+    priceEl.setAttribute('data-i18n', 'bfst.price');
+    priceEl.textContent = t('bfst.price');
+  }
 }
 
 // ══════════ STEP 4
@@ -4202,7 +4220,7 @@ function updateExclStep() {
 function renderExclGrid() {
   document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
-      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy">
+      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="excl-overlay">
         <div class="excl-name">${destDisplayName(d.name)}</div>
       </div>
