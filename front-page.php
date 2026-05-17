@@ -2407,7 +2407,7 @@
                 <div class="extra-card-title" data-i18n="ext.bfst">Doručak u hotelu</div>
                 <div class="extra-card-sub" data-i18n="ext.bfst.d">Doručak u hotelu uključen za svaki dan boravka.</div>
               </div>
-              <div class="extra-card-price" data-i18n="bfst.price">+20€/os</div>
+              <div class="extra-card-price" data-i18n="bfst.price">+20€/os/noć</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
