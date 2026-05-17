@@ -4467,7 +4467,7 @@ async function loadPrice() {
     if(p.accommodationExtraPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.accom')}</span><span>+${p.accommodationExtraPerPerson}€${pp}</span></div>`;
     if(p.cabinSuitcaseTotal>0) html+=`<div class="pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson}€${pp}</span></div>`;
-    if(p.breakfastPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson}€${pp}</span></div>`;
+    if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstSub=lang==='sr'?`20€/os/noć`:`20€/pp/night`; const bfstPers=lang==='sr'?`${p.numberOfNights} noći × ${p.numberOfTravelers} os`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span><br><span style="font-size:11px;opacity:.55;">${bfstSub}</span></span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether}€${pp}</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${pp}</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
@@ -4527,7 +4527,7 @@ function updateSummaryCard() {
     if (p.insurancePerPerson > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson * n}€</span></div>`;
     if (p.breakfastPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${t('nights', p.numberOfNights)})</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${lang==='sr'?'noći':'nights'} × ${n} ${lang==='sr'?'os':'pp'})<br><small style="opacity:.55;font-size:11px;">20€/os/noć</small></span><span>+${p.breakfastPerPerson * n}€</span></div>`;
     if (p.seatsTogether > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether * n}€</span></div>`;
     if (p.exclusionCostFlat > 0) {
