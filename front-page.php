@@ -4084,24 +4084,6 @@ function pickDate(el,id,d) {
   S.selectedDateId = id;
   S.selectedDate = d;
   document.getElementById('btnN3').disabled = false;
-  updateBreakfastCardLabel(d.numberOfNights);
-}
-
-function updateBreakfastCardLabel(nights) {
-  const el = document.getElementById('ec-hasBreakfast');
-  if (!el) return;
-  const priceEl = el.querySelector('.extra-card-price');
-  if (!priceEl) return;
-  if (nights && nights > 1) {
-    const total = 20 * nights;
-    priceEl.textContent = lang === 'sr'
-      ? `+${total}€/os (${nights} noći)`
-      : `+${total}€/pp (${nights} nights)`;
-    priceEl.removeAttribute('data-i18n');
-  } else {
-    priceEl.setAttribute('data-i18n', 'bfst.price');
-    priceEl.textContent = t('bfst.price');
-  }
 }
 
 // ══════════ STEP 4
