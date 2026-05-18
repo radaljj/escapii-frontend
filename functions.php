@@ -55,6 +55,14 @@ function escapii_head_meta() {
 }
 add_action('wp_head', 'escapii_head_meta', 1);
 
+// Postavi Escapii favicon kao WP site icon (override WordPress default)
+add_filter('get_site_icon_url', function($url, $size) {
+    return get_template_directory_uri() . '/images/favicon.png';
+}, 10, 2);
+add_filter('site_icon_url', function($url, $size) {
+    return get_template_directory_uri() . '/images/favicon.png';
+}, 10, 2);
+
 // Automatski kreiraj /admin-panel stranicu ako ne postoji
 function escapii_create_admin_page() {
     if (get_page_by_path('admin-panel')) return;
