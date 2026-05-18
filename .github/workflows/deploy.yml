@@ -16,6 +16,6 @@ jobs:
           host: 37.27.194.35
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "*.php,images/,style.css"
+          source: "*.php,images/,style.css,assets/"
           target: /var/www/escapii/wp-content/themes/escapii-theme/
           strip_components: 0

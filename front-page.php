@@ -4872,6 +4872,9 @@ document.addEventListener('DOMContentLoaded', () => {
   equalFeatCards();
   // Primeni sačuvani jezik na lang dugmad
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent === lang.toUpperCase()));
+  // Forsira autoplay na mobilnom — browser ponekad ne pokrene automatski
+  const hv = document.querySelector('.hero-video');
+  if (hv) { hv.muted = true; hv.play().catch(() => {}); }
 });
 window.addEventListener('load', equalFeatCards);
 window.addEventListener('resize', equalFeatCards);
