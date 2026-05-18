@@ -2090,7 +2090,7 @@
 
 <!-- HERO -->
 <section class="esc-hero">
-  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback>
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback poster="<?= get_template_directory_uri() ?>/assets/hero-poster.jpg">
     <source src="<?= get_template_directory_uri() ?>/assets/hero-bg-opt.mp4" type="video/mp4">
   </video>
   <div class="hero-video-overlay"></div>
