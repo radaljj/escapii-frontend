@@ -2090,7 +2090,7 @@
 
 <!-- HERO -->
 <section class="esc-hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback>
     <source src="<?= get_template_directory_uri() ?>/assets/hero-bg-opt.mp4" type="video/mp4">
   </video>
   <div class="hero-video-overlay"></div>
@@ -4872,9 +4872,19 @@ document.addEventListener('DOMContentLoaded', () => {
   equalFeatCards();
   // Primeni sačuvani jezik na lang dugmad
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent === lang.toUpperCase()));
-  // Forsira autoplay na mobilnom — browser ponekad ne pokrene automatski
+  // Forsira autoplay na mobilnom (iOS ignoruje autoplay atribut)
   const hv = document.querySelector('.hero-video');
-  if (hv) { hv.muted = true; hv.play().catch(() => {}); }
+  if (hv) {
+    hv.muted = true;
+    const tryPlay = () => hv.play().catch(() => {});
+    tryPlay();
+    hv.addEventListener('canplay', tryPlay, { once: true });
+    hv.addEventListener('loadeddata', tryPlay, { once: true });
+    // iOS zahteva user gesture — pokreni na prvom touchu/scrollu
+    const onInteract = () => { tryPlay(); document.removeEventListener('touchstart', onInteract); window.removeEventListener('scroll', onInteract); };
+    document.addEventListener('touchstart', onInteract, { once: true, passive: true });
+    window.addEventListener('scroll', onInteract, { once: true, passive: true });
+  }
 });
 window.addEventListener('load', equalFeatCards);
 window.addEventListener('resize', equalFeatCards);
