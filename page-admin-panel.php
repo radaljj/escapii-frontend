@@ -781,6 +781,140 @@ tbody td  { padding: 11px 12px; }
   .panel-title { font-size: 18px; }
   .card { padding: 16px; }
 }
+
+/* ── Notifikacije ── */
+.notif-wrap {
+  position: relative;
+}
+.notif-btn {
+  position: relative;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background .2s;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.notif-btn:hover { background: rgba(255,255,255,.12); }
+.notif-btn.has-unread { border-color: rgba(202,138,113,.4); }
+.notif-badge {
+  position: absolute;
+  top: -5px; right: -5px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px; font-weight: 800;
+  min-width: 18px; height: 18px;
+  border-radius: 100px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+  pointer-events: none;
+  border: 2px solid var(--navy);
+}
+.notif-badge:empty, .notif-badge[data-count="0"] { display: none; }
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 340px;
+  background: #0f1d3a;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.6);
+  z-index: 9999;
+  display: none;
+  overflow: hidden;
+}
+.notif-dropdown.open { display: block; }
+.notif-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.notif-header-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--white);
+  letter-spacing: .3px;
+}
+.notif-clear-btn {
+  background: none; border: none;
+  font-size: 11px; font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  transition: color .2s;
+  padding: 2px 4px;
+}
+.notif-clear-btn:hover { color: var(--white); }
+.notif-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+.notif-list::-webkit-scrollbar { width: 4px; }
+.notif-list::-webkit-scrollbar-track { background: transparent; }
+.notif-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+.notif-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: background .15s;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item.unread { background: rgba(202,138,113,.06); }
+.notif-item:hover { background: rgba(255,255,255,.04); }
+.notif-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.notif-content { flex: 1; min-width: 0; }
+.notif-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--white);
+  margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.notif-body {
+  font-size: 12px;
+  color: var(--gray);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.notif-time {
+  font-size: 10px;
+  color: var(--gray2);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.notif-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--gray2);
+  font-size: 13px;
+}
+.notif-status {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  font-size: 11px;
+  color: var(--gray2);
+  display: flex; align-items: center; gap: 6px;
+}
+.notif-status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gray2);
+  flex-shrink: 0;
+  transition: background .3s;
+}
+.notif-status-dot.connected { background: var(--green); }
+.notif-status-dot.connecting { background: var(--yellow); animation: pulse-dot 1s infinite; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; } 50% { opacity: .3; }
+}
+@media (max-width: 500px) {
+  .notif-dropdown { width: calc(100vw - 32px); right: -60px; }
+}
 </style>
 </head>
 <body>
@@ -814,7 +948,28 @@ tbody td  { padding: 11px 12px; }
 <div class="admin-wrap" id="adminWrap">
   <header class="admin-header">
     <div class="admin-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"><small>Admin</small></div>
-    <button class="btn-logout" onclick="doLogout()">Odjavi se</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="notif-wrap" id="notifWrap">
+        <button class="notif-btn" id="notifBtn" onclick="toggleNotifDropdown()" title="Notifikacije">
+          🔔
+          <span class="notif-badge" id="notifBadge"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-header">
+            <span class="notif-header-title">Notifikacije</span>
+            <button class="notif-clear-btn" onclick="clearNotifications()">Obriši sve</button>
+          </div>
+          <div class="notif-list" id="notifList">
+            <div class="notif-empty">Nema novih notifikacija</div>
+          </div>
+          <div class="notif-status">
+            <span class="notif-status-dot connecting" id="notifStatusDot"></span>
+            <span id="notifStatusText">Povezivanje...</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Odjavi se</button>
+    </div>
   </header>
 
   <main class="admin-main">
@@ -1097,6 +1252,8 @@ function closePricePopup() {
 }
 
 function doLogout() {
+  if (sseController) { sseController.abort(); sseController = null; }
+  if (sseReconnectTimer) { clearTimeout(sseReconnectTimer); sseReconnectTimer = null; }
   ADMIN_KEY = '';
   location.reload();
 }
@@ -1111,6 +1268,7 @@ async function initAdmin() {
   if (bs) { bs.value = ''; bs.setAttribute('readonly', 'true'); setTimeout(() => bs.removeAttribute('readonly'), 100); }
 
   await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
+  connectSSE();
 
   airportTs = new TomSelect('#fAirport', {
     create: false, allowEmptyOption: false, controlInput: null,
@@ -2876,6 +3034,173 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
 
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══ NOTIFIKACIJE (fetch-based SSE — key u headeru, nikad u URL) ══
+let notifications = [];
+let notifUnread   = 0;
+let sseController = null;
+let sseReconnectTimer = null;
+
+const NOTIF_ICONS = {
+  booking:   '📋',
+  confirmed: '✅',
+  cancelled: '❌',
+  inquiry:   '📩',
+  waitlist:  '🔔',
+  private:   '🔒',
+  date:      '📅',
+  error:     '🚨',
+};
+
+function connectSSE() {
+  if (sseController) sseController.abort();
+  if (sseReconnectTimer) { clearTimeout(sseReconnectTimer); sseReconnectTimer = null; }
+
+  sseController = new AbortController();
+  setNotifStatus('connecting', 'Povezivanje...');
+
+  fetch(`${API}/api/admin/notifications/stream`, {
+    headers: { 'X-Admin-Key': ADMIN_KEY },
+    signal: sseController.signal,
+  }).then(resp => {
+    if (!resp.ok) {
+      setNotifStatus('error', 'Greška pri povezivanju');
+      scheduleSSEReconnect();
+      return;
+    }
+    setNotifStatus('connected', 'Povezano');
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    function read() {
+      reader.read().then(({ done, value }) => {
+        if (done) { scheduleSSEReconnect(); return; }
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop(); // keep incomplete line
+        let eventName = '';
+        let dataStr   = '';
+        for (const line of lines) {
+          if (line.startsWith('event:')) {
+            eventName = line.slice(6).trim();
+          } else if (line.startsWith('data:')) {
+            dataStr = line.slice(5).trim();
+          } else if (line === '') {
+            // dispatch event
+            if (eventName && eventName !== 'ping') {
+              try {
+                const payload = JSON.parse(dataStr);
+                pushNotification(payload.type || eventName, payload.title || eventName, payload.body || '');
+              } catch(e) {}
+            }
+            eventName = ''; dataStr = '';
+          }
+        }
+        read();
+      }).catch(() => scheduleSSEReconnect());
+    }
+    read();
+  }).catch(err => {
+    if (err.name !== 'AbortError') {
+      setNotifStatus('error', 'Nema veze');
+      scheduleSSEReconnect();
+    }
+  });
+}
+
+function scheduleSSEReconnect() {
+  setNotifStatus('connecting', 'Ponovni pokušaj...');
+  sseReconnectTimer = setTimeout(() => connectSSE(), 5000);
+}
+
+function setNotifStatus(state, text) {
+  const dot  = document.getElementById('notifStatusDot');
+  const span = document.getElementById('notifStatusText');
+  if (!dot || !span) return;
+  dot.className  = 'notif-status-dot' + (state === 'connected' ? ' connected' : state === 'connecting' ? ' connecting' : '');
+  span.textContent = text;
+}
+
+function pushNotification(type, title, body) {
+  notifications.unshift({ type, title, body, time: new Date(), unread: true });
+  notifUnread++;
+  if (notifications.length > 50) notifications.pop(); // ograniči na 50
+  renderNotifications();
+  updateNotifBadge();
+}
+
+function renderNotifications() {
+  const list = document.getElementById('notifList');
+  if (!list) return;
+  if (notifications.length === 0) {
+    list.innerHTML = '<div class="notif-empty">Nema novih notifikacija</div>';
+    return;
+  }
+  list.innerHTML = notifications.map(n => {
+    const icon = NOTIF_ICONS[n.type] || '🔔';
+    const ago  = formatNotifTime(n.time);
+    return `<div class="notif-item${n.unread ? ' unread' : ''}">
+      <span class="notif-icon">${icon}</span>
+      <div class="notif-content">
+        <div class="notif-title">${escHtml(n.title)}</div>
+        <div class="notif-body">${escHtml(n.body)}</div>
+      </div>
+      <span class="notif-time">${ago}</span>
+    </div>`;
+  }).join('');
+}
+
+function updateNotifBadge() {
+  const badge = document.getElementById('notifBadge');
+  const btn   = document.getElementById('notifBtn');
+  if (!badge) return;
+  if (notifUnread > 0) {
+    badge.textContent = notifUnread > 99 ? '99+' : notifUnread;
+    badge.style.display = 'flex';
+    btn && btn.classList.add('has-unread');
+  } else {
+    badge.textContent = '';
+    badge.style.display = 'none';
+    btn && btn.classList.remove('has-unread');
+  }
+}
+
+function toggleNotifDropdown() {
+  const dd = document.getElementById('notifDropdown');
+  if (!dd) return;
+  const isOpen = dd.classList.toggle('open');
+  if (isOpen) {
+    // Označi sve kao pročitano
+    notifications.forEach(n => n.unread = false);
+    notifUnread = 0;
+    updateNotifBadge();
+    renderNotifications();
+  }
+}
+
+// Zatvori dropdown kliком van njega
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('notifWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('notifDropdown')?.classList.remove('open');
+  }
+});
+
+function clearNotifications() {
+  notifications = [];
+  notifUnread   = 0;
+  updateNotifBadge();
+  renderNotifications();
+}
+
+function formatNotifTime(date) {
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 60)  return 'malopre';
+  if (diff < 3600) return Math.floor(diff/60) + 'min';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h';
+  return date.toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit' });
 }
 </script>
 
