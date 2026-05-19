@@ -2102,11 +2102,11 @@
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše?</button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
-    <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
+    <span class="trust-badge">✈️ <span data-i18n="trust.1">Iznenađenje uključuje povratni let i hotel</span></span>
     <span class="trust-sep">·</span>
     <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju saznaješ 48h pre polaska</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">🛡️ <span data-i18n="trust.3">Putno osiguranje dostupno</span></span>
+    <span class="trust-badge">🛡️ <span data-i18n="trust.3">Putno osiguranje</span></span>
   </div>
 
   <div class="hero-stats">
@@ -2157,7 +2157,7 @@
             <div class="airport-overlay">
               <div class="airport-iata">INI</div>
               <div class="airport-city">Niš</div>
-              <div class="airport-name" data-i18n="s1.ini.name">Aerodrom Constantine the Great</div>
+              <div class="airport-name" data-i18n="s1.ini.name">Aerodrom Konstantin Veliki</div>
             </div>
             <div class="airport-check">✓</div>
           </div>
@@ -2587,7 +2587,7 @@
   <div class="mf-inner">
     <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
     <h2 class="mf-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
-    <p class="mf-body" style="font-size:clamp(17px,1.8vw,20px);font-weight:700;margin-bottom:8px;" data-i18n="mf.why">Zašto da putuješ sa Escapii ekipom?</p>
+    <div class="mf-tag" data-i18n="mf.why">Zašto da putuješ sa Escapii ekipom?</div>
     <p class="mf-body" data-i18n-html="mf.p1">Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em></p>
     <p class="mf-body" data-i18n-html="mf.p2">Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).</p>
     <p class="mf-body" data-i18n-html="mf.p3">A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la 'potvrdi rezervaciju'.</strong></p>
@@ -2595,23 +2595,6 @@
     <p class="mf-body" data-i18n-html="mf.p5">Zato postoji Escapii. Pronađeš datum koji ti odgovara, a naša ekipa će se pobrinuti za sve ostalo. Nema stresa, nema beskrajnog dogovaranja, nema gomile dosadnih poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.</p>
     <p class="mf-body" data-i18n-html="mf.p6">A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje — analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.</p>
     <blockquote class="mf-quote" data-i18n-html="mf.quote">Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.</blockquote>
-  </div>
-</section>
-
-<!-- DESTINATIONS CAROUSEL -->
-<section class="esc-dest" id="esc-dest">
-  <div class="dest-header">
-    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
-    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
-    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
-  </div>
-  <div class="carousel-outer">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-  <div class="dest-mystery-row">
-    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
   </div>
 </section>
 
@@ -2652,6 +2635,23 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS CAROUSEL -->
+<section class="esc-dest" id="esc-dest">
+  <div class="dest-header">
+    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
+    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
+    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+  <div class="dest-mystery-row">
+    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
   </div>
 </section>
 
@@ -2959,7 +2959,7 @@ const TR = {
     'pax.valid.passport.err':'Putnik mora imati validan pasoš da bi nastavio.',
     'pax.gender':'Pol', 'pax.dob':'Datum rođenja',
     'pax.visa':'Aktivne vize (opciono)', 'pax.visa.ph':'npr. Engleska, Irska, Maroko...',
-    's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Constantine the Great',
+    's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Konstantin Veliki',
     's1.soon':'Uskoro i polasci iz susednih zemalja', 's1.soon.title':'Planirana polazišta',
     's1.soon.hr':'· Hrvatska', 's1.soon.hu':'· Mađarska', 's1.soon.ro':'· Rumunija',
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
@@ -3009,7 +3009,7 @@ const TR = {
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
-    'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju saznaješ 48h pre polaska', 'trust.3':'Putno osiguranje dostupno',
+    'trust.1':'Iznenađenje uključuje povratni let i hotel', 'trust.2':'Destinaciju saznaješ 48h pre polaska', 'trust.3':'Putno osiguranje',
     'pay.heading':'Kako funkcioniše plaćanje?',
     'pay.s1':'Pošalji upit klikom na dugme ispod — besplatno i bez obaveza',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
@@ -3192,7 +3192,7 @@ const TR = {
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
     's8.notes.ph':'Allergies, special requests...',
-    'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'Travel insurance available',
+    'trust.1':'Flight + hotel included in the surprise', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'Travel insurance',
     'pay.heading':'How does payment work?',
     'pay.s1':'Submit your inquiry by clicking the button below — free and with no obligation',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
