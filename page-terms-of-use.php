@@ -415,13 +415,13 @@ body {
         <h2>How Escapii works</h2>
       </div>
 
-      <p>Escapii is a platform for <strong>surprise trips</strong> — the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>72 hours before departure</strong>.</p>
+      <p>Escapii is a platform for <strong>surprise trips</strong> — the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>48 hours before departure</strong>.</p>
 
       <h3>The surprise concept</h3>
       <ul class="pp-list">
         <li><strong>The traveller chooses:</strong> airport, dates, number of passengers, accommodation type, add-ons (insurance, breakfast, seats together, cabin bag) and up to 5 destinations to exclude</li>
         <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded</li>
-        <li><strong>The destination is revealed</strong> to the traveller via email 72 hours before departure</li>
+        <li><strong>The destination is revealed</strong> to the traveller via email 48 hours before departure</li>
         <li>By submitting an enquiry, the traveller <strong>accepts the surprise as an inherent part of the service</strong> and may not request a change of destination after the booking is confirmed</li>
       </ul>
 
@@ -453,7 +453,7 @@ body {
             <tr><td>1. Enquiry</td><td>The traveller fills in the form on the website and submits an enquiry. An automatic confirmation is sent to their email.</td></tr>
             <tr><td>2. Review</td><td>The Escapii team and agency BTA check availability and pricing. The enquiry is not binding on the traveller until a confirmation and payment have been received.</td></tr>
             <tr><td>3. Confirmation &amp; payment</td><td>The traveller receives an email with booking details and payment instructions. The booking is considered finalised only upon receipt of payment.</td></tr>
-            <tr><td>4. Reveal</td><td>72 hours before departure, the traveller receives an email with the destination, a weather forecast link, and all relevant information.</td></tr>
+            <tr><td>4. Reveal</td><td>48 hours before departure, the traveller receives an email with the destination, a weather forecast link, and all relevant information.</td></tr>
           </tbody>
         </table>
       </div>
@@ -506,7 +506,7 @@ body {
         <li>State in the <strong>Notes field</strong> when submitting the enquiry which countries the travellers hold an active visa for, and whether any traveller may require a visa for certain destinations — this allows us to adapt the destination selection accordingly</li>
         <li>Pay the deposit and remaining balance by the agreed deadlines</li>
         <li>Arrive at the airport within the time required by the airline (at least 2 hours before departure for European flights)</li>
-        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (72 hours before departure) — Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
+        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (48 hours before departure) — Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
       </ul>
 
       <div class="pp-warning">
@@ -514,7 +514,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Visas and documents:</strong> As the destination remains secret until 72 hours before departure, the traveller is required to state in the <strong>Notes field</strong> when submitting the enquiry: (1) which countries the travellers hold an active visa for, and (2) whether any traveller may require a visa for certain destinations. Based on this information, Escapii adapts the destination selection. The traveller bears sole responsibility for the travel documents of all travellers on the booking.
+          <strong>Visas and documents:</strong> As the destination remains secret until 48 hours before departure, the traveller is required to state in the <strong>Notes field</strong> when submitting the enquiry: (1) which countries the travellers hold an active visa for, and (2) whether any traveller may require a visa for certain destinations. Based on this information, Escapii adapts the destination selection. The traveller bears sole responsibility for the travel documents of all travellers on the booking.
         </div>
       </div>
     </section>

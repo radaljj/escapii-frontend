@@ -2786,7 +2786,7 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
       <input id="swal-price" type="number" min="1" value="${suggestedPrice}" placeholder="npr. 299"
         style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
       <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Link važi (sati):</label>
-      <input id="swal-expiry" type="number" value="72" min="1" max="720"
+      <input id="swal-expiry" type="number" value="48" min="1" max="720"
         style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
     `,
     showCancelButton: true,

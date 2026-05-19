@@ -4,7 +4,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escapii - Putovanja iznenađenja već od 239€</title>
-  <meta name="description" content="Prva platforma za putovanja iznenađenja u Srbiji. Ti biraš datum, mi biramo destinaciju. Saznaš kuda ideš 72h pre polaska.">
+  <meta name="description" content="Prva platforma za putovanja iznenađenja u Srbiji. Ti biraš datum, mi biramo destinaciju. Saznaš kuda ideš 48h pre polaska.">
 
   <?php wp_head(); ?>
   <!-- SweetAlert2 -->
@@ -2096,7 +2096,7 @@
   <div class="hero-video-overlay"></div>
   <div class="hero-eyebrow" data-i18n="hero.badge">Putovanja iznenađenja</div>
   <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš datum. <em>Mi biramo destinaciju.</em></h1>
-  <p class="hero-sub" data-i18n="hero.sub">Odaberi datum svog Escapii vikenda. Destinaciju saznaš 72h pre polaska.</p>
+  <p class="hero-sub" data-i18n="hero.sub">Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.</p>
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše?</button>
@@ -2104,7 +2104,7 @@
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
     <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju saznaješ 72h pre polaska</span></span>
+    <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju saznaješ 48h pre polaska</span></span>
     <span class="trust-sep">·</span>
     <span class="trust-badge">🛡️ <span data-i18n="trust.3">Putno osiguranje dostupno</span></span>
   </div>
@@ -2846,7 +2846,7 @@ const TR = {
     'status.btn':'Proveri →',
     'hero.badge':'Putovanja iznenađenja',
     'hero.h1':'Ti biraš datum. <em>Mi biramo destinaciju.</em>',
-    'hero.sub':'Odaberi datum svog Escapii vikenda. Destinaciju saznaš 72h pre polaska.',
+    'hero.sub':'Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.',
     'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
@@ -3009,7 +3009,7 @@ const TR = {
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
-    'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju saznaješ 72h pre polaska', 'trust.3':'Putno osiguranje dostupno',
+    'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju saznaješ 48h pre polaska', 'trust.3':'Putno osiguranje dostupno',
     'pay.heading':'Kako funkcioniše plaćanje?',
     'pay.s1':'Pošalji upit klikom na dugme ispod — besplatno i bez obaveza',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
@@ -3028,7 +3028,7 @@ const TR = {
     'status.btn':'Check →',
     'hero.badge':'Surprise travel experiences',
     'hero.h1':'Travel <em>without knowing</em> where you\'re going',
-    'hero.sub':'Choose your Escapii weekend date. You\'ll find out the destination 72h before departure.',
+    'hero.sub':'Choose your Escapii weekend date. You\'ll find out the destination 48h before departure.',
     'hero.cta':'Book your surprise', 'hero.how':'How does it work?',
     'hero.stat.dest':'Destinations', 'hero.stat.airports':'Departure airports', 'hero.stat.surprise':'Surprise',
     'mf.tag':'What is Escapii?',
@@ -3048,7 +3048,7 @@ const TR = {
     'how.sub':'All you need to do is pick a date and a budget.',
     'how.c1.t':'Create your Escapii surprise trip', 'how.c1.p':'Choose your date, number of travelers, budget and optional add-ons. Exclude destinations you don\'t want.',
     'how.c2.t':'We create your adventure', 'how.c2.p':'Our team, together with our partner agency, analyzes your preferences and creates a package tailored just for you — flight, hotel, everything.',
-    'how.c3.t':'Hints and excitement', 'how.c3.p':'7 days before departure you get a weather forecast for your destination — without revealing it. Start guessing! 😄 You\'ll find out the destination 72h before departure.',
+    'how.c3.t':'Hints and excitement', 'how.c3.p':'7 days before departure you get a weather forecast for your destination — without revealing it. Start guessing! 😄 You\'ll find out the destination 48h before departure.',
     'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We went away for the weekend and had no idea where" — that\'s a much better story than "we booked a trip to Paris at a travel fair".',
     'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
@@ -3192,7 +3192,7 @@ const TR = {
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
     's8.notes.ph':'Allergies, special requests...',
-    'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 72h before departure', 'trust.3':'Travel insurance available',
+    'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'Travel insurance available',
     'pay.heading':'How does payment work?',
     'pay.s1':'Submit your inquiry by clicking the button below — free and with no obligation',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',

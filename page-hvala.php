@@ -358,7 +358,7 @@
         <div class="bp-city right">
           <div class="bp-iata mystery">???</div>
           <div class="bp-city-name" id="bp-dest-label">Iznenađenje</div>
-          <div class="bp-city-sub" id="bp-dest-sub">otkrij 72h pre polaska</div>
+          <div class="bp-city-sub" id="bp-dest-sub">otkrij 48h pre polaska</div>
         </div>
       </div>
 
@@ -448,7 +448,7 @@
     <div class="ty-step">
       <div class="ty-step-num">4</div>
       <div class="ty-step-body">
-        <div class="ty-step-title" id="step4-title">Koverta s destinacijom — 72h pre polaska</div>
+        <div class="ty-step-title" id="step4-title">Koverta s destinacijom — 48h pre polaska</div>
         <div class="ty-step-desc" id="step4-desc">Koverta otkriva gde putujete. ✉</div>
       </div>
     </div>
@@ -578,7 +578,7 @@ const TY = {
     s2d:   'We\'ll send you all the details — payment steps, travel rules and everything you need to know before departure.',
     s3t:   'Weather forecast — 7 days before departure',
     s3d:   'You\'ll get a forecast so you know what to pack. Destination? Still a secret. 🌤',
-    s4t:   'Destination envelope — 72h before departure',
+    s4t:   'Destination envelope — 48h before departure',
     s4d:   'The envelope reveals where you\'re going. ✉',
     btn:   '← Back to home',
     ig:    'Follow us on Instagram for sneak peeks →',
@@ -595,7 +595,7 @@ const TY = {
   set('bpl-n', tr.bpN); set('bpl-pax', tr.bpPax); set('bpl-ref', tr.bpRef); set('bpl-seat', tr.bpSeat);
   if (lang === 'en') {
     const destLbl = document.getElementById('bp-dest-label'); if (destLbl) destLbl.textContent = 'Surprise';
-    const destSub = document.getElementById('bp-dest-sub');   if (destSub) destSub.textContent = 'reveal 72h before departure';
+    const destSub = document.getElementById('bp-dest-sub');   if (destSub) destSub.textContent = 'reveal 48h before departure';
   }
   const setStep = (ti, di, t, d) => { const tel=document.getElementById(ti); const del=document.getElementById(di); if(tel)tel.textContent=t; if(del)del.textContent=d; };
   setStep('step1-title','step1-desc', tr.s1t, tr.s1d);

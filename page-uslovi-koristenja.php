@@ -388,13 +388,13 @@ body {
         <h2>Kako funkcioniše Escapii</h2>
       </div>
 
-      <p>Escapii je platforma za <strong>iznenađujuća putovanja</strong> — korisnik ne bira destinaciju, već bira aerodrom polaska, period putovanja i svoje preferencije. Destinacija ostaje tajna sve do otkrića koje se šalje emailom <strong>72 sata pre polaska</strong>.</p>
+      <p>Escapii je platforma za <strong>iznenađujuća putovanja</strong> — korisnik ne bira destinaciju, već bira aerodrom polaska, period putovanja i svoje preferencije. Destinacija ostaje tajna sve do otkrića koje se šalje emailom <strong>48 sata pre polaska</strong>.</p>
 
       <h3>Koncept iznenađenja</h3>
       <ul class="pp-list">
         <li><strong>Korisnik bira:</strong> aerodrom, datume, broj putnika, tip smeštaja, dodaci (osiguranje, doručak, sedišta zajedno, prtljag) i do 5 destinacija koje želi isključiti</li>
         <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni</li>
-        <li><strong>Destinacija se otkriva</strong> korisniku emailom 72 sata pre polaska</li>
+        <li><strong>Destinacija se otkriva</strong> korisniku emailom 48 sata pre polaska</li>
         <li>Slanjem upita korisnik <strong>prihvata iznenađenje kao sastavni deo usluge</strong> i ne može zahtevati promenu destinacije nakon potvrde rezervacije</li>
       </ul>
 
@@ -426,7 +426,7 @@ body {
             <tr><td>1. Upit</td><td>Korisnik popunjava formu na sajtu i šalje upit. Dobija automatsku potvrdu prijema na email.</td></tr>
             <tr><td>2. Pregled</td><td>Tim Escapii-ja proverava dostupnost i cenu. Upit nije obavezujući za korisnika dok ne dođe do potvrde i uplate.</td></tr>
             <tr><td>3. Potvrda i uplata</td><td>Korisnik prima email sa detaljima rezervacije i uputstvom za uplatu. Rezervacija se smatra zaključenom tek po prijemu uplate.</td></tr>
-            <tr><td>4. Otkrivanje</td><td>72 sata pre polaska korisnik prima email sa destinacijom, linkom za vremensku prognozu i svim relevantnim informacijama.</td></tr>
+            <tr><td>4. Otkrivanje</td><td>48 sata pre polaska korisnik prima email sa destinacijom, linkom za vremensku prognozu i svim relevantnim informacijama.</td></tr>
           </tbody>
         </table>
       </div>
@@ -479,7 +479,7 @@ body {
         <li>U polju <strong>Napomene</strong> pri slanju upita naglasi ukoliko mu je potrebna viza za neku od potencijalnih destinacija, ili ukoliko poseduje aktivnu vizu za određene države (za sve putnike, ne samo nosioca rezervacije) — ovo nam omogućava da prilagodimo izbor destinacije</li>
         <li>Pravovremeno uplati avans i ostatak iznosa prema dogovorenim rokovima</li>
         <li>Stigne na aerodrom u vreme koje odredi avio kompanija (najkasnije 2 sata pre polaska za evropske letove)</li>
-        <li><strong>Samostalno izvrši check-in</strong> kod avio kompanije nakon što primi obaveštenje o destinaciji (72h pre polaska) — Escapii dostavlja booking kod avio kompanije putem reveal linka, a svaki putnik je odgovoran da se prijavi za let na vreme i u skladu sa uslovima prevoznika</li>
+        <li><strong>Samostalno izvrši check-in</strong> kod avio kompanije nakon što primi obaveštenje o destinaciji (48h pre polaska) — Escapii dostavlja booking kod avio kompanije putem reveal linka, a svaki putnik je odgovoran da se prijavi za let na vreme i u skladu sa uslovima prevoznika</li>
       </ul>
 
       <div class="pp-warning">
@@ -487,7 +487,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vize i dokumenta:</strong> Budući da destinacija ostaje tajna do 72 sata pre polaska, korisnik je dužan da pri slanju upita u polju <strong>Napomene</strong> navede: (1) za koje države putnici poseduju aktivnu vizu, i (2) ukoliko nekom od putnika može biti potrebna viza za određene destinacije. Na osnovu tih informacija Escapii prilagođava izbor destinacije. Korisnik snosi isključivu odgovornost za putne isprave svih putnika na rezervaciji.
+          <strong>Vize i dokumenta:</strong> Budući da destinacija ostaje tajna do 48 sata pre polaska, korisnik je dužan da pri slanju upita u polju <strong>Napomene</strong> navede: (1) za koje države putnici poseduju aktivnu vizu, i (2) ukoliko nekom od putnika može biti potrebna viza za određene destinacije. Na osnovu tih informacija Escapii prilagođava izbor destinacije. Korisnik snosi isključivu odgovornost za putne isprave svih putnika na rezervaciji.
         </div>
       </div>
     </section>
