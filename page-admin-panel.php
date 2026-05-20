@@ -824,7 +824,6 @@ tbody td  { padding: 11px 12px; }
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('dates')">📅 Termini</button>
       <button class="tab-btn" onclick="switchTab('bookings')">📋 Rezervacije <span class="tab-badge" id="bookingsBadge"></span></button>
-      <button class="tab-btn" onclick="switchTab('completed')">🏁 Završene <span class="tab-badge" id="completedBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('destinations')">✈️ Destinacije</button>
       <button class="tab-btn" onclick="switchTab('inquiries')">📩 Upiti <span class="tab-badge" id="inquiriesBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('waitlist')">🔔 Lista čekanja <span class="tab-badge" id="waitlistBadge"></span></button>
@@ -974,24 +973,11 @@ tbody td  { padding: 11px 12px; }
         <button class="filter-btn active" onclick="filterBookings('PENDING', this)">⏳ Na čekanju</button>
         <button class="filter-btn" onclick="filterBookings('CONFIRMED', this)">✅ Potvrđene</button>
         <button class="filter-btn" onclick="filterBookings('CANCELLED', this)">❌ Otkazane</button>
+        <button class="filter-btn" onclick="filterBookings('COMPLETED', this)">🏁 Završene</button>
       </div>
 
       <div class="booking-list" id="bookingList">
         <div class="empty-state">Učitavanje rezervacija...</div>
-      </div>
-    </div>
-
-    <!-- ══ ZAVRŠENE REZERVACIJE ══ -->
-    <div class="panel" id="panel-completed">
-      <div class="panel-title">Završena putovanja</div>
-      <div class="panel-subtitle">Rezervacije kojima je termin prošao i svi uslovi ispunjeni — automatski zatvorene svako jutro u 07:00</div>
-      <div class="booking-toolbar">
-        <input type="text" class="booking-search" id="completedSearch"
-               placeholder="🔍 Pretraži po imenu, emailu, broju rezervacije..."
-               autocomplete="off" oninput="renderCompleted()">
-      </div>
-      <div class="booking-list" id="completedList">
-        <div class="empty-state">Učitavanje...</div>
       </div>
     </div>
 
@@ -1699,7 +1685,6 @@ function switchTab(tab) {
   document.getElementById('panel-' + tab).classList.add('active');
   event.currentTarget.classList.add('active');
   if (tab === 'bookings')  loadBookings();
-  if (tab === 'completed') { if (ALL_BOOKINGS.length) renderCompleted(); else loadBookings().then(() => renderCompleted()); }
   if (tab === 'waitlist')  loadWaitlist();
   if (tab === 'errors')    loadErrors();
   if (tab === 'inquiries') loadInquiries();
@@ -1917,10 +1902,8 @@ async function loadBookings() {
 }
 
 function updateBookingBadge() {
-  const pending   = ALL_BOOKINGS.filter(b => b.status === 'PENDING').length;
-  const completed = ALL_BOOKINGS.filter(b => b.status === 'COMPLETED').length;
-  document.getElementById('bookingsBadge').textContent  = pending   > 0 ? pending   : '';
-  document.getElementById('completedBadge').textContent = completed > 0 ? completed : '';
+  const pending = ALL_BOOKINGS.filter(b => b.status === 'PENDING').length;
+  document.getElementById('bookingsBadge').textContent = pending > 0 ? pending : '';
 }
 
 function filterBookings(status, btn) {
@@ -2148,51 +2131,6 @@ function renderBookings() {
           🗑 Obriši
         </button>` : ''}
       </div>`}
-    </div>`;
-  }).join('');
-}
-
-function renderCompleted() {
-  const q    = (document.getElementById('completedSearch')?.value || '').toLowerCase().trim();
-  const list = document.getElementById('completedList');
-  const data = ALL_BOOKINGS
-    .filter(b => b.status === 'COMPLETED')
-    .filter(b => !q || `${b.firstName} ${b.lastName} ${b.email} ${b.bookingRef}`.toLowerCase().includes(q));
-
-  if (!data.length) {
-    list.innerHTML = '<div class="empty-state">Nema završenih putovanja.</div>';
-    return;
-  }
-
-  list.innerHTML = data.map(b => {
-    const depDate = b.departureDate ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '—';
-    const retDate = b.returnDate    ? new Date(b.returnDate).toLocaleDateString('sr-RS')    : '—';
-    const created = new Date(b.createdAt).toLocaleString('sr-RS', {
-      day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'
-    });
-    return `
-    <div class="booking-card status-COMPLETED">
-      <div class="bc-header">
-        <div>
-          <div class="bc-ref">${b.bookingRef}</div>
-          <div class="bc-date">Rezervisano: ${created}</div>
-        </div>
-        <span class="bc-status COMPLETED">🏁 Završena</span>
-      </div>
-      <div class="bc-body">
-        <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.firstName} ${b.lastName}</div></div>
-        <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${b.email}</div></div>
-        <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
-        <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">✈ ${b.departureAirport} · ${depDate} → ${retDate}</div></div>
-        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
-        <div class="bc-field"><div class="bc-label">Destinacija</div><div class="bc-value" style="font-weight:700;">${b.assignedDestination || '—'}</div></div>
-        <div class="bc-field"><div class="bc-label">Avio kompanija</div><div class="bc-value">${b.airlineName || '—'} · <span style="font-family:monospace;letter-spacing:1px;">${b.airlineBookingCode || '—'}</span></div></div>
-        <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);">${b.totalPriceAll}€</div></div>
-      </div>
-      ${b.adminNotes ? `<div class="bc-notes">📝 ${b.adminNotes}</div>` : ''}
-      <div class="bc-actions">
-        <span style="color:#818cf8;font-size:12px;font-weight:600;">🏁 Putovanje završeno — automatski zatvorena rezervacija</span>
-      </div>
     </div>`;
   }).join('');
 }
