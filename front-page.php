@@ -304,8 +304,8 @@
       30%         { transform:translateY(-4px); opacity:1; }
     }
     .esc-manifesto { background:var(--navy2); padding:100px 24px 80px; }
-    /* Part 1 — intro */
-    .ab-intro { text-align:center; max-width:680px; margin:0 auto 72px; }
+    /* Part 1 */
+    .ab-intro { text-align:center; max-width:680px; margin:0 auto 64px; }
     .ab-tag { display:inline-block; font-size:11px; font-weight:800; letter-spacing:2px;
               text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
     .ab-heading { font-size:clamp(26px,3.5vw,44px); font-weight:900; letter-spacing:-1px;
@@ -314,62 +314,104 @@
     .ab-question { font-size:clamp(20px,2.8vw,34px); font-weight:800; font-style:italic;
                    color:var(--white); line-height:1.2; margin-bottom:14px; letter-spacing:-.4px; }
     .ab-sub { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.7; }
-    /* Part 2 — chat + panel */
-    .ab-chat-section { display:flex; align-items:center; gap:48px;
-                       max-width:940px; margin:0 auto 80px; }
-    .ab-phone-wrap { flex:0 0 350px; min-width:0; }
-    .ab-phone { background:#fff; border-radius:20px; overflow:hidden;
-                box-shadow:0 2px 32px rgba(45,95,107,.12),0 1px 4px rgba(45,95,107,.06);
-                border:1px solid rgba(202,138,113,.1); }
-    .ab-chat-header { padding:12px 16px; border-bottom:1px solid rgba(74,68,66,.07);
-                      display:flex; align-items:center; gap:10px; background:rgba(250,247,245,.95); }
+    /* Part 2 — iPhone */
+    .ab-phone-wrap { display:flex; justify-content:center; margin:0 auto 56px; }
+    .ab-phone-frame {
+      width:320px; height:640px; border-radius:48px; padding:7px; flex-shrink:0;
+      background:linear-gradient(140deg,#2a2622 0%,#14110e 100%);
+      box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 0 0 1px rgba(0,0,0,.4),
+                 0 40px 80px -24px rgba(60,40,20,.45),0 16px 32px -16px rgba(60,40,20,.3);
+      position:relative;
+    }
+    .ab-phone-inner {
+      width:100%; height:100%; border-radius:42px; overflow:hidden;
+      background:#faf8f6; display:flex; flex-direction:column; position:relative;
+    }
+    .ab-dynamic-island {
+      position:absolute; top:9px; left:50%; transform:translateX(-50%);
+      width:96px; height:27px; border-radius:20px; background:#0a0807; z-index:60;
+    }
+    .ab-status-bar {
+      height:46px; flex-shrink:0; display:flex; align-items:center;
+      justify-content:space-between; padding:14px 22px 0;
+      font-size:13px; font-weight:600; color:#2d2a28;
+      font-family:-apple-system,"SF Pro",system-ui,sans-serif;
+    }
+    .ab-status-icons { display:flex; align-items:center; gap:5px; color:#2d2a28; }
+    .ab-phone-top { flex-shrink:0; }
+    .ab-chat-header {
+      padding:9px 14px; border-bottom:1px solid rgba(74,68,66,.07);
+      display:flex; align-items:center; gap:9px; background:rgba(250,247,245,.95);
+    }
+    .ab-back { color:var(--accent); background:none; border:none; cursor:pointer;
+               padding:0; display:flex; align-items:center; }
     .ab-chat-avatars { display:flex; align-items:center; }
-    .ab-chat-avatars .ab-av { margin-left:-8px; border:2px solid #fff; }
+    .ab-chat-avatars .ab-av { margin-left:-7px; border:2px solid #fff; }
     .ab-chat-avatars .ab-av:first-child { margin-left:0; }
-    .ab-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center;
-             justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+    .ab-av { width:26px; height:26px; border-radius:50%; display:flex; align-items:center;
+             justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
     .ab-chat-info { flex:1; min-width:0; }
-    .ab-chat-name { font-size:14px; font-weight:700; color:#2d2a28; letter-spacing:-.2px; }
-    .ab-chat-status { font-size:11px; color:rgba(74,68,66,.5);
-                      display:flex; align-items:center; gap:4px; margin-top:1px; }
-    .ab-chat-status-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; flex-shrink:0; }
-    .ab-chat-body { padding:12px 12px 14px; display:flex; flex-direction:column; gap:5px;
-                    min-height:290px; background:#faf8f6; overflow:hidden; }
-    .ab-msg-row { display:flex; align-items:flex-end; gap:7px;
-                  animation:abMsgIn 340ms cubic-bezier(0.22,.9,.32,1.15) both; }
+    .ab-chat-name { font-size:13px; font-weight:700; color:#2d2a28; letter-spacing:-.2px; }
+    .ab-chat-status { font-size:10px; color:rgba(74,68,66,.5);
+                      display:flex; align-items:center; gap:3px; margin-top:1px; }
+    .ab-chat-status-dot { width:5px; height:5px; border-radius:50%; background:#4ade80; flex-shrink:0; }
+    .ab-phone-bottom { flex:1; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+    .ab-chat-body { flex:1; overflow-y:auto; overflow-x:hidden; padding:10px 10px 10px;
+                    display:flex; flex-direction:column; gap:4px; background:#faf8f6;
+                    scrollbar-width:none; }
+    .ab-chat-body::-webkit-scrollbar { display:none; }
+    .ab-msg-row { display:flex; align-items:flex-end; gap:6px;
+                  animation:abMsgIn 320ms cubic-bezier(0.22,.9,.32,1.15) both; }
     .ab-msg-row.mine { justify-content:flex-end; }
-    .ab-typing-row { display:flex; align-items:flex-end; gap:7px;
-                     animation:abMsgIn 280ms cubic-bezier(0.22,.9,.32,1.18) both; }
+    .ab-typing-row { display:flex; align-items:flex-end; gap:6px;
+                     animation:abMsgIn 260ms cubic-bezier(0.22,.9,.32,1.18) both; }
     .ab-typing-row.mine { justify-content:flex-end; }
-    .ab-bubble { padding:9px 13px 10px; font-size:13.5px; line-height:1.4;
-                 max-width:80%; word-break:break-word; }
-    .ab-bubble-other { background:#fff; color:#2d2a28; border-radius:17px 17px 17px 5px;
+    .ab-bubble { padding:7px 11px 8px; font-size:13px; line-height:1.4;
+                 max-width:76%; word-break:break-word; }
+    .ab-bubble-other { background:#fff; color:#2d2a28; border-radius:15px 15px 15px 4px;
                        box-shadow:0 1px 3px rgba(0,0,0,.07); border:.5px solid rgba(74,68,66,.07); }
     .ab-bubble-mine { background:var(--accent); color:#fff; font-weight:500;
-                      border-radius:17px 17px 5px 17px; }
-    .ab-divider-row { display:flex; align-items:center; gap:8px; margin:4px 0;
-                      animation:abMsgIn 340ms cubic-bezier(0.22,.9,.32,1.15) both; }
+                      border-radius:15px 15px 4px 15px; }
+    .ab-divider-row { display:flex; align-items:center; gap:6px; margin:3px 0;
+                      animation:abMsgIn 320ms cubic-bezier(0.22,.9,.32,1.15) both; }
     .ab-divider-line { flex:1; height:1px; background:rgba(74,68,66,.1); }
-    .ab-divider-text { font-size:11px; color:rgba(74,68,66,.4); font-style:italic;
-                       letter-spacing:.1px; white-space:nowrap; }
-    .ab-typing-bubble { padding:9px 12px; background:#fff; display:flex; gap:4px;
-                        border-radius:17px 17px 17px 5px; align-items:center;
+    .ab-divider-text { font-size:10px; color:rgba(74,68,66,.4); font-style:italic; white-space:nowrap; }
+    .ab-typing-bubble { padding:8px 10px; background:#fff; display:flex; gap:3px;
+                        border-radius:15px 15px 15px 4px; align-items:center;
                         border:.5px solid rgba(74,68,66,.07); box-shadow:0 1px 3px rgba(0,0,0,.07); }
-    .ab-dot { width:5px; height:5px; border-radius:50%; background:rgba(74,68,66,.3);
+    .ab-dot { width:4px; height:4px; border-radius:50%; background:rgba(74,68,66,.3);
               display:inline-block; animation:abDotBounce 1100ms ease-in-out infinite; }
-    /* Part 2 — panel */
-    .ab-panel { flex:1; min-width:0; opacity:0; transform:translateY(18px);
-                transition:opacity .5s ease,transform .5s ease; pointer-events:none; }
-    .ab-panel.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
-    .ab-panel-title { font-size:clamp(20px,2.4vw,28px); font-weight:800; color:var(--white);
-                      line-height:1.2; letter-spacing:-.4px; margin-bottom:14px; }
-    .ab-panel-body { font-size:15px; color:var(--gray); line-height:1.7; margin-bottom:22px; }
-    .ab-features { list-style:none; display:flex; flex-direction:column; gap:11px; }
-    .ab-feature { display:flex; align-items:flex-start; gap:10px;
-                  font-size:14px; color:#4A4442; line-height:1.4; }
-    .ab-feature-icon { width:26px; height:26px; border-radius:8px;
+    /* Composer */
+    .ab-composer { flex-shrink:0; padding:7px 10px 10px; border-top:.5px solid rgba(74,68,66,.08);
+                   background:rgba(250,247,245,.96); display:flex; align-items:center; gap:6px; }
+    .ab-composer-btn { width:28px; height:28px; border-radius:50%;
+                       border:.5px solid rgba(74,68,66,.14); background:#fff; color:var(--accent);
+                       font-size:17px; flex-shrink:0; display:flex; align-items:center;
+                       justify-content:center; cursor:default; line-height:1; }
+    .ab-composer-input { flex:1; height:28px; border-radius:999px; background:#fff;
+                         border:.5px solid rgba(74,68,66,.1); display:flex; align-items:center;
+                         padding:0 11px; font-size:12px; color:rgba(74,68,66,.4); }
+    .ab-composer-send { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
+                        display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    /* Overlay (slides up inside phone over chat area) */
+    .ab-overlay { position:absolute; inset:0; z-index:20;
+                  background:rgba(250,247,245,.98);
+                  transform:translateY(100%);
+                  transition:transform .6s cubic-bezier(0.22,.9,.32,1.06);
+                  padding:22px 18px 22px; overflow-y:auto;
+                  display:flex; flex-direction:column; justify-content:center;
+                  scrollbar-width:none; }
+    .ab-overlay::-webkit-scrollbar { display:none; }
+    .ab-overlay.visible { transform:translateY(0); }
+    .ab-panel-title { font-size:18px; font-weight:800; color:var(--white);
+                      line-height:1.25; letter-spacing:-.3px; margin-bottom:10px; }
+    .ab-panel-body { font-size:12.5px; color:var(--gray); line-height:1.65; margin-bottom:16px; }
+    .ab-features { list-style:none; display:flex; flex-direction:column; gap:9px; }
+    .ab-feature { display:flex; align-items:flex-start; gap:9px;
+                  font-size:12.5px; color:#4A4442; line-height:1.4; }
+    .ab-feature-icon { width:22px; height:22px; border-radius:7px;
                        background:rgba(202,138,113,.12); display:flex;
-                       align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+                       align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
     /* Part 3 — CTA */
     .ab-cta { max-width:600px; margin:0 auto; text-align:center;
               padding-top:56px; border-top:1px solid rgba(202,138,113,.18); }
@@ -387,10 +429,10 @@
                         border-radius:999px; font-size:15px; font-weight:600;
                         cursor:pointer; font-family:inherit; transition:all .2s; }
     .ab-btn-secondary:hover { border-color:var(--white); }
-    @media (max-width:768px) {
-      .ab-chat-section { flex-direction:column; gap:28px; }
-      .ab-phone-wrap { flex:none; width:100%; max-width:360px; margin:0 auto; }
-      .ab-panel { opacity:1; transform:none; pointer-events:auto; }
+    @media (max-width:400px) {
+      .ab-phone-frame { width:290px; height:580px; border-radius:44px; }
+      .ab-phone-inner { border-radius:38px; }
+      .ab-dynamic-island { width:88px; height:24px; }
     }
 
     /* ══════════════════════ DESTINATIONS CAROUSEL */
@@ -2733,37 +2775,68 @@
     <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
   </div>
 
-  <!-- Part 2: Animated chat + info panel -->
-  <div class="ab-chat-section">
-    <div class="ab-phone-wrap">
-      <div class="ab-phone">
-        <div class="ab-chat-header">
-          <div class="ab-chat-avatars">
-            <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
-            <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
-            <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
-          </div>
-          <div class="ab-chat-info">
-            <div class="ab-chat-name">Vikend trip 🌍</div>
-            <div class="ab-chat-status">
-              <div class="ab-chat-status-dot"></div>
-              <span>Ana, Marko, Ti · aktivno</span>
+  <!-- Part 2: iPhone with chat + overlay -->
+  <div class="ab-phone-wrap">
+    <div class="ab-phone-frame">
+      <div class="ab-phone-inner">
+        <!-- Dynamic island -->
+        <div class="ab-dynamic-island"></div>
+
+        <div class="ab-phone-top">
+          <!-- Status bar -->
+          <div class="ab-status-bar">
+            <span>9:41</span>
+            <div class="ab-status-icons">
+              <svg width="16" height="10" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx=".5" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx=".5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx=".5" fill="currentColor"/></svg>
+              <svg width="22" height="10" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="currentColor"/><path d="M22 4v3c.6-.2 1-.7 1-1.5S22.6 4.2 22 4Z" fill="currentColor" fill-opacity=".5"/></svg>
             </div>
           </div>
+          <!-- Chat header -->
+          <div class="ab-chat-header">
+            <button class="ab-back" aria-label="Nazad">
+              <svg width="9" height="15" viewBox="0 0 11 18" fill="none"><path d="M9.5 1L1.5 9L9.5 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="ab-chat-avatars">
+              <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
+              <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
+              <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
+            </div>
+            <div class="ab-chat-info">
+              <div class="ab-chat-name">Vikend trip 🌍</div>
+              <div class="ab-chat-status">
+                <div class="ab-chat-status-dot"></div>
+                <span>Ana, Marko, Ti · aktivno</span>
+              </div>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 20 20" style="color:rgba(74,68,66,.45);flex-shrink:0;"><circle cx="4" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5" fill="currentColor"/></svg>
+          </div>
         </div>
-        <div class="ab-chat-body" id="abChatBody"></div>
-      </div>
-    </div>
 
-    <div class="ab-panel" id="abPanel">
-      <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
-      <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
-      <ul class="ab-features">
-        <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
-      </ul>
+        <div class="ab-phone-bottom">
+          <!-- Chat messages -->
+          <div class="ab-chat-body" id="abChatBody"></div>
+          <!-- Composer -->
+          <div class="ab-composer">
+            <div class="ab-composer-btn">+</div>
+            <div class="ab-composer-input">Poruka…</div>
+            <div class="ab-composer-send">
+              <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
+            </div>
+          </div>
+          <!-- Overlay — slides up over chat when triggered -->
+          <div class="ab-overlay" id="abOverlay">
+            <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
+            <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+            <ul class="ab-features">
+              <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -2849,10 +2922,10 @@
   function run(){
     clr();
     var body=document.getElementById('abChatBody');
-    var panel=document.getElementById('abPanel');
-    if(!body||!panel) return;
+    var overlay=document.getElementById('abOverlay');
+    if(!body||!overlay) return;
     body.innerHTML='';
-    panel.classList.remove('visible');
+    overlay.classList.remove('visible');
     var t=300;
 
     SCRIPT.forEach(function(item){
@@ -2876,13 +2949,13 @@
           if(typEl) typEl.remove();
           body.appendChild(mkBubble(who,text));
           body.scrollTop=body.scrollHeight;
-          if(isTrigger){ go(function(){ panel.classList.add('visible'); }, 420); }
+          if(isTrigger){ go(function(){ overlay.classList.add('visible'); }, 520); }
         }, msgAt);
       })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
       t += typingMs(item.text)+480;
     });
 
-    go(function(){ run(); }, t+3600);
+    go(function(){ run(); }, t+4200);
   }
 
   var section=document.getElementById('esc-about');
@@ -2893,7 +2966,7 @@
         started=true; run(); obs.disconnect();
       }
     });
-  },{ threshold:0.2 });
+  },{ threshold:0.15 });
   obs.observe(section);
 })();
 </script>
