@@ -382,28 +382,26 @@
     }
 
     /* ══════════════════════ FEATURES */
-    .esc-features { background: var(--navy2); padding: 100px 24px; }
-    .features-inner { max-width: 1100px; margin: 0 auto; }
-    .features-header { text-align: center; margin-bottom: 72px; }
+    .esc-features { background: #08112a; padding: 80px 24px; }
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+    .features-header { text-align: center; margin-bottom: 48px; }
     .features-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
-      align-items: stretch;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
     }
     .feat-card {
       background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 20px; padding: 36px 32px;
-      display: flex; gap: 24px; align-items: flex-start;
-      transition: border-color .2s; box-sizing: border-box;
+      border-radius: 16px; padding: 28px 24px;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, background .25s; box-sizing: border-box;
     }
-    .feat-card:hover { border-color: rgba(202,138,113,.3); }
+    .feat-card:hover { border-color: rgba(202,138,113,.35); background: rgba(202,138,113,.04); }
     .feat-icon-wrap {
-      width: 56px; height: 56px; flex-shrink: 0;
-      background: rgba(202,138,113,.12); border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 900; color: var(--gold); letter-spacing: -0.5px;
+      font-size: 26px; font-weight: 900; color: var(--gold);
+      margin-bottom: 10px; letter-spacing: -0.5px; line-height: 1;
     }
-    .feat-content h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
-    .feat-content p { font-size: 15px; color: var(--gray); line-height: 1.65; }
+    .feat-icon { font-size: 22px; margin-bottom: 14px; display: block; }
+    .feat-content h3 { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 8px; line-height: 1.3; }
+    .feat-content p { font-size: 13px; color: var(--gray); line-height: 1.65; }
 
     /* ══════════════════════ FOR WHO */
     .esc-who { padding: 100px 24px; background: var(--navy3); }
@@ -1866,9 +1864,8 @@
     .faq-a { color: #5a4f6a; }
 
     /* --- Features (white bg) ------------------------------------ */
-    .feat-card { background: #F5F3F1; border-color: rgba(15,45,53,.08); }
-    .feat-card:hover { border-color: rgba(202,138,113,.3); background: rgba(202,138,113,.04); }
-    .feat-icon-wrap { background: rgba(202,138,113,.1); }
+    .feat-card { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1); }
+    .feat-card:hover { border-color: rgba(202,138,113,.35); background: rgba(202,138,113,.04); }
 
     /* --- For Who (light bg) ------------------------------------- */
     .who-card { background: rgba(15,45,53,.04); border-color: rgba(15,45,53,.1); }
@@ -1975,6 +1972,9 @@
     @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:none; } }
 
     /* ══════════════════════ RESPONSIVE */
+    @media (max-width: 960px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 768px) {
       .esc-nav { padding: 0 20px; }
       .hero-stats { display: none; }
@@ -2057,8 +2057,8 @@
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <div class="mob-menu-links">
-    <button class="mob-menu-link" onclick="mobNav('esc-about')"   data-i18n="snav.about">O nama</button>
     <button class="mob-menu-link" onclick="mobNav('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
+    <button class="mob-menu-link" onclick="mobNav('esc-about')"   data-i18n="snav.about">O nama</button>
     <button class="mob-menu-link" onclick="mobNav('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
@@ -2079,8 +2079,8 @@
 
 <!-- SECONDARY NAV -->
 <nav class="sec-nav" id="secNav">
-  <button class="sec-nav-link" onclick="escScrollTo('esc-about')"   data-i18n="snav.about">O nama</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
+  <button class="sec-nav-link" onclick="escScrollTo('esc-about')"   data-i18n="snav.about">O nama</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
@@ -2109,6 +2109,50 @@
     <span class="trust-badge">🛡️ <span data-i18n="trust.3">Sarađujemo sa licenciranom turističkom agencijom</span></span>
   </div>
 
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="esc-features" id="esc-how">
+  <div class="features-inner">
+    <div class="features-header">
+      <span class="sec-tag" data-i18n="how.tag">Kako funkcioniše?</span>
+      <h2 class="sec-heading" data-i18n="how.heading">Četiri koraka do tvoje avanture</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon-wrap">01</div>
+        <span class="feat-icon">📅</span>
+        <div class="feat-content">
+          <h3 data-i18n="how.c1.t">Izaberi datum</h3>
+          <p data-i18n="how.c1.p">Vikend, broj putnika, budžet i dodaci. Isključi destinacije koje ne želiš.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">02</div>
+        <span class="feat-icon">✈️</span>
+        <div class="feat-content">
+          <h3 data-i18n="how.c2.t">Mi organizujemo sve</h3>
+          <p data-i18n="how.c2.p">Let, hotel, transfer — sve rezervisano. Ti ne moraš ništa da planiraš.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">03</div>
+        <span class="feat-icon">📍</span>
+        <div class="feat-content">
+          <h3 data-i18n="how.c3.t">Saznaš 48h pre polaska</h3>
+          <p data-i18n="how.c3.p">Destinacija, karte i hotel stižu na mejl. Do tada — nagoveštaji i uzbuđenje.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon-wrap">04</div>
+        <span class="feat-icon">💬</span>
+        <div class="feat-content">
+          <h3 data-i18n="how.c4.t">Stvori priču za prepričavanje</h3>
+          <p data-i18n="how.c4.p">"Otišli smo, nismo znali kuda" — uvek bolja priča od "rezervisali smo mesecima unapred".</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- BOOKING -->
@@ -2595,45 +2639,6 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="esc-features" id="esc-how">
-  <div class="features-inner">
-    <div class="features-header">
-      <span class="sec-tag" data-i18n="how.tag">Kako funkcioniše</span>
-      <h2 class="sec-heading" data-i18n="how.heading">Četiri koraka do tvoje Escapii avanture</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon-wrap">01</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c1.t">Kreiraj svoje Escapii putovanje iznenađenja</h3>
-          <p data-i18n="how.c1.p">Izaberi datum, broj putnika, budžet i opcione dodatke. Isključi destinacije koje ne želiš.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">02</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c2.t">Mi kreiramo tvoju avanturu</h3>
-          <p data-i18n="how.c2.p">Escapii ekipa u saradnji sa partnerskom turističkom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, i dodatne opcije koje si izabrao.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">03</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c3.t">Otkrivanje destinacije</h3>
-          <p data-i18n="how.c3.p">7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 48h pre polaska.</p>
-        </div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">04</div>
-        <div class="feat-content">
-          <h3 data-i18n="how.c4.t">Stvori priču vrednu prepričavanja</h3>
-          <p data-i18n="how.c4.p">"Otputovali smo za vikend, a nismo pojma imali gde" — ovo je mnogo bolja priča od "rezervisali smo putovanje u Pariz na sajmu turizma".</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- DESTINATIONS CAROUSEL -->
 <section class="esc-dest" id="esc-dest">
@@ -2859,12 +2864,12 @@ const TR = {
     'dest.tag':'Naše destinacije', 'dest.heading':'Sve ovo te čeka…',
     'dest.sub':'Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija',
     'dest.mystery':'Ali ne znaš šta ćeš dobiti',
-    'how.tag':'Kako funkcioniše', 'how.heading':'Četiri koraka do tvoje Escapii avanture',
+    'how.tag':'Kako funkcioniše?', 'how.heading':'Četiri koraka do tvoje avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
-    'how.c1.t':'Kreiraj svoje Escapii putovanje iznenađenja', 'how.c1.p':'Izaberi datum, broj putnika, budžet i opcione dodatke. Isključi destinacije koje ne želiš.',
-    'how.c2.t':'Mi kreiramo tvoju avanturu', 'how.c2.p':'Escapii ekipa u saradnji sa partnerskom turističkom agencijom analizira tvoje preference i kreira paket skrojen baš za tebe — let, hotel, i dodatne opcije koje si izabrao.',
-    'how.c3.t':'Otkrivanje destinacije', 'how.c3.p':'7 dana pred put dobijaš vremensku prognozu destinacije — bez otkrivanja. Možeš da počneš da pogađaš! 😄 Destinaciju ćeš saznati tek 48h pre polaska.',
-    'how.c4.t':'Stvori priču vrednu prepričavanja', 'how.c4.p':'"Otputovali smo za vikend, a nismo pojma imali gde" — ovo je mnogo bolja priča od "rezervisali smo putovanje u Pariz na sajmu turizma".',
+    'how.c1.t':'Izaberi datum', 'how.c1.p':'Vikend, broj putnika, budžet i dodaci. Isključi destinacije koje ne želiš.',
+    'how.c2.t':'Mi organizujemo sve', 'how.c2.p':'Let, hotel, transfer — sve rezervisano. Ti ne moraš ništa da planiraš.',
+    'how.c3.t':'Saznaš 48h pre polaska', 'how.c3.p':'Destinacija, karte i hotel stižu na mejl. Do tada — nagoveštaji i uzbuđenje.',
+    'how.c4.t':'Stvori priču za prepričavanje', 'how.c4.p':'"Otišli smo, nismo znali kuda" — uvek bolja priča od "rezervisali smo mesecima unapred".',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
     'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da sve planiraš',
@@ -3041,12 +3046,12 @@ const TR = {
     'dest.tag':'Our destinations', 'dest.heading':'All this awaits you…',
     'dest.sub':'Choose to exclude what you don\'t like — the rest stays a mystery',
     'dest.mystery':'But you don\'t know what you\'ll get',
-    'how.tag':'How it works', 'how.heading':'Four steps to your Escapii adventure',
+    'how.tag':'How does it work?', 'how.heading':'Four steps to your adventure',
     'how.sub':'All you need to do is pick a date and a budget.',
-    'how.c1.t':'Create your Escapii surprise trip', 'how.c1.p':'Choose your date, number of travelers, budget and optional add-ons. Exclude destinations you don\'t want.',
-    'how.c2.t':'We create your adventure', 'how.c2.p':'Our team, together with our partner agency, analyzes your preferences and creates a package tailored just for you — flight, hotel, everything.',
-    'how.c3.t':'Hints and excitement', 'how.c3.p':'7 days before departure you get a weather forecast for your destination — without revealing it. Start guessing! 😄 You\'ll find out the destination 48h before departure.',
-    'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We went away for the weekend and had no idea where" — that\'s a much better story than "we booked a trip to Paris at a travel fair".',
+    'how.c1.t':'Choose your date', 'how.c1.p':'Weekend, number of travelers, budget and extras. Exclude destinations you don\'t want.',
+    'how.c2.t':'We handle everything', 'how.c2.p':'Flight, hotel, transfer — all booked. You don\'t need to plan a thing.',
+    'how.c3.t':'Find out 48h before departure', 'how.c3.p':'Destination, tickets and hotel arrive by email. Until then — hints and excitement.',
+    'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We left and had no idea where" — always a better story than "we booked months in advance".',
     'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
     'who.yes.1':'You love traveling but are tired of planning everything',
