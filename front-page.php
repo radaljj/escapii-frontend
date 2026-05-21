@@ -2417,7 +2417,7 @@
           </div>
           <div class="connecting-tooltip">
             <div class="connecting-tooltip-title">⚠️ Važno</div>
-            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi ovu opciju pre nego što završiš rezervaciju.</strong></div>
+            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong></div>
           </div>
         </div>
 
@@ -2449,7 +2449,7 @@
                 <div class="extra-card-title" data-i18n="ext.ins">Putno osiguranje</div>
                 <div class="extra-card-sub" data-i18n="ext.ins.d">Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.</div>
               </div>
-              <div class="extra-card-price" data-i18n="ins.price">+12€/noć</div>
+              <div class="extra-card-price" data-i18n="ins.price">+12€ po noći</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -3013,7 +3013,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':' po osobi',
     'accom.sup.badge':'+100€ po osobi',
-    'ins.price':'+12€/noć', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
+    'ins.price':'+12€ po noći', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -3196,7 +3196,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':' per person',
     'accom.sup.badge':'+100€ per person',
-    'ins.price':'+12€/night', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
+    'ins.price':'+12€ per night', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
