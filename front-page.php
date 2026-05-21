@@ -2379,7 +2379,7 @@
               <div class="a-desc" data-i18n="accom.std.d">3★ hotel ili apartman, dobra lokacija</div>
             </div>
             <div class="a-hover">
-              <div class="a-hover-desc" data-i18n="accom.std.hover">Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.</div>
+              <div class="a-hover-desc" data-i18n="accom.std.hover">Hotel od 3 ★ ili apartman. Udoban smeštaj sa svim osnovnim sadržajima.</div>
             </div>
           </div>
           <div class="accom-tile" onclick="pickAccom(this,'SUPERIOR')">
@@ -2387,7 +2387,7 @@
             <div class="a-tile-body">
               <div class="a-name" data-i18n="accom.sup">Superior</div>
               <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
-              <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★ hotel, viši komfor</div>
+              <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★, viša kategorija hotela</div>
             </div>
             <div class="a-hover">
               <div class="a-hover-desc" data-i18n="accom.sup.hover">4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.</div>
@@ -2418,25 +2418,28 @@
 
         <!-- Upozorenje o koferu -->
         <div style="margin-bottom:10px;padding:12px 15px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-left:3px solid #fbbf24;border-radius:10px;font-size:12px;color:rgba(246,241,230,.75);line-height:1.6;">
-          ⚠️ <strong style="color:#fcd34d;">Važno:</strong> Sva Escapii putovanja su po defaultu sa rancem (do 10kg). U zavisnosti od aviokompanije i termina, nekada možemo da obezbedimo i ručni kofer bez doplate — ali to nije zagarantovano. Ako vam je neophodno da putujete sa ručnim kofrom, <strong style="color:#fcd34d;">obavezno izaberite ovu opciju pre rezervacije.</strong>
+          ⚠️ <strong style="color:#fcd34d;">Važno:</strong> Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong style="color:#fcd34d;">izaberi ovu opciju pre nego što završiš rezervaciju.</strong>
         </div>
 
         <!-- Ručni kofer — opciono -->
-        <div class="suit-row" id="suitRow">
-          <div class="e-icon">🧳</div>
-          <div class="e-txt">
-            <div class="e-label" data-i18n="ext.suit">Dodaj ručni kofer (carry-on)</div>
-            <div class="e-desc" data-i18n="ext.suit.d">Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os</div>
+        <div class="connecting-tooltip-wrap">
+          <div class="suit-row" id="suitRow">
+            <div class="e-icon">🧳</div>
+            <div class="e-txt">
+              <div class="e-label" data-i18n="ext.suit">Dodaj ručni kofer (carry-on)</div>
+              <div class="e-desc" data-i18n="ext.suit.d">Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os</div>
+            </div>
+            <div class="counter">
+              <button class="cb" id="suitD" onclick="chSuit(-1)">−</button>
+              <div class="cv" id="suitN">0</div>
+              <button class="cb" id="suitU" onclick="chSuit(1)">+</button>
+            </div>
+            <div class="e-price" id="suitPrice">0€</div>
           </div>
-          <div class="counter">
-            <button class="cb" id="suitD" onclick="chSuit(-1)">−</button>
-            <div class="cv" id="suitN">0</div>
-            <button class="cb" id="suitU" onclick="chSuit(1)">+</button>
+          <div class="connecting-tooltip">
+            <div class="connecting-tooltip-title">🧳 Ručni kofer (carry-on)</div>
+            <div class="connecting-tooltip-body">Cena je po osobi. Podesi broj kofera prema tome koliko putnika na tvojoj rezervaciji želi da putuje sa ručnim koferom. Na kraju rezervacije, u napomeni naznači na čije ime ide svaki kofer koji si odabrao u ovom koraku.</div>
           </div>
-          <div class="e-price" id="suitPrice">0€</div>
-        </div>
-        <div style="margin-top:6px;margin-bottom:4px;font-size:11px;color:rgba(246,241,230,.4);line-height:1.6;padding:0 4px;">
-          Cena je po osobi. Ukoliko želite kofer za sve putnike, podesite odgovarajući broj. Ako želite kofer samo za jednog putnika, navedite ime tog putnika u napomeni na kraju rezervacije.
         </div>
         <div class="extras-grid">
           <div class="connecting-tooltip-wrap">
@@ -2446,7 +2449,7 @@
                 <div class="extra-card-title" data-i18n="ext.ins">Putno osiguranje</div>
                 <div class="extra-card-sub" data-i18n="ext.ins.d">Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.</div>
               </div>
-              <div class="extra-card-price" data-i18n="ins.price">+12€/os</div>
+              <div class="extra-card-price" data-i18n="ins.price">+12€/os/noć</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2473,7 +2476,7 @@
             <div class="extra-card" id="ec-hasSeatsTogether" onclick="togSeats(this)">
               <div class="extra-card-icon">💺</div>
               <div class="extra-card-body">
-                <div class="extra-card-title" data-i18n="ext.seats">Sedišta jedan pored drugog</div>
+                <div class="extra-card-title" data-i18n="ext.seats">Želim sedišta jedan pored drugog</div>
                 <div class="extra-card-sub" data-i18n="ext.seats.d">po osobi, po smeru leta</div>
               </div>
               <div class="extra-card-price" data-i18n="seats.price">+12€/os/smer</div>
@@ -2928,15 +2931,15 @@ const TR = {
     'inq.range.hint':'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)',
     's4.h':'Izaberi kategoriju smeštaja', 's4.hint':'Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.',
     'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'3★ hotel ili apartman, dobra lokacija',
-    'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★ hotel, viši komfor',
-    'accom.std.hover':'Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.',
+    'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★, viša kategorija hotela',
+    'accom.std.hover':'Hotel od 3 ★ ili apartman. Udoban smeštaj sa svim osnovnim sadržajima.',
     'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.',
     'single.warn':'Napomena za solo putnike —', 'single.msg':' hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.',
     's5.h':'Dodaci', 's5.hint':'Sve je opciono',
     'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.',
     'ext.bfst':'Doručak u hotelu', 'ext.bfst.d':'Doručak u hotelu uključen za svaki dan boravka.',
-    'ext.seats':'Sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
+    'ext.seats':'Želim sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
     'ext.connecting':'Prihvatam let sa presedanjem', 'ext.connecting.d':'Letovi sa presedanjem, više destinacija',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
@@ -3010,7 +3013,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
     'accom.sup.badge':'+100€/os',
-    'ins.price':'+12€/os', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
+    'ins.price':'+12€/os/noć', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -3110,15 +3113,15 @@ const TR = {
     'inq.range.hint':'Select departure date, then return date (2 or 3 nights)',
     's4.h':'Choose accommodation category', 's4.hint':'All our hotels are located near the city center or in well-connected areas.',
     'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
-    'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★ hotel, higher comfort',
-    'accom.std.hover':'3-star hotel or apartment. Comfortable accommodation with all the essentials — everything you need for a perfect surprise weekend.',
+    'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★, higher category hotel',
+    'accom.std.hover':'3★ hotel or apartment. Comfortable accommodation with all the essentials.',
     'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service — for those who want a little more.',
     'single.warn':'Note for solo travelers —', 'single.msg':' hotel rooms are standardly reserved for 2 people. A single room supplement of +60€ applies.',
     's5.h':'Add-ons', 's5.hint':'All optional',
     'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€/person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Covers medical expenses abroad. Recommended for all travelers.',
     'ext.bfst':'Hotel breakfast', 'ext.bfst.d':'Hotel breakfast included for every day of stay.',
-    'ext.seats':'Seats next to each other', 'ext.seats.d':'per person, per flight direction',
+    'ext.seats':'I want seats next to each other', 'ext.seats.d':'per person, per flight direction',
     'ext.connecting':'I accept a connecting flight', 'ext.connecting.d':'Connecting flights, more destinations',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
@@ -3193,7 +3196,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
     'accom.sup.badge':'+100€/pp',
-    'ins.price':'+12€/pp', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
+    'ins.price':'+12€/pp/night', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
