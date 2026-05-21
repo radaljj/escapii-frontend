@@ -2449,7 +2449,7 @@
                 <div class="extra-card-title" data-i18n="ext.ins">Putno osiguranje</div>
                 <div class="extra-card-sub" data-i18n="ext.ins.d">Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.</div>
               </div>
-              <div class="extra-card-price" data-i18n="ins.price">+12€/os/noć</div>
+              <div class="extra-card-price" data-i18n="ins.price">+12€/noć</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2484,7 +2484,7 @@
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.seats.tip.title">💺 Sedišta zajedno</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.seats.tip.body">Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.seats.tip.body">Garantujemo da cela vaša grupa sedi <strong>zajedno</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.</div>
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
@@ -2945,8 +2945,8 @@ const TR = {
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
     'ext.bfst.tip.body':'Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit — nema brige šta i gde ćeš jesti ujutru.',
-    'ext.seats.tip.title':'💺 Sedišta jedan pored drugog',
-    'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>jedan pored drugog</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
+    'ext.seats.tip.title':'💺 Sedišta zajedno',
+    'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>zajedno</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
     's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
@@ -3013,7 +3013,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':'/os',
     'accom.sup.badge':'+100€/os',
-    'ins.price':'+12€/os/noć', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
+    'ins.price':'+12€/noć', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -3127,8 +3127,8 @@ const TR = {
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
     'ext.bfst.tip.body':'Hotel breakfast included <strong>every day of your stay</strong>. Start refreshed — no need to worry about where to eat in the morning.',
-    'ext.seats.tip.title':'💺 Seats next to each other',
-    'ext.seats.tip.body':'We guarantee your entire group sits <strong>next to each other</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
+    'ext.seats.tip.title':'💺 Seats together',
+    'ext.seats.tip.body':'We guarantee your entire group sits <strong>together</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
     'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities — destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
     's6.h':'Exclude destinations you don\'t want us to take you to',
@@ -3196,7 +3196,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':'/pp',
     'accom.sup.badge':'+100€/pp',
-    'ins.price':'+12€/pp/night', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
+    'ins.price':'+12€/night', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
