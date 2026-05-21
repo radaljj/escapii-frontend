@@ -782,8 +782,8 @@
       color: var(--accent); flex-shrink: 0;
     }
     .custom-cta .cta-tx { flex: 1; }
-    .custom-cta .cta-tx strong { display: block; font-size: 14px; color: var(--white); margin-bottom: 2px; }
-    .custom-cta .cta-tx small { color: var(--gray); font-weight: 400; font-size: 12px; }
+    .custom-cta .cta-tx strong { display: block; font-size: 14px; color: var(--accent); margin-bottom: 2px; }
+    .custom-cta .cta-tx small { color: rgba(255,255,255,.85); font-weight: 400; font-size: 12px; }
     .custom-cta .cta-arr {
       width: 26px; height: 26px; background: var(--accent); color: #fff;
       border-radius: 100px; display: flex; align-items: center; justify-content: center;
@@ -986,7 +986,11 @@
     }
     .accom-tile:hover .a-tile-img { transform: scale(1.04); }
     .a-tile-body { padding: 18px 16px 16px; }
-    .a-icon  { display: none; }
+    .a-icon  {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px; padding: 28px 0 4px;
+      background: rgba(202,138,113,.06);
+    }
     .a-name  { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
     .a-badge { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 100px; margin-bottom: 8px; display: inline-block; }
     /* Hover overlay */
@@ -2106,7 +2110,7 @@
   <div class="hero-video-overlay"></div>
   <div class="hero-eyebrow" data-i18n="hero.badge">Putovanja iznenađenja</div>
   <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš kada. <em>Mi biramo gde.</em></h1>
-  <p class="hero-sub" data-i18n="hero.sub">Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.</p>
+  <p class="hero-sub" data-i18n="hero.sub">Izaberi aerodrom, datum i budžet — sve ostalo organizujemo mi. Destinaciju ćeš saznati tek 48h pre polaska.</p>
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
@@ -2363,13 +2367,12 @@
         <h2 data-i18n="s4.h">Izaberi kategoriju smeštaja</h2>
         <p class="hint" data-i18n="s4.hint">Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.</p>
         <div id="singleNotice" class="single-notice">
-          🛏️ <strong data-i18n="single.warn">Napomena:</strong>
-          <span data-i18n="single.msg"> Putujete sami — hotelske sobe se uglavnom rezervišu za minimum 2 osobe, pa se primenjuje doplata za jednokrevetnu sobu.</span>
-          <strong> +60€</strong>
+          🛏️ <strong data-i18n="single.warn">Napomena za solo putnike —</strong>
+          <span data-i18n="single.msg"> hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.</span>
         </div>
         <div class="accom-grid">
           <div class="accom-tile on" onclick="pickAccom(this,'STANDARD')">
-            <img class="a-tile-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80&auto=format&fit=crop" alt="Standard hotel">
+            <div class="a-icon">🏨</div>
             <div class="a-tile-body">
               <div class="a-name" data-i18n="accom.std">Standard</div>
               <div class="a-badge free" data-i18n="accom.std.p">Uključeno</div>
@@ -2380,7 +2383,7 @@
             </div>
           </div>
           <div class="accom-tile" onclick="pickAccom(this,'SUPERIOR')">
-            <img class="a-tile-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80&auto=format&fit=crop" alt="Superior hotel">
+            <div class="a-icon">✨</div>
             <div class="a-tile-body">
               <div class="a-name" data-i18n="accom.sup">Superior</div>
               <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
@@ -2858,7 +2861,7 @@ const TR = {
     'status.btn':'Proveri →',
     'hero.badge':'Putovanja iznenađenja',
     'hero.h1':'Ti biraš kada. <em>Mi biramo gde.</em>',
-    'hero.sub':'Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.',
+    'hero.sub':'Izaberi aerodrom, datum i budžet — sve ostalo organizujemo mi. Destinaciju ćeš saznati tek 48h pre polaska.',
     'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše Escapii?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
@@ -2928,7 +2931,7 @@ const TR = {
     'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★ hotel, viši komfor',
     'accom.std.hover':'Hotel od 3 zvezdice ili apartman. Udoban smeštaj sa svim osnovnim sadržajima — sve što ti treba za savršen vikend iznenađenja.',
     'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.',
-    'single.warn':'Napomena:', 'single.msg':' Putujete sami — hotelske sobe se uglavnom rezervišu za minimum 2 osobe, pa se primenjuje doplata.',
+    'single.warn':'Napomena za solo putnike —', 'single.msg':' hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.',
     's5.h':'Dodaci', 's5.hint':'Sve je opciono',
     'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.',
@@ -3040,7 +3043,7 @@ const TR = {
     'status.btn':'Check →',
     'hero.badge':'Surprise travel experiences',
     'hero.h1':'You choose when. <em>We choose where.</em>',
-    'hero.sub':'Choose your Escapii weekend date. You\'ll find out the destination 48h before departure.',
+    'hero.sub':'Choose your airport, date and budget — we handle everything else. You\'ll find out the destination only 48h before departure.',
     'hero.cta':'Book your surprise', 'hero.how':'How does Escapii work?',
     'hero.stat.dest':'Destinations', 'hero.stat.airports':'Departure airports', 'hero.stat.surprise':'Surprise',
     'mf.tag':'What is Escapii?',
@@ -3110,7 +3113,7 @@ const TR = {
     'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★ hotel, higher comfort',
     'accom.std.hover':'3-star hotel or apartment. Comfortable accommodation with all the essentials — everything you need for a perfect surprise weekend.',
     'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service — for those who want a little more.',
-    'single.warn':'Note:', 'single.msg':' You are traveling alone — hotel rooms are typically reserved for a minimum of 2 people, so a single room supplement applies.',
+    'single.warn':'Note for solo travelers —', 'single.msg':' hotel rooms are standardly reserved for 2 people. A single room supplement of +60€ applies.',
     's5.h':'Add-ons', 's5.hint':'All optional',
     'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€/person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Covers medical expenses abroad. Recommended for all travelers.',
