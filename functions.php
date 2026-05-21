@@ -29,6 +29,7 @@ function escapii_head_meta() {
     $home      = home_url('/');
     ?>
     <!-- Favicon -->
+    <link rel="shortcut icon"        href="<?php echo esc_url(home_url('/favicon.png')); ?>" type="image/png">
     <link rel="icon" type="image/svg+xml" href="<?php echo esc_url($img_url . '/favicon.svg'); ?>">
     <link rel="icon" type="image/png"     href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
     <link rel="apple-touch-icon"          href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
@@ -55,13 +56,8 @@ function escapii_head_meta() {
 }
 add_action('wp_head', 'escapii_head_meta', 1);
 
-// Postavi Escapii favicon kao WP site icon (override WordPress default)
-add_filter('get_site_icon_url', function($url, $size) {
-    return get_template_directory_uri() . '/images/favicon.png';
-}, 10, 2);
-add_filter('site_icon_url', function($url, $size) {
-    return get_template_directory_uri() . '/images/favicon.png';
-}, 10, 2);
+// Ukloni WordPress-ov wp_site_icon() — mi sami outputujemo favicon tagove u escapii_head_meta()
+remove_action('wp_head', 'wp_site_icon');
 
 // Automatski kreiraj /admin-panel stranicu ako ne postoji
 function escapii_create_admin_page() {
