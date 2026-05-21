@@ -2161,8 +2161,8 @@
         <div class="feat-icon-wrap">04</div>
         <span class="feat-icon">💬</span>
         <div class="feat-content">
-          <h3 data-i18n="how.c4.t">Stvori priču za prepričavanje</h3>
-          <p data-i18n="how.c4.p">"Otišli smo, nismo znali kuda" — uvek bolja priča od "rezervisali smo mesecima unapred".</p>
+          <h3 data-i18n="how.c4.t">Stvori priču za prepričavanje.</h3>
+          <p data-i18n="how.c4.p">Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.</p>
         </div>
       </div>
     </div>
@@ -2885,7 +2885,7 @@ const TR = {
     'how.c1.t':'Kreiraj svoje putovanje iznenađenja.', 'how.c1.p':'Izaberi datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.',
     'how.c2.t':'Mi organizujemo sve.', 'how.c2.p':'Naša Escapii ekipa će skrojiti iznenađenje baš za tebe — let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.',
     'how.c3.t':'Otkrij svoje iznenađenje.', 'how.c3.p':'Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.',
-    'how.c4.t':'Stvori priču za prepričavanje', 'how.c4.p':'"Otišli smo, nismo znali kuda" — uvek bolja priča od "rezervisali smo mesecima unapred".',
+    'how.c4.t':'Stvori priču za prepričavanje.', 'how.c4.p':'Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
     'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da sve planiraš',
@@ -3067,7 +3067,7 @@ const TR = {
     'how.c1.t':'Create your surprise trip.', 'how.c1.p':'Choose your date, number of travelers, budget and extras. Exclude destinations you don\'t want.',
     'how.c2.t':'We handle everything.', 'how.c2.p':'Our Escapii team will craft the perfect surprise just for you — flight, hotel and everything else. All you need to do is pack your bag.',
     'how.c3.t':'Discover your surprise.', 'how.c3.p':'You\'ll find out your destination 48h before departure. Don\'t worry — 7 days before the trip we\'ll send you a weather forecast, without revealing the destination.',
-    'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We left and had no idea where" — always a better story than "we booked months in advance".',
+    'how.c4.t':'Create a story worth telling.', 'how.c4.p':'Enjoy your surprise, discover the destination in a new way, and come back with memories you\'ll be talking about for a long time.',
     'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
     'who.yes.1':'You love traveling but are tired of planning everything',
