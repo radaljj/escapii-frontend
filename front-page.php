@@ -4774,31 +4774,37 @@ loadDestinations();
 
 // ══════════ SECONDARY NAV — show after hero, highlight active section
 (function() {
-  const secNav   = document.getElementById('secNav');
-  const sections = [
-    { id:'esc-about',   btn: 0 },
-    { id:'esc-dest',    btn: 1 },
-    { id:'esc-how',     btn: 2 },
-    { id:'esc-who',     btn: 3 },
-    { id:'esc-faq',     btn: 4 },
-    { id:'esc-booking', btn: 5 },
+  const secNav = document.getElementById('secNav');
+
+  // Redosled mora biti isti kao redosled sekcija na stranici (odozgo nadole)
+  const sectionIds = [
+    'esc-how',
+    'esc-booking',
+    'esc-about',
+    'esc-dest',
+    'esc-who',
+    'esc-faq',
   ];
+
   const heroH = () => document.querySelector('.esc-hero')?.offsetHeight || 500;
 
   function updateSecNav() {
     const scrollY = window.scrollY;
-    // Show only after user scrolls past the hero
     if (scrollY > heroH() - 120) secNav.classList.add('visible');
     else secNav.classList.remove('visible');
 
-    // Highlight active section
-    const links = secNav.querySelectorAll('.sec-nav-link');
-    let active = -1;
-    sections.forEach(({ id }, i) => {
+    // Nađi poslednju sekciju čiji vrh je prešao 120px od vrha viewporta
+    let activeId = null;
+    sectionIds.forEach(id => {
       const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= 120) active = i;
+      if (el && el.getBoundingClientRect().top <= 120) activeId = id;
     });
-    links.forEach((l, i) => l.classList.toggle('active', i === active));
+
+    // Aktiviraj link čiji onclick sadrži activeId
+    secNav.querySelectorAll('.sec-nav-link').forEach(link => {
+      const on = link.getAttribute('onclick') || '';
+      link.classList.toggle('active', !!activeId && on.includes(activeId));
+    });
   }
 
   window.addEventListener('scroll', updateSecNav, { passive: true });
