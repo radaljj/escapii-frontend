@@ -314,8 +314,19 @@
     .ab-question { font-size:clamp(20px,2.8vw,34px); font-weight:800; font-style:italic;
                    color:var(--white); line-height:1.2; margin-bottom:14px; letter-spacing:-.4px; }
     .ab-sub { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.7; }
-    /* Part 2 — iPhone */
-    .ab-phone-wrap { display:flex; justify-content:center; margin:0 auto 56px; }
+    /* Part 2 — iPhone + Panel */
+    .ab-phone-wrap {
+      display:flex; align-items:center; gap:56px;
+      max-width:860px; margin:0 auto 56px; padding:0 24px;
+    }
+    .ab-phone-col { flex-shrink:0; }
+    .ab-panel-col {
+      flex:1; max-width:360px;
+      opacity:0; transform:translateX(28px);
+      transition:opacity .8s ease, transform .8s cubic-bezier(0.22,.9,.32,1.06);
+      pointer-events:none;
+    }
+    .ab-panel-col.visible { opacity:1; transform:translateX(0); pointer-events:auto; }
     .ab-phone-frame {
       width:320px; height:640px; border-radius:48px; padding:7px; flex-shrink:0;
       background:linear-gradient(140deg,#2a2622 0%,#14110e 100%);
@@ -393,25 +404,21 @@
                          padding:0 11px; font-size:12px; color:rgba(74,68,66,.4); }
     .ab-composer-send { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
                         display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    /* Overlay (slides up inside phone over chat area) */
-    .ab-overlay { position:absolute; inset:0; z-index:20;
-                  background:rgba(250,247,245,.98);
-                  transform:translateY(100%);
-                  transition:transform .6s cubic-bezier(0.22,.9,.32,1.06);
-                  padding:22px 18px 22px; overflow-y:auto;
-                  display:flex; flex-direction:column; justify-content:center;
-                  scrollbar-width:none; }
-    .ab-overlay::-webkit-scrollbar { display:none; }
-    .ab-overlay.visible { transform:translateY(0); }
-    .ab-panel-title { font-size:18px; font-weight:800; color:var(--white);
-                      line-height:1.25; letter-spacing:-.3px; margin-bottom:10px; }
-    .ab-panel-body { font-size:12.5px; color:var(--gray); line-height:1.65; margin-bottom:16px; }
-    .ab-features { list-style:none; display:flex; flex-direction:column; gap:9px; }
-    .ab-feature { display:flex; align-items:flex-start; gap:9px;
-                  font-size:12.5px; color:#4A4442; line-height:1.4; }
-    .ab-feature-icon { width:22px; height:22px; border-radius:7px;
+    /* Panel (beside phone) */
+    .ab-panel-title { font-size:clamp(20px,2.4vw,28px); font-weight:800; color:var(--white);
+                      line-height:1.25; letter-spacing:-.4px; margin-bottom:14px; }
+    .ab-panel-body { font-size:clamp(14px,1.4vw,16px); color:var(--gray); line-height:1.7; margin-bottom:20px; }
+    .ab-features { list-style:none; display:flex; flex-direction:column; gap:13px; }
+    .ab-feature { display:flex; align-items:flex-start; gap:12px;
+                  font-size:clamp(13px,1.3vw,15px); color:#4A4442; line-height:1.4; }
+    .ab-feature-icon { width:30px; height:30px; border-radius:9px;
                        background:rgba(202,138,113,.12); display:flex;
-                       align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+                       align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+    @media (max-width:767px) {
+      .ab-phone-wrap { flex-direction:column; gap:36px; align-items:center; }
+      .ab-panel-col { max-width:360px; transform:translateY(20px); }
+      .ab-panel-col.visible { transform:translateY(0); }
+    }
     /* Part 3 — CTA */
     .ab-cta { max-width:600px; margin:0 auto; text-align:center;
               padding-top:56px; border-top:1px solid rgba(202,138,113,.18); }
@@ -2304,8 +2311,9 @@
     <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
   </div>
 
-  <!-- Part 2: iPhone with chat + overlay -->
+  <!-- Part 2: iPhone + Panel (2-column) -->
   <div class="ab-phone-wrap">
+    <div class="ab-phone-col">
     <div class="ab-phone-frame">
       <div class="ab-phone-inner">
         <!-- Dynamic island -->
@@ -2352,22 +2360,25 @@
               <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
             </div>
           </div>
-          <!-- Overlay — slides up over chat when triggered -->
-          <div class="ab-overlay" id="abOverlay">
-            <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
-            <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
-            <ul class="ab-features">
-              <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
-            </ul>
-          </div>
         </div>
 
       </div>
     </div>
-  </div>
+    </div><!-- /ab-phone-col -->
+
+    <!-- Panel: appears beside phone when chat ends -->
+    <div class="ab-panel-col" id="abPanel">
+      <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
+      <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+      <ul class="ab-features">
+        <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinacija ostaje tajna sve do 48h pre polaska</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
+      </ul>
+    </div><!-- /ab-panel-col -->
+
+  </div><!-- /ab-phone-wrap -->
 
   <!-- Part 3: CTA -->
   <div class="ab-cta">
@@ -2402,7 +2413,7 @@
     me:    { letter:'T', bg:'#fde8dc', clr:'#a05030' },
   };
 
-  function typingMs(t){ return Math.min(2000, 600 + (t||'').length * 35); }
+  function typingMs(t){ return Math.min(2800, 800 + (t||'').length * 55); }
 
   function mkAv(who){
     var p=PEOPLE[who], d=document.createElement('div');
@@ -2451,11 +2462,11 @@
   function run(){
     clr();
     var body=document.getElementById('abChatBody');
-    var overlay=document.getElementById('abOverlay');
-    if(!body||!overlay) return;
+    var panel=document.getElementById('abPanel');
+    if(!body||!panel) return;
     body.innerHTML='';
-    overlay.classList.remove('visible');
-    var t=300;
+    panel.classList.remove('visible');
+    var t=400;
 
     SCRIPT.forEach(function(item){
       if(item.type==='divider'){
@@ -2465,7 +2476,7 @@
             body.scrollTop=body.scrollHeight;
           }, delay);
         })(item.text, t);
-        t+=800; return;
+        t+=1200; return;
       }
       (function(who,text,isTrigger,showAt,msgAt){
         var typEl=null;
@@ -2478,13 +2489,13 @@
           if(typEl) typEl.remove();
           body.appendChild(mkBubble(who,text));
           body.scrollTop=body.scrollHeight;
-          if(isTrigger){ go(function(){ overlay.classList.add('visible'); }, 520); }
+          if(isTrigger){ go(function(){ panel.classList.add('visible'); }, 680); }
         }, msgAt);
       })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
-      t += typingMs(item.text)+480;
+      t += typingMs(item.text)+700;
     });
 
-    go(function(){ run(); }, t+4200);
+    go(function(){ run(); }, t+6000);
   }
 
   var section=document.getElementById('esc-about');
@@ -3182,7 +3193,7 @@ const TR = {
     'ab.ptitle':'Escapii postoji zbog toga.',
     'ab.pbody':'Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
     'ab.f1':'Let + hotel uključeni u cenu',
-    'ab.f2':'Destinaciju saznaš tek 48h pre polaska',
+    'ab.f2':'Destinacija ostaje tajna sve do 48h pre polaska',
     'ab.f3':'Bez skrivenih troškova',
     'ab.f4':'Radimo sa licenciranom turističkom agencijom',
     'ab.clead':'Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.',
