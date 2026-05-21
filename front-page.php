@@ -1158,11 +1158,10 @@
     .connecting-tooltip-wrap { position: relative; }
     .connecting-tooltip {
       position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px);
-      background: linear-gradient(135deg, #2D5F6B 0%, #0D2E38 100%);
-      border: 1px solid rgba(202,138,113,.35); border-radius: 14px;
+      background: #ffffff; border: 1px solid rgba(45,95,107,.14); border-radius: 14px;
       padding: 14px 16px; width: 270px; pointer-events: none;
       opacity: 0; transition: opacity .22s ease, transform .22s ease;
-      z-index: 50; box-shadow: 0 12px 36px rgba(0,0,0,.55);
+      z-index: 50; box-shadow: 0 8px 28px rgba(45,95,107,.15);
     }
     .connecting-tooltip-wrap:hover .connecting-tooltip,
     .connecting-tooltip-wrap:focus-within .connecting-tooltip {
@@ -1170,15 +1169,15 @@
     }
     .connecting-tooltip::after {
       content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      border: 7px solid transparent; border-top-color: rgba(202,138,113,.35);
+      border: 7px solid transparent; border-top-color: #ffffff;
     }
     .connecting-tooltip-title {
-      font-size: 13px; font-weight: 700; color: var(--accent3); margin-bottom: 6px; line-height: 1.4;
+      font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; line-height: 1.4;
     }
     .connecting-tooltip-body {
-      font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.6;
+      font-size: 12px; color: #2D5F6B; line-height: 1.6;
     }
-    .connecting-tooltip-body strong { color: rgba(255,255,255,.95); }
+    .connecting-tooltip-body strong { color: #1a4a54; }
 
     /* Floating price animation */
     .price-float {
@@ -2386,7 +2385,7 @@
             <div class="a-icon">✨</div>
             <div class="a-tile-body">
               <div class="a-name" data-i18n="accom.sup">Superior</div>
-              <div class="a-badge pay" data-i18n="accom.sup.badge">+100€/os</div>
+              <div class="a-badge pay" data-i18n="accom.sup.badge">+100€ po osobi</div>
               <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★, viša kategorija hotela</div>
             </div>
             <div class="a-hover">
@@ -2407,18 +2406,19 @@
         <h2 data-i18n="s5.h">Dodaci</h2>
         <p class="hint" data-i18n="s5.hint">Sve je opciono</p>
         <!-- Ranac — uvek uključen -->
-        <div class="suit-row" style="opacity:.75;pointer-events:none;margin-bottom:6px;">
-          <div class="e-icon">🎒</div>
-          <div class="e-txt" style="flex:1;">
-            <div class="e-label">Ranac / personal item (do 10kg)</div>
-            <div class="e-desc">Uključeno u svako Escapii putovanje</div>
+        <div class="connecting-tooltip-wrap" style="margin-bottom:10px;">
+          <div class="suit-row" style="opacity:.75;pointer-events:none;">
+            <div class="e-icon">🎒</div>
+            <div class="e-txt" style="flex:1;">
+              <div class="e-label">Ranac / personal item (do 10kg)</div>
+              <div class="e-desc">Uključeno u svako Escapii putovanje</div>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:#4ade80;">✓ Uključeno</div>
           </div>
-          <div style="font-size:13px;font-weight:700;color:#4ade80;">✓ Uključeno</div>
-        </div>
-
-        <!-- Upozorenje o koferu -->
-        <div style="margin-bottom:10px;padding:12px 15px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-left:3px solid #fbbf24;border-radius:10px;font-size:12px;color:rgba(246,241,230,.75);line-height:1.6;">
-          ⚠️ <strong style="color:#fcd34d;">Važno:</strong> Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong style="color:#fcd34d;">izaberi ovu opciju pre nego što završiš rezervaciju.</strong>
+          <div class="connecting-tooltip">
+            <div class="connecting-tooltip-title">⚠️ Važno</div>
+            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi ovu opciju pre nego što završiš rezervaciju.</strong></div>
+          </div>
         </div>
 
         <!-- Ručni kofer — opciono -->
@@ -2427,7 +2427,7 @@
             <div class="e-icon">🧳</div>
             <div class="e-txt">
               <div class="e-label" data-i18n="ext.suit">Dodaj ručni kofer (carry-on)</div>
-              <div class="e-desc" data-i18n="ext.suit.d">Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os</div>
+              <div class="e-desc" data-i18n="ext.suit.d">Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€ po osobi</div>
             </div>
             <div class="counter">
               <button class="cb" id="suitD" onclick="chSuit(-1)">−</button>
@@ -2464,7 +2464,7 @@
                 <div class="extra-card-title" data-i18n="ext.bfst">Doručak u hotelu</div>
                 <div class="extra-card-sub" data-i18n="ext.bfst.d">Doručak u hotelu uključen za svaki dan boravka.</div>
               </div>
-              <div class="extra-card-price" data-i18n="bfst.price">+20€/os/noć</div>
+              <div class="extra-card-price" data-i18n="bfst.price">+20€ po osobi, po noći</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2479,7 +2479,7 @@
                 <div class="extra-card-title" data-i18n="ext.seats">Želim sedišta jedan pored drugog</div>
                 <div class="extra-card-sub" data-i18n="ext.seats.d">po osobi, po smeru leta</div>
               </div>
-              <div class="extra-card-price" data-i18n="seats.price">+12€/os/smer</div>
+              <div class="extra-card-price" data-i18n="seats.price">+12€ po osobi, po smeru</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -2936,7 +2936,7 @@ const TR = {
     'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.',
     'single.warn':'Napomena za solo putnike —', 'single.msg':' hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.',
     's5.h':'Dodaci', 's5.hint':'Sve je opciono',
-    'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€/os',
+    'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€ po osobi',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.',
     'ext.bfst':'Doručak u hotelu', 'ext.bfst.d':'Doručak u hotelu uključen za svaki dan boravka.',
     'ext.seats':'Želim sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
@@ -3011,9 +3011,9 @@ const TR = {
     's3.nodates.title':'Nema dostupnih termina',
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email — javljamo ti čim se otvore novi.',
     's3.nodates.btn':'Obavesti me',
-    'per.p':'/os',
-    'accom.sup.badge':'+100€/os',
-    'ins.price':'+12€/noć', 'bfst.price':'+20€/os/noći', 'seats.price':'+12€/os/smer',
+    'per.p':' po osobi',
+    'accom.sup.badge':'+100€ po osobi',
+    'ins.price':'+12€/noć', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -3118,7 +3118,7 @@ const TR = {
     'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service — for those who want a little more.',
     'single.warn':'Note for solo travelers —', 'single.msg':' hotel rooms are standardly reserved for 2 people. A single room supplement of +60€ applies.',
     's5.h':'Add-ons', 's5.hint':'All optional',
-    'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€/person',
+    'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€ per person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Covers medical expenses abroad. Recommended for all travelers.',
     'ext.bfst':'Hotel breakfast', 'ext.bfst.d':'Hotel breakfast included for every day of stay.',
     'ext.seats':'I want seats next to each other', 'ext.seats.d':'per person, per flight direction',
@@ -3194,9 +3194,9 @@ const TR = {
     's3.nodates.title':'No available dates',
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email — we\'ll notify you when new ones open.',
     's3.nodates.btn':'Notify me',
-    'per.p':'/pp',
-    'accom.sup.badge':'+100€/pp',
-    'ins.price':'+12€/night', 'bfst.price':'+20€/pp/night', 'seats.price':'+12€/pp/way',
+    'per.p':' per person',
+    'accom.sup.badge':'+100€ per person',
+    'ins.price':'+12€/night', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -4169,7 +4169,7 @@ function updateSeatsNotice() {
   }
 
   const priceInfo = lang === 'sr'
-    ? `Sedišta zajedno važe u <strong>oba smera</strong> — 12€/os/smer = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
+    ? `Sedišta zajedno važe u <strong>oba smera</strong> — 12€ po osobi, po smeru = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
     : `Seats together apply on <strong>both flights</strong> — 12€/person/way = <strong>${totalCost}€ total</strong> for ${n} travelers.`;
 
   text.innerHTML = `${arrangement}<br><span style="color:var(--accent);">${priceInfo}</span>`;
@@ -4210,7 +4210,7 @@ function updateExclStep() {
 
   // Svi aerodromi: max 4, cena 15€/os. za 2., 3. i 4.
   if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
-  if (tier2Price) { tier2Price.textContent = '+15€/os.'; tier2Price.className = 'excl-tier-price high'; }
+  if (tier2Price) { tier2Price.textContent = '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
   if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
   if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
 
@@ -4261,7 +4261,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? '🎁 1. gratis!' : '+15€/os.';
+      const label = n === 1 ? '🎁 1. gratis!' : '+15€ po osobi';
       const color = n === 1 ? '#22c55e' : '#CA8A71';
       const el = document.createElement('div');
       el.className = 'price-float';
@@ -4485,7 +4485,7 @@ async function loadPrice() {
     if(p.accommodationExtraPerPerson>0) html+=`<div class="pr-row"><span>${t('pr.accom')}</span><span>+${p.accommodationExtraPerPerson}€${pp}</span></div>`;
     if(p.cabinSuitcaseTotal>0) html+=`<div class="pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson}€${pp}</span></div>`;
-    if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstSub=lang==='sr'?`20€/os/noć`:`20€/pp/night`; const bfstPers=lang==='sr'?`${p.numberOfNights} noći × ${p.numberOfTravelers} os`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span><br><span style="font-size:11px;opacity:.55;">${bfstSub}</span></span><span>+${bfstTotal}€</span></div>`; }
+    if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstSub=lang==='sr'?`20€ po osobi/noći`:`20€/pp/night`; const bfstPers=lang==='sr'?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span><br><span style="font-size:11px;opacity:.55;">${bfstSub}</span></span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether}€${pp}</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€${pp}</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
@@ -4545,7 +4545,7 @@ function updateSummaryCard() {
     if (p.insurancePerPerson > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson * n}€</span></div>`;
     if (p.breakfastPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${lang==='sr'?'noći':'nights'} × ${n} ${lang==='sr'?'os':'pp'})<br><small style="opacity:.55;font-size:11px;">20€/os/noć</small></span><span>+${p.breakfastPerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${lang==='sr'?'noći':'nights'} × ${n} ${lang==='sr'?'osoba':'pp'})<br><small style="opacity:.55;font-size:11px;">20€ ${lang==='sr'?'po osobi/noći':'per person/night'}</small></span><span>+${p.breakfastPerPerson * n}€</span></div>`;
     if (p.seatsTogether > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether * n}€</span></div>`;
     if (p.exclusionCostFlat > 0) {
