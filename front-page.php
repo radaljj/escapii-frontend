@@ -2095,23 +2095,20 @@
   </video>
   <div class="hero-video-overlay"></div>
   <div class="hero-eyebrow" data-i18n="hero.badge">Putovanja iznenađenja</div>
-  <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš datum. <em>Mi biramo destinaciju.</em></h1>
+  <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš kada. <em>Mi biramo gde.</em></h1>
   <p class="hero-sub" data-i18n="hero.sub">Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.</p>
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
-    <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše?</button>
+    <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
-    <span class="trust-badge">✈️ <span data-i18n="trust.1">Iznenađenje uključuje povratni let i hotel</span></span>
+    <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju saznaješ 48h pre polaska</span></span>
+    <span class="trust-badge">📍 <span data-i18n="trust.2">Destinaciju ćeš saznati 48h pre polaska</span></span>
     <span class="trust-sep">·</span>
-    <span class="trust-badge">🛡️ <span data-i18n="trust.3">Putno osiguranje</span></span>
+    <span class="trust-badge">🛡️ <span data-i18n="trust.3">Sarađujemo sa licenciranom turističkom agencijom</span></span>
   </div>
 
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="stat-num" id="destCount">50+</div><div class="stat-label" data-i18n="hero.stat.dest">Destinacija</div></div>
-  </div>
 </section>
 
 <!-- BOOKING -->
@@ -2845,9 +2842,9 @@ const TR = {
     'status.surname':'Prezime',
     'status.btn':'Proveri →',
     'hero.badge':'Putovanja iznenađenja',
-    'hero.h1':'Ti biraš datum. <em>Mi biramo destinaciju.</em>',
+    'hero.h1':'Ti biraš kada. <em>Mi biramo gde.</em>',
     'hero.sub':'Odaberi datum svog Escapii vikenda. Destinaciju saznaš 48h pre polaska.',
-    'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše?',
+    'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše Escapii?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
     'mf.heading':'Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi',
@@ -3009,7 +3006,7 @@ const TR = {
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
-    'trust.1':'Iznenađenje uključuje povratni let i hotel', 'trust.2':'Destinaciju saznaješ 48h pre polaska', 'trust.3':'Putno osiguranje',
+    'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju ćeš saznati 48h pre polaska', 'trust.3':'Sarađujemo sa licenciranom turističkom agencijom',
     'pay.heading':'Kako funkcioniše plaćanje?',
     'pay.s1':'Pošalji upit klikom na dugme ispod — besplatno i bez obaveza',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
@@ -3027,9 +3024,9 @@ const TR = {
     'status.surname':'Last name',
     'status.btn':'Check →',
     'hero.badge':'Surprise travel experiences',
-    'hero.h1':'Travel <em>without knowing</em> where you\'re going',
+    'hero.h1':'You choose when. <em>We choose where.</em>',
     'hero.sub':'Choose your Escapii weekend date. You\'ll find out the destination 48h before departure.',
-    'hero.cta':'Book your surprise', 'hero.how':'How does it work?',
+    'hero.cta':'Book your surprise', 'hero.how':'How does Escapii work?',
     'hero.stat.dest':'Destinations', 'hero.stat.airports':'Departure airports', 'hero.stat.surprise':'Surprise',
     'mf.tag':'What is Escapii?',
     'mf.heading':'The first surprise travel platform in Serbia.',
@@ -3192,7 +3189,7 @@ const TR = {
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
     's8.notes.ph':'Allergies, special requests...',
-    'trust.1':'Flight + hotel included in the surprise', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'Travel insurance',
+    'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'We work with a licensed travel agency',
     'pay.heading':'How does payment work?',
     'pay.s1':'Submit your inquiry by clicking the button below — free and with no obligation',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
