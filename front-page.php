@@ -2133,24 +2133,24 @@
         <div class="feat-icon-wrap">01</div>
         <span class="feat-icon">📅</span>
         <div class="feat-content">
-          <h3 data-i18n="how.c1.t">Izaberi datum</h3>
-          <p data-i18n="how.c1.p">Vikend, broj putnika, budžet i dodaci. Isključi destinacije koje ne želiš.</p>
+          <h3 data-i18n="how.c1.t">Kreiraj svoje putovanje iznenađenja.</h3>
+          <p data-i18n="how.c1.p">Izaberi datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.</p>
         </div>
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">02</div>
         <span class="feat-icon">✈️</span>
         <div class="feat-content">
-          <h3 data-i18n="how.c2.t">Mi organizujemo sve</h3>
-          <p data-i18n="how.c2.p">Let, hotel, transfer — sve rezervisano. Ti ne moraš ništa da planiraš.</p>
+          <h3 data-i18n="how.c2.t">Mi organizujemo sve.</h3>
+          <p data-i18n="how.c2.p">Naša Escapii ekipa će skrojiti iznenađenje baš za tebe — let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.</p>
         </div>
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">03</div>
         <span class="feat-icon">📍</span>
         <div class="feat-content">
-          <h3 data-i18n="how.c3.t">Saznaš 48h pre polaska</h3>
-          <p data-i18n="how.c3.p">Destinacija, karte i hotel stižu na mejl. Do tada — nagoveštaji i uzbuđenje.</p>
+          <h3 data-i18n="how.c3.t">Otkrij svoje iznenađenje.</h3>
+          <p data-i18n="how.c3.p">Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.</p>
         </div>
       </div>
       <div class="feat-card">
@@ -2169,8 +2169,8 @@
 <section class="esc-booking" id="esc-booking">
   <div class="booking-inner">
     <div class="booking-header">
-      <span class="sec-tag" data-i18n="book.tag">Rezervacija putovanja iznenađenja</span>
-      <h2 class="sec-heading" data-i18n="book.heading">Pokreni svoju Escapii avanturu</h2>
+      <span class="sec-tag" data-i18n="book.tag">Rezervacija</span>
+      <h2 class="sec-heading" data-i18n="book.heading">Kreiraj svoje putovanje iznenađenja</h2>
     </div>
 
     <div class="booking-progress" id="bookingProgress">
@@ -2876,9 +2876,9 @@ const TR = {
     'dest.mystery':'Ali ne znaš šta ćeš dobiti',
     'how.tag':'Kako funkcioniše?', 'how.heading':'Četiri koraka do tvoje avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
-    'how.c1.t':'Izaberi datum', 'how.c1.p':'Vikend, broj putnika, budžet i dodaci. Isključi destinacije koje ne želiš.',
-    'how.c2.t':'Mi organizujemo sve', 'how.c2.p':'Let, hotel, transfer — sve rezervisano. Ti ne moraš ništa da planiraš.',
-    'how.c3.t':'Saznaš 48h pre polaska', 'how.c3.p':'Destinacija, karte i hotel stižu na mejl. Do tada — nagoveštaji i uzbuđenje.',
+    'how.c1.t':'Kreiraj svoje putovanje iznenađenja.', 'how.c1.p':'Izaberi datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.',
+    'how.c2.t':'Mi organizujemo sve.', 'how.c2.p':'Naša Escapii ekipa će skrojiti iznenađenje baš za tebe — let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.',
+    'how.c3.t':'Otkrij svoje iznenađenje.', 'how.c3.p':'Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.',
     'how.c4.t':'Stvori priču za prepričavanje', 'how.c4.p':'"Otišli smo, nismo znali kuda" — uvek bolja priča od "rezervisali smo mesecima unapred".',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
@@ -2894,7 +2894,7 @@ const TR = {
     'who.no.4':'Tražiš isto putovanje svaki put',
     'who.no.5':'Hoćeš klasičnu agenciju i klasičan aranžman',
     'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
-    'book.tag':'Rezervacija putovanja iznenađenja', 'book.heading':'Pokreni svoju Escapii avanturu',
+    'book.tag':'Rezervacija', 'book.heading':'Kreiraj svoje putovanje iznenađenja',
     'loading':'Učitavanje...', 'btn.next':'Nastavi →', 'btn.back':'← Nazad', 'free':'Besplatno',
     's1.h':'Odakle kreće tvoja avantura?', 's1.hint':'Izaberi aerodrom polaska',
     's2.h':'Izaberi broj putnika (Escapera)', 's2.hint':'Svaki putnik unosi ime i pasoš',
@@ -3058,9 +3058,9 @@ const TR = {
     'dest.mystery':'But you don\'t know what you\'ll get',
     'how.tag':'How does it work?', 'how.heading':'Four steps to your adventure',
     'how.sub':'All you need to do is pick a date and a budget.',
-    'how.c1.t':'Choose your date', 'how.c1.p':'Weekend, number of travelers, budget and extras. Exclude destinations you don\'t want.',
-    'how.c2.t':'We handle everything', 'how.c2.p':'Flight, hotel, transfer — all booked. You don\'t need to plan a thing.',
-    'how.c3.t':'Find out 48h before departure', 'how.c3.p':'Destination, tickets and hotel arrive by email. Until then — hints and excitement.',
+    'how.c1.t':'Create your surprise trip.', 'how.c1.p':'Choose your date, number of travelers, budget and extras. Exclude destinations you don\'t want.',
+    'how.c2.t':'We handle everything.', 'how.c2.p':'Our Escapii team will craft the perfect surprise just for you — flight, hotel and everything else. All you need to do is pack your bag.',
+    'how.c3.t':'Discover your surprise.', 'how.c3.p':'You\'ll find out your destination 48h before departure. Don\'t worry — 7 days before the trip we\'ll send you a weather forecast, without revealing the destination.',
     'how.c4.t':'Create a story worth telling', 'how.c4.p':'"We left and had no idea where" — always a better story than "we booked months in advance".',
     'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
@@ -3076,7 +3076,7 @@ const TR = {
     'who.no.4':'You want the same trip every time',
     'who.no.5':'You want a classic travel agency',
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
-    'book.tag':'Book a surprise trip', 'book.heading':'Start your Escapii adventure',
+    'book.tag':'Booking', 'book.heading':'Create your surprise trip',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
     's1.h':'Where does your adventure begin?', 's1.hint':'Select departure airport',
     's2.h':'Select number of travelers (Escapers)', 's2.hint':'Each traveler enters name and passport',
