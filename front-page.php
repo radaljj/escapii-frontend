@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
@@ -2292,6 +2292,232 @@
   </div>
 </section>
 
+<!-- ABOUT (new) -->
+<section class="esc-manifesto" id="esc-about">
+
+  <!-- Part 1: Intro -->
+  <div class="ab-intro">
+    <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+    <h2 class="ab-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
+    <div class="ab-tag ab-tag-why" data-i18n="mf.why">Zašto Escapii?</div>
+    <p class="ab-question" data-i18n="ab.q">Da li vaše planiranje putovanja sa društvom izgleda ovako?</p>
+    <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
+  </div>
+
+  <!-- Part 2: iPhone with chat + overlay -->
+  <div class="ab-phone-wrap">
+    <div class="ab-phone-frame">
+      <div class="ab-phone-inner">
+        <!-- Dynamic island -->
+        <div class="ab-dynamic-island"></div>
+
+        <div class="ab-phone-top">
+          <!-- Status bar -->
+          <div class="ab-status-bar">
+            <span>9:41</span>
+            <div class="ab-status-icons">
+              <svg width="16" height="10" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx=".5" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx=".5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx=".5" fill="currentColor"/></svg>
+              <svg width="22" height="10" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="currentColor"/><path d="M22 4v3c.6-.2 1-.7 1-1.5S22.6 4.2 22 4Z" fill="currentColor" fill-opacity=".5"/></svg>
+            </div>
+          </div>
+          <!-- Chat header -->
+          <div class="ab-chat-header">
+            <button class="ab-back" aria-label="Nazad">
+              <svg width="9" height="15" viewBox="0 0 11 18" fill="none"><path d="M9.5 1L1.5 9L9.5 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="ab-chat-avatars">
+              <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
+              <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
+              <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
+            </div>
+            <div class="ab-chat-info">
+              <div class="ab-chat-name">Vikend trip 🌍</div>
+              <div class="ab-chat-status">
+                <div class="ab-chat-status-dot"></div>
+                <span>Ana, Marko, Ti · aktivno</span>
+              </div>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 20 20" style="color:rgba(74,68,66,.45);flex-shrink:0;"><circle cx="4" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5" fill="currentColor"/></svg>
+          </div>
+        </div>
+
+        <div class="ab-phone-bottom">
+          <!-- Chat messages -->
+          <div class="ab-chat-body" id="abChatBody"></div>
+          <!-- Composer -->
+          <div class="ab-composer">
+            <div class="ab-composer-btn">+</div>
+            <div class="ab-composer-input">Poruka…</div>
+            <div class="ab-composer-send">
+              <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
+            </div>
+          </div>
+          <!-- Overlay — slides up over chat when triggered -->
+          <div class="ab-overlay" id="abOverlay">
+            <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
+            <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+            <ul class="ab-features">
+              <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
+              <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 3: CTA -->
+  <div class="ab-cta">
+    <p class="ab-cta-lead" data-i18n="ab.clead">Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.</p>
+    <p class="ab-cta-bold" data-i18n="ab.cbold">To je avantura koju ćeš prepričavati zauvek.</p>
+    <div class="ab-cta-btns">
+      <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
+      <button class="ab-btn-secondary" onclick="escScrollTo('esc-how')" data-i18n="ab.btn2">Kako funkcioniše?</button>
+    </div>
+  </div>
+
+</section>
+
+<script>
+// ══ ABOUT chat animation ══════════════════════════════════════════════════
+(function(){
+  var SCRIPT = [
+    { who:'ana',   text:'Jel ste i dalje za vikend negde?' },
+    { who:'me',    text:'Ajmo! Barsa, Palermo ili Nica?' },
+    { who:'marko', text:'Let je 210€, ima mesta!' },
+    { who:'ana',   text:'Da sačekamo... možda padne?' },
+    { type:'divider', text:'Subota ujutru' },
+    { who:'me',    text:'Let je sad 310€ 😅' },
+    { who:'marko', text:'Šta?! Kako za jednu noć?! 😂' },
+    { type:'divider', text:'Nedelja, dan 3' },
+    { who:'me',    text:'okej... ajde Novi Sad 😭' },
+    { who:'ana',   text:'Maštao/la si o Siciliji...', trigger:true },
+  ];
+  var PEOPLE = {
+    ana:   { letter:'A', bg:'#d1f0dc', clr:'#2d6b3f' },
+    marko: { letter:'M', bg:'#ddd8f5', clr:'#4a3db0' },
+    me:    { letter:'T', bg:'#fde8dc', clr:'#a05030' },
+  };
+
+  function typingMs(t){ return Math.min(2000, 600 + (t||'').length * 35); }
+
+  function mkAv(who){
+    var p=PEOPLE[who], d=document.createElement('div');
+    d.className='ab-av';
+    d.style.cssText='background:'+p.bg+';color:'+p.clr+';';
+    d.textContent=p.letter;
+    return d;
+  }
+  function mkBubble(who,text){
+    var mine=who==='me';
+    var row=document.createElement('div');
+    row.className='ab-msg-row'+(mine?' mine':'');
+    var b=document.createElement('div');
+    b.className='ab-bubble '+(mine?'ab-bubble-mine':'ab-bubble-other');
+    b.textContent=text;
+    if(!mine) row.appendChild(mkAv(who));
+    row.appendChild(b);
+    return row;
+  }
+  function mkDivider(text){
+    var row=document.createElement('div');
+    row.className='ab-divider-row';
+    row.innerHTML='<div class="ab-divider-line"></div><div class="ab-divider-text">— '+text+' —</div><div class="ab-divider-line"></div>';
+    return row;
+  }
+  function mkTyping(who){
+    var mine=who==='me';
+    var row=document.createElement('div');
+    row.className='ab-typing-row'+(mine?' mine':'');
+    var b=document.createElement('div');
+    b.className='ab-typing-bubble';
+    [0,1,2].forEach(function(i){
+      var d=document.createElement('span');
+      d.className='ab-dot'; d.style.animationDelay=(i*160)+'ms';
+      b.appendChild(d);
+    });
+    if(!mine) row.appendChild(mkAv(who));
+    row.appendChild(b);
+    return row;
+  }
+
+  var tids=[], started=false;
+  function clr(){ tids.forEach(clearTimeout); tids=[]; }
+  function go(fn,ms){ tids.push(setTimeout(fn,ms)); }
+
+  function run(){
+    clr();
+    var body=document.getElementById('abChatBody');
+    var overlay=document.getElementById('abOverlay');
+    if(!body||!overlay) return;
+    body.innerHTML='';
+    overlay.classList.remove('visible');
+    var t=300;
+
+    SCRIPT.forEach(function(item){
+      if(item.type==='divider'){
+        (function(txt,delay){
+          go(function(){
+            body.appendChild(mkDivider(txt));
+            body.scrollTop=body.scrollHeight;
+          }, delay);
+        })(item.text, t);
+        t+=800; return;
+      }
+      (function(who,text,isTrigger,showAt,msgAt){
+        var typEl=null;
+        go(function(){
+          typEl=mkTyping(who);
+          body.appendChild(typEl);
+          body.scrollTop=body.scrollHeight;
+        }, showAt);
+        go(function(){
+          if(typEl) typEl.remove();
+          body.appendChild(mkBubble(who,text));
+          body.scrollTop=body.scrollHeight;
+          if(isTrigger){ go(function(){ overlay.classList.add('visible'); }, 520); }
+        }, msgAt);
+      })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
+      t += typingMs(item.text)+480;
+    });
+
+    go(function(){ run(); }, t+4200);
+  }
+
+  var section=document.getElementById('esc-about');
+  if(!section) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !started){
+        started=true; run(); obs.disconnect();
+      }
+    });
+  },{ threshold:0.15 });
+  obs.observe(section);
+})();
+</script>
+
+
+<!-- DESTINATIONS CAROUSEL -->
+<section class="esc-dest" id="esc-dest">
+  <div class="dest-header">
+    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
+    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
+    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+  <div class="dest-mystery-row">
+    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
+  </div>
+</section>
+
 <!-- BOOKING -->
 <section class="esc-booking" id="esc-booking">
   <div class="booking-inner">
@@ -2763,232 +2989,6 @@
   </div>
 </section>
 
-<!-- ABOUT (new) -->
-<section class="esc-manifesto" id="esc-about">
-
-  <!-- Part 1: Intro -->
-  <div class="ab-intro">
-    <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="ab-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
-    <div class="ab-tag ab-tag-why" data-i18n="mf.why">Zašto Escapii?</div>
-    <p class="ab-question" data-i18n="ab.q">Da li vaše planiranje putovanja sa društvom izgleda ovako?</p>
-    <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
-  </div>
-
-  <!-- Part 2: iPhone with chat + overlay -->
-  <div class="ab-phone-wrap">
-    <div class="ab-phone-frame">
-      <div class="ab-phone-inner">
-        <!-- Dynamic island -->
-        <div class="ab-dynamic-island"></div>
-
-        <div class="ab-phone-top">
-          <!-- Status bar -->
-          <div class="ab-status-bar">
-            <span>9:41</span>
-            <div class="ab-status-icons">
-              <svg width="16" height="10" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx=".5" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx=".5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx=".5" fill="currentColor"/></svg>
-              <svg width="22" height="10" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="currentColor"/><path d="M22 4v3c.6-.2 1-.7 1-1.5S22.6 4.2 22 4Z" fill="currentColor" fill-opacity=".5"/></svg>
-            </div>
-          </div>
-          <!-- Chat header -->
-          <div class="ab-chat-header">
-            <button class="ab-back" aria-label="Nazad">
-              <svg width="9" height="15" viewBox="0 0 11 18" fill="none"><path d="M9.5 1L1.5 9L9.5 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="ab-chat-avatars">
-              <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
-              <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
-              <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
-            </div>
-            <div class="ab-chat-info">
-              <div class="ab-chat-name">Vikend trip 🌍</div>
-              <div class="ab-chat-status">
-                <div class="ab-chat-status-dot"></div>
-                <span>Ana, Marko, Ti · aktivno</span>
-              </div>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 20 20" style="color:rgba(74,68,66,.45);flex-shrink:0;"><circle cx="4" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5" fill="currentColor"/></svg>
-          </div>
-        </div>
-
-        <div class="ab-phone-bottom">
-          <!-- Chat messages -->
-          <div class="ab-chat-body" id="abChatBody"></div>
-          <!-- Composer -->
-          <div class="ab-composer">
-            <div class="ab-composer-btn">+</div>
-            <div class="ab-composer-input">Poruka…</div>
-            <div class="ab-composer-send">
-              <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
-            </div>
-          </div>
-          <!-- Overlay — slides up over chat when triggered -->
-          <div class="ab-overlay" id="abOverlay">
-            <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
-            <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
-            <ul class="ab-features">
-              <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-              <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Part 3: CTA -->
-  <div class="ab-cta">
-    <p class="ab-cta-lead" data-i18n="ab.clead">Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.</p>
-    <p class="ab-cta-bold" data-i18n="ab.cbold">To je avantura koju ćeš prepričavati zauvek.</p>
-    <div class="ab-cta-btns">
-      <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
-      <button class="ab-btn-secondary" onclick="escScrollTo('esc-how')" data-i18n="ab.btn2">Kako funkcioniše?</button>
-    </div>
-  </div>
-
-</section>
-
-<script>
-// ══ ABOUT chat animation ══════════════════════════════════════════════════
-(function(){
-  var SCRIPT = [
-    { who:'ana',   text:'Jel ste i dalje za vikend negde?' },
-    { who:'me',    text:'Ajmo! Barsa, Palermo ili Nica?' },
-    { who:'marko', text:'Let je 210€, ima mesta!' },
-    { who:'ana',   text:'Da sačekamo... možda padne?' },
-    { type:'divider', text:'Subota ujutru' },
-    { who:'me',    text:'Let je sad 310€ 😅' },
-    { who:'marko', text:'Šta?! Kako za jednu noć?! 😂' },
-    { type:'divider', text:'Nedelja, dan 3' },
-    { who:'me',    text:'okej... ajde Novi Sad 😭' },
-    { who:'ana',   text:'Maštao/la si o Siciliji...', trigger:true },
-  ];
-  var PEOPLE = {
-    ana:   { letter:'A', bg:'#d1f0dc', clr:'#2d6b3f' },
-    marko: { letter:'M', bg:'#ddd8f5', clr:'#4a3db0' },
-    me:    { letter:'T', bg:'#fde8dc', clr:'#a05030' },
-  };
-
-  function typingMs(t){ return Math.min(2000, 600 + (t||'').length * 35); }
-
-  function mkAv(who){
-    var p=PEOPLE[who], d=document.createElement('div');
-    d.className='ab-av';
-    d.style.cssText='background:'+p.bg+';color:'+p.clr+';';
-    d.textContent=p.letter;
-    return d;
-  }
-  function mkBubble(who,text){
-    var mine=who==='me';
-    var row=document.createElement('div');
-    row.className='ab-msg-row'+(mine?' mine':'');
-    var b=document.createElement('div');
-    b.className='ab-bubble '+(mine?'ab-bubble-mine':'ab-bubble-other');
-    b.textContent=text;
-    if(!mine) row.appendChild(mkAv(who));
-    row.appendChild(b);
-    return row;
-  }
-  function mkDivider(text){
-    var row=document.createElement('div');
-    row.className='ab-divider-row';
-    row.innerHTML='<div class="ab-divider-line"></div><div class="ab-divider-text">— '+text+' —</div><div class="ab-divider-line"></div>';
-    return row;
-  }
-  function mkTyping(who){
-    var mine=who==='me';
-    var row=document.createElement('div');
-    row.className='ab-typing-row'+(mine?' mine':'');
-    var b=document.createElement('div');
-    b.className='ab-typing-bubble';
-    [0,1,2].forEach(function(i){
-      var d=document.createElement('span');
-      d.className='ab-dot'; d.style.animationDelay=(i*160)+'ms';
-      b.appendChild(d);
-    });
-    if(!mine) row.appendChild(mkAv(who));
-    row.appendChild(b);
-    return row;
-  }
-
-  var tids=[], started=false;
-  function clr(){ tids.forEach(clearTimeout); tids=[]; }
-  function go(fn,ms){ tids.push(setTimeout(fn,ms)); }
-
-  function run(){
-    clr();
-    var body=document.getElementById('abChatBody');
-    var overlay=document.getElementById('abOverlay');
-    if(!body||!overlay) return;
-    body.innerHTML='';
-    overlay.classList.remove('visible');
-    var t=300;
-
-    SCRIPT.forEach(function(item){
-      if(item.type==='divider'){
-        (function(txt,delay){
-          go(function(){
-            body.appendChild(mkDivider(txt));
-            body.scrollTop=body.scrollHeight;
-          }, delay);
-        })(item.text, t);
-        t+=800; return;
-      }
-      (function(who,text,isTrigger,showAt,msgAt){
-        var typEl=null;
-        go(function(){
-          typEl=mkTyping(who);
-          body.appendChild(typEl);
-          body.scrollTop=body.scrollHeight;
-        }, showAt);
-        go(function(){
-          if(typEl) typEl.remove();
-          body.appendChild(mkBubble(who,text));
-          body.scrollTop=body.scrollHeight;
-          if(isTrigger){ go(function(){ overlay.classList.add('visible'); }, 520); }
-        }, msgAt);
-      })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
-      t += typingMs(item.text)+480;
-    });
-
-    go(function(){ run(); }, t+4200);
-  }
-
-  var section=document.getElementById('esc-about');
-  if(!section) return;
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting && !started){
-        started=true; run(); obs.disconnect();
-      }
-    });
-  },{ threshold:0.15 });
-  obs.observe(section);
-})();
-</script>
-
-
-<!-- DESTINATIONS CAROUSEL -->
-<section class="esc-dest" id="esc-dest">
-  <div class="dest-header">
-    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
-    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
-    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
-  </div>
-  <div class="carousel-outer">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-  <div class="dest-mystery-row">
-    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
-  </div>
-</section>
-
 <!-- FOR WHO -->
 <section class="esc-who" id="esc-who">
   <div class="who-inner">
@@ -3016,16 +3016,6 @@
     </div>
   </div>
 </section>
-
-<!-- STATS -->
-<div class="esc-stats">
-  <div class="stats-row">
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="0"><div class="stats-num" id="statsDestCount" data-countup="50">50+</div><div class="stats-lbl" data-i18n="stats.dest">Destinacija</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="100"><div class="stats-num" id="statsTravelers" data-countup="15">15+</div><div class="stats-lbl" data-i18n="stats.travelers">Godina iskustva</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="200"><div class="stats-num">24h</div><div class="stats-lbl" data-i18n="stats.support">Podrška</div></div>
-    <div class="stats-item" data-aos="fade-up" data-aos-delay="300"><div class="stats-num" id="statSurprise" data-countup="100">100%</div><div class="stats-lbl" data-i18n="stats.surprise">Iznenađenje</div></div>
-  </div>
-</div>
 
 <!-- FAQ -->
 <section class="esc-faq" id="esc-faq">
@@ -5119,9 +5109,9 @@ loadDestinations();
   // Redosled mora biti isti kao redosled sekcija na stranici (odozgo nadole)
   const sectionIds = [
     'esc-how',
-    'esc-booking',
     'esc-about',
     'esc-dest',
+    'esc-booking',
     'esc-who',
     'esc-faq',
   ];
