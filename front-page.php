@@ -382,26 +382,36 @@
     }
 
     /* ══════════════════════ FEATURES */
-    .esc-features { background: #08112a; padding: 80px 24px; }
+    .esc-features { background: var(--navy3); padding: 80px 24px; }
     .features-inner { max-width: 1200px; margin: 0 auto; }
-    .features-header { text-align: center; margin-bottom: 48px; }
+    .features-header { text-align: center; margin-bottom: 52px; }
     .features-grid {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
     }
     .feat-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px; padding: 28px 24px;
+      background: #fff; border: none; border-radius: 20px; padding: 32px 26px;
       display: flex; flex-direction: column;
-      transition: border-color .25s, background .25s; box-sizing: border-box;
+      box-shadow: 0 2px 16px rgba(45,95,107,.07);
+      transition: transform .22s ease, box-shadow .22s ease;
+      position: relative; overflow: hidden; box-sizing: border-box;
     }
-    .feat-card:hover { border-color: rgba(202,138,113,.35); background: rgba(202,138,113,.04); }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent); border-radius: 20px 20px 0 0;
+    }
+    .feat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(45,95,107,.13); }
     .feat-icon-wrap {
-      font-size: 26px; font-weight: 900; color: var(--gold);
-      margin-bottom: 10px; letter-spacing: -0.5px; line-height: 1;
+      font-size: 11px; font-weight: 800; color: var(--accent);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
     }
-    .feat-icon { font-size: 22px; margin-bottom: 14px; display: block; }
-    .feat-content h3 { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 8px; line-height: 1.3; }
-    .feat-content p { font-size: 13px; color: var(--gray); line-height: 1.65; }
+    .feat-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      background: rgba(202,138,113,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 18px;
+    }
+    .feat-content h3 { font-size: 15px; font-weight: 800; color: #2D5F6B; margin-bottom: 8px; line-height: 1.35; }
+    .feat-content p { font-size: 13px; color: #6B7C80; line-height: 1.65; }
 
     /* ══════════════════════ FOR WHO */
     .esc-who { padding: 100px 24px; background: var(--navy3); }
