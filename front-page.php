@@ -2476,7 +2476,7 @@
             body.scrollTop=body.scrollHeight;
           }, delay);
         })(item.text, t);
-        t+=1200; return;
+        t+=1600; return;
       }
       (function(who,text,isTrigger,showAt,msgAt){
         var typEl=null;
@@ -2492,10 +2492,10 @@
           if(isTrigger){ go(function(){ panel.classList.add('visible'); }, 680); }
         }, msgAt);
       })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
-      t += typingMs(item.text)+700;
+      t += typingMs(item.text)+1000;
     });
 
-    go(function(){ run(); }, t+6000);
+    go(function(){ run(); }, t+7000);
   }
 
   var section=document.getElementById('esc-about');
