@@ -293,33 +293,105 @@
     .stat-label { font-size: 12px; color: var(--gray); margin-top: 6px;
                   text-transform: uppercase; letter-spacing: 1px; }
 
-    /* ══════════════════════ MANIFESTO */
-    .esc-manifesto {
-      background: var(--navy2);
-      padding: 120px 24px;
-      text-align: center;
+    /* ══════════════════════ ABOUT (new) */
+    @keyframes abMsgIn {
+      0%   { opacity:0; transform:translateY(10px) scale(0.94); }
+      60%  { opacity:1; }
+      100% { opacity:1; transform:translateY(0) scale(1); }
     }
-    .mf-inner { max-width: 800px; margin: 0 auto; }
-    .mf-tag {
-      display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    @keyframes abDotBounce {
+      0%,60%,100% { transform:translateY(0); opacity:.4; }
+      30%         { transform:translateY(-4px); opacity:1; }
     }
-    .mf-heading {
-      font-size: clamp(30px, 4.5vw, 52px); font-weight: 900;
-      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 40px;
-      color: var(--white);
+    .esc-manifesto { background:var(--navy2); padding:100px 24px 80px; }
+    /* Part 1 — intro */
+    .ab-intro { text-align:center; max-width:680px; margin:0 auto 72px; }
+    .ab-tag { display:inline-block; font-size:11px; font-weight:800; letter-spacing:2px;
+              text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+    .ab-heading { font-size:clamp(26px,3.5vw,44px); font-weight:900; letter-spacing:-1px;
+                  line-height:1.12; color:var(--white); margin-bottom:36px; }
+    .ab-tag-why { margin-top:12px; }
+    .ab-question { font-size:clamp(20px,2.8vw,34px); font-weight:800; font-style:italic;
+                   color:var(--white); line-height:1.2; margin-bottom:14px; letter-spacing:-.4px; }
+    .ab-sub { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.7; }
+    /* Part 2 — chat + panel */
+    .ab-chat-section { display:flex; align-items:center; gap:48px;
+                       max-width:940px; margin:0 auto 80px; }
+    .ab-phone-wrap { flex:0 0 350px; min-width:0; }
+    .ab-phone { background:#fff; border-radius:20px; overflow:hidden;
+                box-shadow:0 2px 32px rgba(45,95,107,.12),0 1px 4px rgba(45,95,107,.06);
+                border:1px solid rgba(202,138,113,.1); }
+    .ab-chat-header { padding:12px 16px; border-bottom:1px solid rgba(74,68,66,.07);
+                      display:flex; align-items:center; gap:10px; background:rgba(250,247,245,.95); }
+    .ab-chat-avatars { display:flex; align-items:center; }
+    .ab-chat-avatars .ab-av { margin-left:-8px; border:2px solid #fff; }
+    .ab-chat-avatars .ab-av:first-child { margin-left:0; }
+    .ab-av { width:28px; height:28px; border-radius:50%; display:flex; align-items:center;
+             justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+    .ab-chat-info { flex:1; min-width:0; }
+    .ab-chat-name { font-size:14px; font-weight:700; color:#2d2a28; letter-spacing:-.2px; }
+    .ab-chat-status { font-size:11px; color:rgba(74,68,66,.5);
+                      display:flex; align-items:center; gap:4px; margin-top:1px; }
+    .ab-chat-status-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; flex-shrink:0; }
+    .ab-chat-body { padding:12px 12px 14px; display:flex; flex-direction:column; gap:5px;
+                    min-height:290px; background:#faf8f6; overflow:hidden; }
+    .ab-msg-row { display:flex; align-items:flex-end; gap:7px;
+                  animation:abMsgIn 340ms cubic-bezier(0.22,.9,.32,1.15) both; }
+    .ab-msg-row.mine { justify-content:flex-end; }
+    .ab-typing-row { display:flex; align-items:flex-end; gap:7px;
+                     animation:abMsgIn 280ms cubic-bezier(0.22,.9,.32,1.18) both; }
+    .ab-typing-row.mine { justify-content:flex-end; }
+    .ab-bubble { padding:9px 13px 10px; font-size:13.5px; line-height:1.4;
+                 max-width:80%; word-break:break-word; }
+    .ab-bubble-other { background:#fff; color:#2d2a28; border-radius:17px 17px 17px 5px;
+                       box-shadow:0 1px 3px rgba(0,0,0,.07); border:.5px solid rgba(74,68,66,.07); }
+    .ab-bubble-mine { background:var(--accent); color:#fff; font-weight:500;
+                      border-radius:17px 17px 5px 17px; }
+    .ab-divider-row { display:flex; align-items:center; gap:8px; margin:4px 0;
+                      animation:abMsgIn 340ms cubic-bezier(0.22,.9,.32,1.15) both; }
+    .ab-divider-line { flex:1; height:1px; background:rgba(74,68,66,.1); }
+    .ab-divider-text { font-size:11px; color:rgba(74,68,66,.4); font-style:italic;
+                       letter-spacing:.1px; white-space:nowrap; }
+    .ab-typing-bubble { padding:9px 12px; background:#fff; display:flex; gap:4px;
+                        border-radius:17px 17px 17px 5px; align-items:center;
+                        border:.5px solid rgba(74,68,66,.07); box-shadow:0 1px 3px rgba(0,0,0,.07); }
+    .ab-dot { width:5px; height:5px; border-radius:50%; background:rgba(74,68,66,.3);
+              display:inline-block; animation:abDotBounce 1100ms ease-in-out infinite; }
+    /* Part 2 — panel */
+    .ab-panel { flex:1; min-width:0; opacity:0; transform:translateY(18px);
+                transition:opacity .5s ease,transform .5s ease; pointer-events:none; }
+    .ab-panel.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .ab-panel-title { font-size:clamp(20px,2.4vw,28px); font-weight:800; color:var(--white);
+                      line-height:1.2; letter-spacing:-.4px; margin-bottom:14px; }
+    .ab-panel-body { font-size:15px; color:var(--gray); line-height:1.7; margin-bottom:22px; }
+    .ab-features { list-style:none; display:flex; flex-direction:column; gap:11px; }
+    .ab-feature { display:flex; align-items:flex-start; gap:10px;
+                  font-size:14px; color:#4A4442; line-height:1.4; }
+    .ab-feature-icon { width:26px; height:26px; border-radius:8px;
+                       background:rgba(202,138,113,.12); display:flex;
+                       align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+    /* Part 3 — CTA */
+    .ab-cta { max-width:600px; margin:0 auto; text-align:center;
+              padding-top:56px; border-top:1px solid rgba(202,138,113,.18); }
+    .ab-cta-lead { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.65; margin-bottom:10px; }
+    .ab-cta-bold { font-size:clamp(16px,1.9vw,21px); font-weight:800; color:var(--white);
+                   margin-bottom:32px; line-height:1.3; }
+    .ab-cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .ab-btn-primary { background:var(--accent); color:#fff; border:none;
+                      padding:14px 30px; border-radius:999px; font-size:15px; font-weight:700;
+                      cursor:pointer; font-family:inherit; transition:all .2s;
+                      box-shadow:0 4px 16px rgba(202,138,113,.35); }
+    .ab-btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+    .ab-btn-secondary { background:transparent; color:var(--white);
+                        border:1.5px solid rgba(45,95,107,.25); padding:14px 30px;
+                        border-radius:999px; font-size:15px; font-weight:600;
+                        cursor:pointer; font-family:inherit; transition:all .2s; }
+    .ab-btn-secondary:hover { border-color:var(--white); }
+    @media (max-width:768px) {
+      .ab-chat-section { flex-direction:column; gap:28px; }
+      .ab-phone-wrap { flex:none; width:100%; max-width:360px; margin:0 auto; }
+      .ab-panel { opacity:1; transform:none; pointer-events:auto; }
     }
-    .mf-heading em { color: var(--gold); font-style: normal; }
-    .mf-body { font-size: clamp(15px, 1.6vw, 18px); color: var(--gray);
-               line-height: 1.85; margin-bottom: 20px; }
-    .mf-body strong { color: var(--white); }
-    .mf-quote {
-      font-size: clamp(18px, 2.2vw, 26px); font-weight: 700; font-style: italic;
-      color: var(--white); line-height: 1.5; margin: 48px 0 40px;
-      padding: 36px 48px; border-left: 4px solid var(--teal);
-      background: rgba(226,201,160,.06); border-radius: 0 16px 16px 0; text-align: left;
-    }
-    .mf-quote em { color: var(--teal); font-style: normal; }
 
     /* ══════════════════════ DESTINATIONS CAROUSEL */
     .esc-dest {
@@ -1989,9 +2061,6 @@
     }
     .status-result { border-top-color: rgba(15,45,53,.08); }
 
-    /* Manifesto quote (white bg) */
-    .mf-quote { background: rgba(202,138,113,.04); border-left-color: var(--accent); }
-    .mf-quote em { color: var(--accent3); }  /* was var(--teal)=#BFD8DE — invisible on white */
 
 /* ══════════════════════ ANIMATIONS */
     @keyframes fadeUp   { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:none; } }
@@ -2652,21 +2721,182 @@
   </div>
 </section>
 
-<!-- MANIFESTO -->
+<!-- ABOUT (new) -->
 <section class="esc-manifesto" id="esc-about">
-  <div class="mf-inner">
-    <div class="mf-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="mf-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
-    <div class="mf-tag" data-i18n="mf.why">Zašto da putuješ sa Escapii ekipom?</div>
-    <p class="mf-body" data-i18n-html="mf.p1">Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em></p>
-    <p class="mf-body" data-i18n-html="mf.p2">Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).</p>
-    <p class="mf-body" data-i18n-html="mf.p3">A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la 'potvrdi rezervaciju'.</strong></p>
-    <p class="mf-body" data-i18n-html="mf.p4">Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu — bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.</p>
-    <p class="mf-body" data-i18n-html="mf.p5">Zato postoji Escapii. Pronađeš datum koji ti odgovara, a naša ekipa će se pobrinuti za sve ostalo. Nema stresa, nema beskrajnog dogovaranja, nema gomile dosadnih poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.</p>
-    <p class="mf-body" data-i18n-html="mf.p6">A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje — analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.</p>
-    <blockquote class="mf-quote" data-i18n-html="mf.quote">Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.</blockquote>
+
+  <!-- Part 1: Intro -->
+  <div class="ab-intro">
+    <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+    <h2 class="ab-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
+    <div class="ab-tag ab-tag-why" data-i18n="mf.why">Zašto Escapii?</div>
+    <p class="ab-question" data-i18n="ab.q">Da li vaše planiranje putovanja sa društvom izgleda ovako?</p>
+    <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
   </div>
+
+  <!-- Part 2: Animated chat + info panel -->
+  <div class="ab-chat-section">
+    <div class="ab-phone-wrap">
+      <div class="ab-phone">
+        <div class="ab-chat-header">
+          <div class="ab-chat-avatars">
+            <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
+            <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
+            <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
+          </div>
+          <div class="ab-chat-info">
+            <div class="ab-chat-name">Vikend trip 🌍</div>
+            <div class="ab-chat-status">
+              <div class="ab-chat-status-dot"></div>
+              <span>Ana, Marko, Ti · aktivno</span>
+            </div>
+          </div>
+        </div>
+        <div class="ab-chat-body" id="abChatBody"></div>
+      </div>
+    </div>
+
+    <div class="ab-panel" id="abPanel">
+      <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
+      <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+      <ul class="ab-features">
+        <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju saznaš tek 48h pre polaska</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Part 3: CTA -->
+  <div class="ab-cta">
+    <p class="ab-cta-lead" data-i18n="ab.clead">Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.</p>
+    <p class="ab-cta-bold" data-i18n="ab.cbold">To je avantura koju ćeš prepričavati zauvek.</p>
+    <div class="ab-cta-btns">
+      <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
+      <button class="ab-btn-secondary" onclick="escScrollTo('esc-how')" data-i18n="ab.btn2">Kako funkcioniše?</button>
+    </div>
+  </div>
+
 </section>
+
+<script>
+// ══ ABOUT chat animation ══════════════════════════════════════════════════
+(function(){
+  var SCRIPT = [
+    { who:'ana',   text:'Jel ste i dalje za vikend negde?' },
+    { who:'me',    text:'Ajmo! Barsa, Palermo ili Nica?' },
+    { who:'marko', text:'Let je 210€, ima mesta!' },
+    { who:'ana',   text:'Da sačekamo... možda padne?' },
+    { type:'divider', text:'Subota ujutru' },
+    { who:'me',    text:'Let je sad 310€ 😅' },
+    { who:'marko', text:'Šta?! Kako za jednu noć?! 😂' },
+    { type:'divider', text:'Nedelja, dan 3' },
+    { who:'me',    text:'okej... ajde Novi Sad 😭' },
+    { who:'ana',   text:'Maštao/la si o Siciliji...', trigger:true },
+  ];
+  var PEOPLE = {
+    ana:   { letter:'A', bg:'#d1f0dc', clr:'#2d6b3f' },
+    marko: { letter:'M', bg:'#ddd8f5', clr:'#4a3db0' },
+    me:    { letter:'T', bg:'#fde8dc', clr:'#a05030' },
+  };
+
+  function typingMs(t){ return Math.min(2000, 600 + (t||'').length * 35); }
+
+  function mkAv(who){
+    var p=PEOPLE[who], d=document.createElement('div');
+    d.className='ab-av';
+    d.style.cssText='background:'+p.bg+';color:'+p.clr+';';
+    d.textContent=p.letter;
+    return d;
+  }
+  function mkBubble(who,text){
+    var mine=who==='me';
+    var row=document.createElement('div');
+    row.className='ab-msg-row'+(mine?' mine':'');
+    var b=document.createElement('div');
+    b.className='ab-bubble '+(mine?'ab-bubble-mine':'ab-bubble-other');
+    b.textContent=text;
+    if(!mine) row.appendChild(mkAv(who));
+    row.appendChild(b);
+    return row;
+  }
+  function mkDivider(text){
+    var row=document.createElement('div');
+    row.className='ab-divider-row';
+    row.innerHTML='<div class="ab-divider-line"></div><div class="ab-divider-text">— '+text+' —</div><div class="ab-divider-line"></div>';
+    return row;
+  }
+  function mkTyping(who){
+    var mine=who==='me';
+    var row=document.createElement('div');
+    row.className='ab-typing-row'+(mine?' mine':'');
+    var b=document.createElement('div');
+    b.className='ab-typing-bubble';
+    [0,1,2].forEach(function(i){
+      var d=document.createElement('span');
+      d.className='ab-dot'; d.style.animationDelay=(i*160)+'ms';
+      b.appendChild(d);
+    });
+    if(!mine) row.appendChild(mkAv(who));
+    row.appendChild(b);
+    return row;
+  }
+
+  var tids=[], started=false;
+  function clr(){ tids.forEach(clearTimeout); tids=[]; }
+  function go(fn,ms){ tids.push(setTimeout(fn,ms)); }
+
+  function run(){
+    clr();
+    var body=document.getElementById('abChatBody');
+    var panel=document.getElementById('abPanel');
+    if(!body||!panel) return;
+    body.innerHTML='';
+    panel.classList.remove('visible');
+    var t=300;
+
+    SCRIPT.forEach(function(item){
+      if(item.type==='divider'){
+        (function(txt,delay){
+          go(function(){
+            body.appendChild(mkDivider(txt));
+            body.scrollTop=body.scrollHeight;
+          }, delay);
+        })(item.text, t);
+        t+=800; return;
+      }
+      (function(who,text,isTrigger,showAt,msgAt){
+        var typEl=null;
+        go(function(){
+          typEl=mkTyping(who);
+          body.appendChild(typEl);
+          body.scrollTop=body.scrollHeight;
+        }, showAt);
+        go(function(){
+          if(typEl) typEl.remove();
+          body.appendChild(mkBubble(who,text));
+          body.scrollTop=body.scrollHeight;
+          if(isTrigger){ go(function(){ panel.classList.add('visible'); }, 420); }
+        }, msgAt);
+      })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
+      t += typingMs(item.text)+480;
+    });
+
+    go(function(){ run(); }, t+3600);
+  }
+
+  var section=document.getElementById('esc-about');
+  if(!section) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !started){
+        started=true; run(); obs.disconnect();
+      }
+    });
+  },{ threshold:0.2 });
+  obs.observe(section);
+})();
+</script>
 
 
 <!-- DESTINATIONS CAROUSEL -->
@@ -2882,8 +3112,20 @@ const TR = {
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
     'mf.heading':'Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi',
-    'mf.why':'Zašto da putuješ sa Escapii ekipom?',
+    'mf.why':'Zašto Escapii?',
     'mf.p1':'Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em>',
+    'ab.q':'Da li vaše planiranje putovanja sa društvom izgleda ovako?',
+    'ab.sub':'Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.',
+    'ab.ptitle':'Escapii postoji zbog toga.',
+    'ab.pbody':'Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
+    'ab.f1':'Let + hotel uključeni u cenu',
+    'ab.f2':'Destinaciju saznaš tek 48h pre polaska',
+    'ab.f3':'Bez skrivenih troškova',
+    'ab.f4':'Radimo sa licenciranom turističkom agencijom',
+    'ab.clead':'Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.',
+    'ab.cbold':'To je avantura koju ćeš prepričavati zauvek.',
+    'ab.btn1':'Rezerviši svoje iznenađenje →',
+    'ab.btn2':'Kako funkcioniše?',
     'mf.p2':'Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).',
     'mf.p3':'A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la \'potvrdi rezervaciju\'.</strong>',
     'mf.p4':'Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu — bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.',
@@ -3066,6 +3308,18 @@ const TR = {
     'mf.heading':'The first surprise travel platform in Serbia.',
     'mf.why':'Why Escapii?',
     'mf.p1':'Because the best stories start with <em style="color:var(--gold);font-style:normal;">"we\'re traveling next weekend, but we don\'t know where."</em>',
+    'ab.q':'Does your travel planning with friends look like this?',
+    'ab.sub':'Three days of messages, flights getting expensive before your eyes, accommodation disappearing — and you end up in Novi Sad. Sound familiar.',
+    'ab.ptitle':'That\'s why Escapii exists.',
+    'ab.pbody':'You pick a date — we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
+    'ab.f1':'Flight + hotel included in the price',
+    'ab.f2':'Destination revealed 48h before departure',
+    'ab.f3':'No hidden costs',
+    'ab.f4':'We work with a licensed travel agency',
+    'ab.clead':'Trust us when we say — Escapii isn\'t a trip you\'ll forget.',
+    'ab.cbold':'It\'s an adventure you\'ll be talking about forever.',
+    'ab.btn1':'Book your surprise →',
+    'ab.btn2':'How does it work?',
     'mf.p2':'We all know that feeling. You\'re either the person who plans and organizes every trip, or the one others plan for — yet your friends still bombard you with questions. You vote on a destination, pick a hotel, and it turns out it\'s too expensive, the flight went up in price for the third time in 24 hours, or the good accommodation is already sold out — and you\'re back to square one. Or you end up on a weekend trip in the region (nothing wrong with that, but you were dreaming of Sicily).',
     'mf.p3':'You\'ve searched the same website 4,328 times, you know the map of your destination by heart, you\'ve become an expert — but when you finally go, you already know exactly what to expect. The element of surprise? <strong>Doesn\'t exist.</strong>',
     'mf.p4':'Did you know you can now book a surprise weekend trip in Europe — without spending hours researching, coordinating, and checking hotels? Plus get an experience you\'ll remember for life?',
