@@ -157,7 +157,20 @@
     }
     .sec-nav-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
     .sec-nav-link.active { color: #ffffff; background: var(--gold); }
-    /* "Pozovi nas" pill u secondary navu */
+    /* "Rezerviši" CTA pill */
+    .sec-nav-cta {
+      white-space: nowrap; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+      color: #ffffff;
+      background: var(--gold);
+      border: none;
+      box-shadow: 0 2px 10px rgba(202,138,113,.35);
+      transition: all .2s;
+    }
+    .sec-nav-cta:hover { background: #b87a62; box-shadow: 0 4px 16px rgba(202,138,113,.45); transform: translateY(-1px); }
+    /* "Kontaktiraj nas" pill u secondary navu */
     .sec-nav-call {
       white-space: nowrap; flex-shrink: 0;
       display: inline-flex; align-items: center; gap: 6px;
@@ -2097,8 +2110,8 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
+  <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
   <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
-  <button class="sec-nav-link" onclick="escScrollTo('esc-booking')"     data-i18n="snav.book">Rezerviši</button>
 </nav>
 
 <!-- HERO -->
@@ -2984,7 +2997,7 @@ const TR = {
     'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši',
+    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u putovanje?',
     'faq.1.a':'Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.',
@@ -3167,7 +3180,7 @@ const TR = {
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now',
+    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What does the trip include?',
     'faq.1.a':'Every trip includes round-trip flights and accommodation. Transportation within the destination city is not included in the price.',
