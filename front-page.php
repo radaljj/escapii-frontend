@@ -303,6 +303,10 @@
       to   { opacity:1; transform:translateY(0); }
     }
     .esc-manifesto { background:var(--navy2); padding:100px 24px 80px; }
+    /* Mobile-only intro above phone */
+    .ab-mob-intro { display:none; text-align:center; margin-bottom:36px; }
+    .ab-mob-intro .ab-tag { display:inline-block; }
+    .ab-mob-intro .ab-heading { font-size:clamp(22px,6vw,32px); margin-bottom:0; }
     /* 2-column */
     .ab-two-col { display:flex; align-items:center; gap:64px; max-width:900px; margin:0 auto; }
     /* Left text col */
@@ -465,6 +469,7 @@
                  padding:12px; width:100%; font-size:13px; font-weight:700;
                  cursor:pointer; font-family:inherit; }
     @media (max-width:767px) {
+      .ab-mob-intro { display:block; }
       .ab-two-col { flex-direction:column; gap:0; }
       .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
@@ -2334,6 +2339,13 @@
 
 <!-- ABOUT -->
 <section class="esc-manifesto" id="esc-about">
+
+  <!-- Mobile-only intro (hidden on desktop) -->
+  <div class="ab-mob-intro">
+    <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+    <h2 class="ab-heading" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h2>
+  </div>
+
   <div class="ab-two-col">
 
     <!-- Left: text -->
@@ -2528,22 +2540,24 @@
     if(!body) return;
     body.innerHTML='';
     if(overlay) overlay.classList.remove('visible');
-    var els=SCRIPT.map(makeEl);
-    els.forEach(function(el){ body.appendChild(el); });
-    var t=400;
-    SCRIPT.forEach(function(m,i){
-      var d = m.type==='div'     ? 1000
-            : m.type==='poll'    ? 700
-            : m.type==='seen'    ? 600
-            : m.type==='escapii' ? 1600
-            : Math.min(600+(m.text||'').length*32,2000);
-      (function(idx,isEsc){
+    var t=0;
+    SCRIPT.forEach(function(m){
+      var d = m.type==='div'     ? 950
+            : m.type==='poll'    ? 650
+            : m.type==='seen'    ? 550
+            : m.type==='escapii' ? 1400
+            : Math.min(550+(m.text||'').length*30,1800);
+      (function(mi,isEsc){
         go(function(){
-          els[idx].classList.add('vis');
+          var el=makeEl(mi);
+          body.appendChild(el);
+          /* force reflow so CSS transition fires */
+          void el.offsetWidth;
+          el.classList.add('vis');
           body.scrollTop=body.scrollHeight;
           if(isEsc&&overlay){ go(function(){ overlay.classList.add('visible'); },1400); }
         }, t);
-      })(i, m.type==='escapii');
+      })(m, m.type==='escapii');
       t+=d;
     });
     go(function(){ run(); }, t+9000);
