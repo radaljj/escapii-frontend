@@ -2514,8 +2514,7 @@
           '<span class="ab-esc-feat">✈️ Let + hotel uključeni</span>'+
           '<span class="ab-esc-feat">📍 Destinacija tajna 48h</span>'+
           '<span class="ab-esc-feat">✓ Bez skrivenih troškova</span>'+
-        '</div>'+
-        '<button class="ab-esc-btn" onclick="escScrollTo(\'esc-booking\')">Rezerviši svoje iznenađenje →</button>';
+        '</div>';
       return d;
     }
     var p=AV[m.who], mine=(m.who==='me');
@@ -2555,7 +2554,7 @@
           void el.offsetWidth;
           el.classList.add('vis');
           body.scrollTop=body.scrollHeight;
-          if(isEsc&&overlay){ go(function(){ overlay.classList.add('visible'); },1400); }
+          if(isEsc&&overlay){ go(function(){ overlay.classList.add('visible'); },3200); }
         }, t);
       })(m, m.type==='escapii');
       t+=d;
