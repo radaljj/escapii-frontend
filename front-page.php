@@ -425,7 +425,10 @@
                     text-transform:uppercase; text-align:center; margin-bottom:6px; }
     .ab-esc-title { font-size:12px; font-weight:700; color:#2d2a28; margin-bottom:3px;
                     font-style:italic; line-height:1.3; }
-    .ab-esc-sub { font-size:10px; color:rgba(74,68,66,.55); margin-bottom:8px; line-height:1.4; }
+    .ab-esc-sub { font-size:10px; color:rgba(74,68,66,.55); margin-bottom:7px; line-height:1.4; }
+    .ab-esc-feats { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:8px; }
+    .ab-esc-feat { font-size:9px; color:rgba(74,68,66,.6); background:#F5EFE6;
+                   border-radius:999px; padding:3px 7px; white-space:nowrap; }
     .ab-esc-btn { background:var(--accent); color:#fff; border:none; border-radius:8px;
                   padding:8px 10px; width:100%; font-size:11px; font-weight:700;
                   cursor:pointer; font-family:inherit; text-align:center; display:block; }
@@ -444,8 +447,8 @@
     /* Mobile overlay (inside phone, only on mobile) */
     .ab-overlay { position:absolute; inset:0; z-index:20; background:rgba(250,247,245,.98);
                   transform:translateY(100%); transition:transform .7s cubic-bezier(0.22,.9,.32,1.06);
-                  padding:20px 16px; overflow-y:auto; display:none;
-                  flex-direction:column; justify-content:center; scrollbar-width:none; }
+                  padding:18px 16px 24px; overflow-y:auto; display:none;
+                  flex-direction:column; justify-content:flex-start; scrollbar-width:none; }
     .ab-overlay::-webkit-scrollbar { display:none; }
     .ab-overlay.visible { transform:translateY(0); }
     .ab-ov-tag { font-size:10px; font-weight:800; letter-spacing:1.5px;
@@ -2442,17 +2445,17 @@
     { who:'stefan', text:'A dobro šta sad, častim ja piće, evo Milica kaže da bukiramo!' },
     { who:'ana',    text:'E ljudi sad je 265€...' },
     { type:'div',   text:'Petak' },
-    { who:'ana',    text:'Evo link ka smeštaju. U centru je, 50€ po osobi/noć.' },
+    { who:'ana',    text:'E evo link ka smeštaju koji sam našla. Deluje pristojno i u centru je, 50€ po osobi/noć.' },
     { who:'me',     text:'Ajde da bukiramo odmah?' },
-    { who:'stefan', text:'Ja sam našao nešto skuplje ali bolje ocenjeno.' },
-    { who:'jovana', text:'Ajde da se ubrzamo molim vas 🙏' },
+    { who:'stefan', text:'Ja sam našao nešto malo skuplje, sa dosta boljom ocenom. Evo ga link.' },
+    { who:'jovana', text:'Ajde da se ubrzamo molim vas, kao da je bitno kakav je smeštaj 🙏' },
     { type:'div',   text:'Subota' },
     { who:'ana',    text:'E ovaj prvi hotel je rasprodat 🙂' },
     { who:'marko',  text:'...' },
     { who:'stefan', text:'Pa ajmo moju opciju?' },
     { type:'seen' },
     { type:'div',   text:'Nedelja, dan 5' },
-    { who:'jovana', text:'Izgubila mi se volja za Madridom sa svim ovim...', style:'gray' },
+    { who:'jovana', text:'Znate šta ljudi... izgubila mi se volja za Madridom sa svim ovim komplikacijama. Ajmo neki road trip, drugi put ćemo na vreme...', style:'gray' },
     { who:'ana',    text:'😶' },
     { who:'marko',  text:'😶' },
     { who:'me',     text:'......' },
@@ -2494,7 +2497,12 @@
       d.className='ab-esc-card';
       d.innerHTML='<div class="ab-esc-badge">✦ Escapii ti šalje predlog ✦</div>'+
         '<div class="ab-esc-title">Umoran/a od planiranja i dogovaranja?</div>'+
-        '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
+        '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — a destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
+        '<div class="ab-esc-feats">'+
+          '<span class="ab-esc-feat">✈️ Let + hotel uključeni</span>'+
+          '<span class="ab-esc-feat">📍 Destinacija tajna 48h</span>'+
+          '<span class="ab-esc-feat">✓ Bez skrivenih troškova</span>'+
+        '</div>'+
         '<button class="ab-esc-btn" onclick="escScrollTo(\'esc-booking\')">Rezerviši svoje iznenađenje →</button>';
       return d;
     }
