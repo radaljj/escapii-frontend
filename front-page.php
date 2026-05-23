@@ -293,40 +293,49 @@
     .stat-label { font-size: 12px; color: var(--gray); margin-top: 6px;
                   text-transform: uppercase; letter-spacing: 1px; }
 
-    /* ══════════════════════ ABOUT (new) */
-    @keyframes abMsgIn {
-      0%   { opacity:0; transform:translateY(10px) scale(0.94); }
-      60%  { opacity:1; }
-      100% { opacity:1; transform:translateY(0) scale(1); }
+    /* ══════════════════════ ABOUT */
+    @keyframes abFadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
     }
-    @keyframes abDotBounce {
-      0%,60%,100% { transform:translateY(0); opacity:.4; }
-      30%         { transform:translateY(-4px); opacity:1; }
+    @keyframes abMsgIn {
+      from { opacity:0; transform:translateY(5px); }
+      to   { opacity:1; transform:translateY(0); }
     }
     .esc-manifesto { background:var(--navy2); padding:100px 24px 80px; }
-    /* Part 1 */
-    .ab-intro { text-align:center; max-width:680px; margin:0 auto 64px; }
+    /* 2-column */
+    .ab-two-col { display:flex; align-items:center; gap:64px; max-width:900px; margin:0 auto; }
+    /* Left text col */
+    .ab-text-col { flex:1; max-width:420px; }
     .ab-tag { display:inline-block; font-size:11px; font-weight:800; letter-spacing:2px;
               text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
-    .ab-heading { font-size:clamp(26px,3.5vw,44px); font-weight:900; letter-spacing:-1px;
-                  line-height:1.12; color:var(--white); margin-bottom:36px; }
-    .ab-tag-why { margin-top:12px; }
-    .ab-question { font-size:clamp(20px,2.8vw,34px); font-weight:800; font-style:italic;
-                   color:var(--white); line-height:1.2; margin-bottom:14px; letter-spacing:-.4px; }
-    .ab-sub { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.7; }
-    /* Part 2 — iPhone + Panel */
-    .ab-phone-wrap {
-      display:flex; align-items:center; gap:56px;
-      max-width:860px; margin:0 auto 56px; padding:0 24px;
-    }
+    .ab-heading { font-size:clamp(24px,3vw,38px); font-weight:900; letter-spacing:-1px;
+                  line-height:1.15; color:var(--white); margin-bottom:16px; }
+    .ab-body-text { font-size:clamp(14px,1.4vw,16px); color:var(--gray); line-height:1.7; margin-bottom:28px; }
+    .ab-features { list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:32px; }
+    .ab-feature { display:flex; align-items:flex-start; gap:12px;
+                  font-size:clamp(13px,1.3vw,15px); color:#4A4442; line-height:1.4; }
+    .ab-feature-icon { width:30px; height:30px; border-radius:9px;
+                       background:rgba(202,138,113,.12); display:flex;
+                       align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+    .ab-btn-primary { background:var(--accent); color:#fff; border:none;
+                      padding:14px 30px; border-radius:999px; font-size:15px; font-weight:700;
+                      cursor:pointer; font-family:inherit; transition:all .2s;
+                      box-shadow:0 4px 16px rgba(202,138,113,.35); }
+    .ab-btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
+    /* Staggered fade-in */
+    .ab-text-col .ab-tag,
+    .ab-text-col .ab-heading,
+    .ab-text-col .ab-body-text,
+    .ab-text-col .ab-features,
+    .ab-text-col .ab-btn-primary { opacity:0; }
+    .ab-text-col.anim .ab-tag      { animation:abFadeUp .55s .05s both; }
+    .ab-text-col.anim .ab-heading  { animation:abFadeUp .55s .18s both; }
+    .ab-text-col.anim .ab-body-text{ animation:abFadeUp .55s .32s both; }
+    .ab-text-col.anim .ab-features { animation:abFadeUp .55s .46s both; }
+    .ab-text-col.anim .ab-btn-primary { animation:abFadeUp .55s .62s both; }
+    /* Right phone col */
     .ab-phone-col { flex-shrink:0; }
-    .ab-panel-col {
-      flex:1; max-width:360px;
-      opacity:0; transform:translateX(28px);
-      transition:opacity .8s ease, transform .8s cubic-bezier(0.22,.9,.32,1.06);
-      pointer-events:none;
-    }
-    .ab-panel-col.visible { opacity:1; transform:translateX(0); pointer-events:auto; }
     .ab-phone-frame {
       width:320px; height:640px; border-radius:48px; padding:7px; flex-shrink:0;
       background:linear-gradient(140deg,#2a2622 0%,#14110e 100%);
@@ -357,41 +366,69 @@
     .ab-back { color:var(--accent); background:none; border:none; cursor:pointer;
                padding:0; display:flex; align-items:center; }
     .ab-chat-avatars { display:flex; align-items:center; }
-    .ab-chat-avatars .ab-av { margin-left:-7px; border:2px solid #fff; }
+    .ab-chat-avatars .ab-av { margin-left:-6px; border:2px solid #fff; }
     .ab-chat-avatars .ab-av:first-child { margin-left:0; }
-    .ab-av { width:26px; height:26px; border-radius:50%; display:flex; align-items:center;
-             justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+    .ab-av { width:22px; height:22px; border-radius:50%; display:flex; align-items:center;
+             justify-content:center; font-size:8px; font-weight:700; flex-shrink:0; }
     .ab-chat-info { flex:1; min-width:0; }
     .ab-chat-name { font-size:13px; font-weight:700; color:#2d2a28; letter-spacing:-.2px; }
     .ab-chat-status { font-size:10px; color:rgba(74,68,66,.5);
                       display:flex; align-items:center; gap:3px; margin-top:1px; }
     .ab-chat-status-dot { width:5px; height:5px; border-radius:50%; background:#4ade80; flex-shrink:0; }
     .ab-phone-bottom { flex:1; position:relative; overflow:hidden; display:flex; flex-direction:column; }
-    .ab-chat-body { flex:1; overflow-y:auto; overflow-x:hidden; padding:10px 10px 10px;
+    .ab-chat-body { flex:1; overflow-y:auto; overflow-x:hidden; padding:10px;
                     display:flex; flex-direction:column; gap:4px; background:#faf8f6;
                     scrollbar-width:none; }
     .ab-chat-body::-webkit-scrollbar { display:none; }
-    .ab-msg-row { display:flex; align-items:flex-end; gap:6px;
-                  animation:abMsgIn 320ms cubic-bezier(0.22,.9,.32,1.15) both; }
+    /* Messages */
+    .ab-msg-row { display:flex; align-items:flex-end; gap:5px; opacity:0; transform:translateY(5px);
+                  transition:opacity .3s ease, transform .3s ease; }
     .ab-msg-row.mine { justify-content:flex-end; }
-    .ab-typing-row { display:flex; align-items:flex-end; gap:6px;
-                     animation:abMsgIn 260ms cubic-bezier(0.22,.9,.32,1.18) both; }
-    .ab-typing-row.mine { justify-content:flex-end; }
-    .ab-bubble { padding:7px 11px 8px; font-size:13px; line-height:1.4;
+    .ab-msg-row.vis { opacity:1; transform:translateY(0); }
+    .ab-av-sm { width:20px; height:20px; border-radius:50%; display:flex; align-items:center;
+                justify-content:center; font-size:8px; font-weight:700; flex-shrink:0; }
+    .ab-bubble { padding:6px 10px 7px; font-size:12px; line-height:1.4;
                  max-width:76%; word-break:break-word; }
-    .ab-bubble-other { background:#fff; color:#2d2a28; border-radius:15px 15px 15px 4px;
-                       box-shadow:0 1px 3px rgba(0,0,0,.07); border:.5px solid rgba(74,68,66,.07); }
+    .ab-bubble-other { background:#fff; color:#2d2a28; border-radius:13px 13px 13px 3px;
+                       box-shadow:0 1px 2px rgba(0,0,0,.06); border:.5px solid rgba(74,68,66,.07); }
     .ab-bubble-mine { background:var(--accent); color:#fff; font-weight:500;
-                      border-radius:15px 15px 4px 15px; }
-    .ab-divider-row { display:flex; align-items:center; gap:6px; margin:3px 0;
-                      animation:abMsgIn 320ms cubic-bezier(0.22,.9,.32,1.15) both; }
-    .ab-divider-line { flex:1; height:1px; background:rgba(74,68,66,.1); }
-    .ab-divider-text { font-size:10px; color:rgba(74,68,66,.4); font-style:italic; white-space:nowrap; }
-    .ab-typing-bubble { padding:8px 10px; background:#fff; display:flex; gap:3px;
-                        border-radius:15px 15px 15px 4px; align-items:center;
-                        border:.5px solid rgba(74,68,66,.07); box-shadow:0 1px 3px rgba(0,0,0,.07); }
-    .ab-dot { width:4px; height:4px; border-radius:50%; background:rgba(74,68,66,.3);
-              display:inline-block; animation:abDotBounce 1100ms ease-in-out infinite; }
+                      border-radius:13px 13px 3px 13px; }
+    .ab-bubble-gray { background:#fff; color:rgba(74,68,66,.45); font-style:italic;
+                      border-radius:13px 13px 13px 3px; border:.5px solid rgba(74,68,66,.07); }
+    /* Divider */
+    .ab-divider-row { text-align:center; font-size:10px; color:rgba(74,68,66,.4);
+                      font-style:italic; padding:3px 0; opacity:0; transition:opacity .3s; }
+    .ab-divider-row.vis { opacity:1; }
+    /* Seen */
+    .ab-seen-row { text-align:right; font-size:10px; color:rgba(74,68,66,.35);
+                   padding-right:4px; opacity:0; transition:opacity .3s; }
+    .ab-seen-row.vis { opacity:1; }
+    /* Poll */
+    .ab-poll { background:#fff; border:.5px solid rgba(74,68,66,.1); border-radius:13px;
+               padding:10px; margin:2px 0 2px 25px; max-width:80%;
+               opacity:0; transform:translateY(5px); transition:opacity .3s, transform .3s; }
+    .ab-poll.vis { opacity:1; transform:translateY(0); }
+    .ab-poll-title { font-size:9px; font-weight:700; color:rgba(74,68,66,.45);
+                     text-transform:uppercase; letter-spacing:.06em; margin-bottom:7px; }
+    .ab-poll-opt { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+    .ab-poll-opt:last-child { margin-bottom:0; }
+    .ab-poll-label { font-size:10px; color:#2d2a28; min-width:44px; }
+    .ab-bar-wrap { flex:1; height:15px; background:#F5EFE6; border-radius:4px; overflow:hidden; }
+    .ab-bar { height:100%; border-radius:4px; display:flex; align-items:center;
+              padding-left:5px; font-size:8px; font-weight:700; }
+    /* Escapii card */
+    .ab-esc-card { background:#fff; border:1px solid var(--accent); border-radius:13px;
+                   padding:11px; margin:4px 0; opacity:0; transform:translateY(5px);
+                   transition:opacity .4s, transform .4s; }
+    .ab-esc-card.vis { opacity:1; transform:translateY(0); }
+    .ab-esc-badge { font-size:9px; font-weight:700; color:var(--accent); letter-spacing:1.5px;
+                    text-transform:uppercase; text-align:center; margin-bottom:6px; }
+    .ab-esc-title { font-size:12px; font-weight:700; color:#2d2a28; margin-bottom:3px;
+                    font-style:italic; line-height:1.3; }
+    .ab-esc-sub { font-size:10px; color:rgba(74,68,66,.55); margin-bottom:8px; line-height:1.4; }
+    .ab-esc-btn { background:var(--accent); color:#fff; border:none; border-radius:8px;
+                  padding:8px 10px; width:100%; font-size:11px; font-weight:700;
+                  cursor:pointer; font-family:inherit; text-align:center; display:block; }
     /* Composer */
     .ab-composer { flex-shrink:0; padding:7px 10px 10px; border-top:.5px solid rgba(74,68,66,.08);
                    background:rgba(250,247,245,.96); display:flex; align-items:center; gap:6px; }
@@ -404,44 +441,37 @@
                          padding:0 11px; font-size:12px; color:rgba(74,68,66,.4); }
     .ab-composer-send { width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
                         display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    /* Panel (beside phone) */
-    .ab-panel-title { font-size:clamp(20px,2.4vw,28px); font-weight:800; color:var(--white);
-                      line-height:1.25; letter-spacing:-.4px; margin-bottom:14px; }
-    .ab-panel-body { font-size:clamp(14px,1.4vw,16px); color:var(--gray); line-height:1.7; margin-bottom:20px; }
-    .ab-features { list-style:none; display:flex; flex-direction:column; gap:13px; }
-    .ab-feature { display:flex; align-items:flex-start; gap:12px;
-                  font-size:clamp(13px,1.3vw,15px); color:#4A4442; line-height:1.4; }
-    .ab-feature-icon { width:30px; height:30px; border-radius:9px;
-                       background:rgba(202,138,113,.12); display:flex;
-                       align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+    /* Mobile overlay (inside phone, only on mobile) */
+    .ab-overlay { position:absolute; inset:0; z-index:20; background:rgba(250,247,245,.98);
+                  transform:translateY(100%); transition:transform .7s cubic-bezier(0.22,.9,.32,1.06);
+                  padding:20px 16px; overflow-y:auto; display:none;
+                  flex-direction:column; justify-content:center; scrollbar-width:none; }
+    .ab-overlay::-webkit-scrollbar { display:none; }
+    .ab-overlay.visible { transform:translateY(0); }
+    .ab-ov-tag { font-size:10px; font-weight:800; letter-spacing:1.5px;
+                 text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+    .ab-ov-title { font-size:16px; font-weight:800; color:var(--white); margin-bottom:8px;
+                   line-height:1.25; letter-spacing:-.3px; }
+    .ab-ov-body { font-size:11.5px; color:var(--gray); line-height:1.6; margin-bottom:14px; }
+    .ab-ov-features { list-style:none; display:flex; flex-direction:column; gap:9px; margin-bottom:16px; }
+    .ab-ov-feature { display:flex; align-items:flex-start; gap:9px;
+                     font-size:11.5px; color:#4A4442; line-height:1.4; }
+    .ab-ov-icon { width:26px; height:26px; border-radius:7px; background:rgba(202,138,113,.12);
+                  display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+    .ab-ov-btn { background:var(--accent); color:#fff; border:none; border-radius:999px;
+                 padding:12px; width:100%; font-size:13px; font-weight:700;
+                 cursor:pointer; font-family:inherit; }
     @media (max-width:767px) {
-      .ab-phone-wrap { flex-direction:column; gap:36px; align-items:center; }
-      .ab-panel-col { max-width:360px; transform:translateY(20px); }
-      .ab-panel-col.visible { transform:translateY(0); }
+      .ab-two-col { flex-direction:column; gap:0; }
+      .ab-text-col { display:none; }
+      .ab-phone-col { width:100%; display:flex; justify-content:center; }
+      .ab-overlay { display:flex; }
     }
-    /* Part 3 — CTA */
-    .ab-cta { max-width:600px; margin:0 auto; text-align:center;
-              padding-top:56px; border-top:1px solid rgba(202,138,113,.18); }
-    .ab-cta-lead { font-size:clamp(14px,1.5vw,17px); color:var(--gray); line-height:1.65; margin-bottom:10px; }
-    .ab-cta-bold { font-size:clamp(16px,1.9vw,21px); font-weight:800; color:var(--white);
-                   margin-bottom:32px; line-height:1.3; }
-    .ab-cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .ab-btn-primary { background:var(--accent); color:#fff; border:none;
-                      padding:14px 30px; border-radius:999px; font-size:15px; font-weight:700;
-                      cursor:pointer; font-family:inherit; transition:all .2s;
-                      box-shadow:0 4px 16px rgba(202,138,113,.35); }
-    .ab-btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
-    .ab-btn-secondary { background:transparent; color:var(--white);
-                        border:1.5px solid rgba(45,95,107,.25); padding:14px 30px;
-                        border-radius:999px; font-size:15px; font-weight:600;
-                        cursor:pointer; font-family:inherit; transition:all .2s; }
-    .ab-btn-secondary:hover { border-color:var(--white); }
     @media (max-width:400px) {
       .ab-phone-frame { width:290px; height:580px; border-radius:44px; }
       .ab-phone-inner { border-radius:38px; }
       .ab-dynamic-island { width:88px; height:24px; }
     }
-
     /* ══════════════════════ DESTINATIONS CAROUSEL */
     .esc-dest {
       padding: 100px 0 80px;
@@ -2299,219 +2329,234 @@
   </div>
 </section>
 
-<!-- ABOUT (new) -->
+<!-- ABOUT -->
 <section class="esc-manifesto" id="esc-about">
+  <div class="ab-two-col">
 
-  <!-- Part 1: Intro -->
-  <div class="ab-intro">
-    <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="ab-heading" data-i18n="mf.heading">Prva digitalna platforma u Srbiji i regionu za organizovana vikend putovanja iznenađenja po celoj Evropi</h2>
-    <div class="ab-tag ab-tag-why" data-i18n="mf.why">Zašto Escapii?</div>
-    <p class="ab-question" data-i18n="ab.q">Da li vaše planiranje putovanja sa društvom izgleda ovako?</p>
-    <p class="ab-sub" data-i18n="ab.sub">Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.</p>
-  </div>
-
-  <!-- Part 2: iPhone + Panel (2-column) -->
-  <div class="ab-phone-wrap">
-    <div class="ab-phone-col">
-    <div class="ab-phone-frame">
-      <div class="ab-phone-inner">
-        <!-- Dynamic island -->
-        <div class="ab-dynamic-island"></div>
-
-        <div class="ab-phone-top">
-          <!-- Status bar -->
-          <div class="ab-status-bar">
-            <span>9:41</span>
-            <div class="ab-status-icons">
-              <svg width="16" height="10" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx=".5" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx=".5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx=".5" fill="currentColor"/></svg>
-              <svg width="22" height="10" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="currentColor"/><path d="M22 4v3c.6-.2 1-.7 1-1.5S22.6 4.2 22 4Z" fill="currentColor" fill-opacity=".5"/></svg>
-            </div>
-          </div>
-          <!-- Chat header -->
-          <div class="ab-chat-header">
-            <button class="ab-back" aria-label="Nazad">
-              <svg width="9" height="15" viewBox="0 0 11 18" fill="none"><path d="M9.5 1L1.5 9L9.5 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="ab-chat-avatars">
-              <div class="ab-av" style="background:#d1f0dc;color:#2d6b3f;">A</div>
-              <div class="ab-av" style="background:#ddd8f5;color:#4a3db0;">M</div>
-              <div class="ab-av" style="background:#fde8dc;color:#a05030;">T</div>
-            </div>
-            <div class="ab-chat-info">
-              <div class="ab-chat-name">Vikend trip 🌍</div>
-              <div class="ab-chat-status">
-                <div class="ab-chat-status-dot"></div>
-                <span>Ana, Marko, Ti · aktivno</span>
-              </div>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 20 20" style="color:rgba(74,68,66,.45);flex-shrink:0;"><circle cx="4" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5" fill="currentColor"/></svg>
-          </div>
-        </div>
-
-        <div class="ab-phone-bottom">
-          <!-- Chat messages -->
-          <div class="ab-chat-body" id="abChatBody"></div>
-          <!-- Composer -->
-          <div class="ab-composer">
-            <div class="ab-composer-btn">+</div>
-            <div class="ab-composer-input">Poruka…</div>
-            <div class="ab-composer-send">
-              <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    </div><!-- /ab-phone-col -->
-
-    <!-- Panel: appears beside phone when chat ends -->
-    <div class="ab-panel-col" id="abPanel">
-      <h3 class="ab-panel-title" data-i18n="ab.ptitle">Escapii postoji zbog toga.</h3>
-      <p class="ab-panel-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+    <!-- Left: text -->
+    <div class="ab-text-col" id="abTextCol">
+      <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+      <h2 class="ab-heading" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h2>
+      <p class="ab-body-text" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.</p>
       <ul class="ab-features">
         <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinacija ostaje tajna sve do 48h pre polaska</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju ti otkrivamo 48h pre polaska</span></li>
         <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">🛡️</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
+        <li class="ab-feature"><div class="ab-feature-icon">🤝</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
       </ul>
-    </div><!-- /ab-panel-col -->
-
-  </div><!-- /ab-phone-wrap -->
-
-  <!-- Part 3: CTA -->
-  <div class="ab-cta">
-    <p class="ab-cta-lead" data-i18n="ab.clead">Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.</p>
-    <p class="ab-cta-bold" data-i18n="ab.cbold">To je avantura koju ćeš prepričavati zauvek.</p>
-    <div class="ab-cta-btns">
       <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
-      <button class="ab-btn-secondary" onclick="escScrollTo('esc-how')" data-i18n="ab.btn2">Kako funkcioniše?</button>
     </div>
-  </div>
 
+    <!-- Right: phone -->
+    <div class="ab-phone-col">
+      <div class="ab-phone-frame">
+        <div class="ab-phone-inner">
+          <div class="ab-dynamic-island"></div>
+          <div class="ab-phone-top">
+            <div class="ab-status-bar">
+              <span>9:41</span>
+              <div class="ab-status-icons">
+                <svg width="16" height="10" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx=".5" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx=".5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx=".5" fill="currentColor"/></svg>
+                <svg width="22" height="10" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="currentColor"/><path d="M22 4v3c.6-.2 1-.7 1-1.5S22.6 4.2 22 4Z" fill="currentColor" fill-opacity=".5"/></svg>
+              </div>
+            </div>
+            <div class="ab-chat-header">
+              <button class="ab-back" aria-label="Nazad">
+                <svg width="9" height="15" viewBox="0 0 11 18" fill="none"><path d="M9.5 1L1.5 9L9.5 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="ab-chat-avatars">
+                <div class="ab-av" style="background:#d4f0e4;color:#2a6644;">A</div>
+                <div class="ab-av" style="background:#ede8f8;color:#4a3a8a;">M</div>
+                <div class="ab-av" style="background:#fde8d8;color:#8b3a10;">S</div>
+                <div class="ab-av" style="background:#fce8f4;color:#8a2a5a;">J</div>
+                <div class="ab-av" style="background:#CA8A71;color:#fff;">T</div>
+              </div>
+              <div class="ab-chat-info">
+                <div class="ab-chat-name">Vikend trip 🌍</div>
+                <div class="ab-chat-status">
+                  <div class="ab-chat-status-dot"></div>
+                  <span>Ana, Marko, Stefan, Jovana, Ti</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ab-phone-bottom">
+            <div class="ab-chat-body" id="abChatBody"></div>
+            <div class="ab-composer">
+              <div class="ab-composer-btn">+</div>
+              <div class="ab-composer-input">Poruka…</div>
+              <div class="ab-composer-send">
+                <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
+              </div>
+            </div>
+            <!-- Mobile overlay — shown only on narrow screens -->
+            <div class="ab-overlay" id="abOverlay">
+              <div class="ab-ov-tag">Šta je Escapii?</div>
+              <h3 class="ab-ov-title">Prva platforma u regionu za putovanja iznenađenja.</h3>
+              <p class="ab-ov-body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve. Saznaćeš gde ideš tek 48h pre polaska.</p>
+              <ul class="ab-ov-features">
+                <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span>Let + hotel uključeni u cenu</span></li>
+                <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span>Destinaciju ti otkrivamo 48h pre polaska</span></li>
+                <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span>Bez skrivenih troškova</span></li>
+                <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span>Radimo sa licenciranom turističkom agencijom</span></li>
+              </ul>
+              <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')">Rezerviši svoje iznenađenje →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <script>
 // ══ ABOUT chat animation ══════════════════════════════════════════════════
 (function(){
-  var SCRIPT = [
-    { who:'ana',   text:'Jel ste i dalje za vikend negde?' },
-    { who:'me',    text:'Ajmo! Barsa, Palermo ili Nica?' },
-    { who:'marko', text:'Let je 210€, ima mesta!' },
-    { who:'ana',   text:'Da sačekamo... možda padne?' },
-    { type:'divider', text:'Subota ujutru' },
-    { who:'me',    text:'Let je sad 310€ 😅' },
-    { who:'marko', text:'Šta?! Kako za jednu noć?! 😂' },
-    { type:'divider', text:'Nedelja, dan 3' },
-    { who:'me',    text:'okej... ajde Novi Sad 😭' },
-    { who:'ana',   text:'Maštao/la si o Siciliji...', trigger:true },
-  ];
-  var PEOPLE = {
-    ana:   { letter:'A', bg:'#d1f0dc', clr:'#2d6b3f' },
-    marko: { letter:'M', bg:'#ddd8f5', clr:'#4a3db0' },
-    me:    { letter:'T', bg:'#fde8dc', clr:'#a05030' },
+  var AV = {
+    ana:    { l:'A', bg:'#d4f0e4', clr:'#2a6644' },
+    marko:  { l:'M', bg:'#ede8f8', clr:'#4a3a8a' },
+    stefan: { l:'S', bg:'#fde8d8', clr:'#8b3a10' },
+    jovana: { l:'J', bg:'#fce8f4', clr:'#8a2a5a' },
+    me:     { l:'T', bg:'#CA8A71', clr:'#fff'    },
   };
-
-  function typingMs(t){ return Math.min(2800, 800 + (t||'').length * 55); }
-
-  function mkAv(who){
-    var p=PEOPLE[who], d=document.createElement('div');
-    d.className='ab-av';
-    d.style.cssText='background:'+p.bg+';color:'+p.clr+';';
-    d.textContent=p.letter;
-    return d;
-  }
-  function mkBubble(who,text){
-    var mine=who==='me';
-    var row=document.createElement('div');
-    row.className='ab-msg-row'+(mine?' mine':'');
-    var b=document.createElement('div');
-    b.className='ab-bubble '+(mine?'ab-bubble-mine':'ab-bubble-other');
-    b.textContent=text;
-    if(!mine) row.appendChild(mkAv(who));
-    row.appendChild(b);
-    return row;
-  }
-  function mkDivider(text){
-    var row=document.createElement('div');
-    row.className='ab-divider-row';
-    row.innerHTML='<div class="ab-divider-line"></div><div class="ab-divider-text">— '+text+' —</div><div class="ab-divider-line"></div>';
-    return row;
-  }
-  function mkTyping(who){
-    var mine=who==='me';
-    var row=document.createElement('div');
-    row.className='ab-typing-row'+(mine?' mine':'');
-    var b=document.createElement('div');
-    b.className='ab-typing-bubble';
-    [0,1,2].forEach(function(i){
-      var d=document.createElement('span');
-      d.className='ab-dot'; d.style.animationDelay=(i*160)+'ms';
-      b.appendChild(d);
-    });
-    if(!mine) row.appendChild(mkAv(who));
-    row.appendChild(b);
-    return row;
-  }
+  var SCRIPT = [
+    { who:'ana',    text:'Ljudiii, ajmo da glasamo. Gde idemo na vikend putovanje u septembru? 🗳️' },
+    { type:'poll' },
+    { who:'marko',  text:'Madrid 🙋' },
+    { who:'stefan', text:'Madrid +1' },
+    { who:'me',     text:'Ja bih pre u Berlin' },
+    { who:'jovana', text:'Palermo, ali okej mi je i Madrid' },
+    { who:'ana',    text:'Madrid je pobedio! Idem da gledam letove pa javljam' },
+    { type:'div',   text:'Sreda uveče' },
+    { who:'ana',    text:'Našla sam let za 189€ po osobi. Hoćete da bukiramo danas?' },
+    { who:'marko',  text:'Ja sam za!' },
+    { who:'stefan', text:'Ajde samo da proverim sa Milicom pa se javljam 😅' },
+    { who:'me',     text:'Ajde, ali bi bilo dobro da završimo danas, cene nenormalno skaču' },
+    { who:'ana',    text:'Stefane javi nam što pre da znamo da li da vas računamo..' },
+    { type:'div',   text:'Četvrtak ujutru' },
+    { who:'ana',    text:'Jel kupujemo karte?' },
+    { who:'stefan', text:'Jao izvinite, zaboravio da je pitam 😬 evo sad ću' },
+    { who:'ana',    text:'Btw... let je sad 250€ 😭' },
+    { who:'marko',  text:'A Stefaneee brate...' },
+    { who:'stefan', text:'A dobro šta sad, častim ja piće, evo Milica kaže da bukiramo!' },
+    { who:'ana',    text:'E ljudi sad je 265€...' },
+    { type:'div',   text:'Petak' },
+    { who:'ana',    text:'Evo link ka smeštaju. U centru je, 50€ po osobi/noć.' },
+    { who:'me',     text:'Ajde da bukiramo odmah?' },
+    { who:'stefan', text:'Ja sam našao nešto skuplje ali bolje ocenjeno.' },
+    { who:'jovana', text:'Ajde da se ubrzamo molim vas 🙏' },
+    { type:'div',   text:'Subota' },
+    { who:'ana',    text:'E ovaj prvi hotel je rasprodat 🙂' },
+    { who:'marko',  text:'...' },
+    { who:'stefan', text:'Pa ajmo moju opciju?' },
+    { type:'seen' },
+    { type:'div',   text:'Nedelja, dan 5' },
+    { who:'jovana', text:'Izgubila mi se volja za Madridom sa svim ovim...', style:'gray' },
+    { who:'ana',    text:'😶' },
+    { who:'marko',  text:'😶' },
+    { who:'me',     text:'......' },
+    { type:'escapii' },
+  ];
 
   var tids=[], started=false;
   function clr(){ tids.forEach(clearTimeout); tids=[]; }
   function go(fn,ms){ tids.push(setTimeout(fn,ms)); }
 
+  function makeEl(m){
+    var d;
+    if(m.type==='div'){
+      d=document.createElement('div');
+      d.className='ab-divider-row';
+      d.textContent='— '+m.text+' —';
+      return d;
+    }
+    if(m.type==='poll'){
+      d=document.createElement('div');
+      d.className='ab-poll';
+      d.innerHTML='<div class="ab-poll-title">Glasanje — septembar</div>'+
+        '<div class="ab-poll-opt"><span class="ab-poll-label">Berlin</span>'+
+        '<div class="ab-bar-wrap"><div class="ab-bar" style="width:20%;background:#E8E0D0;color:rgba(74,68,66,.5);">1</div></div></div>'+
+        '<div class="ab-poll-opt"><span class="ab-poll-label">Madrid</span>'+
+        '<div class="ab-bar-wrap"><div class="ab-bar" style="width:60%;background:#CA8A71;color:#fff;">3</div></div></div>'+
+        '<div class="ab-poll-opt"><span class="ab-poll-label">Palermo</span>'+
+        '<div class="ab-bar-wrap"><div class="ab-bar" style="width:20%;background:#E8E0D0;color:rgba(74,68,66,.5);">1</div></div></div>';
+      return d;
+    }
+    if(m.type==='seen'){
+      d=document.createElement('div');
+      d.className='ab-seen-row';
+      d.textContent='Seen svi';
+      return d;
+    }
+    if(m.type==='escapii'){
+      d=document.createElement('div');
+      d.className='ab-esc-card';
+      d.innerHTML='<div class="ab-esc-badge">✦ Escapii ti šalje predlog ✦</div>'+
+        '<div class="ab-esc-title">Umoran/a od planiranja i dogovaranja?</div>'+
+        '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
+        '<button class="ab-esc-btn" onclick="escScrollTo(\'esc-booking\')">Rezerviši svoje iznenađenje →</button>';
+      return d;
+    }
+    var p=AV[m.who], mine=(m.who==='me');
+    var row=document.createElement('div');
+    row.className='ab-msg-row'+(mine?' mine':'');
+    var av=document.createElement('div');
+    av.className='ab-av-sm';
+    av.style.background=p.bg; av.style.color=p.clr;
+    av.textContent=p.l;
+    var bub=document.createElement('div');
+    bub.className='ab-bubble '+(m.style==='gray'?'ab-bubble-gray':(mine?'ab-bubble-mine':'ab-bubble-other'));
+    bub.textContent=m.text;
+    if(!mine) row.appendChild(av);
+    row.appendChild(bub);
+    return row;
+  }
+
   function run(){
     clr();
     var body=document.getElementById('abChatBody');
-    var panel=document.getElementById('abPanel');
-    if(!body||!panel) return;
+    var overlay=document.getElementById('abOverlay');
+    if(!body) return;
     body.innerHTML='';
-    panel.classList.remove('visible');
+    if(overlay) overlay.classList.remove('visible');
+    var els=SCRIPT.map(makeEl);
+    els.forEach(function(el){ body.appendChild(el); });
     var t=400;
-
-    SCRIPT.forEach(function(item){
-      if(item.type==='divider'){
-        (function(txt,delay){
-          go(function(){
-            body.appendChild(mkDivider(txt));
-            body.scrollTop=body.scrollHeight;
-          }, delay);
-        })(item.text, t);
-        t+=1600; return;
-      }
-      (function(who,text,isTrigger,showAt,msgAt){
-        var typEl=null;
+    SCRIPT.forEach(function(m,i){
+      var d = m.type==='div'     ? 1000
+            : m.type==='poll'    ? 700
+            : m.type==='seen'    ? 600
+            : m.type==='escapii' ? 1600
+            : Math.min(600+(m.text||'').length*32,2000);
+      (function(idx,isEsc){
         go(function(){
-          typEl=mkTyping(who);
-          body.appendChild(typEl);
+          els[idx].classList.add('vis');
           body.scrollTop=body.scrollHeight;
-        }, showAt);
-        go(function(){
-          if(typEl) typEl.remove();
-          body.appendChild(mkBubble(who,text));
-          body.scrollTop=body.scrollHeight;
-          if(isTrigger){ go(function(){ panel.classList.add('visible'); }, 680); }
-        }, msgAt);
-      })(item.who, item.text, !!item.trigger, t, t+typingMs(item.text));
-      t += typingMs(item.text)+1000;
+          if(isEsc&&overlay){ go(function(){ overlay.classList.add('visible'); },1400); }
+        }, t);
+      })(i, m.type==='escapii');
+      t+=d;
     });
-
-    go(function(){ run(); }, t+7000);
+    go(function(){ run(); }, t+9000);
   }
 
   var section=document.getElementById('esc-about');
   if(!section) return;
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting && !started){
-        started=true; run(); obs.disconnect();
+      if(e.isIntersecting&&!started){
+        started=true;
+        var tc=document.getElementById('abTextCol');
+        if(tc) tc.classList.add('anim');
+        run();
+        obs.disconnect();
       }
     });
-  },{ threshold:0.15 });
+  },{threshold:0.1});
   obs.observe(section);
 })();
 </script>
-
-
 <!-- DESTINATIONS CAROUSEL -->
 <section class="esc-dest" id="esc-dest">
   <div class="dest-header">
