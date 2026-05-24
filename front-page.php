@@ -4,7 +4,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escapii - Putovanja iznenađenja već od 239€</title>
-  <meta name="description" content="Prva platforma za putovanja iznenađenja u Srbiji. Ti biraš datum, mi biramo destinaciju. Saznaš kuda ideš 48h pre polaska.">
+  <meta name="description" content="Rezerviši putovanje iznenađenja — ti biraš datum i budžet, mi biramo destinaciju. Destinacija ostaje tajna do 48h pre polaska!">
 
   <?php wp_head(); ?>
   <!-- SweetAlert2 -->
@@ -469,11 +469,10 @@
                  padding:12px; width:100%; font-size:13px; font-weight:700;
                  cursor:pointer; font-family:inherit; }
     @media (max-width:767px) {
-      .ab-mob-intro { display:block; }
       .ab-two-col { flex-direction:column; gap:0; }
       .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
-      .ab-overlay { display:flex; }
+      .ab-overlay { position:static; display:flex; transform:none !important; transition:none; background:transparent; padding:24px 4px 0; overflow:visible; inset:auto; max-height:none; }
     }
     @media (max-width:400px) {
       .ab-phone-frame { width:290px; height:580px; border-radius:44px; }
@@ -2406,24 +2405,26 @@
                 <svg width="11" height="11" viewBox="0 0 14 14"><path d="M1 7L13 1L7 13L6 8L1 7Z" fill="currentColor"/></svg>
               </div>
             </div>
-            <!-- Mobile overlay — shown only on narrow screens -->
-            <div class="ab-overlay" id="abOverlay">
-              <div class="ab-ov-tag">Šta je Escapii?</div>
-              <h3 class="ab-ov-title">Prva platforma u regionu za putovanja iznenađenja.</h3>
-              <p class="ab-ov-body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve. Saznaćeš gde ideš tek 48h pre polaska.</p>
-              <ul class="ab-ov-features">
-                <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span>Let + hotel uključeni u cenu</span></li>
-                <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span>Destinaciju ti otkrivamo 48h pre polaska</span></li>
-                <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span>Bez skrivenih troškova</span></li>
-                <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span>Radimo sa licenciranom turističkom agencijom</span></li>
-              </ul>
-              <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')">Rezerviši svoje iznenađenje →</button>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
 
+  </div>
+
+  <!-- Mobile-only content block — always visible below phone -->
+  <div class="ab-overlay" id="abOverlay">
+    <div class="ab-ov-tag">Šta je Escapii?</div>
+    <h3 class="ab-ov-title">Prva platforma u regionu za putovanja iznenađenja.</h3>
+    <p class="ab-ov-body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve. Saznaćeš gde ideš tek 48h pre polaska.</p>
+    <ul class="ab-ov-features">
+      <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span>Let + hotel uključeni u cenu</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span>Destinaciju ti otkrivamo 48h pre polaska</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span>Bez skrivenih troškova</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span>Radimo sa licenciranom turističkom agencijom</span></li>
+    </ul>
+    <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')">Rezerviši svoje iznenađenje →</button>
   </div>
 </section>
 
@@ -2556,7 +2557,6 @@
           void el.offsetWidth;
           el.classList.add('vis');
           body.scrollTop=body.scrollHeight;
-          if(isEsc&&overlay){ go(function(){ overlay.classList.add('visible'); },3200); }
         }, t);
       })(m, m.type==='escapii');
       t+=d;
@@ -3747,8 +3747,8 @@ async function checkStatus() {
     };
 
     const airportNames = { BEG:'Beograd (BEG)', INI:'Niš (INI)', ZAG:'Zagreb (ZAG)', BUD:'Budimpešta (BUD)', TIM:'Timișoara (TIM)' };
-    const dep = new Date(d.departureDate).toLocaleDateString(isSr ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
-    const ret = new Date(d.returnDate).toLocaleDateString(isSr ? 'sr-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
+    const dep = new Date(d.departureDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
+    const ret = new Date(d.returnDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
 
     resEl.innerHTML = `
       <div>
@@ -4623,7 +4623,7 @@ function updateExclStep() {
 
   // Svi aerodromi: max 4, cena 15€/os. za 2., 3. i 4.
   if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
-  if (tier2Price) { tier2Price.textContent = '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
+  if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
   if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
   if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
 
@@ -4677,7 +4677,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? '🎁 1. gratis!' : '+15€ po osobi';
+      const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!') : (lang==='en' ? '+€15/person' : '+15€ po osobi');
       const color = n === 1 ? '#22c55e' : '#CA8A71';
       const el = document.createElement('div');
       el.className = 'price-float';

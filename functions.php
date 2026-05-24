@@ -29,10 +29,13 @@ function escapii_head_meta() {
     $home      = home_url('/');
     ?>
     <!-- Favicon -->
-    <link rel="shortcut icon"        href="<?php echo esc_url(home_url('/favicon.png')); ?>" type="image/png">
     <link rel="icon" type="image/svg+xml" href="<?php echo esc_url($img_url . '/favicon.svg'); ?>">
-    <link rel="icon" type="image/png"     href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
+    <link rel="shortcut icon"        href="<?php echo esc_url($img_url . '/favicon.png'); ?>" type="image/png">
     <link rel="apple-touch-icon"          href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="<?php echo esc_url($home); ?>">
 
     <!-- OG / Social share (1200×630) -->
     <meta property="og:type"         content="website">
@@ -58,6 +61,9 @@ add_action('wp_head', 'escapii_head_meta', 1);
 
 // Ukloni WordPress-ov wp_site_icon() — mi sami outputujemo favicon tagove u escapii_head_meta()
 remove_action('wp_head', 'wp_site_icon');
+
+// Ukloni WordPress-ov automatski canonical — mi dodajemo eksplicitan u escapii_head_meta()
+remove_action('wp_head', 'rel_canonical');
 
 // Automatski kreiraj /admin-panel stranicu ako ne postoji
 function escapii_create_admin_page() {
