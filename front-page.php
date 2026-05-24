@@ -508,7 +508,7 @@
     }
     .carousel-track {
       display: flex; gap: 20px; padding: 16px 0;
-      width: max-content;
+      width: max-content; min-height: 332px;
       animation: carouselScroll 90s linear infinite;
     }
     .carousel-track:hover { animation-play-state: paused; }
@@ -1933,11 +1933,14 @@
       100% { background-position:  600px 0; }
     }
     .skel-shimmer {
-      background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%);
+      background: linear-gradient(90deg, rgba(255,255,255,.08) 25%, rgba(255,255,255,.18) 50%, rgba(255,255,255,.08) 75%);
       background-size: 1200px 100%;
-      animation: skelShimmer 1.6s ease infinite;
+      animation: skelShimmer 1.4s ease infinite;
       border-radius: 24px;
     }
+    /* Skeleton cards need a base dark colour so they're visible on the navy background */
+    .dest-card-c.skel-card { background: rgba(255,255,255,.07); }
+    .excl-tile.skel-card    { background: rgba(255,255,255,.06); }
     .skel-card { pointer-events: none; }
 
     /* ══════════════════════ PROGRESS BAR */
@@ -3916,16 +3919,19 @@ async function loadCountries() {
 }
 
 // ══════════ CAROUSEL
-function showCarouselSkeleton() {
-  const track = document.getElementById('carouselTrack');
-  if (!track) return;
-  track.innerHTML = Array(10).fill(0).map(() =>
-    `<div class="dest-card-c skel-card"><div class="skel-shimmer" style="width:100%;height:100%;"></div></div>`
+function showExclSkeleton() {
+  const grid = document.getElementById('exclGrid');
+  if (!grid || grid.querySelector('.excl-tile:not(.skel-card)')) return;
+  grid.innerHTML = Array(12).fill(0).map(() =>
+    `<div class="excl-tile skel-card" style="pointer-events:none"><div class="skel-shimmer" style="width:100%;height:100%;border-radius:20px;"></div></div>`
   ).join('');
 }
 
 async function loadDestinations() {
-  showCarouselSkeleton();
+  // Build carousel immediately with fallback data — images are local so it shows instantly.
+  // This way the carousel is never empty; we silently rebuild when the API responds.
+  buildCarousel();
+  showExclSkeleton();
   try {
     const [rActive, rAll] = await Promise.all([
       fetch(`${API}/api/destinations`),
@@ -3940,8 +3946,9 @@ async function loadDestinations() {
     buildCarousel();
     renderExclGrid();
   } catch(e) {
-    // fallback static carousel if backend is offline
-    buildCarousel();
+    // fallback — carousel already rendered, just fill excl grid with FALLBACK_DESTS
+    S.destinations = FALLBACK_DESTS;
+    renderExclGrid();
   }
 }
 
@@ -3992,7 +3999,12 @@ function buildCarousel() {
       </div>
     </div>
   `).join('');
+  track.style.opacity = '0';
   track.innerHTML = html;
+  requestAnimationFrame(() => {
+    track.style.transition = 'opacity .4s ease';
+    track.style.opacity = '1';
+  });
   initCarouselDrag(track);
 }
 
