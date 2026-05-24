@@ -48,7 +48,7 @@
       background: var(--navy2);
       border: 1px solid rgba(15,45,53,.08);
       border-radius: 28px;
-      padding: 52px 48px;
+      padding: 52px 28px;
       text-align: center;
       box-shadow: 0 32px 80px rgba(0,0,0,.5);
       animation: fadeUp .7s cubic-bezier(.4,0,.2,1) both;
@@ -208,8 +208,8 @@
 
     .bp-body {
       position: relative; z-index: 2;
-      margin: -46px 20px 0;
-      background: #fff; border-radius: 20px; padding: 30px 32px 24px;
+      margin: -46px 10px 0;
+      background: #fff; border-radius: 20px; padding: 30px 24px 24px;
       box-shadow: 0 16px 40px -16px rgba(80,55,30,0.16), 0 0 0 1px rgba(26,20,16,0.04);
     }
 

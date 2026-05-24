@@ -2180,12 +2180,14 @@
       .suit-row .e-txt { min-width: 0; } /* flex:1 already set; expands to fill row so counter wraps */
       .suit-row .counter { margin-left: auto; } /* right-align counter on row 2 */
 
-      /* Extra toggle cards */
-      .extra-card { padding: 12px 12px; gap: 10px; }
-      .extra-card-icon { width: 38px; height: 38px; font-size: 18px; flex-shrink: 0; }
+      /* Extra toggle cards — grid so price+toggle never overlap long title */
+      .extra-card { display: grid; grid-template-columns: 38px 1fr auto; grid-template-rows: auto auto; column-gap: 10px; row-gap: 4px; padding: 12px; align-items: center; }
+      .extra-card-icon { width: 38px; height: 38px; font-size: 18px; grid-column: 1; grid-row: 1 / 3; align-self: center; }
+      .extra-card-body { grid-column: 2 / 4; grid-row: 1; }
       .extra-card-title { font-size: 13px; }
       .extra-card-sub { font-size: 11px; }
-      .extra-card-price { font-size: 12px; margin-right: 4px; }
+      .extra-card-price { font-size: 12px; margin-right: 0; grid-column: 2; grid-row: 2; }
+      .extra-toggle { grid-column: 3; grid-row: 2; }
 
       /* DOB grid — balanced columns with room for custom arrow */
       .dob-wrap { grid-template-columns: 1fr 1.8fr 1.2fr; gap: 6px; }
@@ -3390,6 +3392,8 @@ const TR = {
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
+    'swal.excl.ini.title':'Maksimalno 2 isključivanja',
+    'swal.excl.ini.html':'Za polaske iz Niša dostupna su maksimalno 2 isključivanja — 1. gratis, 2. po 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
     'pr.pp': n=>`≈ ${n}€ po osobi`, 'err.price':'Nije moguće učitati cenu.',
@@ -3585,6 +3589,8 @@ const TR = {
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
+    'swal.excl.ini.title':'Maximum 2 exclusions',
+    'swal.excl.ini.html':'For departures from Niš, up to 2 exclusions are available — 1st free, 2nd at 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
     'pr.pp': n=>`≈ ${n}€ per person`, 'err.price':'Unable to load price.',
@@ -4642,15 +4648,18 @@ function togExcl(id, event) {
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    const maxExcl = 4;
+    const isINI = S.airport === 'INI';
+    const maxExcl = isINI ? 2 : 4;
     if (S.excludedIds.length >= maxExcl) {
+      const exclTitleKey = isINI ? 'swal.excl.ini.title' : 'swal.excl.title';
+      const exclHtmlKey  = isINI ? 'swal.excl.ini.html'  : 'swal.excl.html';
       Swal.fire({
         background: '#2D5F6B',
         color: '#fff',
         icon: 'info',
         iconColor: '#CA8A71',
-        title: `<span style="color:#CA8A71;font-size:20px">${t('swal.excl.title')}</span>`,
-        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t('swal.excl.html')}</p>`,
+        title: `<span style="color:#CA8A71;font-size:20px">${t(exclTitleKey)}</span>`,
+        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t(exclHtmlKey)}</p>`,
         confirmButtonText: 'OK',
         confirmButtonColor: '#CA8A71',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
