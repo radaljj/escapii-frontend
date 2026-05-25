@@ -3853,8 +3853,8 @@ function escScrollTo(id) {
   const dist     = targetY - startY;
   if (Math.abs(dist) < 2) return;
 
-  // Speed: ~0.5ms per pixel, clamped to 260–700ms
-  const duration = Math.min(700, Math.max(260, Math.abs(dist) * 0.5));
+  // Speed: ~0.8ms per pixel, clamped to 380–950ms
+  const duration = Math.min(950, Math.max(380, Math.abs(dist) * 0.8));
   const t0 = performance.now();
 
   (function step(now) {
@@ -5223,28 +5223,34 @@ loadDestinations();
 (function() {
   const secNav = document.getElementById('secNav');
 
-  // Redosled mora biti isti kao redosled sekcija na stranici (odozgo nadole)
+  // Sve sekcije na stranici u redosledu — uključujući i one bez nav linka
+  // kako bi detekcija "trenutne sekcije" bila tačna pri skrolovanju kroz booking
   const sectionIds = [
     'esc-how',
     'esc-about',
     'esc-dest',
-    'esc-booking',
     'esc-who',
     'esc-faq',
   ];
 
   const heroH = () => document.querySelector('.esc-hero')?.offsetHeight || 500;
 
+  function navOffset() {
+    // Isti offset kao u escScrollTo — threshold mora da se poklopi s njim
+    return 72 + (secNav.classList.contains('visible') ? 44 : 0) + 16;
+  }
+
   function updateSecNav() {
     const scrollY = window.scrollY;
     if (scrollY > heroH() - 120) secNav.classList.add('visible');
     else secNav.classList.remove('visible');
 
-    // Nađi poslednju sekciju čiji vrh je prešao 120px od vrha viewporta
+    // Sekcija je "aktivna" čim njen vrh prođe ispod navbara (offset + mali buffer)
+    const threshold = navOffset();
     let activeId = null;
     sectionIds.forEach(id => {
       const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= 120) activeId = id;
+      if (el && el.getBoundingClientRect().top <= threshold) activeId = id;
     });
 
     // Aktiviraj link čiji onclick sadrži activeId
