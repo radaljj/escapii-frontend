@@ -750,17 +750,24 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       /* Ticket: left/right kao % od envelope širine → skalira zajedno */
       .env-ticket { left: 4.5%; right: 4.5%; bottom: 0; height: 218px; }
 
-      /* Detalji: "Rezervacija" ide u sopstveni red — ne seče se više */
+      /* Detalji: 2x2 grid — Polazak/Povratak top row, Rezervacija/Airline bottom row */
       .ticket-details { flex-wrap: wrap; }
+      .ticket-detail  { flex: 0 0 50%; min-width: 0; }
       .ticket-detail:nth-child(3) {
-        flex: 0 0 100%;
         border-left: none !important;
         padding-left: 0 !important;
         border-top: 1px solid #f3f4f6;
         padding-top: 4px;
+        margin-top: 4px;
+      }
+      .ticket-detail:nth-child(4) {
+        border-top: 1px solid #f3f4f6;
+        padding-top: 4px;
+        margin-top: 4px;
       }
       .ticket-detail-value        { font-size: 10.5px; }
       .ticket-detail-value.accent { font-size: 9.5px; letter-spacing: 0.3px; }
+      .ticket-pax-row { white-space: normal; word-break: break-word; }
 
       /* Rise veći jer je ticket viši */
       @keyframes ticketRise {
