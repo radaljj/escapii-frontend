@@ -5665,6 +5665,11 @@ async function checkPrivateDateToken() {
     S.dates          = [date];                  // niz sa jednim datumom (za price preview)
     S.step           = 4;
 
+    // Učitaj destinacije filtrovane po aerodromu (privatni link preskače korak 1
+    // gde se normalno poziva loadDestinationsByAirport — bez ovoga korak 6 prikazuje
+    // pogrešan/nepotpun skup destinacija jer S.destinations nema airport filter)
+    loadDestinationsByAirport(date.departureAirport);
+
     // Ukloni token iz URL-a (bez reload-a)
     const cleanUrl = window.location.pathname + window.location.hash;
     window.history.replaceState({}, '', cleanUrl);
