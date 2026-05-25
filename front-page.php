@@ -5133,6 +5133,7 @@ async function submitBooking() {
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
     excludedDestination3Id:S.excludedIds[2]||null,
+    excludedDestination4Id:S.excludedIds[3]||null,
     passengers,
     firstName:firstName, lastName:lastName, email:email, phone:phone,
     notes:document.getElementById('fNotes').value,
