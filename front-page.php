@@ -870,7 +870,7 @@
       padding: 3px 10px; border-radius: 100px; font-weight: 600;
       display: inline-block; width: fit-content;
     }
-    .term-price { text-align: right; flex-shrink: 0; min-width: 68px; overflow: hidden; }
+    .term-price { text-align: right; flex-shrink: 0; min-width: 68px; }
     .t-price-v {
       font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1; white-space: nowrap;
     }
@@ -2206,8 +2206,10 @@
       .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
       /* Date row price — ne izlazi van granica */
-      .term-price { min-width: 60px; }
-      .t-price-v { font-size: 20px; }
+      .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; }
+      .term-price { min-width: 62px; overflow: visible; }
+      .t-price-v { font-size: 17px; }
+      .t-price-unit { font-size: 10px; }
       .date-row { overflow: hidden; }
 
       /* Accom tiles 1 col on very small */
