@@ -870,11 +870,11 @@
       padding: 3px 10px; border-radius: 100px; font-weight: 600;
       display: inline-block; width: fit-content;
     }
-    .term-price { text-align: right; flex-shrink: 0; }
+    .term-price { text-align: right; flex-shrink: 0; min-width: 68px; overflow: hidden; }
     .t-price-v {
-      font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1;
+      font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1; white-space: nowrap;
     }
-    .t-price-unit { font-size: 11px; color: var(--gray); margin-top: 3px; letter-spacing: .06em; }
+    .t-price-unit { font-size: 11px; color: var(--gray); margin-top: 3px; letter-spacing: .06em; white-space: nowrap; }
     /* Stock badges */
     .low-stock-badge {
       display: inline-flex; align-items: center; gap: 4px;
@@ -2206,8 +2206,8 @@
       .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
       /* Date row price — ne izlazi van granica */
-      .term-price { min-width: 0; }
-      .t-price-v { font-size: 21px; }
+      .term-price { min-width: 60px; }
+      .t-price-v { font-size: 20px; }
       .date-row { overflow: hidden; }
 
       /* Accom tiles 1 col on very small */
@@ -2594,9 +2594,6 @@
     <div class="carousel-track" id="carouselTrack">
       <!-- Populated by JS -->
     </div>
-  </div>
-  <div class="dest-mystery-row">
-    <div class="mystery-badge">🎭 <span data-i18n="dest.mystery">Ali ne znaš šta ćeš dobiti</span></div>
   </div>
 </section>
 
@@ -3843,7 +3840,29 @@ function setLang(l) {
 }
 
 function escScrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  // Account for fixed main nav (72px) + secondary nav when visible (44px)
+  const secNav = document.querySelector('.sec-nav');
+  const offset = 72 + (secNav && secNav.classList.contains('visible') ? 44 : 0) + 8;
+
+  // Snapshot target BEFORE animation starts — immune to layout shifts during scroll
+  const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset);
+  const startY  = window.scrollY;
+  const dist     = targetY - startY;
+  if (Math.abs(dist) < 2) return;
+
+  // Speed: ~0.5ms per pixel, clamped to 260–700ms
+  const duration = Math.min(700, Math.max(260, Math.abs(dist) * 0.5));
+  const t0 = performance.now();
+
+  (function step(now) {
+    const p    = Math.min((now - t0) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3); // ease-out cubic
+    window.scrollTo(0, startY + dist * ease);
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
 }
 
 // ══════════ DESTINATION IMAGES
