@@ -3080,19 +3080,19 @@
     <div class="who-grid">
       <div class="who-card yes">
         <div class="who-card-title">✓ <span data-i18n="who.yes.title">Escapii je za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti je dosadilo da sve planiraš</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Želiš nešto novo, ali ne znaš šta tačno</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti je dosadilo da ti uvek sve organizuješ</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Spreman/na si da otkriješ destinaciju o kojoj nisi ni razmišljao/la</span></div>
         <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.3">Voliš spontanost, ali uz dobru organizaciju</span></div>
         <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.4">Kažeš "a što da ne" češće nego "a šta ako"</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Hoćeš priču koju ćeš prepričavati</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Tvoje najdraže uspomene su uvek ona putovanja koja nisu išla 100% po planu</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.6">Hoćeš da nekome pokloniš avanturu i iskustvo koje se pamti ceo život</span></div>
       </div>
       <div class="who-card no">
         <div class="who-card-title">✕ <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Moraš da znaš svaki detalj unapred</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Ideš samo tamo gde si već video na Instagramu</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Praviš plan za svaki sat 73 dana unapred</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Tražiš isto putovanje svaki put</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.5">Hoćeš klasičnu agenciju i klasičan aranžman</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja — ili u suprotnom, ne ideš</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Uvek želiš da ideš na iste destinacije i biraš iste hotele — i to ti odgovara</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Ideš samo na destinacije koje ti je neko od poznanika već preporučio</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Hoćeš klasičnu turističku agenciju i unapred poznat aranžman</span></div>
       </div>
     </div>
   </div>
@@ -3287,17 +3287,17 @@ const TR = {
     'how.c4.t':'Stvori priču za prepričavanje.', 'how.c4.p':'Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
-    'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da sve planiraš',
-    'who.yes.2':'Želiš nešto novo, ali ne znaš šta tačno',
+    'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da ti uvek sve organizuješ',
+    'who.yes.2':'Spreman/na si da otkriješ destinaciju o kojoj nisi ni razmišljao/la',
     'who.yes.3':'Voliš spontanost, ali uz dobru organizaciju',
     'who.yes.4':'Kažeš "a što da ne" češće nego "a šta ako"',
-    'who.yes.5':'Hoćeš priču koju ćeš prepričavati',
+    'who.yes.5':'Tvoje najdraže uspomene su uvek ona putovanja koja nisu išla 100% po planu',
+    'who.yes.6':'Hoćeš da nekome pokloniš avanturu i iskustvo koje se pamti ceo život',
     'who.no.title':'Escapii nije za tebe ako...',
-    'who.no.1':'Moraš da znaš svaki detalj unapred',
-    'who.no.2':'Ideš samo tamo gde si već video na Instagramu',
-    'who.no.3':'Praviš plan za svaki sat 73 dana unapred',
-    'who.no.4':'Tražiš isto putovanje svaki put',
-    'who.no.5':'Hoćeš klasičnu agenciju i klasičan aranžman',
+    'who.no.1':'Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja — ili u suprotnom, ne ideš',
+    'who.no.2':'Uvek želiš da ideš na iste destinacije i biraš iste hotele — i to ti odgovara',
+    'who.no.3':'Ideš samo na destinacije koje ti je neko od poznanika već preporučio',
+    'who.no.4':'Hoćeš klasičnu turističku agenciju i unapred poznat aranžman',
     'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
     'book.tag':'Rezervacija', 'book.heading':'Kreiraj svoje putovanje iznenađenja',
     'loading':'Učitavanje...', 'btn.next':'Nastavi →', 'btn.back':'← Nazad', 'free':'Besplatno',
@@ -3322,7 +3322,7 @@ const TR = {
     'inq.summary':'Naš tim odgovara <strong>u roku od 24h</strong>. Ako termin bude dostupan, dobićeš link za rezervaciju.',
     'inq.submit':'Pošalji upit',
     'inq.ok.t':'Upit primljen!',
-    'inq.ok.m':'Naš tim će proveriti dostupnost i javiti ti se na email.',
+    'inq.ok.m':'Naš tim će proveriti dostupnost i u roku od 24h se javiti na tvoju email adresu.',
     'inq.err.date':'Izaberi datum polaska.',
     'inq.err.nights':'Izaberi broj noćenja (2 ili 3 noći).',
     'inq.err.email':'Unesi validnu email adresu.',
@@ -3483,17 +3483,17 @@ const TR = {
     'how.c4.t':'Create a story worth telling.', 'how.c4.p':'Enjoy your surprise, discover the destination in a new way, and come back with memories you\'ll be talking about for a long time.',
     'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
-    'who.yes.1':'You love traveling but are tired of planning everything',
-    'who.yes.2':'You want something new but don\'t know what exactly',
+    'who.yes.1':'You love traveling, but you\'re tired of always organizing everything yourself',
+    'who.yes.2':'You\'re ready to discover a destination you\'ve never even thought about',
     'who.yes.3':'You love spontaneity, but with good organization',
-    'who.yes.4':'You say "why not" more than "what if"',
-    'who.yes.5':'You want a story worth telling',
+    'who.yes.4':'You say "why not" more often than "what if"',
+    'who.yes.5':'Your favorite memories are always the trips that didn\'t go 100% according to plan',
+    'who.yes.6':'You want to give someone an adventure and an experience they\'ll remember for life',
     'who.no.title':'Escapii is not for you if...',
-    'who.no.1':'You need to know every detail in advance',
-    'who.no.2':'You only go where you\'ve already seen on Instagram',
-    'who.no.3':'You plan every hour 73 days in advance',
-    'who.no.4':'You want the same trip every time',
-    'who.no.5':'You want a classic travel agency',
+    'who.no.1':'You like to plan every day of your trip down to the smallest detail — or you won\'t go at all',
+    'who.no.2':'You always want to go to the same destinations and choose the same hotels — and that works for you',
+    'who.no.3':'You only go to destinations that someone you know has already recommended',
+    'who.no.4':'You want a classic travel agency and a predetermined package',
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
     'book.tag':'Booking', 'book.heading':'Create your surprise trip',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
@@ -3518,7 +3518,7 @@ const TR = {
     'inq.summary':'Our team replies <strong>within 24h</strong>. If the date is available, you\'ll get a booking link by email.',
     'inq.submit':'Send inquiry',
     'inq.ok.t':'Inquiry received!',
-    'inq.ok.m':'Our team will check availability and get back to you by email.',
+    'inq.ok.m':'Our team will check availability and reach out to you within 24 hours.',
     'inq.err.date':'Please select a departure date.',
     'inq.err.nights':'Please select 2 or 3 nights.',
     'inq.err.email':'Please enter a valid email address.',

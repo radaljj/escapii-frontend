@@ -728,18 +728,48 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
     /* ── Mobile ── */
     @media (max-width: 460px) {
-      .envelope { width: 310px; height: 196px; }
-      .env-flap { height: 114px; }
-      .env-bottom-fold { height: 106px; }
-      .env-bottom-fold::before { height: 106px; }
-      .env-ticket { left: 18px; right: 18px; bottom: 0; height: 180px; }
+      /* Envelope fills screen width (12px gutter svaka strana), max = desktop veličina */
+      .envelope {
+        width: calc(100vw - 24px);
+        max-width: 380px;
+        height: calc((100vw - 24px) * 0.632);
+        max-height: 240px;
+      }
+      .env-flap {
+        height: calc((100vw - 24px) * 0.368);
+        max-height: 140px;
+      }
+      .env-bottom-fold {
+        height: calc((100vw - 24px) * 0.342);
+        max-height: 130px;
+      }
+      .env-bottom-fold::before {
+        height: calc((100vw - 24px) * 0.342);
+        max-height: 130px;
+      }
+      /* Ticket: left/right kao % od envelope širine → skalira zajedno */
+      .env-ticket { left: 4.5%; right: 4.5%; bottom: 0; height: 218px; }
+
+      /* Detalji: "Rezervacija" ide u sopstveni red — ne seče se više */
+      .ticket-details { flex-wrap: wrap; }
+      .ticket-detail:nth-child(3) {
+        flex: 0 0 100%;
+        border-left: none !important;
+        padding-left: 0 !important;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 4px;
+      }
+      .ticket-detail-value        { font-size: 10.5px; }
+      .ticket-detail-value.accent { font-size: 9.5px; letter-spacing: 0.3px; }
+
+      /* Rise veći jer je ticket viši */
       @keyframes ticketRise {
         0%   { transform: translateY(0); }
-        100% { transform: translateY(-200px); }
+        100% { transform: translateY(-248px); }
       }
-      .ticket-iata { font-size: 26px; }
+      .ticket-iata { font-size: 28px; }
       .teaser-big  { font-size: 24px; }
-      .envelope-wrap.shifted { transform: translateY(56px); }
+      .envelope-wrap.shifted { transform: translateY(80px); }
     }
   </style>
 </head>
