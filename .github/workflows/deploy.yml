@@ -4,18 +4,32 @@ on:
   push:
     branches: [ main ]
 
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: 37.27.194.35
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "*.php,images/,style.css,assets/"
-          target: /var/www/escapii/wp-content/themes/escapii-theme/
-          strip_components: 0
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 37.27.194.35 >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            --include="*.php" \
+            --include="style.css" \
+            --include="images/" \
+            --include="images/**" \
+            --include="assets/" \
+            --include="assets/**" \
+            --exclude="*" \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+            ./ root@37.27.194.35:/var/www/escapii/wp-content/themes/escapii-theme/
