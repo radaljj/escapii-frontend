@@ -2616,6 +2616,9 @@
     go(function(){ run(); }, t+9000);
   }
 
+  // Expose restart so setLang() can retrigger with correct language immediately
+  window._resetAbChat = function(){ clr(); run(); };
+
   var section=document.getElementById('esc-about');
   if(!section) return;
   var obs=new IntersectionObserver(function(entries){
@@ -3962,6 +3965,8 @@ function setLang(l) {
   }
   if(S.selectedDateId) loadPrice();
   updateSummaryCard();
+  // Restart chat animation immediately with new language
+  if(window._resetAbChat) window._resetAbChat();
 }
 
 function escScrollTo(id) {
@@ -5473,8 +5478,8 @@ function equalFeatCards() {
 }
 document.addEventListener('DOMContentLoaded', () => {
   equalFeatCards();
-  // Primeni sačuvani jezik na lang dugmad
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent === lang.toUpperCase()));
+  // Primeni sačuvani jezik — dugmad + ceo prevod (popravlja bug: refresh gubi prevod)
+  if (lang !== 'sr') setLang(lang);
   // Forsira autoplay na mobilnom (iOS ignoruje autoplay atribut)
   const hv = document.querySelector('.hero-video');
   if (hv) {
