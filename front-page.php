@@ -2809,12 +2809,14 @@
             <!-- Email -->
             <div class="inq-field">
               <label class="inq-label">Email <span class="opt" data-i18n="inq.email.label">ZA SLANJE LINKA</span></label>
-              <div class="inq-field-ic">
+              <div class="inq-field-ic" id="inqEmailWrap">
                 <span class="ic">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 </span>
-                <input type="email" id="inqEmail" class="inq-control" data-i18n-ph="inq.email.ph" placeholder="ime@gmail.com">
+                <input type="email" id="inqEmail" class="inq-control" data-i18n-ph="inq.email.ph" placeholder="ime@gmail.com"
+                       oninput="document.getElementById('inqEmailErr').style.display='none';document.getElementById('inqEmailWrap').style.borderColor='';">
               </div>
+              <div id="inqEmailErr" style="display:none;color:#f87171;font-size:12px;margin-top:6px;padding-left:4px;"></div>
             </div>
 
             <!-- Notes -->
@@ -5117,22 +5119,21 @@ function updateSummaryCard() {
   if (S.lastPrice) {
     const p = S.lastPrice;
     const isSr = lang === 'sr';
-    const pp = isSr ? 'po osobi' : 'per person';
-    const x = isSr ? '×' : '×';
-    priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.base')}</span><span>${p.basePricePerPerson}€ ${pp} ${x} ${n} = ${p.basePricePerPerson * n}€</span></div>`;
+    const mul = (pp, total) => `${pp}€ × ${n} = ${total}€`;
+    priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.base')}</span><span>${mul(p.basePricePerPerson, p.basePricePerPerson * n)}</span></div>`;
     if (p.accommodationExtraPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.accom')}</span><span>+${p.accommodationExtraPerPerson}€ ${pp} ${x} ${n} = +${p.accommodationExtraPerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.accom')}</span><span>+${mul(p.accommodationExtraPerPerson, p.accommodationExtraPerPerson * n)}</span></div>`;
     if (p.cabinSuitcaseTotal > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if (p.insurancePerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${p.insurancePerPerson}€ ${pp} ${x} ${n} = +${p.insurancePerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${mul(p.insurancePerPerson, p.insurancePerPerson * n)}</span></div>`;
     if (p.breakfastPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${isSr?'noći':'nights'} ${x} ${n} ${isSr?'osoba':'pp'})</span><span>+20€ ${pp} = +${p.breakfastPerPerson * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${isSr?'noći':'nights'} × ${n} ${isSr?'osoba':'pp'})</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
     if (p.seatsTogether > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${p.seatsTogether}€ ${pp} ${x} ${n} = +${p.seatsTogether * n}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${mul(p.seatsTogether, p.seatsTogether * n)}</span></div>`;
     if (p.exclusionCostFlat > 0) {
       const exclPP = Math.round(p.exclusionCostFlat / n);
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${exclPP}€ ${pp} ${x} ${n} = +${p.exclusionCostFlat}€</span></div>`;
+      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${mul(exclPP, p.exclusionCostFlat)}</span></div>`;
     }
     if (p.soloSurcharge > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
@@ -5721,8 +5722,14 @@ async function submitInquiry() {
   if (!_inqDep) return showFormAlert(t('inq.err.date'));
   if (!_inqRet) return showFormAlert(t('inq.err.ret'));
   const emailVal = document.getElementById('inqEmail').value.trim();
-  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal))
-                 return showFormAlert(t('inq.err.email'));
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    const errEl = document.getElementById('inqEmailErr');
+    const wrap  = document.getElementById('inqEmailWrap');
+    if (errEl) { errEl.textContent = t('inq.err.email'); errEl.style.display = 'block'; }
+    if (wrap)  { wrap.style.borderColor = '#f87171'; wrap.style.borderWidth = '1.5px'; wrap.style.borderStyle = 'solid'; }
+    document.getElementById('inqEmail')?.focus();
+    return;
+  }
 
   const btn = document.getElementById('inqSubmitBtn');
   btn.disabled = true;

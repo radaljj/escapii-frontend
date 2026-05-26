@@ -728,6 +728,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
     /* ── Mobile ── */
     @media (max-width: 460px) {
+      body { padding-top: 64px; }
       /* Envelope fills screen width (12px gutter svaka strana), max = desktop veličina */
       .envelope {
         width: calc(100vw - 24px);
