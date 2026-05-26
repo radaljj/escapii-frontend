@@ -5550,6 +5550,7 @@ function inqFmtDate(date) {
 function updateInqRangeStatus() {
   const el = document.getElementById('inqRangeStatus');
   if (!el) return;
+  el.style.color = '';  // reset error color
   el.className = 'inq-range-status';
   if (!_inqDep && !_inqRet) {
     el.className += ' hint';
@@ -5719,8 +5720,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function submitInquiry() {
-  if (!_inqDep) return showFormAlert(t('inq.err.date'));
-  if (!_inqRet) return showFormAlert(t('inq.err.ret'));
+  if (!_inqDep || !_inqRet) {
+    const statusEl = document.getElementById('inqRangeStatus');
+    if (statusEl) {
+      statusEl.textContent = t(!_inqDep ? 'inq.err.date' : 'inq.err.ret');
+      statusEl.style.color = '#f87171';
+    }
+    return;
+  }
   const emailVal = document.getElementById('inqEmail').value.trim();
   if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
     const errEl = document.getElementById('inqEmailErr');
