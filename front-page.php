@@ -2422,7 +2422,7 @@
   <div class="ab-overlay" id="abOverlay">
     <div class="ab-ov-tag" data-i18n="mf.tag">Šta je Escapii?</div>
     <h3 class="ab-ov-title" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h3>
-    <p class="ab-ov-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
+    <p class="ab-ov-body" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.</p>
     <ul class="ab-ov-features">
       <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
       <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span data-i18n="ab.f2">Destinacija ostaje tajna sve do 48h pre polaska</span></li>
@@ -2481,6 +2481,44 @@
     { who:'me',     text:'......' },
     { type:'escapii' },
   ];
+  var SCRIPT_EN = [
+    { who:'ana',    text:'Guys, let\'s vote! Where are we going for the September weekend trip? 🗳️' },
+    { type:'poll' },
+    { who:'marko',  text:'Madrid 🙋' },
+    { who:'stefan', text:'Madrid +1' },
+    { who:'me',     text:'I\'d rather go to Berlin' },
+    { who:'jovana', text:'Palermo works for me, but Madrid is fine too' },
+    { who:'ana',    text:'Madrid won! Let me check flights and I\'ll update you' },
+    { type:'div',   text:'Wednesday evening' },
+    { who:'ana',    text:'Found a flight for €189/person. Should we book today?' },
+    { who:'marko',  text:'I\'m in!' },
+    { who:'stefan', text:'Let me just check with Milica and I\'ll get back to you 😅' },
+    { who:'me',     text:'Sure, but let\'s wrap this up today — prices are going crazy' },
+    { who:'ana',    text:'Stefan, let us know asap so we can count you in..' },
+    { type:'div',   text:'Thursday morning' },
+    { who:'ana',    text:'Are we buying the tickets?' },
+    { who:'stefan', text:'Sorry guys, forgot to ask her 😬 doing it now' },
+    { who:'ana',    text:'Btw... flight is now €250 😭' },
+    { who:'marko',  text:'Stefaaaan, dude...' },
+    { who:'stefan', text:'Fine, I\'ll buy the drinks — Milica says let\'s book!' },
+    { who:'ana',    text:'Guys, it\'s €265 now...' },
+    { type:'div',   text:'Friday' },
+    { who:'ana',    text:'Found accommodation. Looks decent and central — €50/person/night.' },
+    { who:'me',     text:'Should we just book it now?' },
+    { who:'stefan', text:'I found something pricier but with way better reviews. Link:' },
+    { who:'jovana', text:'Can we please just speed this up, like the hotel even matters 🙏' },
+    { type:'div',   text:'Saturday' },
+    { who:'ana',    text:'The first hotel is sold out 🙂' },
+    { who:'marko',  text:'...' },
+    { who:'stefan', text:'So... my option then?' },
+    { type:'seen' },
+    { type:'div',   text:'Sunday, day 5' },
+    { who:'jovana', text:'You know what guys... I\'ve totally lost interest in Madrid with all this back and forth. Let\'s do a road trip, we\'ll plan ahead next time...', style:'gray' },
+    { who:'ana',    text:'😶' },
+    { who:'marko',  text:'😶' },
+    { who:'me',     text:'......' },
+    { type:'escapii' },
+  ];
 
   var tids=[], started=false;
   function clr(){ tids.forEach(clearTimeout); tids=[]; }
@@ -2497,7 +2535,7 @@
     if(m.type==='poll'){
       d=document.createElement('div');
       d.className='ab-poll';
-      d.innerHTML='<div class="ab-poll-title">Glasanje — septembar</div>'+
+      d.innerHTML='<div class="ab-poll-title">'+(lang==='en'?'Vote — September':'Glasanje — septembar')+'</div>'+
         '<div class="ab-poll-opt"><span class="ab-poll-label">Berlin</span>'+
         '<div class="ab-bar-wrap"><div class="ab-bar" style="width:20%;background:#E8E0D0;color:rgba(74,68,66,.5);">1</div></div></div>'+
         '<div class="ab-poll-opt"><span class="ab-poll-label">Madrid</span>'+
@@ -2509,20 +2547,29 @@
     if(m.type==='seen'){
       d=document.createElement('div');
       d.className='ab-seen-row';
-      d.textContent='Seen svi';
+      d.textContent = lang==='en' ? 'Seen by all' : 'Seen svi';
       return d;
     }
     if(m.type==='escapii'){
       d=document.createElement('div');
       d.className='ab-esc-card';
-      d.innerHTML='<div class="ab-esc-badge">✦ Escapii ti šalje predlog ✦</div>'+
-        '<div class="ab-esc-title">Umoran/a od planiranja i dogovaranja?</div>'+
-        '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — a destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
-        '<div class="ab-esc-feats">'+
-          '<span class="ab-esc-feat">✈️ Let + hotel uključeni</span>'+
-          '<span class="ab-esc-feat">📍 Destinacija tajna 48h</span>'+
-          '<span class="ab-esc-feat">✓ Bez skrivenih troškova</span>'+
-        '</div>';
+      d.innerHTML = lang==='en'
+        ? '<div class="ab-esc-badge">✦ Escapii has a suggestion ✦</div>'+
+          '<div class="ab-esc-title">Tired of planning and coordinating?</div>'+
+          '<div class="ab-esc-sub">Book a surprise weekend trip — we choose the destination. You\'ll find out where you\'re going just 48h before departure.</div>'+
+          '<div class="ab-esc-feats">'+
+            '<span class="ab-esc-feat">✈️ Flight + hotel included</span>'+
+            '<span class="ab-esc-feat">📍 Destination secret until 48h</span>'+
+            '<span class="ab-esc-feat">✓ No hidden costs</span>'+
+          '</div>'
+        : '<div class="ab-esc-badge">✦ Escapii ti šalje predlog ✦</div>'+
+          '<div class="ab-esc-title">Umoran/a od planiranja i dogovaranja?</div>'+
+          '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — a destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
+          '<div class="ab-esc-feats">'+
+            '<span class="ab-esc-feat">✈️ Let + hotel uključeni</span>'+
+            '<span class="ab-esc-feat">📍 Destinacija tajna 48h</span>'+
+            '<span class="ab-esc-feat">✓ Bez skrivenih troškova</span>'+
+          '</div>';
       return d;
     }
     var p=AV[m.who], mine=(m.who==='me');
@@ -2548,7 +2595,7 @@
     body.innerHTML='';
     if(overlay) overlay.classList.remove('visible');
     var t=0;
-    SCRIPT.forEach(function(m){
+    (lang==='en' ? SCRIPT_EN : SCRIPT).forEach(function(m){
       var d = m.type==='div'     ? 950
             : m.type==='poll'    ? 650
             : m.type==='seen'    ? 550
@@ -3298,6 +3345,8 @@ const TR = {
     'ab.sub':'Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.',
     'ab.ptitle':'Escapii postoji zbog toga.',
     'ab.pbody':'Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
+    'ab.heading':'Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.',
+    'ab.body':'Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.',
     'ab.f1':'Let + hotel uključeni u cenu',
     'ab.f2':'Destinacija ostaje tajna sve do 48h pre polaska',
     'ab.f3':'Bez skrivenih troškova',
@@ -3512,6 +3561,8 @@ const TR = {
     'ab.sub':'Three days of messages, flights getting expensive before your eyes, accommodation disappearing — and you end up in Novi Sad. Sound familiar.',
     'ab.ptitle':'That\'s why Escapii exists.',
     'ab.pbody':'You pick a date — we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
+    'ab.heading':'The first surprise travel platform in the region.',
+    'ab.body':'You choose the date, number of travelers and budget. We choose the destination and organise the surprise. You\'ll find out where you\'re going just 48h before departure.',
     'ab.f1':'Flight + hotel included in the price',
     'ab.f2':'Destination revealed 48h before departure',
     'ab.f3':'No hidden costs',
@@ -3614,7 +3665,7 @@ const TR = {
     'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Write to us and we\'ll get back to you as soon as possible.',
     'callus.note':'We respond within 24 hours',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
-    'footer.nav':'Navigation', 'footer.about':'About', 'footer.dest':'Destinations',
+    'footer.nav':'Navigation', 'footer.about':'About us', 'footer.dest':'Destinations',
     'footer.how':'How it works', 'footer.who':'Who\'s it for', 'footer.faq':'FAQ',
     'footer.book':'Book', 'footer.departure':'Departures', 'footer.rights':'All rights reserved',
     'steps':['Airport','Travelers','Date','Stay','Add-ons','Exclude','Passengers','Contact'],
@@ -3633,7 +3684,7 @@ const TR = {
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
-    'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
+    'snav.about':'About us', 'snav.dest':'Destinations', 'snav.how':'How it works',
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
