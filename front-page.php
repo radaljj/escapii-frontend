@@ -644,7 +644,7 @@
       font-size: 15px; color: rgba(255,255,255,.65); line-height: 1.75;
       padding: 0 28px;
     }
-    .faq-item.open .faq-a { max-height: 300px; padding: 0 28px 24px; }
+    .faq-item.open .faq-a { max-height: 900px; padding: 0 28px 24px; }
 
     /* ══════════════════════ STATS */
     .esc-stats {
@@ -3108,27 +3108,63 @@
     <div class="faq-list">
 
       <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.1.q">Šta je uključeno u putovanje?</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.1.a">Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.</div>
+        <div class="faq-q"><span data-i18n="faq.1.q">Šta je uključeno u cenu putovanja?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.1.a">U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.2.q">Šta od prtljaga mogu da ponesem?</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.2.a">U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.</div>
+        <div class="faq-q"><span data-i18n="faq.2.q">Kada ću saznati kuda putujem?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q">
-          <span data-i18n="faq.3.q">Izmene i otkazivanje</span>
-          <div class="faq-icon">+</div>
-        </div>
-        <div class="faq-a" data-i18n="faq.3.a">Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.</div>
+        <div class="faq-q"><span data-i18n="faq.3.q">Kako Escapii bira destinaciju za tvoje putovanje?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.3.a">Destinaciju biramo na osnovu nekoliko faktora - dostupnosti letova u odabranom terminu, cene, kvaliteta smeštaja i trenutnih mogućnosti naše partnerske agencije. Svaka destinacija u našem pool-u je pažljivo proverena, a cilj nam je uvek da pronađemo najbolju opciju za tvoj datum i budžet. Ostatak je - iznenađenje.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.4.q">Šta ako dobijem destinaciju koja mi se ne sviđa?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.4.a">Razumemo - i to je potpuno validno pitanje. Može se desiti da destinacija nije ona koju bi sam/a izabrao/la, ali u tome je i cela poenta. Ponekad nije najvažnije gde si, već šta doživiš kad stigneš. Naša putovanja su kratka vikend avantura, i za svaku destinaciju u našem pool-u smo sigurni da ima šta da se vidi, uradi i doživi. Uz to, dobijaš naš vodič sa insajderskim informacijama, preporukama lokalaca, popustima i idejama kako provesti 2-3 dana u tom gradu na najbolji mogući način. Mnogi naši putnici su se vratili sa potpuno drugačijim mišljenjem - o destinaciji, ali i o tome šta putovanje uopšte znači.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.5.q">Mogu li da isključim destinacije?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.5.a">Da, možeš! Prilikom rezervacije imaš opciju da isključiš destinacije na koje ne bi hteo/la da ideš.<br><br>Ako putuješ iz Beograda, možeš isključiti do 4 destinacije - prva je besplatna, a svaka sledeća se doplaćuje 15€. Ipak, ne savetujemo da isključuješ više od 2-3 destinacije, jer što manje isključuješ, veće je iznenađenje - a to je i cela poenta.<br><br>Ako putuješ iz Niša, zbog manjeg pool-a destinacija, možeš isključiti maksimalno 1 destinaciju uz doplatu od 15€.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.6.q">Mogu li da otkažem ili promenim rezervaciju?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.6.a">Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.7.q">Da li mogu da poklonlim putovanje nekome?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.7.a">Da, apsolutno! Nudimo opciju &#8220;Pokloni Iznenađenje&#8221; - savršen poklon za nekoga ko voli iznenađenja i voli da putuje.<br><br>Javi nam se i kreiraćemo personalizovanu ponudu u zavisnosti od datuma, trajanja putovanja i perioda koji ti odgovara.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri i putovanja - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.8.q">Ko organizuje putovanje i da li je Escapii registrovana firma?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.8.a">Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.9.q">Da li mogu da putujem sam/sama?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.9.a">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.10.q">Šta ako let kasni ili se otkaže?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.10.a"></div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.11.q">Da li postoji starosno ograničenje i mogu li da putujem sa decom?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.11.a">Naša putovanja su otvorena za sve uzraste. Osobe mlađe od 18 godina ne mogu da putuju bez punoletnog pratioca. Deca putuju pod istim uslovima kao i odrasli - sa sopstvenom kartom i smeštajem. Jedina napomena je da za decu mlađu od 2 godine važe posebni uslovi avio kompanija, pa te molimo da nas kontaktiraš pre rezervacije kako bismo pronašli najbolju opciju za vas.</div>
+      </div>
+
+      <div class="faq-item" onclick="togFaq(this)">
+        <div class="faq-q"><span data-i18n="faq.12.q">Kako funkcioniše plaćanje?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n="faq.12.a">Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.</div>
       </div>
 
     </div>
@@ -3385,12 +3421,30 @@ const TR = {
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
     'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
-    'faq.1.q':'Šta je uključeno u putovanje?',
-    'faq.1.a':'Svako putovanje uključuje povratne avio karte i smeštaj. Prevoz do aerodroma i unutar destinacije nije uključen u cenu putovanja.',
-    'faq.2.q':'Šta od prtljaga mogu da ponesem?',
-    'faq.2.a':'U svim putovanjima je uključen besplatni ručni prtljag. Dozvoljene dimenzije kabinskog prtljaga zavise od avio kompanije sa kojom putuješ — preporučujemo da proveriš mere na sajtu konkretne kompanije.',
-    'faq.3.q':'Izmene i otkazivanje',
-    'faq.3.a':'Rezervacija se potvrđuje tek nakon uplate na račun. Nakon potvrde, rezervacija se obrađuje u roku od 24 sata i nije moguće izvršiti otkaz. Ukoliko želiš da izmeniš već potvrđenu rezervaciju, primenjuju se uslovi koje nameće avio kompanija ili smeštaj. Sve troškove eventualnih izmena snosi putnik.',
+    'faq.1.q':'Šta je uključeno u cenu putovanja?',
+    'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
+    'faq.2.q':'Kada ću saznati kuda putujem?',
+    'faq.2.a':'Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.',
+    'faq.3.q':'Kako Escapii bira destinaciju za tvoje putovanje?',
+    'faq.3.a':'Destinaciju biramo na osnovu nekoliko faktora - dostupnosti letova u odabranom terminu, cene, kvaliteta smeštaja i trenutnih mogućnosti naše partnerske agencije. Svaka destinacija u našem pool-u je pažljivo proverena, a cilj nam je uvek da pronađemo najbolju opciju za tvoj datum i budžet. Ostatak je - iznenađenje.',
+    'faq.4.q':'Šta ako dobijem destinaciju koja mi se ne sviđa?',
+    'faq.4.a':'Razumemo - i to je potpuno validno pitanje. Može se desiti da destinacija nije ona koju bi sam/a izabrao/la, ali u tome je i cela poenta. Ponekad nije najvažnije gde si, već šta doživiš kad stigneš. Naša putovanja su kratka vikend avantura, i za svaku destinaciju u našem pool-u smo sigurni da ima šta da se vidi, uradi i doživi. Uz to, dobijaš naš vodič sa insajderskim informacijama, preporukama lokalaca, popustima i idejama kako provesti 2-3 dana u tom gradu na najbolji mogući način. Mnogi naši putnici su se vratili sa potpuno drugačijim mišljenjem - o destinaciji, ali i o tome šta putovanje uopšte znači.',
+    'faq.5.q':'Mogu li da isključim destinacije?',
+    'faq.5.a':'Da, možeš! Prilikom rezervacije imaš opciju da isključiš destinacije na koje ne bi hteo/la da ideš.<br><br>Ako putuješ iz Beograda, možeš isključiti do 4 destinacije - prva je besplatna, a svaka sledeća se doplaćuje 15€. Ipak, ne savetujemo da isključuješ više od 2-3 destinacije, jer što manje isključuješ, veće je iznenađenje - a to je i cela poenta.<br><br>Ako putuješ iz Niša, zbog manjeg pool-a destinacija, možeš isključiti maksimalno 1 destinaciju uz doplatu od 15€.',
+    'faq.6.q':'Mogu li da otkažem ili promenim rezervaciju?',
+    'faq.6.a':'Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.',
+    'faq.7.q':'Da li mogu da poklonlim putovanje nekome?',
+    'faq.7.a':'Da, apsolutno! Nudimo opciju &#8220;Pokloni Iznenađenje&#8221; - savršen poklon za nekoga ko voli iznenađenja i voli da putuje.<br><br>Javi nam se i kreiraćemo personalizovanu ponudu u zavisnosti od datuma, trajanja putovanja i perioda koji ti odgovara.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri i putovanja - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.',
+    'faq.8.q':'Ko organizuje putovanje i da li je Escapii registrovana firma?',
+    'faq.8.a':'Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.',
+    'faq.9.q':'Da li mogu da putujem sam/sama?',
+    'faq.9.a':'Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.',
+    'faq.10.q':'Šta ako let kasni ili se otkaže?',
+    'faq.10.a':'',
+    'faq.11.q':'Da li postoji starosno ograničenje i mogu li da putujem sa decom?',
+    'faq.11.a':'Naša putovanja su otvorena za sve uzraste. Osobe mlađe od 18 godina ne mogu da putuju bez punoletnog pratioca. Deca putuju pod istim uslovima kao i odrasli - sa sopstvenom kartom i smeštajem. Jedina napomena je da za decu mlađu od 2 godine važe posebni uslovi avio kompanija, pa te molimo da nas kontaktiraš pre rezervacije kako bismo pronašli najbolju opciju za vas.',
+    'faq.12.q':'Kako funkcioniše plaćanje?',
+    'faq.12.a':'Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.',
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
@@ -3582,12 +3636,30 @@ const TR = {
     'snav.about':'About', 'snav.dest':'Destinations', 'snav.how':'How it works',
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
-    'faq.1.q':'What does the trip include?',
-    'faq.1.a':'Every trip includes round-trip flights and accommodation. Transportation within the destination city is not included in the price.',
-    'faq.2.q':'What luggage can I bring?',
-    'faq.2.a':'Free hand luggage is included in all trips. Permitted cabin baggage dimensions depend on the airline you travel with — we recommend checking the allowed measurements on your airline\'s website.',
-    'faq.3.q':'Changes and cancellations',
-    'faq.3.a':'Your reservation is confirmed only after payment has been received. Once confirmed, the booking is processed within 24 hours and can no longer be canceled. If you wish to make changes to an already confirmed reservation, the conditions imposed by the airline or accommodation provider will apply. All costs arising from any changes are the responsibility of the traveler.',
+    'faq.1.q':'What\'s included in the trip price?',
+    'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag — typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
+    'faq.2.q':'When will I find out where I\'m going?',
+    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure — no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
+    'faq.3.q':'How does Escapii choose my destination?',
+    'faq.3.a':'We choose based on several factors — flight availability on your selected dates, price, accommodation quality, and current options from our partner agency. Every destination in our pool has been carefully vetted, and our goal is always to find the best option for your date and budget. The rest is a surprise.',
+    'faq.4.q':'What if I get a destination I don\'t like?',
+    'faq.4.a':'We get it — that\'s a completely valid question. It\'s possible you\'ll receive a destination you wouldn\'t have picked yourself, but that\'s kind of the whole point. Sometimes it\'s not about where you are, but what you experience when you get there. Our trips are short weekend adventures, and every destination in our pool has plenty to see, do, and discover. On top of that, you\'ll get our guide with insider tips, local recommendations, discounts, and ideas for making the most of 2–3 days in that city. Many of our travelers came back with a completely different perspective — about the destination, and about what travel really means.',
+    'faq.5.q':'Can I exclude destinations?',
+    'faq.5.a':'Yes, you can! During booking, you have the option to exclude destinations you don\'t want to visit.<br><br>If you\'re departing from Belgrade, you can exclude up to 4 destinations — the first one is free, and each additional costs +15€. We don\'t recommend excluding more than 2–3, though — the fewer you exclude, the bigger the surprise, and that\'s the whole point.<br><br>If you\'re departing from Niš, due to the smaller destination pool, you can exclude a maximum of 1 destination for a fee of 15€.',
+    'faq.6.q':'Can I cancel or change my booking?',
+    'faq.6.a':'Unfortunately, trips cannot be canceled — we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
+    'faq.7.q':'Can I give a trip as a gift?',
+    'faq.7.a':'Yes, absolutely! We offer a "Gift a Surprise" option — the perfect gift for someone who loves surprises and loves to travel.<br><br>Just reach out and we\'ll create a personalized offer based on the dates, trip duration, and timeframe that works for you.<br><br>Our Escapers most often give surprise trips as gifts for birthdays, anniversaries, hen and stag parties — because an adventure you\'ll remember always beats any material gift.',
+    'faq.8.q':'Who organizes the trip and is Escapii a registered company?',
+    'faq.8.a':'Yes, Escapii is a registered company. We work with licensed partner travel agencies to co-create surprises for you. This means every trip is organized professionally and in full compliance with all regulations.',
+    'faq.9.q':'Can I travel alone?',
+    'faq.9.a':'Absolutely — we have plenty of solo Escapers! The only thing to note is that a single room supplement of 60€ per night applies, since hotel rooms are standardly reserved for two people. Everything else works exactly the same as for groups.',
+    'faq.10.q':'What if my flight is delayed or canceled?',
+    'faq.10.a':'',
+    'faq.11.q':'Is there an age limit, and can I travel with children?',
+    'faq.11.a':'Our trips are open to all ages. Anyone under 18 cannot travel without an adult companion. Children travel under the same conditions as adults — with their own ticket and accommodation. The only note is that children under 2 are subject to special airline conditions, so please contact us before booking so we can find the best option for your group.',
+    'faq.12.q':'How does payment work?',
+    'faq.12.a':'After you submit your inquiry, our team will contact you within 24 hours with all the details and payment information. Your booking is confirmed only after payment is received. Once payment is completed, you\'ll receive a confirmation by email.<br><br>Payment is made directly to our account — no card fees, no hidden costs. The price you see on the site is the price you pay.',
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
