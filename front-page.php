@@ -3161,62 +3161,62 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.1.q">Šta je uključeno u cenu putovanja?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.1.a">U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.</div>
+        <div class="faq-a" data-i18n-html="faq.1.a">U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.2.q">Kada ću saznati kuda putujem?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div>
+        <div class="faq-a" data-i18n-html="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.3.q">Kako Escapii bira destinaciju za tvoje putovanje?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.3.a">Destinaciju biramo na osnovu nekoliko faktora - dostupnosti letova u odabranom terminu, cene, kvaliteta smeštaja i trenutnih mogućnosti naše partnerske agencije. Svaka destinacija u našem pool-u je pažljivo proverena, a cilj nam je uvek da pronađemo najbolju opciju za tvoj datum i budžet. Ostatak je - iznenađenje.</div>
+        <div class="faq-a" data-i18n-html="faq.3.a">Destinaciju biramo na osnovu nekoliko faktora - dostupnosti letova u odabranom terminu, cene, kvaliteta smeštaja i trenutnih mogućnosti naše partnerske agencije. Svaka destinacija u našem pool-u je pažljivo proverena, a cilj nam je uvek da pronađemo najbolju opciju za tvoj datum i budžet. Ostatak je - iznenađenje.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.4.q">Šta ako dobijem destinaciju koja mi se ne sviđa?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.4.a">Razumemo - i to je potpuno validno pitanje. Može se desiti da destinacija nije ona koju bi sam/a izabrao/la, ali u tome je i cela poenta. Ponekad nije najvažnije gde si, već šta doživiš kad stigneš. Naša putovanja su kratka vikend avantura, i za svaku destinaciju u našem pool-u smo sigurni da ima šta da se vidi, uradi i doživi. Uz to, dobijaš naš vodič sa insajderskim informacijama, preporukama lokalaca, popustima i idejama kako provesti 2-3 dana u tom gradu na najbolji mogući način. Mnogi naši putnici su se vratili sa potpuno drugačijim mišljenjem - o destinaciji, ali i o tome šta putovanje uopšte znači.</div>
+        <div class="faq-a" data-i18n-html="faq.4.a">Razumemo - i to je potpuno validno pitanje. Može se desiti da destinacija nije ona koju bi sam/a izabrao/la, ali u tome je i cela poenta. Ponekad nije najvažnije gde si, već šta doživiš kad stigneš. Naša putovanja su kratka vikend avantura, i za svaku destinaciju u našem pool-u smo sigurni da ima šta da se vidi, uradi i doživi. Uz to, dobijaš naš vodič sa insajderskim informacijama, preporukama lokalaca, popustima i idejama kako provesti 2-3 dana u tom gradu na najbolji mogući način. Mnogi naši putnici su se vratili sa potpuno drugačijim mišljenjem - o destinaciji, ali i o tome šta putovanje uopšte znači.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.5.q">Mogu li da isključim destinacije?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.5.a">Da, možeš! Prilikom rezervacije imaš opciju da isključiš destinacije na koje ne bi hteo/la da ideš.<br><br>Ako putuješ iz Beograda, možeš isključiti do 4 destinacije - prva je besplatna, a svaka sledeća se doplaćuje 15€. Ipak, ne savetujemo da isključuješ više od 2-3 destinacije, jer što manje isključuješ, veće je iznenađenje - a to je i cela poenta.<br><br>Ako putuješ iz Niša, zbog manjeg pool-a destinacija, možeš isključiti maksimalno 1 destinaciju uz doplatu od 15€.</div>
+        <div class="faq-a" data-i18n-html="faq.5.a">Da, možeš! Prilikom rezervacije imaš opciju da isključiš destinacije na koje ne bi hteo/la da ideš.<br><br>Ako putuješ iz Beograda, možeš isključiti do 4 destinacije - prva je besplatna, a svaka sledeća se doplaćuje 15€. Ipak, ne savetujemo da isključuješ više od 2-3 destinacije, jer što manje isključuješ, veće je iznenađenje - a to je i cela poenta.<br><br>Ako putuješ iz Niša, zbog manjeg pool-a destinacija, možeš isključiti maksimalno 1 destinaciju uz doplatu od 15€.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.6.q">Mogu li da otkažem ili promenim rezervaciju?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.6.a">Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.</div>
+        <div class="faq-a" data-i18n-html="faq.6.a">Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.7.q">Da li mogu da poklonlim putovanje nekome?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.7.a">Da, apsolutno! Nudimo opciju &#8220;Pokloni Iznenađenje&#8221; - savršen poklon za nekoga ko voli iznenađenja i voli da putuje.<br><br>Javi nam se i kreiraćemo personalizovanu ponudu u zavisnosti od datuma, trajanja putovanja i perioda koji ti odgovara.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri i putovanja - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.</div>
+        <div class="faq-a" data-i18n-html="faq.7.a">Da, apsolutno! Nudimo opciju &#8220;Pokloni Iznenađenje&#8221; - savršen poklon za nekoga ko voli iznenađenja i voli da putuje.<br><br>Javi nam se i kreiraćemo personalizovanu ponudu u zavisnosti od datuma, trajanja putovanja i perioda koji ti odgovara.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri i putovanja - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.8.q">Ko organizuje putovanje i da li je Escapii registrovana firma?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.8.a">Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.</div>
+        <div class="faq-a" data-i18n-html="faq.8.a">Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.9.q">Da li mogu da putujem sam/sama?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.9.a">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.</div>
+        <div class="faq-a" data-i18n-html="faq.9.a">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.10.q">Šta ako let kasni ili se otkaže?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.10.a"></div>
+        <div class="faq-a" data-i18n-html="faq.10.a"></div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.11.q">Da li postoji starosno ograničenje i mogu li da putujem sa decom?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.11.a">Naša putovanja su otvorena za sve uzraste. Osobe mlađe od 18 godina ne mogu da putuju bez punoletnog pratioca. Deca putuju pod istim uslovima kao i odrasli - sa sopstvenom kartom i smeštajem. Jedina napomena je da za decu mlađu od 2 godine važe posebni uslovi avio kompanija, pa te molimo da nas kontaktiraš pre rezervacije kako bismo pronašli najbolju opciju za vas.</div>
+        <div class="faq-a" data-i18n-html="faq.11.a">Naša putovanja su otvorena za sve uzraste. Osobe mlađe od 18 godina ne mogu da putuju bez punoletnog pratioca. Deca putuju pod istim uslovima kao i odrasli - sa sopstvenom kartom i smeštajem. Jedina napomena je da za decu mlađu od 2 godine važe posebni uslovi avio kompanija, pa te molimo da nas kontaktiraš pre rezervacije kako bismo pronašli najbolju opciju za vas.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.12.q">Kako funkcioniše plaćanje?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n="faq.12.a">Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.</div>
+        <div class="faq-a" data-i18n-html="faq.12.a">Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.</div>
       </div>
 
     </div>
