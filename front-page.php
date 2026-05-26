@@ -2420,16 +2420,16 @@
 
   <!-- Mobile-only content block — always visible below phone -->
   <div class="ab-overlay" id="abOverlay">
-    <div class="ab-ov-tag">Šta je Escapii?</div>
-    <h3 class="ab-ov-title">Prva platforma u regionu za putovanja iznenađenja.</h3>
-    <p class="ab-ov-body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve. Saznaćeš gde ideš tek 48h pre polaska.</p>
+    <div class="ab-ov-tag" data-i18n="mf.tag">Šta je Escapii?</div>
+    <h3 class="ab-ov-title" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h3>
+    <p class="ab-ov-body" data-i18n="ab.pbody">Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.</p>
     <ul class="ab-ov-features">
-      <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span>Let + hotel uključeni u cenu</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span>Destinaciju ti otkrivamo 48h pre polaska</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span>Bez skrivenih troškova</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span>Radimo sa licenciranom turističkom agencijom</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span data-i18n="ab.f2">Destinacija ostaje tajna sve do 48h pre polaska</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
+      <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
     </ul>
-    <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')">Rezerviši svoje iznenađenje →</button>
+    <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
   </div>
 </section>
 
@@ -3262,7 +3262,7 @@
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii — Sva prava zadržana</span>
+    <span>© 2026 Escapii — <span data-i18n="footer.rights">Sva prava zadržana</span></span>
     <div class="footer-bottom-links">
       <a href="/uslovi-koriscenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
@@ -3468,7 +3468,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':' po osobi',
     'accom.sup.badge':'+100€ po osobi',
-    'ins.price':'+12€ po noći', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
+    'ins.price':'+12€ po osobi', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -3683,7 +3683,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':' per person',
     'accom.sup.badge':'+100€ per person',
-    'ins.price':'+12€ per night', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
+    'ins.price':'+12€ per person', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -5539,7 +5539,7 @@ function renderInqCalendar() {
 
   const today    = new Date(); today.setHours(0,0,0,0);
   const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
-  const maxDate  = new Date(today); maxDate.setMonth(today.getMonth() + 3);
+  const maxDate  = new Date(today.getFullYear(), 11, 31); // Dec 31 of current year
 
   const firstDay = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth(), 1);
   const lastDay  = new Date(_inqCurMonth.getFullYear(), _inqCurMonth.getMonth() + 1, 0);
@@ -5651,7 +5651,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('inqNextM').addEventListener('click', () => {
     const next = new Date(_inqCurMonth); next.setMonth(next.getMonth() + 1);
     const now  = new Date(); now.setHours(0,0,0,0);
-    const maxMonth = new Date(now.getFullYear(), now.getMonth() + 4, 1);
+    const maxMonth = new Date(now.getFullYear(), 12, 1); // Jan 1 of next year = Dec is last navigable
     if (next < maxMonth) { _inqCurMonth = next; renderInqCalendar(); }
   });
 });

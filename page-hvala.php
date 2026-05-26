@@ -408,7 +408,7 @@
       </div>
       <div>
         <div class="bp-stub-label">Boarding</div>
-        <div class="bp-stub-value">USKORO</div>
+        <div class="bp-stub-value" id="bp-boarding-soon">USKORO</div>
       </div>
       <div>
         <div class="bp-stub-label" id="bpl-seat">Sedište</div>
@@ -493,8 +493,11 @@ function typeIn(el, text, charDelay) {
 }
 
 // Airport helper
-const AIRPORT_CITIES = { BEG:'Beograd', INI:'Niš', ZAG:'Zagreb', BUD:'Budimpešta', TIM:'Timișoara' };
-function airportCity(iata) { return AIRPORT_CITIES[iata] || iata; }
+const AIRPORT_CITIES = {
+  sr: { BEG:'Beograd', INI:'Niš', ZAG:'Zagreb', BUD:'Budimpešta', TIM:'Timișoara' },
+  en: { BEG:'Belgrade', INI:'Niš', ZAG:'Zagreb', BUD:'Budapest', TIM:'Timișoara' }
+};
+function airportCity(iata) { return (AIRPORT_CITIES[lang] || AIRPORT_CITIES.sr)[iata] || iata; }
 
 function avatarInitials(names) {
   if (!names || !names.length) return '?';
@@ -594,10 +597,10 @@ const TY = {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   set('bpl-dep', tr.bpDep); set('bpl-ret', tr.bpRet);
   set('bpl-n', tr.bpN); set('bpl-pax', tr.bpPax); set('bpl-ref', tr.bpRef); set('bpl-seat', tr.bpSeat);
-  if (lang === 'en') {
-    const destLbl = document.getElementById('bp-dest-label'); if (destLbl) destLbl.textContent = 'Surprise';
-    const destSub = document.getElementById('bp-dest-sub');   if (destSub) destSub.textContent = 'reveal 48h before departure';
-  }
+  set('bp-city-sub', 'Departure airport');
+  set('bp-boarding-soon', 'SOON');
+  const destLbl = document.getElementById('bp-dest-label'); if (destLbl) destLbl.textContent = 'Surprise';
+  const destSub = document.getElementById('bp-dest-sub');   if (destSub) destSub.textContent = 'reveal 48h before departure';
   const setStep = (ti, di, t, d) => { const tel=document.getElementById(ti); const del=document.getElementById(di); if(tel)tel.textContent=t; if(del)del.textContent=d; };
   setStep('step1-title','step1-desc', tr.s1t, tr.s1d);
   setStep('step2-title','step2-desc', tr.s2t, tr.s2d);
