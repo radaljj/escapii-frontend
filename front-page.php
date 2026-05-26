@@ -1131,6 +1131,102 @@
     .inq-submit:hover::before { transform: translateX(100%); }
     .inq-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
     .inq-submit svg { width: 15px; height: 15px; }
+
+    /* ══ GIFT OVERLAY ══════════════════════════════════════════════ */
+    .gift-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(8,18,28,.88); backdrop-filter: blur(14px);
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+    }
+    .gift-overlay.active { display: flex; animation: fadeUp .28s ease; }
+    .gift-panel {
+      background: linear-gradient(180deg,#102530 0%,#0d1f29 100%);
+      border-radius: 22px; padding: 32px 28px;
+      color: #f6f1e6; width: 100%; max-width: 520px;
+      position: relative; margin: auto;
+      border: 1px solid rgba(200,149,58,.2);
+      box-shadow: 0 32px 80px rgba(0,0,0,.55);
+    }
+    .gift-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(246,241,230,.07); border: 1px solid rgba(246,241,230,.1);
+      color: rgba(246,241,230,.5); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; line-height: 1; transition: all .2s; font-family: inherit;
+    }
+    .gift-close:hover { background: rgba(246,241,230,.15); color: #f6f1e6; }
+    .gift-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(200,149,58,.12); border: 1px solid rgba(200,149,58,.3);
+      color: #d4a83c; padding: 5px 12px; border-radius: 100px;
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 14px;
+    }
+    .gift-badge .dot { width: 5px; height: 5px; border-radius: 100px; background: #d4a83c; box-shadow: 0 0 6px #d4a83c; }
+    .gift-h { font-size: 22px; font-weight: 800; color: #f6f1e6; margin-bottom: 5px; }
+    .gift-h em { font-style: italic; color: #d4a83c; }
+    .gift-sub { font-size: 13px; color: rgba(246,241,230,.55); margin-bottom: 6px; line-height: 1.5; }
+    .gift-section-label {
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(200,149,58,.65); font-weight: 700;
+      margin: 22px 0 14px; border-bottom: 1px solid rgba(200,149,58,.12);
+      padding-bottom: 7px;
+    }
+    .gift-airport-row { display: flex; gap: 10px; }
+    .gift-airport-btn {
+      flex: 1; padding: 11px 8px;
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.08);
+      border-radius: 12px; color: rgba(246,241,230,.55);
+      font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: all .2s; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .gift-airport-btn span { font-size: 13px; font-weight: 800; color: rgba(246,241,230,.85); }
+    .gift-airport-btn small { font-size: 10px; font-weight: 400; color: rgba(246,241,230,.4); text-align: center; }
+    .gift-airport-btn.on { background: rgba(200,149,58,.12); border-color: rgba(200,149,58,.4); }
+    .gift-airport-btn.on span { color: #d4a83c; }
+    .gift-airport-btn.on small { color: rgba(212,168,60,.7); }
+    .gift-travelers-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .gift-trav-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.08);
+      color: rgba(246,241,230,.6); font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .gift-trav-btn.on { background: rgba(200,149,58,.12); border-color: rgba(200,149,58,.4); color: #d4a83c; }
+    .gift-recip-note {
+      font-size: 11px; color: rgba(246,241,230,.32); margin-top: 6px;
+      padding-left: 4px; line-height: 1.55;
+    }
+    .gift-submit {
+      width: 100%; padding: 16px; margin-top: 20px;
+      background: linear-gradient(135deg,#C8953A,#a87730);
+      color: #fff; border: none; border-radius: 13px;
+      font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      box-shadow: 0 14px 40px -10px rgba(200,149,58,.5);
+      transition: transform .3s, box-shadow .3s, opacity .2s;
+      position: relative; overflow: hidden;
+    }
+    .gift-submit::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);
+      transform: translateX(-100%); transition: transform .7s;
+    }
+    .gift-submit:hover { transform: translateY(-2px); box-shadow: 0 20px 50px -10px rgba(200,149,58,.65); }
+    .gift-submit:hover::before { transform: translateX(100%); }
+    .gift-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    /* Hero gift link */
+    .hero-gift-wrap { margin-top: 14px; animation: fadeUp .9s .42s ease both; }
+    .hero-gift-cta {
+      background: none; border: none; color: rgba(246,241,230,.6);
+      font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 4px 0; text-decoration: underline;
+      text-decoration-color: rgba(200,149,58,.35); text-underline-offset: 3px;
+      transition: color .2s, text-decoration-color .2s;
+    }
+    .hero-gift-cta:hover { color: #d4a83c; text-decoration-color: #d4a83c; }
     /* Tippy custom theme */
     .tippy-box[data-theme~='escapii'] {
       background: #2D5F6B;
@@ -2255,6 +2351,7 @@
       <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift" style="color:#d4a83c;">🎁 Pokloni putovanje</button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -2288,6 +2385,9 @@
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
+  </div>
+  <div class="hero-gift-wrap">
+    <button class="hero-gift-cta" onclick="openGiftPanel()" type="button" data-i18n="gift.hero.cta">🎁 Pokloni putovanje iznenađenja</button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
     <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
@@ -2759,6 +2859,18 @@
             <div class="cta-tx">
               <strong data-i18n="s3.noDates.title">Ne vidim datum koji mi odgovara</strong>
               <small data-i18n="s3.noDates.sub">Pošalji upit za prilagođeni termin</small>
+            </div>
+            <span class="cta-arr">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+
+          <!-- CTA za poklon putovanje -->
+          <button class="custom-cta" onclick="openGiftPanel()" type="button" style="margin-top:10px;">
+            <div class="cta-ic" style="background:rgba(200,149,58,.1);border-color:rgba(200,149,58,.22);font-size:17px;display:flex;align-items:center;justify-content:center;">🎁</div>
+            <div class="cta-tx">
+              <strong style="color:#d4a83c;" data-i18n="gift.s3.title">Kupuješ poklon putovanje?</strong>
+              <small data-i18n="gift.s3.sub">Odaberi datume i pošalji upit za nekoga drugog</small>
             </div>
             <span class="cta-arr">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -3300,6 +3412,7 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-faq')"     data-i18n="footer.faq">FAQ</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
+      <a href="javascript:void(0)" onclick="openGiftPanel()" data-i18n="nav.gift" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
@@ -3321,6 +3434,98 @@
     </div>
   </div>
 </footer>
+
+<!-- GIFT OVERLAY -->
+<div class="gift-overlay" id="giftOverlay" onclick="if(event.target===this)closeGiftPanel()">
+  <div class="gift-panel">
+    <button class="gift-close" onclick="closeGiftPanel()" type="button" aria-label="Zatvori">×</button>
+
+    <div class="gift-badge"><span class="dot"></span><span data-i18n="gift.badge">Poklon putovanje</span></div>
+    <h3 class="gift-h" data-i18n-html="gift.title">Pokloni <em>iznenađenje</em></h3>
+    <p class="gift-sub" data-i18n="gift.sub">Odaberi datume i pošalji upit. U roku od 24h šaljemo ti link koji proslediš primaocu.</p>
+
+    <!-- DATUM -->
+    <div class="gift-section-label" data-i18n="gift.sec.date">Datum putovanja</div>
+    <div class="inq-field">
+      <div class="inq-cal">
+        <div class="inq-cal-head">
+          <div class="inq-cal-month" id="giftCalMonth">—</div>
+          <div class="inq-cal-nav">
+            <button id="giftPrevM" type="button" aria-label="Prethodni mesec">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button id="giftNextM" type="button" aria-label="Sledeći mesec">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="inq-cal-grid" id="giftCalGrid"></div>
+      </div>
+      <div class="inq-range-status hint" id="giftRangeStatus">Odaberi datum polaska, pa datum povratka (2 ili 3 noći)</div>
+    </div>
+
+    <!-- DETALJI PUTOVANJA -->
+    <div class="gift-section-label" data-i18n="gift.sec.trip">Detalji putovanja</div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.airport.label">Aerodrom polaska</label>
+      <div class="gift-airport-row">
+        <button class="gift-airport-btn on" id="giftBtnBEG" onclick="selectGiftAirport('BEG')" type="button">
+          <span>BEG</span><small data-i18n="s1.beg.name">Aerodrom Nikola Tesla</small>
+        </button>
+        <button class="gift-airport-btn" id="giftBtnINI" onclick="selectGiftAirport('INI')" type="button">
+          <span>INI</span><small data-i18n="s1.ini.name">Aerodrom Konstantin Veliki</small>
+        </button>
+      </div>
+    </div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.travelers.label">Broj putnika</label>
+      <div class="gift-travelers-row" id="giftTravRow"></div>
+    </div>
+
+    <!-- PRIMALAC -->
+    <div class="gift-section-label" data-i18n="gift.sec.recipient">Primalac poklona <span style="font-size:9px;letter-spacing:.08em;opacity:.45;font-weight:400;text-transform:none;">(opciono)</span></div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.recip.name.label">Ime primaoca</label>
+      <input type="text" id="giftRecipName" class="inq-control" data-i18n-ph="gift.recip.name.ph" placeholder="Ana Anić">
+    </div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.recip.email.label">Email primaoca</label>
+      <div class="inq-field-ic" id="giftRecipEmailWrap">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+        <input type="email" id="giftRecipEmail" class="inq-control" data-i18n-ph="gift.recip.email.ph" placeholder="ana@gmail.com"
+               oninput="document.getElementById('giftRecipEmailErr').style.display='none';document.getElementById('giftRecipEmailWrap').style.borderColor='';">
+      </div>
+      <div id="giftRecipEmailErr" style="display:none;color:#f87171;font-size:12px;margin-top:6px;padding-left:4px;"></div>
+      <p class="gift-recip-note" data-i18n="gift.recip.note">Ako ostaviš prazno — link šaljemo tebi, ti ga proslediš primaocu.</p>
+    </div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.msg.label">Poruka primaocu</label>
+      <textarea id="giftMessage" class="inq-control" rows="2" data-i18n-ph="gift.msg.ph" placeholder="Srećan rođendan! Pripremila sam ti iznenađenje..."></textarea>
+    </div>
+
+    <!-- TVOJI PODACI -->
+    <div class="gift-section-label" data-i18n="gift.sec.giver">Tvoji podaci</div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.giver.name.label">Tvoje ime <span class="req">*</span></label>
+      <input type="text" id="giftGiverName" class="inq-control" data-i18n-ph="gift.giver.name.ph" placeholder="Milica Milić"
+             oninput="document.getElementById('giftGiverNameErr').style.display='none';">
+      <div id="giftGiverNameErr" style="display:none;color:#f87171;font-size:12px;margin-top:6px;padding-left:4px;"></div>
+    </div>
+    <div class="inq-field">
+      <label class="inq-label" data-i18n="gift.giver.email.label">Tvoj email <span class="req">*</span></label>
+      <div class="inq-field-ic" id="giftGiverEmailWrap">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+        <input type="email" id="giftGiverEmail" class="inq-control" data-i18n-ph="gift.giver.email.ph" placeholder="milica@gmail.com"
+               oninput="document.getElementById('giftGiverEmailErr').style.display='none';document.getElementById('giftGiverEmailWrap').style.borderColor='';">
+      </div>
+      <div id="giftGiverEmailErr" style="display:none;color:#f87171;font-size:12px;margin-top:6px;padding-left:4px;"></div>
+    </div>
+
+    <button class="gift-submit" id="giftSubmitBtn" onclick="submitGiftInquiry()" type="button">
+      <span data-i18n="gift.submit">🎁 Pošalji upit za poklon putovanje</span>
+    </button>
+  </div>
+</div>
 
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
@@ -3543,7 +3748,35 @@ const TR = {
     'pay.s3':'Izvrši uplatu — rezervacija se <strong>potvrđuje tek nakon uplate</strong>',
     'pay.s4':'Potvrda stiže na email — putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
-    'bp.label': (s,t) => `Korak ${s} od ${t}`
+    'bp.label': (s,t) => `Korak ${s} od ${t}`,
+    'nav.gift':'🎁 Pokloni putovanje',
+    'gift.hero.cta':'🎁 Pokloni putovanje iznenađenja',
+    'gift.s3.title':'Kupuješ poklon putovanje?',
+    'gift.s3.sub':'Odaberi datume i pošalji upit za nekoga drugog',
+    'gift.badge':'Poklon putovanje',
+    'gift.title':'Pokloni <em>iznenađenje</em>',
+    'gift.sub':'Odaberi datume i pošalji upit. U roku od 24h šaljemo ti link koji proslediš primaocu.',
+    'gift.sec.date':'Datum putovanja',
+    'gift.sec.trip':'Detalji putovanja',
+    'gift.airport.label':'Aerodrom polaska',
+    'gift.travelers.label':'Broj putnika',
+    'gift.sec.recipient':'Primalac poklona',
+    'gift.recip.name.label':'Ime primaoca',
+    'gift.recip.name.ph':'Ana Anić',
+    'gift.recip.email.label':'Email primaoca',
+    'gift.recip.email.ph':'ana@gmail.com',
+    'gift.recip.note':'Ako ostaviš prazno — link šaljemo tebi, ti ga proslediš primaocu.',
+    'gift.msg.label':'Poruka primaocu',
+    'gift.msg.ph':'Srećan rođendan! Pripremila sam ti iznenađenje...',
+    'gift.sec.giver':'Tvoji podaci',
+    'gift.giver.name.label':'Tvoje ime',
+    'gift.giver.name.ph':'Milica Milić',
+    'gift.giver.email.label':'Tvoj email',
+    'gift.giver.email.ph':'milica@gmail.com',
+    'gift.submit':'🎁 Pošalji upit za poklon putovanje',
+    'gift.err.name':'Unesi svoje ime.',
+    'gift.ok.t':'Upit primljen!',
+    'gift.ok.m':'Javiće ti se u roku od 24h sa svim detaljima o poklon putovanju.'
   },
   en: {
     'nav.status':'My reservation',
@@ -3760,7 +3993,35 @@ const TR = {
     'pay.s3':'Make the transfer — your booking is <strong>confirmed only after payment</strong>',
     'pay.s4':'Confirmation arrives by email — the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
-    'bp.label': (s,t) => `Step ${s} of ${t}`
+    'bp.label': (s,t) => `Step ${s} of ${t}`,
+    'nav.gift':'🎁 Gift a trip',
+    'gift.hero.cta':'🎁 Gift a surprise trip',
+    'gift.s3.title':'Buying a gift trip?',
+    'gift.s3.sub':'Select dates and send an inquiry for someone else',
+    'gift.badge':'Gift trip',
+    'gift.title':'Gift a <em>surprise</em>',
+    'gift.sub':'Choose dates and send an inquiry. Within 24h we\'ll send you a booking link to pass on to the recipient.',
+    'gift.sec.date':'Trip dates',
+    'gift.sec.trip':'Trip details',
+    'gift.airport.label':'Departure airport',
+    'gift.travelers.label':'Number of travelers',
+    'gift.sec.recipient':'Gift recipient',
+    'gift.recip.name.label':'Recipient\'s name',
+    'gift.recip.name.ph':'Ana Anić',
+    'gift.recip.email.label':'Recipient\'s email',
+    'gift.recip.email.ph':'ana@gmail.com',
+    'gift.recip.note':'If left blank — we send the link to you and you forward it to the recipient.',
+    'gift.msg.label':'Message to recipient',
+    'gift.msg.ph':'Happy birthday! I\'ve prepared a surprise for you...',
+    'gift.sec.giver':'Your details',
+    'gift.giver.name.label':'Your name',
+    'gift.giver.name.ph':'Milica Milić',
+    'gift.giver.email.label':'Your email',
+    'gift.giver.email.ph':'milica@gmail.com',
+    'gift.submit':'🎁 Send gift trip inquiry',
+    'gift.err.name':'Please enter your name.',
+    'gift.ok.t':'Inquiry received!',
+    'gift.ok.m':'We\'ll get back to you within 24h with all the details about the gift trip.'
   }
 };
 
@@ -5774,6 +6035,233 @@ async function submitInquiry() {
   } catch(e) {
     showFormAlert(lang==='sr' ? 'Greška pri slanju. Proveri konekciju.' : 'Send error. Check connection.');
     btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// GIFT INQUIRY — pokloni putovanje overlay
+// ══════════════════════════════════════════════════════════════════
+
+let _giftDep      = null;
+let _giftRet      = null;
+let _giftCurMonth = null;
+let _giftHover    = null;
+let _giftAirport  = 'BEG';
+let _giftTravelers = 2;
+
+function openGiftPanel() {
+  const overlay = document.getElementById('giftOverlay');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  const now = new Date();
+  _giftCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  _giftDep = null; _giftRet = null; _giftHover = null;
+  _giftAirport = 'BEG'; _giftTravelers = 2;
+  renderGiftCalendar();
+  updateGiftRangeStatus();
+  renderGiftTravelers();
+  selectGiftAirport('BEG');
+  // Pre-fill giver email if already entered in main booking form
+  const ce = document.getElementById('contactEmail');
+  if (ce && ce.value) document.getElementById('giftGiverEmail').value = ce.value;
+}
+
+function closeGiftPanel() {
+  document.getElementById('giftOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGiftPanel(); });
+
+function selectGiftAirport(code) {
+  _giftAirport = code;
+  document.getElementById('giftBtnBEG').classList.toggle('on', code === 'BEG');
+  document.getElementById('giftBtnINI').classList.toggle('on', code === 'INI');
+}
+
+function renderGiftTravelers() {
+  const row = document.getElementById('giftTravRow');
+  if (!row) return;
+  row.innerHTML = '';
+  for (let i = 1; i <= 8; i++) {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.textContent = i;
+    btn.className = 'gift-trav-btn' + (i === _giftTravelers ? ' on' : '');
+    btn.onclick = () => { _giftTravelers = i; renderGiftTravelers(); };
+    row.appendChild(btn);
+  }
+}
+
+function updateGiftRangeStatus() {
+  const el = document.getElementById('giftRangeStatus');
+  if (!el) return;
+  el.style.color = '';
+  el.className = 'inq-range-status';
+  if (!_giftDep && !_giftRet) {
+    el.className += ' hint';
+    el.textContent = lang === 'sr'
+      ? 'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)'
+      : 'Select departure, then return date (2 or 3 nights)';
+  } else if (_giftDep && !_giftRet) {
+    el.className += ' dep-set';
+    el.innerHTML = lang === 'sr'
+      ? `✈️ Polazak: <strong>${inqFmtDate(_giftDep)}</strong> — sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${inqFmtDate(_giftDep)}</strong> — now select return date`;
+  } else if (_giftDep && _giftRet) {
+    const nights = inqDateDiff(_giftDep, _giftRet);
+    el.className += ' valid';
+    el.innerHTML = `✓ ${inqFmtDate(_giftDep)} → ${inqFmtDate(_giftRet)} &nbsp;·&nbsp; <strong>${nights} ${lang === 'sr' ? 'noći' : 'nights'}</strong>`;
+  }
+}
+
+function updateGiftHoverClasses() {
+  const grid = document.getElementById('giftCalGrid');
+  if (!grid) return;
+  const hoverDiff = (_giftDep && _giftHover) ? inqDateDiff(_giftDep, _giftHover) : 0;
+  grid.querySelectorAll('button.inq-cal-day').forEach(btn => {
+    const d = new Date(Number(btn.dataset.ts));
+    btn.classList.remove('in-range-preview', 'dep-hover');
+    if (!_giftDep || _giftRet || !_giftHover) return;
+    if (d > _giftDep && d < _giftHover && (hoverDiff === 2 || hoverDiff === 3)) btn.classList.add('in-range-preview');
+    if (d.toDateString() === _giftHover.toDateString() && hoverDiff > 0) btn.classList.add('dep-hover');
+  });
+}
+
+function renderGiftCalendar() {
+  const monthNames = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
+  const dows       = lang === 'sr' ? INQ_DOWS_SR   : INQ_DOWS_EN;
+  document.getElementById('giftCalMonth').textContent =
+    `${monthNames[_giftCurMonth.getMonth()]} ${_giftCurMonth.getFullYear()}`;
+
+  const grid = document.getElementById('giftCalGrid');
+  grid.innerHTML = '';
+  dows.forEach(d => { const el = document.createElement('div'); el.className='inq-cal-dow'; el.textContent=d; grid.appendChild(el); });
+
+  const today    = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+  const maxDate  = new Date(today.getFullYear(),11,31);
+  const firstDay = new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth(),1);
+  const lastDay  = new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth()+1,0);
+  let startDow = firstDay.getDay()-1; if (startDow<0) startDow=6;
+  const prevLast = new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth(),0).getDate();
+
+  for (let i=startDow;i>0;i--) { const el=document.createElement('div'); el.className='inq-cal-day muted'; el.textContent=prevLast-i+1; grid.appendChild(el); }
+
+  for (let d=1;d<=lastDay.getDate();d++) {
+    const date = new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth(),d);
+    const el = document.createElement('button');
+    el.type='button'; el.textContent=d;
+    if (date<tomorrow||date>maxDate) { el.className='inq-cal-day'; el.disabled=true; grid.appendChild(el); continue; }
+    let cls='inq-cal-day';
+    if (date.toDateString()===today.toDateString()) cls+=' today';
+    if (_giftDep&&date.toDateString()===_giftDep.toDateString()) cls+=' dep';
+    if (_giftRet&&date.toDateString()===_giftRet.toDateString()) cls+=' ret';
+    if (_giftDep&&_giftRet&&date>_giftDep&&date<_giftRet) cls+=' in-range';
+    if (_giftDep&&!_giftRet&&_giftHover) {
+      const diff=inqDateDiff(_giftDep,_giftHover);
+      if ((diff===2||diff===3)&&date>_giftDep&&date<_giftHover) cls+=' in-range-preview';
+      if (date.toDateString()===_giftHover.toDateString()&&diff>0) cls+=' dep-hover';
+    }
+    el.className=cls; el.dataset.ts=date.getTime();
+    el.addEventListener('click',()=>{
+      if (!_giftDep||_giftRet) { _giftDep=date; _giftRet=null; }
+      else {
+        const diff=inqDateDiff(_giftDep,date);
+        if (diff<1) { _giftDep=date; _giftRet=null; }
+        else if (diff===2||diff===3) { _giftRet=date; }
+        else {
+          const s=document.getElementById('giftRangeStatus');
+          if(s){s.className='inq-range-status invalid';s.innerHTML=lang==='sr'?`⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.`:`⚠️ Only <strong>2 or 3 nights</strong> are allowed. Try again.`;setTimeout(()=>updateGiftRangeStatus(),2500);}
+          return;
+        }
+      }
+      _giftHover=null; renderGiftCalendar(); updateGiftRangeStatus();
+    });
+    el.addEventListener('mouseenter',()=>{ if(_giftDep&&!_giftRet){_giftHover=date;updateGiftHoverClasses();} });
+    el.addEventListener('mouseleave',()=>{ if(_giftDep&&!_giftRet){_giftHover=null;updateGiftHoverClasses();} });
+    grid.appendChild(el);
+  }
+
+  const total=startDow+lastDay.getDate();
+  const trail=(7-(total%7))%7;
+  for(let i=1;i<=trail;i++){const el=document.createElement('div');el.className='inq-cal-day muted';el.textContent=i;grid.appendChild(el);}
+
+  document.getElementById('giftPrevM').onclick=()=>{
+    const prev=new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth()-1,1);
+    const thisMonth=new Date(today.getFullYear(),today.getMonth(),1);
+    if(prev>=thisMonth){_giftCurMonth=prev;renderGiftCalendar();}
+  };
+  document.getElementById('giftNextM').onclick=()=>{
+    _giftCurMonth=new Date(_giftCurMonth.getFullYear(),_giftCurMonth.getMonth()+1,1);
+    renderGiftCalendar();
+  };
+}
+
+async function submitGiftInquiry() {
+  if (!_giftDep || !_giftRet) {
+    const s = document.getElementById('giftRangeStatus');
+    if (s) { s.textContent = t(!_giftDep ? 'inq.err.date' : 'inq.err.ret'); s.style.color = '#f87171'; }
+    return;
+  }
+  const giverName = document.getElementById('giftGiverName').value.trim();
+  if (!giverName) {
+    const err = document.getElementById('giftGiverNameErr');
+    if (err) { err.textContent = t('gift.err.name'); err.style.display = 'block'; }
+    document.getElementById('giftGiverName').focus(); return;
+  }
+  const giverEmail = document.getElementById('giftGiverEmail').value.trim();
+  if (!giverEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(giverEmail)) {
+    const err = document.getElementById('giftGiverEmailErr');
+    const wrap = document.getElementById('giftGiverEmailWrap');
+    if (err) { err.textContent = t('inq.err.email'); err.style.display = 'block'; }
+    if (wrap) { wrap.style.borderColor='#f87171'; wrap.style.borderWidth='1.5px'; wrap.style.borderStyle='solid'; }
+    document.getElementById('giftGiverEmail').focus(); return;
+  }
+  const recipEmail = document.getElementById('giftRecipEmail').value.trim();
+  if (recipEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipEmail)) {
+    const err = document.getElementById('giftRecipEmailErr');
+    const wrap = document.getElementById('giftRecipEmailWrap');
+    if (err) { err.textContent = t('inq.err.email'); err.style.display = 'block'; }
+    if (wrap) { wrap.style.borderColor='#f87171'; wrap.style.borderWidth='1.5px'; wrap.style.borderStyle='solid'; }
+    document.getElementById('giftRecipEmail').focus(); return;
+  }
+
+  const btn = document.getElementById('giftSubmitBtn');
+  btn.disabled = true;
+  const pad = n => String(n).padStart(2,'0');
+  const dateStr = `${_giftDep.getFullYear()}-${pad(_giftDep.getMonth()+1)}-${pad(_giftDep.getDate())}`;
+  const nights = inqDateDiff(_giftDep, _giftRet);
+
+  try {
+    const r = await fetch(`${API}/api/inquiries/gift`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        airport:            _giftAirport,
+        travelers:          _giftTravelers,
+        desiredDepartureDate: dateStr,
+        nights:             nights,
+        giverName:          giverName,
+        giverEmail:         giverEmail,
+        recipientName:      document.getElementById('giftRecipName').value.trim() || null,
+        recipientEmail:     recipEmail || null,
+        message:            document.getElementById('giftMessage').value.trim() || null
+      })
+    });
+    if (r.ok) {
+      closeGiftPanel();
+      await Swal.fire({ title: t('gift.ok.t'), text: t('gift.ok.m'), icon: 'success',
+        confirmButtonColor: '#C8953A', background: '#1a3a42', color: '#f6f1e6' });
+    } else {
+      const err = await r.json().catch(()=>({}));
+      btn.disabled = false;
+      await Swal.fire({ title: '⚠️', text: err.error||(lang==='sr'?'Greška pri slanju.':'Send error.'),
+        icon: 'error', confirmButtonColor: '#C8953A', background: '#1a3a42', color: '#f6f1e6' });
+    }
+  } catch(e) {
+    btn.disabled = false;
+    await Swal.fire({ title: '⚠️', text: lang==='sr'?'Greška pri slanju. Proveri konekciju.':'Send error. Check connection.',
+      icon: 'error', confirmButtonColor: '#C8953A', background: '#1a3a42', color: '#f6f1e6' });
   }
 }
 
