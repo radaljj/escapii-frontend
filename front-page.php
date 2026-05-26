@@ -2351,7 +2351,7 @@
       <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift" style="color:#d4a83c;">🎁 Pokloni putovanje</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift" style="color:#d4a83c;">🎁 Pokloni iznenađenje</button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -2387,7 +2387,7 @@
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
   </div>
   <div class="hero-gift-wrap">
-    <button class="hero-gift-cta" onclick="openGiftPanel()" type="button" data-i18n="gift.hero.cta">🎁 Pokloni putovanje iznenađenja</button>
+    <button class="hero-gift-cta" onclick="openGiftPanel()" type="button" data-i18n="gift.hero.cta">🎁 Pokloni iznenađenje</button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
     <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
@@ -3412,7 +3412,7 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-faq')"     data-i18n="footer.faq">FAQ</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
-      <a href="javascript:void(0)" onclick="openGiftPanel()" data-i18n="nav.gift" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje</a>
+      <a href="javascript:void(0)" onclick="openGiftPanel()" data-i18n="nav.gift" style="color:var(--accent);font-weight:600;">🎁 Pokloni iznenađenje</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
@@ -3749,8 +3749,8 @@ const TR = {
     'pay.s4':'Potvrda stiže na email — putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
-    'nav.gift':'🎁 Pokloni putovanje',
-    'gift.hero.cta':'🎁 Pokloni putovanje iznenađenja',
+    'nav.gift':'🎁 Pokloni iznenađenje',
+    'gift.hero.cta':'🎁 Pokloni iznenađenje',
     'gift.s3.title':'Kupuješ poklon putovanje?',
     'gift.s3.sub':'Odaberi datume i pošalji upit za nekoga drugog',
     'gift.badge':'Poklon putovanje',
@@ -3994,9 +3994,9 @@ const TR = {
     'pay.s4':'Confirmation arrives by email — the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
     'bp.label': (s,t) => `Step ${s} of ${t}`,
-    'nav.gift':'🎁 Gift a trip',
+    'nav.gift':'🎁 Gift a Surprise',
     'gift.hero.cta':'🎁 Gift a surprise trip',
-    'gift.s3.title':'Buying a gift trip?',
+    'gift.s3.title':'Gifting a surprise?',
     'gift.s3.sub':'Select dates and send an inquiry for someone else',
     'gift.badge':'Gift trip',
     'gift.title':'Gift a <em>surprise</em>',
@@ -4018,10 +4018,10 @@ const TR = {
     'gift.giver.name.ph':'Milica Milić',
     'gift.giver.email.label':'Your email',
     'gift.giver.email.ph':'milica@gmail.com',
-    'gift.submit':'🎁 Send gift trip inquiry',
+    'gift.submit':'🎁 Send gift inquiry',
     'gift.err.name':'Please enter your name.',
     'gift.ok.t':'Inquiry received!',
-    'gift.ok.m':'We\'ll get back to you within 24h with all the details about the gift trip.'
+    'gift.ok.m':'We\'ll get back to you within 24h with all the details about the gift surprise.'
   }
 };
 
