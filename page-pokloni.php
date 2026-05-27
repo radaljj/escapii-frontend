@@ -2,7 +2,7 @@
 /**
  * Template Name: Pokloni putovanje iznenađenja
  * Dedicated SEO landing page za gift flow.
- * URL: /pokloni-iznenadjenje
+ * URL: /pokloni-putovanje-iznenadjenja
  */
 $theme_uri = get_template_directory_uri();
 $site_url  = get_site_url();
@@ -14,7 +14,7 @@ $site_url  = get_site_url();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokloni putovanje iznenađenja — Escapii</title>
   <meta name="description" content="Pokloni nekome posebnom nezaboravno putovanje iznenađenja. Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.">
-  <link rel="canonical" href="<?php echo esc_url($site_url); ?>/pokloni-iznenadjenje">
+  <link rel="canonical" href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja">
   <?php wp_head(); ?>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -809,7 +809,7 @@ $site_url  = get_site_url();
       <a href="<?php echo esc_url($site_url); ?>/#esc-how" data-i18n="footer.how">Kako funkcioniše</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-about" data-i18n="footer.about">O nama</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-booking" data-i18n="footer.book">Rezervacija</a>
-      <a href="<?php echo esc_url($site_url); ?>/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
+      <a href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>

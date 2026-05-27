@@ -264,7 +264,7 @@ $site_url  = get_site_url();
   <div class="err-icon">🔍</div>
   <div class="err-title" id="errTitle">Vaučer nije pronađen</div>
   <div class="err-sub" id="errSub">Kod nije validan, nije aktivan ili je već iskorišćen. Proveri da li si uneo ispravan kod.</div>
-  <button class="err-btn" onclick="window.location.href='<?php echo esc_js($site_url); ?>/pokloni-iznenadjenje'">
+  <button class="err-btn" onclick="window.location.href='<?php echo esc_js($site_url); ?>/pokloni-putovanje-iznenadjenja'">
     Pogledaj poklon opcije
   </button>
 </div>

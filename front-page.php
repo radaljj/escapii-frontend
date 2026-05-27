@@ -2592,7 +2592,7 @@
         <span class="mob-gift-caret">▾</span>
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/pokloni-iznenadjenje';" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/pokloni-putovanje-iznenadjenja';" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
       </div>
     </div>
@@ -2623,7 +2623,7 @@
 </nav>
 <!-- Gift dropdown van sec-nav (backdrop-filter kreira containing block za fixed) -->
 <div class="sec-gift-drop" id="secGiftDrop">
-  <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='/pokloni-iznenadjenje';" type="button">
+  <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='/pokloni-putovanje-iznenadjenja';" type="button">
     <span class="nav-gift-item-icon">🎁</span>
     <span class="nav-gift-item-text">
       <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje iznenađenja</span>
@@ -3697,7 +3697,7 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-faq')"     data-i18n="footer.faq">FAQ</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
-      <a href="/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
+      <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
