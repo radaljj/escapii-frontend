@@ -827,6 +827,7 @@ tbody td  { padding: 11px 12px; }
       <button class="tab-btn" onclick="switchTab('destinations')">✈️ Destinacije</button>
       <button class="tab-btn" onclick="switchTab('inquiries')">📩 Upiti <span class="tab-badge" id="inquiriesBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('waitlist')">🔔 Lista čekanja <span class="tab-badge" id="waitlistBadge"></span></button>
+      <button class="tab-btn" onclick="switchTab('gifts')">🎁 Pokloni <span class="tab-badge" id="giftsBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('errors')">🚨 Greške <span class="tab-badge" id="errorsBadge"></span></button>
     </div>
 
@@ -1001,6 +1002,65 @@ tbody td  { padding: 11px 12px; }
             </thead>
             <tbody id="waitlistBody">
               <tr><td colspan="3" class="empty-state">Učitavanje...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ POKLONI ══ -->
+    <div class="panel" id="panel-gifts">
+      <div class="panel-title">Pokloni iznenađenje</div>
+      <div class="panel-subtitle">Upravljanje gift vaučerima i putovanjima iznenađenja</div>
+
+      <div class="dates-sub-tabs">
+        <button class="dates-sub-btn active" onclick="switchGiftTab('vouchers', this)">🎟️ Vaučeri <span class="tab-badge" id="giftVoucherBadge"></span></button>
+        <button class="dates-sub-btn" onclick="switchGiftTab('trips', this)">✈️ Gift putovanja <span class="tab-badge" id="giftTripBadge"></span></button>
+      </div>
+
+      <!-- Vaučeri -->
+      <div class="dates-sub-panel active" id="gift-sub-vouchers">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Kupac</th>
+                <th>Primalac</th>
+                <th>Iznos</th>
+                <th>Status</th>
+                <th>Poruka</th>
+                <th>Kreiran</th>
+                <th>Ističe</th>
+                <th>Akcije</th>
+              </tr>
+            </thead>
+            <tbody id="giftVouchersTbody">
+              <tr><td colspan="9" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gift putovanja -->
+      <div class="dates-sub-panel" id="gift-sub-trips">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Kupac</th>
+                <th>Primalac</th>
+                <th>Let</th>
+                <th>Datum / Noći</th>
+                <th>Os.</th>
+                <th>Status</th>
+                <th>Cena (€)</th>
+                <th>Upit</th>
+              </tr>
+            </thead>
+            <tbody id="giftTripsTbody">
+              <tr><td colspan="9" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1688,6 +1748,7 @@ function switchTab(tab) {
   if (tab === 'waitlist')  loadWaitlist();
   if (tab === 'errors')    loadErrors();
   if (tab === 'inquiries') loadInquiries();
+  if (tab === 'gifts')     loadGifts();
 }
 
 // ══ GREŠKE ═══════════════════════════════════════════════════════════════════
@@ -2884,6 +2945,239 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
 
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══ POKLONI ══════════════════════════════════════════════════════════════════
+
+let _gVouchers = [];
+let _gTrips    = [];
+
+function switchGiftTab(tab, btn) {
+  document.querySelectorAll('#panel-gifts .dates-sub-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#panel-gifts .dates-sub-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('gift-sub-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+async function loadGifts() {
+  await Promise.all([loadGiftVouchers(), loadGiftTrips()]);
+}
+
+async function loadGiftVouchers() {
+  const tbody = document.getElementById('giftVouchersTbody');
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/vouchers`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
+    if (!r.ok) throw new Error();
+    _gVouchers = await r.json();
+    const pending = _gVouchers.filter(v => v.status === 'PENDING').length;
+    document.getElementById('giftVoucherBadge').textContent = pending > 0 ? pending : '';
+    document.getElementById('giftsBadge').textContent =
+      (pending + _gTrips.filter(t => t.status === 'PENDING').length) || '';
+    renderGiftVouchers();
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju vaučera.</td></tr>`;
+  }
+}
+
+function renderGiftVouchers() {
+  const tbody = document.getElementById('giftVouchersTbody');
+  if (!_gVouchers.length) {
+    tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nema vaučera.</td></tr>`;
+    return;
+  }
+  const statusLabel = { PENDING:'⏳ Na čekanju', ACTIVE:'✅ Aktivan', USED:'🏁 Iskorišćen', EXPIRED:'⌛ Istekao' };
+  const statusClass = { PENDING:'iq-PENDING', ACTIVE:'badge-green', USED:'badge-gray', EXPIRED:'badge-red' };
+  tbody.innerHTML = _gVouchers.map(v => {
+    const created  = v.createdAt  ? new Date(v.createdAt).toLocaleDateString('sr-RS')  : '—';
+    const expires  = v.expiresAt  ? new Date(v.expiresAt).toLocaleDateString('sr-RS')  : '—';
+    const msg      = v.giftMessage ? `<span title="${escHtml(v.giftMessage)}" style="cursor:help;color:#94a3b8;">💬</span>` : '';
+    const codePill = v.code ? `<span style="font-family:monospace;font-size:11px;background:rgba(202,138,113,.1);color:#CA8A71;padding:2px 7px;border-radius:5px;">${escHtml(v.code)}</span>` : '';
+    const actions  = v.status === 'PENDING'
+      ? `<button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>`
+      : v.status === 'ACTIVE'
+      ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})">🏁 Iskorišćen</button>`
+      : '—';
+    return `<tr>
+      <td style="color:#64748b;font-size:12px;">#${v.id}</td>
+      <td>
+        <div style="font-size:13px;font-weight:600;">${escHtml(v.buyerName || '—')}</div>
+        <div style="font-size:11px;color:#64748b;">${escHtml(v.buyerEmail)}</div>
+      </td>
+      <td>
+        <div style="font-size:13px;font-weight:600;">${escHtml(v.recipientName)}</div>
+        <div style="font-size:11px;color:#64748b;">${escHtml(v.recipientEmail)}</div>
+      </td>
+      <td style="font-weight:800;color:#CA8A71;">${v.amount}€</td>
+      <td>
+        <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
+        ${v.status === 'ACTIVE' ? codePill : ''}
+      </td>
+      <td style="text-align:center;">${msg}</td>
+      <td style="font-size:12px;color:#64748b;">${created}</td>
+      <td style="font-size:12px;color:#64748b;">${expires}</td>
+      <td>${actions}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function activateGiftVoucher(id) {
+  const v = _gVouchers.find(x => x.id === id);
+  const { isConfirmed } = await Swal.fire({
+    title: '✅ Aktiviraj vaučer?',
+    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€) biće aktiviran i primalac <strong style="color:#CA8A71;">${escHtml(v?.recipientEmail||'')}</strong> dobija email sa kodom.</p>`,
+    showCancelButton: true, confirmButtonText: 'Da, aktiviraj', cancelButtonText: 'Odustani',
+    confirmButtonColor: '#22c55e', background: '#0b1929', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/activate`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error((await r.json().catch(()=>({}))).error || 'Greška');
+    const updated = await r.json();
+    const idx = _gVouchers.findIndex(x => x.id === id);
+    if (idx !== -1) _gVouchers[idx] = updated;
+    renderGiftVouchers();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer aktiviran — email poslat primaocu', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function markGiftVoucherUsed(id) {
+  const { isConfirmed } = await Swal.fire({
+    title: '🏁 Označi kao iskorišćen?',
+    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer #${id} biće trajno označen kao iskorišćen.</p>`,
+    showCancelButton: true, confirmButtonText: 'Da', cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/mark-used`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    const idx = _gVouchers.findIndex(x => x.id === id);
+    if (idx !== -1) _gVouchers[idx] = updated;
+    renderGiftVouchers();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer označen kao iskorišćen', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  } catch {
+    Swal.fire({ icon:'error', title:'Greška', background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function loadGiftTrips() {
+  const tbody = document.getElementById('giftTripsTbody');
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/trips`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
+    if (!r.ok) throw new Error();
+    _gTrips = await r.json();
+    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
+    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
+    document.getElementById('giftsBadge').textContent =
+      (pending + _gVouchers.filter(v => v.status === 'PENDING').length) || '';
+    renderGiftTrips();
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju putovanja.</td></tr>`;
+  }
+}
+
+function renderGiftTrips() {
+  const tbody = document.getElementById('giftTripsTbody');
+  if (!_gTrips.length) {
+    tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nema gift trip upita.</td></tr>`;
+    return;
+  }
+  const statusOpts = [
+    { v:'PENDING',      l:'⏳ Na čekanju' },
+    { v:'IN_REVIEW',    l:'🔍 U pregledu' },
+    { v:'PRIVATE_SENT', l:'🔒 Link poslat' },
+    { v:'CLOSED',       l:'🔒 Zatvoreno'  },
+  ];
+  const statusClass = { PENDING:'iq-PENDING', IN_REVIEW:'badge-accent', PRIVATE_SENT:'iq-PRIVATE_SENT', CLOSED:'badge-gray' };
+  tbody.innerHTML = _gTrips.map(t => {
+    const created = t.createdAt ? new Date(t.createdAt).toLocaleDateString('sr-RS') : '—';
+    const opts = statusOpts.map(s =>
+      `<option value="${s.v}" ${t.status===s.v?'selected':''}>${s.l}</option>`).join('');
+    const pricePerPerson = t.price && t.travelers
+      ? `<span style="font-size:11px;color:#94a3b8;">≈ <strong style="color:#CA8A71">${Math.round(t.price/t.travelers)}€</strong>/os.</span>`
+      : `<span style="font-size:11px;color:#475569;">unesi cenu</span>`;
+    return `<tr>
+      <td style="color:#64748b;font-size:12px;">#${t.id}</td>
+      <td>
+        <div style="font-size:13px;font-weight:600;">${escHtml(t.buyerEmail)}</div>
+        ${t.notes ? `<div style="font-size:11px;color:#64748b;" title="${escHtml(t.notes)}">📝 napomena</div>` : ''}
+      </td>
+      <td>
+        <div style="font-size:13px;font-weight:600;">${escHtml(t.recipientName||'—')}</div>
+        <div style="font-size:11px;color:#64748b;">${escHtml(t.recipientEmail||'')}</div>
+        ${t.giftMessage ? `<span title="${escHtml(t.giftMessage)}" style="cursor:help;color:#94a3b8;font-size:11px;">💬 poruka</span>` : ''}
+      </td>
+      <td style="font-weight:700;font-size:13px;">${escHtml(t.airport)}</td>
+      <td style="font-size:12px;">
+        ${t.desiredDepartureDate || '—'}
+        <div style="color:#64748b;">${t.nights ? t.nights+'n' : ''}</div>
+      </td>
+      <td style="text-align:center;font-weight:700;">${t.travelers}</td>
+      <td>
+        <select class="iq-status-sel" onchange="updateGiftTripStatus(${t.id}, this.value)">${opts}</select>
+      </td>
+      <td>
+        <input type="number" class="iq-status-sel" style="width:80px;" placeholder="npr. 450"
+               value="${t.price != null ? t.price : ''}"
+               onblur="updateGiftTripPrice(${t.id}, this)"
+               onkeydown="if(event.key==='Enter')this.blur()">
+        <div>${pricePerPerson}</div>
+      </td>
+      <td style="font-size:12px;color:#64748b;">${created}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateGiftTripStatus(id, value) {
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/trips/${id}/status?value=${value}`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    const idx = _gTrips.findIndex(x => x.id === id);
+    if (idx !== -1) _gTrips[idx] = updated;
+    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
+    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Status ažuriran', showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+  } catch {
+    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function updateGiftTripPrice(id, inputEl) {
+  const raw   = inputEl.value.trim();
+  const value = raw === '' ? null : parseFloat(raw);
+  if (value !== null && (isNaN(value) || value < 0)) { inputEl.style.borderColor='#ef4444'; return; }
+  inputEl.style.borderColor = '';
+  try {
+    const url = value !== null
+      ? `${API}/api/admin/gifts/trips/${id}/price?value=${value}`
+      : `${API}/api/admin/gifts/trips/${id}/price`;
+    const r = await fetch(url, { method:'PATCH', headers:{ 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    const idx = _gTrips.findIndex(x => x.id === id);
+    if (idx !== -1) _gTrips[idx] = updated;
+    // Ažuriraj /os prikaz
+    const pp = inputEl.nextElementSibling;
+    if (pp) pp.innerHTML = updated.price != null
+      ? `<span style="font-size:11px;color:#94a3b8;">≈ <strong style="color:#CA8A71">${Math.round(updated.price/updated.travelers)}€</strong>/os.</span>`
+      : `<span style="font-size:11px;color:#475569;">unesi cenu</span>`;
+    inputEl.style.borderColor = 'rgba(34,197,94,.5)';
+    setTimeout(() => { inputEl.style.borderColor = ''; }, 1200);
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Cena sačuvana', showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+  } catch {
+    inputEl.style.borderColor = '#ef4444';
+    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri čuvanju cene', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  }
 }
 
 </script>
