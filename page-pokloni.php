@@ -430,6 +430,26 @@ $site_url  = get_site_url();
     /* ══ VALIDATE MODAL ══════════════════════════════════════════════════════ */
     .validate-hint { font-size: 13px; color: var(--gray); margin-top: 24px; text-align: center; }
     .validate-hint a { color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; }
+
+    /* ══ OPTION PANELS ═══════════════════════════════════════════════════════ */
+    .gift-option-panel { display: none; }
+    .gift-option-panel.active { display: block; animation: fadeUp .45s ease both; }
+    .gift-hero-card.selected { border-color: var(--gold) !important; background: rgba(202,138,113,.18) !important; box-shadow: 0 0 0 3px rgba(202,138,113,.18); }
+    .gift-choice-bar {
+      max-width: 760px; margin: 0 auto; padding: 36px 24px 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .gift-back-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: none; border: none; color: var(--gray); font-size: 13px;
+      font-weight: 600; cursor: pointer; font-family: inherit; padding: 6px 0;
+      transition: color .15s;
+    }
+    .gift-back-btn:hover { color: var(--accent); }
+    .gift-choice-label { font-size: 13px; color: var(--accent); font-weight: 700; }
+    .gift-choice-bar-dark .gift-back-btn { color: rgba(255,255,255,.4); }
+    .gift-choice-bar-dark .gift-back-btn:hover { color: rgba(255,255,255,.8); }
+    .gift-choice-bar-dark .gift-choice-label { color: #d4a83c; }
   </style>
 </head>
 <body>
@@ -514,13 +534,13 @@ $site_url  = get_site_url();
   <h1 class="gift-h1" data-i18n-html="gift.hero.h1">Pokloni nekome <em>iznenađenje</em></h1>
   <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.</p>
   <div class="gift-hero-cards">
-    <button class="gift-hero-card gold" onclick="scrollToVoucher()" type="button">
+    <button class="gift-hero-card gold" id="cardVoucher" onclick="selectGiftOption('voucher')" type="button">
       <div class="gift-hc-icon">🎟️</div>
       <div class="gift-hc-title" data-i18n="gift.card.voucher.t">Poklon vaučer</div>
       <div class="gift-hc-sub" data-i18n="gift.card.voucher.sub">Odaberi iznos, primalac ga koristi za bilo koje naše putovanje</div>
       <div class="gift-hc-arrow" data-i18n="gift.card.cta">Odaberi iznos →</div>
     </button>
-    <button class="gift-hero-card" onclick="scrollToTrip()" type="button">
+    <button class="gift-hero-card" id="cardTrip" onclick="selectGiftOption('trip')" type="button">
       <div class="gift-hc-icon">✈️</div>
       <div class="gift-hc-title" data-i18n="gift.card.trip.t">Iznenađenje putovanje</div>
       <div class="gift-hc-sub" data-i18n="gift.card.trip.sub">Rezerviši konkretan termin — mi formiramo cenu i šaljemo link</div>
@@ -534,10 +554,15 @@ $site_url  = get_site_url();
 
 <!-- ═══ VAUČER SEKCIJA ═══════════════════════════════════════════════════════ -->
 <div class="gift-sections">
-  <div class="gift-sec-wrap" id="section-voucher" data-aos="fade-up">
+  <div class="gift-option-panel" id="section-voucher">
+    <div class="gift-choice-bar">
+      <button class="gift-back-btn" onclick="resetGiftOption()" type="button">← <span data-i18n="gift.back">Promeni izbor</span></button>
+      <span class="gift-choice-label">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></span>
+    </div>
+  <div class="gift-sec-wrap">
     <div class="gift-sec-tag">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></div>
     <h2 class="gift-sec-h" data-i18n="gift.sec.voucher.h">Odaberi iznos, primalac bira termin</h2>
-    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Kupac plaća vaučer unapred — primalac dobija kod kojim umanjuje cenu bilo kog Escapii putovanja. Sva naša putovanja počinju od <strong>279€ po osobi</strong>.</p>
+    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Kupac plaća vaučer unapred — primalac dobija personalizovani kod kojim umanjuje cenu rezervacije bilo kog Escapii putovanja.</p>
 
     <div class="voucher-card">
       <!-- Iznos -->
@@ -595,9 +620,19 @@ $site_url  = get_site_url();
     </div>
   </div>
 
+  </div><!-- /.gift-sec-wrap -->
+  </div><!-- /.gift-option-panel voucher -->
+
   <!-- ═══ IZNENAĐENJE PUTOVANJE ════════════════════════════════════════════ -->
-  <div class="trip-section-wrap" id="section-trip">
-    <div class="trip-inner" data-aos="fade-up">
+  <div class="gift-option-panel" id="section-trip">
+    <div class="gift-choice-bar gift-choice-bar-dark" style="background:#0f2d35; max-width:100%; padding:36px 24px 0;">
+      <div style="max-width:760px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
+        <button class="gift-back-btn" onclick="resetGiftOption()" type="button">← <span data-i18n="gift.back">Promeni izbor</span></button>
+        <span class="gift-choice-label">✈️ <span data-i18n="gift.sec.trip.tag">Iznenađenje putovanje</span></span>
+      </div>
+    </div>
+  <div class="trip-section-wrap" style="margin-top:0;">
+    <div class="trip-inner">
       <div class="trip-sec-tag">✈️ <span data-i18n="gift.sec.trip.tag">Iznenađenje putovanje</span></div>
       <h2 class="trip-sec-h" data-i18n="gift.sec.trip.h">Rezerviši konkretan termin</h2>
       <p class="trip-sec-desc" data-i18n="gift.sec.trip.desc">Popuni formu — mi formiramo cenu i šaljemo ti link za plaćanje. Primalac dobija reveal email sa sneak peek-om, ali destinacija ostaje tajna do 48h pre polaska.</p>
@@ -693,6 +728,8 @@ $site_url  = get_site_url();
       </div>
     </div>
   </div>
+  </div><!-- /.trip-section-wrap -->
+  </div><!-- /.gift-option-panel trip -->
 </div>
 
 <!-- FOOTER -->
@@ -772,7 +809,8 @@ const TR = {
     'gift.redeem.hint':      'Već imaš poklon kod? <a onclick="openRedeemModal()">Aktiviraj ga ovde →</a>',
     'gift.sec.voucher.tag':  'Poklon vaučer',
     'gift.sec.voucher.h':    'Odaberi iznos, primalac bira termin',
-    'gift.sec.voucher.desc': 'Kupac plaća vaučer unapred — primalac dobija kod kojim umanjuje cenu bilo kog Escapii putovanja. Sva naša putovanja počinju od <strong>279€ po osobi</strong>.',
+    'gift.sec.voucher.desc': 'Kupac plaća vaučer unapred — primalac dobija personalizovani kod kojim umanjuje cenu rezervacije bilo kog Escapii putovanja.',
+    'gift.back':             'Promeni izbor',
     'gift.amount.label':     'Iznos vaučera (EUR)',
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Tvoj email (kupac)',
@@ -837,7 +875,8 @@ const TR = {
     'gift.redeem.hint':      'Already have a gift code? <a onclick="openRedeemModal()">Activate it here →</a>',
     'gift.sec.voucher.tag':  'Gift voucher',
     'gift.sec.voucher.h':    'Choose an amount, recipient picks a date',
-    'gift.sec.voucher.desc': 'Buyer pays the voucher upfront — recipient gets a code that discounts any Escapii trip. All our trips start from <strong>€279 per person</strong>.',
+    'gift.sec.voucher.desc': 'Buyer pays upfront — recipient receives a personalised code that discounts their reservation on any Escapii trip.',
+    'gift.back':             'Change selection',
     'gift.amount.label':     'Voucher amount (EUR)',
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> — the voucher reduces that price.',
     'gift.buyer.email.label':'Your email (buyer)',
@@ -930,12 +969,27 @@ document.addEventListener('click', e => {
   if (wrap && !wrap.contains(e.target)) closeNavGift();
 });
 
-function scrollToVoucher() {
-  document.getElementById('section-voucher')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function selectGiftOption(type) {
+  // Mark selected card
+  document.getElementById('cardVoucher')?.classList.toggle('selected', type === 'voucher');
+  document.getElementById('cardTrip')?.classList.toggle('selected', type === 'trip');
+  // Show correct panel, hide other
+  document.querySelectorAll('.gift-option-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('section-' + type)?.classList.add('active');
+  // Scroll to panel after it renders
+  setTimeout(() => {
+    document.getElementById('section-' + type)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
-function scrollToTrip() {
-  document.getElementById('section-trip')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function resetGiftOption() {
+  document.querySelectorAll('.gift-option-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('cardVoucher')?.classList.remove('selected');
+  document.getElementById('cardTrip')?.classList.remove('selected');
+  document.getElementById('gift-top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+// Aliasi za nav pozive
+function scrollToVoucher() { selectGiftOption('voucher'); }
+function scrollToTrip()    { selectGiftOption('trip'); }
 
 // Redeem modal — validacija koda
 function openRedeemModal() {
