@@ -139,6 +139,31 @@
     .nav-gift-item-sub { font-size: 11px; font-weight: 400; color: rgba(255,255,255,.4); line-height: 1.2; }
     .nav-gift-item.primary .nav-gift-item-sub { color: rgba(212,168,60,.55); }
 
+    /* mobile gift accordion */
+    .mob-gift-wrap { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mob-gift-toggle {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 4px; font-size: 15px; font-weight: 700; color: #d4a83c;
+      background: none; border: none; text-align: left; cursor: pointer; font-family: inherit;
+      transition: color .15s;
+    }
+    .mob-gift-caret { font-size: 11px; transition: transform .22s; flex-shrink: 0; margin-left: 6px; }
+    .mob-gift-toggle.open .mob-gift-caret { transform: rotate(180deg); }
+    .mob-gift-sub {
+      display: flex; flex-direction: column; padding: 0 0 4px 16px;
+      max-height: 0; overflow: hidden;
+      transition: max-height .25s ease;
+    }
+    .mob-gift-sub.open { max-height: 120px; }
+    .mob-gift-sub-btn {
+      padding: 10px 4px; font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,.65); background: none; border: none;
+      border-bottom: 1px solid rgba(255,255,255,.05); text-align: left;
+      cursor: pointer; font-family: inherit; transition: color .15s;
+    }
+    .mob-gift-sub-btn:last-child { border-bottom: none; }
+    .mob-gift-sub-btn:hover { color: #fff; }
+
     /* hamburger */
     .nav-burger { display:none; flex-direction:column; justify-content:center; gap:5px;
                   width:40px; height:40px; background:none; border:none; cursor:pointer; padding:8px; }
@@ -2415,8 +2440,16 @@
       <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" style="color:#d4a83c;" data-i18n="nav.gift.offer">🎁 Pokloni putovanje</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem">🔓 Iskoristi poklon</button>
+    <div class="mob-gift-wrap">
+      <button class="mob-gift-toggle" id="mobGiftToggle" onclick="togMobGift()" type="button">
+        <span>🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span></span>
+        <span class="mob-gift-caret">▾</span>
+      </button>
+      <div class="mob-gift-sub" id="mobGiftSub">
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje</button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
+      </div>
+    </div>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -4121,6 +4154,11 @@ function mobNav(id) {
 function closeMobMenu() {
   document.getElementById('navBurger').classList.remove('open');
   document.getElementById('mobMenu').classList.remove('open');
+  // Reset gift accordion
+  const sub = document.getElementById('mobGiftSub');
+  const tog = document.getElementById('mobGiftToggle');
+  if (sub)  sub.classList.remove('open');
+  if (tog) tog.classList.remove('open');
 }
 
 // ══════════ PROGRESS BAR
@@ -6145,6 +6183,14 @@ let _giftAirport  = 'BEG';
 let _giftTravelers = 2;
 
 /* ── Nav gift dropdown ── */
+function togMobGift() {
+  const toggle = document.getElementById('mobGiftToggle');
+  const sub    = document.getElementById('mobGiftSub');
+  const open   = !sub.classList.contains('open');
+  sub.classList.toggle('open', open);
+  toggle.classList.toggle('open', open);
+}
+
 function toggleNavGift() {
   const btn  = document.getElementById('navGiftBtn');
   const drop = document.getElementById('navGiftDrop');
