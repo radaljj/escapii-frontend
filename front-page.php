@@ -1218,15 +1218,50 @@
     .gift-submit:hover::before { transform: translateX(100%); }
     .gift-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
     /* Hero gift link */
-    .hero-gift-wrap { margin-top: 14px; animation: fadeUp .9s .42s ease both; }
-    .hero-gift-cta {
-      background: none; border: none; color: rgba(246,241,230,.6);
-      font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
-      padding: 4px 0; text-decoration: underline;
-      text-decoration-color: rgba(200,149,58,.35); text-underline-offset: 3px;
-      transition: color .2s, text-decoration-color .2s;
+    .hero-gift-wrap { margin-top: 18px; animation: fadeUp .9s .48s ease both; }
+    .hero-gift-card {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(14,26,36,.7); backdrop-filter: blur(12px);
+      border: 1px solid rgba(200,149,58,.38);
+      border-radius: 100px; padding: 9px 18px 9px 10px;
+      cursor: pointer; font-family: inherit;
+      transition: transform .3s, box-shadow .3s, border-color .3s, background .3s;
+      box-shadow: 0 4px 24px rgba(200,149,58,.08), inset 0 1px 0 rgba(255,255,255,.04);
     }
-    .hero-gift-cta:hover { color: #d4a83c; text-decoration-color: #d4a83c; }
+    .hero-gift-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(200,149,58,.28);
+      border-color: rgba(200,149,58,.65); background: rgba(14,26,36,.85);
+    }
+    .gift-icon-wrap {
+      position: relative; width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      background: rgba(200,149,58,.1); border-radius: 50%;
+    }
+    .gift-emoji { font-size: 18px; animation: giftBounce 3.5s ease-in-out 2s infinite; display: block; }
+    .gift-star {
+      position: absolute; color: #d4a83c;
+      animation: starTwinkle 2.8s ease-in-out infinite; pointer-events: none;
+    }
+    .gift-star.s1 { top: 1px; right: 2px; font-size: 7px; animation-delay: 0s; }
+    .gift-star.s2 { bottom: 3px; left: 0px; font-size: 5px; animation-delay: .9s; }
+    .gift-star.s3 { top: 5px; left: 3px; font-size: 4px; animation-delay: 1.8s; }
+    .gift-card-text { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+    .gift-card-label { font-size: 13px; font-weight: 700; color: #d4a83c; letter-spacing: .02em; line-height: 1.2; }
+    .gift-card-sub { font-size: 10px; color: rgba(246,241,230,.42); font-weight: 400; line-height: 1.2; }
+    .gift-card-arr { color: rgba(200,149,58,.6); flex-shrink: 0; transition: transform .25s; margin-left: 2px; }
+    .hero-gift-card:hover .gift-card-arr { transform: translateX(3px); }
+    @keyframes giftBounce {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      20% { transform: translateY(-3px) rotate(-10deg); }
+      40% { transform: translateY(1px) rotate(7deg); }
+      60% { transform: translateY(-2px) rotate(-5deg); }
+      80% { transform: translateY(0) rotate(3deg); }
+    }
+    @keyframes starTwinkle {
+      0%,100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
     /* Tippy custom theme */
     .tippy-box[data-theme~='escapii'] {
       background: #2D5F6B;
@@ -2387,7 +2422,19 @@
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
   </div>
   <div class="hero-gift-wrap">
-    <button class="hero-gift-cta" onclick="openGiftPanel()" type="button" data-i18n="gift.hero.cta">🎁 Pokloni iznenađenje</button>
+    <button class="hero-gift-card" onclick="openGiftPanel()" type="button">
+      <span class="gift-icon-wrap">
+        <span class="gift-star s1">✦</span>
+        <span class="gift-star s2">✦</span>
+        <span class="gift-star s3">✦</span>
+        <span class="gift-emoji">🎁</span>
+      </span>
+      <span class="gift-card-text">
+        <span class="gift-card-label" data-i18n="nav.gift">Pokloni iznenađenje</span>
+        <span class="gift-card-sub" data-i18n="gift.hero.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
+      </span>
+      <svg class="gift-card-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
     <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
@@ -2869,8 +2916,8 @@
           <button class="custom-cta" onclick="openGiftPanel()" type="button" style="margin-top:10px;">
             <div class="cta-ic" style="background:rgba(200,149,58,.1);border-color:rgba(200,149,58,.22);font-size:17px;display:flex;align-items:center;justify-content:center;">🎁</div>
             <div class="cta-tx">
-              <strong style="color:#d4a83c;" data-i18n="gift.s3.title">Kupuješ poklon putovanje?</strong>
-              <small data-i18n="gift.s3.sub">Odaberi datume i pošalji upit za nekoga drugog</small>
+              <strong style="color:#d4a83c;" data-i18n="gift.s3.title">Pokloni iznenađenje</strong>
+              <small data-i18n="gift.s3.sub">Pokloni savršen poklon nekome ko voli da putuje</small>
             </div>
             <span class="cta-arr">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -3751,8 +3798,9 @@ const TR = {
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
     'nav.gift':'🎁 Pokloni iznenađenje',
     'gift.hero.cta':'🎁 Pokloni iznenađenje',
-    'gift.s3.title':'Kupuješ poklon putovanje?',
-    'gift.s3.sub':'Odaberi datume i pošalji upit za nekoga drugog',
+    'gift.s3.title':'Pokloni iznenađenje',
+    'gift.s3.sub':'Pokloni savršen poklon nekome ko voli da putuje',
+    'gift.hero.sub':'Pokloni savršen poklon nekome ko voli da putuje',
     'gift.badge':'Poklon putovanje',
     'gift.title':'Pokloni <em>iznenađenje</em>',
     'gift.sub':'Odaberi datume i pošalji upit. U roku od 24h šaljemo ti link koji proslediš primaocu.',
@@ -3996,8 +4044,9 @@ const TR = {
     'bp.label': (s,t) => `Step ${s} of ${t}`,
     'nav.gift':'🎁 Gift a Surprise',
     'gift.hero.cta':'🎁 Gift a surprise trip',
-    'gift.s3.title':'Gifting a surprise?',
-    'gift.s3.sub':'Select dates and send an inquiry for someone else',
+    'gift.s3.title':'Gift a Surprise',
+    'gift.s3.sub':'The perfect gift for someone who loves to travel',
+    'gift.hero.sub':'The perfect gift for someone who loves to travel',
     'gift.badge':'Gift trip',
     'gift.title':'Gift a <em>surprise</em>',
     'gift.sub':'Choose dates and send an inquiry. Within 24h we\'ll send you a booking link to pass on to the recipient.',
