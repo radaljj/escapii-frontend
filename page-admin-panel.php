@@ -1018,6 +1018,16 @@ tbody td  { padding: 11px 12px; }
         <button class="dates-sub-btn" onclick="switchGiftTab('trips', this)">✈️ Gift putovanja <span class="tab-badge" id="giftTripBadge"></span></button>
       </div>
 
+      <!-- ⚠️ Podsetnik: vaučer lifecycle -->
+      <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
+        <strong style="color:#CA8A71;">⚠️ Vaučer lifecycle — VAŽNO:</strong><br>
+        Kad korisnik unese vaučer kod pri kreiranju rezervacije, vaučer automatski prelazi u status
+        <strong style="color:#fbbf24;">RESERVED</strong> (blokiran za dalje korišćenje, ali još nije konačno iskorišćen).<br>
+        <strong>Tek kada postaviš status rezervacije na CONFIRMED</strong> (nakon što korisnik uplati),
+        vaučer automatski prelazi u <strong style="color:#86efac;">USED</strong>.<br>
+        Ako rezervacija bude otkazana, vaučer se automatski vraća na <strong style="color:#93c5fd;">ACTIVE</strong>.
+      </div>
+
       <!-- Vaučeri -->
       <div class="dates-sub-panel active" id="gift-sub-vouchers">
         <div class="table-wrap">
@@ -2986,17 +2996,22 @@ function renderGiftVouchers() {
     tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nema vaučera.</td></tr>`;
     return;
   }
-  const statusLabel = { PENDING:'⏳ Na čekanju', ACTIVE:'✅ Aktivan', USED:'🏁 Iskorišćen', EXPIRED:'⌛ Istekao' };
-  const statusClass = { PENDING:'iq-PENDING', ACTIVE:'badge-green', USED:'badge-gray', EXPIRED:'badge-red' };
+  const statusLabel = { PENDING:'⏳ Na čekanju', ACTIVE:'✅ Aktivan', RESERVED:'🔒 Rezervisan', USED:'🏁 Iskorišćen', EXPIRED:'⌛ Istekao' };
+  const statusClass = { PENDING:'iq-PENDING', ACTIVE:'badge-green', RESERVED:'iq-IN_REVIEW', USED:'badge-gray', EXPIRED:'badge-red' };
   tbody.innerHTML = _gVouchers.map(v => {
     const created  = v.createdAt  ? new Date(v.createdAt).toLocaleDateString('sr-RS')  : '—';
     const expires  = v.expiresAt  ? new Date(v.expiresAt).toLocaleDateString('sr-RS')  : '—';
     const msg      = v.giftMessage ? `<span title="${escHtml(v.giftMessage)}" style="cursor:help;color:#94a3b8;">💬</span>` : '';
-    const codePill = v.code ? `<span style="font-family:monospace;font-size:11px;background:rgba(202,138,113,.1);color:#CA8A71;padding:2px 7px;border-radius:5px;">${escHtml(v.code)}</span>` : '';
+    const codePill = (v.status === 'ACTIVE' || v.status === 'RESERVED') && v.code
+      ? `<span style="font-family:monospace;font-size:11px;background:rgba(202,138,113,.1);color:#CA8A71;padding:2px 7px;border-radius:5px;">${escHtml(v.code)}</span>` : '';
+    const reservedNote = v.status === 'RESERVED'
+      ? `<div style="font-size:11px;color:#fbbf24;margin-top:3px;">⏳ Čeka potvrdu rezervacije</div>` : '';
     const actions  = v.status === 'PENDING'
       ? `<button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>`
       : v.status === 'ACTIVE'
       ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})">🏁 Iskorišćen</button>`
+      : v.status === 'RESERVED'
+      ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})" title="Ručni override — inače se automatski markira kad rezervacija postane CONFIRMED">🏁 Force USED</button>`
       : '—';
     return `<tr>
       <td style="color:#64748b;font-size:12px;">#${v.id}</td>
@@ -3011,7 +3026,7 @@ function renderGiftVouchers() {
       <td style="font-weight:800;color:#CA8A71;">${v.amount}€</td>
       <td>
         <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
-        ${v.status === 'ACTIVE' ? codePill : ''}
+        ${codePill}${reservedNote}
       </td>
       <td style="text-align:center;">${msg}</td>
       <td style="font-size:12px;color:#64748b;">${created}</td>
