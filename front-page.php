@@ -216,7 +216,7 @@
     .sec-nav.visible { transform: translateY(0); opacity: 1; }
     @media (max-width: 768px) { .sec-nav { display: none !important; } }
     /* sec-nav gift dropdown */
-    .sec-gift-wrap { position: relative; flex-shrink: 0; margin-left: auto; }
+    .sec-gift-wrap { position: relative; flex-shrink: 0; margin-left: 16px; }
     .sec-gift-btn {
       white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 14px; border-radius: 20px;
