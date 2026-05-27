@@ -201,7 +201,44 @@
     }
 
     /* ══════════════════════ SECONDARY NAV */
-    .sec-nav { display: none !important; }
+    .sec-nav {
+      position: fixed; top: 72px; left: 0; right: 0; z-index: 998;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 24px; height: 44px;
+      background: rgba(15,45,53,.82); backdrop-filter: blur(28px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      overflow-x: auto; gap: 4px;
+      transform: translateY(-116%); opacity: 0;
+      transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+      scrollbar-width: none;
+    }
+    .sec-nav::-webkit-scrollbar { display: none; }
+    .sec-nav.visible { transform: translateY(0); opacity: 1; }
+    @media (max-width: 768px) { .sec-nav { display: none !important; } }
+    /* sec-nav gift dropdown */
+    .sec-gift-wrap { position: relative; flex-shrink: 0; }
+    .sec-gift-btn {
+      white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: .4px;
+      cursor: pointer; font-family: inherit;
+      color: #d4a83c; background: rgba(200,149,58,.14);
+      border: 1px solid rgba(200,149,58,.3); transition: all .2s;
+    }
+    .sec-gift-btn:hover,
+    .sec-gift-btn.open { background: rgba(200,149,58,.26); border-color: rgba(200,149,58,.55); }
+    .sec-gift-caret { font-size: 9px; transition: transform .2s; display: inline-block; }
+    .sec-gift-btn.open .sec-gift-caret { transform: rotate(180deg); }
+    .sec-gift-drop {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: rgba(15,45,53,.97); backdrop-filter: blur(28px);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
+      min-width: 210px; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,.45);
+      opacity: 0; transform: translateY(-8px); pointer-events: none;
+      transition: opacity .2s, transform .2s; z-index: 1002;
+    }
+    .sec-gift-drop.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
     .sec-nav-link {
       white-space: nowrap; flex-shrink: 0;
       padding: 5px 14px; border-radius: 20px;
@@ -2398,27 +2435,6 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <span data-i18n="nav.status">Moja rezervacija</span>
     </button>
-    <div class="nav-gift-wrap" id="navGiftWrap">
-      <button class="nav-gift-btn" id="navGiftBtn" onclick="toggleNavGift()" type="button">
-        🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span> <span class="nav-gift-caret">▾</span>
-      </button>
-      <div class="nav-gift-drop" id="navGiftDrop">
-        <button class="nav-gift-item primary" onclick="closeNavGift();openGiftPanel();" type="button">
-          <span class="nav-gift-item-icon">🎁</span>
-          <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
-            <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
-          </span>
-        </button>
-        <button class="nav-gift-item" onclick="closeNavGift();openRedeemModal();" type="button">
-          <span class="nav-gift-item-icon">🔓</span>
-          <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
-            <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
-          </span>
-        </button>
-      </div>
-    </div>
     <button class="nav-book" onclick="escScrollTo('esc-booking')" data-i18n="nav.book">Rezerviši →</button>
   </div>
   <button class="nav-burger" id="navBurger" onclick="togBurger()" aria-label="Menu">
@@ -2468,6 +2484,27 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
   <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
   <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
+  <div class="sec-gift-wrap" id="secGiftWrap">
+    <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
+      🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span> <span class="sec-gift-caret">▾</span>
+    </button>
+    <div class="sec-gift-drop" id="secGiftDrop">
+      <button class="nav-gift-item primary" onclick="closeSecGift();openGiftPanel();" type="button">
+        <span class="nav-gift-item-icon">🎁</span>
+        <span class="nav-gift-item-text">
+          <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
+          <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
+        </span>
+      </button>
+      <button class="nav-gift-item" onclick="closeSecGift();openRedeemModal();" type="button">
+        <span class="nav-gift-item-icon">🔓</span>
+        <span class="nav-gift-item-text">
+          <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
+          <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
+        </span>
+      </button>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -4355,7 +4392,7 @@ function escScrollTo(id) {
 
   // Account for fixed main nav (72px) + secondary nav when visible (44px)
   const secNav = document.querySelector('.sec-nav');
-  const offset = 72 + 8;
+  const offset = 72 + (secNav && secNav.classList.contains('visible') ? 44 : 0) + 8;
 
   // Snapshot target BEFORE animation starts — immune to layout shifts during scroll
   const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset);
@@ -5758,7 +5795,7 @@ loadDestinations();
 
   function navOffset() {
     // Isti offset kao u escScrollTo — threshold mora da se poklopi s njim
-    return 72 + 16;
+    return 72 + (secNav.classList.contains('visible') ? 44 : 0) + 16;
   }
 
   function updateSecNav() {
@@ -6180,6 +6217,22 @@ function togMobGift() {
   sub.classList.toggle('open', open);
   toggle.classList.toggle('open', open);
 }
+
+function toggleSecGift() {
+  const btn  = document.getElementById('secGiftBtn');
+  const drop = document.getElementById('secGiftDrop');
+  const open = !drop.classList.contains('open');
+  drop.classList.toggle('open', open);
+  btn.classList.toggle('open', open);
+}
+function closeSecGift() {
+  document.getElementById('secGiftBtn')?.classList.remove('open');
+  document.getElementById('secGiftDrop')?.classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('secGiftWrap');
+  if (wrap && !wrap.contains(e.target)) closeSecGift();
+});
 
 function toggleNavGift() {
   const btn  = document.getElementById('navGiftBtn');
