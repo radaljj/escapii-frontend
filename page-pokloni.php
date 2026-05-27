@@ -503,13 +503,6 @@ $site_url  = get_site_url();
             <span class="nav-gift-item-sub" data-i18n="nav.gift.trip.sub">Rezerviši konkretan termin</span>
           </span>
         </button>
-        <button class="nav-gift-item" onclick="closeNavGift();openRedeemModal();" type="button">
-          <span class="nav-gift-item-icon">🔓</span>
-          <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
-            <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Imaš poklon kod? Aktiviraj ga ovde</span>
-          </span>
-        </button>
       </div>
     </div>
   </div>
@@ -530,7 +523,6 @@ $site_url  = get_site_url();
       <div class="mob-gift-sub" id="mobGiftSub">
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToVoucher();" type="button">🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span></button>
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToTrip();" type="button">✈️ <span data-i18n="nav.gift.trip">Iznenađenje putovanje</span></button>
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" type="button">🔓 <span data-i18n="nav.gift.redeem">Iskoristi poklon</span></button>
       </div>
     </div>
   </div>

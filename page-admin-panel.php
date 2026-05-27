@@ -3301,13 +3301,21 @@ async function promptMakePrivateFromGiftTrip(tripId, airport, travelers, desired
     const dateResp    = await res.json();
     const privateLink = `${window.location.origin}/?privateDate=${dateResp.privateToken}`;
 
-    // Ažuriraj lokalnu listu — status je PRIVATE_SENT, sačuvaj token
-    const idx = _gTrips.findIndex(x => x.id === tripId);
-    if (idx !== -1) {
-      _gTrips[idx].status = 'PRIVATE_SENT';
-      _gTrips[idx].privateToken = dateResp.privateToken;
+    // Briši upit iz liste (identičan flow kao za regular inquiries nakon PRIVATE_SENT)
+    await fetch(`${API}/api/admin/gifts/trips/${tripId}`, {
+      method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY }
+    }).catch(() => {});
+    _gTrips = _gTrips.filter(x => x.id !== tripId);
+    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
+    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
+    document.getElementById('giftsBadge').textContent =
+      (pending + _gVouchers.filter(v => v.status === 'PENDING').length) || '';
+    if (!_gTrips.length) {
+      document.getElementById('giftTripsTbody').innerHTML =
+        `<tr><td colspan="10" class="empty-state">Nema gift trip upita.</td></tr>`;
+    } else {
+      renderGiftTrips();
     }
-    renderGiftTrips();
 
     await Swal.fire({
       title: '✅ Privatni link generisan!',
