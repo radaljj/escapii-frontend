@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Pokloni iznenađenje
+ * Template Name: Pokloni putovanje iznenađenja
  * Dedicated SEO landing page za gift flow.
  * URL: /pokloni-iznenadjenje
  */
@@ -12,7 +12,7 @@ $site_url  = get_site_url();
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokloni iznenađenje — Escapii</title>
+  <title>Pokloni putovanje iznenađenja — Escapii</title>
   <meta name="description" content="Pokloni nekome posebnom nezaboravno putovanje iznenađenja. Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.">
   <link rel="canonical" href="<?php echo esc_url($site_url); ?>/pokloni-iznenadjenje">
   <?php wp_head(); ?>
@@ -531,7 +531,7 @@ $site_url  = get_site_url();
     </button>
     <div class="nav-gift-wrap" id="navGiftWrap">
       <button class="nav-gift-btn" id="navGiftBtn" onclick="toggleNavGift()" type="button">
-        🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span>
+        🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span>
         <span class="nav-gift-caret">▾</span>
       </button>
       <div class="nav-gift-drop" id="navGiftDrop">
@@ -563,7 +563,7 @@ $site_url  = get_site_url();
     <button class="mob-menu-link" onclick="closeMobMenu();goHome();" data-i18n="nav.home">🏠 Početna</button>
     <div class="mob-gift-wrap">
       <button class="mob-gift-toggle" id="mobGiftToggle" onclick="togMobGift()" type="button">
-        <span>🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span></span>
+        <span>🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span></span>
         <span class="mob-gift-caret">▾</span>
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
@@ -809,7 +809,7 @@ $site_url  = get_site_url();
       <a href="<?php echo esc_url($site_url); ?>/#esc-how" data-i18n="footer.how">Kako funkcioniše</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-about" data-i18n="footer.about">O nama</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-booking" data-i18n="footer.book">Rezervacija</a>
-      <a href="<?php echo esc_url($site_url); ?>/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni iznenađenje</a>
+      <a href="<?php echo esc_url($site_url); ?>/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
@@ -838,7 +838,7 @@ const API_BASE = '<?php echo esc_js(escapii_api_url()); ?>';
 const TR = {
   sr: {
     'nav.home':              'Početna',
-    'nav.gift.label':        'Pokloni iznenađenje',
+    'nav.gift.label':        'Pokloni putovanje iznenađenja',
     'nav.gift.voucher':      'Poklon vaučer',
     'nav.gift.voucher.sub':  '50 – 400+ EUR',
     'nav.gift.trip':         'Putovanje iznenađenja',

@@ -2588,11 +2588,11 @@
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
     <div class="mob-gift-wrap">
       <button class="mob-gift-toggle" id="mobGiftToggle" onclick="togMobGift()" type="button">
-        <span>🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span></span>
+        <span>🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span></span>
         <span class="mob-gift-caret">▾</span>
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/pokloni-iznenadjenje';" data-i18n="nav.gift.offer" type="button">🎁 Pokloni iznenađenje</button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/pokloni-iznenadjenje';" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
       </div>
     </div>
@@ -2617,7 +2617,7 @@
   <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
   <div class="sec-gift-wrap" id="secGiftWrap">
     <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
-      🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span> <span class="sec-gift-caret">▾</span>
+      🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span> <span class="sec-gift-caret">▾</span>
     </button>
   </div>
 </nav>
@@ -2626,7 +2626,7 @@
   <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='/pokloni-iznenadjenje';" type="button">
     <span class="nav-gift-item-icon">🎁</span>
     <span class="nav-gift-item-text">
-      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni iznenađenje</span>
+      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje iznenađenja</span>
       <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
     </span>
   </button>
@@ -3697,7 +3697,7 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-faq')"     data-i18n="footer.faq">FAQ</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
-      <a href="/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni iznenađenje</a>
+      <a href="/pokloni-iznenadjenje" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
@@ -4065,14 +4065,14 @@ const TR = {
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
     's2.max.msg':'Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
-    'nav.gift':'🎁 Pokloni iznenađenje',
-    'nav.gift.label':'Pokloni iznenađenje',
-    'nav.gift.offer':'Pokloni iznenađenje',
+    'nav.gift':'🎁 Pokloni putovanje iznenađenja',
+    'nav.gift.label':'Pokloni putovanje iznenađenja',
+    'nav.gift.offer':'Pokloni putovanje iznenađenja',
     'nav.gift.offer.sub':'Pokloni savršen poklon nekome ko voli da putuje',
     'nav.gift.redeem':'Iskoristi poklon',
     'nav.gift.redeem.sub':'Imaš poklon kod? Aktiviraj ga ovde',
-    'gift.hero.cta':'🎁 Pokloni iznenađenje',
-    'gift.s3.title':'Pokloni iznenađenje',
+    'gift.hero.cta':'🎁 Pokloni putovanje iznenađenja',
+    'gift.s3.title':'Pokloni putovanje iznenađenja',
     'gift.s3.sub':'Pokloni savršen poklon nekome ko voli da putuje',
     'gift.hero.sub':'Pokloni savršen poklon nekome ko voli da putuje',
     'gift.badge':'Poklon putovanje',
