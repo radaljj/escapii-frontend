@@ -2487,24 +2487,25 @@
     <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
       🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span> <span class="sec-gift-caret">▾</span>
     </button>
-    <div class="sec-gift-drop" id="secGiftDrop">
-      <button class="nav-gift-item primary" onclick="closeSecGift();openGiftPanel();" type="button">
-        <span class="nav-gift-item-icon">🎁</span>
-        <span class="nav-gift-item-text">
-          <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
-          <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
-        </span>
-      </button>
-      <button class="nav-gift-item" onclick="closeSecGift();openRedeemModal();" type="button">
-        <span class="nav-gift-item-icon">🔓</span>
-        <span class="nav-gift-item-text">
-          <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
-          <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
-        </span>
-      </button>
-    </div>
   </div>
 </nav>
+<!-- Gift dropdown van sec-nav (backdrop-filter kreira containing block za fixed) -->
+<div class="sec-gift-drop" id="secGiftDrop">
+  <button class="nav-gift-item primary" onclick="closeSecGift();openGiftPanel();" type="button">
+    <span class="nav-gift-item-icon">🎁</span>
+    <span class="nav-gift-item-text">
+      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
+    </span>
+  </button>
+  <button class="nav-gift-item" onclick="closeSecGift();openRedeemModal();" type="button">
+    <span class="nav-gift-item-icon">🔓</span>
+    <span class="nav-gift-item-text">
+      <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
+    </span>
+  </button>
+</div>
 
 <!-- HERO -->
 <section class="esc-hero">
@@ -6236,7 +6237,8 @@ function closeSecGift() {
 }
 document.addEventListener('click', function(e) {
   const wrap = document.getElementById('secGiftWrap');
-  if (wrap && !wrap.contains(e.target)) closeSecGift();
+  const drop = document.getElementById('secGiftDrop');
+  if (wrap && !wrap.contains(e.target) && drop && !drop.contains(e.target)) closeSecGift();
 });
 
 function toggleNavGift() {
