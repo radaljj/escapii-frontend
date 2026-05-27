@@ -2895,7 +2895,7 @@
           <div class="counter">
             <button class="cb" onclick="chTrav(-1)" id="travD">−</button>
             <div class="cv" id="travN">1</div>
-            <button class="cb" onclick="chTrav(1)" id="travU">+</button>
+            <span id="travUWrap" style="display:inline-flex;"><button class="cb" onclick="chTrav(1)" id="travU">+</button></span>
           </div>
         </div>
         <div class="step-btns">
@@ -4788,7 +4788,28 @@ function chTrav(d) {
   S.travelers = Math.min(6, Math.max(1, S.travelers+d));
   document.getElementById('travN').textContent = S.travelers;
   document.getElementById('travD').disabled = S.travelers<=1;
-  document.getElementById('travU').disabled = S.travelers>=6;
+  const travU = document.getElementById('travU');
+  travU.disabled = S.travelers>=6;
+  // Tooltip na + kad je na maksimumu
+  const wrap = document.getElementById('travUWrap');
+  if (wrap) {
+    if (S.travelers >= 6) {
+      const msg = lang === 'sr'
+        ? `Za putovanje sa više od 6 osoba, pišite nam na&nbsp;<a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;white-space:nowrap;">escapii.team@gmail.com</a>`
+        : `For trips with more than 6 travelers, contact us at&nbsp;<a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;white-space:nowrap;">escapii.team@gmail.com</a>`;
+      if (wrap._tippy) {
+        wrap._tippy.setContent(msg);
+      } else {
+        tippy(wrap, {
+          content: msg, allowHTML: true, theme: 'escapii',
+          placement: 'top', trigger: 'mouseenter focus',
+          interactive: true, delay: [0, 200],
+        });
+      }
+    } else {
+      if (wrap._tippy) { wrap._tippy.destroy(); }
+    }
+  }
   if(S.cabinSuitcaseCount > S.travelers) S.cabinSuitcaseCount = S.travelers;
   updateSingleNotice();
   updateSeatsNotice();
