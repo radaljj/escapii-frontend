@@ -2460,7 +2460,7 @@
         <span class="mob-gift-caret">▾</span>
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje</button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift.offer" type="button">🎁 Pokloni iznenađenje</button>
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
       </div>
     </div>
@@ -2494,15 +2494,15 @@
   <button class="nav-gift-item primary" onclick="closeSecGift();openGiftPanel();" type="button">
     <span class="nav-gift-item-icon">🎁</span>
     <span class="nav-gift-item-text">
-      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
-      <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
+      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni iznenađenje</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
     </span>
   </button>
   <button class="nav-gift-item" onclick="closeSecGift();openRedeemModal();" type="button">
     <span class="nav-gift-item-icon">🔓</span>
     <span class="nav-gift-item-text">
       <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
-      <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Imaš poklon kod? Aktiviraj ga ovde</span>
     </span>
   </button>
 </div>
