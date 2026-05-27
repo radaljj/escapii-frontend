@@ -1869,10 +1869,10 @@
     .pr-total {
       display: flex; justify-content: space-between; align-items: flex-end;
       padding-top: 14px; margin-top: 4px;
-      border-top: 2px solid rgba(202,138,113,.3);
+      border-top: 2px solid rgba(202,138,113,.5);
     }
-    .ptl { font-size: 16px; font-weight: 800; }
-    .ptv { font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; }
+    .ptl { font-size: 16px; font-weight: 800; color: rgba(246,241,230,.9); }
+    .ptv { font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; text-shadow: 0 0 20px rgba(202,138,113,.3); }
     .pr-per { font-size: 12px; color: var(--gray); text-align: right; margin-top: 4px; }
 
     /* ── Voucher apply ───────────────────────────────────────── */
@@ -1893,16 +1893,19 @@
     .voucher-input-body.open { display: block; }
     .voucher-input-row { display: flex; gap: 8px; }
     .voucher-code-inp {
-      flex: 1; padding: 11px 14px; border-radius: 10px;
-      border: 1.5px solid rgba(202,138,113,.25);
-      font-size: 13px; font-weight: 700; font-family: monospace;
+      flex: 1; padding: 14px 16px; border-radius: 12px;
+      border: 1px solid rgba(246,241,230,.09);
+      font-size: 15px; font-weight: 700; font-family: monospace;
       letter-spacing: 2px; text-transform: uppercase;
-      background: rgba(202,138,113,.04); color: var(--white);
-      outline: none; transition: border .18s;
+      background: rgba(246,241,230,.04); color: rgba(246,241,230,.95);
+      outline: none; transition: background .2s, border-color .2s, box-shadow .2s;
+      width: 100%;
     }
-    .voucher-code-inp:focus { border-color: var(--gold); }
-    .voucher-code-inp.valid { border-color: #22c55e !important; background: rgba(34,197,94,.04); }
-    .voucher-code-inp.invalid { border-color: #ef4444 !important; }
+    .voucher-code-inp::placeholder { color: rgba(246,241,230,.22); font-weight: 400; letter-spacing: 1px; }
+    .voucher-code-inp:hover { background: rgba(246,241,230,.07); border-color: rgba(246,241,230,.16); }
+    .voucher-code-inp:focus { background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
+    .voucher-code-inp.valid { border-color: #22c55e !important; background: rgba(34,197,94,.06) !important; box-shadow: 0 0 0 4px rgba(34,197,94,.1); }
+    .voucher-code-inp.invalid { border-color: #ef4444 !important; box-shadow: 0 0 0 4px rgba(239,68,68,.1); }
     .voucher-apply-btn {
       padding: 11px 18px; border-radius: 10px; border: none;
       background: var(--gold); color: #fff; font-size: 13px; font-weight: 800;
