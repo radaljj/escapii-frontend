@@ -6132,7 +6132,7 @@ function renderGiftTravelers() {
   const row = document.getElementById('giftTravRow');
   if (!row) return;
   row.innerHTML = '';
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 1; i <= 6; i++) {
     const btn = document.createElement('button');
     btn.type = 'button'; btn.textContent = i;
     btn.className = 'gift-trav-btn' + (i === _giftTravelers ? ' on' : '');
