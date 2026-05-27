@@ -201,19 +201,7 @@
     }
 
     /* ══════════════════════ SECONDARY NAV */
-    .sec-nav {
-      position: fixed; top: 72px; left: 0; right: 0; z-index: 998;
-      display: flex; align-items: center; justify-content: center;
-      padding: 0 24px; height: 44px;
-      background: rgba(15,45,53,.82); backdrop-filter: blur(28px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      overflow-x: auto; gap: 4px;
-      transform: translateY(-116%); opacity: 0;
-      transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
-      scrollbar-width: none;
-    }
-    .sec-nav::-webkit-scrollbar { display: none; }
-    .sec-nav.visible { transform: translateY(0); opacity: 1; }
+    .sec-nav { display: none !important; }
     .sec-nav-link {
       white-space: nowrap; flex-shrink: 0;
       padding: 5px 14px; border-radius: 20px;
@@ -783,6 +771,17 @@
     /* Step 2 */
     .trav-row { display: flex; justify-content: space-between; align-items: center;
                 background: rgba(255,255,255,.05); border-radius: 14px; padding: 20px 24px; }
+    .trav-max-msg {
+      display: flex; align-items: center; gap: 9px;
+      padding: 11px 16px; border-radius: 12px; margin-top: 12px;
+      background: rgba(200,149,58,.08); border: 1px solid rgba(200,149,58,.22);
+      font-size: 13px; color: rgba(246,241,230,.72); line-height: 1.45;
+      opacity: 0; transform: translateY(-5px); pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .trav-max-msg.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .trav-max-msg a { color: #d4a83c; font-weight: 700; text-decoration: none; }
+    .trav-max-msg a:hover { text-decoration: underline; }
     .trav-info h3 { font-size: 16px; font-weight: 700; }
     .trav-info p  { font-size: 13px; color: var(--gray); margin-top: 3px; }
     .counter { display: flex; align-items: center; gap: 0; }
@@ -2928,8 +2927,12 @@
           <div class="counter">
             <button class="cb" onclick="chTrav(-1)" id="travD">−</button>
             <div class="cv" id="travN">1</div>
-            <span id="travUWrap" style="display:inline-flex;"><button class="cb" onclick="chTrav(1)" id="travU">+</button></span>
+            <button class="cb" onclick="chTrav(1)" id="travU">+</button>
           </div>
+        </div>
+        <div class="trav-max-msg" id="travMaxMsg">
+          <span style="font-size:15px;flex-shrink:0;">✉</span>
+          <span data-i18n-html="s2.max.msg">Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></span>
         </div>
         <div class="step-btns">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
@@ -3844,6 +3847,7 @@ const TR = {
     'pay.s4':'Potvrda stiže na email — putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
+    's2.max.msg':'Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
     'nav.gift':'🎁 Pokloni iznenađenje',
     'nav.gift.label':'Pokloni iznenađenje',
     'nav.gift.offer':'Pokloni putovanje',
@@ -4095,6 +4099,7 @@ const TR = {
     'pay.s4':'Confirmation arrives by email — the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
     'bp.label': (s,t) => `Step ${s} of ${t}`,
+    's2.max.msg':'For trips with more than 6 travelers, contact us at <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
     'nav.gift':'🎁 Gift a Surprise',
     'nav.gift.label':'Gift a Surprise',
     'nav.gift.offer':'Gift a trip',
@@ -4350,7 +4355,7 @@ function escScrollTo(id) {
 
   // Account for fixed main nav (72px) + secondary nav when visible (44px)
   const secNav = document.querySelector('.sec-nav');
-  const offset = 72 + (secNav && secNav.classList.contains('visible') ? 44 : 0) + 8;
+  const offset = 72 + 8;
 
   // Snapshot target BEFORE animation starts — immune to layout shifts during scroll
   const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset);
@@ -4823,30 +4828,15 @@ async function loadDestinationsByAirport(airport) {
 
 // ══════════ STEP 2
 function chTrav(d) {
+  const wasAtMax = S.travelers >= 6 && d > 0;
   S.travelers = Math.min(6, Math.max(1, S.travelers+d));
   document.getElementById('travN').textContent = S.travelers;
   document.getElementById('travD').disabled = S.travelers<=1;
-  const travU = document.getElementById('travU');
-  travU.disabled = S.travelers>=6;
-  // Tooltip na + kad je na maksimumu
-  const wrap = document.getElementById('travUWrap');
-  if (wrap) {
-    if (S.travelers >= 6) {
-      const msg = lang === 'sr'
-        ? `Za putovanje sa više od 6 osoba, pišite nam na&nbsp;<a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;white-space:nowrap;">escapii.team@gmail.com</a>`
-        : `For trips with more than 6 travelers, contact us at&nbsp;<a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;white-space:nowrap;">escapii.team@gmail.com</a>`;
-      if (wrap._tippy) {
-        wrap._tippy.setContent(msg);
-      } else {
-        tippy(wrap, {
-          content: msg, allowHTML: true, theme: 'escapii',
-          placement: 'top', trigger: 'mouseenter focus',
-          interactive: true, delay: [0, 200],
-        });
-      }
-    } else {
-      if (wrap._tippy) { wrap._tippy.destroy(); }
-    }
+  // Inline max poruka
+  const maxMsg = document.getElementById('travMaxMsg');
+  if (maxMsg) {
+    if (wasAtMax) maxMsg.classList.add('show');
+    else if (d < 0) maxMsg.classList.remove('show');
   }
   if(S.cabinSuitcaseCount > S.travelers) S.cabinSuitcaseCount = S.travelers;
   updateSingleNotice();
@@ -5768,7 +5758,7 @@ loadDestinations();
 
   function navOffset() {
     // Isti offset kao u escScrollTo — threshold mora da se poklopi s njim
-    return 72 + (secNav.classList.contains('visible') ? 44 : 0) + 16;
+    return 72 + 16;
   }
 
   function updateSecNav() {
