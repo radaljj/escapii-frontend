@@ -216,7 +216,7 @@
     .sec-nav.visible { transform: translateY(0); opacity: 1; }
     @media (max-width: 768px) { .sec-nav { display: none !important; } }
     /* sec-nav gift dropdown */
-    .sec-gift-wrap { position: relative; flex-shrink: 0; }
+    .sec-gift-wrap { position: relative; flex-shrink: 0; margin-left: auto; }
     .sec-gift-btn {
       white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 14px; border-radius: 20px;
@@ -2994,18 +2994,6 @@
             <div class="cta-tx">
               <strong data-i18n="s3.noDates.title">Ne vidim datum koji mi odgovara</strong>
               <small data-i18n="s3.noDates.sub">Pošalji upit za prilagođeni termin</small>
-            </div>
-            <span class="cta-arr">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
-          </button>
-
-          <!-- CTA za poklon putovanje -->
-          <button class="custom-cta" onclick="openGiftPanel()" type="button" style="margin-top:10px;">
-            <div class="cta-ic" style="background:rgba(200,149,58,.1);border-color:rgba(200,149,58,.22);font-size:17px;display:flex;align-items:center;justify-content:center;">🎁</div>
-            <div class="cta-tx">
-              <strong style="color:#d4a83c;" data-i18n="gift.s3.title">Pokloni iznenađenje</strong>
-              <small data-i18n="gift.s3.sub">Pokloni savršen poklon nekome ko voli da putuje</small>
             </div>
             <span class="cta-arr">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
