@@ -336,16 +336,31 @@ $site_url  = get_site_url();
     .trip-airport-btn:hover { border-color: rgba(202,138,113,.4); color: rgba(255,255,255,.9); }
     .trip-airport-btn.on { border-color: var(--gold); background: rgba(202,138,113,.12); color: #d4a83c; }
 
-    /* Nights selector */
-    .nights-row { display: flex; gap: 8px; }
-    .nights-btn {
-      flex: 1; padding: 11px 8px; border-radius: 10px; text-align: center;
-      border: 1.5px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.6); font-size: 14px; font-weight: 700;
-      font-family: inherit; cursor: pointer; transition: all .18s;
-    }
-    .nights-btn:hover { border-color: rgba(202,138,113,.4); color: rgba(255,255,255,.9); }
-    .nights-btn.on { border-color: var(--gold); background: rgba(202,138,113,.12); color: #d4a83c; }
+    /* Calendar (identično s booking formom) */
+    .inq-cal { background: rgba(255,255,255,.03); border: 1px solid rgba(246,241,230,.08); border-radius: 14px; padding: 18px; margin-bottom: 10px; }
+    .inq-cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .inq-cal-month { font-size: 16px; font-weight: 800; color: #f6f1e6; }
+    .inq-cal-nav { display: flex; gap: 5px; }
+    .inq-cal-nav button { background: rgba(246,241,230,.06); border: 1px solid rgba(246,241,230,.1); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(246,241,230,.7); transition: all .18s; }
+    .inq-cal-nav button:hover { background: rgba(202,138,113,.15); color: #f0b094; border-color: rgba(202,138,113,.35); }
+    .inq-cal-nav button svg { width: 13px; height: 13px; }
+    .inq-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+    .inq-cal-dow { text-align: center; font-size: 11px; font-weight: 700; color: rgba(246,241,230,.35); padding: 4px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
+    .inq-cal-day { width: 100%; aspect-ratio: 1; border: none; background: transparent; color: rgba(246,241,230,.8); font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .inq-cal-day:hover:not(:disabled):not(.muted) { background: rgba(202,138,113,.18); color: #f0b094; }
+    .inq-cal-day.muted { color: rgba(246,241,230,.25); cursor: default; }
+    .inq-cal-day:disabled { opacity: .2; cursor: not-allowed; }
+    .inq-cal-day.dep { background: var(--gold) !important; color: #1a1000 !important; font-weight: 800; border-radius: 8px 0 0 8px; }
+    .inq-cal-day.ret { background: var(--gold) !important; color: #1a1000 !important; font-weight: 800; border-radius: 0 8px 8px 0; }
+    .inq-cal-day.dep.ret { border-radius: 8px; }
+    .inq-cal-day.in-range { background: rgba(212,168,60,.15); border-radius: 0; color: rgba(246,241,230,.9); }
+    .inq-cal-day.in-range-preview { background: rgba(212,168,60,.08); border-radius: 0; }
+    .inq-cal-day.dep-hover { background: rgba(212,168,60,.25) !important; border-radius: 0 8px 8px 0; }
+    .inq-range-status { font-size: 13px; padding: 8px 12px; border-radius: 8px; margin-top: 6px; }
+    .inq-range-status.hint { color: rgba(246,241,230,.45); background: transparent; }
+    .inq-range-status.dep-set { color: rgba(246,241,230,.75); background: rgba(246,241,230,.04); }
+    .inq-range-status.valid { color: #86efac; background: rgba(34,197,94,.08); }
+    .inq-range-status.invalid { color: #fca5a5; background: rgba(239,68,68,.08); }
 
     /* Travelers counter */
     .trav-row { display: flex; align-items: center; gap: 16px; }
@@ -547,9 +562,6 @@ $site_url  = get_site_url();
       <div class="gift-hc-arrow" data-i18n="gift.card.trip.cta">Pošalji upit →</div>
     </button>
   </div>
-  <p class="validate-hint" style="margin-top:32px;" data-i18n-html="gift.redeem.hint">
-    Već imaš poklon kod? <a onclick="openRedeemModal()">Aktiviraj ga ovde →</a>
-  </p>
 </section>
 
 <!-- ═══ VAUČER SEKCIJA ═══════════════════════════════════════════════════════ -->
@@ -647,41 +659,36 @@ $site_url  = get_site_url();
               <span>BEG</span><small data-i18n="s1.beg.name">Aerodrom Nikola Tesla</small>
             </button>
             <button class="trip-airport-btn" id="tripBtnINI" onclick="selectTripAirport('INI')" type="button">
-              <span>INI</span><small data-i18n="s1.ini.name">Niš Constantine</small>
-            </button>
-            <button class="trip-airport-btn" id="tripBtnZAG" onclick="selectTripAirport('ZAG')" type="button">
-              <span>ZAG</span><small>Zagreb</small>
-            </button>
-            <button class="trip-airport-btn" id="tripBtnBUD" onclick="selectTripAirport('BUD')" type="button">
-              <span>BUD</span><small>Budapest</small>
+              <span>INI</span><small data-i18n="s1.ini.name">Konstantin Veliki</small>
             </button>
           </div>
         </div>
 
-        <!-- Datum + noći -->
-        <div class="gift-form-grid" style="margin-bottom:20px;">
-          <div>
-            <div class="trip-gf-label" data-i18n="gift.trip.date.label">Željeni datum polaska</div>
-            <input class="trip-gf-input" id="tripDate" type="date" style="cursor:pointer;">
-          </div>
-          <div>
-            <div class="trip-gf-label" data-i18n="gift.trip.nights.label">Broj noćenja</div>
-            <div class="nights-row">
-              <button class="nights-btn on" id="nBtn1" onclick="selectNights(1)" type="button" data-i18n="gift.nights.1">1 noć</button>
-              <button class="nights-btn"    id="nBtn2" onclick="selectNights(2)" type="button" data-i18n="gift.nights.2">2 noći</button>
-              <button class="nights-btn"    id="nBtn3" onclick="selectNights(3)" type="button" data-i18n="gift.nights.3">3 noći</button>
+        <!-- Kalendar -->
+        <div class="trip-field-wrap">
+          <div class="trip-gf-label" data-i18n="gift.trip.date.label">Datum polaska i povratka (2 ili 3 noći)</div>
+          <div class="inq-cal">
+            <div class="inq-cal-head">
+              <div class="inq-cal-month" id="tripCalMonth">—</div>
+              <div class="inq-cal-nav">
+                <button id="tripPrevM" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button id="tripNextM" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+              </div>
             </div>
+            <div class="inq-cal-grid" id="tripCalGrid"></div>
           </div>
+          <div class="inq-range-status hint" id="tripRangeStatus">Odaberi datum polaska, pa datum povratka (2 ili 3 noći)</div>
         </div>
 
         <!-- Putnici -->
         <div class="trip-field-wrap">
           <div class="trip-gf-label" data-i18n="gift.trip.travelers.label">Broj putnika</div>
-          <div class="trav-row">
+          <div class="trav-row" style="position:relative;">
             <button class="trav-btn" id="tripTravD" onclick="chTripTrav(-1)" type="button" disabled>−</button>
-            <span class="trav-count" id="tripTravN">1</span>
+            <span class="trav-count" id="tripTravN">2</span>
             <button class="trav-btn" id="tripTravU" onclick="chTripTrav(1)" type="button">+</button>
             <span class="trav-label" data-i18n="gift.trip.travelers.label2">putnik/putnika</span>
+            <span id="tripTravMore" style="display:none;margin-left:10px;font-size:12px;color:#CA8A71;cursor:default;" title="Za više od 6 putnika kontaktiraj nas na escapii.team@gmail.com">7+ → <a href="mailto:escapii.team@gmail.com" style="color:#CA8A71;">piši nam</a></span>
           </div>
         </div>
 
@@ -1155,38 +1162,156 @@ async function submitVoucher() {
 }
 
 // ── Trip forma ───────────────────────────────────────────────────────────────
-let tripAirport  = 'BEG';
-let tripNights   = 1;
-let tripTravelers = 1;
+let tripAirport   = 'BEG';
+let tripTravelers = 2;
+let _tripDep      = null;
+let _tripRet      = null;
+let _tripCurMonth = null;
+let _tripHover    = null;
+
+const TRIP_MONTHS_SR = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
+const TRIP_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const TRIP_DOWS_SR   = ['Po','Ut','Sr','Če','Pe','Su','Ne'];
+const TRIP_DOWS_EN   = ['Mo','Tu','We','Th','Fr','Sa','Su'];
 
 function selectTripAirport(code) {
   tripAirport = code;
-  ['BEG','INI','ZAG','BUD'].forEach(c => {
+  ['BEG','INI'].forEach(c => {
     document.getElementById('tripBtn' + c)?.classList.toggle('on', c === code);
   });
 }
-function selectNights(n) {
-  tripNights = n;
-  [1,2,3].forEach(i => {
-    document.getElementById('nBtn' + i)?.classList.toggle('on', i === n);
-  });
-}
+
 function chTripTrav(d) {
-  tripTravelers = Math.min(6, Math.max(1, tripTravelers + d));
+  const next = tripTravelers + d;
+  if (next > 6) {
+    document.getElementById('tripTravMore').style.display = 'inline';
+    return;
+  }
+  document.getElementById('tripTravMore').style.display = 'none';
+  tripTravelers = Math.max(1, next);
   document.getElementById('tripTravN').textContent = tripTravelers;
   document.getElementById('tripTravD').disabled = tripTravelers <= 1;
-  document.getElementById('tripTravU').disabled = tripTravelers >= 6;
+  document.getElementById('tripTravU').disabled = false;
 }
 
-// Set min date to tomorrow
-(function() {
-  const inp = document.getElementById('tripDate');
-  if (inp) {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    inp.min = tomorrow.toISOString().split('T')[0];
+function tripDateDiff(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+function tripFmtDate(d) {
+  const ms = lang === 'sr' ? TRIP_MONTHS_SR : TRIP_MONTHS_EN;
+  return `${d.getDate()}. ${ms[d.getMonth()]}`;
+}
+
+function updateTripRangeStatus() {
+  const el = document.getElementById('tripRangeStatus');
+  if (!el) return;
+  el.className = 'inq-range-status';
+  if (!_tripDep && !_tripRet) {
+    el.className += ' hint';
+    el.textContent = lang === 'sr'
+      ? 'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)'
+      : 'Select departure, then return date (2 or 3 nights)';
+  } else if (_tripDep && !_tripRet) {
+    el.className += ' dep-set';
+    el.innerHTML = lang === 'sr'
+      ? `✈️ Polazak: <strong>${tripFmtDate(_tripDep)}</strong> — sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${tripFmtDate(_tripDep)}</strong> — now select return date`;
+  } else if (_tripDep && _tripRet) {
+    const n = tripDateDiff(_tripDep, _tripRet);
+    el.className += ' valid';
+    el.innerHTML = `✓ ${tripFmtDate(_tripDep)} → ${tripFmtDate(_tripRet)} &nbsp;·&nbsp; <strong>${n} ${lang === 'sr' ? 'noći' : 'nights'}</strong>`;
   }
-})();
+}
+
+function updateTripHoverClasses() {
+  const grid = document.getElementById('tripCalGrid');
+  if (!grid) return;
+  const diff = (_tripDep && _tripHover) ? tripDateDiff(_tripDep, _tripHover) : 0;
+  grid.querySelectorAll('button.inq-cal-day').forEach(btn => {
+    const d = new Date(Number(btn.dataset.ts));
+    btn.classList.remove('in-range-preview', 'dep-hover');
+    if (!_tripDep || _tripRet || !_tripHover) return;
+    if (d > _tripDep && d < _tripHover && (diff === 2 || diff === 3)) btn.classList.add('in-range-preview');
+    if (d.toDateString() === _tripHover.toDateString() && diff > 0) btn.classList.add('dep-hover');
+  });
+}
+
+function renderTripCalendar() {
+  if (!_tripCurMonth) {
+    const now = new Date();
+    _tripCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  }
+  const monthNames = lang === 'sr' ? TRIP_MONTHS_SR : TRIP_MONTHS_EN;
+  const dows       = lang === 'sr' ? TRIP_DOWS_SR   : TRIP_DOWS_EN;
+  document.getElementById('tripCalMonth').textContent =
+    `${monthNames[_tripCurMonth.getMonth()]} ${_tripCurMonth.getFullYear()}`;
+
+  const grid = document.getElementById('tripCalGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  dows.forEach(d => { const el = document.createElement('div'); el.className='inq-cal-dow'; el.textContent=d; grid.appendChild(el); });
+
+  const today    = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+  const maxDate  = new Date(today.getFullYear()+1, today.getMonth(), today.getDate());
+  const firstDay = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),1);
+  const lastDay  = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()+1,0);
+  let startDow = firstDay.getDay()-1; if (startDow<0) startDow=6;
+  const prevLast = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),0).getDate();
+
+  for (let i=startDow;i>0;i--) { const el=document.createElement('div'); el.className='inq-cal-day muted'; el.textContent=prevLast-i+1; grid.appendChild(el); }
+
+  for (let d=1;d<=lastDay.getDate();d++) {
+    const date = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),d);
+    const el = document.createElement('button');
+    el.type='button'; el.textContent=d;
+    if (date<tomorrow||date>maxDate) { el.className='inq-cal-day'; el.disabled=true; grid.appendChild(el); continue; }
+    let cls='inq-cal-day';
+    if (_tripDep&&date.toDateString()===_tripDep.toDateString()) cls+=' dep';
+    if (_tripRet&&date.toDateString()===_tripRet.toDateString()) cls+=' ret';
+    if (_tripDep&&_tripRet&&date>_tripDep&&date<_tripRet) cls+=' in-range';
+    if (_tripDep&&!_tripRet&&_tripHover) {
+      const diff=tripDateDiff(_tripDep,_tripHover);
+      if ((diff===2||diff===3)&&date>_tripDep&&date<_tripHover) cls+=' in-range-preview';
+      if (date.toDateString()===_tripHover.toDateString()&&diff>0) cls+=' dep-hover';
+    }
+    el.className=cls; el.dataset.ts=date.getTime();
+    el.addEventListener('click',()=>{
+      if (!_tripDep||_tripRet) { _tripDep=date; _tripRet=null; }
+      else {
+        const diff=tripDateDiff(_tripDep,date);
+        if (diff<1) { _tripDep=date; _tripRet=null; }
+        else if (diff===2||diff===3) { _tripRet=date; }
+        else {
+          const s=document.getElementById('tripRangeStatus');
+          if(s){s.className='inq-range-status invalid';s.innerHTML=lang==='sr'?'⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.':'⚠️ Only <strong>2 or 3 nights</strong> are allowed.';setTimeout(()=>updateTripRangeStatus(),2500);}
+          return;
+        }
+      }
+      _tripHover=null; renderTripCalendar(); updateTripRangeStatus();
+    });
+    el.addEventListener('mouseenter',()=>{ if(_tripDep&&!_tripRet){_tripHover=date;updateTripHoverClasses();} });
+    el.addEventListener('mouseleave',()=>{ if(_tripDep&&!_tripRet){_tripHover=null;updateTripHoverClasses();} });
+    grid.appendChild(el);
+  }
+
+  const total=startDow+lastDay.getDate();
+  const trail=(7-(total%7))%7;
+  for(let i=1;i<=trail;i++){const el=document.createElement('div');el.className='inq-cal-day muted';el.textContent=i;grid.appendChild(el);}
+
+  document.getElementById('tripPrevM').onclick=()=>{
+    const prev=new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()-1,1);
+    const thisMonth=new Date(today.getFullYear(),today.getMonth(),1);
+    if(prev>=thisMonth){_tripCurMonth=prev;renderTripCalendar();}
+  };
+  document.getElementById('tripNextM').onclick=()=>{
+    _tripCurMonth=new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()+1,1);
+    renderTripCalendar();
+  };
+}
+
+// Init calendar on page load
+document.addEventListener('DOMContentLoaded', () => renderTripCalendar());
 
 async function submitTripInquiry() {
   const err  = document.getElementById('tripErr');
@@ -1194,13 +1319,17 @@ async function submitTripInquiry() {
   const isSr = lang === 'sr';
   err.textContent = '';
 
-  const dateVal    = document.getElementById('tripDate').value;
   const buyerEmail = document.getElementById('tripBuyerEmail').value.trim();
   const recipName  = document.getElementById('tripRecipName').value.trim();
   const recipEmail = document.getElementById('tripRecipEmail').value.trim();
 
-  if (!dateVal) {
-    err.textContent = isSr ? 'Odaberi datum polaska.' : 'Select a departure date.';
+  if (!_tripDep || !_tripRet) {
+    err.textContent = isSr ? 'Odaberi datum polaska i povratka.' : 'Select departure and return date.';
+    return;
+  }
+  const nights = tripDateDiff(_tripDep, _tripRet);
+  if (nights < 2 || nights > 3) {
+    err.textContent = isSr ? 'Dozvoljeno je samo 2 ili 3 noći.' : 'Only 2 or 3 nights are allowed.';
     return;
   }
   if (!buyerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) {
@@ -1216,6 +1345,9 @@ async function submitTripInquiry() {
     return;
   }
 
+  const pad = n => String(n).padStart(2, '0');
+  const dateStr = `${_tripDep.getFullYear()}-${pad(_tripDep.getMonth()+1)}-${pad(_tripDep.getDate())}`;
+
   btn.disabled = true;
   btn.textContent = isSr ? 'Slanje...' : 'Sending...';
 
@@ -1226,8 +1358,8 @@ async function submitTripInquiry() {
       body: JSON.stringify({
         airport: tripAirport,
         travelers: tripTravelers,
-        desiredDepartureDate: dateVal,
-        nights: tripNights,
+        desiredDepartureDate: dateStr,
+        nights: nights,
         buyerEmail: buyerEmail,
         notes: document.getElementById('tripNotes').value.trim() || null,
         recipientName: recipName,
@@ -1253,14 +1385,18 @@ async function submitTripInquiry() {
 
     // Reset
     tripAirport   = 'BEG';
-    tripNights    = 1;
-    tripTravelers = 1;
+    tripTravelers = 2;
+    _tripDep      = null;
+    _tripRet      = null;
+    _tripHover    = null;
     selectTripAirport('BEG');
-    selectNights(1);
-    document.getElementById('tripTravN').textContent = '1';
+    document.getElementById('tripTravN').textContent = '2';
     document.getElementById('tripTravD').disabled = true;
     document.getElementById('tripTravU').disabled = false;
-    ['tripDate','tripBuyerEmail','tripNotes','tripRecipName','tripRecipEmail','tripMessage'].forEach(id => {
+    document.getElementById('tripTravMore').style.display = 'none';
+    renderTripCalendar();
+    updateTripRangeStatus();
+    ['tripBuyerEmail','tripNotes','tripRecipName','tripRecipEmail','tripMessage'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });

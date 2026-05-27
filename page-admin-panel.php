@@ -1067,10 +1067,11 @@ tbody td  { padding: 11px 12px; }
                 <th>Status</th>
                 <th>Cena (€)</th>
                 <th>Upit</th>
+                <th>Privatni link</th>
               </tr>
             </thead>
             <tbody id="giftTripsTbody">
-              <tr><td colspan="9" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
+              <tr><td colspan="10" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
@@ -3095,14 +3096,14 @@ async function loadGiftTrips() {
       (pending + _gVouchers.filter(v => v.status === 'PENDING').length) || '';
     renderGiftTrips();
   } catch {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju putovanja.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju putovanja.</td></tr>`;
   }
 }
 
 function renderGiftTrips() {
   const tbody = document.getElementById('giftTripsTbody');
   if (!_gTrips.length) {
-    tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nema gift trip upita.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10" class="empty-state">Nema gift trip upita.</td></tr>`;
     return;
   }
   const statusOpts = [
@@ -3111,7 +3112,6 @@ function renderGiftTrips() {
     { v:'PRIVATE_SENT', l:'🔒 Link poslat' },
     { v:'CLOSED',       l:'🔒 Zatvoreno'  },
   ];
-  const statusClass = { PENDING:'iq-PENDING', IN_REVIEW:'badge-accent', PRIVATE_SENT:'iq-PRIVATE_SENT', CLOSED:'badge-gray' };
   tbody.innerHTML = _gTrips.map(t => {
     const created = t.createdAt ? new Date(t.createdAt).toLocaleDateString('sr-RS') : '—';
     const opts = statusOpts.map(s =>
@@ -3119,6 +3119,27 @@ function renderGiftTrips() {
     const pricePerPerson = t.price && t.travelers
       ? `<span style="font-size:11px;color:#94a3b8;">≈ <strong style="color:#CA8A71">${Math.round(t.price/t.travelers)}€</strong>/os.</span>`
       : `<span style="font-size:11px;color:#475569;">unesi cenu</span>`;
+    const period = t.desiredDepartureDate
+      ? `${t.desiredDepartureDate}${t.nights ? ' / '+t.nights+'n' : ''}` : '—';
+    // Privatni link kolona
+    const linkCell = t.privateToken
+      ? `<div style="display:flex;flex-direction:column;gap:5px;">
+           <input readonly value="${window.location.origin}/?privateDate=${escHtml(t.privateToken)}"
+             id="gtLink_${t.id}"
+             style="width:160px;padding:5px 8px;border-radius:6px;font-size:11px;font-family:monospace;
+                    background:#0d2035;border:1px solid #1e3a55;color:#7dd3fc;">
+           <button onclick="copyGiftTripLink('gtLink_${t.id}', this)" style="
+             padding:4px 8px;border-radius:6px;font-size:11px;
+             background:rgba(202,138,113,.12);border:1px solid rgba(202,138,113,.3);
+             color:#CA8A71;cursor:pointer;white-space:nowrap;">
+             📋 Kopiraj link
+           </button>
+         </div>`
+      : `<button onclick="promptMakePrivateFromGiftTrip(${t.id}, '${escHtml(t.airport)}', ${t.travelers}, '${period}', ${t.price != null ? t.price : 'null'})" style="
+           padding:5px 10px;border-radius:6px;font-size:12px;background:#1a4a5a;
+           border:1px solid #2a6a7a;color:#fff;cursor:pointer;white-space:nowrap;">
+           🔒 Generiši link
+         </button>`;
     return `<tr>
       <td style="color:#64748b;font-size:12px;">#${t.id}</td>
       <td>
@@ -3147,8 +3168,24 @@ function renderGiftTrips() {
         <div>${pricePerPerson}</div>
       </td>
       <td style="font-size:12px;color:#64748b;">${created}</td>
+      <td>${linkCell}</td>
     </tr>`;
   }).join('');
+}
+
+function copyGiftTripLink(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(inp.value)
+      .then(() => {
+        btn.innerHTML = '✅ Kopirano!';
+        btn.style.background = 'rgba(34,197,94,.15)';
+        btn.style.borderColor = 'rgba(34,197,94,.35)';
+        btn.style.color = '#86efac';
+      })
+      .catch(() => fallbackCopy(inp, btn));
+  } else { fallbackCopy(inp, btn); }
 }
 
 async function updateGiftTripStatus(id, value) {
@@ -3193,6 +3230,121 @@ async function updateGiftTripPrice(id, inputEl) {
   } catch {
     inputEl.style.borderColor = '#ef4444';
     Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri čuvanju cene', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function promptMakePrivateFromGiftTrip(tripId, airport, travelers, desiredPeriod, tripPrice) {
+  const suggestedPrice = (tripPrice != null && travelers > 0)
+    ? Math.round(tripPrice / travelers) : '';
+
+  const { value: formValues } = await Swal.fire({
+    title: '🔒 Generiši privatni link (Gift Trip)',
+    html: `
+      <p style="margin-bottom:10px;font-size:13px;color:#aaa;">
+        Gift upit #${tripId} · <strong style="color:#fff;">${airport}</strong> · ${travelers} os.
+      </p>
+      <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.25);
+                  border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#e09070;text-align:left;">
+        📅 Željeni period: <strong>${desiredPeriod}</strong>
+      </div>
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Broj putnika (slobodnih mesta):</label>
+      <input id="swal-travelers" type="number" value="${travelers}" min="1" max="50"
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">
+        Cena po osobi (€) <span style="color:#ef4444;">*</span>
+      </label>
+      <input id="swal-price" type="number" min="1" value="${suggestedPrice}" placeholder="npr. 299"
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Link važi (sati):</label>
+      <input id="swal-expiry" type="number" value="48" min="1" max="720"
+        style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+    `,
+    showCancelButton: true,
+    confirmButtonText: '🔒 Generiši privatni link',
+    confirmButtonColor: '#1a4a5a',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    preConfirm: () => {
+      const priceVal = document.getElementById('swal-price').value.trim();
+      if (!priceVal || parseInt(priceVal) < 1) {
+        Swal.showValidationMessage('Cena po osobi je obavezna.');
+        return false;
+      }
+      return {
+        travelers:      parseInt(document.getElementById('swal-travelers').value),
+        expiresInHours: parseInt(document.getElementById('swal-expiry').value),
+        pricePerPerson: parseInt(priceVal)
+      };
+    }
+  });
+
+  if (!formValues) return;
+
+  try {
+    const res = await fetch(`${API}/api/admin/gifts/trips/${tripId}/create-private-date`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pricePerPerson: formValues.pricePerPerson,
+        travelers:      formValues.travelers,
+        expiresInHours: formValues.expiresInHours
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return Swal.fire({ icon:'error', title:'Greška',
+        text: err.message || err.error || 'Kreiranje nije uspelo.',
+        background:'#0b1929', color:'#fff' });
+    }
+
+    const dateResp    = await res.json();
+    const privateLink = `${window.location.origin}/?privateDate=${dateResp.privateToken}`;
+
+    // Ažuriraj lokalnu listu — status je PRIVATE_SENT, sačuvaj token
+    const idx = _gTrips.findIndex(x => x.id === tripId);
+    if (idx !== -1) {
+      _gTrips[idx].status = 'PRIVATE_SENT';
+      _gTrips[idx].privateToken = dateResp.privateToken;
+    }
+    renderGiftTrips();
+
+    await Swal.fire({
+      title: '✅ Privatni link generisan!',
+      html: `
+        <p style="margin-bottom:10px;font-size:13px;color:#aaa;">Pošalji kupcu ovaj link:</p>
+        <input id="privateLinkInput" readonly value="${privateLink}"
+          style="width:100%;padding:9px 12px;border-radius:8px;background:#0d2035;border:1px solid #1e3a55;
+                 color:#7dd3fc;font-size:12px;font-family:monospace;">
+        <button id="swalCopyBtn" style="
+          margin-top:10px;width:100%;padding:10px;border-radius:8px;
+          background:rgba(202,138,113,.15);border:1px solid rgba(202,138,113,.35);
+          color:#e09070;cursor:pointer;font-size:13px;font-weight:700;transition:background .2s;">
+          📋 Kopiraj link
+        </button>
+        <p style="margin-top:10px;font-size:11px;color:#64748b;">
+          ⏱ Link ističe za <strong style="color:#94a3b8">${formValues.expiresInHours}h</strong>
+          &nbsp;·&nbsp; 📅 ${desiredPeriod}
+        </p>
+      `,
+      confirmButtonText: 'Zatvori',
+      confirmButtonColor: 'var(--accent)',
+      background: '#0b1929', color: '#fff',
+      didOpen: () => {
+        const btn = document.getElementById('swalCopyBtn');
+        const inp = document.getElementById('privateLinkInput');
+        btn.addEventListener('click', () => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(inp.value)
+              .then(() => { btn.innerHTML = '✅ Kopirano!'; btn.style.background='rgba(34,197,94,.15)'; btn.style.borderColor='rgba(34,197,94,.35)'; btn.style.color='#86efac'; })
+              .catch(() => fallbackCopy(inp, btn));
+          } else { fallbackCopy(inp, btn); }
+        });
+      }
+    });
+
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text:'Mrežna greška. Pokušaj ponovo.', background:'#0b1929', color:'#fff' });
   }
 }
 
