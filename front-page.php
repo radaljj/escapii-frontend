@@ -230,7 +230,7 @@
     .sec-gift-caret { font-size: 9px; transition: transform .2s; display: inline-block; }
     .sec-gift-btn.open .sec-gift-caret { transform: rotate(180deg); }
     .sec-gift-drop {
-      position: absolute; top: calc(100% + 8px); right: 0;
+      position: fixed; top: 0; right: 0; /* JS overrides top/right */
       background: rgba(15,45,53,.97); backdrop-filter: blur(28px);
       border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
       min-width: 210px; overflow: hidden;
@@ -6221,6 +6221,12 @@ function toggleSecGift() {
   const btn  = document.getElementById('secGiftBtn');
   const drop = document.getElementById('secGiftDrop');
   const open = !drop.classList.contains('open');
+  if (open) {
+    const rect = btn.getBoundingClientRect();
+    drop.style.top   = (rect.bottom + 8) + 'px';
+    drop.style.right = (window.innerWidth - rect.right) + 'px';
+    drop.style.left  = 'auto';
+  }
   drop.classList.toggle('open', open);
   btn.classList.toggle('open', open);
 }
