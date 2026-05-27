@@ -97,6 +97,48 @@
                 font-weight: 800; cursor: pointer; transition: all .2s; }
     .nav-book:hover { background: var(--gold2); transform: translateY(-1px); }
 
+    /* nav gift dropdown */
+    .nav-gift-wrap { position: relative; }
+    .nav-gift-btn {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(200,149,58,.12); border: 1.5px solid rgba(200,149,58,.28);
+      color: #d4a83c; border-radius: 8px; padding: 8px 14px;
+      font-size: 13px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .nav-gift-btn:hover,
+    .nav-gift-btn.open { background: rgba(200,149,58,.22); border-color: rgba(200,149,58,.5); }
+    .nav-gift-caret { font-size: 10px; transition: transform .2s; display: inline-block; }
+    .nav-gift-btn.open .nav-gift-caret { transform: rotate(180deg); }
+    .nav-gift-drop {
+      position: absolute; top: calc(100% + 10px); right: 0;
+      background: rgba(15,45,53,.97); backdrop-filter: blur(28px);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
+      min-width: 210px; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,.45);
+      opacity: 0; transform: translateY(-8px); pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 1001;
+    }
+    .nav-gift-drop.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nav-gift-item {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; text-align: left;
+      padding: 14px 18px; font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,.78); background: none; border: none;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      font-family: inherit; cursor: pointer; transition: all .15s;
+    }
+    .nav-gift-item:last-child { border-bottom: none; }
+    .nav-gift-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .nav-gift-item.primary { color: #d4a83c; }
+    .nav-gift-item.primary:hover { background: rgba(200,149,58,.1); color: #e0b84a; }
+    .nav-gift-item-icon { font-size: 16px; flex-shrink: 0; }
+    .nav-gift-item-text { display: flex; flex-direction: column; gap: 1px; }
+    .nav-gift-item-label { font-size: 13px; font-weight: 700; line-height: 1.2; }
+    .nav-gift-item-sub { font-size: 11px; font-weight: 400; color: rgba(255,255,255,.4); line-height: 1.2; }
+    .nav-gift-item.primary .nav-gift-item-sub { color: rgba(212,168,60,.55); }
+
     /* hamburger */
     .nav-burger { display:none; flex-direction:column; justify-content:center; gap:5px;
                   width:40px; height:40px; background:none; border:none; cursor:pointer; padding:8px; }
@@ -1217,40 +1259,6 @@
     .gift-submit:hover { transform: translateY(-2px); box-shadow: 0 20px 50px -10px rgba(200,149,58,.65); }
     .gift-submit:hover::before { transform: translateX(100%); }
     .gift-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-    /* Hero gift link */
-    .hero-gift-wrap { margin-top: 18px; animation: fadeUp .9s .48s ease both; }
-    .hero-gift-card {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: rgba(14,26,36,.7); backdrop-filter: blur(12px);
-      border: 1px solid rgba(200,149,58,.38);
-      border-radius: 100px; padding: 9px 18px 9px 10px;
-      cursor: pointer; font-family: inherit;
-      transition: transform .3s, box-shadow .3s, border-color .3s, background .3s;
-      box-shadow: 0 4px 24px rgba(200,149,58,.08), inset 0 1px 0 rgba(255,255,255,.04);
-    }
-    .hero-gift-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 36px rgba(200,149,58,.28);
-      border-color: rgba(200,149,58,.65); background: rgba(14,26,36,.85);
-    }
-    .gift-icon-wrap {
-      position: relative; width: 38px; height: 38px;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      background: rgba(200,149,58,.1); border-radius: 50%;
-    }
-    .gift-emoji { font-size: 18px; animation: giftBounce 3.5s ease-in-out 2s infinite; display: block; }
-    .gift-star {
-      position: absolute; color: #d4a83c;
-      animation: starTwinkle 2.8s ease-in-out infinite; pointer-events: none;
-    }
-    .gift-star.s1 { top: 1px; right: 2px; font-size: 7px; animation-delay: 0s; }
-    .gift-star.s2 { bottom: 3px; left: 0px; font-size: 5px; animation-delay: .9s; }
-    .gift-star.s3 { top: 5px; left: 3px; font-size: 4px; animation-delay: 1.8s; }
-    .gift-card-text { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
-    .gift-card-label { font-size: 13px; font-weight: 700; color: #d4a83c; letter-spacing: .02em; line-height: 1.2; }
-    .gift-card-sub { font-size: 10px; color: rgba(246,241,230,.42); font-weight: 400; line-height: 1.2; }
-    .gift-card-arr { color: rgba(200,149,58,.6); flex-shrink: 0; transition: transform .25s; margin-left: 2px; }
-    .hero-gift-card:hover .gift-card-arr { transform: translateX(3px); }
     @keyframes giftBounce {
       0%,100% { transform: translateY(0) rotate(0deg); }
       20% { transform: translateY(-3px) rotate(-10deg); }
@@ -2366,6 +2374,27 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <span data-i18n="nav.status">Moja rezervacija</span>
     </button>
+    <div class="nav-gift-wrap" id="navGiftWrap">
+      <button class="nav-gift-btn" id="navGiftBtn" onclick="toggleNavGift()" type="button">
+        🎁 <span data-i18n="nav.gift.label">Pokloni iznenađenje</span> <span class="nav-gift-caret">▾</span>
+      </button>
+      <div class="nav-gift-drop" id="navGiftDrop">
+        <button class="nav-gift-item primary" onclick="closeNavGift();openGiftPanel();" type="button">
+          <span class="nav-gift-item-icon">🎁</span>
+          <span class="nav-gift-item-text">
+            <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje</span>
+            <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Kupi poklon iznenađenje za nekoga</span>
+          </span>
+        </button>
+        <button class="nav-gift-item" onclick="closeNavGift();openRedeemModal();" type="button">
+          <span class="nav-gift-item-icon">🔓</span>
+          <span class="nav-gift-item-text">
+            <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
+            <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Dobiješ/la si poklon putovanje?</span>
+          </span>
+        </button>
+      </div>
+    </div>
     <button class="nav-book" onclick="escScrollTo('esc-booking')" data-i18n="nav.book">Rezerviši →</button>
   </div>
   <button class="nav-burger" id="navBurger" onclick="togBurger()" aria-label="Menu">
@@ -2386,7 +2415,8 @@
       <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" data-i18n="nav.gift" style="color:#d4a83c;">🎁 Pokloni iznenađenje</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();openGiftPanel();" style="color:#d4a83c;" data-i18n="nav.gift.offer">🎁 Pokloni putovanje</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem">🔓 Iskoristi poklon</button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -2420,21 +2450,6 @@
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
-  </div>
-  <div class="hero-gift-wrap">
-    <button class="hero-gift-card" onclick="openGiftPanel()" type="button">
-      <span class="gift-icon-wrap">
-        <span class="gift-star s1">✦</span>
-        <span class="gift-star s2">✦</span>
-        <span class="gift-star s3">✦</span>
-        <span class="gift-emoji">🎁</span>
-      </span>
-      <span class="gift-card-text">
-        <span class="gift-card-label" data-i18n="nav.gift">Pokloni iznenađenje</span>
-        <span class="gift-card-sub" data-i18n="gift.hero.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
-      </span>
-      <svg class="gift-card-arr" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </button>
   </div>
   <div class="trust-badges" style="animation: fadeUp .9s .45s ease both;">
     <span class="trust-badge">✈️ <span data-i18n="trust.1">Let + hotel uključeni</span></span>
@@ -3797,6 +3812,11 @@ const TR = {
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
     'nav.gift':'🎁 Pokloni iznenađenje',
+    'nav.gift.label':'Pokloni iznenađenje',
+    'nav.gift.offer':'Pokloni putovanje',
+    'nav.gift.offer.sub':'Kupi poklon iznenađenje za nekoga',
+    'nav.gift.redeem':'Iskoristi poklon',
+    'nav.gift.redeem.sub':'Dobiješ/la si poklon putovanje?',
     'gift.hero.cta':'🎁 Pokloni iznenađenje',
     'gift.s3.title':'Pokloni iznenađenje',
     'gift.s3.sub':'Pokloni savršen poklon nekome ko voli da putuje',
@@ -4043,6 +4063,11 @@ const TR = {
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
     'bp.label': (s,t) => `Step ${s} of ${t}`,
     'nav.gift':'🎁 Gift a Surprise',
+    'nav.gift.label':'Gift a Surprise',
+    'nav.gift.offer':'Gift a trip',
+    'nav.gift.offer.sub':'Buy a surprise gift for someone',
+    'nav.gift.redeem':'Redeem gift',
+    'nav.gift.redeem.sub':'Received a gift trip?',
     'gift.hero.cta':'🎁 Gift a surprise trip',
     'gift.s3.title':'Gift a Surprise',
     'gift.s3.sub':'The perfect gift for someone who loves to travel',
@@ -6097,6 +6122,61 @@ let _giftCurMonth = null;
 let _giftHover    = null;
 let _giftAirport  = 'BEG';
 let _giftTravelers = 2;
+
+/* ── Nav gift dropdown ── */
+function toggleNavGift() {
+  const btn  = document.getElementById('navGiftBtn');
+  const drop = document.getElementById('navGiftDrop');
+  const open = !drop.classList.contains('open');
+  drop.classList.toggle('open', open);
+  btn.classList.toggle('open', open);
+}
+function closeNavGift() {
+  document.getElementById('navGiftBtn').classList.remove('open');
+  document.getElementById('navGiftDrop').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('navGiftWrap');
+  if (wrap && !wrap.contains(e.target)) closeNavGift();
+});
+
+/* ── Redeem modal ── */
+function openRedeemModal() {
+  const isSr = lang === 'sr';
+  Swal.fire({
+    title: isSr ? '🔓 Iskoristi poklon' : '🔓 Redeem your gift',
+    html: `<p style="color:rgba(255,255,255,.6);font-size:14px;margin-bottom:18px;">${isSr
+      ? 'Dobiješ/la si poklon putovanje? Unesi kod koji si dobio/la emailom.'
+      : 'Received a gift trip? Enter the code from your email.'
+    }</p>
+    <input id="redeemCodeInput" class="swal2-input"
+      placeholder="${isSr ? 'Npr. GIFT-ABC123' : 'e.g. GIFT-ABC123'}"
+      style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);color:#e8e0d5;border-radius:10px;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">
+    <p id="redeemErr" style="color:#f87171;font-size:13px;margin-top:8px;display:none;">${isSr
+      ? 'Unesi poklon kod.' : 'Please enter your gift code.'}</p>`,
+    confirmButtonText: isSr ? 'Aktiviraj poklon →' : 'Activate gift →',
+    showCancelButton: true,
+    cancelButtonText: isSr ? 'Odustani' : 'Cancel',
+    background: '#0f2d35',
+    color: '#e8e0d5',
+    confirmButtonColor: '#C8953A',
+    focusConfirm: false,
+    didOpen: () => {
+      document.getElementById('redeemCodeInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') Swal.clickConfirm();
+      });
+    },
+    preConfirm: () => {
+      const code = (document.getElementById('redeemCodeInput').value || '').trim().toUpperCase();
+      if (!code) {
+        document.getElementById('redeemErr').style.display = 'block';
+        return false;
+      }
+      window.location.href = `/poklon?k=${encodeURIComponent(code)}`;
+      return false; // prevent swal close (redirect will navigate)
+    }
+  });
+}
 
 function openGiftPanel() {
   const overlay = document.getElementById('giftOverlay');
