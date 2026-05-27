@@ -1236,6 +1236,83 @@
     .inq-submit svg { width: 15px; height: 15px; }
 
     /* ══ GIFT OVERLAY ══════════════════════════════════════════════ */
+    /* ── Redeem modal ────────────────────────────────────────────── */
+    .rdm-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .rdm-overlay.open { display: flex; animation: fadeInScale .22s ease; }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(.94); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .rdm-card {
+      position: relative;
+      background: linear-gradient(145deg, #0f2d35 0%, #1a4450 100%);
+      border: 1px solid rgba(202,138,113,.28);
+      border-radius: 24px; padding: 40px 36px;
+      max-width: 420px; width: calc(100% - 32px);
+      text-align: center;
+      box-shadow: 0 32px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(202,138,113,.08);
+    }
+    .rdm-close {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(246,241,230,.06); border: none;
+      color: rgba(246,241,230,.4); width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; line-height: 1;
+    }
+    .rdm-close:hover { background: rgba(246,241,230,.12); color: rgba(246,241,230,.85); }
+    .rdm-emoji { font-size: 44px; margin-bottom: 10px; line-height: 1; }
+    .rdm-title { font-size: 22px; font-weight: 800; color: #f6f1e6; margin: 0 0 6px; }
+    .rdm-sub { font-size: 13px; color: rgba(246,241,230,.45); line-height: 1.6; margin: 0 0 24px; }
+    .rdm-input {
+      width: 100%; padding: 15px 18px; border-radius: 14px;
+      border: 1px solid rgba(246,241,230,.09);
+      background: rgba(246,241,230,.04); color: rgba(246,241,230,.95);
+      font-size: 16px; font-weight: 700; font-family: monospace;
+      letter-spacing: 3px; text-transform: uppercase; text-align: center;
+      outline: none; transition: all .2s; box-sizing: border-box;
+    }
+    .rdm-input::placeholder { color: rgba(246,241,230,.18); letter-spacing: 1px; font-weight: 400; }
+    .rdm-input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.14); background: rgba(246,241,230,.07); }
+    .rdm-input.rdm-valid { border-color: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.1); }
+    .rdm-input.rdm-invalid { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,.1); }
+    .rdm-status {
+      margin: 10px 0 0; font-size: 13px; font-weight: 500;
+      border-radius: 10px; padding: 10px 14px; text-align: left;
+    }
+    .rdm-status.err { color: #fca5a5; background: rgba(239,68,68,.1); }
+    .rdm-status.ok  { color: #86efac; background: rgba(34,197,94,.1); }
+    .rdm-btn {
+      width: 100%; margin-top: 16px; padding: 15px;
+      background: var(--gold); border: none; border-radius: 14px;
+      color: #fff; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all .2s; font-family: inherit;
+      letter-spacing: .3px;
+    }
+    .rdm-btn:hover:not(:disabled) { background: #b87659; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(202,138,113,.35); }
+    .rdm-btn:disabled { opacity: .5; cursor: default; }
+    /* Success state */
+    .rdm-success { padding-top: 20px; }
+    .rdm-amount { font-size: 60px; font-weight: 900; color: var(--gold); line-height: 1; text-shadow: 0 0 40px rgba(202,138,113,.3); }
+    .rdm-amount-lbl { font-size: 13px; color: rgba(246,241,230,.4); text-transform: uppercase; letter-spacing: 1px; margin: 4px 0 8px; }
+    .rdm-code-badge {
+      display: inline-block; font-family: monospace; font-size: 12px; letter-spacing: 2px;
+      color: rgba(246,241,230,.5); background: rgba(246,241,230,.06);
+      border-radius: 8px; padding: 5px 12px; margin-bottom: 16px;
+    }
+    .rdm-success-msg { font-size: 14px; color: rgba(246,241,230,.65); line-height: 1.7; margin: 0 0 22px; }
+    .rdm-book-btn {
+      width: 100%; padding: 15px;
+      background: transparent; border: 1.5px solid var(--gold);
+      border-radius: 14px; color: var(--gold); font-size: 15px;
+      font-weight: 700; cursor: pointer; transition: all .2s; font-family: inherit;
+    }
+    .rdm-book-btn:hover { background: var(--gold); color: #fff; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(202,138,113,.25); }
+
     .gift-overlay {
       display: none; position: fixed; inset: 0; z-index: 300;
       background: rgba(8,18,28,.88); backdrop-filter: blur(14px);
@@ -3643,6 +3720,35 @@
   </div>
 </footer>
 
+<!-- REDEEM VOUCHER MODAL -->
+<div class="rdm-overlay" id="redeemOverlay" onclick="if(event.target===this)closeRedeemModal()">
+  <div class="rdm-card">
+    <button class="rdm-close" onclick="closeRedeemModal()" type="button" aria-label="Close">✕</button>
+    <div id="rdmMain">
+      <div class="rdm-emoji">🎟️</div>
+      <h3 class="rdm-title" id="rdmTitle">Iskoristi vaučer</h3>
+      <p class="rdm-sub" id="rdmSub">Unesi kod koji si dobio/la i videćeš koliko iznosi</p>
+      <input id="redeemCodeInp" class="rdm-input" type="text"
+             placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20" autocomplete="off"
+             oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')"
+             onkeydown="if(event.key==='Enter')checkRedeemCode()">
+      <div id="redeemStatus" class="rdm-status" style="display:none;"></div>
+      <button id="redeemCheckBtn" class="rdm-btn" onclick="checkRedeemCode()" type="button">
+        <span id="redeemCheckLbl">Proveri kod</span>
+      </button>
+    </div>
+    <div id="rdmSuccess" class="rdm-success" style="display:none;">
+      <div class="rdm-amount" id="rdmAmount"></div>
+      <div class="rdm-amount-lbl" id="rdmAmountLbl">vaučer</div>
+      <div class="rdm-code-badge" id="rdmCodeBadge"></div>
+      <p class="rdm-success-msg" id="rdmSuccessMsg"></p>
+      <button class="rdm-book-btn" id="rdmBookBtn" onclick="closeRedeemModal();document.getElementById('esc-booking')?.scrollIntoView({behavior:'smooth'});" type="button">
+        ✈️ Rezerviši putovanje
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- GIFT OVERLAY -->
 <div class="gift-overlay" id="giftOverlay" onclick="if(event.target===this)closeGiftPanel()">
   <div class="gift-panel">
@@ -5636,7 +5742,15 @@ function updateSummaryCard() {
     }
     if (p.soloSurcharge > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
-    totalHtml = `${p.totalEurAll}€`;
+
+    // Vaučer popust
+    const vDisc8 = _appliedVoucher ? _appliedVoucher.amount : 0;
+    if (vDisc8 > 0) {
+      priceRowsHtml += `<div class="bs-pr-row" style="color:#86efac;"><span>🎟️ ${lang==='sr'?'Poklon vaučer':'Gift voucher'} <span style="font-family:monospace;font-size:11px;opacity:.65;margin-left:4px;">${_appliedVoucher.code}</span></span><span>−${vDisc8}€</span></div>`;
+    }
+
+    const finalAmt8 = Math.max(0, p.totalEurAll - vDisc8);
+    totalHtml = `${finalAmt8}€`;
   }
 
   el.innerHTML = `
@@ -6339,84 +6453,89 @@ document.addEventListener('click', function(e) {
 /* ── Redeem modal ── */
 function openRedeemModal() {
   const isSr = lang === 'sr';
-  Swal.fire({
-    title: isSr ? '🎟️ Iskoristi vaučer' : '🎟️ Redeem voucher',
-    html: `
-      <p style="color:rgba(255,255,255,.55);font-size:14px;margin-bottom:18px;line-height:1.6;">
-        ${isSr
-          ? 'Unesite vaučer kod koji ste dobili emailom da biste proverili njegov status.'
-          : 'Enter the voucher code you received by email to check its status.'}
-      </p>
-      <input id="redeemCodeInput" class="swal2-input"
-        placeholder="ESC-XXXX-XXXX-XXXX"
-        style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#e8e0d5;
-               border-radius:10px;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-               font-family:monospace;text-align:center;"
-        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')">
-      <div id="redeemResult" style="margin-top:10px;min-height:20px;font-size:13px;"></div>`,
-    confirmButtonText: isSr ? 'Proveri kod →' : 'Check code →',
-    showCancelButton: true,
-    cancelButtonText: isSr ? 'Zatvori' : 'Close',
-    background: '#0f2d35',
-    color: '#e8e0d5',
-    confirmButtonColor: '#CA8A71',
-    focusConfirm: false,
-    didOpen: () => {
-      document.getElementById('redeemCodeInput').addEventListener('keydown', e => {
-        if (e.key === 'Enter') Swal.clickConfirm();
-      });
-    },
-    preConfirm: async () => {
-      const code = (document.getElementById('redeemCodeInput')?.value || '').trim().toUpperCase();
-      if (!code) {
-        Swal.showValidationMessage(isSr ? 'Unesite vaučer kod.' : 'Please enter your voucher code.');
-        return false;
-      }
-      try {
-        const res = await fetch(`${API}/api/gifts/vouchers/validate`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code })
-        });
-        const data = await res.json();
-        if (data.valid) return { code, amount: data.amount };
-        Swal.showValidationMessage(isSr
-          ? 'Vaučer kod nije validan ili nije aktivan.'
-          : 'This voucher code is not valid or not active.');
-        return false;
-      } catch {
-        Swal.showValidationMessage(isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Please try again.');
-        return false;
-      }
-    }
-  }).then(result => {
-    if (!result.isConfirmed || !result.value) return;
-    const { code, amount } = result.value;
-    const isSr = lang === 'sr';
-    Swal.fire({
-      title: isSr ? '🎉 Vaučer je aktivan!' : '🎉 Voucher is active!',
-      html: `
-        <div style="text-align:center;padding:8px 0;">
-          <div style="font-size:48px;font-weight:900;color:#CA8A71;line-height:1;margin-bottom:8px;">${amount}€</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.5);font-family:monospace;letter-spacing:2px;margin-bottom:20px;">${code}</div>
-          <p style="font-size:15px;color:rgba(255,255,255,.8);line-height:1.7;">
-            ${isSr
-              ? '✅ Tvoj vaučer je aktivan i spreman za korišćenje.<br><strong style="color:#CA8A71;">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje — iznos se oduzima od ukupne cene.'
-              : '✅ Your voucher is active and ready to use.<br><strong style="color:#CA8A71;">Apply it in step 7</strong> when booking — the amount will be deducted from the total.'}
-          </p>
-        </div>`,
-      confirmButtonText: isSr ? '✈️ Rezerviši putovanje' : '✈️ Book a trip',
-      confirmButtonColor: '#CA8A71',
-      showCancelButton: true,
-      cancelButtonText: isSr ? 'Zatvori' : 'Close',
-      background: '#0f2d35',
-      color: '#e8e0d5',
-    }).then(r => {
-      if (r.isConfirmed) {
-        document.getElementById('esc-booking')?.scrollIntoView({ behavior: 'smooth' });
-      }
+  const overlay = document.getElementById('redeemOverlay');
+  if (!overlay) return;
+
+  // Texts
+  document.getElementById('rdmTitle').textContent   = isSr ? 'Iskoristi vaučer' : 'Redeem voucher';
+  document.getElementById('rdmSub').textContent     = isSr
+    ? 'Unesi kod koji si dobio/la i videćeš koliko iznosi'
+    : 'Enter the code you received to check its value';
+  document.getElementById('redeemCheckLbl').textContent = isSr ? 'Proveri kod' : 'Check code';
+  document.getElementById('rdmAmountLbl').textContent   = isSr ? 'vaučer' : 'voucher';
+  document.getElementById('rdmBookBtn').textContent     = isSr ? '✈️ Rezerviši putovanje' : '✈️ Book a trip';
+
+  // Reset state
+  document.getElementById('redeemCodeInp').value = '';
+  document.getElementById('redeemCodeInp').className = 'rdm-input';
+  const statusEl = document.getElementById('redeemStatus');
+  statusEl.style.display = 'none'; statusEl.textContent = '';
+  document.getElementById('rdmMain').style.display = '';
+  document.getElementById('rdmSuccess').style.display = 'none';
+  document.getElementById('redeemCheckBtn').disabled = false;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('redeemCodeInp').focus(), 80);
+}
+
+function closeRedeemModal() {
+  document.getElementById('redeemOverlay')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function checkRedeemCode() {
+  const isSr  = lang === 'sr';
+  const input = document.getElementById('redeemCodeInp');
+  const btn   = document.getElementById('redeemCheckBtn');
+  const lbl   = document.getElementById('redeemCheckLbl');
+  const statusEl = document.getElementById('redeemStatus');
+  const code  = (input.value || '').trim().toUpperCase();
+
+  if (!code) {
+    input.className = 'rdm-input rdm-invalid';
+    statusEl.className = 'rdm-status err';
+    statusEl.textContent = isSr ? 'Unesite vaučer kod.' : 'Enter your voucher code.';
+    statusEl.style.display = '';
+    return;
+  }
+
+  btn.disabled = true;
+  lbl.textContent = '...';
+  statusEl.style.display = 'none';
+
+  try {
+    const res  = await fetch(`${API}/api/gifts/vouchers/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
     });
-  });
+    const data = await res.json();
+
+    if (data.valid) {
+      input.className = 'rdm-input rdm-valid';
+      document.getElementById('rdmAmount').textContent    = data.amount + '€';
+      document.getElementById('rdmCodeBadge').textContent = code;
+      document.getElementById('rdmSuccessMsg').innerHTML  = isSr
+        ? '✅ Vaučer je aktivan. <strong style="color:var(--gold)">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje — iznos se oduzima od ukupne cene.'
+        : '✅ Voucher is active. <strong style="color:var(--gold)">Apply it in step 7</strong> when booking — the amount will be deducted from your total.';
+      document.getElementById('rdmMain').style.display    = 'none';
+      document.getElementById('rdmSuccess').style.display = '';
+    } else {
+      input.className = 'rdm-input rdm-invalid';
+      statusEl.className = 'rdm-status err';
+      statusEl.textContent = isSr ? 'Vaučer nije validan ili nije aktivan.' : 'Voucher is not valid or not active.';
+      statusEl.style.display = '';
+      btn.disabled = false;
+      lbl.textContent = isSr ? 'Pokušaj ponovo' : 'Try again';
+    }
+  } catch {
+    statusEl.className = 'rdm-status err';
+    statusEl.textContent = isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Please try again.';
+    statusEl.style.display = '';
+    btn.disabled = false;
+    lbl.textContent = isSr ? 'Proveri kod' : 'Check code';
+  }
 }
 
 // ── Voucher u booking formi (korak 7) ────────────────────────────────────────

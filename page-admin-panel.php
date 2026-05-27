@@ -1152,6 +1152,7 @@ function showPriceBreakdown(b) {
   if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€ flat`));
   if (b.hasInsurance)       rows.push(tr('Osiguranje', '+20€ flat'));
   if (b.hasSeatsTogther)    rows.push(tr('Sedišta zajedno', '+20€/os'));
+  if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${b.appliedVoucherCode || ''})`, `−${b.voucherDiscount}€`));
   rows.push(`<tr class="total"><td><strong>${b.totalPricePerPerson}€/os × ${b.numberOfTravelers}</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
   document.getElementById('pricePopupTable').innerHTML = rows.join('');
   document.getElementById('pricePopupOverlay').classList.add('open');
