@@ -1874,6 +1874,58 @@
     .ptl { font-size: 16px; font-weight: 800; }
     .ptv { font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; }
     .pr-per { font-size: 12px; color: var(--gray); text-align: right; margin-top: 4px; }
+
+    /* ── Voucher apply ───────────────────────────────────────── */
+    .voucher-section {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px dashed rgba(202,138,113,.2);
+    }
+    .voucher-toggle-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: none; border: none; font-size: 13px; font-weight: 700;
+      color: var(--gold); cursor: pointer; font-family: inherit; padding: 0;
+      transition: opacity .15s;
+    }
+    .voucher-toggle-btn:hover { opacity: .8; }
+    .voucher-toggle-caret { font-size: 10px; transition: transform .2s; display: inline-block; }
+    .voucher-toggle-btn.open .voucher-toggle-caret { transform: rotate(180deg); }
+    .voucher-input-body { display: none; margin-top: 12px; }
+    .voucher-input-body.open { display: block; }
+    .voucher-input-row { display: flex; gap: 8px; }
+    .voucher-code-inp {
+      flex: 1; padding: 11px 14px; border-radius: 10px;
+      border: 1.5px solid rgba(202,138,113,.25);
+      font-size: 13px; font-weight: 700; font-family: monospace;
+      letter-spacing: 2px; text-transform: uppercase;
+      background: rgba(202,138,113,.04); color: var(--white);
+      outline: none; transition: border .18s;
+    }
+    .voucher-code-inp:focus { border-color: var(--gold); }
+    .voucher-code-inp.valid { border-color: #22c55e !important; background: rgba(34,197,94,.04); }
+    .voucher-code-inp.invalid { border-color: #ef4444 !important; }
+    .voucher-apply-btn {
+      padding: 11px 18px; border-radius: 10px; border: none;
+      background: var(--gold); color: #fff; font-size: 13px; font-weight: 800;
+      cursor: pointer; transition: all .2s; white-space: nowrap; font-family: inherit;
+    }
+    .voucher-apply-btn:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+    .voucher-apply-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .voucher-msg { font-size: 12px; margin-top: 8px; min-height: 16px; }
+    .voucher-msg.ok  { color: #86efac; }
+    .voucher-msg.err { color: #f87171; }
+    .voucher-discount-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-top: 1px dashed rgba(34,197,94,.3); margin-top: 8px;
+      animation: voucherIn .4s ease both;
+    }
+    .voucher-discount-label { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #86efac; font-weight: 600; }
+    .voucher-discount-code { font-family: monospace; font-size: 11px; opacity: .65; }
+    .voucher-discount-val { font-size: 15px; font-weight: 800; color: #86efac; }
+    .voucher-remove-btn { background: none; border: none; color: rgba(239,68,68,.5); font-size: 12px; cursor: pointer; padding: 2px 6px; border-radius: 5px; transition: color .15s; font-family: inherit; }
+    .voucher-remove-btn:hover { color: #ef4444; }
+    @keyframes voucherIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    @keyframes priceFlash { 0%,100% { color:var(--gold); } 50% { color:#86efac; transform:scale(1.08); } }
+    .price-flash { animation: priceFlash .6s ease both; }
     /* Step 8 — box style matching traveler form */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
     .form-field { display: flex; flex-direction: column; gap: 8px; }
@@ -3270,9 +3322,39 @@
         <div class="price-box">
           <div class="price-box-title" data-i18n="price.title">Pregled cene</div>
           <div id="priceRows"><div style="color:var(--gray);font-size:14px;text-align:center;padding:16px;">Izračunavanje...</div></div>
+          <!-- Voucher discount row — hidden until code applied -->
+          <div id="voucherDiscountRow" class="voucher-discount-row" style="display:none;">
+            <div class="voucher-discount-label">
+              🎟️ Poklon vaučer
+              <span class="voucher-discount-code" id="voucherDiscountCode"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="voucher-discount-val" id="voucherDiscountVal"></span>
+              <button class="voucher-remove-btn" onclick="removeVoucher()" type="button">✕ ukloni</button>
+            </div>
+          </div>
+
           <div class="pr-total">
             <div class="ptl" data-i18n="price.total">Ukupno</div>
             <div><div class="ptv" id="priceTotal">—</div><div class="pr-per" id="pricePer"></div></div>
+          </div>
+
+          <!-- Voucher code input -->
+          <div class="voucher-section">
+            <button class="voucher-toggle-btn" id="voucherToggleBtn" type="button" onclick="toggleVoucherInput()">
+              🎟️ <span id="voucherToggleLbl">Imam poklon vaučer</span>
+              <span class="voucher-toggle-caret">▾</span>
+            </button>
+            <div class="voucher-input-body" id="voucherInputBody">
+              <div class="voucher-input-row">
+                <input class="voucher-code-inp" id="voucherCodeInp" type="text"
+                       placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20"
+                       oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')"
+                       onkeydown="if(event.key==='Enter'){event.preventDefault();applyVoucher();}">
+                <button class="voucher-apply-btn" id="voucherApplyBtn" type="button" onclick="applyVoucher()">Primeni</button>
+              </div>
+              <div class="voucher-msg" id="voucherMsg"></div>
+            </div>
           </div>
         </div>
         <div class="step-btns">
@@ -3654,6 +3736,7 @@
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
 // Anti-bot: beleži vreme učitavanja stranice
 const _FORM_START = Date.now();
+let _appliedVoucher = null; // { code, amount } ili null
 
 // ══════════ i18n
 const TR = {
@@ -5480,8 +5563,12 @@ async function loadPrice() {
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
     rows.innerHTML = html;
-    document.getElementById('priceTotal').textContent = p.totalEurAll+'€';
-    const perPerson = p.numberOfTravelers > 1 ? Math.round(p.totalEurAll / p.numberOfTravelers) : 0;
+    // Osnovna cena (bez vaučera)
+    const baseTotal = p.totalEurAll;
+    const vDisc = _appliedVoucher ? _appliedVoucher.amount : 0;
+    const finalTotal = Math.max(0, baseTotal - vDisc);
+    document.getElementById('priceTotal').textContent = finalTotal+'€';
+    const perPerson = p.numberOfTravelers > 1 ? Math.round(finalTotal / p.numberOfTravelers) : 0;
     document.getElementById('pricePer').textContent = p.numberOfTravelers > 1 ? t('pr.pp', perPerson) : '';
   } catch(e) {
     document.getElementById('priceRows').innerHTML=`<div style="color:#f87171;font-size:13px;text-align:center;padding:10px;">${t('err.price')}</div>`;
@@ -5680,6 +5767,7 @@ async function submitBooking() {
     passengers,
     firstName:firstName, lastName:lastName, email:email, phone:phone,
     notes:document.getElementById('fNotes').value,
+    voucherCode: _appliedVoucher?.code || null,
     // Anti-bot polja
     website: document.getElementById('hp_website')?.value || '',
     formDuration: Math.round((Date.now() - _FORM_START) / 1000)
@@ -6249,38 +6337,178 @@ document.addEventListener('click', function(e) {
 function openRedeemModal() {
   const isSr = lang === 'sr';
   Swal.fire({
-    title: isSr ? '🔓 Iskoristi poklon' : '🔓 Redeem your gift',
-    html: `<p style="color:rgba(255,255,255,.6);font-size:14px;margin-bottom:18px;">${isSr
-      ? 'Dobiješ/la si poklon putovanje? Unesi kod koji si dobio/la emailom.'
-      : 'Received a gift trip? Enter the code from your email.'
-    }</p>
-    <input id="redeemCodeInput" class="swal2-input"
-      placeholder="${isSr ? 'Npr. GIFT-ABC123' : 'e.g. GIFT-ABC123'}"
-      style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);color:#e8e0d5;border-radius:10px;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">
-    <p id="redeemErr" style="color:#f87171;font-size:13px;margin-top:8px;display:none;">${isSr
-      ? 'Unesi poklon kod.' : 'Please enter your gift code.'}</p>`,
-    confirmButtonText: isSr ? 'Aktiviraj poklon →' : 'Activate gift →',
+    title: isSr ? '🎟️ Iskoristi vaučer' : '🎟️ Redeem voucher',
+    html: `
+      <p style="color:rgba(255,255,255,.55);font-size:14px;margin-bottom:18px;line-height:1.6;">
+        ${isSr
+          ? 'Unesite vaučer kod koji ste dobili emailom da biste proverili njegov status.'
+          : 'Enter the voucher code you received by email to check its status.'}
+      </p>
+      <input id="redeemCodeInput" class="swal2-input"
+        placeholder="ESC-XXXX-XXXX-XXXX"
+        style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#e8e0d5;
+               border-radius:10px;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+               font-family:monospace;text-align:center;"
+        oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')">
+      <div id="redeemResult" style="margin-top:10px;min-height:20px;font-size:13px;"></div>`,
+    confirmButtonText: isSr ? 'Proveri kod →' : 'Check code →',
     showCancelButton: true,
-    cancelButtonText: isSr ? 'Odustani' : 'Cancel',
+    cancelButtonText: isSr ? 'Zatvori' : 'Close',
     background: '#0f2d35',
     color: '#e8e0d5',
-    confirmButtonColor: '#C8953A',
+    confirmButtonColor: '#CA8A71',
     focusConfirm: false,
     didOpen: () => {
       document.getElementById('redeemCodeInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') Swal.clickConfirm();
       });
     },
-    preConfirm: () => {
-      const code = (document.getElementById('redeemCodeInput').value || '').trim().toUpperCase();
+    preConfirm: async () => {
+      const code = (document.getElementById('redeemCodeInput')?.value || '').trim().toUpperCase();
       if (!code) {
-        document.getElementById('redeemErr').style.display = 'block';
+        Swal.showValidationMessage(isSr ? 'Unesite vaučer kod.' : 'Please enter your voucher code.');
         return false;
       }
-      window.location.href = `/poklon?k=${encodeURIComponent(code)}`;
-      return false; // prevent swal close (redirect will navigate)
+      try {
+        const res = await fetch(`${API}/api/gifts/vouchers/validate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+        if (data.valid) return { code, amount: data.amount };
+        Swal.showValidationMessage(isSr
+          ? 'Vaučer kod nije validan ili nije aktivan.'
+          : 'This voucher code is not valid or not active.');
+        return false;
+      } catch {
+        Swal.showValidationMessage(isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Please try again.');
+        return false;
+      }
     }
+  }).then(result => {
+    if (!result.isConfirmed || !result.value) return;
+    const { code, amount } = result.value;
+    const isSr = lang === 'sr';
+    Swal.fire({
+      title: isSr ? '🎉 Vaučer je aktivan!' : '🎉 Voucher is active!',
+      html: `
+        <div style="text-align:center;padding:8px 0;">
+          <div style="font-size:48px;font-weight:900;color:#CA8A71;line-height:1;margin-bottom:8px;">${amount}€</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.5);font-family:monospace;letter-spacing:2px;margin-bottom:20px;">${code}</div>
+          <p style="font-size:15px;color:rgba(255,255,255,.8);line-height:1.7;">
+            ${isSr
+              ? '✅ Tvoj vaučer je aktivan i spreman za korišćenje.<br><strong style="color:#CA8A71;">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje — iznos se oduzima od ukupne cene.'
+              : '✅ Your voucher is active and ready to use.<br><strong style="color:#CA8A71;">Apply it in step 7</strong> when booking — the amount will be deducted from the total.'}
+          </p>
+        </div>`,
+      confirmButtonText: isSr ? '✈️ Rezerviši putovanje' : '✈️ Book a trip',
+      confirmButtonColor: '#CA8A71',
+      showCancelButton: true,
+      cancelButtonText: isSr ? 'Zatvori' : 'Close',
+      background: '#0f2d35',
+      color: '#e8e0d5',
+    }).then(r => {
+      if (r.isConfirmed) {
+        document.getElementById('esc-booking')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   });
+}
+
+// ── Voucher u booking formi (korak 7) ────────────────────────────────────────
+
+function toggleVoucherInput() {
+  const btn  = document.getElementById('voucherToggleBtn');
+  const body = document.getElementById('voucherInputBody');
+  const open = !body.classList.contains('open');
+  body.classList.toggle('open', open);
+  btn.classList.toggle('open', open);
+}
+
+async function applyVoucher() {
+  const input = document.getElementById('voucherCodeInp');
+  const btn   = document.getElementById('voucherApplyBtn');
+  const msg   = document.getElementById('voucherMsg');
+  const code  = (input.value || '').trim().toUpperCase();
+  const isSr  = lang === 'sr';
+
+  if (!code) {
+    msg.className = 'voucher-msg err';
+    msg.textContent = isSr ? 'Unesite vaučer kod.' : 'Enter your voucher code.';
+    input.classList.add('invalid');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '...';
+  msg.textContent = '';
+  input.classList.remove('valid', 'invalid');
+
+  try {
+    const res  = await fetch(`${API}/api/gifts/vouchers/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+    const data = await res.json();
+
+    if (data.valid) {
+      _appliedVoucher = { code, amount: data.amount };
+      input.classList.add('valid');
+      msg.className = 'voucher-msg ok';
+      msg.textContent = isSr ? `✅ Vaučer od ${data.amount}€ primenjen!` : `✅ ${data.amount}€ voucher applied!`;
+      showVoucherDiscount(code, data.amount);
+      // Sakrij input sekciju
+      document.getElementById('voucherInputBody').classList.remove('open');
+      document.getElementById('voucherToggleBtn').classList.remove('open');
+      document.getElementById('voucherToggleLbl').textContent = isSr ? `🎟️ Vaučer primenjen (${data.amount}€)` : `🎟️ Voucher applied (${data.amount}€)`;
+    } else {
+      input.classList.add('invalid');
+      msg.className = 'voucher-msg err';
+      msg.textContent = isSr ? 'Vaučer kod nije validan ili nije aktivan.' : 'Voucher code is not valid or not active.';
+    }
+  } catch {
+    msg.className = 'voucher-msg err';
+    msg.textContent = isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = isSr ? 'Primeni' : 'Apply';
+  }
+}
+
+function showVoucherDiscount(code, amount) {
+  const row = document.getElementById('voucherDiscountRow');
+  document.getElementById('voucherDiscountCode').textContent = code;
+  document.getElementById('voucherDiscountVal').textContent  = `−${amount}€`;
+  row.style.display = 'flex';
+  updatePriceTotalWithVoucher();
+}
+
+function removeVoucher() {
+  _appliedVoucher = null;
+  const row = document.getElementById('voucherDiscountRow');
+  row.style.display = 'none';
+  document.getElementById('voucherCodeInp').value = '';
+  document.getElementById('voucherCodeInp').classList.remove('valid', 'invalid');
+  document.getElementById('voucherMsg').textContent = '';
+  document.getElementById('voucherToggleLbl').textContent = lang === 'sr' ? 'Imam poklon vaučer' : 'I have a gift voucher';
+  updatePriceTotalWithVoucher();
+}
+
+function updatePriceTotalWithVoucher() {
+  if (!S.lastPrice) return;
+  const base  = S.lastPrice.totalEurAll;
+  const disc  = _appliedVoucher ? _appliedVoucher.amount : 0;
+  const total = Math.max(0, base - disc);
+  const el    = document.getElementById('priceTotal');
+  el.textContent = total + '€';
+  el.classList.remove('price-flash');
+  void el.offsetWidth; // reflow
+  el.classList.add('price-flash');
+  const n = S.travelers || 1;
+  document.getElementById('pricePer').textContent = n > 1
+    ? (lang==='sr' ? `≈ ${Math.round(total/n)}€ po osobi` : `≈ ${Math.round(total/n)}€/pp`) : '';
 }
 
 function openGiftPanel() {
