@@ -336,31 +336,77 @@ $site_url  = get_site_url();
     .trip-airport-btn:hover { border-color: rgba(202,138,113,.4); color: rgba(255,255,255,.9); }
     .trip-airport-btn.on { border-color: var(--gold); background: rgba(202,138,113,.12); color: #d4a83c; }
 
-    /* Calendar (identično s booking formom) */
-    .inq-cal { background: rgba(255,255,255,.03); border: 1px solid rgba(246,241,230,.08); border-radius: 14px; padding: 18px; margin-bottom: 10px; }
-    .inq-cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .inq-cal-month { font-size: 16px; font-weight: 800; color: #f6f1e6; }
+    /* Calendar — identičan booking formi (front-page.php) */
+    .inq-cal {
+      background: rgba(246,241,230,.025); border: 1px solid rgba(246,241,230,.08);
+      border-radius: 14px; padding: 16px;
+    }
+    .inq-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .inq-cal-month { font-size: 18px; font-weight: 800; color: #f6f1e6; }
     .inq-cal-nav { display: flex; gap: 5px; }
-    .inq-cal-nav button { background: rgba(246,241,230,.06); border: 1px solid rgba(246,241,230,.1); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(246,241,230,.7); transition: all .18s; }
+    .inq-cal-nav button {
+      width: 30px; height: 30px; border-radius: 100px;
+      background: rgba(246,241,230,.05); border: 1px solid rgba(246,241,230,.08);
+      color: rgba(246,241,230,.6); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s, border-color .2s;
+    }
     .inq-cal-nav button:hover { background: rgba(202,138,113,.15); color: #f0b094; border-color: rgba(202,138,113,.35); }
     .inq-cal-nav button svg { width: 13px; height: 13px; }
     .inq-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
-    .inq-cal-dow { text-align: center; font-size: 11px; font-weight: 700; color: rgba(246,241,230,.35); padding: 4px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
-    .inq-cal-day { width: 100%; aspect-ratio: 1; border: none; background: transparent; color: rgba(246,241,230,.8); font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all .15s; font-family: inherit; }
-    .inq-cal-day:hover:not(:disabled):not(.muted) { background: rgba(202,138,113,.18); color: #f0b094; }
+    .inq-cal-dow {
+      text-align: center; font-size: 9px; letter-spacing: .18em;
+      color: rgba(246,241,230,.3); font-weight: 700; text-transform: uppercase;
+      padding: 5px 0 7px;
+    }
+    .inq-cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      background: transparent; border: 1px solid transparent; border-radius: 9px;
+      color: #f6f1e6; font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: background .18s, border-color .18s, transform .18s;
+      font-family: inherit;
+    }
+    .inq-cal-day:hover:not(:disabled):not(.muted) {
+      background: rgba(202,138,113,.12); border-color: rgba(202,138,113,.35); transform: scale(1.06);
+    }
     .inq-cal-day.muted { color: rgba(246,241,230,.25); cursor: default; }
+    .inq-cal-day.today { box-shadow: inset 0 0 0 1px rgba(246,241,230,.2); }
     .inq-cal-day:disabled { opacity: .2; cursor: not-allowed; }
-    .inq-cal-day.dep { background: var(--gold) !important; color: #1a1000 !important; font-weight: 800; border-radius: 8px 0 0 8px; }
-    .inq-cal-day.ret { background: var(--gold) !important; color: #1a1000 !important; font-weight: 800; border-radius: 0 8px 8px 0; }
-    .inq-cal-day.dep.ret { border-radius: 8px; }
-    .inq-cal-day.in-range { background: rgba(212,168,60,.15); border-radius: 0; color: rgba(246,241,230,.9); }
-    .inq-cal-day.in-range-preview { background: rgba(212,168,60,.08); border-radius: 0; }
-    .inq-cal-day.dep-hover { background: rgba(212,168,60,.25) !important; border-radius: 0 8px 8px 0; }
-    .inq-range-status { font-size: 13px; padding: 8px 12px; border-radius: 8px; margin-top: 6px; }
-    .inq-range-status.hint { color: rgba(246,241,230,.45); background: transparent; }
-    .inq-range-status.dep-set { color: rgba(246,241,230,.75); background: rgba(246,241,230,.04); }
-    .inq-range-status.valid { color: #86efac; background: rgba(34,197,94,.08); }
-    .inq-range-status.invalid { color: #fca5a5; background: rgba(239,68,68,.08); }
+    .inq-cal-day.dep {
+      background: var(--accent); color: #fff; font-weight: 700;
+      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
+      border-radius: 9px 0 0 9px;
+    }
+    .inq-cal-day.ret {
+      background: var(--accent); color: #fff; font-weight: 700;
+      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
+      border-radius: 0 9px 9px 0;
+    }
+    .inq-cal-day.dep.ret { border-radius: 9px; }
+    .inq-cal-day.in-range { background: rgba(202,138,113,.18); border-radius: 0; border-color: transparent; }
+    .inq-cal-day.in-range-preview { background: rgba(202,138,113,.08); border-radius: 0; border-color: transparent; }
+    .inq-cal-day.dep-hover { background: rgba(202,138,113,.2); border-radius: 9px 0 0 9px; }
+    .inq-range-status {
+      margin-top: 10px; padding: 9px 13px; border-radius: 10px;
+      font-size: 12px; line-height: 1.5; text-align: center; transition: all .2s;
+    }
+    .inq-range-status.hint { background: rgba(246,241,230,.04); color: rgba(246,241,230,.4); border: 1px dashed rgba(246,241,230,.1); }
+    .inq-range-status.dep-set { background: rgba(202,138,113,.1); color: #f0b094; border: 1px solid rgba(202,138,113,.25); }
+    .inq-range-status.valid { background: rgba(74,222,128,.08); color: #86efac; border: 1px solid rgba(74,222,128,.2); }
+    .inq-range-status.invalid { background: rgba(239,68,68,.08); color: #fca5a5; border: 1px solid rgba(239,68,68,.2); animation: fadeInDown .25s ease; }
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);} }
+    /* Poruka za 6+ putnika */
+    .trav-max-msg {
+      display: flex; align-items: center; gap: 9px;
+      padding: 11px 16px; border-radius: 12px; margin-top: 12px;
+      background: rgba(200,149,58,.08); border: 1px solid rgba(200,149,58,.22);
+      font-size: 13px; color: rgba(246,241,230,.72); line-height: 1.45;
+      opacity: 0; transform: translateY(-5px); pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .trav-max-msg.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .trav-max-msg a { color: #d4a83c; font-weight: 700; text-decoration: none; }
+    .trav-max-msg a:hover { text-decoration: underline; }
 
     /* Travelers counter */
     .trav-row { display: flex; align-items: center; gap: 16px; }
@@ -499,7 +545,7 @@ $site_url  = get_site_url();
         <button class="nav-gift-item" onclick="closeNavGift();scrollToTrip();" type="button">
           <span class="nav-gift-item-icon">✈️</span>
           <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.trip">Iznenađenje putovanje</span>
+            <span class="nav-gift-item-label" data-i18n="nav.gift.trip">Putovanje iznenađenja</span>
             <span class="nav-gift-item-sub" data-i18n="nav.gift.trip.sub">Rezerviši konkretan termin</span>
           </span>
         </button>
@@ -522,7 +568,7 @@ $site_url  = get_site_url();
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToVoucher();" type="button">🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span></button>
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToTrip();" type="button">✈️ <span data-i18n="nav.gift.trip">Iznenađenje putovanje</span></button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToTrip();" type="button">✈️ <span data-i18n="nav.gift.trip">Putovanje iznenađenja</span></button>
       </div>
     </div>
   </div>
@@ -549,7 +595,7 @@ $site_url  = get_site_url();
     </button>
     <button class="gift-hero-card" id="cardTrip" onclick="selectGiftOption('trip')" type="button">
       <div class="gift-hc-icon">✈️</div>
-      <div class="gift-hc-title" data-i18n="gift.card.trip.t">Iznenađenje putovanje</div>
+      <div class="gift-hc-title" data-i18n="gift.card.trip.t">Putovanje iznenađenja</div>
       <div class="gift-hc-sub" data-i18n="gift.card.trip.sub">Rezerviši konkretan termin — mi formiramo cenu i šaljemo link</div>
       <div class="gift-hc-arrow" data-i18n="gift.card.trip.cta">Pošalji upit →</div>
     </button>
@@ -632,12 +678,12 @@ $site_url  = get_site_url();
     <div class="gift-choice-bar gift-choice-bar-dark" style="background:#0f2d35; max-width:100%; padding:36px 24px 0;">
       <div style="max-width:760px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
         <button class="gift-back-btn" onclick="resetGiftOption()" type="button">← <span data-i18n="gift.back">Promeni izbor</span></button>
-        <span class="gift-choice-label">✈️ <span data-i18n="gift.sec.trip.tag">Iznenađenje putovanje</span></span>
+        <span class="gift-choice-label">✈️ <span data-i18n="gift.sec.trip.tag">Putovanje iznenađenja</span></span>
       </div>
     </div>
   <div class="trip-section-wrap" style="margin-top:0;">
     <div class="trip-inner">
-      <div class="trip-sec-tag">✈️ <span data-i18n="gift.sec.trip.tag">Iznenađenje putovanje</span></div>
+      <div class="trip-sec-tag">✈️ <span data-i18n="gift.sec.trip.tag">Putovanje iznenađenja</span></div>
       <h2 class="trip-sec-h" data-i18n="gift.sec.trip.h">Rezerviši konkretan termin</h2>
       <p class="trip-sec-desc" data-i18n="gift.sec.trip.desc">Popuni formu — mi formiramo cenu i šaljemo ti link za plaćanje. Primalac dobija reveal email sa sneak peek-om, ali destinacija ostaje tajna do 48h pre polaska.</p>
 
@@ -675,12 +721,15 @@ $site_url  = get_site_url();
         <!-- Putnici -->
         <div class="trip-field-wrap">
           <div class="trip-gf-label" data-i18n="gift.trip.travelers.label">Broj putnika</div>
-          <div class="trav-row" style="position:relative;">
+          <div class="trav-row">
             <button class="trav-btn" id="tripTravD" onclick="chTripTrav(-1)" type="button" disabled>−</button>
             <span class="trav-count" id="tripTravN">2</span>
             <button class="trav-btn" id="tripTravU" onclick="chTripTrav(1)" type="button">+</button>
             <span class="trav-label" data-i18n="gift.trip.travelers.label2">putnik/putnika</span>
-            <span id="tripTravMore" style="display:none;margin-left:10px;font-size:12px;color:#CA8A71;cursor:default;" title="Za više od 6 putnika kontaktiraj nas na escapii.team@gmail.com">7+ → <a href="mailto:escapii.team@gmail.com" style="color:#CA8A71;">piši nam</a></span>
+          </div>
+          <div class="trav-max-msg" id="tripTravMore">
+            <span style="font-size:15px;flex-shrink:0;">✉</span>
+            <span>Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></span>
           </div>
         </div>
 
@@ -792,7 +841,7 @@ const TR = {
     'nav.gift.label':        'Pokloni iznenađenje',
     'nav.gift.voucher':      'Poklon vaučer',
     'nav.gift.voucher.sub':  '50 – 400+ EUR',
-    'nav.gift.trip':         'Iznenađenje putovanje',
+    'nav.gift.trip':         'Putovanje iznenađenja',
     'nav.gift.trip.sub':     'Rezerviši konkretan termin',
     'nav.gift.redeem':       'Iskoristi poklon',
     'nav.gift.redeem.sub':   'Imaš poklon kod? Aktiviraj ga ovde',
@@ -802,7 +851,7 @@ const TR = {
     'gift.card.voucher.t':   'Poklon vaučer',
     'gift.card.voucher.sub': 'Odaberi iznos, primalac ga koristi za bilo koje naše putovanje',
     'gift.card.cta':         'Odaberi iznos →',
-    'gift.card.trip.t':      'Iznenađenje putovanje',
+    'gift.card.trip.t':      'Putovanje iznenađenja',
     'gift.card.trip.sub':    'Rezerviši konkretan termin — mi formiramo cenu i šaljemo link',
     'gift.card.trip.cta':    'Pošalji upit →',
     'gift.redeem.hint':      'Već imaš poklon kod? <a onclick="openRedeemModal()">Aktiviraj ga ovde →</a>',
@@ -823,7 +872,7 @@ const TR = {
     'gift.msg.label':        'Poruka primaocu (opciono)',
     'gift.msg.ph':           'Draga Ano, ovo putovanje je za tebe...',
     'gift.voucher.submit':   '🎟️ Pošalji upit za vaučer →',
-    'gift.sec.trip.tag':     'Iznenađenje putovanje',
+    'gift.sec.trip.tag':     'Putovanje iznenađenja',
     'gift.sec.trip.h':       'Rezerviši konkretan termin',
     'gift.sec.trip.desc':    'Popuni formu — mi formiramo cenu i šaljemo ti link za plaćanje. Primalac dobija reveal email sa sneak peek-om, ali destinacija ostaje tajna do 48h pre polaska.',
     'gift.trip.airport.label':'Aerodrom polaska',
@@ -839,7 +888,7 @@ const TR = {
     'gift.recip.section':    'Za koga je iznenađenje',
     'gift.trip.submit':      '✈️ Pošalji upit za putovanje →',
     's1.beg.name':           'Aerodrom Nikola Tesla',
-    's1.ini.name':           'Niš Constantine',
+    's1.ini.name':           'Niš Konstantin Veliki',
     'footer.home':           'Početna',
     'footer.how':            'Kako funkcioniše',
     'footer.about':          'O nama',
@@ -858,7 +907,7 @@ const TR = {
     'nav.gift.label':        'Gift a Surprise',
     'nav.gift.voucher':      'Gift voucher',
     'nav.gift.voucher.sub':  '50 – 400+ EUR',
-    'nav.gift.trip':         'Surprise trip',
+    'nav.gift.trip':         'Surprise Trip',
     'nav.gift.trip.sub':     'Book a specific date',
     'nav.gift.redeem':       'Redeem gift',
     'nav.gift.redeem.sub':   'Have a gift code? Activate it here',
@@ -868,7 +917,7 @@ const TR = {
     'gift.card.voucher.t':   'Gift voucher',
     'gift.card.voucher.sub': 'Choose an amount, recipient uses it on any Escapii trip',
     'gift.card.cta':         'Choose amount →',
-    'gift.card.trip.t':      'Surprise trip',
+    'gift.card.trip.t':      'Surprise Trip',
     'gift.card.trip.sub':    'Book a specific date — we price it and send you a payment link',
     'gift.card.trip.cta':    'Send inquiry →',
     'gift.redeem.hint':      'Already have a gift code? <a onclick="openRedeemModal()">Activate it here →</a>',
@@ -889,7 +938,7 @@ const TR = {
     'gift.msg.label':        'Message to recipient (optional)',
     'gift.msg.ph':           'Dear Ana, this trip is for you...',
     'gift.voucher.submit':   '🎟️ Send voucher inquiry →',
-    'gift.sec.trip.tag':     'Surprise trip',
+    'gift.sec.trip.tag':     'Surprise Trip',
     'gift.sec.trip.h':       'Book a specific date',
     'gift.sec.trip.desc':    'Fill in the form — we price it and send you a payment link. Recipient gets a reveal email with a sneak peek, but the destination stays secret until 48h before departure.',
     'gift.trip.airport.label':'Departure airport',
@@ -905,12 +954,12 @@ const TR = {
     'gift.recip.section':    'Who is the surprise for',
     'gift.trip.submit':      '✈️ Send trip inquiry →',
     's1.beg.name':           'Nikola Tesla Airport',
-    's1.ini.name':           'Niš Constantine',
+    's1.ini.name':           'Niš Konstantin Veliki',
     'footer.home':           'Home',
     'footer.how':            'How it works',
     'footer.about':          'About us',
     'footer.book':           'Book',
-    'footer.desc':           'Surprise trips for people who are ready to let go of control and try something different.',
+    'footer.desc':           'Surprise Trips for people who are ready to let go of control and try something different.',
     'footer.nav':            'Navigation',
     'footer.departure':      'Departures',
     'footer.contact':        'Contact',
@@ -1161,10 +1210,13 @@ let _tripRet      = null;
 let _tripCurMonth = null;
 let _tripHover    = null;
 
-const TRIP_MONTHS_SR = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
-const TRIP_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const TRIP_DOWS_SR   = ['Po','Ut','Sr','Če','Pe','Su','Ne'];
-const TRIP_DOWS_EN   = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+// Identični konstanti kao u booking formi (front-page.php)
+const INQ_MONTHS_SR = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
+const INQ_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const INQ_DOWS_SR   = ['PON','UTO','SRE','ČET','PET','SUB','NED'];
+const INQ_DOWS_EN   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const INQ_DAYS_SR   = ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'];
+const INQ_DAYS_EN   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 function selectTripAirport(code) {
   tripAirport = code;
@@ -1174,29 +1226,31 @@ function selectTripAirport(code) {
 }
 
 function chTripTrav(d) {
-  const next = tripTravelers + d;
-  if (next > 6) {
-    document.getElementById('tripTravMore').style.display = 'inline';
-    return;
-  }
-  document.getElementById('tripTravMore').style.display = 'none';
-  tripTravelers = Math.max(1, next);
+  const wasAtMax = tripTravelers >= 6 && d > 0;
+  tripTravelers = Math.min(6, Math.max(1, tripTravelers + d));
   document.getElementById('tripTravN').textContent = tripTravelers;
   document.getElementById('tripTravD').disabled = tripTravelers <= 1;
-  document.getElementById('tripTravU').disabled = false;
+  const maxMsg = document.getElementById('tripTravMore');
+  if (maxMsg) {
+    if (wasAtMax) maxMsg.classList.add('show');
+    else if (d < 0) maxMsg.classList.remove('show');
+  }
 }
 
-function tripDateDiff(a, b) {
+// Identične helper funkcije kao u booking formi
+function inqDateDiff(a, b) {
   return Math.round((b - a) / 86400000);
 }
-function tripFmtDate(d) {
-  const ms = lang === 'sr' ? TRIP_MONTHS_SR : TRIP_MONTHS_EN;
-  return `${d.getDate()}. ${ms[d.getMonth()]}`;
+function inqFmtDate(date) {
+  const days   = lang === 'sr' ? INQ_DAYS_SR  : INQ_DAYS_EN;
+  const months = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
+  return `${days[date.getDay()]}, ${date.getDate()}. ${months[date.getMonth()].slice(0,3).toLowerCase()}.`;
 }
 
 function updateTripRangeStatus() {
   const el = document.getElementById('tripRangeStatus');
   if (!el) return;
+  el.style.color = '';
   el.className = 'inq-range-status';
   if (!_tripDep && !_tripRet) {
     el.className += ' hint';
@@ -1206,25 +1260,27 @@ function updateTripRangeStatus() {
   } else if (_tripDep && !_tripRet) {
     el.className += ' dep-set';
     el.innerHTML = lang === 'sr'
-      ? `✈️ Polazak: <strong>${tripFmtDate(_tripDep)}</strong> — sada odaberi datum povratka`
-      : `✈️ Departure: <strong>${tripFmtDate(_tripDep)}</strong> — now select return date`;
+      ? `✈️ Polazak: <strong>${inqFmtDate(_tripDep)}</strong> — sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${inqFmtDate(_tripDep)}</strong> — now select return date`;
   } else if (_tripDep && _tripRet) {
-    const n = tripDateDiff(_tripDep, _tripRet);
+    const n = inqDateDiff(_tripDep, _tripRet);
     el.className += ' valid';
-    el.innerHTML = `✓ ${tripFmtDate(_tripDep)} → ${tripFmtDate(_tripRet)} &nbsp;·&nbsp; <strong>${n} ${lang === 'sr' ? 'noći' : 'nights'}</strong>`;
+    el.innerHTML = `✓ ${inqFmtDate(_tripDep)} → ${inqFmtDate(_tripRet)} &nbsp;·&nbsp; <strong>${n} ${lang === 'sr' ? 'noći' : 'nights'}</strong>`;
   }
 }
 
 function updateTripHoverClasses() {
   const grid = document.getElementById('tripCalGrid');
   if (!grid) return;
-  const diff = (_tripDep && _tripHover) ? tripDateDiff(_tripDep, _tripHover) : 0;
+  const hoverDiff = (_tripDep && _tripHover) ? inqDateDiff(_tripDep, _tripHover) : 0;
   grid.querySelectorAll('button.inq-cal-day').forEach(btn => {
     const d = new Date(Number(btn.dataset.ts));
     btn.classList.remove('in-range-preview', 'dep-hover');
     if (!_tripDep || _tripRet || !_tripHover) return;
-    if (d > _tripDep && d < _tripHover && (diff === 2 || diff === 3)) btn.classList.add('in-range-preview');
-    if (d.toDateString() === _tripHover.toDateString() && diff > 0) btn.classList.add('dep-hover');
+    if (d > _tripDep && d < _tripHover && (hoverDiff === 2 || hoverDiff === 3))
+      btn.classList.add('in-range-preview');
+    if (d.toDateString() === _tripHover.toDateString() && hoverDiff > 0)
+      btn.classList.add('dep-hover');
   });
 }
 
@@ -1233,77 +1289,126 @@ function renderTripCalendar() {
     const now = new Date();
     _tripCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   }
-  const monthNames = lang === 'sr' ? TRIP_MONTHS_SR : TRIP_MONTHS_EN;
-  const dows       = lang === 'sr' ? TRIP_DOWS_SR   : TRIP_DOWS_EN;
+  const monthNames = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
+  const dows       = lang === 'sr' ? INQ_DOWS_SR   : INQ_DOWS_EN;
   document.getElementById('tripCalMonth').textContent =
     `${monthNames[_tripCurMonth.getMonth()]} ${_tripCurMonth.getFullYear()}`;
 
   const grid = document.getElementById('tripCalGrid');
   if (!grid) return;
   grid.innerHTML = '';
-  dows.forEach(d => { const el = document.createElement('div'); el.className='inq-cal-dow'; el.textContent=d; grid.appendChild(el); });
+  dows.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-dow'; el.textContent = d;
+    grid.appendChild(el);
+  });
 
   const today    = new Date(); today.setHours(0,0,0,0);
-  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
-  const maxDate  = new Date(today.getFullYear()+1, today.getMonth(), today.getDate());
-  const firstDay = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),1);
-  const lastDay  = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()+1,0);
-  let startDow = firstDay.getDay()-1; if (startDow<0) startDow=6;
-  const prevLast = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),0).getDate();
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+  const maxDate  = new Date(today.getFullYear(), 11, 31); // 31. dec tekuće godine
 
-  for (let i=startDow;i>0;i--) { const el=document.createElement('div'); el.className='inq-cal-day muted'; el.textContent=prevLast-i+1; grid.appendChild(el); }
+  const firstDay = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), 1);
+  const lastDay  = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth() + 1, 0);
+  let startDow = firstDay.getDay() - 1; if (startDow < 0) startDow = 6;
+  const prevLast = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), 0).getDate();
 
-  for (let d=1;d<=lastDay.getDate();d++) {
-    const date = new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth(),d);
-    const el = document.createElement('button');
-    el.type='button'; el.textContent=d;
-    if (date<tomorrow||date>maxDate) { el.className='inq-cal-day'; el.disabled=true; grid.appendChild(el); continue; }
-    let cls='inq-cal-day';
-    if (_tripDep&&date.toDateString()===_tripDep.toDateString()) cls+=' dep';
-    if (_tripRet&&date.toDateString()===_tripRet.toDateString()) cls+=' ret';
-    if (_tripDep&&_tripRet&&date>_tripDep&&date<_tripRet) cls+=' in-range';
-    if (_tripDep&&!_tripRet&&_tripHover) {
-      const diff=tripDateDiff(_tripDep,_tripHover);
-      if ((diff===2||diff===3)&&date>_tripDep&&date<_tripHover) cls+=' in-range-preview';
-      if (date.toDateString()===_tripHover.toDateString()&&diff>0) cls+=' dep-hover';
-    }
-    el.className=cls; el.dataset.ts=date.getTime();
-    el.addEventListener('click',()=>{
-      if (!_tripDep||_tripRet) { _tripDep=date; _tripRet=null; }
-      else {
-        const diff=tripDateDiff(_tripDep,date);
-        if (diff<1) { _tripDep=date; _tripRet=null; }
-        else if (diff===2||diff===3) { _tripRet=date; }
-        else {
-          const s=document.getElementById('tripRangeStatus');
-          if(s){s.className='inq-range-status invalid';s.innerHTML=lang==='sr'?'⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.':'⚠️ Only <strong>2 or 3 nights</strong> are allowed.';setTimeout(()=>updateTripRangeStatus(),2500);}
-          return;
-        }
-      }
-      _tripHover=null; renderTripCalendar(); updateTripRangeStatus();
-    });
-    el.addEventListener('mouseenter',()=>{ if(_tripDep&&!_tripRet){_tripHover=date;updateTripHoverClasses();} });
-    el.addEventListener('mouseleave',()=>{ if(_tripDep&&!_tripRet){_tripHover=null;updateTripHoverClasses();} });
+  for (let i = startDow; i > 0; i--) {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-day muted'; el.textContent = prevLast - i + 1;
     grid.appendChild(el);
   }
 
-  const total=startDow+lastDay.getDate();
-  const trail=(7-(total%7))%7;
-  for(let i=1;i<=trail;i++){const el=document.createElement('div');el.className='inq-cal-day muted';el.textContent=i;grid.appendChild(el);}
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), d);
+    const el = document.createElement('button');
+    el.type = 'button'; el.textContent = d;
 
-  document.getElementById('tripPrevM').onclick=()=>{
-    const prev=new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()-1,1);
-    const thisMonth=new Date(today.getFullYear(),today.getMonth(),1);
-    if(prev>=thisMonth){_tripCurMonth=prev;renderTripCalendar();}
-  };
-  document.getElementById('tripNextM').onclick=()=>{
-    _tripCurMonth=new Date(_tripCurMonth.getFullYear(),_tripCurMonth.getMonth()+1,1);
-    renderTripCalendar();
-  };
+    if (date < tomorrow || date > maxDate) {
+      el.className = 'inq-cal-day'; el.disabled = true;
+      grid.appendChild(el); continue;
+    }
+
+    let cls = 'inq-cal-day';
+    if (date.toDateString() === today.toDateString()) cls += ' today';
+
+    const isDep = _tripDep && date.toDateString() === _tripDep.toDateString();
+    const isRet = _tripRet && date.toDateString() === _tripRet.toDateString();
+    if (isDep) cls += ' dep';
+    if (isRet) cls += ' ret';
+    if (_tripDep && _tripRet && date > _tripDep && date < _tripRet) cls += ' in-range';
+
+    if (_tripDep && !_tripRet && _tripHover) {
+      const diff = inqDateDiff(_tripDep, _tripHover);
+      if ((diff === 2 || diff === 3) && date > _tripDep && date < _tripHover) cls += ' in-range-preview';
+      if (date.toDateString() === _tripHover.toDateString() && diff > 0) cls += ' dep-hover';
+    }
+
+    el.className = cls;
+    el.dataset.ts = date.getTime();
+
+    el.addEventListener('click', () => {
+      if (!_tripDep || _tripRet) {
+        _tripDep = date; _tripRet = null;
+      } else {
+        const diff = inqDateDiff(_tripDep, date);
+        if (diff < 1) {
+          _tripDep = date; _tripRet = null;
+        } else if (diff === 2 || diff === 3) {
+          _tripRet = date;
+        } else {
+          const statusEl = document.getElementById('tripRangeStatus');
+          if (statusEl) {
+            statusEl.className = 'inq-range-status invalid';
+            statusEl.innerHTML = lang === 'sr'
+              ? `⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.`
+              : `⚠️ Only <strong>2 or 3 nights</strong> are allowed. Try again.`;
+            setTimeout(() => updateTripRangeStatus(), 2500);
+          }
+          return;
+        }
+      }
+      _tripHover = null;
+      renderTripCalendar();
+      updateTripRangeStatus();
+    });
+
+    el.addEventListener('mouseenter', () => {
+      if (_tripDep && !_tripRet) { _tripHover = date; updateTripHoverClasses(); }
+    });
+    el.addEventListener('mouseleave', () => {
+      if (_tripDep && !_tripRet) { _tripHover = null; updateTripHoverClasses(); }
+    });
+
+    grid.appendChild(el);
+  }
+
+  const total = startDow + lastDay.getDate();
+  const trail = (7 - (total % 7)) % 7;
+  for (let i = 1; i <= trail; i++) {
+    const el = document.createElement('div');
+    el.className = 'inq-cal-day muted'; el.textContent = i;
+    grid.appendChild(el);
+  }
 }
 
-// Init calendar on page load
-document.addEventListener('DOMContentLoaded', () => renderTripCalendar());
+// Init calendar + navigacija — identičan DOMContentLoaded kao u booking formi
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  _tripCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  renderTripCalendar();
+  updateTripRangeStatus();
+
+  document.getElementById('tripPrevM').addEventListener('click', () => {
+    const prev = new Date(_tripCurMonth); prev.setMonth(prev.getMonth() - 1);
+    const minMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    if (prev >= minMonth) { _tripCurMonth = prev; renderTripCalendar(); }
+  });
+  document.getElementById('tripNextM').addEventListener('click', () => {
+    const next = new Date(_tripCurMonth); next.setMonth(next.getMonth() + 1);
+    const maxMonth = new Date(now.getFullYear(), 12, 1);
+    if (next < maxMonth) { _tripCurMonth = next; renderTripCalendar(); }
+  });
+});
 
 async function submitTripInquiry() {
   const err  = document.getElementById('tripErr');
@@ -1319,7 +1424,7 @@ async function submitTripInquiry() {
     err.textContent = isSr ? 'Odaberi datum polaska i povratka.' : 'Select departure and return date.';
     return;
   }
-  const nights = tripDateDiff(_tripDep, _tripRet);
+  const nights = inqDateDiff(_tripDep, _tripRet);
   if (nights < 2 || nights > 3) {
     err.textContent = isSr ? 'Dozvoljeno je samo 2 ili 3 noći.' : 'Only 2 or 3 nights are allowed.';
     return;
@@ -1385,7 +1490,7 @@ async function submitTripInquiry() {
     document.getElementById('tripTravN').textContent = '2';
     document.getElementById('tripTravD').disabled = true;
     document.getElementById('tripTravU').disabled = false;
-    document.getElementById('tripTravMore').style.display = 'none';
+    document.getElementById('tripTravMore')?.classList.remove('show');
     renderTripCalendar();
     updateTripRangeStatus();
     ['tripBuyerEmail','tripNotes','tripRecipName','tripRecipEmail','tripMessage'].forEach(id => {
