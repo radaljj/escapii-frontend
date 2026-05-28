@@ -623,11 +623,6 @@ async function submitVoucher() {
     err.textContent = isSr ? 'Unesi validan email.' : 'Enter a valid email.';
     return;
   }
-  if (!recipEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipEmail)) {
-    err.textContent = isSr ? 'Unesi validan email primaoca.' : 'Enter a valid recipient email.';
-    return;
-  }
-
   btn.disabled = true;
   btn.textContent = isSr ? 'Slanje...' : 'Sending...';
 
