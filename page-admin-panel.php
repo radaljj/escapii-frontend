@@ -2968,12 +2968,16 @@ function renderGiftVouchers() {
       ? `<span style="font-family:monospace;font-size:11px;background:rgba(202,138,113,.1);color:#CA8A71;padding:2px 7px;border-radius:5px;">${escHtml(v.code)}</span>` : '';
     const reservedNote = v.status === 'RESERVED'
       ? `<div style="font-size:11px;color:#fbbf24;margin-top:3px;">⏳ Čeka potvrdu rezervacije</div>` : '';
+    const canReactivate = ['RESERVED','USED','EXPIRED'].includes(v.status);
     const actions  = v.status === 'PENDING'
       ? `<button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>`
       : v.status === 'ACTIVE'
       ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})">🏁 Iskorišćen</button>`
-      : v.status === 'RESERVED'
-      ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})" title="Ručni override — inače se automatski markira kad rezervacija postane CONFIRMED">🏁 Force USED</button>`
+      : canReactivate
+      ? `<div style="display:flex;gap:5px;flex-wrap:wrap;">
+           ${v.status === 'RESERVED' ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})" title="Ručni override">🏁 USED</button>` : ''}
+           <button class="btn-action" style="background:rgba(147,197,253,.15);color:#93c5fd;border:1px solid rgba(147,197,253,.3);" onclick="reactivateGiftVoucher(${v.id})" title="Vrati vaučer u ACTIVE stanje (npr. test rezervacija, otkazano putovanje)">🔓 Reaktiviraj</button>
+         </div>`
       : '—';
     return `<tr>
       <td style="color:#64748b;font-size:12px;">#${v.id}</td>
@@ -3038,6 +3042,31 @@ async function markGiftVoucherUsed(id) {
     Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer označen kao iskorišćen', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
   } catch {
     Swal.fire({ icon:'error', title:'Greška', background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function reactivateGiftVoucher(id) {
+  const v = _gVouchers.find(x => x.id === id);
+  const { isConfirmed } = await Swal.fire({
+    title: '🔓 Reaktiviraj vaučer?',
+    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€, trenutno: <strong style="color:#fbbf24;">${v?.status}</strong>) biće vraćen u <strong style="color:#93c5fd;">ACTIVE</strong> stanje i može ponovo biti korišćen.</p>
+           <p style="color:#ef4444;font-size:12px;margin-top:8px;">⚠️ Koristi samo ako je vaučer ostao zarobljen zbog test rezervacije ili otkazanog putovanja.</p>`,
+    showCancelButton: true, confirmButtonText: 'Da, reaktiviraj', cancelButtonText: 'Odustani',
+    confirmButtonColor: '#3b82f6', background: '#0b1929', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/reactivate`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error((await r.json().catch(()=>({}))).message || 'Greška');
+    const updated = await r.json();
+    const idx = _gVouchers.findIndex(x => x.id === id);
+    if (idx !== -1) _gVouchers[idx] = updated;
+    renderGiftVouchers();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer reaktiviran — sada ACTIVE', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }
 }
 
