@@ -1031,7 +1031,6 @@ tbody td  { padding: 11px 12px; }
               <tr>
                 <th>#</th>
                 <th>Kupac</th>
-                <th>Primalac</th>
                 <th>Iznos</th>
                 <th>Status</th>
                 <th>Poruka</th>
@@ -1041,7 +1040,7 @@ tbody td  { padding: 11px 12px; }
               </tr>
             </thead>
             <tbody id="giftVouchersTbody">
-              <tr><td colspan="9" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
+              <tr><td colspan="8" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
@@ -2949,14 +2948,14 @@ async function loadGiftVouchers() {
     if (giftsBadge) giftsBadge.textContent = pending || '';
     renderGiftVouchers();
   } catch {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju vaučera.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju vaučera.</td></tr>`;
   }
 }
 
 function renderGiftVouchers() {
   const tbody = document.getElementById('giftVouchersTbody');
   if (!_gVouchers.length) {
-    tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nema vaučera.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="empty-state">Nema vaučera.</td></tr>`;
     return;
   }
   const statusLabel = { PENDING:'⏳ Na čekanju', ACTIVE:'✅ Aktivan', RESERVED:'🔒 Rezervisan', USED:'🏁 Iskorišćen', EXPIRED:'⌛ Istekao' };
@@ -2982,10 +2981,6 @@ function renderGiftVouchers() {
         <div style="font-size:13px;font-weight:600;">${escHtml(v.buyerName || '—')}</div>
         <div style="font-size:11px;color:#64748b;">${escHtml(v.buyerEmail)}</div>
       </td>
-      <td>
-        <div style="font-size:13px;font-weight:600;">${escHtml(v.recipientName)}</div>
-        <div style="font-size:11px;color:#64748b;">${escHtml(v.recipientEmail)}</div>
-      </td>
       <td style="font-weight:800;color:#CA8A71;">${v.amount}€</td>
       <td>
         <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
@@ -3003,7 +2998,7 @@ async function activateGiftVoucher(id) {
   const v = _gVouchers.find(x => x.id === id);
   const { isConfirmed } = await Swal.fire({
     title: '✅ Aktiviraj vaučer?',
-    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€) biće aktiviran i primalac <strong style="color:#CA8A71;">${escHtml(v?.recipientEmail||'')}</strong> dobija email sa kodom.</p>`,
+    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€) biće aktiviran — kupac <strong style="color:#CA8A71;">${escHtml(v?.buyerEmail||'')}</strong> dobija PDF vaučer na email.</p>`,
     showCancelButton: true, confirmButtonText: 'Da, aktiviraj', cancelButtonText: 'Odustani',
     confirmButtonColor: '#22c55e', background: '#0b1929', color: '#fff'
   });

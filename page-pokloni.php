@@ -412,29 +412,19 @@ $site_url  = get_site_url();
       <!-- Podaci -->
       <div class="gift-form-grid">
         <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.buyer.email.label">Tvoj email (kupac)</label>
+          <label class="gf-label" data-i18n="gift.buyer.email.label">Tvoj email</label>
           <input class="gf-input" id="vBuyerEmail" type="email" autocomplete="email"
                  data-i18n-ph="gift.buyer.email.ph" placeholder="tvoj@email.com">
         </div>
         <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.buyer.name.label">Tvoje ime (opciono)</label>
+          <label class="gf-label" data-i18n="gift.buyer.name.label">Ime i prezime (piše se na vaučeru)</label>
           <input class="gf-input" id="vBuyerName" type="text" autocomplete="given-name"
                  data-i18n-ph="gift.buyer.name.ph" placeholder="Marko Marković">
         </div>
-        <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.recip.name.label">Ime primaoca</label>
-          <input class="gf-input" id="vRecipName" type="text"
-                 data-i18n-ph="gift.recip.name.ph" placeholder="Ana Anić">
-        </div>
-        <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.recip.email.label">Email primaoca</label>
-          <input class="gf-input" id="vRecipEmail" type="email"
-                 data-i18n-ph="gift.recip.email.ph" placeholder="ana@email.com">
-        </div>
         <div class="gf-field full">
-          <label class="gf-label" data-i18n="gift.msg.label">Poruka primaocu (opciono)</label>
+          <label class="gf-label" data-i18n="gift.msg.label">Lična poruka (opciono)</label>
           <textarea class="gf-textarea" id="vMessage" rows="3"
-                    data-i18n-ph="gift.msg.ph" placeholder="Draga Ano, ovo putovanje je za tebe..."></textarea>
+                    data-i18n-ph="gift.msg.ph" placeholder="Ovo putovanje je posebno za tebe..."></textarea>
         </div>
       </div>
 
@@ -516,14 +506,10 @@ const TR = {
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Tvoj email (kupac)',
     'gift.buyer.email.ph':   'tvoj@email.com',
-    'gift.buyer.name.label': 'Tvoje ime (opciono)',
+    'gift.buyer.name.label': 'Ime i prezime (piše se na vaučeru)',
     'gift.buyer.name.ph':    'Marko Marković',
-    'gift.recip.name.label': 'Ime primaoca',
-    'gift.recip.name.ph':    'Ana Anić',
-    'gift.recip.email.label':'Email primaoca',
-    'gift.recip.email.ph':   'ana@email.com',
-    'gift.msg.label':        'Poruka primaocu (opciono)',
-    'gift.msg.ph':           'Draga Ano, ovo putovanje je za tebe...',
+    'gift.msg.label':        'Lična poruka (opciono)',
+    'gift.msg.ph':           'Ovo putovanje je posebno za tebe...',
     'gift.voucher.submit':   '🎟️ Pošalji upit za vaučer →',
     'footer.home':           'Početna',
     'footer.how':            'Kako funkcioniše',
@@ -552,14 +538,10 @@ const TR = {
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> — the voucher reduces that price.',
     'gift.buyer.email.label':'Your email (buyer)',
     'gift.buyer.email.ph':   'your@email.com',
-    'gift.buyer.name.label': 'Your name (optional)',
+    'gift.buyer.name.label': 'Full name (printed on voucher)',
     'gift.buyer.name.ph':    'Marko Markovic',
-    'gift.recip.name.label': 'Recipient\'s name',
-    'gift.recip.name.ph':    'Ana Anic',
-    'gift.recip.email.label':'Recipient\'s email',
-    'gift.recip.email.ph':   'ana@email.com',
-    'gift.msg.label':        'Message to recipient (optional)',
-    'gift.msg.ph':           'Dear Ana, this trip is for you...',
+    'gift.msg.label':        'Personal message (optional)',
+    'gift.msg.ph':           'This trip is something special for you...',
     'gift.voucher.submit':   '🎟️ Send voucher inquiry →',
     'footer.home':           'Home',
     'footer.how':            'How it works',
@@ -641,12 +623,6 @@ async function submitVoucher() {
     err.textContent = isSr ? 'Unesi validan email.' : 'Enter a valid email.';
     return;
   }
-  const recipName  = document.getElementById('vRecipName').value.trim();
-  const recipEmail = document.getElementById('vRecipEmail').value.trim();
-  if (!recipName) {
-    err.textContent = isSr ? 'Unesi ime primaoca.' : 'Enter recipient\'s name.';
-    return;
-  }
   if (!recipEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipEmail)) {
     err.textContent = isSr ? 'Unesi validan email primaoca.' : 'Enter a valid recipient email.';
     return;
@@ -663,8 +639,6 @@ async function submitVoucher() {
         amount: amount,
         buyerEmail: buyerEmail,
         buyerName: document.getElementById('vBuyerName').value.trim() || null,
-        recipientEmail: recipEmail,
-        recipientName: recipName,
         giftMessage: document.getElementById('vMessage').value.trim() || null
       })
     });
@@ -687,7 +661,7 @@ async function submitVoucher() {
     // Reset forme
     selectedAmount = null;
     document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('on'));
-    ['vCustomAmount','vBuyerEmail','vBuyerName','vRecipName','vRecipEmail','vMessage'].forEach(id => {
+    ['vCustomAmount','vBuyerEmail','vBuyerName','vMessage'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
