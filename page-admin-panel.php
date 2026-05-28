@@ -1013,10 +1013,6 @@ tbody td  { padding: 11px 12px; }
       <div class="panel-title">Pokloni iznenađenje</div>
       <div class="panel-subtitle">Upravljanje gift vaučerima i putovanjima iznenađenja</div>
 
-      <div class="dates-sub-tabs">
-        <button class="dates-sub-btn active" onclick="switchGiftTab('vouchers', this)">🎟️ Vaučeri <span class="tab-badge" id="giftVoucherBadge"></span></button>
-        <button class="dates-sub-btn" onclick="switchGiftTab('trips', this)">✈️ Gift putovanja <span class="tab-badge" id="giftTripBadge"></span></button>
-      </div>
 
       <!-- ⚠️ Podsetnik: vaučer lifecycle -->
       <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
@@ -1029,7 +1025,7 @@ tbody td  { padding: 11px 12px; }
       </div>
 
       <!-- Vaučeri -->
-      <div class="dates-sub-panel active" id="gift-sub-vouchers">
+      <div id="gift-sub-vouchers">
         <div class="table-wrap">
           <table>
             <thead>
@@ -1052,30 +1048,6 @@ tbody td  { padding: 11px 12px; }
         </div>
       </div>
 
-      <!-- Gift putovanja -->
-      <div class="dates-sub-panel" id="gift-sub-trips">
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Kupac</th>
-                <th>Primalac</th>
-                <th>Let</th>
-                <th>Datum / Noći</th>
-                <th>Os.</th>
-                <th>Status</th>
-                <th>Cena (€)</th>
-                <th>Upit</th>
-                <th>Privatni link</th>
-              </tr>
-            </thead>
-            <tbody id="giftTripsTbody">
-              <tr><td colspan="10" style="text-align:center;padding:32px;color:#64748b;">Učitavanje...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
 
     <!-- ══ GREŠKE ══ -->
@@ -2962,17 +2934,9 @@ function escHtml(str) {
 // ══ POKLONI ══════════════════════════════════════════════════════════════════
 
 let _gVouchers = [];
-let _gTrips    = [];
-
-function switchGiftTab(tab, btn) {
-  document.querySelectorAll('#panel-gifts .dates-sub-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('#panel-gifts .dates-sub-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('gift-sub-' + tab).classList.add('active');
-  btn.classList.add('active');
-}
 
 async function loadGifts() {
-  await Promise.all([loadGiftVouchers(), loadGiftTrips()]);
+  await loadGiftVouchers();
 }
 
 async function loadGiftVouchers() {
@@ -2983,8 +2947,7 @@ async function loadGiftVouchers() {
     _gVouchers = await r.json();
     const pending = _gVouchers.filter(v => v.status === 'PENDING').length;
     document.getElementById('giftVoucherBadge').textContent = pending > 0 ? pending : '';
-    document.getElementById('giftsBadge').textContent =
-      (pending + _gTrips.filter(t => t.status === 'PENDING').length) || '';
+    document.getElementById('giftsBadge').textContent = pending || '';
     renderGiftVouchers();
   } catch {
     tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju vaučera.</td></tr>`;
@@ -3084,277 +3047,6 @@ async function markGiftVoucherUsed(id) {
   }
 }
 
-async function loadGiftTrips() {
-  const tbody = document.getElementById('giftTripsTbody');
-  try {
-    const r = await fetch(`${API}/api/admin/gifts/trips`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
-    if (!r.ok) throw new Error();
-    _gTrips = await r.json();
-    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
-    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
-    document.getElementById('giftsBadge').textContent =
-      (pending + _gVouchers.filter(v => v.status === 'PENDING').length) || '';
-    renderGiftTrips();
-  } catch {
-    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju putovanja.</td></tr>`;
-  }
-}
-
-function renderGiftTrips() {
-  const tbody = document.getElementById('giftTripsTbody');
-  if (!_gTrips.length) {
-    tbody.innerHTML = `<tr><td colspan="10" class="empty-state">Nema gift trip upita.</td></tr>`;
-    return;
-  }
-  const statusOpts = [
-    { v:'PENDING',      l:'⏳ Na čekanju' },
-    { v:'IN_REVIEW',    l:'🔍 U pregledu' },
-    { v:'PRIVATE_SENT', l:'🔒 Link poslat' },
-    { v:'CLOSED',       l:'🔒 Zatvoreno'  },
-  ];
-  tbody.innerHTML = _gTrips.map(t => {
-    const created = t.createdAt ? new Date(t.createdAt).toLocaleDateString('sr-RS') : '—';
-    const opts = statusOpts.map(s =>
-      `<option value="${s.v}" ${t.status===s.v?'selected':''}>${s.l}</option>`).join('');
-    const pricePerPerson = t.price && t.travelers
-      ? `<span style="font-size:11px;color:#94a3b8;">≈ <strong style="color:#CA8A71">${Math.round(t.price/t.travelers)}€</strong>/os.</span>`
-      : `<span style="font-size:11px;color:#475569;">unesi cenu</span>`;
-    const period = t.desiredDepartureDate
-      ? `${t.desiredDepartureDate}${t.nights ? ' / '+t.nights+'n' : ''}` : '—';
-    // Privatni link kolona
-    const linkCell = t.privateToken
-      ? `<div style="display:flex;flex-direction:column;gap:5px;">
-           <input readonly value="${window.location.origin}/?privateDate=${escHtml(t.privateToken)}"
-             id="gtLink_${t.id}"
-             style="width:160px;padding:5px 8px;border-radius:6px;font-size:11px;font-family:monospace;
-                    background:#0d2035;border:1px solid #1e3a55;color:#7dd3fc;">
-           <button onclick="copyGiftTripLink('gtLink_${t.id}', this)" style="
-             padding:4px 8px;border-radius:6px;font-size:11px;
-             background:rgba(202,138,113,.12);border:1px solid rgba(202,138,113,.3);
-             color:#CA8A71;cursor:pointer;white-space:nowrap;">
-             📋 Kopiraj link
-           </button>
-         </div>`
-      : `<button onclick="promptMakePrivateFromGiftTrip(${t.id}, '${escHtml(t.airport)}', ${t.travelers}, '${period}', ${t.price != null ? t.price : 'null'})" style="
-           padding:5px 10px;border-radius:6px;font-size:12px;background:#1a4a5a;
-           border:1px solid #2a6a7a;color:#fff;cursor:pointer;white-space:nowrap;">
-           🔒 Generiši link
-         </button>`;
-    return `<tr>
-      <td style="color:#64748b;font-size:12px;">#${t.id}</td>
-      <td>
-        <div style="font-size:13px;font-weight:600;">${escHtml(t.buyerEmail)}</div>
-        ${t.notes ? `<div style="font-size:11px;color:#64748b;" title="${escHtml(t.notes)}">📝 napomena</div>` : ''}
-      </td>
-      <td>
-        <div style="font-size:13px;font-weight:600;">${escHtml(t.recipientName||'—')}</div>
-        <div style="font-size:11px;color:#64748b;">${escHtml(t.recipientEmail||'')}</div>
-        ${t.giftMessage ? `<span title="${escHtml(t.giftMessage)}" style="cursor:help;color:#94a3b8;font-size:11px;">💬 poruka</span>` : ''}
-      </td>
-      <td style="font-weight:700;font-size:13px;">${escHtml(t.airport)}</td>
-      <td style="font-size:12px;">
-        ${t.desiredDepartureDate || '—'}
-        <div style="color:#64748b;">${t.nights ? t.nights+'n' : ''}</div>
-      </td>
-      <td style="text-align:center;font-weight:700;">${t.travelers}</td>
-      <td>
-        <select class="iq-status-sel" onchange="updateGiftTripStatus(${t.id}, this.value)">${opts}</select>
-      </td>
-      <td>
-        <input type="number" class="iq-status-sel" style="width:80px;" placeholder="npr. 450"
-               value="${t.price != null ? t.price : ''}"
-               onblur="updateGiftTripPrice(${t.id}, this)"
-               onkeydown="if(event.key==='Enter')this.blur()">
-        <div>${pricePerPerson}</div>
-      </td>
-      <td style="font-size:12px;color:#64748b;">${created}</td>
-      <td>${linkCell}</td>
-    </tr>`;
-  }).join('');
-}
-
-function copyGiftTripLink(inputId, btn) {
-  const inp = document.getElementById(inputId);
-  if (!inp) return;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(inp.value)
-      .then(() => {
-        btn.innerHTML = '✅ Kopirano!';
-        btn.style.background = 'rgba(34,197,94,.15)';
-        btn.style.borderColor = 'rgba(34,197,94,.35)';
-        btn.style.color = '#86efac';
-      })
-      .catch(() => fallbackCopy(inp, btn));
-  } else { fallbackCopy(inp, btn); }
-}
-
-async function updateGiftTripStatus(id, value) {
-  try {
-    const r = await fetch(`${API}/api/admin/gifts/trips/${id}/status?value=${value}`, {
-      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) throw new Error();
-    const updated = await r.json();
-    const idx = _gTrips.findIndex(x => x.id === id);
-    if (idx !== -1) _gTrips[idx] = updated;
-    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
-    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Status ažuriran', showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
-  } catch {
-    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
-  }
-}
-
-async function updateGiftTripPrice(id, inputEl) {
-  const raw   = inputEl.value.trim();
-  const value = raw === '' ? null : parseFloat(raw);
-  if (value !== null && (isNaN(value) || value < 0)) { inputEl.style.borderColor='#ef4444'; return; }
-  inputEl.style.borderColor = '';
-  try {
-    const url = value !== null
-      ? `${API}/api/admin/gifts/trips/${id}/price?value=${value}`
-      : `${API}/api/admin/gifts/trips/${id}/price`;
-    const r = await fetch(url, { method:'PATCH', headers:{ 'X-Admin-Key': ADMIN_KEY } });
-    if (!r.ok) throw new Error();
-    const updated = await r.json();
-    const idx = _gTrips.findIndex(x => x.id === id);
-    if (idx !== -1) _gTrips[idx] = updated;
-    // Ažuriraj /os prikaz
-    const pp = inputEl.nextElementSibling;
-    if (pp) pp.innerHTML = updated.price != null
-      ? `<span style="font-size:11px;color:#94a3b8;">≈ <strong style="color:#CA8A71">${Math.round(updated.price/updated.travelers)}€</strong>/os.</span>`
-      : `<span style="font-size:11px;color:#475569;">unesi cenu</span>`;
-    inputEl.style.borderColor = 'rgba(34,197,94,.5)';
-    setTimeout(() => { inputEl.style.borderColor = ''; }, 1200);
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Cena sačuvana', showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
-  } catch {
-    inputEl.style.borderColor = '#ef4444';
-    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri čuvanju cene', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
-  }
-}
-
-async function promptMakePrivateFromGiftTrip(tripId, airport, travelers, desiredPeriod, tripPrice) {
-  const suggestedPrice = (tripPrice != null && travelers > 0)
-    ? Math.round(tripPrice / travelers) : '';
-
-  const { value: formValues } = await Swal.fire({
-    title: '🔒 Generiši privatni link (Gift Trip)',
-    html: `
-      <p style="margin-bottom:10px;font-size:13px;color:#aaa;">
-        Gift upit #${tripId} · <strong style="color:#fff;">${airport}</strong> · ${travelers} os.
-      </p>
-      <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.25);
-                  border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#e09070;text-align:left;">
-        📅 Željeni period: <strong>${desiredPeriod}</strong>
-      </div>
-      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Broj putnika (slobodnih mesta):</label>
-      <input id="swal-travelers" type="number" value="${travelers}" min="1" max="50"
-        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
-      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">
-        Cena po osobi (€) <span style="color:#ef4444;">*</span>
-      </label>
-      <input id="swal-price" type="number" min="1" value="${suggestedPrice}" placeholder="npr. 299"
-        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
-      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Link važi (sati):</label>
-      <input id="swal-expiry" type="number" value="48" min="1" max="720"
-        style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
-    `,
-    showCancelButton: true,
-    confirmButtonText: '🔒 Generiši privatni link',
-    confirmButtonColor: '#1a4a5a',
-    cancelButtonText: 'Odustani',
-    background: '#0b1929', color: '#fff',
-    preConfirm: () => {
-      const priceVal = document.getElementById('swal-price').value.trim();
-      if (!priceVal || parseInt(priceVal) < 1) {
-        Swal.showValidationMessage('Cena po osobi je obavezna.');
-        return false;
-      }
-      return {
-        travelers:      parseInt(document.getElementById('swal-travelers').value),
-        expiresInHours: parseInt(document.getElementById('swal-expiry').value),
-        pricePerPerson: parseInt(priceVal)
-      };
-    }
-  });
-
-  if (!formValues) return;
-
-  try {
-    const res = await fetch(`${API}/api/admin/gifts/trips/${tripId}/create-private-date`, {
-      method: 'POST',
-      headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pricePerPerson: formValues.pricePerPerson,
-        travelers:      formValues.travelers,
-        expiresInHours: formValues.expiresInHours
-      })
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      return Swal.fire({ icon:'error', title:'Greška',
-        text: err.message || err.error || 'Kreiranje nije uspelo.',
-        background:'#0b1929', color:'#fff' });
-    }
-
-    const dateResp    = await res.json();
-    const privateLink = `${window.location.origin}/?privateDate=${dateResp.privateToken}`;
-
-    // Briši upit iz liste (identičan flow kao za regular inquiries nakon PRIVATE_SENT)
-    await fetch(`${API}/api/admin/gifts/trips/${tripId}`, {
-      method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY }
-    }).catch(() => {});
-    _gTrips = _gTrips.filter(x => x.id !== tripId);
-    const pending = _gTrips.filter(t => t.status === 'PENDING').length;
-    document.getElementById('giftTripBadge').textContent = pending > 0 ? pending : '';
-    document.getElementById('giftsBadge').textContent =
-      (pending + _gVouchers.filter(v => v.status === 'PENDING').length) || '';
-    if (!_gTrips.length) {
-      document.getElementById('giftTripsTbody').innerHTML =
-        `<tr><td colspan="10" class="empty-state">Nema gift trip upita.</td></tr>`;
-    } else {
-      renderGiftTrips();
-    }
-
-    await Swal.fire({
-      title: '✅ Privatni link generisan!',
-      html: `
-        <p style="margin-bottom:10px;font-size:13px;color:#aaa;">Pošalji kupcu ovaj link:</p>
-        <input id="privateLinkInput" readonly value="${privateLink}"
-          style="width:100%;padding:9px 12px;border-radius:8px;background:#0d2035;border:1px solid #1e3a55;
-                 color:#7dd3fc;font-size:12px;font-family:monospace;">
-        <button id="swalCopyBtn" style="
-          margin-top:10px;width:100%;padding:10px;border-radius:8px;
-          background:rgba(202,138,113,.15);border:1px solid rgba(202,138,113,.35);
-          color:#e09070;cursor:pointer;font-size:13px;font-weight:700;transition:background .2s;">
-          📋 Kopiraj link
-        </button>
-        <p style="margin-top:10px;font-size:11px;color:#64748b;">
-          ⏱ Link ističe za <strong style="color:#94a3b8">${formValues.expiresInHours}h</strong>
-          &nbsp;·&nbsp; 📅 ${desiredPeriod}
-        </p>
-      `,
-      confirmButtonText: 'Zatvori',
-      confirmButtonColor: 'var(--accent)',
-      background: '#0b1929', color: '#fff',
-      didOpen: () => {
-        const btn = document.getElementById('swalCopyBtn');
-        const inp = document.getElementById('privateLinkInput');
-        btn.addEventListener('click', () => {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(inp.value)
-              .then(() => { btn.innerHTML = '✅ Kopirano!'; btn.style.background='rgba(34,197,94,.15)'; btn.style.borderColor='rgba(34,197,94,.35)'; btn.style.color='#86efac'; })
-              .catch(() => fallbackCopy(inp, btn));
-          } else { fallbackCopy(inp, btn); }
-        });
-      }
-    });
-
-  } catch(e) {
-    Swal.fire({ icon:'error', title:'Greška', text:'Mrežna greška. Pokušaj ponovo.', background:'#0b1929', color:'#fff' });
-  }
-}
 
 </script>
 

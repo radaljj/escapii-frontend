@@ -288,166 +288,6 @@ $site_url  = get_site_url();
     .gift-submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
     .gift-form-err { font-size: 13px; color: var(--red); margin-top: 8px; min-height: 18px; }
 
-    /* ══ TRIP INQUIRY SECTION ════════════════════════════════════════════════ */
-    .trip-section-wrap {
-      background: #0f2d35;
-      padding: 80px 24px;
-      margin-top: 72px;
-    }
-    .trip-inner { max-width: 760px; margin: 0 auto; }
-    .trip-sec-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(202,138,113,.12); border: 1px solid rgba(202,138,113,.28);
-      color: #d4a83c; padding: 6px 16px; border-radius: 100px;
-      font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .trip-sec-h { font-size: clamp(24px, 3.5vw, 36px); font-weight: 900; color: #ffffff;
-                  letter-spacing: -1px; margin-bottom: 10px; }
-    .trip-sec-desc { font-size: 15px; color: rgba(255,255,255,.55); line-height: 1.65; margin-bottom: 36px; }
-    .trip-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 20px; padding: 32px 36px;
-    }
-    @media (max-width: 600px) { .trip-card { padding: 24px 20px; } }
-    .trip-gf-label { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5);
-                     letter-spacing: .4px; text-transform: uppercase; margin-bottom: 6px; }
-    .trip-gf-input, .trip-gf-textarea, .trip-gf-select {
-      width: 100%; padding: 12px 14px; border-radius: 10px;
-      border: 1.5px solid rgba(255,255,255,.1);
-      font-size: 14px; font-family: inherit; color: #e8e0d5;
-      background: rgba(255,255,255,.06); outline: none; transition: border-color .18s;
-    }
-    .trip-gf-input:focus, .trip-gf-textarea:focus, .trip-gf-select:focus { border-color: rgba(202,138,113,.6); }
-    .trip-gf-input::placeholder, .trip-gf-textarea::placeholder { color: rgba(255,255,255,.25); }
-    .trip-gf-select option { background: #0f2d35; color: #e8e0d5; }
-    .trip-gf-textarea { resize: vertical; min-height: 80px; }
-
-    /* Airport buttons for trip form */
-    .trip-airport-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .trip-airport-btn {
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-      padding: 10px 18px; border-radius: 10px;
-      border: 1.5px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.6); font-family: inherit; cursor: pointer; transition: all .18s;
-    }
-    .trip-airport-btn span { font-size: 14px; font-weight: 800; }
-    .trip-airport-btn small { font-size: 11px; font-weight: 500; }
-    .trip-airport-btn:hover { border-color: rgba(202,138,113,.4); color: rgba(255,255,255,.9); }
-    .trip-airport-btn.on { border-color: var(--gold); background: rgba(202,138,113,.12); color: #d4a83c; }
-
-    /* Calendar — identičan booking formi (front-page.php) */
-    .inq-cal {
-      background: rgba(246,241,230,.025); border: 1px solid rgba(246,241,230,.08);
-      border-radius: 14px; padding: 16px;
-    }
-    .inq-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .inq-cal-month { font-size: 18px; font-weight: 800; color: #f6f1e6; }
-    .inq-cal-nav { display: flex; gap: 5px; }
-    .inq-cal-nav button {
-      width: 30px; height: 30px; border-radius: 100px;
-      background: rgba(246,241,230,.05); border: 1px solid rgba(246,241,230,.08);
-      color: rgba(246,241,230,.6); cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, color .2s, border-color .2s;
-    }
-    .inq-cal-nav button:hover { background: rgba(202,138,113,.15); color: #f0b094; border-color: rgba(202,138,113,.35); }
-    .inq-cal-nav button svg { width: 13px; height: 13px; }
-    .inq-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
-    .inq-cal-dow {
-      text-align: center; font-size: 9px; letter-spacing: .18em;
-      color: rgba(246,241,230,.3); font-weight: 700; text-transform: uppercase;
-      padding: 5px 0 7px;
-    }
-    .inq-cal-day {
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      background: transparent; border: 1px solid transparent; border-radius: 9px;
-      color: #f6f1e6; font-size: 13px; font-weight: 500; cursor: pointer;
-      transition: background .18s, border-color .18s, transform .18s;
-      font-family: inherit;
-    }
-    .inq-cal-day:hover:not(:disabled):not(.muted) {
-      background: rgba(202,138,113,.12); border-color: rgba(202,138,113,.35); transform: scale(1.06);
-    }
-    .inq-cal-day.muted { color: rgba(246,241,230,.25); cursor: default; }
-    .inq-cal-day.today { box-shadow: inset 0 0 0 1px rgba(246,241,230,.2); }
-    .inq-cal-day:disabled { opacity: .2; cursor: not-allowed; }
-    .inq-cal-day.dep {
-      background: var(--accent); color: #fff; font-weight: 700;
-      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
-      border-radius: 9px 0 0 9px;
-    }
-    .inq-cal-day.ret {
-      background: var(--accent); color: #fff; font-weight: 700;
-      box-shadow: 0 5px 14px -4px rgba(202,138,113,.6);
-      border-radius: 0 9px 9px 0;
-    }
-    .inq-cal-day.dep.ret { border-radius: 9px; }
-    .inq-cal-day.in-range { background: rgba(202,138,113,.18); border-radius: 0; border-color: transparent; }
-    .inq-cal-day.in-range-preview { background: rgba(202,138,113,.08); border-radius: 0; border-color: transparent; }
-    .inq-cal-day.dep-hover { background: rgba(202,138,113,.2); border-radius: 9px 0 0 9px; }
-    .inq-range-status {
-      margin-top: 10px; padding: 9px 13px; border-radius: 10px;
-      font-size: 12px; line-height: 1.5; text-align: center; transition: all .2s;
-    }
-    .inq-range-status.hint { background: rgba(246,241,230,.04); color: rgba(246,241,230,.4); border: 1px dashed rgba(246,241,230,.1); }
-    .inq-range-status.dep-set { background: rgba(202,138,113,.1); color: #f0b094; border: 1px solid rgba(202,138,113,.25); }
-    .inq-range-status.valid { background: rgba(74,222,128,.08); color: #86efac; border: 1px solid rgba(74,222,128,.2); }
-    .inq-range-status.invalid { background: rgba(239,68,68,.08); color: #fca5a5; border: 1px solid rgba(239,68,68,.2); animation: fadeInDown .25s ease; }
-    @keyframes fadeInDown { from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);} }
-    /* Poruka za 6+ putnika */
-    .trav-max-msg {
-      display: flex; align-items: center; gap: 9px;
-      padding: 11px 16px; border-radius: 12px; margin-top: 12px;
-      background: rgba(200,149,58,.08); border: 1px solid rgba(200,149,58,.22);
-      font-size: 13px; color: rgba(246,241,230,.72); line-height: 1.45;
-      opacity: 0; transform: translateY(-5px); pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-    }
-    .trav-max-msg.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .trav-max-msg a { color: #d4a83c; font-weight: 700; text-decoration: none; }
-    .trav-max-msg a:hover { text-decoration: underline; }
-
-    /* Travelers counter */
-    .trav-row { display: flex; align-items: center; gap: 16px; }
-    .trav-btn {
-      width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05); color: rgba(255,255,255,.7);
-      font-size: 18px; font-family: inherit; cursor: pointer; transition: all .18s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .trav-btn:hover:not(:disabled) { border-color: rgba(202,138,113,.4); color: #fff; }
-    .trav-btn:disabled { opacity: .3; cursor: not-allowed; }
-    .trav-count { font-size: 22px; font-weight: 800; color: #fff; min-width: 32px; text-align: center; }
-    .trav-label { font-size: 13px; color: rgba(255,255,255,.45); }
-
-    /* Separator */
-    .trip-form-sep {
-      border: none; border-top: 1px solid rgba(255,255,255,.07);
-      margin: 28px 0;
-    }
-    .trip-form-sep-label {
-      font-size: 11px; font-weight: 800; color: #d4a83c;
-      letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 16px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .trip-form-sep-label::before, .trip-form-sep-label::after {
-      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.07);
-    }
-
-    .trip-submit-btn {
-      width: 100%; margin-top: 24px;
-      padding: 16px 24px; border-radius: 12px;
-      background: var(--accent); border: none; color: #ffffff;
-      font-size: 15px; font-weight: 800; font-family: inherit;
-      cursor: pointer; transition: all .2s;
-    }
-    .trip-submit-btn:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(202,138,113,.3); }
-    .trip-submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-    .trip-form-err { font-size: 13px; color: #f87171; margin-top: 8px; min-height: 18px; }
-
-    .trip-field-wrap { margin-bottom: 20px; }
-
     /* ══ FOOTER (identičan front-page.php) ══════════════════════════════════ */
     .esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(15,45,53,.07); }
     .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
@@ -492,25 +332,6 @@ $site_url  = get_site_url();
     .validate-hint { font-size: 13px; color: var(--gray); margin-top: 24px; text-align: center; }
     .validate-hint a { color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; }
 
-    /* ══ OPTION PANELS ═══════════════════════════════════════════════════════ */
-    .gift-option-panel { display: none; }
-    .gift-option-panel.active { display: block; animation: fadeUp .45s ease both; }
-    .gift-hero-card.selected { border-color: var(--gold) !important; background: rgba(202,138,113,.18) !important; box-shadow: 0 0 0 3px rgba(202,138,113,.18); }
-    .gift-choice-bar {
-      max-width: 760px; margin: 0 auto; padding: 36px 24px 0;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .gift-back-btn {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: none; border: none; color: var(--gray); font-size: 13px;
-      font-weight: 600; cursor: pointer; font-family: inherit; padding: 6px 0;
-      transition: color .15s;
-    }
-    .gift-back-btn:hover { color: var(--accent); }
-    .gift-choice-label { font-size: 13px; color: var(--accent); font-weight: 700; }
-    .gift-choice-bar-dark .gift-back-btn { color: rgba(255,255,255,.4); }
-    .gift-choice-bar-dark .gift-back-btn:hover { color: rgba(255,255,255,.8); }
-    .gift-choice-bar-dark .gift-choice-label { color: #d4a83c; }
   </style>
 </head>
 <body>
@@ -529,28 +350,9 @@ $site_url  = get_site_url();
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span data-i18n="nav.home">Početna</span>
     </button>
-    <div class="nav-gift-wrap" id="navGiftWrap">
-      <button class="nav-gift-btn" id="navGiftBtn" onclick="toggleNavGift()" type="button">
-        🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span>
-        <span class="nav-gift-caret">▾</span>
-      </button>
-      <div class="nav-gift-drop" id="navGiftDrop">
-        <button class="nav-gift-item primary" onclick="closeNavGift();scrollToVoucher();" type="button">
-          <span class="nav-gift-item-icon">🎟️</span>
-          <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.voucher">Poklon vaučer</span>
-            <span class="nav-gift-item-sub" data-i18n="nav.gift.voucher.sub">50 – 400+ EUR</span>
-          </span>
-        </button>
-        <button class="nav-gift-item" onclick="closeNavGift();scrollToTrip();" type="button">
-          <span class="nav-gift-item-icon">✈️</span>
-          <span class="nav-gift-item-text">
-            <span class="nav-gift-item-label" data-i18n="nav.gift.trip">Putovanje iznenađenja</span>
-            <span class="nav-gift-item-sub" data-i18n="nav.gift.trip.sub">Rezerviši konkretan termin</span>
-          </span>
-        </button>
-      </div>
-    </div>
+    <button class="nav-gift-btn" onclick="scrollToVoucher()" type="button">
+      🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span>
+    </button>
   </div>
   <button class="nav-burger" id="navBurger" onclick="togBurger()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -561,16 +363,7 @@ $site_url  = get_site_url();
 <div class="mob-menu" id="mobMenu">
   <div class="mob-menu-links">
     <button class="mob-menu-link" onclick="closeMobMenu();goHome();" data-i18n="nav.home">🏠 Početna</button>
-    <div class="mob-gift-wrap">
-      <button class="mob-gift-toggle" id="mobGiftToggle" onclick="togMobGift()" type="button">
-        <span>🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span></span>
-        <span class="mob-gift-caret">▾</span>
-      </button>
-      <div class="mob-gift-sub" id="mobGiftSub">
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToVoucher();" type="button">🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span></button>
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();scrollToTrip();" type="button">✈️ <span data-i18n="nav.gift.trip">Putovanje iznenađenja</span></button>
-      </div>
-    </div>
+    <button class="mob-menu-link" onclick="closeMobMenu();scrollToVoucher();">🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span></button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
@@ -585,30 +378,12 @@ $site_url  = get_site_url();
 <section class="gift-hero" id="gift-top">
   <div class="gift-eyebrow" data-i18n="gift.hero.badge">🎁 Poklon koji se pamti</div>
   <h1 class="gift-h1" data-i18n-html="gift.hero.h1">Pokloni nekome <em>iznenađenje</em></h1>
-  <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.</p>
-  <div class="gift-hero-cards">
-    <button class="gift-hero-card gold" id="cardVoucher" onclick="selectGiftOption('voucher')" type="button">
-      <div class="gift-hc-icon">🎟️</div>
-      <div class="gift-hc-title" data-i18n="gift.card.voucher.t">Poklon vaučer</div>
-      <div class="gift-hc-sub" data-i18n="gift.card.voucher.sub">Odaberi iznos, primalac ga koristi za bilo koje naše putovanje</div>
-      <div class="gift-hc-arrow" data-i18n="gift.card.cta">Odaberi iznos →</div>
-    </button>
-    <button class="gift-hero-card" id="cardTrip" onclick="selectGiftOption('trip')" type="button">
-      <div class="gift-hc-icon">✈️</div>
-      <div class="gift-hc-title" data-i18n="gift.card.trip.t">Putovanje iznenađenja</div>
-      <div class="gift-hc-sub" data-i18n="gift.card.trip.sub">Rezerviši konkretan termin — mi formiramo cenu i šaljemo link</div>
-      <div class="gift-hc-arrow" data-i18n="gift.card.trip.cta">Pošalji upit →</div>
-    </button>
-  </div>
+  <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi iznos vaučera — primalac ga koristi za bilo koje Escapii putovanje po izboru.</p>
+  <button class="gift-submit-btn" onclick="scrollToVoucher()" type="button" style="max-width:320px;margin-top:0;" data-i18n="gift.hero.cta">🎟️ Pokloni vaučer →</button>
 </section>
 
 <!-- ═══ VAUČER SEKCIJA ═══════════════════════════════════════════════════════ -->
-<div class="gift-sections">
-  <div class="gift-option-panel" id="section-voucher">
-    <div class="gift-choice-bar">
-      <button class="gift-back-btn" onclick="resetGiftOption()" type="button">← <span data-i18n="gift.back">Promeni izbor</span></button>
-      <span class="gift-choice-label">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></span>
-    </div>
+<div class="gift-sections" id="section-voucher">
   <div class="gift-sec-wrap">
     <div class="gift-sec-tag">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></div>
     <h2 class="gift-sec-h" data-i18n="gift.sec.voucher.h">Odaberi iznos, primalac bira termin</h2>
@@ -631,7 +406,7 @@ $site_url  = get_site_url();
       </div>
       <div class="amount-hint">
         <span>✈️</span>
-        <span data-i18n="gift.amount.hint">Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.</span>
+        <span data-i18n-html="gift.amount.hint">Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.</span>
       </div>
 
       <!-- Podaci -->
@@ -669,115 +444,6 @@ $site_url  = get_site_url();
       </button>
     </div>
   </div>
-
-  </div><!-- /.gift-sec-wrap -->
-  </div><!-- /.gift-option-panel voucher -->
-
-  <!-- ═══ IZNENAĐENJE PUTOVANJE ════════════════════════════════════════════ -->
-  <div class="gift-option-panel" id="section-trip">
-    <div class="gift-choice-bar gift-choice-bar-dark" style="background:#0f2d35; max-width:100%; padding:36px 24px 0;">
-      <div style="max-width:760px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
-        <button class="gift-back-btn" onclick="resetGiftOption()" type="button">← <span data-i18n="gift.back">Promeni izbor</span></button>
-        <span class="gift-choice-label">✈️ <span data-i18n="gift.sec.trip.tag">Putovanje iznenađenja</span></span>
-      </div>
-    </div>
-  <div class="trip-section-wrap" style="margin-top:0;">
-    <div class="trip-inner">
-      <div class="trip-sec-tag">✈️ <span data-i18n="gift.sec.trip.tag">Putovanje iznenađenja</span></div>
-      <h2 class="trip-sec-h" data-i18n="gift.sec.trip.h">Rezerviši konkretan termin</h2>
-      <p class="trip-sec-desc" data-i18n="gift.sec.trip.desc">Popuni formu — mi formiramo cenu i šaljemo ti link za plaćanje. Primalac dobija reveal email sa sneak peek-om, ali destinacija ostaje tajna do 48h pre polaska.</p>
-
-      <div class="trip-card">
-
-        <!-- Aerodrom -->
-        <div class="trip-field-wrap">
-          <div class="trip-gf-label" data-i18n="gift.trip.airport.label">Aerodrom polaska</div>
-          <div class="trip-airport-row">
-            <button class="trip-airport-btn on" id="tripBtnBEG" onclick="selectTripAirport('BEG')" type="button">
-              <span>BEG</span><small data-i18n="s1.beg.name">Aerodrom Nikola Tesla</small>
-            </button>
-            <button class="trip-airport-btn" id="tripBtnINI" onclick="selectTripAirport('INI')" type="button">
-              <span>INI</span><small data-i18n="s1.ini.name">Konstantin Veliki</small>
-            </button>
-          </div>
-        </div>
-
-        <!-- Kalendar -->
-        <div class="trip-field-wrap">
-          <div class="trip-gf-label" data-i18n="gift.trip.date.label">Datum polaska i povratka (2 ili 3 noći)</div>
-          <div class="inq-cal">
-            <div class="inq-cal-head">
-              <div class="inq-cal-month" id="tripCalMonth">—</div>
-              <div class="inq-cal-nav">
-                <button id="tripPrevM" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <button id="tripNextM" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-              </div>
-            </div>
-            <div class="inq-cal-grid" id="tripCalGrid"></div>
-          </div>
-          <div class="inq-range-status hint" id="tripRangeStatus">Odaberi datum polaska, pa datum povratka (2 ili 3 noći)</div>
-        </div>
-
-        <!-- Putnici -->
-        <div class="trip-field-wrap">
-          <div class="trip-gf-label" data-i18n="gift.trip.travelers.label">Broj putnika</div>
-          <div class="trav-row">
-            <button class="trav-btn" id="tripTravD" onclick="chTripTrav(-1)" type="button" disabled>−</button>
-            <span class="trav-count" id="tripTravN">2</span>
-            <button class="trav-btn" id="tripTravU" onclick="chTripTrav(1)" type="button">+</button>
-            <span class="trav-label" data-i18n="gift.trip.travelers.label2">putnik/putnika</span>
-          </div>
-          <div class="trav-max-msg" id="tripTravMore">
-            <span style="font-size:15px;flex-shrink:0;">✉</span>
-            <span>Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></span>
-          </div>
-        </div>
-
-        <!-- Email kupca -->
-        <div class="trip-field-wrap">
-          <div class="trip-gf-label" data-i18n="gift.buyer.email.label">Tvoj email (kupac)</div>
-          <input class="trip-gf-input" id="tripBuyerEmail" type="email" autocomplete="email"
-                 data-i18n-ph="gift.buyer.email.ph" placeholder="tvoj@email.com">
-        </div>
-
-        <!-- Napomena -->
-        <div class="trip-field-wrap">
-          <div class="trip-gf-label" data-i18n="gift.trip.notes.label">Napomena (opciono)</div>
-          <textarea class="trip-gf-textarea" id="tripNotes" rows="2"
-                    data-i18n-ph="gift.trip.notes.ph" placeholder="npr. proslava rodendana, posebne preference..."></textarea>
-        </div>
-
-        <hr class="trip-form-sep">
-        <div class="trip-form-sep-label" data-i18n="gift.recip.section">Za koga je iznenađenje</div>
-
-        <!-- Primalac -->
-        <div class="gift-form-grid" style="margin-bottom:20px;">
-          <div>
-            <div class="trip-gf-label" data-i18n="gift.recip.name.label">Ime primaoca</div>
-            <input class="trip-gf-input" id="tripRecipName" type="text"
-                   data-i18n-ph="gift.recip.name.ph" placeholder="Ana Anić">
-          </div>
-          <div>
-            <div class="trip-gf-label" data-i18n="gift.recip.email.label">Email primaoca</div>
-            <input class="trip-gf-input" id="tripRecipEmail" type="email"
-                   data-i18n-ph="gift.recip.email.ph" placeholder="ana@email.com">
-          </div>
-          <div class="gf-field full">
-            <div class="trip-gf-label" data-i18n="gift.msg.label">Poruka primaocu (opciono)</div>
-            <textarea class="trip-gf-textarea" id="tripMessage" rows="2"
-                      data-i18n-ph="gift.msg.ph" placeholder="Draga Ano, ovo putovanje je za tebe..."></textarea>
-          </div>
-        </div>
-
-        <div class="trip-form-err" id="tripErr"></div>
-        <button class="trip-submit-btn" id="tripSubmitBtn" onclick="submitTripInquiry()" type="button" data-i18n="gift.trip.submit">
-          ✈️ Pošalji upit za putovanje →
-        </button>
-      </div>
-    </div>
-  </div>
-  </div><!-- /.trip-section-wrap -->
-  </div><!-- /.gift-option-panel trip -->
 </div>
 
 <!-- FOOTER -->
@@ -838,27 +504,14 @@ const API_BASE = '<?php echo esc_js(escapii_api_url()); ?>';
 const TR = {
   sr: {
     'nav.home':              'Početna',
-    'nav.gift.label':        'Pokloni putovanje iznenađenja',
     'nav.gift.voucher':      'Poklon vaučer',
-    'nav.gift.voucher.sub':  '50 – 400+ EUR',
-    'nav.gift.trip':         'Putovanje iznenađenja',
-    'nav.gift.trip.sub':     'Rezerviši konkretan termin',
-    'nav.gift.redeem':       'Iskoristi poklon',
-    'nav.gift.redeem.sub':   'Imaš poklon kod? Aktiviraj ga ovde',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
     'gift.hero.h1':          'Pokloni nekome <em>iznenađenje</em>',
-    'gift.hero.sub':         'Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.',
-    'gift.card.voucher.t':   'Poklon vaučer',
-    'gift.card.voucher.sub': 'Odaberi iznos, primalac ga koristi za bilo koje naše putovanje',
-    'gift.card.cta':         'Odaberi iznos →',
-    'gift.card.trip.t':      'Putovanje iznenađenja',
-    'gift.card.trip.sub':    'Rezerviši konkretan termin — mi formiramo cenu i šaljemo link',
-    'gift.card.trip.cta':    'Pošalji upit →',
-    'gift.redeem.hint':      'Već imaš poklon kod? <a onclick="openRedeemModal()">Aktiviraj ga ovde →</a>',
+    'gift.hero.sub':         'Odaberi iznos vaučera — primalac ga koristi za bilo koje Escapii putovanje po izboru.',
+    'gift.hero.cta':         '🎟️ Pokloni vaučer →',
     'gift.sec.voucher.tag':  'Poklon vaučer',
     'gift.sec.voucher.h':    'Odaberi iznos, primalac bira termin',
     'gift.sec.voucher.desc': 'Kupac plaća vaučer unapred — primalac dobija personalizovani kod kojim umanjuje cenu rezervacije bilo kog Escapii putovanja.',
-    'gift.back':             'Promeni izbor',
     'gift.amount.label':     'Iznos vaučera (EUR)',
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Tvoj email (kupac)',
@@ -872,23 +525,6 @@ const TR = {
     'gift.msg.label':        'Poruka primaocu (opciono)',
     'gift.msg.ph':           'Draga Ano, ovo putovanje je za tebe...',
     'gift.voucher.submit':   '🎟️ Pošalji upit za vaučer →',
-    'gift.sec.trip.tag':     'Putovanje iznenađenja',
-    'gift.sec.trip.h':       'Rezerviši konkretan termin',
-    'gift.sec.trip.desc':    'Popuni formu — mi formiramo cenu i šaljemo ti link za plaćanje. Primalac dobija reveal email sa sneak peek-om, ali destinacija ostaje tajna do 48h pre polaska.',
-    'gift.trip.airport.label':'Aerodrom polaska',
-    'gift.trip.date.label':  'Željeni datum polaska',
-    'gift.trip.nights.label':'Broj noćenja',
-    'gift.nights.1':         '1 noć',
-    'gift.nights.2':         '2 noći',
-    'gift.nights.3':         '3 noći',
-    'gift.trip.travelers.label': 'Broj putnika',
-    'gift.trip.travelers.label2':'putnik/putnika',
-    'gift.trip.notes.label': 'Napomena (opciono)',
-    'gift.trip.notes.ph':    'npr. proslava rodendana, posebne preference...',
-    'gift.recip.section':    'Za koga je iznenađenje',
-    'gift.trip.submit':      '✈️ Pošalji upit za putovanje →',
-    's1.beg.name':           'Aerodrom Nikola Tesla',
-    's1.ini.name':           'Niš Konstantin Veliki',
     'footer.home':           'Početna',
     'footer.how':            'Kako funkcioniše',
     'footer.about':          'O nama',
@@ -904,27 +540,14 @@ const TR = {
   },
   en: {
     'nav.home':              'Home',
-    'nav.gift.label':        'Gift a Surprise',
     'nav.gift.voucher':      'Gift voucher',
-    'nav.gift.voucher.sub':  '50 – 400+ EUR',
-    'nav.gift.trip':         'Surprise Trip',
-    'nav.gift.trip.sub':     'Book a specific date',
-    'nav.gift.redeem':       'Redeem gift',
-    'nav.gift.redeem.sub':   'Have a gift code? Activate it here',
     'gift.hero.badge':       '🎁 A gift they\'ll remember',
     'gift.hero.h1':          'Gift someone a <em>surprise</em>',
-    'gift.hero.sub':         'Choose a voucher or book a specific date — destination stays secret until 48h before departure.',
-    'gift.card.voucher.t':   'Gift voucher',
-    'gift.card.voucher.sub': 'Choose an amount, recipient uses it on any Escapii trip',
-    'gift.card.cta':         'Choose amount →',
-    'gift.card.trip.t':      'Surprise Trip',
-    'gift.card.trip.sub':    'Book a specific date — we price it and send you a payment link',
-    'gift.card.trip.cta':    'Send inquiry →',
-    'gift.redeem.hint':      'Already have a gift code? <a onclick="openRedeemModal()">Activate it here →</a>',
+    'gift.hero.sub':         'Choose a voucher amount — recipient uses it on any Escapii trip of their choice.',
+    'gift.hero.cta':         '🎟️ Gift a voucher →',
     'gift.sec.voucher.tag':  'Gift voucher',
     'gift.sec.voucher.h':    'Choose an amount, recipient picks a date',
     'gift.sec.voucher.desc': 'Buyer pays upfront — recipient receives a personalised code that discounts their reservation on any Escapii trip.',
-    'gift.back':             'Change selection',
     'gift.amount.label':     'Voucher amount (EUR)',
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> — the voucher reduces that price.',
     'gift.buyer.email.label':'Your email (buyer)',
@@ -938,23 +561,6 @@ const TR = {
     'gift.msg.label':        'Message to recipient (optional)',
     'gift.msg.ph':           'Dear Ana, this trip is for you...',
     'gift.voucher.submit':   '🎟️ Send voucher inquiry →',
-    'gift.sec.trip.tag':     'Surprise Trip',
-    'gift.sec.trip.h':       'Book a specific date',
-    'gift.sec.trip.desc':    'Fill in the form — we price it and send you a payment link. Recipient gets a reveal email with a sneak peek, but the destination stays secret until 48h before departure.',
-    'gift.trip.airport.label':'Departure airport',
-    'gift.trip.date.label':  'Desired departure date',
-    'gift.trip.nights.label':'Number of nights',
-    'gift.nights.1':         '1 night',
-    'gift.nights.2':         '2 nights',
-    'gift.nights.3':         '3 nights',
-    'gift.trip.travelers.label':'Travelers',
-    'gift.trip.travelers.label2':'traveler(s)',
-    'gift.trip.notes.label': 'Note (optional)',
-    'gift.trip.notes.ph':    'e.g. birthday celebration, special preferences...',
-    'gift.recip.section':    'Who is the surprise for',
-    'gift.trip.submit':      '✈️ Send trip inquiry →',
-    's1.beg.name':           'Nikola Tesla Airport',
-    's1.ini.name':           'Niš Konstantin Veliki',
     'footer.home':           'Home',
     'footer.how':            'How it works',
     'footer.about':          'About us',
@@ -993,112 +599,9 @@ function closeMobMenu() {
   document.getElementById('navBurger').classList.remove('open');
   document.getElementById('mobMenu').classList.remove('open');
 }
-function togMobGift() {
-  const toggle = document.getElementById('mobGiftToggle');
-  const sub    = document.getElementById('mobGiftSub');
-  const open   = !sub.classList.contains('open');
-  sub.classList.toggle('open', open);
-  toggle.classList.toggle('open', open);
-}
 
-function toggleNavGift() {
-  const btn  = document.getElementById('navGiftBtn');
-  const drop = document.getElementById('navGiftDrop');
-  const open = !drop.classList.contains('open');
-  drop.classList.toggle('open', open);
-  btn.classList.toggle('open', open);
-}
-function closeNavGift() {
-  document.getElementById('navGiftBtn')?.classList.remove('open');
-  document.getElementById('navGiftDrop')?.classList.remove('open');
-}
-document.addEventListener('click', e => {
-  const wrap = document.getElementById('navGiftWrap');
-  if (wrap && !wrap.contains(e.target)) closeNavGift();
-});
-
-function selectGiftOption(type) {
-  // Mark selected card
-  document.getElementById('cardVoucher')?.classList.toggle('selected', type === 'voucher');
-  document.getElementById('cardTrip')?.classList.toggle('selected', type === 'trip');
-  // Show correct panel, hide other
-  document.querySelectorAll('.gift-option-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('section-' + type)?.classList.add('active');
-  // Scroll to panel after it renders
-  setTimeout(() => {
-    document.getElementById('section-' + type)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
-}
-function resetGiftOption() {
-  document.querySelectorAll('.gift-option-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('cardVoucher')?.classList.remove('selected');
-  document.getElementById('cardTrip')?.classList.remove('selected');
-  document.getElementById('gift-top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-// Aliasi za nav pozive
-function scrollToVoucher() { selectGiftOption('voucher'); }
-function scrollToTrip()    { selectGiftOption('trip'); }
-
-// Redeem modal — validacija koda
-function openRedeemModal() {
-  const isSr = lang === 'sr';
-  Swal.fire({
-    title: isSr ? '🔓 Iskoristi poklon' : '🔓 Redeem your gift',
-    html: `
-      <p style="margin-bottom:16px;font-size:14px;color:rgba(255,255,255,.6);">
-        ${isSr ? 'Unesi vaučer kod koji si dobio/la' : 'Enter the voucher code you received'}
-      </p>
-      <input id="redeemCodeInput" class="swal2-input" placeholder="ESC-XXXX-XXXX-XXXX"
-             style="font-family:monospace;font-size:16px;letter-spacing:2px;text-transform:uppercase;"
-             oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')">
-      <div id="redeemResult" style="margin-top:12px;min-height:20px;font-size:13px;"></div>`,
-    background: '#0f2d35',
-    color: '#e8e0d5',
-    confirmButtonColor: '#CA8A71',
-    confirmButtonText: isSr ? 'Proveri kod →' : 'Validate code →',
-    showCancelButton: true,
-    cancelButtonText: isSr ? 'Otkaži' : 'Cancel',
-    cancelButtonColor: 'rgba(255,255,255,.1)',
-    preConfirm: async () => {
-      const code = (document.getElementById('redeemCodeInput')?.value || '').trim().toUpperCase();
-      if (!code) {
-        Swal.showValidationMessage(isSr ? 'Unesi vaučer kod' : 'Enter your voucher code');
-        return false;
-      }
-      // Validate against backend
-      try {
-        const res = await fetch(`${API_BASE}/api/gifts/vouchers/validate`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code })
-        });
-        const data = await res.json();
-        if (data.valid) {
-          return data;
-        } else {
-          Swal.showValidationMessage(isSr ? 'Vaučer kod nije validan ili nije aktivan.' : 'This voucher code is not valid or not active.');
-          return false;
-        }
-      } catch {
-        Swal.showValidationMessage(isSr ? 'Greška pri proveri. Pokušaj ponovo.' : 'Error checking code. Please try again.');
-        return false;
-      }
-    }
-  }).then(result => {
-    if (result.isConfirmed && result.value?.valid) {
-      const amount = result.value.amount;
-      Swal.fire({
-        title: isSr ? '🎉 Vaučer je validan!' : '🎉 Valid voucher!',
-        html: isSr
-          ? `Tvoj vaučer vredi <strong style="color:#CA8A71;font-size:20px;">${amount} EUR</strong>.<br><br>Kada budeš rezervisao/la putovanje, unesi kod u formu i cena će biti umanjena za ovaj iznos.`
-          : `Your voucher is worth <strong style="color:#CA8A71;font-size:20px;">${amount} EUR</strong>.<br><br>When booking a trip, enter the code in the form and the price will be reduced by this amount.`,
-        background: '#0f2d35',
-        color: '#e8e0d5',
-        confirmButtonColor: '#CA8A71',
-        confirmButtonText: isSr ? 'Rezerviši putovanje →' : 'Book a trip →',
-      }).then(r => { if (r.isConfirmed) goHome(); });
-    }
-  });
+function scrollToVoucher() {
+  document.getElementById('section-voucher')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── Vaučer forma ─────────────────────────────────────────────────────────────
@@ -1107,7 +610,6 @@ let selectedAmount = null;
 function selectAmount(val) {
   selectedAmount = val;
   document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('on'));
-  // Označi kliknutu dugmad
   document.querySelectorAll('.amount-btn').forEach(b => {
     if (parseInt(b.textContent) === val) b.classList.add('on');
   });
@@ -1122,12 +624,11 @@ function onCustomAmount(val) {
 }
 
 async function submitVoucher() {
-  const err    = document.getElementById('vErr');
-  const btn    = document.getElementById('vSubmitBtn');
-  const isSr   = lang === 'sr';
+  const err  = document.getElementById('vErr');
+  const btn  = document.getElementById('vSubmitBtn');
+  const isSr = lang === 'sr';
   err.textContent = '';
 
-  // Validacija
   const customVal = parseFloat(document.getElementById('vCustomAmount').value);
   const amount = selectedAmount || (!isNaN(customVal) ? customVal : null);
 
@@ -1195,330 +696,17 @@ async function submitVoucher() {
     const rateLimited = e.message?.includes('429') || e.message?.toLowerCase().includes('previše');
     err.textContent = rateLimited
       ? (isSr ? 'Previše zahteva. Pokušaj ponovo za sat vremena.' : 'Too many requests. Try again in an hour.')
-      : (isSr ? `Greška pri slanju. Pokušaj ponovo.` : 'Error sending. Please try again.');
+      : (isSr ? 'Greška pri slanju. Pokušaj ponovo.' : 'Error sending. Please try again.');
   } finally {
     btn.disabled = false;
     btn.textContent = t('gift.voucher.submit');
   }
 }
 
-// ── Trip forma ───────────────────────────────────────────────────────────────
-let tripAirport   = 'BEG';
-let tripTravelers = 2;
-let _tripDep      = null;
-let _tripRet      = null;
-let _tripCurMonth = null;
-let _tripHover    = null;
-
-// Identični konstanti kao u booking formi (front-page.php)
-const INQ_MONTHS_SR = ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
-const INQ_MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const INQ_DOWS_SR   = ['PON','UTO','SRE','ČET','PET','SUB','NED'];
-const INQ_DOWS_EN   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
-const INQ_DAYS_SR   = ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'];
-const INQ_DAYS_EN   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-function selectTripAirport(code) {
-  tripAirport = code;
-  ['BEG','INI'].forEach(c => {
-    document.getElementById('tripBtn' + c)?.classList.toggle('on', c === code);
-  });
-}
-
-function chTripTrav(d) {
-  const wasAtMax = tripTravelers >= 6 && d > 0;
-  tripTravelers = Math.min(6, Math.max(1, tripTravelers + d));
-  document.getElementById('tripTravN').textContent = tripTravelers;
-  document.getElementById('tripTravD').disabled = tripTravelers <= 1;
-  const maxMsg = document.getElementById('tripTravMore');
-  if (maxMsg) {
-    if (wasAtMax) maxMsg.classList.add('show');
-    else if (d < 0) maxMsg.classList.remove('show');
-  }
-}
-
-// Identične helper funkcije kao u booking formi
-function inqDateDiff(a, b) {
-  return Math.round((b - a) / 86400000);
-}
-function inqFmtDate(date) {
-  const days   = lang === 'sr' ? INQ_DAYS_SR  : INQ_DAYS_EN;
-  const months = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
-  return `${days[date.getDay()]}, ${date.getDate()}. ${months[date.getMonth()].slice(0,3).toLowerCase()}.`;
-}
-
-function updateTripRangeStatus() {
-  const el = document.getElementById('tripRangeStatus');
-  if (!el) return;
-  el.style.color = '';
-  el.className = 'inq-range-status';
-  if (!_tripDep && !_tripRet) {
-    el.className += ' hint';
-    el.textContent = lang === 'sr'
-      ? 'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)'
-      : 'Select departure, then return date (2 or 3 nights)';
-  } else if (_tripDep && !_tripRet) {
-    el.className += ' dep-set';
-    el.innerHTML = lang === 'sr'
-      ? `✈️ Polazak: <strong>${inqFmtDate(_tripDep)}</strong> — sada odaberi datum povratka`
-      : `✈️ Departure: <strong>${inqFmtDate(_tripDep)}</strong> — now select return date`;
-  } else if (_tripDep && _tripRet) {
-    const n = inqDateDiff(_tripDep, _tripRet);
-    el.className += ' valid';
-    el.innerHTML = `✓ ${inqFmtDate(_tripDep)} → ${inqFmtDate(_tripRet)} &nbsp;·&nbsp; <strong>${n} ${lang === 'sr' ? 'noći' : 'nights'}</strong>`;
-  }
-}
-
-function updateTripHoverClasses() {
-  const grid = document.getElementById('tripCalGrid');
-  if (!grid) return;
-  const hoverDiff = (_tripDep && _tripHover) ? inqDateDiff(_tripDep, _tripHover) : 0;
-  grid.querySelectorAll('button.inq-cal-day').forEach(btn => {
-    const d = new Date(Number(btn.dataset.ts));
-    btn.classList.remove('in-range-preview', 'dep-hover');
-    if (!_tripDep || _tripRet || !_tripHover) return;
-    if (d > _tripDep && d < _tripHover && (hoverDiff === 2 || hoverDiff === 3))
-      btn.classList.add('in-range-preview');
-    if (d.toDateString() === _tripHover.toDateString() && hoverDiff > 0)
-      btn.classList.add('dep-hover');
-  });
-}
-
-function renderTripCalendar() {
-  if (!_tripCurMonth) {
-    const now = new Date();
-    _tripCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  }
-  const monthNames = lang === 'sr' ? INQ_MONTHS_SR : INQ_MONTHS_EN;
-  const dows       = lang === 'sr' ? INQ_DOWS_SR   : INQ_DOWS_EN;
-  document.getElementById('tripCalMonth').textContent =
-    `${monthNames[_tripCurMonth.getMonth()]} ${_tripCurMonth.getFullYear()}`;
-
-  const grid = document.getElementById('tripCalGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  dows.forEach(d => {
-    const el = document.createElement('div');
-    el.className = 'inq-cal-dow'; el.textContent = d;
-    grid.appendChild(el);
-  });
-
-  const today    = new Date(); today.setHours(0,0,0,0);
-  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
-  const maxDate  = new Date(today.getFullYear(), 11, 31); // 31. dec tekuće godine
-
-  const firstDay = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), 1);
-  const lastDay  = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth() + 1, 0);
-  let startDow = firstDay.getDay() - 1; if (startDow < 0) startDow = 6;
-  const prevLast = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), 0).getDate();
-
-  for (let i = startDow; i > 0; i--) {
-    const el = document.createElement('div');
-    el.className = 'inq-cal-day muted'; el.textContent = prevLast - i + 1;
-    grid.appendChild(el);
-  }
-
-  for (let d = 1; d <= lastDay.getDate(); d++) {
-    const date = new Date(_tripCurMonth.getFullYear(), _tripCurMonth.getMonth(), d);
-    const el = document.createElement('button');
-    el.type = 'button'; el.textContent = d;
-
-    if (date < tomorrow || date > maxDate) {
-      el.className = 'inq-cal-day'; el.disabled = true;
-      grid.appendChild(el); continue;
-    }
-
-    let cls = 'inq-cal-day';
-    if (date.toDateString() === today.toDateString()) cls += ' today';
-
-    const isDep = _tripDep && date.toDateString() === _tripDep.toDateString();
-    const isRet = _tripRet && date.toDateString() === _tripRet.toDateString();
-    if (isDep) cls += ' dep';
-    if (isRet) cls += ' ret';
-    if (_tripDep && _tripRet && date > _tripDep && date < _tripRet) cls += ' in-range';
-
-    if (_tripDep && !_tripRet && _tripHover) {
-      const diff = inqDateDiff(_tripDep, _tripHover);
-      if ((diff === 2 || diff === 3) && date > _tripDep && date < _tripHover) cls += ' in-range-preview';
-      if (date.toDateString() === _tripHover.toDateString() && diff > 0) cls += ' dep-hover';
-    }
-
-    el.className = cls;
-    el.dataset.ts = date.getTime();
-
-    el.addEventListener('click', () => {
-      if (!_tripDep || _tripRet) {
-        _tripDep = date; _tripRet = null;
-      } else {
-        const diff = inqDateDiff(_tripDep, date);
-        if (diff < 1) {
-          _tripDep = date; _tripRet = null;
-        } else if (diff === 2 || diff === 3) {
-          _tripRet = date;
-        } else {
-          const statusEl = document.getElementById('tripRangeStatus');
-          if (statusEl) {
-            statusEl.className = 'inq-range-status invalid';
-            statusEl.innerHTML = lang === 'sr'
-              ? `⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.`
-              : `⚠️ Only <strong>2 or 3 nights</strong> are allowed. Try again.`;
-            setTimeout(() => updateTripRangeStatus(), 2500);
-          }
-          return;
-        }
-      }
-      _tripHover = null;
-      renderTripCalendar();
-      updateTripRangeStatus();
-    });
-
-    el.addEventListener('mouseenter', () => {
-      if (_tripDep && !_tripRet) { _tripHover = date; updateTripHoverClasses(); }
-    });
-    el.addEventListener('mouseleave', () => {
-      if (_tripDep && !_tripRet) { _tripHover = null; updateTripHoverClasses(); }
-    });
-
-    grid.appendChild(el);
-  }
-
-  const total = startDow + lastDay.getDate();
-  const trail = (7 - (total % 7)) % 7;
-  for (let i = 1; i <= trail; i++) {
-    const el = document.createElement('div');
-    el.className = 'inq-cal-day muted'; el.textContent = i;
-    grid.appendChild(el);
-  }
-}
-
-// Init calendar + navigacija — identičan DOMContentLoaded kao u booking formi
-document.addEventListener('DOMContentLoaded', () => {
-  const now = new Date();
-  _tripCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  renderTripCalendar();
-  updateTripRangeStatus();
-
-  document.getElementById('tripPrevM').addEventListener('click', () => {
-    const prev = new Date(_tripCurMonth); prev.setMonth(prev.getMonth() - 1);
-    const minMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    if (prev >= minMonth) { _tripCurMonth = prev; renderTripCalendar(); }
-  });
-  document.getElementById('tripNextM').addEventListener('click', () => {
-    const next = new Date(_tripCurMonth); next.setMonth(next.getMonth() + 1);
-    const maxMonth = new Date(now.getFullYear(), 12, 1);
-    if (next < maxMonth) { _tripCurMonth = next; renderTripCalendar(); }
-  });
-});
-
-async function submitTripInquiry() {
-  const err  = document.getElementById('tripErr');
-  const btn  = document.getElementById('tripSubmitBtn');
-  const isSr = lang === 'sr';
-  err.textContent = '';
-
-  const buyerEmail = document.getElementById('tripBuyerEmail').value.trim();
-  const recipName  = document.getElementById('tripRecipName').value.trim();
-  const recipEmail = document.getElementById('tripRecipEmail').value.trim();
-
-  if (!_tripDep || !_tripRet) {
-    err.textContent = isSr ? 'Odaberi datum polaska i povratka.' : 'Select departure and return date.';
-    return;
-  }
-  const nights = inqDateDiff(_tripDep, _tripRet);
-  if (nights < 2 || nights > 3) {
-    err.textContent = isSr ? 'Dozvoljeno je samo 2 ili 3 noći.' : 'Only 2 or 3 nights are allowed.';
-    return;
-  }
-  if (!buyerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) {
-    err.textContent = isSr ? 'Unesi validan email.' : 'Enter a valid email.';
-    return;
-  }
-  if (!recipName) {
-    err.textContent = isSr ? 'Unesi ime primaoca.' : 'Enter recipient\'s name.';
-    return;
-  }
-  if (!recipEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipEmail)) {
-    err.textContent = isSr ? 'Unesi validan email primaoca.' : 'Enter a valid recipient email.';
-    return;
-  }
-
-  const pad = n => String(n).padStart(2, '0');
-  const dateStr = `${_tripDep.getFullYear()}-${pad(_tripDep.getMonth()+1)}-${pad(_tripDep.getDate())}`;
-
-  btn.disabled = true;
-  btn.textContent = isSr ? 'Slanje...' : 'Sending...';
-
-  try {
-    const res = await fetch(`${API_BASE}/api/gifts/trips`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        airport: tripAirport,
-        travelers: tripTravelers,
-        desiredDepartureDate: dateStr,
-        nights: nights,
-        buyerEmail: buyerEmail,
-        notes: document.getElementById('tripNotes').value.trim() || null,
-        recipientName: recipName,
-        recipientEmail: recipEmail,
-        giftMessage: document.getElementById('tripMessage').value.trim() || null
-      })
-    });
-
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || data.message || res.status);
-    }
-
-    Swal.fire({
-      title: isSr ? '✈️ Upit primljen!' : '✈️ Inquiry received!',
-      html: isSr
-        ? `Javićemo ti se na <strong>${buyerEmail}</strong> u roku od 24h sa cenom i linkom za plaćanje.`
-        : `We'll get back to you at <strong>${buyerEmail}</strong> within 24h with the price and payment link.`,
-      background: '#0f2d35', color: '#e8e0d5',
-      confirmButtonColor: '#CA8A71',
-      confirmButtonText: 'OK',
-    });
-
-    // Reset
-    tripAirport   = 'BEG';
-    tripTravelers = 2;
-    _tripDep      = null;
-    _tripRet      = null;
-    _tripHover    = null;
-    selectTripAirport('BEG');
-    document.getElementById('tripTravN').textContent = '2';
-    document.getElementById('tripTravD').disabled = true;
-    document.getElementById('tripTravU').disabled = false;
-    document.getElementById('tripTravMore')?.classList.remove('show');
-    renderTripCalendar();
-    updateTripRangeStatus();
-    ['tripBuyerEmail','tripNotes','tripRecipName','tripRecipEmail','tripMessage'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-
-  } catch (e) {
-    const rateLimited = e.message?.includes('429') || e.message?.toLowerCase().includes('previše');
-    err.textContent = rateLimited
-      ? (isSr ? 'Previše zahteva. Pokušaj ponovo za sat vremena.' : 'Too many requests. Try again in an hour.')
-      : (isSr ? 'Greška pri slanju. Pokušaj ponovo.' : 'Error sending. Please try again.');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = t('gift.trip.submit');
-  }
-}
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   AOS.init({ duration: 600, once: true, offset: 60 });
-  if (lang !== 'sr') setLang(lang);
-  else setLang('sr'); // apply placeholders
-
-  // Scroll to section from URL hash
-  const hash = window.location.hash;
-  if (hash === '#voucher') setTimeout(() => scrollToVoucher(), 400);
-  if (hash === '#trip')    setTimeout(() => scrollToTrip(), 400);
+  setLang(lang); // uvek primeni jezik (uključujući i placeholder-e)
 });
 </script>
 
