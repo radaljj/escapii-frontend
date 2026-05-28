@@ -332,6 +332,194 @@ $site_url  = get_site_url();
     .validate-hint { font-size: 13px; color: var(--gray); margin-top: 24px; text-align: center; }
     .validate-hint a { color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; }
 
+    /* ══ VOUCHER REVEAL (QR sken) ════════════════════════════════════════════ */
+    #voucherReveal {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #0a1e26 0%, #0f2d35 55%, #122830 100%);
+      padding: 104px 20px 80px;
+      position: relative; overflow: hidden;
+    }
+    #voucherReveal::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(202,138,113,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bp-reveal-wrap { max-width: 840px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* Loading */
+    .bp-loading { text-align: center; padding: 80px 20px; color: rgba(255,255,255,.6); font-size: 16px; }
+    .bp-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(202,138,113,.2); border-top-color: #CA8A71;
+      border-radius: 50%; animation: bpSpin .8s linear infinite; margin: 0 auto 20px;
+    }
+    @keyframes bpSpin { to { transform: rotate(360deg); } }
+
+    /* Active badge */
+    .bp-status-wrap { text-align: center; margin-bottom: 20px; }
+    .bp-badge-active {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(34,197,94,.1); border: 1.5px solid rgba(34,197,94,.3);
+      color: #4ade80; padding: 8px 24px; border-radius: 100px;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      opacity: 0; animation: bpBadgePop .55s cubic-bezier(.34,1.56,.64,1) .8s forwards;
+    }
+    @keyframes bpBadgePop {
+      0%   { opacity: 0; transform: scale(0); }
+      65%  { transform: scale(1.14); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Card */
+    .bp-card {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+      animation: bpCardIn .75s cubic-bezier(.22,.61,.36,1) .1s both;
+    }
+    .bp-card.bp-float { animation: bpFloat 5s ease-in-out infinite; }
+    @keyframes bpCardIn {
+      from { opacity: 0; transform: translateY(50px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes bpFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    .bp-bar { height: 8px; background: linear-gradient(90deg, #a85e44, #c8775a 50%, #a85e44); }
+    .bp-inner { display: flex; min-height: 370px; }
+
+    /* Main (cream) */
+    .bp-main { flex: 1; background: #faf6ee; padding: 34px 38px; min-width: 0; }
+    .bp-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .bp-logo { height: 32px; width: auto; display: block; }
+    .bp-tag {
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #a85e44; font-weight: 700;
+      border: 1px solid #e0c3b2; background: #fbf1ea;
+      padding: 5px 12px; border-radius: 100px; white-space: nowrap;
+    }
+    .bp-title-area {
+      border-top: 1px dashed #d8cab2; border-bottom: 1px dashed #d8cab2;
+      padding: 15px 0; margin-bottom: 17px;
+    }
+    .bp-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #6b5d4f; margin-bottom: 7px; font-style: italic; }
+    .bp-h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(26px, 3.2vw, 38px); font-weight: 400;
+      color: #1a1410; line-height: 1.1; letter-spacing: -.5px; margin: 0;
+    }
+    .bp-h1 em { color: #a85e44; font-style: italic; }
+    .bp-route { display: flex; align-items: flex-start; margin-bottom: 15px; }
+    .bp-route-from, .bp-route-to { flex: 1; }
+    .bp-route-to { text-align: right; }
+    .bp-iata {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(38px, 4.8vw, 52px); font-weight: 700;
+      color: #1a1410; line-height: 1; letter-spacing: -2px;
+    }
+    .bp-iata-dest { color: #a85e44; font-style: italic; }
+    .bp-city { font-size: 11px; font-weight: 700; color: #1a1410; padding-top: 8px; letter-spacing: .5px; }
+    .bp-city-r { text-align: right; }
+    .bp-cap { font-size: 9.5px; color: #a89888; padding-top: 4px; }
+    .bp-cap-r { text-align: right; }
+    .bp-route-mid { width: 88px; text-align: center; padding-top: 15px; flex-shrink: 0; }
+    .bp-plane-icon { font-size: 19px; color: #c8775a; display: block; margin-bottom: 4px; }
+    .bp-plane-line { border-top: 1.5px dashed rgba(200,119,90,.4); width: 60px; margin: 0 auto; }
+    .bp-meta { display: flex; border: 1px solid #ebe1cf; background: #fff; border-radius: 10px; overflow: hidden; margin-bottom: 13px; }
+    .bp-meta-cell { flex: 1; padding: 11px 14px; border-right: 1px solid #ebe1cf; }
+    .bp-meta-cell:last-child { border-right: none; }
+    .bp-mk { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; }
+    .bp-mv { font-size: 12px; font-weight: 700; color: #1a1410; padding-top: 5px; }
+    .bp-mv-terra { color: #a85e44; }
+    .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; }
+    .bp-msg-k { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; margin-bottom: 6px; }
+    .bp-msg-text { font-family: Georgia, serif; font-style: italic; font-size: 14px; color: #2b231b; line-height: 1.5; }
+    .bp-msg-sig { font-size: 11px; color: #6b5d4f; padding-top: 6px; }
+
+    /* Perforated divider */
+    .bp-perf {
+      width: 1px; flex-shrink: 0;
+      background: repeating-linear-gradient(to bottom, rgba(216,202,178,.55) 0px, rgba(216,202,178,.55) 8px, transparent 8px, transparent 14px);
+      position: relative;
+    }
+    .bp-perf::before, .bp-perf::after {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(160deg, #0a1e26, #0f2d35);
+      box-shadow: 0 0 0 1px rgba(216,202,178,.12);
+    }
+    .bp-perf::before { top: -10px; }
+    .bp-perf::after  { bottom: -10px; }
+
+    /* Stub (dark) */
+    .bp-stub { width: 248px; flex-shrink: 0; background: #1a1410; padding: 34px 26px; display: flex; flex-direction: column; }
+    .bp-stub-head { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #8a8079; font-weight: 700; margin-bottom: 22px; }
+    .bp-stub-head b { color: #c8775a; }
+    .bp-stub-k { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #948a82; margin-bottom: 6px; }
+    .bp-stub-amount { font-family: Georgia, serif; font-size: 58px; font-weight: 400; color: #fff; line-height: 1; letter-spacing: -2px; margin-bottom: 3px; }
+    .bp-cur { color: #c8775a; font-size: 25px; font-style: italic; }
+    .bp-stub-sub { font-family: Georgia, serif; font-style: italic; font-size: 12px; color: #a59c94; margin-bottom: 20px; }
+    .bp-code-wrap { background: #2a211a; border: 1px dashed #4a3f36; border-radius: 8px; padding: 11px 8px; margin-bottom: 18px; text-align: center; }
+    .bp-code-text {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px; font-weight: 700; letter-spacing: 2px; display: block;
+      background: linear-gradient(90deg, #e29070 20%, #f8d4be 50%, #e29070 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: #e29070;
+      animation: bpShimmer 3s linear 1.5s infinite;
+    }
+    @keyframes bpShimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
+    .bp-stub-info { font-size: 11px; color: #8a8079; line-height: 1.7; flex: 1; }
+    .bp-stub-info strong { color: #c8775a; }
+    .bp-stub-scan { font-size: 10px; color: #5a5250; line-height: 1.6; text-align: center; border-top: 1px dashed #2a211a; padding-top: 14px; margin-top: auto; }
+
+    /* How to use */
+    .bp-how { margin-top: 52px; animation: bpCardIn .7s cubic-bezier(.22,.61,.36,1) .3s both; }
+    .bp-how-h { text-align: center; font-size: clamp(20px, 2.8vw, 26px); font-weight: 900; color: #fff; letter-spacing: -.5px; margin-bottom: 24px; }
+    .bp-how-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+    .bp-how-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px; padding: 24px 22px; transition: all .25s;
+    }
+    .bp-how-card:hover { background: rgba(202,138,113,.08); border-color: rgba(202,138,113,.35); transform: translateY(-3px); }
+    .bp-how-icon { font-size: 28px; margin-bottom: 10px; }
+    .bp-how-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 7px; }
+    .bp-how-sub { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.65; margin-bottom: 15px; }
+    .bp-how-sub strong { color: rgba(255,255,255,.75); }
+    .bp-how-btn {
+      display: inline-block; background: rgba(202,138,113,.1);
+      border: 1px solid rgba(202,138,113,.3); color: #CA8A71;
+      padding: 9px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 700; text-decoration: none; transition: all .2s;
+    }
+    .bp-how-btn:hover { background: rgba(202,138,113,.2); border-color: rgba(202,138,113,.6); }
+    .bp-how-info {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px; padding: 22px 26px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px;
+    }
+    .bp-info-item { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.5; }
+    .bp-info-item strong { color: rgba(255,255,255,.85); }
+    .bp-info-item a { color: #CA8A71; text-decoration: none; font-weight: 600; }
+    .bp-info-item a:hover { text-decoration: underline; }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      #voucherReveal { padding: 88px 16px 60px; }
+      .bp-inner { flex-direction: column; }
+      .bp-main  { padding: 24px 20px; }
+      .bp-stub  { width: auto; padding: 24px 20px; }
+      .bp-perf  {
+        width: auto; height: 1px;
+        background: repeating-linear-gradient(to right, rgba(216,202,178,.45) 0px, rgba(216,202,178,.45) 8px, transparent 8px, transparent 14px);
+      }
+      .bp-perf::before { top: 50%; left: -10px; transform: translateY(-50%); }
+      .bp-perf::after  { top: 50%; left: auto; right: -10px; bottom: auto; transform: translateY(-50%); }
+      .bp-iata { font-size: 38px; }
+      .bp-h1   { font-size: 26px; }
+      .bp-stub-amount { font-size: 50px; }
+      .bp-how-cards { grid-template-columns: 1fr; }
+      .bp-how-info  { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -373,6 +561,16 @@ $site_url  = get_site_url();
     <button class="mob-menu-book" onclick="closeMobMenu();goHome();" data-i18n="nav.home">Nazad na sajt</button>
   </div>
 </div>
+
+<!-- VOUCHER REVEAL (QR sken) — prikazuje se samo kad ?code= postoji u URL-u -->
+<section id="voucherReveal" style="display:none;">
+  <div class="bp-reveal-wrap" id="bpRevealContent">
+    <div class="bp-loading">
+      <div class="bp-spinner"></div>
+      <div>Učitavam vaučer...</div>
+    </div>
+  </div>
+</section>
 
 <!-- HERO -->
 <section class="gift-hero" id="gift-top">
@@ -488,7 +686,9 @@ $site_url  = get_site_url();
 </footer>
 
 <script>
-const API_BASE = '<?php echo esc_js(escapii_api_url()); ?>';
+const API_BASE   = '<?php echo esc_js(escapii_api_url()); ?>';
+const THEME_URI  = '<?php echo esc_js($theme_uri); ?>';
+const SITE_URL   = '<?php echo esc_js($site_url); ?>';
 
 // ── Prevodi ──────────────────────────────────────────────────────────────────
 const TR = {
@@ -671,6 +871,180 @@ async function submitVoucher() {
     btn.textContent = t('gift.voucher.submit');
   }
 }
+
+// ── Voucher Reveal (QR sken) ─────────────────────────────────────────────────
+
+function _esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+const _AMOUNT_WORDS = {
+  50:'pedeset evra', 100:'sto evra', 150:'sto pedeset evra', 200:'dvesta evra',
+  250:'dvesta pedeset evra', 300:'trista evra', 400:'četiristo evra',
+  500:'petsto evra', 600:'šeststo evra', 750:'sedamsto pedeset evra', 1000:'hiljadu evra'
+};
+
+function _fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function _renderRevealCard(container, code, d) {
+  const amount   = Math.round(d.amount);
+  const words    = _AMOUNT_WORDS[amount] || (amount + ' evra');
+  const msgHtml  = d.giftMessage ? `
+    <div class="bp-msg" style="margin-top:13px;">
+      <div class="bp-msg-k">Lična poruka</div>
+      <div class="bp-msg-text">${_esc(d.giftMessage)}</div>
+      ${d.buyerName ? `<div class="bp-msg-sig">— <strong>${_esc(d.buyerName)}</strong></div>` : ''}
+    </div>` : '';
+
+  container.innerHTML = `
+    <div class="bp-status-wrap">
+      <div class="bp-badge-active">✓ VAUČER AKTIVAN</div>
+    </div>
+
+    <div class="bp-card" id="bpCardEl">
+      <div class="bp-bar"></div>
+      <div class="bp-inner">
+
+        <!-- Leva (krem) strana -->
+        <div class="bp-main">
+          <div class="bp-hdr">
+            <img src="${THEME_URI}/images/logo-black.svg" alt="escapii" class="bp-logo">
+            <div class="bp-tag">🎟️ Poklon vaučer</div>
+          </div>
+          <div class="bp-title-area">
+            <div class="bp-eyebrow">— Iskoristi vaučer za Escapii putovanje —</div>
+            <h2 class="bp-h1">Tvoja sledeća<br><em>avantura te čeka.</em></h2>
+          </div>
+          <div class="bp-route">
+            <div class="bp-route-from">
+              <div class="bp-iata">BEG</div>
+              <div class="bp-city">Beograd</div>
+              <div class="bp-cap">Polazak — bilo kada</div>
+            </div>
+            <div class="bp-route-mid">
+              <span class="bp-plane-icon">✈</span>
+              <div class="bp-plane-line"></div>
+            </div>
+            <div class="bp-route-to">
+              <div class="bp-iata bp-iata-dest">???</div>
+              <div class="bp-city bp-city-r">Iznenađenje</div>
+              <div class="bp-cap bp-cap-r">otkriva se 48h pre polaska</div>
+            </div>
+          </div>
+          <div class="bp-meta">
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Izdato</div>
+              <div class="bp-mv">${_fmtDate(d.activatedAt)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Važi do</div>
+              <div class="bp-mv bp-mv-terra">${_fmtDate(d.expiresAt)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Vrednost</div>
+              <div class="bp-mv">${amount} €</div>
+            </div>
+          </div>
+          ${msgHtml}
+        </div>
+
+        <!-- Perforacija -->
+        <div class="bp-perf"></div>
+
+        <!-- Desna (tamna) strana -->
+        <div class="bp-stub">
+          <div class="bp-stub-head">BOARDING PASS · <b>GIFT</b></div>
+          <div class="bp-stub-k">Vrednost</div>
+          <div class="bp-stub-amount">${amount}<span class="bp-cur"> €</span></div>
+          <div class="bp-stub-sub">— ${_esc(words)} —</div>
+          <div class="bp-stub-k">Vaučer kod</div>
+          <div class="bp-code-wrap">
+            <span class="bp-code-text">${_esc(code)}</span>
+          </div>
+          <div class="bp-stub-info">
+            Unesi kod pri rezervaciji — cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
+            Važi do: <strong>${_fmtDate(d.expiresAt)}</strong>
+          </div>
+          <div class="bp-stub-scan">escapii.rs/poklon<br>ili unesi kod pri rezervaciji</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kako iskoristiti -->
+    <div class="bp-how">
+      <h3 class="bp-how-h">Kako iskoristiti vaučer?</h3>
+      <div class="bp-how-cards">
+        <div class="bp-how-card">
+          <div class="bp-how-icon">✈️</div>
+          <div class="bp-how-title">Escapii putovanje</div>
+          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> — cena se automatski umanjuje za ${amount}€.</div>
+          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Pogledaj termine →</a>
+        </div>
+        <div class="bp-how-card">
+          <div class="bp-how-icon">🌍</div>
+          <div class="bp-how-title">Privatno putovanje</div>
+          <div class="bp-how-sub">Ne odgovara ti nijedan termin? Zatraži privatno Escapii putovanje prilagođeno tebi — iznenađenje i dalje ostaje tajna.</div>
+          <a href="${SITE_URL}/#esc-custom" class="bp-how-btn">Zatraži privatno →</a>
+        </div>
+      </div>
+      <div class="bp-how-info">
+        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> — do ${_fmtDate(d.expiresAt)}</div>
+        <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
+        <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
+        <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
+      </div>
+    </div>`;
+
+  // Nakon ulazne animacije (750ms) dodaj float animaciju
+  setTimeout(() => {
+    const card = document.getElementById('bpCardEl');
+    if (card) card.classList.add('bp-float');
+  }, 950);
+}
+
+function _renderRevealError(container, msg) {
+  container.innerHTML = `
+    <div class="bp-loading">
+      <div style="font-size:48px;margin-bottom:16px;">😔</div>
+      <div style="font-size:18px;color:#fff;font-weight:700;margin-bottom:8px;">Vaučer nije pronađen</div>
+      <div style="font-size:15px;max-width:380px;line-height:1.6;margin:0 auto;">${_esc(msg)}</div>
+      <div style="margin-top:24px;font-size:13px;color:rgba(255,255,255,.4);">
+        Pitanja? <a href="mailto:escapii.team@gmail.com" style="color:#CA8A71;text-decoration:none;">escapii.team@gmail.com</a>
+      </div>
+    </div>`;
+}
+
+// Automatski pokreni na DOMContentLoaded ako postoji ?code= param
+document.addEventListener('DOMContentLoaded', () => {
+  const urlCode = new URLSearchParams(window.location.search).get('code');
+  if (!urlCode) return;
+
+  // Sakrij normalnu stranicu, prikaži reveal sekciju
+  const heroEl     = document.getElementById('gift-top');
+  const sectionsEl = document.getElementById('section-voucher');
+  const revealEl   = document.getElementById('voucherReveal');
+  const content    = document.getElementById('bpRevealContent');
+
+  if (heroEl)     heroEl.style.display     = 'none';
+  if (sectionsEl) sectionsEl.style.display = 'none';
+  revealEl.style.display = 'block';
+
+  // Fetch reveal podataka
+  fetch(`${API_BASE}/api/gifts/vouchers/reveal?code=${encodeURIComponent(urlCode)}`)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.valid) {
+        _renderRevealError(content, data.message || 'Vaučer nije validan ili nije aktivan.');
+      } else {
+        _renderRevealCard(content, urlCode.toUpperCase(), data);
+      }
+    })
+    .catch(() => _renderRevealError(content, 'Greška pri učitavanju. Pokušaj ponovo ili kontaktiraj tim.'));
+});
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
