@@ -2946,8 +2946,8 @@ async function loadGiftVouchers() {
     if (!r.ok) throw new Error();
     _gVouchers = await r.json();
     const pending = _gVouchers.filter(v => v.status === 'PENDING').length;
-    document.getElementById('giftVoucherBadge').textContent = pending > 0 ? pending : '';
-    document.getElementById('giftsBadge').textContent = pending || '';
+    const giftsBadge = document.getElementById('giftsBadge');
+    if (giftsBadge) giftsBadge.textContent = pending || '';
     renderGiftVouchers();
   } catch {
     tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:#ef4444;">Greška pri učitavanju vaučera.</td></tr>`;
