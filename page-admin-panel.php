@@ -1017,11 +1017,10 @@ tbody td  { padding: 11px 12px; }
       <!-- ⚠️ Podsetnik: vaučer lifecycle -->
       <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
         <strong style="color:#CA8A71;">⚠️ Vaučer lifecycle — VAŽNO:</strong><br>
-        Kad korisnik unese vaučer kod pri kreiranju rezervacije, vaučer automatski prelazi u status
-        <strong style="color:#fbbf24;">RESERVED</strong> (blokiran za dalje korišćenje, ali još nije konačno iskorišćen).<br>
-        <strong>Tek kada postaviš status rezervacije na CONFIRMED</strong> (nakon što korisnik uplati),
-        vaučer automatski prelazi u <strong style="color:#86efac;">USED</strong>.<br>
-        Ako rezervacija bude otkazana, vaučer se automatski vraća na <strong style="color:#93c5fd;">ACTIVE</strong>.
+        Kad korisnik unese vaučer kod pri rezervaciji → status postaje <strong style="color:#fbbf24;">RESERVED</strong> (blokiran, ali nije trajno potrošen).<br>
+        Vaučer ostaje RESERVED tokom celog toka (PENDING i CONFIRMED) — <strong>trajno postaje USED tek kad rezervacija pređe u COMPLETED</strong> (automatski ili ručno).<br>
+        Ako se rezervacija <strong>otkaže ili obriše</strong> → vaučer se automatski vraća na <strong style="color:#93c5fd;">ACTIVE</strong>.<br>
+        Vraćanje iz CONFIRMED u PENDING ne oslobađa vaučer — ostaje RESERVED dok se rezervacija ne završi ili otkaže.
       </div>
 
       <!-- Vaučeri -->
