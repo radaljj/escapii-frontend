@@ -2,7 +2,7 @@
 /**
  * Template Name: Poklon Reveal
  * Stranica na kojoj primalac aktivira/vidi gift vaučer.
- * URL: /poklon?k=ESC-XXXX-XXXX-XXXX
+ * URL: /poklon?code=ESC-XXXX-XXXX-XXXX  (staro: ?k=, podrzano za kompatibilnost)
  */
 $theme_uri = get_template_directory_uri();
 $site_url  = get_site_url();
@@ -412,7 +412,7 @@ function show(state) {
 // ── Main logic ───────────────────────────────────────────────────────────────
 async function init() {
   const params = new URLSearchParams(window.location.search);
-  const code   = (params.get('k') || '').trim().toUpperCase();
+  const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
 
   if (!code) {
     document.getElementById('errTitle').textContent = isSr ? 'Kod nije pronađen' : 'No code provided';
