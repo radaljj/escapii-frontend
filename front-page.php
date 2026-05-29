@@ -821,16 +821,21 @@
     .trav-max-msg a:hover { text-decoration: underline; }
     .trav-info h3 { font-size: 16px; font-weight: 700; }
     .trav-info p  { font-size: 13px; color: var(--gray); margin-top: 3px; }
-    .counter { display: flex; align-items: center; gap: 0; }
-    .cb {
-      width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,.15);
-      background: rgba(255,255,255,.07); color: white; font-size: 20px; font-weight: 700;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all .2s; line-height: 1;
+    .trav-chips { display: flex; gap: 8px; align-items: center; }
+    .trav-chip {
+      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+      border: 1.5px solid rgba(246,241,230,.14);
+      background: rgba(246,241,230,.05); color: rgba(246,241,230,.6);
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s; font-family: inherit; line-height: 1;
     }
-    .cb:hover:not(:disabled) { background: var(--gold); color: #ffffff; border-color: var(--gold); }
-    .cb:disabled { opacity: .3; cursor: not-allowed; }
-    .cv { font-size: 24px; font-weight: 900; min-width: 52px; text-align: center; }
+    .trav-chip:hover:not(.active) { border-color: var(--gold); color: var(--gold); background: rgba(202,138,113,.1); }
+    .trav-chip.active {
+      background: var(--gold); border-color: var(--gold); color: #fff;
+      box-shadow: 0 4px 16px rgba(202,138,113,.3); transform: scale(1.08);
+    }
+    @media(max-width:420px) { .trav-chip { width: 36px; height: 36px; font-size: 14px; border-radius: 10px; } .trav-chips { gap: 6px; } }
     /* Step 3 */
     .dates-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
     @keyframes noDatesFadeIn {
@@ -1958,13 +1963,20 @@
       border-top: 1px dashed rgba(202,138,113,.2);
     }
     .voucher-toggle-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: none; border: none; font-size: 13px; font-weight: 700;
-      color: var(--gold); cursor: pointer; font-family: inherit; padding: 0;
-      transition: opacity .15s;
+      display: flex; align-items: center; gap: 14px; width: 100%;
+      padding: 14px 18px; border-radius: 14px; cursor: pointer;
+      font-family: inherit; text-align: left;
+      background: rgba(202,138,113,.07);
+      border: 1.5px dashed rgba(202,138,113,.38);
+      transition: background .2s, border-color .2s;
     }
-    .voucher-toggle-btn:hover { opacity: .8; }
-    .voucher-toggle-caret { font-size: 10px; transition: transform .2s; display: inline-block; }
+    .voucher-toggle-btn:hover { background: rgba(202,138,113,.12); border-color: rgba(202,138,113,.6); }
+    .voucher-toggle-btn.open { background: rgba(202,138,113,.11); border-color: var(--gold); border-style: solid; }
+    .voucher-tag-icon { font-size: 24px; flex-shrink: 0; line-height: 1; }
+    .voucher-tag-text { flex: 1; }
+    .voucher-tag-main { font-size: 14px; font-weight: 700; color: var(--gold); display: block; }
+    .voucher-tag-sub { font-size: 11px; color: rgba(202,138,113,.6); letter-spacing: .02em; display: block; margin-top: 2px; }
+    .voucher-toggle-caret { color: rgba(202,138,113,.65); transition: transform .25s; flex-shrink: 0; display: flex; }
     .voucher-toggle-btn.open .voucher-toggle-caret { transform: rotate(180deg); }
     .voucher-input-body { display: none; margin-top: 12px; }
     .voucher-input-body.open { display: block; }
@@ -3093,11 +3105,18 @@
             <h3 data-i18n="s2.label">Broj Escapera</h3>
             <p data-i18n="s2.sub">1 do 6 osoba</p>
           </div>
-          <div class="counter">
-            <button class="cb" onclick="chTrav(-1)" id="travD">−</button>
-            <div class="cv" id="travN">1</div>
-            <button class="cb" onclick="chTrav(1)" id="travU">+</button>
+          <div class="trav-chips" id="travChips">
+            <button class="trav-chip active" data-val="1" onclick="setTrav(1)" type="button">1</button>
+            <button class="trav-chip" data-val="2" onclick="setTrav(2)" type="button">2</button>
+            <button class="trav-chip" data-val="3" onclick="setTrav(3)" type="button">3</button>
+            <button class="trav-chip" data-val="4" onclick="setTrav(4)" type="button">4</button>
+            <button class="trav-chip" data-val="5" onclick="setTrav(5)" type="button">5</button>
+            <button class="trav-chip" data-val="6" onclick="setTrav(6)" type="button">6</button>
           </div>
+          <!-- hidden — koristi se u JS chTrav/setTrav za state -->
+          <div id="travN" style="display:none;">1</div>
+          <button id="travD" style="display:none;" type="button"></button>
+          <button id="travU" style="display:none;" type="button"></button>
         </div>
         <div class="trav-max-msg" id="travMaxMsg">
           <span style="font-size:15px;flex-shrink:0;">✉</span>
@@ -3422,8 +3441,14 @@
           <!-- Voucher code input -->
           <div class="voucher-section">
             <button class="voucher-toggle-btn" id="voucherToggleBtn" type="button" onclick="toggleVoucherInput()">
-              🎟️ <span id="voucherToggleLbl">Imam poklon vaučer</span>
-              <span class="voucher-toggle-caret">▾</span>
+              <span class="voucher-tag-icon">🎁</span>
+              <span class="voucher-tag-text">
+                <span class="voucher-tag-main" id="voucherToggleLbl">Imam poklon vaučer</span>
+                <span class="voucher-tag-sub" id="voucherToggleSub">Unesi kod i oduzmi iznos od cene</span>
+              </span>
+              <span class="voucher-toggle-caret">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
             </button>
             <div class="voucher-input-body" id="voucherInputBody">
               <div class="voucher-input-row">
@@ -5063,12 +5088,29 @@ async function loadDestinationsByAirport(airport) {
 }
 
 // ══════════ STEP 2
+function syncTravChips() {
+  document.querySelectorAll('.trav-chip').forEach(c =>
+    c.classList.toggle('active', parseInt(c.dataset.val) === S.travelers));
+}
+function setTrav(n) {
+  const prev = S.travelers;
+  S.travelers = Math.min(6, Math.max(1, n));
+  document.getElementById('travN').textContent = S.travelers;
+  syncTravChips();
+  const maxMsg = document.getElementById('travMaxMsg');
+  if (maxMsg) maxMsg.classList.toggle('show', S.travelers >= 6);
+  if(S.cabinSuitcaseCount > S.travelers) S.cabinSuitcaseCount = S.travelers;
+  updateSingleNotice();
+  updateSeatsNotice();
+  updateSeatsVisibility();
+  if(S.dates.length) renderDatesFromCache();
+}
 function chTrav(d) {
   const wasAtMax = S.travelers >= 6 && d > 0;
   S.travelers = Math.min(6, Math.max(1, S.travelers+d));
   document.getElementById('travN').textContent = S.travelers;
   document.getElementById('travD').disabled = S.travelers<=1;
-  // Inline max poruka
+  syncTravChips();
   const maxMsg = document.getElementById('travMaxMsg');
   if (maxMsg) {
     if (wasAtMax) maxMsg.classList.add('show');
@@ -5078,7 +5120,6 @@ function chTrav(d) {
   updateSingleNotice();
   updateSeatsNotice();
   updateSeatsVisibility();
-  // Re-render dates da se azuriraju disabled statusi
   if(S.dates.length) renderDatesFromCache();
 }
 
@@ -6634,6 +6675,7 @@ function removeVoucher() {
   document.getElementById('voucherCodeInp').classList.remove('valid', 'invalid');
   document.getElementById('voucherMsg').textContent = '';
   document.getElementById('voucherToggleLbl').textContent = lang === 'sr' ? 'Imam poklon vaučer' : 'I have a gift voucher';
+  document.getElementById('voucherToggleSub').textContent = lang === 'sr' ? 'Unesi kod i oduzmi iznos od cene' : 'Enter code to deduct from total';
   updatePriceTotalWithVoucher();
 }
 
