@@ -19,12 +19,6 @@ $site_url  = get_site_url();
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     * { -webkit-tap-highlight-color: transparent; }
 
-    :root {
-      --accent:  #CA8A71;
-      --accent2: #B57560;
-      --gold:    #d4a83c;
-    }
-
     html, body {
       min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -34,9 +28,7 @@ $site_url  = get_site_url();
     }
 
     /* ── Stars canvas ── */
-    #starsCanvas {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    }
+    #starsCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
     /* ── Glow ── */
     .bg-glow {
@@ -65,7 +57,7 @@ $site_url  = get_site_url();
     .spinner {
       width: 44px; height: 44px;
       border: 2.5px solid rgba(202,138,113,.15);
-      border-top-color: var(--accent);
+      border-top-color: #CA8A71;
       border-radius: 50%;
       animation: spin .85s linear infinite;
     }
@@ -83,156 +75,170 @@ $site_url  = get_site_url();
     .err-sub { font-size: 15px; color: rgba(255,255,255,.45); max-width: 380px; line-height: 1.65; }
     .err-btn {
       margin-top: 8px; padding: 14px 32px; border-radius: 12px;
-      background: var(--accent); border: none; color: #fff;
+      background: #CA8A71; border: none; color: #fff;
       font-size: 15px; font-weight: 800; font-family: inherit;
       cursor: pointer; transition: all .2s;
     }
-    .err-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+    .err-btn:hover { background: #B57560; transform: translateY(-1px); }
 
-    /* ── Main reveal ── */
+    /* ── Reveal wrapper ── */
     #stateReveal {
       display: none; position: relative; z-index: 10;
-      min-height: 100vh; align-items: center; justify-content: center;
-      flex-direction: column; padding: 100px 24px 60px;
+      min-height: 100vh; padding: 100px 20px 80px;
+    }
+    .bp-reveal-wrap { max-width: 840px; margin: 0 auto; }
+
+    /* ── Active badge ── */
+    .bp-status-wrap { text-align: center; margin-bottom: 20px; }
+    .bp-badge-active {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(34,197,94,.1); border: 1.5px solid rgba(34,197,94,.3);
+      color: #4ade80; padding: 8px 24px; border-radius: 100px;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      opacity: 0; animation: bpBadgePop .55s cubic-bezier(.34,1.56,.64,1) .8s forwards;
+    }
+    @keyframes bpBadgePop {
+      0%   { opacity: 0; transform: scale(0); }
+      65%  { transform: scale(1.14); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
-    .reveal-wrap {
-      max-width: 520px; width: 100%; text-align: center;
+    /* ── Boarding pass card ── */
+    .bp-card {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+      animation: bpCardIn .75s cubic-bezier(.22,.61,.36,1) .1s both;
     }
+    .bp-card.bp-float { animation: bpFloat 5s ease-in-out infinite; }
+    @keyframes bpCardIn {
+      from { opacity: 0; transform: translateY(50px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes bpFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
-    /* Gift box animation */
-    .gift-box {
-      font-size: 80px; margin-bottom: 8px;
-      display: inline-block;
-      animation: giftPop .8s .4s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    @keyframes giftPop {
-      from { opacity:0; transform: scale(.3) rotate(-15deg); }
-      to   { opacity:1; transform: scale(1) rotate(0); }
-    }
+    .bp-bar { height: 8px; background: linear-gradient(90deg, #a85e44, #c8775a 50%, #a85e44); }
+    .bp-inner { display: flex; min-height: 370px; }
 
-    .reveal-eyebrow {
-      font-size: 12px; font-weight: 800; letter-spacing: 1.8px;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 16px;
-      opacity: 0; animation: fadeUp .7s .9s ease both;
+    /* Main (cream) */
+    .bp-main { flex: 1; background: #faf6ee; padding: 34px 38px; min-width: 0; }
+    .bp-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .bp-logo { height: 32px; width: auto; display: block; }
+    .bp-tag {
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #a85e44; font-weight: 700;
+      border: 1px solid #e0c3b2; background: #fbf1ea;
+      padding: 5px 12px; border-radius: 100px; white-space: nowrap;
     }
+    .bp-title-area {
+      border-top: 1px dashed #d8cab2; border-bottom: 1px dashed #d8cab2;
+      padding: 15px 0; margin-bottom: 17px;
+    }
+    .bp-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #6b5d4f; margin-bottom: 7px; font-style: italic; }
+    .bp-h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(26px, 3.2vw, 38px); font-weight: 400;
+      color: #1a1410; line-height: 1.1; letter-spacing: -.5px; margin: 0;
+    }
+    .bp-h1 em { color: #a85e44; font-style: italic; }
 
-    .reveal-h1 {
-      font-size: clamp(28px, 5vw, 44px); font-weight: 900;
-      color: #ffffff; letter-spacing: -1.5px; line-height: 1.1;
-      margin-bottom: 12px;
-      opacity: 0; animation: fadeUp .7s 1s ease both;
+    .bp-route { display: flex; align-items: flex-start; margin-bottom: 15px; }
+    .bp-route-from, .bp-route-to { flex: 1; }
+    .bp-route-to { text-align: right; }
+    .bp-iata {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(38px, 4.8vw, 52px); font-weight: 700;
+      color: #1a1410; line-height: 1; letter-spacing: -2px;
     }
-    .reveal-h1 em { color: var(--accent); font-style: normal; }
+    .bp-iata-dest { color: #a85e44; font-style: italic; }
+    .bp-city { font-size: 11px; font-weight: 700; color: #1a1410; padding-top: 8px; letter-spacing: .5px; }
+    .bp-city-r { text-align: right; }
+    .bp-cap { font-size: 9.5px; color: #a89888; padding-top: 4px; }
+    .bp-cap-r { text-align: right; }
+    .bp-route-mid { width: 88px; text-align: center; padding-top: 15px; flex-shrink: 0; }
+    .bp-plane-icon { font-size: 19px; color: #c8775a; display: block; margin-bottom: 4px; }
+    .bp-plane-line { border-top: 1.5px dashed rgba(200,119,90,.4); width: 60px; margin: 0 auto; }
 
-    .reveal-from {
-      font-size: 15px; color: rgba(255,255,255,.5); margin-bottom: 36px;
-      opacity: 0; animation: fadeUp .7s 1.1s ease both;
-    }
-    .reveal-from strong { color: rgba(255,255,255,.8); }
+    .bp-meta { display: flex; border: 1px solid #ebe1cf; background: #fff; border-radius: 10px; overflow: hidden; margin-bottom: 13px; }
+    .bp-meta-cell { flex: 1; padding: 11px 14px; border-right: 1px solid #ebe1cf; }
+    .bp-meta-cell:last-child { border-right: none; }
+    .bp-mk { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; }
+    .bp-mv { font-size: 12px; font-weight: 700; color: #1a1410; padding-top: 5px; }
+    .bp-mv-terra { color: #a85e44; }
 
-    /* Amount card */
-    .amount-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(202,138,113,.3);
-      border-radius: 20px; padding: 28px 32px; margin-bottom: 28px;
-      opacity: 0; animation: fadeUp .7s 1.2s ease both;
-    }
-    .amount-label {
-      font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
-      text-transform: uppercase; color: rgba(255,255,255,.35);
-      margin-bottom: 8px;
-    }
-    .amount-value {
-      font-size: clamp(40px, 8vw, 60px); font-weight: 900;
-      color: var(--accent); letter-spacing: -2px; line-height: 1;
-      margin-bottom: 8px;
-    }
-    .amount-desc { font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.55; }
+    .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; }
+    .bp-msg-k { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; margin-bottom: 6px; }
+    .bp-msg-text { font-family: Georgia, serif; font-style: italic; font-size: 14px; color: #2b231b; line-height: 1.5; }
+    .bp-msg-sig { font-size: 11px; color: #6b5d4f; padding-top: 6px; }
 
-    /* Gift message */
-    .gift-message-wrap {
-      background: rgba(202,138,113,.06); border-left: 3px solid var(--accent);
-      border-radius: 0 12px 12px 0; padding: 16px 20px;
-      margin-bottom: 28px; text-align: left;
-      opacity: 0; animation: fadeUp .7s 1.3s ease both;
+    /* Perforated divider */
+    .bp-perf {
+      width: 1px; flex-shrink: 0;
+      background: repeating-linear-gradient(to bottom, rgba(216,202,178,.55) 0px, rgba(216,202,178,.55) 8px, transparent 8px, transparent 14px);
+      position: relative;
     }
-    .gift-message-label {
-      font-size: 11px; font-weight: 800; letter-spacing: 1px;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 8px;
+    .bp-perf::before, .bp-perf::after {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(160deg, #0a1e26, #0f2d35);
+      box-shadow: 0 0 0 1px rgba(216,202,178,.12);
     }
-    .gift-message-text {
-      font-size: 15px; color: rgba(255,255,255,.75);
-      line-height: 1.65; font-style: italic;
-    }
+    .bp-perf::before { top: -10px; }
+    .bp-perf::after  { bottom: -10px; }
 
-    /* Code block */
-    .code-wrap {
-      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px; padding: 18px 24px; margin-bottom: 28px;
-      opacity: 0; animation: fadeUp .7s 1.35s ease both;
+    /* Stub (dark) */
+    .bp-stub { width: 248px; flex-shrink: 0; background: #1a1410; padding: 34px 26px; display: flex; flex-direction: column; }
+    .bp-stub-head { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #8a8079; font-weight: 700; margin-bottom: 22px; }
+    .bp-stub-head b { color: #c8775a; }
+    .bp-stub-k { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #948a82; margin-bottom: 6px; }
+    .bp-stub-amount { font-family: Georgia, serif; font-size: 58px; font-weight: 400; color: #fff; line-height: 1; letter-spacing: -2px; margin-bottom: 3px; }
+    .bp-cur { color: #c8775a; font-size: 25px; font-style: italic; }
+    .bp-stub-sub { font-family: Georgia, serif; font-style: italic; font-size: 12px; color: #a59c94; margin-bottom: 20px; }
+    .bp-code-wrap { background: #231b14; border: 1px solid #5a4535; border-radius: 8px; padding: 12px 8px; margin-bottom: 18px; text-align: center; }
+    .bp-code-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 3.5px; display: block;
+      background: linear-gradient(90deg, #e29070 20%, #f8d4be 50%, #e29070 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: #e29070;
+      animation: bpShimmer 3s linear 1.5s infinite;
     }
-    .code-label {
-      font-size: 11px; font-weight: 800; letter-spacing: 1px;
-      text-transform: uppercase; color: rgba(255,255,255,.3);
-      margin-bottom: 10px;
-    }
-    .code-value {
-      font-size: 22px; font-weight: 700; letter-spacing: 3px;
-      color: var(--accent); font-family: monospace;
-      margin-bottom: 8px;
-    }
-    .code-hint { font-size: 12px; color: rgba(255,255,255,.3); line-height: 1.55; }
+    @keyframes bpShimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
+    .bp-stub-info { font-size: 11px; color: #8a8079; line-height: 1.7; flex: 1; }
+    .bp-stub-info strong { color: #c8775a; }
+    .bp-stub-scan { font-size: 10px; color: #5a5250; line-height: 1.6; text-align: center; border-top: 1px dashed #2a211a; padding-top: 14px; margin-top: auto; }
 
     /* How to use */
-    .how-wrap {
-      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
-      border-radius: 14px; padding: 20px 24px; margin-bottom: 32px;
-      text-align: left;
-      opacity: 0; animation: fadeUp .7s 1.4s ease both;
+    .bp-how { margin-top: 52px; animation: bpCardIn .7s cubic-bezier(.22,.61,.36,1) .3s both; }
+    .bp-how-h { text-align: center; font-size: clamp(20px, 2.8vw, 26px); font-weight: 900; color: #fff; letter-spacing: -.5px; margin-bottom: 24px; }
+    .bp-how-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+    .bp-how-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px; padding: 24px 22px; transition: all .25s;
     }
-    .how-title {
-      font-size: 12px; font-weight: 800; letter-spacing: .8px;
-      text-transform: uppercase; color: rgba(255,255,255,.35);
-      margin-bottom: 14px;
+    .bp-how-card:hover { background: rgba(202,138,113,.08); border-color: rgba(202,138,113,.35); transform: translateY(-3px); }
+    .bp-how-icon { font-size: 28px; margin-bottom: 10px; }
+    .bp-how-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 7px; }
+    .bp-how-sub { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.65; margin-bottom: 15px; }
+    .bp-how-sub strong { color: rgba(255,255,255,.75); }
+    .bp-how-btn {
+      display: inline-block; background: rgba(202,138,113,.1);
+      border: 1px solid rgba(202,138,113,.3); color: #CA8A71;
+      padding: 9px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 700; text-decoration: none; transition: all .2s;
     }
-    .how-steps { display: flex; flex-direction: column; gap: 10px; }
-    .how-step {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.5;
+    .bp-how-btn:hover { background: rgba(202,138,113,.2); border-color: rgba(202,138,113,.6); }
+    .bp-how-info {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px; padding: 22px 26px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px;
     }
-    .how-step-num {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(202,138,113,.15); border: 1px solid rgba(202,138,113,.3);
-      color: var(--accent); font-size: 11px; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 1px;
-    }
+    .bp-info-item { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.5; }
+    .bp-info-item strong { color: rgba(255,255,255,.85); }
+    .bp-info-item a { color: #CA8A71; text-decoration: none; font-weight: 600; }
+    .bp-info-item a:hover { text-decoration: underline; }
 
-    /* Expiry */
-    .expiry-note {
-      font-size: 12px; color: rgba(255,255,255,.25);
-      margin-bottom: 28px;
-      opacity: 0; animation: fadeUp .7s 1.45s ease both;
-    }
-
-    /* CTA */
-    .reveal-cta {
-      width: 100%;
-      padding: 16px 24px; border-radius: 14px;
-      background: var(--accent); border: none; color: #fff;
-      font-size: 16px; font-weight: 800; font-family: inherit;
-      cursor: pointer; transition: all .22s; letter-spacing: .3px;
-      opacity: 0; animation: fadeUp .7s 1.5s ease both;
-    }
-    .reveal-cta:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(202,138,113,.35); }
-
-    /* ── Keyframes ── */
-    @keyframes fadeUp   { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
-
-    /* ── Confetti particles ── */
+    /* ── Confetti ── */
     .confetti-piece {
       position: fixed; width: 8px; height: 8px; border-radius: 2px;
       animation: confettiFall linear forwards;
@@ -241,6 +247,29 @@ $site_url  = get_site_url();
     @keyframes confettiFall {
       0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      #stateReveal { padding: 80px 16px 60px; }
+      .bp-inner { flex-direction: column; }
+      .bp-main  { padding: 24px 20px; }
+      .bp-stub  { width: auto; padding: 24px 20px; }
+      .bp-perf  {
+        width: auto; height: 1px;
+        background: repeating-linear-gradient(to right, rgba(216,202,178,.45) 0px, rgba(216,202,178,.45) 8px, transparent 8px, transparent 14px);
+      }
+      .bp-perf::before { top: 50%; left: -10px; transform: translateY(-50%); }
+      .bp-perf::after  { top: 50%; left: auto; right: -10px; bottom: auto; transform: translateY(-50%); }
+      .bp-iata { font-size: 38px; }
+      .bp-h1   { font-size: 26px; }
+      .bp-stub-amount { font-size: 50px; }
+      .bp-how-cards { grid-template-columns: 1fr; }
+      .bp-how-info  { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -256,14 +285,14 @@ $site_url  = get_site_url();
 <!-- STATE: LOADING -->
 <div id="stateLoading">
   <div class="spinner"></div>
-  <div class="loading-txt" id="loadingTxt">Proveravamo tvoj poklon...</div>
+  <div class="loading-txt">Proveravamo tvoj poklon...</div>
 </div>
 
 <!-- STATE: ERROR -->
 <div id="stateError">
   <div class="err-icon">🔍</div>
   <div class="err-title" id="errTitle">Vaučer nije pronađen</div>
-  <div class="err-sub" id="errSub">Kod nije validan, nije aktivan ili je već iskorišćen. Proveri da li si uneo ispravan kod.</div>
+  <div class="err-sub" id="errSub">Kod nije validan, nije aktivan ili je već iskorišćen.</div>
   <button class="err-btn" onclick="window.location.href='<?php echo esc_js($site_url); ?>/pokloni-putovanje-iznenadjenja'">
     Pogledaj poklon opcije
   </button>
@@ -271,161 +300,213 @@ $site_url  = get_site_url();
 
 <!-- STATE: REVEAL -->
 <div id="stateReveal">
-  <div class="reveal-wrap">
-    <div class="gift-box">🎁</div>
-    <div class="reveal-eyebrow" id="revealEyebrow">Poklon iznenađenje</div>
-    <h1 class="reveal-h1">
-      Čestitamo, <em id="revealName">prijatelju</em>!
-    </h1>
-    <p class="reveal-from">Dobio/la si poklon od <strong id="revealFrom">nekoga posebnog</strong></p>
-
-    <!-- Iznos -->
-    <div class="amount-card">
-      <div class="amount-label">Vrednost vaučera</div>
-      <div class="amount-value" id="revealAmount">—</div>
-      <div class="amount-desc">
-        Ovaj vaučer možeš iskoristiti za bilo koje Escapii iznenađenje putovanje.<br>
-        Sva naša putovanja počinju od <strong style="color:rgba(255,255,255,.65);">279€ po osobi</strong>.
-      </div>
-    </div>
-
-    <!-- Poruka -->
-    <div class="gift-message-wrap" id="revealMsgWrap" style="display:none;">
-      <div class="gift-message-label">Poruka za tebe</div>
-      <div class="gift-message-text" id="revealMsg"></div>
-    </div>
-
-    <!-- Kod -->
-    <div class="code-wrap">
-      <div class="code-label">Tvoj vaučer kod</div>
-      <div class="code-value" id="revealCode">—</div>
-      <div class="code-hint">Sačuvaj ovaj kod — trebaće ti pri rezervaciji putovanja.</div>
-    </div>
-
-    <!-- Kako koristiti -->
-    <div class="how-wrap">
-      <div class="how-title">Kako iskoristiti vaučer</div>
-      <div class="how-steps">
-        <div class="how-step">
-          <div class="how-step-num">1</div>
-          <span>Poseti <strong style="color:rgba(255,255,255,.8);">escapii.rs</strong> i pronađi termin koji ti odgovara</span>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">2</div>
-          <span>Popuni booking formu i u polje za vaučer kod unesi gore prikazani kod</span>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">3</div>
-          <span>Cena putovanja biće umanjena za iznos vaučera — ti plaćaš samo razliku</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Isteklo -->
-    <div class="expiry-note" id="revealExpiry"></div>
-
-    <!-- CTA -->
-    <button class="reveal-cta" onclick="window.location.href='<?php echo esc_js($site_url); ?>/'">
-      ✈️ Rezerviši putovanje sada →
-    </button>
-  </div>
+  <div class="bp-reveal-wrap" id="bpRevealContent"></div>
 </div>
 
 <script>
-const API_BASE  = '<?php echo esc_js(escapii_api_url()); ?>';
-const SITE_URL  = '<?php echo esc_js($site_url); ?>';
-const lang      = localStorage.getItem('esc-lang') || 'sr';
-const isSr      = lang === 'sr';
+const API_BASE = '<?php echo esc_js(escapii_api_url()); ?>';
+const SITE_URL = '<?php echo esc_js($site_url); ?>';
+const THEME_URI = '<?php echo esc_js($theme_uri); ?>';
 
-// ── Stars background ─────────────────────────────────────────────────────────
+// ── Stars ─────────────────────────────────────────────────────────────────────
 (function() {
   const canvas = document.getElementById('starsCanvas');
   const ctx    = canvas.getContext('2d');
   let stars    = [];
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   function initStars() {
     stars = Array.from({ length: 120 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.4 + .3,
-      a: Math.random(),
-      speed: Math.random() * .003 + .001
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + .3, a: Math.random(), speed: Math.random() * .003 + .001
     }));
   }
-
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(s => {
       s.a = Math.abs(Math.sin(Date.now() * s.speed));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${s.a * .6})`;
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a * .6})`; ctx.fill();
     });
     requestAnimationFrame(draw);
   }
-
-  resize();
-  initStars();
-  draw();
+  resize(); initStars(); draw();
   window.addEventListener('resize', () => { resize(); initStars(); });
 })();
 
-// ── Confetti ─────────────────────────────────────────────────────────────────
+// ── Confetti ──────────────────────────────────────────────────────────────────
 function launchConfetti() {
   const colors = ['#CA8A71','#d4a83c','#BFD8DE','#ffffff','#f6c89f','#e8e0d5'];
   for (let i = 0; i < 60; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'confetti-piece';
-      el.style.left     = Math.random() * 100 + 'vw';
+      el.style.left = Math.random() * 100 + 'vw';
       el.style.background = colors[Math.floor(Math.random() * colors.length)];
-      el.style.width    = (6 + Math.random() * 8) + 'px';
-      el.style.height   = (6 + Math.random() * 8) + 'px';
+      el.style.width  = (6 + Math.random() * 8) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
       el.style.animationDuration = (2.5 + Math.random() * 2) + 's';
-      el.style.animationDelay   = '0s';
+      el.style.animationDelay = '0s';
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 5000);
     }, i * 50);
   }
 }
 
-// ── Format date ──────────────────────────────────────────────────────────────
-function fmtDate(iso) {
-  if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function _esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── Show states ──────────────────────────────────────────────────────────────
+const _AMOUNT_WORDS = {
+  50:'pedeset evra', 100:'sto evra', 150:'sto pedeset evra', 200:'dvesta evra',
+  250:'dvesta pedeset evra', 300:'trista evra', 400:'četiristo evra',
+  500:'petsto evra', 600:'šeststo evra', 750:'sedamsto pedeset evra', 1000:'hiljadu evra'
+};
+
+function _fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+// ── Boarding pass render ───────────────────────────────────────────────────────
+function _renderRevealCard(container, code, d) {
+  const amount = Math.round(d.amount);
+  const words  = _AMOUNT_WORDS[amount] || (amount + ' evra');
+  const msgHtml = d.giftMessage ? `
+    <div class="bp-msg" style="margin-top:13px;">
+      <div class="bp-msg-k">Lična poruka</div>
+      <div class="bp-msg-text">${_esc(d.giftMessage)}</div>
+      ${d.buyerName ? `<div class="bp-msg-sig">— <strong>${_esc(d.buyerName)}</strong></div>` : ''}
+    </div>` : '';
+
+  container.innerHTML = `
+    <div class="bp-status-wrap">
+      <div class="bp-badge-active">✓ VAUČER AKTIVAN</div>
+    </div>
+
+    <div class="bp-card" id="bpCardEl">
+      <div class="bp-bar"></div>
+      <div class="bp-inner">
+
+        <div class="bp-main">
+          <div class="bp-hdr">
+            <img src="${THEME_URI}/images/logo-black.svg" alt="escapii" class="bp-logo">
+            <div class="bp-tag">🎟️ Poklon vaučer</div>
+          </div>
+          <div class="bp-title-area">
+            <div class="bp-eyebrow">— Iskoristi vaučer za Escapii putovanje —</div>
+            <h2 class="bp-h1">Tvoja sledeća<br><em>avantura te čeka.</em></h2>
+          </div>
+          <div class="bp-route">
+            <div class="bp-route-from">
+              <div class="bp-iata">???</div>
+              <div class="bp-city">Polazak</div>
+              <div class="bp-cap">Aerodrom po tvom izboru</div>
+            </div>
+            <div class="bp-route-mid">
+              <span class="bp-plane-icon">✈</span>
+              <div class="bp-plane-line"></div>
+            </div>
+            <div class="bp-route-to">
+              <div class="bp-iata bp-iata-dest">???</div>
+              <div class="bp-city bp-city-r">Iznenađenje</div>
+              <div class="bp-cap bp-cap-r">otkriva se 48h pre polaska</div>
+            </div>
+          </div>
+          <div class="bp-meta">
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Izdato</div>
+              <div class="bp-mv">${_fmtDate(d.activatedAt)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Važi do</div>
+              <div class="bp-mv bp-mv-terra">${_fmtDate(d.expiresAt)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">Vrednost</div>
+              <div class="bp-mv">${amount} €</div>
+            </div>
+          </div>
+          ${msgHtml}
+        </div>
+
+        <div class="bp-perf"></div>
+
+        <div class="bp-stub">
+          <div class="bp-stub-head">BOARDING PASS · <b>GIFT</b></div>
+          <div class="bp-stub-k">Vrednost</div>
+          <div class="bp-stub-amount">${amount}<span class="bp-cur"> €</span></div>
+          <div class="bp-stub-sub">— ${_esc(words)} —</div>
+          <div class="bp-stub-k">Vaučer kod</div>
+          <div class="bp-code-wrap">
+            <span class="bp-code-text">${_esc(code)}</span>
+          </div>
+          <div class="bp-stub-info">
+            Unesi kod pri rezervaciji — cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
+            Važi do: <strong>${_fmtDate(d.expiresAt)}</strong>
+          </div>
+          <div class="bp-stub-scan">escapii.rs · unesi kod pri rezervaciji</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bp-how">
+      <h3 class="bp-how-h">Kako iskoristiti vaučer?</h3>
+      <div class="bp-how-cards">
+        <div class="bp-how-card">
+          <div class="bp-how-icon">✈️</div>
+          <div class="bp-how-title">Escapii putovanje</div>
+          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> — cena se automatski umanjuje za ${amount}€.</div>
+          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Pogledaj termine →</a>
+        </div>
+        <div class="bp-how-card">
+          <div class="bp-how-icon">🌍</div>
+          <div class="bp-how-title">Privatno putovanje</div>
+          <div class="bp-how-sub">Ne odgovara ti nijedan termin? Zatraži privatno Escapii putovanje prilagođeno tebi — iznenađenje i dalje ostaje tajna.</div>
+          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Zatraži privatno →</a>
+        </div>
+      </div>
+      <div class="bp-how-info">
+        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> — do ${_fmtDate(d.expiresAt)}</div>
+        <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
+        <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
+        <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    const card = document.getElementById('bpCardEl');
+    if (card) card.classList.add('bp-float');
+  }, 950);
+}
+
+function _renderRevealError(container, msg) {
+  document.getElementById('stateReveal').style.display = 'none';
+  document.getElementById('errTitle').textContent = 'Vaučer nije pronađen';
+  document.getElementById('errSub').textContent   = msg || 'Kod nije validan, nije aktivan ili je već iskorišćen.';
+  document.getElementById('stateError').style.display = 'flex';
+}
+
+// ── Show/hide states ──────────────────────────────────────────────────────────
 function show(state) {
-  document.getElementById('stateLoading').style.display = state === 'loading' ? 'flex' : 'none';
-  document.getElementById('stateError').style.display   = state === 'error'   ? 'flex' : 'none';
-  document.getElementById('stateReveal').style.display  = state === 'reveal'  ? 'flex' : 'none';
+  document.getElementById('stateLoading').style.display = state === 'loading' ? 'flex'  : 'none';
+  document.getElementById('stateError').style.display   = state === 'error'   ? 'flex'  : 'none';
+  document.getElementById('stateReveal').style.display  = state === 'reveal'  ? 'block' : 'none';
 }
 
-// ── Main logic ───────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────────
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
 
   if (!code) {
-    document.getElementById('errTitle').textContent = isSr ? 'Kod nije pronađen' : 'No code provided';
-    document.getElementById('errSub').textContent   = isSr
-      ? 'Otvori link koji si dobio/la u email poruci.'
-      : 'Please open the link you received via email.';
+    document.getElementById('errTitle').textContent = 'Kod nije pronađen';
+    document.getElementById('errSub').textContent   = 'Otvori link koji si dobio/la u email poruci ili skeniraj QR kod sa vaučera.';
     show('error');
     return;
   }
 
-  document.getElementById('loadingTxt').textContent = isSr
-    ? 'Proveravamo tvoj poklon...'
-    : 'Checking your gift...';
   show('loading');
 
   try {
@@ -433,42 +514,19 @@ async function init() {
     const data = await res.json();
 
     if (!data.valid) {
-      document.getElementById('errTitle').textContent = isSr ? 'Vaučer nije aktivan' : 'Voucher not active';
-      document.getElementById('errSub').textContent   = isSr
-        ? 'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.'
-        : 'This voucher code is not valid, not yet activated, or has already been used.';
+      document.getElementById('errTitle').textContent = 'Vaučer nije aktivan';
+      document.getElementById('errSub').textContent   = data.message || 'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.';
       show('error');
       return;
     }
 
-    // Popuni reveal
-    const recipientName = data.recipientName || (isSr ? 'prijatelju' : 'friend');
-    const buyerName     = data.buyerName     || (isSr ? 'nekoga posebnog' : 'someone special');
-
-    document.getElementById('revealName').textContent  = recipientName;
-    document.getElementById('revealFrom').textContent  = buyerName;
-    document.getElementById('revealAmount').textContent = data.amount + ' EUR';
-    document.getElementById('revealCode').textContent  = code;
-
-    if (data.giftMessage) {
-      document.getElementById('revealMsg').textContent = '„' + data.giftMessage + '"';
-      document.getElementById('revealMsgWrap').style.display = 'block';
-    }
-
-    if (data.expiresAt) {
-      document.getElementById('revealExpiry').textContent = (isSr ? 'Vaučer važi do: ' : 'Voucher valid until: ') + fmtDate(data.expiresAt);
-    }
-
-    document.getElementById('revealEyebrow').textContent = isSr ? '🎁 Poklon iznenađenje' : '🎁 Gift surprise';
-
     show('reveal');
+    _renderRevealCard(document.getElementById('bpRevealContent'), code, data);
     setTimeout(launchConfetti, 600);
 
   } catch (e) {
-    document.getElementById('errTitle').textContent = isSr ? 'Greška pri učitavanju' : 'Loading error';
-    document.getElementById('errSub').textContent   = isSr
-      ? 'Pokušaj ponovo za nekoliko sekundi.'
-      : 'Please try again in a few seconds.';
+    document.getElementById('errTitle').textContent = 'Greška pri učitavanju';
+    document.getElementById('errSub').textContent   = 'Pokušaj ponovo za nekoliko sekundi.';
     show('error');
   }
 }

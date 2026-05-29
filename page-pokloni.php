@@ -332,7 +332,7 @@ $site_url  = get_site_url();
     .validate-hint { font-size: 13px; color: var(--gray); margin-top: 24px; text-align: center; }
     .validate-hint a { color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; }
 
-    /* ══ VOUCHER REVEAL (QR sken) ════════════════════════════════════════════ */
+    /* ══ VOUCHER REVEAL — premešteno na page-poklon.php (/poklon?code=...) ══ */
     #voucherReveal {
       min-height: 100vh;
       background: linear-gradient(160deg, #0a1e26 0%, #0f2d35 55%, #122830 100%);
@@ -561,16 +561,6 @@ $site_url  = get_site_url();
     <button class="mob-menu-book" onclick="closeMobMenu();goHome();" data-i18n="nav.home">Nazad na sajt</button>
   </div>
 </div>
-
-<!-- VOUCHER REVEAL (QR sken) — prikazuje se samo kad ?code= postoji u URL-u -->
-<section id="voucherReveal" style="display:none;">
-  <div class="bp-reveal-wrap" id="bpRevealContent">
-    <div class="bp-loading">
-      <div class="bp-spinner"></div>
-      <div>Učitavam vaučer...</div>
-    </div>
-  </div>
-</section>
 
 <!-- HERO -->
 <section class="gift-hero" id="gift-top">
@@ -872,25 +862,10 @@ async function submitVoucher() {
   }
 }
 
-// ── Voucher Reveal (QR sken) ─────────────────────────────────────────────────
+// ── Voucher Reveal — premešteno na page-poklon.php (/poklon?code=...) ────────
+// QR kod vodi na /poklon, ne ovde. Reveal logika je tamo.
 
-function _esc(s) {
-  if (s == null) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-const _AMOUNT_WORDS = {
-  50:'pedeset evra', 100:'sto evra', 150:'sto pedeset evra', 200:'dvesta evra',
-  250:'dvesta pedeset evra', 300:'trista evra', 400:'četiristo evra',
-  500:'petsto evra', 600:'šeststo evra', 750:'sedamsto pedeset evra', 1000:'hiljadu evra'
-};
-
-function _fmtDate(iso) {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
-}
-
-function _renderRevealCard(container, code, d) {
+function _renderRevealCard_UNUSED(container, code, d) {
   const amount   = Math.round(d.amount);
   const words    = _AMOUNT_WORDS[amount] || (amount + ' evra');
   const msgHtml  = d.giftMessage ? `
@@ -1005,46 +980,6 @@ function _renderRevealCard(container, code, d) {
     if (card) card.classList.add('bp-float');
   }, 950);
 }
-
-function _renderRevealError(container, msg) {
-  container.innerHTML = `
-    <div class="bp-loading">
-      <div style="font-size:48px;margin-bottom:16px;">😔</div>
-      <div style="font-size:18px;color:#fff;font-weight:700;margin-bottom:8px;">Vaučer nije pronađen</div>
-      <div style="font-size:15px;max-width:380px;line-height:1.6;margin:0 auto;">${_esc(msg)}</div>
-      <div style="margin-top:24px;font-size:13px;color:rgba(255,255,255,.4);">
-        Pitanja? <a href="mailto:escapii.team@gmail.com" style="color:#CA8A71;text-decoration:none;">escapii.team@gmail.com</a>
-      </div>
-    </div>`;
-}
-
-// Automatski pokreni na DOMContentLoaded ako postoji ?code= param
-document.addEventListener('DOMContentLoaded', () => {
-  const urlCode = new URLSearchParams(window.location.search).get('code');
-  if (!urlCode) return;
-
-  // Sakrij normalnu stranicu, prikaži reveal sekciju
-  const heroEl     = document.getElementById('gift-top');
-  const sectionsEl = document.getElementById('section-voucher');
-  const revealEl   = document.getElementById('voucherReveal');
-  const content    = document.getElementById('bpRevealContent');
-
-  if (heroEl)     heroEl.style.display     = 'none';
-  if (sectionsEl) sectionsEl.style.display = 'none';
-  revealEl.style.display = 'block';
-
-  // Fetch reveal podataka
-  fetch(`${API_BASE}/api/gifts/vouchers/reveal?code=${encodeURIComponent(urlCode)}`)
-    .then(r => r.json())
-    .then(data => {
-      if (!data.valid) {
-        _renderRevealError(content, data.message || 'Vaučer nije validan ili nije aktivan.');
-      } else {
-        _renderRevealCard(content, urlCode.toUpperCase(), data);
-      }
-    })
-    .catch(() => _renderRevealError(content, 'Greška pri učitavanju. Pokušaj ponovo ili kontaktiraj tim.'));
-});
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
