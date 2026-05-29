@@ -365,7 +365,7 @@ body {
   <p>Please read these terms before submitting an enquiry — by using the platform you accept these rules.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Last updated: May 2026
+    Last updated: May 2026 · v2 (gift vouchers, private trips)
   </div>
 </div>
 
@@ -380,6 +380,8 @@ body {
       <li><a href="#how-it-works">How Escapii works</a></li>
       <li><a href="#booking-process">Booking process</a></li>
       <li><a href="#prices-payment">Prices &amp; payment</a></li>
+      <li><a href="#gift-vouchers">Gift vouchers</a></li>
+      <li><a href="#private-trips">Private trips</a></li>
       <li><a href="#traveller-obligations">Traveller obligations</a></li>
       <li><a href="#cancellation">Cancellation &amp; changes</a></li>
       <li><a href="#liability">Limitation of liability</a></li>
@@ -485,6 +487,88 @@ body {
 
       <h3>Price adjustment</h3>
       <p>In exceptional circumstances (significant changes in fuel costs, exchange rates, or taxes), the package price may be revised before payment is finalised. In such a case, the traveller will be notified in writing and may withdraw without any penalty.</p>
+    </section>
+
+    <!-- Gift Vouchers -->
+    <section class="pp-section" id="gift-vouchers">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <h2>Gift Vouchers</h2>
+      </div>
+
+      <p>Escapii offers <strong>gift vouchers</strong> that the recipient can redeem when booking an Escapii trip. By purchasing a voucher, you agree to the terms set out in this section.</p>
+
+      <h3>How gift vouchers work</h3>
+      <ul class="pp-list">
+        <li>Vouchers are purchased on the <strong>Gift</strong> page at escapii.rs by selecting an amount and entering the recipient's details</li>
+        <li>Once payment is confirmed, the buyer receives a <strong>PDF voucher</strong> (boarding pass design) by email with a unique code — ready to forward or print</li>
+        <li>The voucher is activated when the Escapii team confirms payment — the validity period starts from that date</li>
+        <li>The recipient enters the voucher code when submitting an inquiry; the voucher amount is <strong>deducted from the total trip price</strong></li>
+        <li>Vouchers can be used on both <strong>group and private trips</strong></li>
+      </ul>
+
+      <h3>Validity and conditions</h3>
+      <ul class="pp-list">
+        <li>Vouchers are valid for <strong>one year from the date of activation</strong> (not from the date of purchase)</li>
+        <li>Once the validity period expires, the voucher becomes invalid and cannot be used</li>
+        <li><strong>One voucher</strong> may be applied per booking</li>
+        <li>If the trip price is lower than the voucher amount, the <strong>difference is not refunded</strong> or carried over</li>
+        <li>If the trip price exceeds the voucher amount, the remainder is paid through the standard payment process</li>
+      </ul>
+
+      <div class="pp-notice">
+        <div class="pp-notice-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="pp-notice-text">
+          <strong>Booking cancellation:</strong> If a booking to which a voucher was applied is cancelled, the voucher is automatically <strong>returned to active status</strong> (with its original validity period intact). Any payment amount exceeding the voucher value is subject to the standard cancellation policy.
+        </div>
+      </div>
+
+      <div class="pp-warning">
+        <div class="pp-warning-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="pp-warning-text">
+          <strong>Vouchers cannot be exchanged for cash</strong> or partially refunded. Once activated, a voucher is non-transferable.
+        </div>
+      </div>
+    </section>
+
+    <!-- Private Trips -->
+    <section class="pp-section" id="private-trips">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h2>Private Trips</h2>
+      </div>
+
+      <p>In addition to regular group departures, Escapii offers the option to arrange a <strong>private trip</strong> for groups who cannot find a suitable date in the standard schedule or who prefer an exclusive arrangement.</p>
+
+      <h3>Private trip process</h3>
+      <div class="pp-table-wrap">
+        <table class="pp-table">
+          <thead><tr><th>Step</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>1. Inquiry</td><td>The traveller selects the <strong>Private trip</strong> option in the booking form, enters their preferred period and number of travellers, and submits the inquiry.</td></tr>
+            <tr><td>2. Offer</td><td>The Escapii team checks availability and sends an individualised price offer within 24–48 hours.</td></tr>
+            <tr><td>3. Confirmation</td><td>The traveller accepts the offer and makes payment by the agreed deadline. The booking is binding only upon receipt of payment.</td></tr>
+            <tr><td>4. Reveal</td><td>The destination is revealed 48 hours before departure, exactly as with group trips.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pp-notice">
+        <div class="pp-notice-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="pp-notice-text">
+          The same cancellation and amendment conditions apply to private trips as to group arrangements (see <a href="#cancellation">Cancellation &amp; changes</a>). Private trip pricing is calculated individually and may differ from prices in the standard package offer.
+        </div>
+      </div>
     </section>
 
     <!-- Traveller obligations -->

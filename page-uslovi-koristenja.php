@@ -338,7 +338,7 @@ body {
   <p>Pročitajte uslove pre nego što pošaljete upit — korišćenjem platforme prihvatate ova pravila.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Poslednje ažuriranje: Maj 2026
+    Poslednje ažuriranje: Maj 2026 · v2 (poklon vaučeri, privatni termini)
   </div>
 </div>
 
@@ -353,6 +353,8 @@ body {
       <li><a href="#kako-funkcionise">Kako funkcioniše Escapii</a></li>
       <li><a href="#proces-rezervacije">Proces rezervacije</a></li>
       <li><a href="#cene-i-placanje">Cene i plaćanje</a></li>
+      <li><a href="#poklon-vauceri">Poklon vaučeri</a></li>
+      <li><a href="#privatni-termini">Privatni termini</a></li>
       <li><a href="#obaveze-putnika">Obaveze putnika</a></li>
       <li><a href="#otkaz-i-izmene">Otkaz i izmene</a></li>
       <li><a href="#odgovornost">Ograničenje odgovornosti</a></li>
@@ -458,6 +460,88 @@ body {
 
       <h3>Korekcija cene</h3>
       <p>U izuzetnim slučajevima (značajne promene cena goriva, deviznog kursa ili poreza), cena aranžmana može biti izmenjena pre zaključenja uplate. U tom slučaju korisnik biće pismeno obavešten i može odustati bez naknade.</p>
+    </section>
+
+    <!-- Poklon vauceri -->
+    <section class="pp-section" id="poklon-vauceri">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <h2>Poklon vaučeri</h2>
+      </div>
+
+      <p>Escapii nudi mogućnost kupovine <strong>poklon vaučera</strong> koji primalac može iskoristiti pri rezervaciji Escapii putovanja. Kupovinom vaučera prihvatate uslove navedene u ovoj sekciji.</p>
+
+      <h3>Kako funkcioniše poklon vaučer</h3>
+      <ul class="pp-list">
+        <li>Vaučer se kupuje na stranici <strong>Poklon</strong> na sajtu escapii.rs odabirom željenog iznosa i unosom podataka o primaocu</li>
+        <li>Nakon potvrde uplate, kupac dobija <strong>PDF vaučer</strong> (boarding pass dizajn) na email sa jedinstvenim kodom</li>
+        <li>Vaučer se aktivira u trenutku kada Escapii tim potvrdi uplatu — od tog datuma počinje da teče rok važenja</li>
+        <li>Primalac unosi kod vaučera pri slanju upita za Escapii putovanje; iznos vaučera se <strong>oduzima od ukupne cene</strong> aranžmana</li>
+        <li>Vaučer se može iskoristiti na <strong>grupnom i privatnom terminu</strong></li>
+      </ul>
+
+      <h3>Rok važenja i uslovi korišćenja</h3>
+      <ul class="pp-list">
+        <li>Vaučer važi <strong>godinu dana od datuma aktivacije</strong> (ne od datuma kupovine)</li>
+        <li>Po isteku roka, vaučer postaje nevažeći i ne može se koristiti</li>
+        <li>Na jednu rezervaciju može se primeniti <strong>jedan vaučer</strong></li>
+        <li>Ako je vrednost putovanja manja od iznosa vaučera, <strong>razlika se ne vraća</strong> niti prenosi</li>
+        <li>Ako je vrednost putovanja veća od iznosa vaučera, razlika se plaća standardnim putem</li>
+      </ul>
+
+      <div class="pp-notice">
+        <div class="pp-notice-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="pp-notice-text">
+          <strong>Otkaz rezervacije:</strong> Ako korisnik otkaže rezervaciju na kojoj je primenjen vaučer, vaučer se automatski <strong>vraća u aktivno stanje</strong> (uz sva preostala prava iz prvobitnog roka važenja). Iznos uplate koji prevazilazi vrednost vaučera podleže standardnoj politici otkaza.
+        </div>
+      </div>
+
+      <div class="pp-warning">
+        <div class="pp-warning-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="pp-warning-text">
+          <strong>Vaučer se ne može razmeniti za gotovinu</strong> niti delimično refundirati. Jednom aktiviran vaučer nije prenosiv na drugu osobu.
+        </div>
+      </div>
+    </section>
+
+    <!-- Privatni termini -->
+    <section class="pp-section" id="privatni-termini">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h2>Privatni termini</h2>
+      </div>
+
+      <p>Pored redovnih grupnih termina, Escapii nudi mogućnost organizacije <strong>privatnog putovanja</strong> za grupe koje ne mogu da nađu odgovarajući datum u standardnoj ponudi ili koje žele ekskluzivni aranžman.</p>
+
+      <h3>Proces privatnog termina</h3>
+      <div class="pp-table-wrap">
+        <table class="pp-table">
+          <thead><tr><th>Korak</th><th>Opis</th></tr></thead>
+          <tbody>
+            <tr><td>1. Upit</td><td>Korisnik u booking formi odabire opciju <strong>Privatni termin</strong>, unosi željeni period i broj putnika i šalje upit.</td></tr>
+            <tr><td>2. Ponuda</td><td>Escapii tim proverava dostupnost i u roku od 24–48h šalje individualizovanu cenovnu ponudu.</td></tr>
+            <tr><td>3. Potvrda</td><td>Korisnik prihvata ponudu i vrši uplatu prema dogovorenom roku. Rezervacija postaje obavezujuća tek po prijemu uplate.</td></tr>
+            <tr><td>4. Otkrivanje</td><td>Destinacija se otkriva 48h pre polaska, jednako kao i kod grupnih termina.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pp-notice">
+        <div class="pp-notice-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="pp-notice-text">
+          Na privatne termine primenjuju se isti uslovi otkaza i izmena kao i na grupne aranžmane (videti sekciju <a href="#otkaz-i-izmene">Otkaz i izmene</a>). Cena privatnog termina formira se individualno i može se razlikovati od cena u standardnoj ponudi.
+        </div>
+      </div>
     </section>
 
     <!-- Obaveze putnika -->
