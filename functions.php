@@ -176,7 +176,7 @@ function escapii_serve_sitemap() {
     $h = trailingslashit(home_url('/'));
     $pages = [
         ['loc' => $h,                            'priority' => '1.0', 'freq' => 'weekly'],
-        ['loc' => $h . 'pokloni/',               'priority' => '0.8', 'freq' => 'monthly'],
+        ['loc' => $h . 'pokloni-putovanje-iznenadjenja/', 'priority' => '0.8', 'freq' => 'monthly'],
         ['loc' => $h . 'politika-privatnosti/',  'priority' => '0.3', 'freq' => 'yearly'],
         ['loc' => $h . 'privacy-policy/',        'priority' => '0.3', 'freq' => 'yearly'],
         ['loc' => $h . 'uslovi-koristenja/',     'priority' => '0.3', 'freq' => 'yearly'],
