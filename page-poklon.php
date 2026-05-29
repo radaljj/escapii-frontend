@@ -437,7 +437,6 @@ function _renderRevealCard(container, code, d) {
           <div class="bp-stub-head">BOARDING PASS · <b>GIFT</b></div>
           <div class="bp-stub-k">Vrednost</div>
           <div class="bp-stub-amount">${amount}<span class="bp-cur"> €</span></div>
-          <div class="bp-stub-sub">— ${_esc(words)} —</div>
           <div class="bp-stub-k">Vaučer kod</div>
           <div class="bp-code-wrap">
             <span class="bp-code-text">${_esc(code)}</span>
