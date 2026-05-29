@@ -165,9 +165,9 @@ $site_url  = get_site_url();
     .bp-mv { font-size: 12px; font-weight: 700; color: #1a1410; padding-top: 5px; }
     .bp-mv-terra { color: #a85e44; }
 
-    .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; }
+    .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; overflow: hidden; }
     .bp-msg-k { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; margin-bottom: 6px; }
-    .bp-msg-text { font-family: Georgia, serif; font-style: italic; font-size: 14px; color: #2b231b; line-height: 1.5; }
+    .bp-msg-text { font-family: Georgia, serif; font-style: italic; font-size: 14px; color: #2b231b; line-height: 1.5; word-break: break-word; overflow-wrap: break-word; white-space: normal; }
     .bp-msg-sig { font-size: 11px; color: #6b5d4f; padding-top: 6px; }
 
     /* Perforated divider */
