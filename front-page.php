@@ -821,21 +821,16 @@
     .trav-max-msg a:hover { text-decoration: underline; }
     .trav-info h3 { font-size: 16px; font-weight: 700; }
     .trav-info p  { font-size: 13px; color: var(--gray); margin-top: 3px; }
-    .trav-chips { display: flex; gap: 8px; align-items: center; }
-    .trav-chip {
-      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
-      border: 1.5px solid rgba(246,241,230,.14);
-      background: rgba(246,241,230,.05); color: rgba(246,241,230,.6);
-      font-size: 16px; font-weight: 700; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all .18s; font-family: inherit; line-height: 1;
+    .counter { display: flex; align-items: center; gap: 0; }
+    .cb {
+      width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.07); color: white; font-size: 20px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all .2s; line-height: 1;
     }
-    .trav-chip:hover:not(.active) { border-color: var(--gold); color: var(--gold); background: rgba(202,138,113,.1); }
-    .trav-chip.active {
-      background: var(--gold); border-color: var(--gold); color: #fff;
-      box-shadow: 0 4px 16px rgba(202,138,113,.3); transform: scale(1.08);
-    }
-    @media(max-width:420px) { .trav-chip { width: 36px; height: 36px; font-size: 14px; border-radius: 10px; } .trav-chips { gap: 6px; } }
+    .cb:hover:not(:disabled) { background: var(--gold); color: #ffffff; border-color: var(--gold); }
+    .cb:disabled { opacity: .3; cursor: not-allowed; }
+    .cv { font-size: 24px; font-weight: 900; min-width: 52px; text-align: center; }
     /* Step 3 */
     .dates-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
     @keyframes noDatesFadeIn {
@@ -3105,18 +3100,11 @@
             <h3 data-i18n="s2.label">Broj Escapera</h3>
             <p data-i18n="s2.sub">1 do 6 osoba</p>
           </div>
-          <div class="trav-chips" id="travChips">
-            <button class="trav-chip active" data-val="1" onclick="setTrav(1)" type="button">1</button>
-            <button class="trav-chip" data-val="2" onclick="setTrav(2)" type="button">2</button>
-            <button class="trav-chip" data-val="3" onclick="setTrav(3)" type="button">3</button>
-            <button class="trav-chip" data-val="4" onclick="setTrav(4)" type="button">4</button>
-            <button class="trav-chip" data-val="5" onclick="setTrav(5)" type="button">5</button>
-            <button class="trav-chip" data-val="6" onclick="setTrav(6)" type="button">6</button>
+          <div class="counter">
+            <button class="cb" onclick="chTrav(-1)" id="travD">−</button>
+            <div class="cv" id="travN">1</div>
+            <button class="cb" onclick="chTrav(1)" id="travU">+</button>
           </div>
-          <!-- hidden — koristi se u JS chTrav/setTrav za state -->
-          <div id="travN" style="display:none;">1</div>
-          <button id="travD" style="display:none;" type="button"></button>
-          <button id="travU" style="display:none;" type="button"></button>
         </div>
         <div class="trav-max-msg" id="travMaxMsg">
           <span style="font-size:15px;flex-shrink:0;">✉</span>
@@ -5088,29 +5076,11 @@ async function loadDestinationsByAirport(airport) {
 }
 
 // ══════════ STEP 2
-function syncTravChips() {
-  document.querySelectorAll('.trav-chip').forEach(c =>
-    c.classList.toggle('active', parseInt(c.dataset.val) === S.travelers));
-}
-function setTrav(n) {
-  const prev = S.travelers;
-  S.travelers = Math.min(6, Math.max(1, n));
-  document.getElementById('travN').textContent = S.travelers;
-  syncTravChips();
-  const maxMsg = document.getElementById('travMaxMsg');
-  if (maxMsg) maxMsg.classList.toggle('show', S.travelers >= 6);
-  if(S.cabinSuitcaseCount > S.travelers) S.cabinSuitcaseCount = S.travelers;
-  updateSingleNotice();
-  updateSeatsNotice();
-  updateSeatsVisibility();
-  if(S.dates.length) renderDatesFromCache();
-}
 function chTrav(d) {
   const wasAtMax = S.travelers >= 6 && d > 0;
   S.travelers = Math.min(6, Math.max(1, S.travelers+d));
   document.getElementById('travN').textContent = S.travelers;
   document.getElementById('travD').disabled = S.travelers<=1;
-  syncTravChips();
   const maxMsg = document.getElementById('travMaxMsg');
   if (maxMsg) {
     if (wasAtMax) maxMsg.classList.add('show');

@@ -961,9 +961,9 @@ function _renderRevealCard_UNUSED(container, code, d) {
         </div>
         <div class="bp-how-card">
           <div class="bp-how-icon">🌍</div>
-          <div class="bp-how-title">Privatno putovanje</div>
-          <div class="bp-how-sub">Ne odgovara ti nijedan termin? Zatraži privatno Escapii putovanje prilagođeno tebi — iznenađenje i dalje ostaje tajna.</div>
-          <a href="${SITE_URL}/#esc-custom" class="bp-how-btn">Zatraži privatno →</a>
+          <div class="bp-how-title">Prilagođeni termin</div>
+          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara — iznenađenje i dalje ostaje tajna.</div>
+          <a href="${SITE_URL}/#esc-custom" class="bp-how-btn">Zatraži termin koji ti odgovara →</a>
         </div>
       </div>
       <div class="bp-how-info">
