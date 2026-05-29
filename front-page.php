@@ -3626,10 +3626,6 @@
         <div class="faq-a" data-i18n-html="faq.14.a">Privatni termin je opcija kada niko od redovnih datuma ne odgovara tvojoj grupi, ili kada želiš putovanje organizovano isključivo za tebe i tvoje pratioce — bez deljenja termina sa drugim korisnicima.<br><br>U booking formi odaberi opciju <strong>Privatni termin</strong>, unesi željeni period i broj putnika i pošalji upit. Naš tim proverava dostupnost, formira cenu i šalje ti ponudu. Cena se formira individualno na osnovu dostupnih letova i smeštaja.</div>
       </div>
 
-      <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q"><span data-i18n="faq.15.q">Mogu li da koristim poklon vaučer za privatni termin?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.15.a">Da! Poklon vaučer možeš iskoristiti i za privatni termin. Kada šalješ upit za privatni termin, uneseš kod vaučera u odgovarajuće polje u formi — iznos se oduzima od cene privatnog aranžmana.</div>
-      </div>
 
     </div>
   </div>
@@ -4037,9 +4033,7 @@ const TR = {
     'faq.13.q':'Kako funkcioniše poklon vaučer?',
     'faq.13.a':'Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <strong>Poklon</strong> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili privatnom terminu. Vaučer se ne može razmeniti za gotovinu.',
     'faq.14.q':'Šta je privatni termin i kako da ga rezervišem?',
-    'faq.14.a':'Privatni termin je opcija kada niko od redovnih datuma ne odgovara tvojoj grupi, ili kada želiš putovanje organizovano isključivo za tebe i tvoje pratioce — bez deljenja termina sa drugim korisnicima.<br><br>U booking formi odaberi opciju <strong>Privatni termin</strong>, unesi željeni period i broj putnika i pošalji upit. Naš tim proverava dostupnost, formira cenu i šalje ti ponudu. Cena se formira individualno na osnovu dostupnih letova i smeštaja.',
-    'faq.15.q':'Mogu li da koristim poklon vaučer za privatni termin?',
-    'faq.15.a':'Da! Poklon vaučer možeš iskoristiti i za privatni termin. Kada šalješ upit za privatni termin, uneseš kod vaučera u odgovarajuće polje u formi — iznos se oduzima od cene privatnog aranžmana.',
+    'faq.14.a':'Privatni termin je opcija kada putovanje želite da bude organizovano isključivo za vas i vaše društvo — bez pridruživanja drugim grupama.<br><br>U booking formi dovoljno je da odaberete opciju „Privatni termin", unesete željeni period putovanja i broj putnika, a zatim pošaljete upit. Naš tim nakon toga proverava dostupnost i priprema personalizovanu ponudu.<br><br>Cena se formira individualno, u skladu sa dostupnošću letova, smeštaja i ostalih detalja putovanja u izabranom terminu.',
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
@@ -4295,9 +4289,7 @@ const TR = {
     'faq.13.q':'How does a gift voucher work?',
     'faq.13.a':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <strong>Gift</strong> page, choose a voucher amount, enter the recipient\'s name and a personal message — we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip — group or private. Vouchers cannot be exchanged for cash.',
     'faq.14.q':'What is a private trip and how do I book one?',
-    'faq.14.a':'A private trip is the option for groups when none of the regular scheduled dates work, or when you want a trip organized exclusively for you and your companions — no sharing the departure with other customers.<br><br>In the booking form, select the <strong>Private trip</strong> option, enter your preferred period and number of travelers, and submit your inquiry. Our team will check availability, put together a price, and send you an offer. Pricing is calculated individually based on available flights and accommodation.',
-    'faq.15.q':'Can I use a gift voucher for a private trip?',
-    'faq.15.a':'Yes! A gift voucher can also be applied to a private trip. When submitting your private trip inquiry, simply enter the voucher code in the designated field — the amount will be deducted from the total price of the private arrangement.',
+    'faq.14.a':'A private trip is an option for those who want a journey organized exclusively for their group — no joining other travelers.<br><br>In the booking form, select the „Private trip" option, enter your preferred travel period and number of travelers, and submit your inquiry. Our team will then check availability and prepare a personalised offer.<br><br>Pricing is calculated individually, based on available flights, accommodation, and other trip details for your chosen dates.',
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',

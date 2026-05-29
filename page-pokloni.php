@@ -574,8 +574,8 @@ $site_url  = get_site_url();
 <div class="gift-sections" id="section-voucher">
   <div class="gift-sec-wrap">
     <div class="gift-sec-tag">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></div>
-    <h2 class="gift-sec-h" data-i18n="gift.sec.voucher.h">Odaberi iznos, primalac bira termin</h2>
-    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Kupac plaća vaučer unapred — primalac dobija personalizovani kod kojim umanjuje cenu rezervacije bilo kog Escapii putovanja.</p>
+    <h2 class="gift-sec-h" data-i18n="gift.sec.voucher.h">Odaberi iznos i pokloni nekome putovanje koje će pamtiti</h2>
+    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Odaberi iznos vaučera, upiši ime i poruku — mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.</p>
 
     <div class="voucher-card">
       <!-- Iznos -->
@@ -600,7 +600,7 @@ $site_url  = get_site_url();
       <!-- Podaci -->
       <div class="gift-form-grid">
         <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.buyer.email.label">Tvoj email</label>
+          <label class="gf-label" data-i18n="gift.buyer.email.label">Email za dostavu vaučera</label>
           <input class="gf-input" id="vBuyerEmail" type="email" autocomplete="email"
                  data-i18n-ph="gift.buyer.email.ph" placeholder="tvoj@email.com">
         </div>
@@ -610,7 +610,7 @@ $site_url  = get_site_url();
                  data-i18n-ph="gift.buyer.name.ph" placeholder="Marko Marković">
         </div>
         <div class="gf-field full">
-          <label class="gf-label" data-i18n="gift.msg.label">Lična poruka (opciono)</label>
+          <label class="gf-label" data-i18n="gift.msg.label">Poruka na vaučeru (opciono)</label>
           <textarea class="gf-textarea" id="vMessage" rows="3"
                     data-i18n-ph="gift.msg.ph" placeholder="Ovo putovanje je posebno za tebe..."></textarea>
         </div>
@@ -690,15 +690,15 @@ const TR = {
     'gift.hero.sub':         'Odaberi iznos vaučera — primalac ga koristi za bilo koje Escapii putovanje po izboru.',
     'gift.hero.cta':         '🎟️ Pokloni vaučer →',
     'gift.sec.voucher.tag':  'Poklon vaučer',
-    'gift.sec.voucher.h':    'Odaberi iznos, primalac bira termin',
-    'gift.sec.voucher.desc': 'Kupac plaća vaučer unapred — primalac dobija personalizovani kod kojim umanjuje cenu rezervacije bilo kog Escapii putovanja.',
+    'gift.sec.voucher.h':    'Odaberi iznos i pokloni nekome putovanje koje će pamtiti',
+    'gift.sec.voucher.desc': 'Odaberi iznos vaučera, upiši ime i poruku — mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.',
     'gift.amount.label':     'Iznos vaučera (EUR)',
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.',
-    'gift.buyer.email.label':'Tvoj email (kupac)',
+    'gift.buyer.email.label':'Email za dostavu vaučera',
     'gift.buyer.email.ph':   'tvoj@email.com',
     'gift.buyer.name.label': 'Ime i prezime (piše se na vaučeru)',
     'gift.buyer.name.ph':    'Marko Marković',
-    'gift.msg.label':        'Lična poruka (opciono)',
+    'gift.msg.label':        'Poruka na vaučeru (opciono)',
     'gift.msg.ph':           'Ovo putovanje je posebno za tebe...',
     'gift.voucher.submit':   '🎟️ Pošalji upit za vaučer →',
     'footer.home':           'Početna',
@@ -722,15 +722,15 @@ const TR = {
     'gift.hero.sub':         'Choose a voucher amount — recipient uses it on any Escapii trip of their choice.',
     'gift.hero.cta':         '🎟️ Gift a voucher →',
     'gift.sec.voucher.tag':  'Gift voucher',
-    'gift.sec.voucher.h':    'Choose an amount, recipient picks a date',
-    'gift.sec.voucher.desc': 'Buyer pays upfront — recipient receives a personalised code that discounts their reservation on any Escapii trip.',
+    'gift.sec.voucher.h':    'Choose an amount and gift someone a trip they\'ll never forget',
+    'gift.sec.voucher.desc': 'Choose a voucher amount, add a name and message — we generate a voucher with a unique code. The recipient uses it when booking any Escapii surprise trip, and the value is automatically deducted from the trip price. Valid for one year.',
     'gift.amount.label':     'Voucher amount (EUR)',
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> — the voucher reduces that price.',
-    'gift.buyer.email.label':'Your email (buyer)',
+    'gift.buyer.email.label':'Email for voucher delivery',
     'gift.buyer.email.ph':   'your@email.com',
     'gift.buyer.name.label': 'Full name (printed on voucher)',
     'gift.buyer.name.ph':    'Marko Markovic',
-    'gift.msg.label':        'Personal message (optional)',
+    'gift.msg.label':        'Message on the voucher (optional)',
     'gift.msg.ph':           'This trip is something special for you...',
     'gift.voucher.submit':   '🎟️ Send voucher inquiry →',
     'footer.home':           'Home',
