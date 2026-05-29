@@ -135,3 +135,59 @@ function escapii_create_otkrivanje_page() {
 }
 add_action('after_switch_theme', 'escapii_create_otkrivanje_page');
 add_action('init', 'escapii_create_otkrivanje_page');
+
+// ── robots.txt — override WordPress default ──────────────────────────────────
+add_filter('robots_txt', 'escapii_robots_txt', 99);
+function escapii_robots_txt() {
+    return "User-agent: *\n"
+         . "Disallow: /wp-admin/\n"
+         . "Disallow: /wp-login.php\n"
+         . "Disallow: /wp-json/\n"
+         . "Disallow: /wp-cron.php\n"
+         . "Disallow: /xmlrpc.php\n"
+         . "Disallow: /author/\n"
+         . "Disallow: /category/\n"
+         . "Disallow: /tag/\n"
+         . "Disallow: /feed/\n"
+         . "Disallow: /page/\n"
+         . "Disallow: /attachment/\n"
+         . "Disallow: /?p=\n"
+         . "Disallow: /?page_id=\n"
+         . "Disallow: /?attachment_id=\n"
+         . "Disallow: /?author=\n"
+         . "Disallow: /?s=\n"
+         . "Disallow: /2024/\n"
+         . "Disallow: /2025/\n"
+         . "Disallow: /2026/\n"
+         . "Disallow: /2027/\n"
+         . "Disallow: /admin-panel/\n"
+         . "Allow: /wp-admin/admin-ajax.php\n"
+         . "\nSitemap: " . home_url('/sitemap.xml') . "\n";
+}
+
+// ── sitemap.xml — custom static sitemap ──────────────────────────────────────
+add_action('template_redirect', 'escapii_serve_sitemap', 1);
+function escapii_serve_sitemap() {
+    if (isset($_SERVER['REQUEST_URI']) && trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') !== 'sitemap.xml') return;
+    $h = trailingslashit(home_url('/'));
+    $pages = [
+        ['loc' => $h,                            'priority' => '1.0', 'freq' => 'weekly'],
+        ['loc' => $h . 'pokloni/',               'priority' => '0.8', 'freq' => 'monthly'],
+        ['loc' => $h . 'politika-privatnosti/',  'priority' => '0.3', 'freq' => 'yearly'],
+        ['loc' => $h . 'privacy-policy/',        'priority' => '0.3', 'freq' => 'yearly'],
+        ['loc' => $h . 'uslovi-koristenja/',     'priority' => '0.3', 'freq' => 'yearly'],
+        ['loc' => $h . 'terms-of-use/',          'priority' => '0.3', 'freq' => 'yearly'],
+    ];
+    header('Content-Type: application/xml; charset=UTF-8');
+    echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($pages as $p) {
+        echo "  <url>\n"
+           . "    <loc>" . esc_url($p['loc']) . "</loc>\n"
+           . "    <changefreq>" . $p['freq'] . "</changefreq>\n"
+           . "    <priority>" . $p['priority'] . "</priority>\n"
+           . "  </url>\n";
+    }
+    echo '</urlset>';
+    exit;
+}
