@@ -197,13 +197,8 @@ $site_url  = get_site_url();
     .bp-code-text {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 13px; font-weight: 700; letter-spacing: 3.5px; display: block;
-      background: linear-gradient(90deg, #e29070 20%, #f8d4be 50%, #e29070 80%);
-      background-size: 200% auto;
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; color: #e29070;
-      animation: bpShimmer 3s linear 1.5s infinite;
+      color: #ffffff;
     }
-    @keyframes bpShimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
     .bp-stub-info { font-size: 11px; color: #8a8079; line-height: 1.7; flex: 1; }
     .bp-stub-info strong { color: #c8775a; }
     .bp-stub-scan { font-size: 10px; color: #5a5250; line-height: 1.6; text-align: center; border-top: 1px dashed #2a211a; padding-top: 14px; margin-top: auto; }
