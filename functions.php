@@ -165,10 +165,14 @@ function escapii_robots_txt() {
          . "\nSitemap: " . home_url('/sitemap.xml') . "\n";
 }
 
-// ── sitemap.xml — custom static sitemap ──────────────────────────────────────
-add_action('template_redirect', 'escapii_serve_sitemap', 1);
+// ── sitemap.xml — intercept rano, pre WordPress rewrite sistema ──────────────
+// Isključi WordPress-ov ugrađeni sitemap da ne pravi konflikt
+add_filter('wp_sitemaps_enabled', '__return_false');
+
+add_action('init', 'escapii_serve_sitemap', 1);
 function escapii_serve_sitemap() {
-    if (isset($_SERVER['REQUEST_URI']) && trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') !== 'sitemap.xml') return;
+    if (!isset($_SERVER['REQUEST_URI'])) return;
+    if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== '/sitemap.xml') return;
     $h = trailingslashit(home_url('/'));
     $pages = [
         ['loc' => $h,                            'priority' => '1.0', 'freq' => 'weekly'],
