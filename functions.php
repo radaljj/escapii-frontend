@@ -28,12 +28,12 @@ function escapii_head_meta() {
     $og_img    = $img_url . '/og-image.jpg';
     $home      = home_url('/');
     ?>
-    <!-- Favicon — root paths for Google crawler -->
-    <link rel="icon" type="image/x-icon"  href="<?php echo esc_url(home_url('/favicon.ico')); ?>">
+    <!-- Favicon — PNG prvi da Google ne koristi stari .ico -->
     <link rel="icon" type="image/png" sizes="512x512" href="<?php echo esc_url(home_url('/favicon.png')); ?>">
     <link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url(home_url('/favicon.png')); ?>">
     <link rel="icon" type="image/svg+xml" href="<?php echo esc_url($img_url . '/favicon.svg'); ?>">
-    <link rel="shortcut icon" href="<?php echo esc_url(home_url('/favicon.ico')); ?>">
+    <link rel="icon" type="image/x-icon"  href="<?php echo esc_url(home_url('/favicon.ico')); ?>">
+    <link rel="shortcut icon" href="<?php echo esc_url(home_url('/favicon.png')); ?>">
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
 
     <!-- Canonical -->
