@@ -136,6 +136,20 @@ function escapii_create_otkrivanje_page() {
 add_action('after_switch_theme', 'escapii_create_otkrivanje_page');
 add_action('init', 'escapii_create_otkrivanje_page');
 
+// Automatski kreiraj /blog stranicu ako ne postoji
+function escapii_create_blog_page() {
+    if (get_page_by_path('blog')) return;
+    $id = wp_insert_post([
+        'post_title'  => 'Blog',
+        'post_name'   => 'blog',
+        'post_status' => 'publish',
+        'post_type'   => 'page',
+    ]);
+    if ($id) update_post_meta($id, '_wp_page_template', 'page-blog.php');
+}
+add_action('after_switch_theme', 'escapii_create_blog_page');
+add_action('init', 'escapii_create_blog_page');
+
 // ── robots.txt — override WordPress default ──────────────────────────────────
 add_filter('robots_txt', 'escapii_robots_txt', 99);
 function escapii_robots_txt() {
@@ -176,6 +190,7 @@ function escapii_serve_sitemap() {
     $h = trailingslashit(home_url('/'));
     $pages = [
         ['loc' => $h,                            'priority' => '1.0', 'freq' => 'weekly'],
+        ['loc' => $h . 'blog/',                          'priority' => '0.8', 'freq' => 'weekly'],
         ['loc' => $h . 'pokloni-putovanje-iznenadjenja/', 'priority' => '0.8', 'freq' => 'monthly'],
         ['loc' => $h . 'politika-privatnosti/',  'priority' => '0.3', 'freq' => 'yearly'],
         ['loc' => $h . 'privacy-policy/',        'priority' => '0.3', 'freq' => 'yearly'],
