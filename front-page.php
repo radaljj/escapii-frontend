@@ -2588,6 +2588,7 @@
     <button class="mob-menu-link" onclick="mobNav('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();window.location.href='/blog';" data-i18n="snav.blog">Blog</button>
     <button class="mob-menu-link mob-menu-call" onclick="mobNav('esc-contact-cta')">
       <span data-i18n="snav.call">✉ Kontaktiraj nas</span>
       <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
@@ -2620,6 +2621,7 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
+  <button class="sec-nav-link" onclick="window.location.href='/blog'"   data-i18n="snav.blog">Blog</button>
   <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
   <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
   <div class="sec-gift-wrap" id="secGiftWrap">
@@ -4017,7 +4019,7 @@ const TR = {
     'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
+    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
     'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
@@ -4273,7 +4275,7 @@ const TR = {
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About us', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
+    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
     'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag — typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
