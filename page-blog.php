@@ -160,8 +160,18 @@ a{color:inherit;}
 .card .c-meta .dot{width:3px; height:3px; border-radius:50%; background:var(--faint);}
 
 /* empty */
-.bl-empty{text-align:center; padding:80px 0; color:var(--faint);}
-.bl-empty h2{font-family:var(--display); font-size:24px; font-weight:600; color:var(--ink); margin-bottom:8px;}
+/* empty state */
+@keyframes floatUp{0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%,100%{opacity:.4;} 50%{opacity:1;}}
+.bl-empty{text-align:center; padding:100px 24px 120px;}
+.bl-empty-icon{font-size:56px; display:block; margin-bottom:28px; animation:floatUp 3s ease-in-out infinite;}
+.bl-empty h2{font-family:var(--display); font-size:36px; font-weight:600; color:var(--ink); margin:0 0 14px; letter-spacing:-.5px; animation:fadeInUp .6s ease both .1s; opacity:0;}
+.bl-empty p{font-family:var(--sans); font-size:15px; color:var(--faint); margin:0 auto 40px; max-width:36ch; line-height:1.65; animation:fadeInUp .6s ease both .2s; opacity:0;}
+.bl-empty-dots{display:flex; justify-content:center; gap:8px; animation:fadeInUp .6s ease both .3s; opacity:0;}
+.bl-empty-dots span{width:8px; height:8px; border-radius:50%; background:var(--terra); animation:shimmer 1.4s ease-in-out infinite;}
+.bl-empty-dots span:nth-child(2){animation-delay:.2s;}
+.bl-empty-dots span:nth-child(3){animation-delay:.4s;}
 
 /* pagination */
 .bl-pag{display:flex; justify-content:center; gap:8px; margin:48px 0 0; flex-wrap:wrap;}
@@ -369,7 +379,12 @@ a{color:inherit;}
 
 <?php else: ?>
   <div class="bl-empty">
-    <h2>Uskoro...</h2>
+    <span class="bl-empty-icon">✈️</span>
+    <h2>Uskoro na putu</h2>
+    <p>Prve priče su već u pripremi — vrati se uskoro i otkri gde nas je odvelo sledeće iznenađenje.</p>
+    <div class="bl-empty-dots">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 <?php endif; ?>
 
