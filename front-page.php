@@ -3346,21 +3346,6 @@
               <div class="connecting-tooltip-body" data-i18n-html="ext.seats.tip.body">Garantujemo da cela vaša grupa sedi <strong>zajedno</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.</div>
             </div>
           </div>
-          <div class="connecting-tooltip-wrap">
-            <div class="extra-card" id="ec-hasConnectingFlights" onclick="togExtra(this,'hasConnectingFlights')">
-              <div class="extra-card-icon">🔄</div>
-              <div class="extra-card-body">
-                <div class="extra-card-title" data-i18n="ext.connecting">Prihvatam let sa presedanjem</div>
-                <div class="extra-card-sub" data-i18n="ext.connecting.d">Letovi sa presedanjem, više destinacija</div>
-              </div>
-              <div class="extra-card-price" data-i18n="free" style="color:var(--accent3);font-size:12px;font-weight:700">Besplatno</div>
-              <div class="extra-toggle"></div>
-            </div>
-            <div class="connecting-tooltip">
-              <div class="connecting-tooltip-title" data-i18n="ext.connecting.tip.title">✈️ Više destinacija, više iznenađenja</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong></div>
-            </div>
-          </div>
         </div>
         <div id="seatsNotice" style="display:none; margin-top:14px; background:rgba(202,138,113,.1); border:1px solid rgba(202,138,113,.3); border-radius:12px; padding:14px 16px; font-size:13px; color:rgba(255,255,255,.85); line-height:1.6;">
           💺 <span id="seatsNoticeText"></span>
@@ -3371,15 +3356,32 @@
           <div class="extra-card reveal-box-card" id="ec-hasRevealBox" onclick="togRevealBox(this)">
             <div class="extra-card-icon">📦</div>
             <div class="extra-card-body">
-              <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box — fizički koverat sa destinacijom</div>
-              <div class="extra-card-sub" data-i18n="ext.revealbox.d">Šaljemo ti koverat na adresu — otvori ga kada dođe vreme!</div>
+              <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box — destinacija skrivena do poslednjeg trenutka</div>
+              <div class="extra-card-sub" data-i18n="ext.revealbox.d">Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦</div>
             </div>
             <div class="extra-card-price">+25€</div>
             <div class="extra-toggle"></div>
           </div>
           <div class="connecting-tooltip">
             <div class="connecting-tooltip-title" data-i18n="ext.revealbox.tip.title">📦 Reveal Box</div>
-            <div class="connecting-tooltip-body" data-i18n-html="ext.revealbox.tip.body">Umesto email-a, šaljemo ti fizički koverat na adresu. Unutra je tajanstvena karta sa destinacijom, scratch kartica i mali poklon. Savršeno za unboxing iskustvo! Dostava ~5 dana pre polaska.</div>
+            <div class="connecting-tooltip-body" data-i18n-html="ext.revealbox.tip.body">Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.</div>
+          </div>
+        </div>
+
+        <!-- Presedanje — na dnu -->
+        <div class="connecting-tooltip-wrap" style="margin-top:14px;">
+          <div class="extra-card" id="ec-hasConnectingFlights" onclick="togExtra(this,'hasConnectingFlights')">
+            <div class="extra-card-icon">🔄</div>
+            <div class="extra-card-body">
+              <div class="extra-card-title" data-i18n="ext.connecting">Prihvatam let sa presedanjem</div>
+              <div class="extra-card-sub" data-i18n="ext.connecting.d">Letovi sa presedanjem, više destinacija</div>
+            </div>
+            <div class="extra-card-price" data-i18n="free" style="color:var(--accent3);font-size:12px;font-weight:700">Besplatno</div>
+            <div class="extra-toggle"></div>
+          </div>
+          <div class="connecting-tooltip">
+            <div class="connecting-tooltip-title" data-i18n="ext.connecting.tip.title">✈️ Više destinacija, više iznenađenja</div>
+            <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong></div>
           </div>
         </div>
 
