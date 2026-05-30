@@ -3365,6 +3365,24 @@
         <div id="seatsNotice" style="display:none; margin-top:14px; background:rgba(202,138,113,.1); border:1px solid rgba(202,138,113,.3); border-radius:12px; padding:14px 16px; font-size:13px; color:rgba(255,255,255,.85); line-height:1.6;">
           💺 <span id="seatsNoticeText"></span>
         </div>
+
+        <!-- Reveal Box -->
+        <div class="connecting-tooltip-wrap" style="margin-top:14px;">
+          <div class="extra-card reveal-box-card" id="ec-hasRevealBox" onclick="togRevealBox(this)">
+            <div class="extra-card-icon">📦</div>
+            <div class="extra-card-body">
+              <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box — fizički koverat sa destinacijom</div>
+              <div class="extra-card-sub" data-i18n="ext.revealbox.d">Šaljemo ti koverat na adresu — otvori ga kada dođe vreme!</div>
+            </div>
+            <div class="extra-card-price">+25€</div>
+            <div class="extra-toggle"></div>
+          </div>
+          <div class="connecting-tooltip">
+            <div class="connecting-tooltip-title" data-i18n="ext.revealbox.tip.title">📦 Reveal Box</div>
+            <div class="connecting-tooltip-body" data-i18n-html="ext.revealbox.tip.body">Umesto email-a, šaljemo ti fizički koverat na adresu. Unutra je tajanstvena karta sa destinacijom, scratch kartica i mali poklon. Savršeno za unboxing iskustvo! Dostava ~5 dana pre polaska.</div>
+          </div>
+        </div>
+
         <div class="step-btns" style="margin-top:28px;">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
           <button class="btn-next" onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
@@ -3746,6 +3764,35 @@
   </div>
 </footer>
 
+<!-- REVEAL BOX DELIVERY MODAL -->
+<div class="rdm-overlay" id="revealBoxOverlay" onclick="if(event.target===this)closeRevealBoxModal(false)">
+  <div class="rdm-card" style="max-width:440px;">
+    <button class="rdm-close" onclick="closeRevealBoxModal(false)" type="button" aria-label="Close">✕</button>
+    <div style="text-align:center;margin-bottom:22px;">
+      <div style="font-size:40px;margin-bottom:10px;">📦</div>
+      <h3 class="rdm-title" data-i18n="revealbox.modal.title">Adresa za dostavu Reveal Box-a</h3>
+      <p class="rdm-sub" data-i18n="revealbox.modal.sub">Unesite adresu na koju da pošaljemo koverat sa iznenađenjem.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.address">Ulica i broj</label>
+        <input id="rbAddress" class="rdm-input" type="text" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.city">Grad i poštanski broj</label>
+        <input id="rbCity" class="rdm-input" type="text" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.phone">Telefon za dostavu</label>
+        <input id="rbPhone" class="rdm-input" type="tel" placeholder="+381641234567" autocomplete="tel" maxlength="20">
+      </div>
+    </div>
+    <div id="rbError" style="display:none;color:#f87171;font-size:12px;margin-top:10px;text-align:center;"></div>
+    <button class="rdm-btn" onclick="confirmRevealBoxAddress()" type="button" style="margin-top:20px;" data-i18n="revealbox.confirm">Potvrdi adresu →</button>
+    <button onclick="closeRevealBoxModal(false)" type="button" style="display:block;width:100%;margin-top:10px;background:none;border:none;color:rgba(246,241,230,.4);font-size:13px;cursor:pointer;font-family:inherit;" data-i18n="revealbox.skip">Odustani</button>
+  </div>
+</div>
+
 <!-- REDEEM VOUCHER MODAL -->
 <div class="rdm-overlay" id="redeemOverlay" onclick="if(event.target===this)closeRedeemModal()">
   <div class="rdm-card">
@@ -3976,6 +4023,13 @@ const TR = {
     'ext.bfst':'Doručak u hotelu', 'ext.bfst.d':'Doručak u hotelu uključen za svaki dan boravka.',
     'ext.seats':'Želim sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
     'ext.connecting':'Prihvatam let sa presedanjem', 'ext.connecting.d':'Letovi sa presedanjem, više destinacija',
+    'ext.revealbox':'Reveal Box — fizički koverat sa destinacijom', 'ext.revealbox.d':'Šaljemo ti koverat na adresu — otvori ga kada dođe vreme!',
+    'ext.revealbox.tip.title':'📦 Reveal Box',
+    'ext.revealbox.tip.body':'Umesto email-a, šaljemo ti fizički koverat na adresu. Unutra je tajanstvena karta sa destinacijom, scratch kartica i mali poklon. Savršeno za unboxing iskustvo! Dostava ~5 dana pre polaska.',
+    'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
+    'revealbox.modal.sub':'Unesite adresu na koju da pošaljemo koverat sa iznenađenjem.',
+    'revealbox.address':'Ulica i broj', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
+    'revealbox.confirm':'Potvrdi adresu →', 'revealbox.skip':'Odustani',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
@@ -4231,6 +4285,13 @@ const TR = {
     'ext.bfst':'Hotel breakfast', 'ext.bfst.d':'Hotel breakfast included for every day of stay.',
     'ext.seats':'I want seats next to each other', 'ext.seats.d':'per person, per flight direction',
     'ext.connecting':'I accept a connecting flight', 'ext.connecting.d':'Connecting flights, more destinations',
+    'ext.revealbox':'Reveal Box — physical envelope with destination', 'ext.revealbox.d':'We ship a physical envelope to your address — open it when the time comes!',
+    'ext.revealbox.tip.title':'📦 Reveal Box',
+    'ext.revealbox.tip.body':'Instead of an email, we send a physical envelope to your address. Inside is a mystery card with your destination, a scratch card and a small gift. Perfect for an unboxing experience! Delivery ~5 days before departure.',
+    'revealbox.modal.title':'Reveal Box Delivery Address',
+    'revealbox.modal.sub':'Enter the address where we should send your surprise envelope.',
+    'revealbox.address':'Street address', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
+    'revealbox.confirm':'Confirm address →', 'revealbox.skip':'Cancel',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
@@ -4682,6 +4743,7 @@ const S = {
   step:1, airport:null, travelers:1,
   selectedDateId:null, selectedDate:null, accommodationType:'STANDARD',
   cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
+  hasRevealBox:false, deliveryAddress:'', deliveryCity:'', deliveryPhone:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   lastPrice:null
 };
@@ -5326,6 +5388,52 @@ function togExtra(el, key) {
   el.classList.toggle('on', S[key]);
 }
 
+// ── Reveal Box ────────────────────────────────────────────────────────────────
+function togRevealBox(el) {
+  if (!S.hasRevealBox) {
+    // Otvori modal za adresu
+    document.getElementById('revealBoxOverlay').classList.add('open');
+    document.getElementById('rbAddress').focus();
+  } else {
+    // Isključi — resetuj
+    S.hasRevealBox = false;
+    S.deliveryAddress = '';
+    S.deliveryCity = '';
+    S.deliveryPhone = '';
+    el.classList.remove('on');
+    recalcPrice();
+  }
+}
+function closeRevealBoxModal(confirm) {
+  document.getElementById('revealBoxOverlay').classList.remove('open');
+  if (!confirm) {
+    // Korisnik odustao — ne uključuj
+    const el = document.getElementById('ec-hasRevealBox');
+    S.hasRevealBox = false;
+    el.classList.remove('on');
+    recalcPrice();
+  }
+}
+function confirmRevealBoxAddress() {
+  const addr  = document.getElementById('rbAddress').value.trim();
+  const city  = document.getElementById('rbCity').value.trim();
+  const phone = document.getElementById('rbPhone').value.trim();
+  const errEl = document.getElementById('rbError');
+  if (!addr || !city || !phone) {
+    errEl.style.display = 'block';
+    errEl.textContent = lang === 'sr' ? 'Sva polja su obavezna.' : 'All fields are required.';
+    return;
+  }
+  errEl.style.display = 'none';
+  S.hasRevealBox = true;
+  S.deliveryAddress = addr;
+  S.deliveryCity = city;
+  S.deliveryPhone = phone;
+  document.getElementById('ec-hasRevealBox').classList.add('on');
+  closeRevealBoxModal(true);
+  recalcPrice();
+}
+
 function updateSeatsVisibility() {
   const card = document.getElementById('ec-hasSeatsTogether');
   if (!card) return;
@@ -5688,6 +5796,8 @@ async function loadPrice() {
       hasBreakfast: S.hasBreakfast,
       hasSeatsTogether: S.hasSeatsTogether
     });
+    // Reveal Box se ne šalje u price-preview (backend ne čita ga tamo),
+    // ali dodajemo 25€ ručno na frontendu za prikaz u cenovniku
     const r = await fetch(`${API}/api/booking/price-preview?${params}`);
     const p = await r.json();
     S.lastPrice = p;
@@ -5703,9 +5813,12 @@ async function loadPrice() {
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
+    // Reveal Box — flat 25€, dodajemo na frontendu
+    if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'fizički koverat na adresu':'physical envelope to address')}</span><span>+25€</span></div>`;
     rows.innerHTML = html;
-    // Osnovna cena (bez vaučera)
-    const baseTotal = p.totalEurAll;
+    // Osnovna cena (bez vaučera) + reveal box
+    const revealBoxExtra = S.hasRevealBox ? 25 : 0;
+    const baseTotal = p.totalEurAll + revealBoxExtra;
     const vDisc = _appliedVoucher ? _appliedVoucher.amount : 0;
     const finalTotal = Math.max(0, baseTotal - vDisc);
     document.getElementById('priceTotal').textContent = finalTotal+'€';
@@ -5909,6 +6022,10 @@ async function submitBooking() {
     hasBreakfast:S.hasBreakfast,
     hasSeatsTogether:S.hasSeatsTogether,
     hasConnectingFlights:S.hasConnectingFlights,
+    hasRevealBox:S.hasRevealBox,
+    deliveryAddress:S.hasRevealBox ? S.deliveryAddress : null,
+    deliveryCity:S.hasRevealBox ? S.deliveryCity : null,
+    deliveryPhone:S.hasRevealBox ? S.deliveryPhone : null,
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
     excludedDestination3Id:S.excludedIds[2]||null,
