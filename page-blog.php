@@ -3,198 +3,367 @@
  * Template Name: Blog
  *
  * Listanje blog postova. Dodaj postove u WP Admin → Posts → Add New.
- * Stranica se automatski kreira na /blog/ pri aktivaciji teme.
  */
+
+// Paginacija
 $paged = max(1, get_query_var('paged') ?: (get_query_var('page') ?: 1));
-$q = new WP_Query([
+
+// Filtriranje po kategoriji iz URL-a (?cat=ID)
+$cat_filter = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
+
+$args = [
     'post_type'      => 'post',
     'post_status'    => 'publish',
-    'posts_per_page' => 9,
+    'posts_per_page' => 7,   // 1 featured + 6 grid
     'paged'          => $paged,
     'orderby'        => 'date',
     'order'          => 'DESC',
-]);
+];
+if ($cat_filter) $args['cat'] = $cat_filter;
+
+$q = new WP_Query($args);
 $total_pages = $q->max_num_pages;
+$total_posts = $q->found_posts;
+
+// Sve kategorije sa postovima
+$all_cats = get_categories(['hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC']);
+
+// Helper: broj reči → vreme čitanja
+function bl_read_time($post_id) {
+    $content = get_post_field('post_content', $post_id);
+    return max(1, round(str_word_count(wp_strip_all_tags($content)) / 200));
+}
 ?>
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog — Escapii</title>
-  <meta name="description" content="Saveti, inspiracija i priče sa naših putovanja iznenađenja.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <?php wp_head(); ?>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — Escapii</title>
+<meta name="description" content="Priče sa naših iznenađenja i sve što treba da znaš pre polaska.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<?php wp_head(); ?>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg:      #EFE9E7;
-  --bg2:     #F7F3F0;
-  --surface: #FFFFFF;
-  --text:    #1a2e34;
-  --muted:   #6b8a93;
-  --accent:  #CA8A71;
-  --accent2: #b07460;
-  --border:  rgba(15,45,53,.1);
-  --radius:  16px;
-  --white:   #2D5F6B;
-  --gray:    #7A9FA8;
-  --gray2:   #7A9FA8;
+:root{
+  --cream:#faf6ee; --sand:#f4eee1; --paper:#fffdf8;
+  --ink:#1a1410; --mute:#6b5d4f; --faint:#a3978a; --line:#e7ddcd;
+  --terra:#a85e44; --peach:#c8775a; --teal:#22424a; --teal-deep:#16313a;
+  --serif:"Newsreader",Georgia,serif;
+  --display:"Playfair Display",Georgia,serif;
+  --sans:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  /* footer vars */
+  --gray:#7A9FA8; --white-nav:#2D5F6B; --accent:#CA8A71;
 }
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--cream); color:var(--ink);
+  font-family:var(--serif); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+img{max-width:100%; display:block;}
+a{color:inherit;}
 
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+/* ---------- nav ---------- */
+.nav{position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+  padding:16px 40px; background:rgba(15,45,53,.97);
+  backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,.06); transition:border-color .3s;}
+.nav.scrolled{border-color:rgba(255,255,255,.12);}
+.nav-logo img{height:38px; width:auto; display:block;}
+.nav-link{font-family:var(--sans); font-size:13px; font-weight:600; color:rgba(255,255,255,.65);
+  text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+  padding:9px 16px; border:1px solid rgba(255,255,255,.14); border-radius:100px; transition:all .2s;}
+.nav-link:hover{color:#fff; border-color:rgba(255,255,255,.35);}
+.nav-link svg{width:14px; height:14px;}
 
-/* ── Header ── */
-.bl-header { background: rgba(15,45,53,.96); border-bottom: 1px solid rgba(255,255,255,.06); padding: 16px 0; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(14px); }
-.bl-header-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-.bl-logo img { height: 38px; width: auto; display: block; }
-.bl-back { display: inline-flex; align-items: center; gap: 7px; color: rgba(255,255,255,.65); text-decoration: none; font-size: 13px; font-weight: 600; transition: color .15s; }
-.bl-back:hover { color: #fff; }
-.bl-back svg { flex-shrink: 0; }
+/* ---------- hero ---------- */
+.hero{position:relative; background:var(--teal-deep); overflow:hidden; text-align:center; padding:88px 24px 120px;}
+.hero::before{content:""; position:absolute; inset:0;
+  background:radial-gradient(60% 80% at 50% -10%, rgba(80,130,140,.45) 0%, rgba(22,49,58,0) 60%),
+    radial-gradient(40% 60% at 85% 120%, rgba(200,119,90,.18) 0%, rgba(22,49,58,0) 60%);}
+.hero::after{content:""; position:absolute; inset:0; opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px); background-size:26px 26px;}
+.hero-content{position:relative; z-index:2; max-width:760px; margin:0 auto;}
+.hero-pill{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans);
+  font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fbe3d6;
+  background:rgba(200,119,90,.18); border:1px solid rgba(200,119,90,.45);
+  padding:8px 16px; border-radius:100px; margin-bottom:26px;}
+.hero-pill svg{width:14px; height:14px;}
+.hero h1{font-family:var(--display); font-weight:600; color:#fff; margin:0 0 18px;
+  font-size:clamp(40px,5.4vw,68px); line-height:1.04; letter-spacing:-1.5px; text-wrap:balance;}
+.hero h1 em{font-style:italic; color:#f0c3ae;}
+.hero p{font-family:var(--serif); font-size:19px; line-height:1.6; color:rgba(255,255,255,.72); margin:0 auto; max-width:48ch;}
 
-/* ── Hero ── */
-.bl-hero { background: #0f2d35; padding: 60px 24px 52px; text-align: center; }
-.bl-hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(202,138,113,.15); border: 1px solid rgba(202,138,113,.3); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 20px; }
-.bl-hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; color: #fff; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 14px; }
-.bl-hero p { font-size: 16px; color: rgba(255,255,255,.6); max-width: 480px; margin: 0 auto; }
+/* ---------- filters ---------- */
+.filters{position:relative; z-index:3; max-width:1180px; margin:-34px auto 0; padding:0 40px;
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;}
+.chip{font-family:var(--sans); font-size:13px; font-weight:500; color:var(--mute);
+  background:var(--paper); border:1px solid var(--line); padding:11px 20px; border-radius:100px;
+  cursor:pointer; text-decoration:none; transition:all .2s; box-shadow:0 6px 18px -10px rgba(26,20,16,.25);}
+.chip:hover{color:var(--ink); border-color:var(--terra);}
+.chip.active{background:var(--ink); color:#fff; border-color:var(--ink);}
 
-/* ── Grid ── */
-.bl-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.bl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+/* ---------- layout ---------- */
+.wrap{max-width:1180px; margin:0 auto; padding:56px 40px 0;}
+.sec-label{display:flex; align-items:baseline; gap:16px; margin:0 0 28px;}
+.sec-label h2{font-family:var(--display); font-weight:600; font-size:26px; margin:0; letter-spacing:-.5px;}
+.sec-label .ln{flex:1; height:1px; background:var(--line);}
+.sec-label .count{font-family:var(--sans); font-size:12px; color:var(--faint); letter-spacing:.5px;}
 
-/* ── Card ── */
-.bl-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
-.bl-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(15,45,53,.12); }
-.bl-card-img { display: block; aspect-ratio: 16/9; overflow: hidden; background: #d4c8c0; }
-.bl-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
-.bl-card:hover .bl-card-img img { transform: scale(1.04); }
-.bl-card-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px; background: linear-gradient(135deg, #d4c8c0, #c4b8b0); }
-.bl-card-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
-.bl-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.bl-cat { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); background: rgba(202,138,113,.1); border: 1px solid rgba(202,138,113,.25); padding: 4px 10px; border-radius: 100px; }
-.bl-date { font-size: 12px; color: var(--muted); }
-.bl-card-title { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 10px; letter-spacing: -.02em; }
-.bl-card-title a { color: inherit; text-decoration: none; }
-.bl-card-title a:hover { color: var(--accent); }
-.bl-card-excerpt { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.bl-read-more { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none; transition: gap .15s; }
-.bl-read-more:hover { gap: 10px; }
+/* featured */
+.featured{display:grid; grid-template-columns:1.15fr 1fr; gap:0; background:var(--paper);
+  border:1px solid var(--line); border-radius:22px; overflow:hidden; margin-bottom:64px;
+  box-shadow:0 30px 60px -36px rgba(26,20,16,.3); text-decoration:none; color:var(--ink);}
+.featured .f-img{position:relative; min-height:380px; background:var(--teal-deep);}
+.featured .f-img img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+.featured .f-img-placeholder{position:absolute; inset:0; background:radial-gradient(120% 140% at 25% 15%, #2f5660 0%, #1d3b43 48%, #16313a 100%);}
+.featured .f-tag{position:absolute; top:20px; left:20px; z-index:2;
+  font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:#fff; background:rgba(168,94,68,.92); padding:7px 14px; border-radius:100px; backdrop-filter:blur(4px);}
+.featured .f-body{padding:46px 48px; display:flex; flex-direction:column; justify-content:center;}
+.featured .f-eyebrow{font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--terra); margin-bottom:16px;}
+.featured h3{font-family:var(--display); font-weight:600; font-size:34px; line-height:1.14;
+  letter-spacing:-.6px; margin:0 0 18px; color:var(--ink);}
+.featured .f-excerpt{font-size:17px; line-height:1.65; color:var(--mute); margin:0 0 28px; max-width:46ch;}
+.featured .f-meta{display:flex; align-items:center; gap:12px; font-family:var(--sans); font-size:13px;
+  color:var(--faint); margin-bottom:28px;}
+.featured .f-meta .av{width:34px; height:34px; border-radius:50%; overflow:hidden; background:var(--sand); flex:none; display:flex; align-items:center; justify-content:center;}
+.featured .f-meta .av img{width:100%; height:100%; object-fit:cover;}
+.featured .f-meta b{color:var(--ink); font-weight:600;}
+.featured .f-meta .dot{width:3px; height:3px; border-radius:50%; background:var(--faint);}
+.featured:hover .f-img img{transform:scale(1.03); transition:transform .5s ease;}
+.read-link{font-family:var(--sans); font-size:14px; font-weight:600; color:var(--terra);
+  text-decoration:none; display:inline-flex; align-items:center; gap:9px; align-self:flex-start;}
+.read-link svg{width:16px; height:16px; transition:transform .2s;}
+.featured:hover .read-link svg{transform:translateX(4px);}
 
-/* ── Empty ── */
-.bl-empty { text-align: center; padding: 80px 24px; color: var(--muted); }
-.bl-empty h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+/* grid cards */
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+.card{background:var(--paper); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+  text-decoration:none; display:flex; flex-direction:column; transition:transform .25s, box-shadow .25s; color:var(--ink);}
+.card:hover{transform:translateY(-6px); box-shadow:0 28px 54px -30px rgba(26,20,16,.34);}
+.card .c-img{position:relative; height:200px; background:var(--teal-deep);}
+.card .c-img img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+.card .c-img-placeholder{position:absolute; inset:0; background:radial-gradient(120% 140% at 25% 15%, #2f5660 0%, #1d3b43 48%, #16313a 100%);}
+.card .c-cat-abs{position:absolute; top:14px; left:14px; font-family:var(--sans); font-size:10px;
+  font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff;
+  background:rgba(26,20,16,.55); backdrop-filter:blur(6px); padding:6px 12px; border-radius:100px; z-index:1;}
+.card-body{padding:22px 24px 26px; display:flex; flex-direction:column; flex:1;}
+.card h3{font-family:var(--display); font-weight:600; font-size:22px; line-height:1.2; margin:0 0 12px; color:var(--ink); letter-spacing:-.3px;}
+.card .c-excerpt{font-size:15px; line-height:1.6; color:var(--mute); margin:0 0 20px; flex:1;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
+.card .c-meta{display:flex; align-items:center; gap:9px; font-family:var(--sans); font-size:12px;
+  color:var(--faint); padding-top:16px; border-top:1px solid var(--line);}
+.card .c-meta .av{width:26px; height:26px; border-radius:50%; overflow:hidden; background:var(--sand); flex:none;}
+.card .c-meta .av img{width:100%; height:100%; object-fit:cover;}
+.card .c-meta b{color:var(--ink); font-weight:600;}
+.card .c-meta .dot{width:3px; height:3px; border-radius:50%; background:var(--faint);}
 
-/* ── Pagination ── */
-.bl-pag { display: flex; justify-content: center; gap: 8px; margin-top: 48px; flex-wrap: wrap; }
-.bl-pag a, .bl-pag span { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid var(--border); transition: all .15s; }
-.bl-pag a { color: var(--text); background: var(--surface); }
-.bl-pag a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-.bl-pag span.current { background: var(--accent); color: #fff; border-color: var(--accent); }
-.bl-pag span.dots { background: none; border: none; color: var(--muted); width: auto; padding: 0 4px; }
+/* empty */
+.bl-empty{text-align:center; padding:80px 0; color:var(--faint);}
+.bl-empty h2{font-family:var(--display); font-size:24px; font-weight:600; color:var(--ink); margin-bottom:8px;}
 
-/* ── Footer ── */
-.esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(15,45,53,.07); }
-.footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
-.footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.75; margin-top: 16px; max-width: 280px; }
-.footer-col h4 { font-size: 11px; font-weight: 800; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px; }
-.footer-col a { display: block; font-size: 14px; color: var(--gray); text-decoration: none; margin-bottom: 10px; transition: color .2s; }
-.footer-col a:hover { color: var(--accent); }
-.footer-social { margin-top: 28px; }
-.footer-social h4 { font-size: 11px; font-weight: 800; color: var(--white); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
-.social-icons { display: flex; gap: 12px; }
-.social-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(15,45,53,.06); border: 1px solid rgba(15,45,53,.1); display: flex; align-items: center; justify-content: center; color: var(--gray); text-decoration: none; transition: all .2s; }
-.social-icon:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-.social-icon svg { width: 18px; height: 18px; fill: currentColor; }
-.footer-divider { height: 1px; background: rgba(15,45,53,.08); margin-bottom: 24px; }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--gray2); flex-wrap: wrap; gap: 12px; }
-.footer-bottom-links { display: flex; gap: 24px; }
-.footer-bottom-links a { color: var(--gray2); text-decoration: none; font-size: 13px; transition: color .2s; }
-.footer-bottom-links a:hover { color: var(--gray); }
-@media(max-width: 768px) {
-  .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .esc-footer { padding: 48px 24px 24px; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-  .footer-bottom-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+/* pagination */
+.bl-pag{display:flex; justify-content:center; gap:8px; margin:48px 0 0; flex-wrap:wrap;}
+.bl-pag a,.bl-pag span{display:inline-flex; align-items:center; justify-content:center;
+  min-width:40px; height:40px; padding:0 14px; border-radius:100px; font-family:var(--sans);
+  font-size:13px; font-weight:600; text-decoration:none; border:1px solid var(--line); transition:all .15s;}
+.bl-pag a{color:var(--ink); background:var(--paper);}
+.bl-pag a:hover{background:var(--terra); color:#fff; border-color:var(--terra);}
+.bl-pag span.current{background:var(--ink); color:#fff; border-color:var(--ink);}
+.bl-pag span.dots{background:none; border:none; color:var(--faint);}
+
+/* newsletter */
+.news{margin:88px 0 0; background:var(--ink); border-radius:26px; overflow:hidden; position:relative; padding:64px 56px; text-align:center;}
+.news::before{content:""; position:absolute; inset:0; background:radial-gradient(50% 120% at 50% 0%, rgba(200,119,90,.25), transparent 70%);}
+.news-in{position:relative; z-index:2; max-width:520px; margin:0 auto;}
+.news .n-eyebrow{font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--peach); margin-bottom:16px;}
+.news h2{font-family:var(--display); font-weight:600; color:#fff; font-size:34px; line-height:1.15; letter-spacing:-.5px; margin:0 0 14px;}
+.news p{font-size:16px; line-height:1.6; color:rgba(255,255,255,.68); margin:0 0 28px;}
+.news form{display:flex; gap:10px; max-width:420px; margin:0 auto;}
+.news input{flex:1; font-family:var(--sans); font-size:14px; padding:14px 20px; border-radius:100px;
+  border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); color:#fff; outline:none;}
+.news input::placeholder{color:rgba(255,255,255,.5);}
+.news input:focus{border-color:var(--peach);}
+.news button{font-family:var(--sans); font-size:14px; font-weight:600; color:#fff; cursor:pointer;
+  padding:14px 26px; border:none; border-radius:100px; background:var(--terra); transition:.2s; white-space:nowrap;}
+.news button:hover{background:var(--peach);}
+
+/* ---------- footer (identičan početnoj) ---------- */
+.esc-footer{background:#EFE9E7; padding:64px 64px 28px; border-top:1px solid rgba(15,45,53,.07); margin-top:88px;}
+.footer-main{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:56px;}
+.footer-brand p{font-size:14px; color:var(--gray); line-height:1.75; margin-top:16px; max-width:280px;}
+.footer-col h4{font-family:var(--sans); font-size:11px; font-weight:800; color:var(--white-nav); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:18px;}
+.footer-col a{display:block; font-size:14px; color:var(--gray); text-decoration:none; margin-bottom:10px; transition:color .2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-social{margin-top:28px;}
+.footer-social h4{font-size:11px; font-weight:800; color:var(--white-nav); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px; font-family:var(--sans);}
+.social-icons{display:flex; gap:12px;}
+.social-icon{width:40px; height:40px; border-radius:10px; background:rgba(15,45,53,.06); border:1px solid rgba(15,45,53,.1); display:flex; align-items:center; justify-content:center; color:var(--gray); text-decoration:none; transition:all .2s;}
+.social-icon:hover{background:var(--accent); border-color:var(--accent); color:#fff;}
+.social-icon svg{width:18px; height:18px; fill:currentColor;}
+.footer-divider{height:1px; background:rgba(15,45,53,.08); margin-bottom:24px;}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; font-family:var(--sans); font-size:13px; color:var(--gray); flex-wrap:wrap; gap:12px;}
+.footer-bottom-links{display:flex; gap:24px;}
+.footer-bottom-links a{color:var(--gray); text-decoration:none; font-size:13px; transition:color .2s;}
+.footer-bottom-links a:hover{color:var(--white-nav);}
+
+@media(max-width:900px){
+  .nav{padding:16px 20px;}
+  .hero{padding:64px 20px 96px;}
+  .filters{padding:0 20px;}
+  .wrap{padding:48px 20px 0;}
+  .featured{grid-template-columns:1fr;}
+  .featured .f-img{min-height:240px;}
+  .featured .f-body{padding:32px 28px;}
+  .cards{grid-template-columns:1fr 1fr;}
+  .news{padding:48px 26px; border-radius:0; margin-left:-20px; margin-right:-20px;}
+  .footer-main{grid-template-columns:1fr 1fr; gap:32px;}
+  .esc-footer{padding:48px 24px 24px;}
+  .footer-bottom{flex-direction:column; text-align:center;}
+  .footer-bottom-links{flex-wrap:wrap; justify-content:center; gap:16px;}
 }
-
-@media(max-width: 640px) {
-  .bl-grid { grid-template-columns: 1fr; gap: 20px; }
-  .bl-hero { padding: 44px 20px 40px; }
-  .bl-wrap { padding: 32px 16px 60px; }
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr;}
+  .news form{flex-direction:column;}
 }
 </style>
 </head>
 <body>
 
-<header class="bl-header">
-  <div class="bl-header-inner">
-    <a href="<?php echo home_url('/'); ?>" class="bl-logo">
-      <img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii">
-    </a>
-    <a href="<?php echo home_url('/'); ?>" class="bl-back">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Nazad na sajt
-    </a>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="<?php echo home_url('/'); ?>" class="nav-logo">
+    <img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii">
+  </a>
+  <a href="<?php echo home_url('/'); ?>" class="nav-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Nazad na sajt
+  </a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+      Escapii Blog
+    </span>
+    <h1>Putovanja, saveti <em>i inspiracija</em></h1>
+    <p>Priče sa naših iznenađenja i sve što treba da znaš pre polaska.</p>
   </div>
 </header>
 
-<div class="bl-hero">
-  <div class="bl-hero-badge">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-    Escapii blog
+<!-- CATEGORY FILTERS -->
+<nav class="filters">
+  <a href="<?php echo home_url('/blog'); ?>" class="chip <?php echo !$cat_filter ? 'active' : ''; ?>">Sve</a>
+  <?php foreach ($all_cats as $cat): ?>
+    <a href="<?php echo esc_url(add_query_arg('cat', $cat->term_id, home_url('/blog'))); ?>"
+       class="chip <?php echo ($cat_filter === $cat->term_id) ? 'active' : ''; ?>">
+      <?php echo esc_html($cat->name); ?>
+    </a>
+  <?php endforeach; ?>
+</nav>
+
+<main class="wrap">
+
+<?php if ($q->have_posts()):
+  // ── FEATURED (prvi post) ────────────────────────────────────────────────
+  $q->the_post();
+  $feat_cats = get_the_category();
+  $feat_cat  = $feat_cats ? esc_html($feat_cats[0]->name) : '';
+  $feat_read = bl_read_time(get_the_ID());
+  $feat_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 28, '…');
+?>
+
+  <div class="sec-label">
+    <h2>Izdvojeno</h2><span class="ln"></span>
+    <span class="count">Najnoviji članak</span>
   </div>
-  <h1>Putovanja, saveti<br>i inspiracija</h1>
-  <p>Priče sa naših iznenađenja i sve što treba da znaš pre polaska.</p>
-</div>
 
-<div class="bl-wrap">
-
-<?php if ($q->have_posts()): ?>
-
-  <div class="bl-grid">
-    <?php while ($q->have_posts()): $q->the_post(); ?>
-    <article class="bl-card">
-
+  <a href="<?php the_permalink(); ?>" class="featured">
+    <div class="f-img">
       <?php if (has_post_thumbnail()): ?>
-        <a href="<?php the_permalink(); ?>" class="bl-card-img">
-          <?php the_post_thumbnail('medium_large'); ?>
-        </a>
+        <?php the_post_thumbnail('large'); ?>
       <?php else: ?>
-        <a href="<?php the_permalink(); ?>" class="bl-card-img">
-          <div class="bl-card-img-placeholder">✈️</div>
-        </a>
+        <div class="f-img-placeholder"></div>
       <?php endif; ?>
-
-      <div class="bl-card-body">
-        <div class="bl-card-meta">
-          <?php $cats = get_the_category(); if ($cats): ?>
-            <span class="bl-cat"><?php echo esc_html($cats[0]->name); ?></span>
-          <?php endif; ?>
-          <span class="bl-date"><?php echo get_the_date('d.m.Y.'); ?></span>
-        </div>
-        <h2 class="bl-card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-        <p class="bl-card-excerpt"><?php echo wp_trim_words(get_the_excerpt() ?: get_the_content(), 22, '…'); ?></p>
-        <a href="<?php the_permalink(); ?>" class="bl-read-more">Čitaj više <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <?php if ($feat_cat): ?><span class="f-tag"><?php echo $feat_cat; ?></span><?php endif; ?>
+    </div>
+    <div class="f-body">
+      <div class="f-eyebrow"><?php echo get_the_date('d. F Y.'); ?> · <?php echo $feat_read; ?> min čitanja</div>
+      <h3><?php the_title(); ?></h3>
+      <p class="f-excerpt"><?php echo esc_html($feat_excerpt); ?></p>
+      <div class="f-meta">
+        <div class="av"><?php echo get_avatar(get_the_author_meta('ID'), 68); ?></div>
+        <b><?php the_author(); ?></b>
       </div>
+      <span class="read-link">Čitaj članak
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </span>
+    </div>
+  </a>
 
-    </article>
-    <?php endwhile; wp_reset_postdata(); ?>
+  <?php if ($q->have_posts()): // ostatak postova u grid ?>
+  <div class="sec-label">
+    <h2>Najnovije</h2><span class="ln"></span>
+    <span class="count"><?php echo $total_posts - 1; ?> <?php echo ($total_posts - 1 === 1) ? 'članak' : 'članaka'; ?></span>
   </div>
-
-  <?php if ($total_pages > 1): ?>
-  <div class="bl-pag">
-    <?php
-    $current = max(1, $paged);
-    if ($current > 1) echo '<a href="' . get_pagenum_link($current - 1) . '">‹</a>';
-    for ($i = 1; $i <= $total_pages; $i++) {
-        if ($i == $current) { echo '<span class="current">' . $i . '</span>'; }
-        elseif ($i == 1 || $i == $total_pages || abs($i - $current) <= 1) { echo '<a href="' . get_pagenum_link($i) . '">' . $i . '</a>'; }
-        elseif (abs($i - $current) == 2) { echo '<span class="dots">…</span>'; }
-    }
-    if ($current < $total_pages) echo '<a href="' . get_pagenum_link($current + 1) . '">›</a>';
+  <div class="cards">
+    <?php while ($q->have_posts()): $q->the_post();
+      $g_cats   = get_the_category();
+      $g_cat    = $g_cats ? esc_html($g_cats[0]->name) : '';
+      $g_read   = bl_read_time(get_the_ID());
+      $g_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 18, '…');
     ?>
+    <a href="<?php the_permalink(); ?>" class="card">
+      <div class="c-img">
+        <?php if (has_post_thumbnail()): ?>
+          <?php the_post_thumbnail('medium_large'); ?>
+        <?php else: ?>
+          <div class="c-img-placeholder"></div>
+        <?php endif; ?>
+        <?php if ($g_cat): ?><span class="c-cat-abs"><?php echo $g_cat; ?></span><?php endif; ?>
+      </div>
+      <div class="card-body">
+        <h3><?php the_title(); ?></h3>
+        <p class="c-excerpt"><?php echo esc_html($g_excerpt); ?></p>
+        <div class="c-meta">
+          <div class="av"><?php echo get_avatar(get_the_author_meta('ID'), 52); ?></div>
+          <b><?php the_author(); ?></b>
+          <span class="dot"></span>
+          <span><?php echo get_the_date('d.m.Y.'); ?> · <?php echo $g_read; ?> min</span>
+        </div>
+      </div>
+    </a>
+    <?php endwhile; ?>
+  </div>
+  <?php endif; // end grid ?>
+
+  <?php wp_reset_postdata(); ?>
+
+  <!-- PAGINACIJA -->
+  <?php if ($total_pages > 1):
+    $current = max(1, $paged);
+    $base    = home_url('/blog') . '%_%';
+    $format  = strpos($base, '?') !== false ? '&page=%#%' : '/page/%#%';
+  ?>
+  <div class="bl-pag">
+    <?php if ($current > 1): ?>
+      <a href="<?php echo get_pagenum_link($current - 1); ?>">‹</a>
+    <?php endif; ?>
+    <?php for ($i = 1; $i <= $total_pages; $i++):
+      if ($i == $current): ?>
+        <span class="current"><?php echo $i; ?></span>
+      <?php elseif ($i == 1 || $i == $total_pages || abs($i - $current) <= 1): ?>
+        <a href="<?php echo get_pagenum_link($i); ?>"><?php echo $i; ?></a>
+      <?php elseif (abs($i - $current) == 2): ?>
+        <span class="dots">…</span>
+      <?php endif;
+    endfor; ?>
+    <?php if ($current < $total_pages): ?>
+      <a href="<?php echo get_pagenum_link($current + 1); ?>">›</a>
+    <?php endif; ?>
   </div>
   <?php endif; ?>
 
@@ -204,8 +373,22 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   </div>
 <?php endif; ?>
 
-</div>
+  <!-- NEWSLETTER -->
+  <section class="news">
+    <div class="news-in">
+      <div class="n-eyebrow">Newsletter</div>
+      <h2>Inspiracija za put, jednom mesečno</h2>
+      <p>Bez spama — samo nove priče, saveti i poneka tajna destinacija pravo u tvoj inbox.</p>
+      <form onsubmit="return false">
+        <input type="email" placeholder="tvoj@email.com" aria-label="Email">
+        <button type="submit">Prijavi se</button>
+      </form>
+    </div>
+  </section>
 
+</main>
+
+<!-- FOOTER -->
 <footer class="esc-footer">
   <div class="footer-main">
     <div class="footer-brand">
@@ -257,5 +440,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 </footer>
 
 <?php wp_footer(); ?>
+<script>
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){ nav.classList.toggle('scrolled', window.scrollY>12); },{passive:true});
+</script>
 </body>
 </html>
