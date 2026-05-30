@@ -190,6 +190,20 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
   text-transform:uppercase; color:var(--terra); margin-bottom:12px;}
 .author-card p{font-size:15.5px; line-height:1.6; color:var(--mute); margin:0;}
 
+/* ── Mobile share bar (vidljivo samo ispod 900px) ── */
+.mob-share{display:none; align-items:center; gap:12px; max-width:66ch;
+  margin-top:40px; padding:16px 20px; background:var(--paper);
+  border:1px solid var(--line); border-radius:16px;}
+.mob-share-label{font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--faint); white-space:nowrap;}
+.mob-share-btns{display:flex; gap:10px; flex:1; justify-content:flex-end;}
+.mob-share-btn{width:42px; height:42px; border-radius:50%; border:1px solid var(--line);
+  background:var(--cream); color:var(--mute); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all .2s; text-decoration:none; flex-shrink:0; font-family:inherit;}
+.mob-share-btn:hover,.mob-share-btn:active{color:#fff; background:var(--terra); border-color:var(--terra);}
+.mob-share-btn svg{width:17px; height:17px;}
+@media(max-width:900px){ .mob-share{display:flex;} }
+
 /* ---------- related ---------- */
 .related{background:var(--sand); border-top:1px solid var(--line); margin-top:80px; padding:72px 0 88px;}
 .related-wrap{max-width:1180px; margin:0 auto; padding:0 40px;}
@@ -350,6 +364,25 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
       </div>
     </div>
     <?php endif; ?>
+
+    <!-- Mobile share bar — vidljivo samo na mobilnom -->
+    <div class="mob-share">
+      <span class="mob-share-label">Podeli</span>
+      <div class="mob-share-btns">
+        <a class="mob-share-btn"
+           href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>"
+           target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V11H8v3h2v7h3v-7h2.2l.8-3H13V9.4c0-.3.2-.4.5-.4z"/></svg>
+        </a>
+        <button class="mob-share-btn" aria-label="Podeli na Instagram" id="mobShareIG" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </button>
+        <button class="mob-share-btn" aria-label="Kopiraj link" id="mobCopyLink" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"></path><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"></path></svg>
+        </button>
+      </div>
+    </div>
+
   </article>
 
   <div class="rail"></div>
@@ -471,6 +504,19 @@ document.getElementById('shareIG').addEventListener('click', function(e) {
   } else {
     window.open('https://www.instagram.com/escapii.rs', '_blank');
   }
+});
+
+// Mobile share dugmad
+document.getElementById('mobShareIG').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(function(){}); }
+  else { window.open('https://www.instagram.com/escapii.rs', '_blank'); }
+});
+document.getElementById('mobCopyLink').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (navigator.clipboard) navigator.clipboard.writeText(location.href);
+  var b = this; b.style.background='#a85e44'; b.style.color='#fff'; b.style.borderColor='#a85e44';
+  setTimeout(function(){ b.style.background=''; b.style.color=''; b.style.borderColor=''; }, 1200);
 });
 
 document.getElementById('copyLink').addEventListener('click',function(e){
