@@ -452,11 +452,7 @@ document.getElementById('shareIG').addEventListener('click', function(e) {
   if (navigator.share) {
     navigator.share({ title: title, url: url }).catch(function(){});
   } else {
-    // Desktop fallback — kopiraj link i promeni boju dugmeta
-    if (navigator.clipboard) navigator.clipboard.writeText(url);
-    var b = this;
-    b.style.background = '#a85e44'; b.style.color = '#fff'; b.style.borderColor = '#a85e44';
-    setTimeout(function(){ b.style.background=''; b.style.color=''; b.style.borderColor=''; }, 1200);
+    window.open('https://www.instagram.com/escapii.rs', '_blank');
   }
 });
 
