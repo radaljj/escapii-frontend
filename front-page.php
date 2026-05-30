@@ -4108,8 +4108,8 @@ const TR = {
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
-    'swal.excl.ini.title':'Maksimalno 2 isključivanja',
-    'swal.excl.ini.html':'Za polaske iz Niša dostupna su maksimalno 2 isključivanja — 1. gratis, 2. po 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
+    'swal.excl.ini.title':'Maksimalno 1 isključivanje',
+    'swal.excl.ini.html':'Za polaske iz Niša dostupno je maksimalno 1 isključivanje — 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
     'pr.pp': n=>`≈ ${n}€ po osobi`, 'err.price':'Nije moguće učitati cenu.',
@@ -4371,8 +4371,8 @@ const TR = {
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
-    'swal.excl.ini.title':'Maximum 2 exclusions',
-    'swal.excl.ini.html':'For departures from Niš, up to 2 exclusions are available — 1st free, 2nd at 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
+    'swal.excl.ini.title':'Maximum 1 exclusion',
+    'swal.excl.ini.html':'For departures from Niš, up to 1 exclusion is available — 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
     'pr.pp': n=>`≈ ${n}€ per person`, 'err.price':'Unable to load price.',
@@ -5512,9 +5512,9 @@ function updateExclStep() {
   // Re-renduj grid sa destinacijama iz izabranog datuma
   renderExclGrid();
 
-  // Ako je INI i korisnik je već izabrao >2 isključivanja, obreži na max 2
-  if (isINI && S.excludedIds.length > 2) {
-    S.excludedIds = S.excludedIds.slice(0, 2);
+  // Ako je INI i korisnik je već izabrao >1 isključivanje, obreži na max 1
+  if (isINI && S.excludedIds.length > 1) {
+    S.excludedIds = S.excludedIds.slice(0, 1);
     document.querySelectorAll('.excl-tile.on').forEach(t => {
       const tileId = parseInt(t.id.replace('ex-', ''));
       if (!S.excludedIds.includes(tileId)) t.classList.remove('on');
@@ -5527,11 +5527,17 @@ function updateExclStep() {
   const hint       = document.querySelector('#step6 .hint');
   const note       = document.getElementById('exclNote');
 
-  // Svi aerodromi: max 4, cena 15€/os. za 2., 3. i 4.
-  if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
-  if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
-  if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
-  if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
+  if (isINI) {
+    if (tier2Label) tier2Label.textContent = lang === 'en' ? '1 exclusion (paid)' : '1 isključivanje (plaćeno)';
+    if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
+    if (hint)       hint.textContent = lang === 'en' ? 'You can exclude 1 destination (15€ per person). No free exclusion for Niš departures.' : 'Za polaske iz Niša možeš isključiti 1 destinaciju (15€ po osobi). Nema besplatnog isključivanja.';
+    if (note)       note.textContent = lang === 'en' ? 'Niš departures: max 1 exclusion at 15€/person.' : 'Polasci iz Niša: max 1 isključivanje, 15€ po osobi.';
+  } else {
+    if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
+    if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
+    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
+    if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
+  }
 
   loadPrice();
 }
@@ -5555,7 +5561,7 @@ function togExcl(id, event) {
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
     const isINI = S.airport === 'INI';
-    const maxExcl = isINI ? 2 : 4;
+    const maxExcl = isINI ? 1 : 4;
     if (S.excludedIds.length >= maxExcl) {
       const exclTitleKey = isINI ? 'swal.excl.ini.title' : 'swal.excl.title';
       const exclHtmlKey  = isINI ? 'swal.excl.ini.html'  : 'swal.excl.html';
