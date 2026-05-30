@@ -5867,6 +5867,7 @@ function updateSummaryCard() {
   if (S.hasBreakfast) tags.push(`🍳 ${lang==='sr'?'Doručak':'Breakfast'}`);
   if (S.hasSeatsTogether) tags.push(`💺 ${lang==='sr'?'Sedišta':'Seats'}`);
   if (S.hasConnectingFlights) tags.push(`🔄 ${lang==='sr'?'Presedanje OK':'Connecting OK'}`);
+  if (S.hasRevealBox) tags.push(`📦 ${lang==='sr'?'Reveal Box':'Reveal Box'}`);
   if (S.excludedIds.length > 0) tags.push(`🚫 ${S.excludedIds.length} ${lang==='sr'?'isključeno':'excluded'}`);
 
   const tagsHtml = tags.map(tg => `<span class="bs-tag">${tg}</span>`).join('');

@@ -316,6 +316,13 @@ body {
 .bc-label { color: var(--gray); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 3px; }
 .bc-value { color: var(--white); font-weight: 600; }
 .bc-notes { font-size: 13px; color: var(--gray); background: rgba(255,255,255,.04); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+.bc-reveal-box-section { margin: 0 0 14px; border: 1px solid rgba(202,138,113,.35); border-radius: 10px; overflow: hidden; }
+.bc-reveal-box-header { background: rgba(202,138,113,.12); padding: 9px 14px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .04em; }
+.bc-reveal-box-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.bc-reveal-box-row { display: flex; gap: 10px; font-size: 13px; align-items: baseline; }
+.bc-reveal-box-label { color: var(--gray); font-size: 11px; font-weight: 700; min-width: 56px; flex-shrink: 0; }
+.bc-btn-reveal-box { padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(202,138,113,.5); background: rgba(202,138,113,.12); color: var(--accent); font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; font-family: inherit; }
+.bc-btn-reveal-box:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 .bc-actions { display: flex; gap: 8px; }
 /* Passenger section */
 .bc-passengers-wrap {
@@ -2034,6 +2041,7 @@ function renderBookings() {
       b.hasSeatsTogether     && '💺 Sedišta zajedno',
       b.hasConnectingFlights && '✈✈ Presedanje',
       b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
+      b.hasRevealBox && '📦 Reveal Box',
       b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
     ].filter(Boolean).join(' · ') || '—';
 
@@ -2112,6 +2120,22 @@ function renderBookings() {
       </div>
 
       ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
+
+      ${b.hasRevealBox ? `
+      <div class="bc-reveal-box-section" id="rbs-${b.id}">
+        <div class="bc-reveal-box-header">📦 Reveal Box — adresa dostave</div>
+        <div class="bc-reveal-box-body">
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '—'}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '—'}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '—'}</span></div>
+          <div style="margin-top:12px;">
+            ${b.revealBoxSent
+              ? `<span style="color:#4ade80;font-size:13px;font-weight:700;">✅ Reveal Box poslan</span>`
+              : `<button class="bc-btn-reveal-box" id="btn-rbs-${b.id}" onclick="markRevealBoxSent(${b.id})">📦 Označi kao poslan</button>`
+            }
+          </div>
+        </div>
+      </div>` : ''}
 
       <div class="bc-note-wrap">
         <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
@@ -2327,6 +2351,33 @@ async function saveAirlineCode(id) {
   } catch {
     el.style.borderColor = 'var(--red)';
     setTimeout(() => { el.style.borderColor = ''; }, 2000);
+  }
+}
+
+// ══ REVEAL BOX — označi kao poslan ═══════════════════════════════════════════
+
+async function markRevealBoxSent(id) {
+  const btn = document.getElementById(`btn-rbs-${id}`);
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Slanje...'; }
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/reveal-box-sent`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error();
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].revealBoxSent = true;
+    // Zameni dugme sa statusom
+    if (btn) {
+      btn.replaceWith(Object.assign(document.createElement('span'), {
+        style: 'color:#4ade80;font-size:13px;font-weight:700;',
+        textContent: '✅ Reveal Box poslan'
+      }));
+    }
+  } catch {
+    if (btn) { btn.disabled = false; btn.textContent = '📦 Označi kao poslan'; }
+    alert('Greška — pokušaj ponovo.');
   }
 }
 
