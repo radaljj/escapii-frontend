@@ -373,18 +373,6 @@ a{color:inherit;}
   </div>
 <?php endif; ?>
 
-  <!-- NEWSLETTER -->
-  <section class="news">
-    <div class="news-in">
-      <div class="n-eyebrow">Newsletter</div>
-      <h2>Inspiracija za put, jednom mesečno</h2>
-      <p>Bez spama — samo nove priče, saveti i poneka tajna destinacija pravo u tvoj inbox.</p>
-      <form onsubmit="return false">
-        <input type="email" placeholder="tvoj@email.com" aria-label="Email">
-        <button type="submit">Prijavi se</button>
-      </form>
-    </div>
-  </section>
 
 </main>
 
