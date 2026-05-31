@@ -1807,16 +1807,37 @@
     }
     .flatpickr-calendar.arrowTop::before, .flatpickr-calendar.arrowTop::after,
     .flatpickr-calendar.arrowBottom::before, .flatpickr-calendar.arrowBottom::after { display: none; }
-    .flatpickr-months { padding: 8px 6px 4px; align-items: center; }
-    .flatpickr-month { color: #fff; }
-    .flatpickr-current-month { font-size: 15px; font-weight: 700; padding-top: 4px; }
-    .flatpickr-current-month .cur-month, .flatpickr-current-month .cur-year { color: #fff; font-weight: 700; }
-    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.06); }
-    .flatpickr-current-month input.cur-year { color: #fff; }
-    .flatpickr-monthDropdown-months { background: #102832; color: #fff; font-weight: 700; }
+    .flatpickr-months { padding: 10px 8px 6px; align-items: center; }
+    .flatpickr-month { color: #fff; height: 40px; }
+    .flatpickr-current-month { font-size: 15px; font-weight: 700; padding-top: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    /* Mesec dropdown — beli tekst, vidljiv na teal pozadini */
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
+      color: #fff; font-weight: 700; font-size: 15px;
+      background: rgba(255,255,255,.06); border-radius: 8px;
+      padding: 4px 8px; appearance: none; -webkit-appearance: none; outline: none;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: rgba(255,255,255,.12); }
     .flatpickr-monthDropdown-month { background: #102832; color: #fff; }
-    .flatpickr-prev-month, .flatpickr-next-month { fill: var(--gold); padding: 8px; }
-    .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; }
+    /* Godina — beli tekst */
+    .flatpickr-current-month .numInputWrapper { width: 64px; }
+    .flatpickr-current-month input.cur-year { color: #fff; font-weight: 700; font-size: 15px; }
+    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.06); border-radius: 8px; }
+    /* Strelice godine — gold trouglovi, lepo poravnati */
+    .numInputWrapper span { border: none !important; right: 0; width: 16px; }
+    .numInputWrapper span.arrowUp { top: 3px; }
+    .numInputWrapper span.arrowDown { top: 12px; }
+    .numInputWrapper span.arrowUp:after {
+      border-left: 4px solid transparent; border-right: 4px solid transparent;
+      border-bottom: 5px solid var(--gold); top: 26%;
+    }
+    .numInputWrapper span.arrowDown:after {
+      border-left: 4px solid transparent; border-right: 4px solid transparent;
+      border-top: 5px solid var(--gold); top: 40%;
+    }
+    .numInputWrapper span:hover:after { border-bottom-color: #fff; border-top-color: #fff; }
+    /* Prev/next mesec strelice */
+    .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
+    .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
     .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #fff; }
     .flatpickr-weekdays { background: transparent; margin-top: 4px; }
     span.flatpickr-weekday { color: rgba(246,241,230,.4); font-weight: 600; font-size: 11px; }
@@ -5689,9 +5710,8 @@ function initChoices() {
   _dobPickers.forEach(p => { try { p.destroy(); } catch(e){} });
   _dobPickers.length = 0;
 
-  const today = new Date();
-  // Maksimum = pre 18 godina (mora biti punoletan), minimum = 1930
-  const maxDob = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  // Maksimum = danas (ne može datum u budućnosti); 18+ se proverava pri slanju
+  const maxDob = new Date();
 
   for(let i=0;i<S.travelers;i++){
     const gSel = document.getElementById('pg'+i);
