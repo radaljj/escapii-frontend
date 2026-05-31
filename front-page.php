@@ -1826,32 +1826,20 @@
     .flatpickr-current-month .flatpickr-monthDropdown-months option:checked {
       background-color: #a85e44 !important; color: #fff !important;
     }
-    /* Godina — pill kontejner sa belim tekstom */
-    .flatpickr-current-month .numInputWrapper {
-      width: 76px; height: 32px; border-radius: 10px;
-      border: 1px solid rgba(246,241,230,.14); background: rgba(255,255,255,.04);
-      display: inline-flex; align-items: center; transition: border-color .2s, background .2s;
+    /* Godina — dropdown umesto spinnera (sakrij nativni numInput) */
+    .flatpickr-current-month .numInputWrapper { display: none !important; }
+    .fp-year-select {
+      color: #fff; font-weight: 700; font-size: 15px;
+      background-color: rgba(255,255,255,.06); border: none; border-radius: 8px;
+      padding: 4px 26px 4px 10px; outline: none; cursor: pointer;
+      appearance: none; -webkit-appearance: none; -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0c3ae' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: calc(100% - 9px) 50%;
+      transition: background-color .2s;
     }
-    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.07); border-color: rgba(246,241,230,.26); }
-    .flatpickr-current-month input.cur-year { color: #fff; font-weight: 700; font-size: 14px; padding: 0 0 0 12px; }
-    /* Strelice godine — tanki crisp chevroni u hover ćelijama */
-    .numInputWrapper span {
-      border: none !important; right: 4px; width: 18px; height: 13px; padding: 0;
-      border-radius: 5px; opacity: 1; transition: background .15s;
-    }
-    .numInputWrapper span:hover { background: rgba(202,138,113,.22); }
-    .numInputWrapper span.arrowUp { top: 2px; }
-    .numInputWrapper span.arrowDown { top: 17px; }
-    .numInputWrapper span.arrowUp:after,
-    .numInputWrapper span.arrowDown:after {
-      content: ""; position: absolute; left: 50%; top: 50%;
-      width: 6px; height: 6px; margin: 0;
-      border: none !important; border-right: 2px solid #f0c3ae !important; border-bottom: 2px solid #f0c3ae !important;
-      border-radius: 1px;
-    }
-    .numInputWrapper span.arrowUp:after   { transform: translate(-50%, -25%) rotate(-135deg); }
-    .numInputWrapper span.arrowDown:after { transform: translate(-50%, -75%) rotate(45deg); }
-    .numInputWrapper span:hover:after { border-right-color: #fff !important; border-bottom-color: #fff !important; }
+    .fp-year-select:hover { background-color: rgba(255,255,255,.12); }
+    .fp-year-select option { background-color: #102832 !important; color: #fff !important; font-weight: 600; }
+    .fp-year-select option:checked { background-color: #a85e44 !important; color: #fff !important; }
     /* Prev/next mesec strelice */
     .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
     .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
@@ -5748,16 +5736,44 @@ function initChoices() {
         dateFormat: 'Y-m-d',
         altInput: true,
         altFormat: lang==='sr' ? 'j. F Y.' : 'F j, Y',
-        minDate: '1930-01-01',
+        minDate: '1940-01-01',
         maxDate: maxDob,
         defaultDate: dobEl.value || null,
         locale: lang==='sr' ? _FP_SR : 'default',
         disableMobile: true,   // koristi naš dark picker i na mobilnom umesto OS nativnog
-        onReady: (sel, str, inst) => { inst.altInput.classList.add('t-control','dob-input'); },
+        onReady: (sel, str, inst) => {
+          inst.altInput.classList.add('t-control','dob-input');
+          buildYearDropdown(inst);
+        },
+        onYearChange: (sel, str, inst) => {
+          if (inst._yearSelect) inst._yearSelect.value = inst.currentYear;
+        },
       });
       _dobPickers.push(fp);
     }
   }
+}
+
+// Zameni spinner za godinu sa <select> dropdownom (1940 → tekuća)
+function buildYearDropdown(inst) {
+  const wrap = inst.currentMonthElement && inst.currentMonthElement.parentNode;
+  if (!wrap || inst._yearSelect) return;
+  const ySel = document.createElement('select');
+  ySel.className = 'fp-year-select';
+  const curY = new Date().getFullYear();
+  for (let y = curY; y >= 1940; y--) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    if (y === inst.currentYear) o.selected = true;
+    ySel.appendChild(o);
+  }
+  ySel.addEventListener('change', () => {
+    inst.jumpToDate(new Date(+ySel.value, inst.currentMonth, 1));
+  });
+  const numWrap = wrap.querySelector('.numInputWrapper');
+  if (numWrap) numWrap.insertAdjacentElement('afterend', ySel);
+  else wrap.appendChild(ySel);
+  inst._yearSelect = ySel;
 }
 
 // ── Tag input helpers ──────────────────────────────────────────────────────────
