@@ -1765,6 +1765,12 @@
     .dob-triple option:disabled { color: rgba(246,241,230,.4); }
     .dob-triple .choices { width: 100%; margin-bottom: 0; }
     .dob-triple .choices__inner { min-height: 50px !important; padding: 13px 14px !important; }
+    /* Jači kontrast otvorenog dropdowna za dan/mesec/godinu */
+    .dob-triple .choices__list--dropdown { background: #0d2a33 !important; border-color: rgba(246,241,230,.18) !important; }
+    .dob-triple .choices__list--dropdown .choices__item { color: #f6f1e6 !important; }
+    .dob-triple .choices__list--dropdown .choices__item--selectable.is-highlighted { background: rgba(202,138,113,.32) !important; color: #fff !important; }
+    .dob-triple .choices__list--dropdown .choices__item.is-selected { background: rgba(202,138,113,.16) !important; color: #f0c3ae !important; }
+    .dob-triple .choices__list--single .choices__item--selectable:not(.choices__placeholder) { color: #fff !important; }
     /* Desktop = 3 dropdowna, mobilni = jedno nativno date polje */
     .dob-mobile { display: none; color-scheme: dark; cursor: pointer; }
     .dob-mobile::-webkit-calendar-picker-indicator { filter: invert(.65) sepia(1) saturate(4) hue-rotate(330deg); cursor: pointer; opacity: .75; }
