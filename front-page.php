@@ -1813,11 +1813,18 @@
     /* Mesec dropdown — beli tekst, vidljiv na teal pozadini */
     .flatpickr-current-month .flatpickr-monthDropdown-months {
       color: #fff; font-weight: 700; font-size: 15px;
-      background: rgba(255,255,255,.06); border-radius: 8px;
+      background-color: rgba(255,255,255,.06); border-radius: 8px;
       padding: 4px 8px; appearance: none; -webkit-appearance: none; outline: none;
     }
-    .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: rgba(255,255,255,.12); }
-    .flatpickr-monthDropdown-month { background: #102832; color: #fff; }
+    .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background-color: rgba(255,255,255,.12); }
+    /* Opcije u otvorenom dropdownu — tamna pozadina, beli tekst (inače belo-na-belo) */
+    .flatpickr-current-month .flatpickr-monthDropdown-months option,
+    .flatpickr-monthDropdown-month {
+      background-color: #102832 !important; color: #fff !important; font-weight: 600;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months option:checked {
+      background-color: #a85e44 !important; color: #fff !important;
+    }
     /* Godina — pill kontejner sa belim tekstom */
     .flatpickr-current-month .numInputWrapper {
       width: 76px; height: 32px; border-radius: 10px;
@@ -1837,13 +1844,13 @@
     .numInputWrapper span.arrowUp:after,
     .numInputWrapper span.arrowDown:after {
       content: ""; position: absolute; left: 50%; top: 50%;
-      width: 5px; height: 5px; margin: 0;
-      border: none; border-right: 1.6px solid var(--gold); border-bottom: 1.6px solid var(--gold);
+      width: 6px; height: 6px; margin: 0;
+      border: none !important; border-right: 2px solid #f0c3ae !important; border-bottom: 2px solid #f0c3ae !important;
       border-radius: 1px;
     }
     .numInputWrapper span.arrowUp:after   { transform: translate(-50%, -25%) rotate(-135deg); }
     .numInputWrapper span.arrowDown:after { transform: translate(-50%, -75%) rotate(45deg); }
-    .numInputWrapper span:hover:after { border-color: #fff; }
+    .numInputWrapper span:hover:after { border-right-color: #fff !important; border-bottom-color: #fff !important; }
     /* Prev/next mesec strelice */
     .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
     .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
