@@ -1763,6 +1763,16 @@
     .dob-triple .t-control { padding: 14px 34px 14px 14px; font-size: 15px; }
     .dob-triple option { background-color: #0d2a33 !important; color: #f6f1e6; font-size: 15px; padding: 8px; }
     .dob-triple option:disabled { color: rgba(246,241,230,.4); }
+    .dob-triple .choices { width: 100%; margin-bottom: 0; }
+    .dob-triple .choices__inner { min-height: 50px !important; padding: 13px 14px !important; }
+    /* Desktop = 3 dropdowna, mobilni = jedno nativno date polje */
+    .dob-mobile { display: none; color-scheme: dark; cursor: pointer; }
+    .dob-mobile::-webkit-calendar-picker-indicator { filter: invert(.65) sepia(1) saturate(4) hue-rotate(330deg); cursor: pointer; opacity: .75; }
+    .dob-mobile::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+    @media (max-width: 600px) {
+      .dob-desktop { display: none !important; }
+      .dob-mobile  { display: block !important; }
+    }
     /* Field */
     .traveler-field { display: flex; flex-direction: column; gap: 8px; }
     .traveler-field > label:not(.passport-check) {
@@ -1926,6 +1936,7 @@
     .req { color: var(--gold); margin-left: 3px; }
     .field-error-msg { color: #f87171; font-size: 12px; margin-top: 2px; display: none; }
     .traveler-field.field-error .t-control { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
+    .traveler-field.field-error .choices__inner { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .traveler-field.field-error .t-tags { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .traveler-field.field-error .field-error-msg { display: block; }
 
@@ -4730,6 +4741,7 @@ function setLang(l) {
         const yy_=document.getElementById('pd-y-'+i); if(yy_) yy_.value=yy;
         syncDobDays(i);
         const dd_=document.getElementById('pd-d-'+i); if(dd_) dd_.value=dd;
+        const dateEl=document.getElementById('pd-date-'+i); if(dateEl) dateEl.value=p.dob;
       }
       // Restore visa chips
       const pvTags=document.getElementById('pv-tags-'+i);
@@ -5710,12 +5722,24 @@ function syncDobDays(i) {
   const y=+(document.getElementById('pd-y-'+i)||{}).value;
   if(!dSel||!m) return;
   const yr = y || 2000; // 2000 je prestupna — bezbedan default dok god nije izabrana
-  const maxDay = new Date(yr, m, 0).getDate(); // dan 0 sledećeg meseca = poslednji dan ovog
+  const maxDay = new Date(yr, m, 0).getDate();
   const prev = dSel.value;
-  dSel.innerHTML = dobDays(maxDay);
-  if(prev && +prev<=maxDay) dSel.value = prev; // vrati izbor ako i dalje postoji
+  const dc = _dayChoices[i];
+  // Ako je Choices montiran na ovom (povezanom) selectu — osveži preko setChoices
+  if (dc && dc.passedElement && dc.passedElement.element === dSel && document.body.contains(dSel)) {
+    const arr=[{value:'',label:(lang==='sr'?'Dan':'Day'),disabled:true,selected:!prev||+prev>maxDay,placeholder:true}];
+    for(let k=1;k<=maxDay;k++){const v=String(k).padStart(2,'0');arr.push({value:v,label:String(k),selected:v===prev});}
+    dc.setChoices(arr,'value','label',true);
+  } else {
+    dSel.innerHTML = dobDays(maxDay);
+    if(prev && +prev<=maxDay) dSel.value = prev;
+  }
 }
 function getPaxDob(i) {
+  // Mobilni: jedno date polje (vidljivo → offsetParent nije null)
+  const dateEl=document.getElementById('pd-date-'+i);
+  if(dateEl && dateEl.offsetParent !== null) return dateEl.value || '';
+  // Desktop: 3 dropdowna
   const d=(document.getElementById('pd-d-'+i)||{}).value||'';
   const m=(document.getElementById('pd-m-'+i)||{}).value||'';
   const y=(document.getElementById('pd-y-'+i)||{}).value||'';
@@ -5724,34 +5748,26 @@ function getPaxDob(i) {
 }
 
 const _choices = [];
-const _dobPickers = [];
-
-// Srpska lokalizacija za Flatpickr (inline — bez dodatnog CDN fajla)
-const _FP_SR = {
-  weekdays: {
-    shorthand: ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'],
-    longhand: ['Nedelja','Ponedeljak','Utorak','Sreda','Četvrtak','Petak','Subota']
-  },
-  months: {
-    shorthand: ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Avg','Sep','Okt','Nov','Dec'],
-    longhand: ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar']
-  },
-  firstDayOfWeek: 1,
-  rangeSeparator: ' do '
-};
+const _dayChoices = [];   // Choices instance za dan-select, po putniku (za dinamički refresh)
 
 function initChoices() {
   _choices.forEach(c => { try { c.destroy(); } catch(e){} });
   _choices.length = 0;
+  _dayChoices.length = 0;
+
+  const cfg = { searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false };
 
   for(let i=0;i<S.travelers;i++){
     const gSel = document.getElementById('pg'+i);
-    if(gSel) {
-      _choices.push(new Choices(gSel, {
-        searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
-      }));
-    }
-    // DOB su 3 nativna selecta (dan/mesec/godina) — ne treba inicijalizacija
+    if(gSel) _choices.push(new Choices(gSel, cfg));
+
+    // DOB dropdowni (desktop) — moderniji izgled preko Choices.js
+    const dSel = document.getElementById('pd-d-'+i);
+    const mSel = document.getElementById('pd-m-'+i);
+    const ySel = document.getElementById('pd-y-'+i);
+    if(dSel){ const c=new Choices(dSel, cfg); _choices.push(c); _dayChoices[i]=c; }
+    if(mSel) _choices.push(new Choices(mSel, cfg));
+    if(ySel) _choices.push(new Choices(ySel, { ...cfg, searchEnabled: true })); // godina pretraživa (ukucaš 1995)
   }
 }
 
@@ -5847,11 +5863,15 @@ function renderPax() {
 
         <div class="traveler-field full" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
-          <div class="dob-triple">
-            <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}" onchange="syncDobDays(${i})">${dobDays()}</select></div>
+          <!-- Desktop: 3 dropdowna -->
+          <div class="dob-triple dob-desktop">
+            <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}">${dobDays()}</select></div>
             <div class="t-sel-wrap"><select class="t-control" id="pd-m-${i}" onchange="syncDobDays(${i})">${dobMonths()}</select></div>
             <div class="t-sel-wrap"><select class="t-control" id="pd-y-${i}" onchange="syncDobDays(${i})">${dobYears()}</select></div>
           </div>
+          <!-- Mobilni: jedno nativno polje (iOS/Android picker) -->
+          <input class="t-control dob-mobile" type="date" id="pd-date-${i}"
+            min="1940-01-01" max="${new Date().toISOString().slice(0,10)}">
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
 
