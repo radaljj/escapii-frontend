@@ -5740,12 +5740,14 @@ function initChoices() {
         maxDate: maxDob,
         defaultDate: dobEl.value || null,
         locale: lang==='sr' ? _FP_SR : 'default',
-        disableMobile: true,   // koristi naš dark picker i na mobilnom umesto OS nativnog
+        disableMobile: false,  // HIBRID: mobilni koristi nativni OS wheel picker
         onReady: (sel, str, inst) => {
-          inst.altInput.classList.add('t-control','dob-input');
+          if (inst.altInput) inst.altInput.classList.add('t-control','dob-input');
           buildYearDropdown(inst);
         },
+        onMonthChange: (sel, str, inst) => buildYearDropdown(inst),
         onYearChange: (sel, str, inst) => {
+          buildYearDropdown(inst);
           if (inst._yearSelect) inst._yearSelect.value = inst.currentYear;
         },
       });
@@ -5756,8 +5758,15 @@ function initChoices() {
 
 // Zameni spinner za godinu sa <select> dropdownom (1940 → tekuća)
 function buildYearDropdown(inst) {
+  // Nativni mobilni picker — nema flatpickr header, preskoči
+  if (inst.isMobile) return;
   const wrap = inst.currentMonthElement && inst.currentMonthElement.parentNode;
-  if (!wrap || inst._yearSelect) return;
+  if (!wrap) return;
+  // Ako select još postoji u DOM-u, samo sinhronizuj vrednost
+  if (inst._yearSelect && wrap.contains(inst._yearSelect)) {
+    inst._yearSelect.value = inst.currentYear;
+    return;
+  }
   const ySel = document.createElement('select');
   ySel.className = 'fp-year-select';
   const curY = new Date().getFullYear();
@@ -5769,6 +5778,7 @@ function buildYearDropdown(inst) {
   }
   ySel.addEventListener('change', () => {
     inst.jumpToDate(new Date(+ySel.value, inst.currentMonth, 1));
+    inst.redraw();
   });
   const numWrap = wrap.querySelector('.numInputWrapper');
   if (numWrap) numWrap.insertAdjacentElement('afterend', ySel);
