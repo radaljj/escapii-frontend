@@ -2531,7 +2531,9 @@
       .extra-toggle { grid-column: 3; grid-row: 2; }
 
       /* DOB grid — balanced columns with room for custom arrow */
-      .dob-wrap { grid-template-columns: 1fr 1.8fr 1.2fr; gap: 6px; }
+      .dob-input { width: 100%; color-scheme: dark; }
+      .dob-input::-webkit-calendar-picker-indicator { filter: invert(0.7) sepia(1) saturate(3) hue-rotate(340deg); cursor: pointer; opacity: .7; }
+      .dob-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
       /* Choices.js full width in narrow cells */
       .choices { width: 100% !important; }
@@ -4638,18 +4640,14 @@ function setLang(l) {
     const savedPax = Array.from({length:S.travelers},(_,i)=>({
       name:   (document.getElementById('pn'+i)||{}).value||'',
       gender: (document.getElementById('pg'+i)||{}).value||'M',
-      dob_d:  (document.getElementById('pd-d-'+i)||{}).value||'',
-      dob_m:  (document.getElementById('pd-m-'+i)||{}).value||'',
-      dob_y:  (document.getElementById('pd-y-'+i)||{}).value||'',
+      dob:    (document.getElementById('pd-dob-'+i)||{}).value||'',
       visa:   getVisaValue(i)
     }));
     renderPax();
     savedPax.forEach((p,i)=>{
       const n=document.getElementById('pn'+i);    if(n) n.value=p.name;
       const g=document.getElementById('pg'+i);    if(g) g.value=p.gender;
-      const dd=document.getElementById('pd-d-'+i);if(dd) dd.value=p.dob_d;
-      const dm=document.getElementById('pd-m-'+i);if(dm) dm.value=p.dob_m;
-      const dy=document.getElementById('pd-y-'+i);if(dy) dy.value=p.dob_y;
+      const dobEl=document.getElementById('pd-dob-'+i);if(dobEl) dobEl.value=p.dob||'';
       // Restore visa chips
       const pvTags=document.getElementById('pv-tags-'+i);
       if(pvTags && p.visa) {
@@ -5618,10 +5616,7 @@ function dobYears() {
   return o;
 }
 function getPaxDob(i) {
-  const d=document.getElementById('pd-d-'+i)?.value||'01';
-  const m=document.getElementById('pd-m-'+i)?.value||'01';
-  const y=document.getElementById('pd-y-'+i)?.value||'2000';
-  return `${y}-${m}-${d}`;
+  return document.getElementById('pd-dob-'+i)?.value || '';
 }
 
 const _choices = [];
@@ -5636,24 +5631,7 @@ function initChoices() {
         searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
       }));
     }
-    const dSel = document.getElementById('pd-d-'+i);
-    if(dSel) {
-      _choices.push(new Choices(dSel, {
-        searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
-      }));
-    }
-    const mSel = document.getElementById('pd-m-'+i);
-    if(mSel) {
-      _choices.push(new Choices(mSel, {
-        searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
-      }));
-    }
-    const ySel = document.getElementById('pd-y-'+i);
-    if(ySel) {
-      _choices.push(new Choices(ySel, {
-        searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
-      }));
-    }
+    // DOB je sada <input type="date"> — Choices.js nije potreban
   }
 }
 
@@ -5749,11 +5727,9 @@ function renderPax() {
 
         <div class="traveler-field" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
-          <div class="traveler-triple">
-            <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}">${dobDays()}</select></div>
-            <div class="t-sel-wrap"><select class="t-control" id="pd-m-${i}">${dobMonths()}</select></div>
-            <div class="t-sel-wrap"><select class="t-control" id="pd-y-${i}">${dobYears()}</select></div>
-          </div>
+          <input class="t-control dob-input" type="date" id="pd-dob-${i}"
+            min="1930-01-01" max="${new Date().toISOString().slice(0,10)}"
+            autocomplete="bday">
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
 
