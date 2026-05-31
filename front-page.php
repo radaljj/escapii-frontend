@@ -1803,8 +1803,9 @@
     .flatpickr-calendar {
       background: #102832; border: 1px solid rgba(246,241,230,.12);
       border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.45);
-      width: 320px; padding: 6px;
+      width: 296px; padding: 8px; box-sizing: content-box;
     }
+    .flatpickr-innerContainer { justify-content: center; }
     .flatpickr-calendar.arrowTop::before, .flatpickr-calendar.arrowTop::after,
     .flatpickr-calendar.arrowBottom::before, .flatpickr-calendar.arrowBottom::after { display: none; }
     .flatpickr-months { padding: 10px 8px 6px; align-items: center; }
@@ -1855,13 +1856,17 @@
     .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
     .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
     .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #fff; }
-    .flatpickr-weekdays { background: transparent; margin-top: 4px; }
+    /* Fiksne širine: kontejner = 7 × dan (280px) — sprečava da 8 dana stane u red */
+    .flatpickr-rContainer { width: 280px; }
+    .flatpickr-weekdaycontainer { width: 280px; }
+    .flatpickr-weekdays { background: transparent; margin-top: 4px; width: 280px; }
     span.flatpickr-weekday { color: rgba(246,241,230,.4); font-weight: 600; font-size: 11px; }
-    .flatpickr-days { border: none; }
-    .dayContainer { padding: 4px 0; }
+    .flatpickr-days { border: none; width: 280px; }
+    .dayContainer { padding: 4px 0; width: 280px; min-width: 280px; max-width: 280px; }
     .flatpickr-day {
       color: rgba(246,241,230,.85); border-radius: 10px; font-size: 13.5px; font-weight: 500;
-      height: 38px; line-height: 38px; max-width: 38px; border: none;
+      height: 38px; line-height: 38px; width: 40px; max-width: 40px; flex-basis: 40px; border: none;
+      margin: 1px 0;
     }
     .flatpickr-day:hover { background: rgba(202,138,113,.18); color: #fff; }
     .flatpickr-day.today { border: 1px solid rgba(202,138,113,.5); }
