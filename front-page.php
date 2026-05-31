@@ -1759,7 +1759,10 @@
     .traveler-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .traveler-grid > .full { grid-column: 1 / -1; }
     .traveler-triple { display: grid; grid-template-columns: 90px 1fr 110px; gap: 12px; }
-    .dob-triple { display: grid; grid-template-columns: 1fr 1.5fr 1.1fr; gap: 8px; }
+    .dob-triple { display: grid; grid-template-columns: 1fr 1.5fr 1.1fr; gap: 10px; }
+    .dob-triple .t-control { padding: 14px 34px 14px 14px; font-size: 15px; }
+    .dob-triple option { background-color: #0d2a33 !important; color: #f6f1e6; font-size: 15px; padding: 8px; }
+    .dob-triple option:disabled { color: rgba(246,241,230,.4); }
     /* Field */
     .traveler-field { display: flex; flex-direction: column; gap: 8px; }
     .traveler-field > label:not(.passport-check) {
@@ -5842,7 +5845,7 @@ function renderPax() {
           </div>
         </div>
 
-        <div class="traveler-field" id="pf-dob-${i}">
+        <div class="traveler-field full" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
           <div class="dob-triple">
             <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}" onchange="syncDobDays(${i})">${dobDays()}</select></div>
