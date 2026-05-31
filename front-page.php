@@ -1818,23 +1818,32 @@
     }
     .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: rgba(255,255,255,.12); }
     .flatpickr-monthDropdown-month { background: #102832; color: #fff; }
-    /* Godina — beli tekst */
-    .flatpickr-current-month .numInputWrapper { width: 64px; }
-    .flatpickr-current-month input.cur-year { color: #fff; font-weight: 700; font-size: 15px; }
-    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.06); border-radius: 8px; }
-    /* Strelice godine — gold trouglovi, lepo poravnati */
-    .numInputWrapper span { border: none !important; right: 0; width: 16px; }
-    .numInputWrapper span.arrowUp { top: 3px; }
-    .numInputWrapper span.arrowDown { top: 12px; }
-    .numInputWrapper span.arrowUp:after {
-      border-left: 4px solid transparent; border-right: 4px solid transparent;
-      border-bottom: 5px solid var(--gold); top: 26%;
+    /* Godina — pill kontejner sa belim tekstom */
+    .flatpickr-current-month .numInputWrapper {
+      width: 76px; height: 32px; border-radius: 10px;
+      border: 1px solid rgba(246,241,230,.14); background: rgba(255,255,255,.04);
+      display: inline-flex; align-items: center; transition: border-color .2s, background .2s;
     }
+    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.07); border-color: rgba(246,241,230,.26); }
+    .flatpickr-current-month input.cur-year { color: #fff; font-weight: 700; font-size: 14px; padding: 0 0 0 12px; }
+    /* Strelice godine — tanki crisp chevroni u hover ćelijama */
+    .numInputWrapper span {
+      border: none !important; right: 4px; width: 18px; height: 13px; padding: 0;
+      border-radius: 5px; opacity: 1; transition: background .15s;
+    }
+    .numInputWrapper span:hover { background: rgba(202,138,113,.22); }
+    .numInputWrapper span.arrowUp { top: 2px; }
+    .numInputWrapper span.arrowDown { top: 17px; }
+    .numInputWrapper span.arrowUp:after,
     .numInputWrapper span.arrowDown:after {
-      border-left: 4px solid transparent; border-right: 4px solid transparent;
-      border-top: 5px solid var(--gold); top: 40%;
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 5px; height: 5px; margin: 0;
+      border: none; border-right: 1.6px solid var(--gold); border-bottom: 1.6px solid var(--gold);
+      border-radius: 1px;
     }
-    .numInputWrapper span:hover:after { border-bottom-color: #fff; border-top-color: #fff; }
+    .numInputWrapper span.arrowUp:after   { transform: translate(-50%, -25%) rotate(-135deg); }
+    .numInputWrapper span.arrowDown:after { transform: translate(-50%, -75%) rotate(45deg); }
+    .numInputWrapper span:hover:after { border-color: #fff; }
     /* Prev/next mesec strelice */
     .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
     .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
