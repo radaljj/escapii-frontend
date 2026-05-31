@@ -1808,9 +1808,9 @@
     .flatpickr-innerContainer { justify-content: center; }
     .flatpickr-calendar.arrowTop::before, .flatpickr-calendar.arrowTop::after,
     .flatpickr-calendar.arrowBottom::before, .flatpickr-calendar.arrowBottom::after { display: none; }
-    .flatpickr-months { padding: 10px 8px 6px; align-items: center; }
-    .flatpickr-month { color: #fff; height: 40px; }
-    .flatpickr-current-month { font-size: 15px; font-weight: 700; padding-top: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .flatpickr-months { padding: 10px 8px 8px; align-items: center; height: auto; overflow: visible; }
+    .flatpickr-month { color: #fff; height: 48px; overflow: visible; display: flex; align-items: center; }
+    .flatpickr-current-month { position: static; width: 100%; height: auto; font-size: 15px; font-weight: 700; padding: 0; display: flex; align-items: center; justify-content: center; gap: 8px; overflow: visible; }
     /* Mesec dropdown — beli tekst, vidljiv na teal pozadini */
     .flatpickr-current-month .flatpickr-monthDropdown-months {
       color: #fff; font-weight: 700; font-size: 15px;
