@@ -13,6 +13,9 @@
   <!-- Choices.js -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <!-- Flatpickr — DOB picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Tom Select -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.min.css">
   <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
@@ -1787,6 +1790,54 @@
     .t-field-ic .t-ic { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: rgba(246,241,230,.28); pointer-events: none; transition: color .2s; }
     .t-field-ic .t-control { padding-left: 44px; }
     .t-field-ic:focus-within .t-ic { color: var(--gold); }
+
+    /* ── DOB Flatpickr input ── */
+    .dob-fp-wrap { position: relative; }
+    .dob-fp-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: rgba(246,241,230,.28); pointer-events: none; transition: color .2s; z-index: 1; }
+    .dob-fp-icon svg { width: 18px; height: 18px; display: block; }
+    .dob-fp-wrap .dob-input { padding-left: 44px; cursor: pointer; }
+    .dob-fp-wrap:focus-within .dob-fp-icon,
+    .dob-fp-wrap .dob-input.active ~ .dob-fp-icon { color: var(--gold); }
+
+    /* ── Flatpickr — Escapii dark theme ── */
+    .flatpickr-calendar {
+      background: #102832; border: 1px solid rgba(246,241,230,.12);
+      border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      width: 320px; padding: 6px;
+    }
+    .flatpickr-calendar.arrowTop::before, .flatpickr-calendar.arrowTop::after,
+    .flatpickr-calendar.arrowBottom::before, .flatpickr-calendar.arrowBottom::after { display: none; }
+    .flatpickr-months { padding: 8px 6px 4px; align-items: center; }
+    .flatpickr-month { color: #fff; }
+    .flatpickr-current-month { font-size: 15px; font-weight: 700; padding-top: 4px; }
+    .flatpickr-current-month .cur-month, .flatpickr-current-month .cur-year { color: #fff; font-weight: 700; }
+    .flatpickr-current-month .numInputWrapper:hover { background: rgba(255,255,255,.06); }
+    .flatpickr-current-month input.cur-year { color: #fff; }
+    .flatpickr-monthDropdown-months { background: #102832; color: #fff; font-weight: 700; }
+    .flatpickr-monthDropdown-month { background: #102832; color: #fff; }
+    .flatpickr-prev-month, .flatpickr-next-month { fill: var(--gold); padding: 8px; }
+    .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; }
+    .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #fff; }
+    .flatpickr-weekdays { background: transparent; margin-top: 4px; }
+    span.flatpickr-weekday { color: rgba(246,241,230,.4); font-weight: 600; font-size: 11px; }
+    .flatpickr-days { border: none; }
+    .dayContainer { padding: 4px 0; }
+    .flatpickr-day {
+      color: rgba(246,241,230,.85); border-radius: 10px; font-size: 13.5px; font-weight: 500;
+      height: 38px; line-height: 38px; max-width: 38px; border: none;
+    }
+    .flatpickr-day:hover { background: rgba(202,138,113,.18); color: #fff; }
+    .flatpickr-day.today { border: 1px solid rgba(202,138,113,.5); }
+    .flatpickr-day.today:hover { background: rgba(202,138,113,.18); }
+    .flatpickr-day.selected, .flatpickr-day.selected:hover {
+      background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 700;
+      box-shadow: 0 4px 14px rgba(202,138,113,.4);
+    }
+    .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay { color: rgba(246,241,230,.22); }
+    .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover { color: rgba(246,241,230,.12); }
+    .numInputWrapper span.arrowUp, .numInputWrapper span.arrowDown { border: none; }
+    .numInputWrapper span:hover { background: rgba(255,255,255,.08); }
+
     /* Select — hide native arrow, inject SVG via background-image */
     .t-sel-wrap { position: relative; }
     .t-sel-wrap .t-control {
@@ -2529,11 +2580,6 @@
       .extra-card-sub { font-size: 11px; }
       .extra-card-price { font-size: 12px; margin-right: 0; grid-column: 2; grid-row: 2; }
       .extra-toggle { grid-column: 3; grid-row: 2; }
-
-      /* DOB grid — balanced columns with room for custom arrow */
-      .dob-input { width: 100%; color-scheme: dark; }
-      .dob-input::-webkit-calendar-picker-indicator { filter: invert(0.7) sepia(1) saturate(3) hue-rotate(340deg); cursor: pointer; opacity: .7; }
-      .dob-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
       /* Choices.js full width in narrow cells */
       .choices { width: 100% !important; }
@@ -5059,7 +5105,8 @@ function validatePassengers() {
     const dobWrap = document.getElementById('pf-dob-'+i);
     if(!isAtLeast18(dob)){
       if(dobWrap) dobWrap.classList.add('field-error');
-      ok=false; underage=true;
+      ok=false;
+      if(dob) underage=true;  // ima datum ali je maloletan → poruka o 18; prazno → opšta poruka
     } else {
       if(dobWrap) dobWrap.classList.remove('field-error');
     }
@@ -5620,10 +5667,32 @@ function getPaxDob(i) {
 }
 
 const _choices = [];
+const _dobPickers = [];
+
+// Srpska lokalizacija za Flatpickr (inline — bez dodatnog CDN fajla)
+const _FP_SR = {
+  weekdays: {
+    shorthand: ['Ned','Pon','Uto','Sre','Čet','Pet','Sub'],
+    longhand: ['Nedelja','Ponedeljak','Utorak','Sreda','Četvrtak','Petak','Subota']
+  },
+  months: {
+    shorthand: ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Avg','Sep','Okt','Nov','Dec'],
+    longhand: ['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar']
+  },
+  firstDayOfWeek: 1,
+  rangeSeparator: ' do '
+};
 
 function initChoices() {
   _choices.forEach(c => { try { c.destroy(); } catch(e){} });
   _choices.length = 0;
+  _dobPickers.forEach(p => { try { p.destroy(); } catch(e){} });
+  _dobPickers.length = 0;
+
+  const today = new Date();
+  // Maksimum = pre 18 godina (mora biti punoletan), minimum = 1930
+  const maxDob = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
   for(let i=0;i<S.travelers;i++){
     const gSel = document.getElementById('pg'+i);
     if(gSel) {
@@ -5631,7 +5700,22 @@ function initChoices() {
         searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
       }));
     }
-    // DOB je sada <input type="date"> — Choices.js nije potreban
+    // DOB — Flatpickr (lep dark kalendar, tačni dani po mesecu)
+    const dobEl = document.getElementById('pd-dob-'+i);
+    if(dobEl && window.flatpickr) {
+      const fp = flatpickr(dobEl, {
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: lang==='sr' ? 'j. F Y.' : 'F j, Y',
+        minDate: '1930-01-01',
+        maxDate: maxDob,
+        defaultDate: dobEl.value || null,
+        locale: lang==='sr' ? _FP_SR : 'default',
+        disableMobile: true,   // koristi naš dark picker i na mobilnom umesto OS nativnog
+        onReady: (sel, str, inst) => { inst.altInput.classList.add('t-control','dob-input'); },
+      });
+      _dobPickers.push(fp);
+    }
   }
 }
 
@@ -5727,9 +5811,14 @@ function renderPax() {
 
         <div class="traveler-field" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
-          <input class="t-control dob-input" type="date" id="pd-dob-${i}"
-            min="1930-01-01" max="${new Date().toISOString().slice(0,10)}"
-            autocomplete="bday">
+          <div class="dob-fp-wrap">
+            <span class="dob-fp-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <input class="t-control dob-input" type="text" id="pd-dob-${i}"
+              placeholder="${lang==='sr'?'Izaberi datum':'Select date'}"
+              autocomplete="off" readonly>
+          </div>
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
 
