@@ -13,9 +13,6 @@
   <!-- Choices.js -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-  <!-- Flatpickr — DOB picker -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Tom Select -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.min.css">
   <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
@@ -1762,6 +1759,7 @@
     .traveler-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .traveler-grid > .full { grid-column: 1 / -1; }
     .traveler-triple { display: grid; grid-template-columns: 90px 1fr 110px; gap: 12px; }
+    .dob-triple { display: grid; grid-template-columns: 1fr 1.5fr 1.1fr; gap: 8px; }
     /* Field */
     .traveler-field { display: flex; flex-direction: column; gap: 8px; }
     .traveler-field > label:not(.passport-check) {
@@ -4716,14 +4714,20 @@ function setLang(l) {
     const savedPax = Array.from({length:S.travelers},(_,i)=>({
       name:   (document.getElementById('pn'+i)||{}).value||'',
       gender: (document.getElementById('pg'+i)||{}).value||'M',
-      dob:    (document.getElementById('pd-dob-'+i)||{}).value||'',
+      dob:    getPaxDob(i),
       visa:   getVisaValue(i)
     }));
     renderPax();
     savedPax.forEach((p,i)=>{
       const n=document.getElementById('pn'+i);    if(n) n.value=p.name;
       const g=document.getElementById('pg'+i);    if(g) g.value=p.gender;
-      const dobEl=document.getElementById('pd-dob-'+i);if(dobEl) dobEl.value=p.dob||'';
+      if(p.dob){
+        const [yy,mm,dd]=p.dob.split('-');
+        const my=document.getElementById('pd-m-'+i); if(my) my.value=mm;
+        const yy_=document.getElementById('pd-y-'+i); if(yy_) yy_.value=yy;
+        syncDobDays(i);
+        const dd_=document.getElementById('pd-d-'+i); if(dd_) dd_.value=dd;
+      }
       // Restore visa chips
       const pvTags=document.getElementById('pv-tags-'+i);
       if(pvTags && p.visa) {
@@ -5676,24 +5680,44 @@ function togExcl(id, event) {
   }
 }
 
-// ══════════ STEP 7 — helpers
-function dobDays() {
-  return Array.from({length:31},(_,i)=>`<option value="${String(i+1).padStart(2,'0')}">${i+1}.</option>`).join('');
+// ══════════ STEP 7 — helpers (datum rođenja: dan / mesec / godina)
+function dobDays(max) {
+  const n = max || 31;
+  const ph = `<option value="" selected disabled>${lang==='sr'?'Dan':'Day'}</option>`;
+  return ph + Array.from({length:n},(_,i)=>`<option value="${String(i+1).padStart(2,'0')}">${i+1}</option>`).join('');
 }
 function dobMonths() {
   const sr=['Januar','Februar','Mart','April','Maj','Jun','Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
   const en=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const ms = lang==='sr' ? sr : en;
-  return ms.map((m,i)=>`<option value="${String(i+1).padStart(2,'0')}">${m}</option>`).join('');
+  const ph = `<option value="" selected disabled>${lang==='sr'?'Mesec':'Month'}</option>`;
+  return ph + ms.map((m,i)=>`<option value="${String(i+1).padStart(2,'0')}">${m}</option>`).join('');
 }
 function dobYears() {
   const cur=new Date().getFullYear();
-  let o='';
-  for(let y=cur-5;y>=1930;y--) o+=`<option value="${y}">${y}</option>`;
+  const ph = `<option value="" selected disabled>${lang==='sr'?'Godina':'Year'}</option>`;
+  let o=ph;
+  for(let y=cur;y>=1940;y--) o+=`<option value="${y}">${y}</option>`;
   return o;
 }
+// Dinamički broj dana po mesecu (februar 28/29, april 30...) — zadržava izbor ako je validan
+function syncDobDays(i) {
+  const dSel=document.getElementById('pd-d-'+i);
+  const m=+(document.getElementById('pd-m-'+i)||{}).value;
+  const y=+(document.getElementById('pd-y-'+i)||{}).value;
+  if(!dSel||!m) return;
+  const yr = y || 2000; // 2000 je prestupna — bezbedan default dok god nije izabrana
+  const maxDay = new Date(yr, m, 0).getDate(); // dan 0 sledećeg meseca = poslednji dan ovog
+  const prev = dSel.value;
+  dSel.innerHTML = dobDays(maxDay);
+  if(prev && +prev<=maxDay) dSel.value = prev; // vrati izbor ako i dalje postoji
+}
 function getPaxDob(i) {
-  return document.getElementById('pd-dob-'+i)?.value || '';
+  const d=(document.getElementById('pd-d-'+i)||{}).value||'';
+  const m=(document.getElementById('pd-m-'+i)||{}).value||'';
+  const y=(document.getElementById('pd-y-'+i)||{}).value||'';
+  if(!d||!m||!y) return '';
+  return `${y}-${m}-${d}`;
 }
 
 const _choices = [];
@@ -5716,11 +5740,6 @@ const _FP_SR = {
 function initChoices() {
   _choices.forEach(c => { try { c.destroy(); } catch(e){} });
   _choices.length = 0;
-  _dobPickers.forEach(p => { try { p.destroy(); } catch(e){} });
-  _dobPickers.length = 0;
-
-  // Maksimum = danas (ne može datum u budućnosti); 18+ se proverava pri slanju
-  const maxDob = new Date();
 
   for(let i=0;i<S.travelers;i++){
     const gSel = document.getElementById('pg'+i);
@@ -5729,61 +5748,8 @@ function initChoices() {
         searchEnabled: false, itemSelectText: '', shouldSort: false, allowHTML: false,
       }));
     }
-    // DOB — Flatpickr (lep dark kalendar, tačni dani po mesecu)
-    const dobEl = document.getElementById('pd-dob-'+i);
-    if(dobEl && window.flatpickr) {
-      const fp = flatpickr(dobEl, {
-        dateFormat: 'Y-m-d',
-        altInput: true,
-        altFormat: lang==='sr' ? 'j. F Y.' : 'F j, Y',
-        minDate: '1940-01-01',
-        maxDate: maxDob,
-        defaultDate: dobEl.value || null,
-        locale: lang==='sr' ? _FP_SR : 'default',
-        disableMobile: false,  // HIBRID: mobilni koristi nativni OS wheel picker
-        onReady: (sel, str, inst) => {
-          if (inst.altInput) inst.altInput.classList.add('t-control','dob-input');
-          buildYearDropdown(inst);
-        },
-        onMonthChange: (sel, str, inst) => buildYearDropdown(inst),
-        onYearChange: (sel, str, inst) => {
-          buildYearDropdown(inst);
-          if (inst._yearSelect) inst._yearSelect.value = inst.currentYear;
-        },
-      });
-      _dobPickers.push(fp);
-    }
+    // DOB su 3 nativna selecta (dan/mesec/godina) — ne treba inicijalizacija
   }
-}
-
-// Zameni spinner za godinu sa <select> dropdownom (1940 → tekuća)
-function buildYearDropdown(inst) {
-  // Nativni mobilni picker — nema flatpickr header, preskoči
-  if (inst.isMobile) return;
-  const wrap = inst.currentMonthElement && inst.currentMonthElement.parentNode;
-  if (!wrap) return;
-  // Ako select još postoji u DOM-u, samo sinhronizuj vrednost
-  if (inst._yearSelect && wrap.contains(inst._yearSelect)) {
-    inst._yearSelect.value = inst.currentYear;
-    return;
-  }
-  const ySel = document.createElement('select');
-  ySel.className = 'fp-year-select';
-  const curY = new Date().getFullYear();
-  for (let y = curY; y >= 1940; y--) {
-    const o = document.createElement('option');
-    o.value = y; o.textContent = y;
-    if (y === inst.currentYear) o.selected = true;
-    ySel.appendChild(o);
-  }
-  ySel.addEventListener('change', () => {
-    inst.jumpToDate(new Date(+ySel.value, inst.currentMonth, 1));
-    inst.redraw();
-  });
-  const numWrap = wrap.querySelector('.numInputWrapper');
-  if (numWrap) numWrap.insertAdjacentElement('afterend', ySel);
-  else wrap.appendChild(ySel);
-  inst._yearSelect = ySel;
 }
 
 // ── Tag input helpers ──────────────────────────────────────────────────────────
@@ -5878,13 +5844,10 @@ function renderPax() {
 
         <div class="traveler-field" id="pf-dob-${i}">
           <label>${t('pax.dob')} <span class="req">*</span></label>
-          <div class="dob-fp-wrap">
-            <span class="dob-fp-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </span>
-            <input class="t-control dob-input" type="text" id="pd-dob-${i}"
-              placeholder="${lang==='sr'?'Izaberi datum':'Select date'}"
-              autocomplete="off" readonly>
+          <div class="dob-triple">
+            <div class="t-sel-wrap"><select class="t-control" id="pd-d-${i}" onchange="syncDobDays(${i})">${dobDays()}</select></div>
+            <div class="t-sel-wrap"><select class="t-control" id="pd-m-${i}" onchange="syncDobDays(${i})">${dobMonths()}</select></div>
+            <div class="t-sel-wrap"><select class="t-control" id="pd-y-${i}" onchange="syncDobDays(${i})">${dobYears()}</select></div>
           </div>
           <div class="field-error-msg">${t('pax.dob.err')}</div>
         </div>
