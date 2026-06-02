@@ -3749,12 +3749,12 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.13.q">Kako funkcioniše poklon vaučer?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.13.a">Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili privatnom terminu. Vaučer se ne može razmeniti za gotovinu.</div>
+        <div class="faq-a" data-i18n-html="faq.13.a">Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q"><span data-i18n="faq.14.q">Šta je privatni termin i kako da ga rezervišem?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.14.a">Privatni termin je opcija kada niko od redovnih datuma ne odgovara tvojoj grupi, ili kada želiš putovanje organizovano isključivo za tebe i tvoje pratioce — bez deljenja termina sa drugim korisnicima.<br><br>U booking formi odaberi opciju <strong>Privatni termin</strong>, unesi željeni period i broj putnika i pošalji upit. Naš tim proverava dostupnost, formira cenu i šalje ti ponudu. Cena se formira individualno na osnovu dostupnih letova i smeštaja.</div>
+        <div class="faq-q"><span data-i18n="faq.14.q">Šta je prilagođeni termin i kako ga rezervisati?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a" data-i18n-html="faq.14.a">Prilagođeni termin je opcija namenjena putnicima kojima ne odgovaraju dostupni datumi ili žele putovanje organizovano u periodu koji sami odaberu.<br><br>Da biste poslali upit za prilagođeni termin:<br><ol><li>U booking formi izaberite opciju <strong>Prilagođeni termin</strong>.</li><li>Unesite željeni period putovanja i broj putnika.</li><li>Pošaljite upit.</li></ol>Nakon prijema upita, naš tim proverava dostupnost letova i smeštaja, formira ponudu i dostavlja vam sve potrebne informacije. Cena se određuje individualno, u skladu sa raspoloživim opcijama za odabrani period i broj putnika. ✈️🏨</div>
       </div>
 
 
@@ -4091,7 +4091,7 @@ const TR = {
     'inq.back':'Nazad na termine',
     'inq.badge':'Prilagođeni termin',
     'inq.title':'Izaberi svoj datum putovanja',
-    'inq.sub':'Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira privatni termin za tebe.',
+    'inq.sub':'Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira prilagođeni termin za tebe.',
     'inq.date':'Datum polaska',
     'inq.nights':'Broj noćenja',
     'inq.nights.alert':'Trenutno nudimo termine samo za <strong>2 ili 3 noćenja</strong>. Odaberi jednu od ovih opcija.',
@@ -4198,9 +4198,9 @@ const TR = {
     'faq.12.q':'Kako funkcioniše plaćanje?',
     'faq.12.a':'Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.',
     'faq.13.q':'Kako funkcioniše poklon vaučer?',
-    'faq.13.a':'Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili privatnom terminu. Vaučer se ne može razmeniti za gotovinu.',
-    'faq.14.q':'Šta je privatni termin i kako da ga rezervišem?',
-    'faq.14.a':'Privatni termin je opcija kada putovanje želite da bude organizovano isključivo za vas i vaše društvo — bez pridruživanja drugim grupama.<br><br>U booking formi dovoljno je da odaberete opciju „Privatni termin", unesete željeni period putovanja i broj putnika, a zatim pošaljete upit. Naš tim nakon toga proverava dostupnost i priprema personalizovanu ponudu.<br><br>Cena se formira individualno, u skladu sa dostupnošću letova, smeštaja i ostalih detalja putovanja u izabranom terminu.',
+    'faq.13.a':'Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.',
+    'faq.14.q':'Šta je prilagođeni termin i kako ga rezervisati?',
+    'faq.14.a':'Prilagođeni termin je opcija namenjena putnicima kojima ne odgovaraju dostupni datumi ili žele putovanje organizovano u periodu koji sami odaberu.<br><br>Da biste poslali upit za prilagođeni termin:<br><ol><li>U booking formi izaberite opciju <strong>Prilagođeni termin</strong>.</li><li>Unesite željeni period putovanja i broj putnika.</li><li>Pošaljite upit.</li></ol>Nakon prijema upita, naš tim proverava dostupnost letova i smeštaja, formira ponudu i dostavlja vam sve potrebne informacije. Cena se određuje individualno, u skladu sa raspoloživim opcijama za odabrani period i broj putnika. ✈️🏨',
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
@@ -4229,10 +4229,10 @@ const TR = {
     'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
     'waitlist.err':'Greška — pokušaj ponovo.',
-    'waitlist.swal.ok.title':'✓ Prijavljen/a si!',
-    'waitlist.swal.ok.html':'{email} je uspešno prijavljena na listu čekanja za aerodrom {airportName}.<br><br>Bićeš obavešten/a čim se doda novi termin.',
-    'waitlist.swal.already.title':'📬 Već si na listi',
-    'waitlist.swal.already.html':'{email} je već prijavljena na listu čekanja za aerodrom {airportName}.<br><br>Javiće ti se čim se otvore novi termini.',
+    'waitlist.swal.ok.title':'Uspešno ste prijavljeni na listu čekanja!',
+    'waitlist.swal.ok.html':'Email adresa {email} je uspešno registrovana za praćenje slobodnih termina na aerodromu {airportName}.<br><br>Obavestićemo vas čim bude dostupan novi termin. ✈️',
+    'waitlist.swal.already.title':'📬 Već ste na listi',
+    'waitlist.swal.already.html':'Email adresa {email} je već registrovana za praćenje slobodnih termina na aerodromu {airportName}.<br><br>Obavestićemo vas čim bude dostupan novi termin. ✈️',
     'waitlist.swal.err.title':'Greška',
     'waitlist.swal.err.text':'Nešto nije pošlo kako treba — pokušaj ponovo.',
     'err.dates.load':'Greška pri učitavanju termina.',
@@ -4461,9 +4461,9 @@ const TR = {
     'faq.12.q':'How does payment work?',
     'faq.12.a':'After you submit your inquiry, our team will contact you within 24 hours with all the details and payment information. Your booking is confirmed only after payment is received. Once payment is completed, you\'ll receive a confirmation by email.<br><br>Payment is made directly to our account — no card fees, no hidden costs. The price you see on the site is the price you pay.',
     'faq.13.q':'How does a gift voucher work?',
-    'faq.13.a':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message — we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip — group or private. Vouchers cannot be exchanged for cash.',
-    'faq.14.q':'What is a private trip and how do I book one?',
-    'faq.14.a':'A private trip is an option for those who want a journey organized exclusively for their group — no joining other travelers.<br><br>In the booking form, select the „Private trip" option, enter your preferred travel period and number of travelers, and submit your inquiry. Our team will then check availability and prepare a personalised offer.<br><br>Pricing is calculated individually, based on available flights, accommodation, and other trip details for your chosen dates.',
+    'faq.13.a':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message — we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip — group or custom. Vouchers cannot be exchanged for cash.',
+    'faq.14.q':'What is a custom trip and how do I book one?',
+    'faq.14.a':'A custom trip is an option designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request for a custom trip:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks flight and accommodation availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually, based on available options for your chosen period and number of travellers. ✈️🏨',
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
@@ -4492,10 +4492,10 @@ const TR = {
     'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
     'waitlist.err':'Error — please try again.',
-    'waitlist.swal.ok.title':'✓ You\'re on the list!',
-    'waitlist.swal.ok.html':'{email} has been added to the waitlist for {airportName} airport.<br><br>You\'ll be notified as soon as new dates are added.',
+    'waitlist.swal.ok.title':'Successfully joined the waitlist!',
+    'waitlist.swal.ok.html':'Email address {email} has been registered for availability updates at {airportName} airport.<br><br>We\'ll notify you as soon as a new date becomes available. ✈️',
     'waitlist.swal.already.title':'📬 Already on the list',
-    'waitlist.swal.already.html':'{email} is already on the waitlist for {airportName} airport.<br><br>We\'ll notify you when new dates open up.',
+    'waitlist.swal.already.html':'Email address {email} is already registered for availability updates at {airportName} airport.<br><br>We\'ll notify you as soon as a new date becomes available. ✈️',
     'waitlist.swal.err.title':'Error',
     'waitlist.swal.err.text':'Something went wrong — please try again.',
     'err.dates.load':'Error loading dates.',
@@ -7185,10 +7185,10 @@ async function checkPrivateDateToken() {
     // Notify korisnika
     const departureFmt = new Date(date.departureDate).toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
     await Swal.fire({
-      title: lang === 'sr' ? '🔒 Privatni termin' : '🔒 Private slot',
+      title: lang === 'sr' ? '🔒 Prilagođeni termin' : '🔒 Custom trip',
       html:  lang === 'sr'
-        ? `Tvoj privatni termin je spreman!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} ${date.numberOfNights === 1 ? 'noć' : 'noći'} · ${S.travelers} ${S.travelers === 1 ? 'putnik' : 'putnika'}<br><br>Nastavi sa izborom smeštaja.`
-        : `Your private slot is ready!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} night${date.numberOfNights !== 1 ? 's' : ''} · ${S.travelers} traveller${S.travelers !== 1 ? 's' : ''}<br><br>Continue with accommodation selection.`,
+        ? `Tvoj prilagođeni termin je spreman!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} ${date.numberOfNights === 1 ? 'noć' : 'noći'} · ${S.travelers} ${S.travelers === 1 ? 'putnik' : 'putnika'}<br><br>Nastavi sa izborom smeštaja.`
+        : `Your custom trip is ready!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} night${date.numberOfNights !== 1 ? 's' : ''} · ${S.travelers} traveller${S.travelers !== 1 ? 's' : ''}<br><br>Continue with accommodation selection.`,
       icon:  'success',
       confirmButtonColor: 'var(--accent)',
       background: '#1a3a42',

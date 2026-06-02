@@ -338,7 +338,7 @@ body {
   <p>Pročitajte uslove pre nego što pošaljete upit — korišćenjem platforme prihvatate ova pravila.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Poslednje ažuriranje: Maj 2026 · v2 (poklon vaučeri, privatni termini)
+    Poslednje ažuriranje: Maj 2026 · v2 (poklon vaučeri, prilagođeni termini)
   </div>
 </div>
 
@@ -354,7 +354,7 @@ body {
       <li><a href="#proces-rezervacije">Proces rezervacije</a></li>
       <li><a href="#cene-i-placanje">Cene i plaćanje</a></li>
       <li><a href="#poklon-vauceri">Poklon vaučeri</a></li>
-      <li><a href="#privatni-termini">Privatni termini</a></li>
+      <li><a href="#prilagodjeni-termini">Prilagođeni termini</a></li>
       <li><a href="#obaveze-putnika">Obaveze putnika</a></li>
       <li><a href="#otkaz-i-izmene">Otkaz i izmene</a></li>
       <li><a href="#odgovornost">Ograničenje odgovornosti</a></li>
@@ -510,23 +510,23 @@ body {
       </div>
     </section>
 
-    <!-- Privatni termini -->
-    <section class="pp-section" id="privatni-termini">
+    <!-- Prilagođeni termini -->
+    <section class="pp-section" id="prilagodjeni-termini">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
-        <h2>Privatni termini</h2>
+        <h2>Prilagođeni termini</h2>
       </div>
 
-      <p>Pored redovnih grupnih termina, Escapii nudi mogućnost organizacije <strong>privatnog putovanja</strong> za grupe koje ne mogu da nađu odgovarajući datum u standardnoj ponudi ili koje žele ekskluzivni aranžman.</p>
+      <p>Pored redovnih grupnih termina, Escapii nudi mogućnost organizacije <strong>prilagođenog putovanja</strong> za grupe koje ne mogu da nađu odgovarajući datum u standardnoj ponudi ili koje žele ekskluzivni aranžman.</p>
 
-      <h3>Proces privatnog termina</h3>
+      <h3>Proces prilagođenog termina</h3>
       <div class="pp-table-wrap">
         <table class="pp-table">
           <thead><tr><th>Korak</th><th>Opis</th></tr></thead>
           <tbody>
-            <tr><td>1. Upit</td><td>Korisnik u booking formi odabira opciju <strong>Privatni termin</strong>, unosi željeni period i broj putnika i šalje upit.</td></tr>
+            <tr><td>1. Upit</td><td>Korisnik u booking formi odabira opciju <strong>Prilagođeni termin</strong>, unosi željeni period i broj putnika i šalje upit.</td></tr>
             <tr><td>2. Ponuda</td><td>Escapii tim proverava dostupnost i u roku od 24–48h šalje individualizovanu cenovnu ponudu.</td></tr>
             <tr><td>3. Potvrda</td><td>Korisnik prihvata ponudu i vrši uplatu prema dogovorenom roku. Rezervacija postaje obavezujuća tek po prijemu uplate.</td></tr>
             <tr><td>4. Otkrivanje</td><td>Destinacija se otkriva 48h pre polaska, jednako kao i kod grupnih termina.</td></tr>
