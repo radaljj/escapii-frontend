@@ -36,8 +36,19 @@ function escapii_head_meta() {
     <link rel="shortcut icon" href="<?php echo esc_url(home_url('/favicon.png')); ?>">
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
 
-    <!-- Canonical -->
-    <link rel="canonical" href="<?php echo esc_url($home); ?>">
+    <!-- Canonical — dinamički po URL-u stranice -->
+    <?php
+    if ( is_front_page() ) {
+        $canonical = $home;
+    } elseif ( is_singular() ) {
+        $canonical = get_permalink();
+    } else {
+        // blog listing, archive, custom template
+        $path = parse_url( $_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH );
+        $canonical = home_url( trailingslashit( $path ) );
+    }
+    ?>
+    <link rel="canonical" href="<?php echo esc_url( $canonical ); ?>">
 
     <!-- OG / Social share (1200×630) -->
     <meta property="og:type"         content="website">
@@ -175,6 +186,9 @@ function escapii_robots_txt() {
          . "Disallow: /2026/\n"
          . "Disallow: /2027/\n"
          . "Disallow: /admin-panel/\n"
+         . "Disallow: /hvala/\n"
+         . "Disallow: /otkrivanje/\n"
+         . "Disallow: /poklon/\n"
          . "Allow: /wp-admin/admin-ajax.php\n"
          . "\nSitemap: " . home_url('/sitemap.xml') . "\n";
 }
