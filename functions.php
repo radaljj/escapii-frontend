@@ -161,6 +161,19 @@ function escapii_create_blog_page() {
 add_action('after_switch_theme', 'escapii_create_blog_page');
 add_action('init', 'escapii_create_blog_page');
 
+// ── 301 redirecti za stare/kratke URL-ove ────────────────────────────────────
+add_action('template_redirect', function () {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    $map  = [
+        '/pp'  => '/politika-privatnosti/',
+        '/pp/' => '/politika-privatnosti/',
+    ];
+    if (isset($map[$path])) {
+        wp_redirect(home_url($map[$path]), 301);
+        exit;
+    }
+});
+
 // ── robots.txt — override WordPress default ──────────────────────────────────
 add_filter('robots_txt', 'escapii_robots_txt', 99);
 function escapii_robots_txt() {
@@ -185,6 +198,7 @@ function escapii_robots_txt() {
          . "Disallow: /2025/\n"
          . "Disallow: /2026/\n"
          . "Disallow: /2027/\n"
+         . "Disallow: /cdn-cgi/\n"
          . "Disallow: /admin-panel/\n"
          . "Disallow: /hvala/\n"
          . "Disallow: /otkrivanje/\n"
