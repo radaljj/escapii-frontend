@@ -2681,6 +2681,7 @@
   <div class="mob-menu-links">
     <button class="mob-menu-link" onclick="mobNav('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
     <button class="mob-menu-link" onclick="mobNav('esc-about')"   data-i18n="snav.about">O nama</button>
+    <button class="mob-menu-link" onclick="mobNav('esc-booking')"  data-i18n="snav.booking">Rezervacija</button>
     <button class="mob-menu-link" onclick="mobNav('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
     <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="mobNav('esc-faq')"     data-i18n="snav.faq">FAQ</button>
@@ -2714,6 +2715,7 @@
 <nav class="sec-nav" id="secNav">
   <button class="sec-nav-link" onclick="escScrollTo('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-about')"   data-i18n="snav.about">O nama</button>
+  <button class="sec-nav-link" onclick="escScrollTo('esc-booking')" data-i18n="snav.booking">Rezervacija</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-faq')"         data-i18n="snav.faq">FAQ</button>
@@ -3103,20 +3105,6 @@
   obs.observe(section);
 })();
 </script>
-<!-- DESTINATIONS CAROUSEL -->
-<section class="esc-dest" id="esc-dest">
-  <div class="dest-header">
-    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
-    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
-    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
-  </div>
-  <div class="carousel-outer">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-</section>
-
 <!-- BOOKING -->
 <section class="esc-booking" id="esc-booking">
   <div class="booking-inner">
@@ -3650,6 +3638,20 @@
   </div>
 </section>
 
+<!-- DESTINATIONS CAROUSEL -->
+<section class="esc-dest" id="esc-dest">
+  <div class="dest-header">
+    <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
+    <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
+    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
 <!-- FOR WHO -->
 <section class="esc-who" id="esc-who">
   <div class="who-inner">
@@ -3730,11 +3732,6 @@
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.9.q">Da li mogu da putujem sam/sama?</span><div class="faq-icon">+</div></div>
         <div class="faq-a" data-i18n-html="faq.9.a">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.</div>
-      </div>
-
-      <div class="faq-item" onclick="togFaq(this)">
-        <div class="faq-q"><span data-i18n="faq.10.q">Šta ako let kasni ili se otkaže?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.10.a"></div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
@@ -3834,11 +3831,11 @@
     <div class="footer-col">
       <h4 data-i18n="footer.nav">Navigacija</h4>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-about')"   data-i18n="footer.about">O nama</a>
+      <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-dest')"    data-i18n="footer.dest">Destinacije</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-how')"     data-i18n="footer.how">Kako funkcioniše</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-faq')"     data-i18n="footer.faq">FAQ</a>
-      <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
       <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
@@ -4170,7 +4167,7 @@ const TR = {
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
     'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
-    'snav.about':'O nama', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
+    'snav.about':'O nama', 'snav.booking':'Rezervacija', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
     'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
@@ -4191,8 +4188,6 @@ const TR = {
     'faq.8.a':'Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.',
     'faq.9.q':'Da li mogu da putujem sam/sama?',
     'faq.9.a':'Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje doplata od 60€ po noći, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.',
-    'faq.10.q':'Šta ako let kasni ili se otkaže?',
-    'faq.10.a':'',
     'faq.11.q':'Da li postoji starosno ograničenje i mogu li da putujem sa decom?',
     'faq.11.a':'Naša putovanja su otvorena za sve uzraste. Osobe mlađe od 18 godina ne mogu da putuju bez punoletnog pratioca. Deca putuju pod istim uslovima kao i odrasli - sa sopstvenom kartom i smeštajem. Jedina napomena je da za decu mlađu od 2 godine važe posebni uslovi avio kompanija, pa te molimo da nas kontaktiraš pre rezervacije kako bismo pronašli najbolju opciju za vas.',
     'faq.12.q':'Kako funkcioniše plaćanje?',
@@ -4433,7 +4428,7 @@ const TR = {
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
-    'snav.about':'About us', 'snav.dest':'Destinations', 'snav.how':'How it works',
+    'snav.about':'About us', 'snav.booking':'Book', 'snav.dest':'Destinations', 'snav.how':'How it works',
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
@@ -4454,8 +4449,6 @@ const TR = {
     'faq.8.a':'Yes, Escapii is a registered company. We work with licensed partner travel agencies to co-create surprises for you. This means every trip is organized professionally and in full compliance with all regulations.',
     'faq.9.q':'Can I travel alone?',
     'faq.9.a':'Absolutely — we have plenty of solo Escapers! The only thing to note is that a single room supplement of 60€ per night applies, since hotel rooms are standardly reserved for two people. Everything else works exactly the same as for groups.',
-    'faq.10.q':'What if my flight is delayed or canceled?',
-    'faq.10.a':'',
     'faq.11.q':'Is there an age limit, and can I travel with children?',
     'faq.11.a':'Our trips are open to all ages. Anyone under 18 cannot travel without an adult companion. Children travel under the same conditions as adults — with their own ticket and accommodation. The only note is that children under 2 are subject to special airline conditions, so please contact us before booking so we can find the best option for your group.',
     'faq.12.q':'How does payment work?',
