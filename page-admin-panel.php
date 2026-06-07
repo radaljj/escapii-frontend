@@ -1358,6 +1358,7 @@ function renderDatesTable(dates) {
             onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
           <button class="btn-action btn-edit" onclick="editDestinations(${d.id})" style="margin-left:4px;">Destinacije</button>
           <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
+          <button class="btn-action" onclick="editPrice(${d.id}, ${d.basePrice})" style="margin-left:4px;background:rgba(34,197,94,.1);color:#86efac;">💶 Cena (${d.basePrice}€)</button>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
         </td>
       </tr>`;
@@ -1651,6 +1652,48 @@ async function editSlots(id, currentSlots) {
     loadDates();
   } else {
     Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije moguće ažurirati mesta.', background: '#0b1929', color: '#fff' });
+  }
+}
+
+// ══ EDIT PRICE ══
+async function editPrice(id, currentPrice) {
+  const { value, isConfirmed } = await Swal.fire({
+    title: 'Izmeni cenu termina',
+    html: `
+      <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutna osnovna cena: <strong style="color:#CA8A71;">${currentPrice}€</strong></div>
+      <input id="swal-price" type="number" min="1" max="9999" value="${currentPrice}"
+        class="swal2-input" style="width:140px;text-align:center;font-size:22px;font-weight:700;">
+      <div style="margin-top:8px;color:#64748b;font-size:12px;">Cena po osobi u EUR — dodaci se računaju posebno</div>
+    `,
+    confirmButtonText: 'Sačuvaj',
+    confirmButtonColor: '#CA8A71',
+    cancelButtonText: 'Otkaži',
+    showCancelButton: true,
+    background: '#0b1929',
+    color: '#fff',
+    focusConfirm: false,
+    preConfirm: () => {
+      const val = parseInt(document.getElementById('swal-price').value);
+      if (isNaN(val) || val < 1 || val > 9999) {
+        Swal.showValidationMessage('Unesite validnu cenu (1–9999€)');
+        return false;
+      }
+      return val;
+    }
+  });
+
+  if (!isConfirmed || value === undefined) return;
+
+  const r = await fetch(`${API}/api/admin/dates/${id}/price?value=${value}`, {
+    method: 'PATCH',
+    headers: { 'X-Admin-Key': ADMIN_KEY }
+  });
+
+  if (r.ok) {
+    Swal.fire({ icon: 'success', title: `Cena ažurirana na ${value}€`, timer: 1400, showConfirmButton: false, background: '#0b1929', color: '#fff' });
+    loadDates();
+  } else {
+    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije moguće ažurirati cenu.', background: '#0b1929', color: '#fff' });
   }
 }
 
