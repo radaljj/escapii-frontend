@@ -243,9 +243,8 @@ body {
 .pp-list li {
   font-size: 14.5px;
   color: rgba(45,95,107,.85);
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  position: relative;
+  padding-left: 16px;
   line-height: 1.6;
 }
 .pp-list li::before {
@@ -254,8 +253,9 @@ body {
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  flex-shrink: 0;
-  margin-top: 8px;
+  position: absolute;
+  left: 0;
+  top: 9px;
 }
 .pp-list li strong { color: var(--white); }
 
