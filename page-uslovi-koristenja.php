@@ -478,18 +478,18 @@ body {
         <li>Vaučer se kupuje na stranici <strong>Poklon</strong> na sajtu escapii.rs odabirom željenog iznosa i unosom podataka o primaocu</li>
         <li>Nakon potvrde uplate, kupac dobija <strong>PDF vaučer</strong> (boarding pass dizajn) na email sa jedinstvenim kodom</li>
         <li>Vaučer se aktivira u trenutku kada Escapii tim potvrdi uplatu — od tog datuma počinje da teče rok važenja</li>
-        <li>Primalac unosi kod vaučera pri slanju upita za Escapii putovanje; iznos koji odgovara ceni aranžmana se <strong>oduzima od salda vaučera</strong> — preostali saldo ostaje dostupan za buduća putovanja</li>
+        <li>Primalac unosi kod vaučera pri slanju upita za Escapii putovanje; iznos koji odgovara ceni aranžmana se <strong>oduzima od iznosa vaučera</strong> — preostali iznos ostaje dostupan za buduća putovanja</li>
         <li>Vaučer se može iskoristiti na <strong>grupnom i prilagođenom terminu</strong></li>
       </ul>
 
       <h3>Rok važenja i uslovi korišćenja</h3>
       <ul class="pp-list">
         <li>Vaučer važi <strong>godinu dana od datuma aktivacije</strong> (ne od datuma kupovine)</li>
-        <li>Po isteku roka, vaučer postaje nevažeći i ne može se koristiti bez obzira na preostali saldo</li>
+        <li>Po isteku roka, vaučer postaje nevažeći i ne može se koristiti bez obzira na preostali iznos</li>
         <li>Na jednu rezervaciju može se primeniti <strong>jedan vaučer</strong></li>
-        <li>Vaučer se može koristiti <strong>više puta</strong> kroz različite rezervacije sve dok saldo nije u potpunosti iskorišćen</li>
-        <li>Ako je vrednost putovanja manja od preostalog salda vaučera, <strong>razlika ostaje na vaučeru</strong> i može se iskoristiti za narednu Escapii rezervaciju u okviru preostalog roka važenja</li>
-        <li>Ako je vrednost putovanja veća od preostalog salda vaučera, razlika se plaća standardnim putem</li>
+        <li>Vaučer se može koristiti <strong>više puta</strong> kroz različite rezervacije sve dok iznos nije u potpunosti iskorišćen</li>
+        <li>Ako je vrednost putovanja manja od preostalog iznosa vaučera, <strong>razlika ostaje na vaučeru</strong> i može se iskoristiti za narednu Escapii rezervaciju u okviru preostalog roka važenja</li>
+        <li>Ako je vrednost putovanja veća od preostalog iznosa vaučera, razlika se plaća standardnim putem</li>
       </ul>
 
       <div class="pp-notice">
@@ -497,7 +497,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="pp-notice-text">
-          <strong>Otkaz rezervacije:</strong> Ako korisnik otkaže rezervaciju na kojoj je primenjen vaučer, vaučer se automatski <strong>vraća u aktivno stanje sa punim preostalim saldom</strong> (uz sva preostala prava iz prvobitnog roka važenja). Iznos uplate koji prevazilazi vrednost vaučera podleže standardnoj politici otkaza.
+          <strong>Otkaz rezervacije:</strong> Ako korisnik otkaže rezervaciju na kojoj je primenjen vaučer, vaučer se automatski <strong>vraća u aktivno stanje sa punim preostalim iznosom</strong> (uz sva preostala prava iz prvobitnog roka važenja). Iznos uplate koji prevazilazi vrednost vaučera podleže standardnoj politici otkaza.
         </div>
       </div>
 
@@ -506,7 +506,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vaučer se ne može razmeniti za gotovinu</strong> — neiskorišćeni saldo se ne refundira, već ostaje na vaučeru do isteka roka važenja. Jednom aktiviran vaučer nije prenosiv na drugu osobu.
+          <strong>Vaučer se ne može razmeniti za gotovinu</strong> — neiskorišćeni iznos se ne refundira, već ostaje na vaučeru do isteka roka važenja. Jednom aktiviran vaučer nije prenosiv na drugu osobu.
         </div>
       </div>
     </section>
