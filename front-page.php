@@ -3133,7 +3133,10 @@
         <p class="hint" data-i18n="s1.hint">Izaberi aerodrom polaska</p>
         <div class="airport-cards">
           <div class="airport-card" id="ap-BEG" onclick="pickAirport(this,'BEG')">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd">
+            <picture>
+              <source srcset="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.webp" type="image/webp">
+              <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd" loading="eager" decoding="async">
+            </picture>
             <div class="airport-overlay">
               <div class="airport-iata">BEG</div>
               <div class="airport-city">Beograd</div>
@@ -3142,7 +3145,10 @@
             <div class="airport-check">✓</div>
           </div>
           <div class="airport-card" id="ap-INI" onclick="pickAirport(this,'INI')">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.jpg" alt="Niš">
+            <picture>
+              <source srcset="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.webp" type="image/webp">
+              <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.jpg" alt="Niš" loading="eager" decoding="async">
+            </picture>
             <div class="airport-overlay">
               <div class="airport-iata">INI</div>
               <div class="airport-city">Niš</div>
@@ -4784,6 +4790,15 @@ function escScrollTo(id) {
 // Izvor: Unsplash.com (besplatna Unsplash licenca za komercijalnu upotrebu)
 const IMG_BASE = '<?php echo get_template_directory_uri(); ?>/images/destinations';
 
+// WebP detekcija — jednom pri ucitavanju; 50-70% manji fajlovi za WebP browsere
+const IMG_EXT = (() => {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = 1;
+    return c.toDataURL('image/webp').startsWith('data:image/webp') ? '.webp' : '.jpg';
+  } catch (e) { return '.jpg'; }
+})();
+
 // Slike u folderu se zovu isto kao destinacije (lowercase, bez dijakritika, bez razmaka).
 // Za nekoliko gradova postoji razlika između srpskog naziva i naziva fajla — override mapa.
 const IMG_OVERRIDE = {
@@ -4797,7 +4812,7 @@ function destImgUrl(name) {
   const slug = name.toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '');
-  return `${IMG_BASE}/${IMG_OVERRIDE[slug] || slug}.jpg`;
+  return `${IMG_BASE}/${IMG_OVERRIDE[slug] || slug}${IMG_EXT}`;
 }
 
 // Serbian → English city name translation
@@ -4820,7 +4835,7 @@ function destDisplayName(name) {
 
 function airportImgUrl(code) {
   const map = { BEG:'beograd', INI:'nis', ZAG:'zagreb', BUD:'budimpesta', TIM:'timisoara' };
-  return `${IMG_BASE}/${map[code] || 'beograd'}.jpg`;
+  return `${IMG_BASE}/${map[code] || 'beograd'}${IMG_EXT}`;
 }
 
 // ══════════ STATE
