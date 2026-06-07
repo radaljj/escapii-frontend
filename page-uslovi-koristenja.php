@@ -395,7 +395,7 @@ body {
       <h3>Koncept iznenađenja</h3>
       <ul class="pp-list">
         <li><strong>Korisnik bira:</strong> aerodrom, datume, broj putnika, tip smeštaja, dodaci (osiguranje, doručak, sedišta zajedno, prtljag) i do 5 destinacija koje želi isključiti</li>
-        <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni</li>
+        <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni — svako putovanje prilagođavamo najboljim dostupnim opcijama u datom trenutku, pa konačna destinacija može biti i neka koja nije trenutno istaknuta na sajtu</li>
         <li><strong>Destinacija se otkriva</strong> korisniku emailom 48 sata pre polaska</li>
         <li>Slanjem upita korisnik <strong>prihvata iznenađenje kao sastavni deo usluge</strong> i ne može zahtevati promenu destinacije nakon potvrde rezervacije</li>
       </ul>

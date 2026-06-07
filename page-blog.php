@@ -380,8 +380,8 @@ a{color:inherit;}
 <?php else: ?>
   <div class="bl-empty">
     <span class="bl-empty-icon">✈️</span>
-    <h2>Uskoro na putu</h2>
-    <p>Prve priče su već u pripremi — vrati se uskoro i otkri gde nas je odvelo sledeće iznenađenje.</p>
+    <h2>Uskoro otkrivamo nešto novo</h2>
+    <p>Pripremamo narednu priču sa puta. Vrati se uskoro i budi među prvima koji će je otkriti.</p>
     <div class="bl-empty-dots">
       <span></span><span></span><span></span>
     </div>

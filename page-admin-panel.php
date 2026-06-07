@@ -1024,10 +1024,11 @@ tbody td  { padding: 11px 12px; }
       <!-- ⚠️ Podsetnik: vaučer lifecycle -->
       <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
         <strong style="color:#CA8A71;">⚠️ Vaučer lifecycle — VAŽNO:</strong><br>
-        Kad korisnik unese vaučer kod pri rezervaciji → status postaje <strong style="color:#fbbf24;">RESERVED</strong> (blokiran, ali nije trajno potrošen).<br>
-        Vaučer ostaje RESERVED tokom celog toka (PENDING i CONFIRMED) — <strong>trajno postaje USED tek kad rezervacija pređe u COMPLETED</strong> (automatski ili ručno).<br>
-        Ako se rezervacija <strong>otkaže ili obriše</strong> → vaučer se automatski vraća na <strong style="color:#93c5fd;">ACTIVE</strong>.<br>
-        Vraćanje iz CONFIRMED u PENDING ne oslobađa vaučer — ostaje RESERVED dok se rezervacija ne završi ili otkaže.
+        Kad korisnik unese vaučer pri rezervaciji → iznos se odmah oduzima od preostalog iznosa vaučera.<br>
+        Ako vaučer <strong>pokrije celu cenu putovanja</strong> → status postaje <strong style="color:#fbbf24;">RESERVED</strong> (čeka COMPLETED da postane USED).<br>
+        Ako vaučer <strong>pokrije samo deo</strong> → ostaje <strong style="color:#22c55e;">ACTIVE</strong> i može se odmah koristiti ponovo za preostali iznos.<br>
+        Ako se rezervacija <strong>otkaže ili obriše</strong> → iznos se vraća na vaučer, status → <strong style="color:#93c5fd;">ACTIVE</strong>.<br>
+        Vaučer postaje <strong>USED</strong> tek kad rezervacija pređe u COMPLETED i u potpunosti je potrošen.
       </div>
 
       <!-- Vaučeri -->
@@ -3079,7 +3080,10 @@ function renderGiftVouchers() {
         <div style="font-size:13px;font-weight:600;">${escHtml(v.buyerName || '—')}</div>
         <div style="font-size:11px;color:#64748b;">${escHtml(v.buyerEmail)}</div>
       </td>
-      <td style="font-weight:800;color:#CA8A71;">${v.amount}€</td>
+      <td style="font-weight:800;color:#CA8A71;">
+        ${(v.remainingAmount != null ? v.remainingAmount : v.amount)}€
+        ${(v.usedAmount > 0 ? `<div style="font-size:10px;color:#64748b;font-weight:400;">od ${v.amount}€ ukupno</div>` : '')}
+      </td>
       <td>
         <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
         ${codePill}${reservedNote}

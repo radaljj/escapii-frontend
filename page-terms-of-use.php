@@ -422,7 +422,7 @@ body {
       <h3>The surprise concept</h3>
       <ul class="pp-list">
         <li><strong>The traveller chooses:</strong> airport, dates, number of passengers, accommodation type, add-ons (insurance, breakfast, seats together, cabin bag) and up to 5 destinations to exclude</li>
-        <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded</li>
+        <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded — every trip is tailored to the best available options at that moment, so the final destination may be one not currently featured on the website</li>
         <li><strong>The destination is revealed</strong> to the traveller via email 48 hours before departure</li>
         <li>By submitting an enquiry, the traveller <strong>accepts the surprise as an inherent part of the service</strong> and may not request a change of destination after the booking is confirmed</li>
       </ul>
