@@ -487,7 +487,7 @@ body {
         <li>Vaučer važi <strong>godinu dana od datuma aktivacije</strong> (ne od datuma kupovine)</li>
         <li>Po isteku roka, vaučer postaje nevažeći i ne može se koristiti</li>
         <li>Na jednu rezervaciju može se primeniti <strong>jedan vaučer</strong></li>
-        <li>Ako je vrednost putovanja manja od iznosa vaučera, <strong>razlika se ne vraća</strong> niti prenosi</li>
+        <li>Ako je vrednost putovanja manja od iznosa vaučera, <strong>preostali saldo ostaje na vaučeru</strong> i može se iskoristiti za narednu Escapii rezervaciju u okviru preostalog roka važenja</li>
         <li>Ako je vrednost putovanja veća od iznosa vaučera, razlika se plaća standardnim putem</li>
       </ul>
 

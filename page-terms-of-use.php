@@ -514,7 +514,7 @@ body {
         <li>Vouchers are valid for <strong>one year from the date of activation</strong> (not from the date of purchase)</li>
         <li>Once the validity period expires, the voucher becomes invalid and cannot be used</li>
         <li><strong>One voucher</strong> may be applied per booking</li>
-        <li>If the trip price is lower than the voucher amount, the <strong>difference is not refunded</strong> or carried over</li>
+        <li>If the trip price is lower than the voucher amount, the <strong>remaining balance stays on the voucher</strong> and can be used for a future Escapii booking within the remaining validity period</li>
         <li>If the trip price exceeds the voucher amount, the remainder is paid through the standard payment process</li>
       </ul>
 
