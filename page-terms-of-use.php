@@ -505,17 +505,18 @@ body {
         <li>Vouchers are purchased on the <strong>Gift</strong> page at escapii.rs by selecting an amount and entering the recipient's details</li>
         <li>Once payment is confirmed, the buyer receives a <strong>PDF voucher</strong> (boarding pass design) by email with a unique code — ready to forward or print</li>
         <li>The voucher is activated when the Escapii team confirms payment — the validity period starts from that date</li>
-        <li>The recipient enters the voucher code when submitting an inquiry; the voucher amount is <strong>deducted from the total trip price</strong></li>
-        <li>Vouchers can be used on both <strong>group and private trips</strong></li>
+        <li>The recipient enters the voucher code when submitting an inquiry; the amount corresponding to the trip price is <strong>deducted from the voucher balance</strong> — any remaining balance stays available for future trips</li>
+        <li>Vouchers can be used on both <strong>group and custom trips</strong></li>
       </ul>
 
       <h3>Validity and conditions</h3>
       <ul class="pp-list">
         <li>Vouchers are valid for <strong>one year from the date of activation</strong> (not from the date of purchase)</li>
-        <li>Once the validity period expires, the voucher becomes invalid and cannot be used</li>
+        <li>Once the validity period expires, the voucher becomes invalid and cannot be used regardless of remaining balance</li>
         <li><strong>One voucher</strong> may be applied per booking</li>
-        <li>If the trip price is lower than the voucher amount, the <strong>remaining balance stays on the voucher</strong> and can be used for a future Escapii booking within the remaining validity period</li>
-        <li>If the trip price exceeds the voucher amount, the remainder is paid through the standard payment process</li>
+        <li>A voucher can be used <strong>multiple times</strong> across different bookings until the balance is fully consumed</li>
+        <li>If the trip price is lower than the remaining voucher balance, the <strong>difference stays on the voucher</strong> and can be used for a future Escapii booking within the remaining validity period</li>
+        <li>If the trip price exceeds the remaining voucher balance, the difference is paid through the standard payment process</li>
       </ul>
 
       <div class="pp-notice">
@@ -523,7 +524,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="pp-notice-text">
-          <strong>Booking cancellation:</strong> If a booking to which a voucher was applied is cancelled, the voucher is automatically <strong>returned to active status</strong> (with its original validity period intact). Any payment amount exceeding the voucher value is subject to the standard cancellation policy.
+          <strong>Booking cancellation:</strong> If a booking to which a voucher was applied is cancelled, the voucher is automatically <strong>returned to active status with its full remaining balance</strong> (with its original validity period intact). Any payment amount exceeding the voucher value is subject to the standard cancellation policy.
         </div>
       </div>
 
@@ -532,7 +533,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vouchers cannot be exchanged for cash</strong> or partially refunded. Once activated, a voucher is non-transferable.
+          <strong>Vouchers cannot be exchanged for cash</strong> — any unused balance is not refunded but remains on the voucher until the validity period expires. Once activated, a voucher is non-transferable.
         </div>
       </div>
     </section>
