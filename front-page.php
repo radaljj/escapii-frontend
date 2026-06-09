@@ -1494,6 +1494,7 @@
     }
     .airport-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(255,255,255,.2); }
     .airport-card.on { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(202,138,113,.25), 0 8px 32px rgba(0,0,0,.5); }
+    .airport-card picture { display: block; width: 100%; height: 100%; }
     .airport-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.55); transition: all .45s; }
     .airport-card:hover img { filter: brightness(.7); transform: scale(1.06); }
     .airport-card.on img { filter: brightness(.45); }
