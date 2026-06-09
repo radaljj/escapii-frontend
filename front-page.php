@@ -1494,7 +1494,6 @@
     }
     .airport-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(255,255,255,.2); }
     .airport-card.on { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(202,138,113,.25), 0 8px 32px rgba(0,0,0,.5); }
-    .airport-card picture { display: block; width: 100%; height: 100%; }
     .airport-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.55); transition: all .45s; }
     .airport-card:hover img { filter: brightness(.7); transform: scale(1.06); }
     .airport-card.on img { filter: brightness(.45); }
@@ -3134,10 +3133,7 @@
         <p class="hint" data-i18n="s1.hint">Izaberi aerodrom polaska</p>
         <div class="airport-cards">
           <div class="airport-card" id="ap-BEG" onclick="pickAirport(this,'BEG')">
-            <picture>
-              <source srcset="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.webp" type="image/webp">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd" loading="eager" decoding="async">
-            </picture>
+            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd">
             <div class="airport-overlay">
               <div class="airport-iata">BEG</div>
               <div class="airport-city">Beograd</div>
@@ -3146,10 +3142,7 @@
             <div class="airport-check">✓</div>
           </div>
           <div class="airport-card" id="ap-INI" onclick="pickAirport(this,'INI')">
-            <picture>
-              <source srcset="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.webp" type="image/webp">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.jpg" alt="Niš" loading="eager" decoding="async">
-            </picture>
+            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.jpg" alt="Niš">
             <div class="airport-overlay">
               <div class="airport-iata">INI</div>
               <div class="airport-city">Niš</div>
