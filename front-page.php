@@ -4784,14 +4784,7 @@ function escScrollTo(id) {
 // Izvor: Unsplash.com (besplatna Unsplash licenca za komercijalnu upotrebu)
 const IMG_BASE = '<?php echo get_template_directory_uri(); ?>/images/destinations';
 
-// WebP detekcija — jednom pri ucitavanju; 50-70% manji fajlovi za WebP browsere
-const IMG_EXT = (() => {
-  try {
-    const c = document.createElement('canvas');
-    c.width = c.height = 1;
-    return c.toDataURL('image/webp').startsWith('data:image/webp') ? '.webp' : '.jpg';
-  } catch (e) { return '.jpg'; }
-})();
+const IMG_EXT = '.jpg';
 
 // Slike u folderu se zovu isto kao destinacije (lowercase, bez dijakritika, bez razmaka).
 // Za nekoliko gradova postoji razlika između srpskog naziva i naziva fajla — override mapa.
