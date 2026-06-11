@@ -304,10 +304,6 @@ a{color:inherit;}
       <div class="f-eyebrow"><?php echo get_the_date('d. F Y.'); ?> · <?php echo $feat_read; ?> min čitanja</div>
       <h3><?php the_title(); ?></h3>
       <p class="f-excerpt"><?php echo esc_html($feat_excerpt); ?></p>
-      <div class="f-meta">
-        <div class="av"><?php echo get_avatar(get_the_author_meta('ID'), 68); ?></div>
-        <b><?php the_author(); ?></b>
-      </div>
       <span class="read-link">Čitaj članak
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </span>
@@ -339,9 +335,6 @@ a{color:inherit;}
         <h3><?php the_title(); ?></h3>
         <p class="c-excerpt"><?php echo esc_html($g_excerpt); ?></p>
         <div class="c-meta">
-          <div class="av"><?php echo get_avatar(get_the_author_meta('ID'), 52); ?></div>
-          <b><?php the_author(); ?></b>
-          <span class="dot"></span>
           <span><?php echo get_the_date('d.m.Y.'); ?> · <?php echo $g_read; ?> min</span>
         </div>
       </div>
