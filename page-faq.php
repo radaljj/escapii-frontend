@@ -97,18 +97,17 @@ a { color: inherit; }
 
 /* ── Hero ── */
 .fq-hero {
-  position: relative; background: var(--teal-deep); overflow: hidden;
+  position: relative; overflow: hidden;
   text-align: center; padding: 70px 24px 110px;
+  background: url('https://images.unsplash.com/photo-1622272515909-f7facc49271e?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);
 }
 .fq-hero::before {
   content: ""; position: absolute; inset: 0;
-  background:
-    radial-gradient(55% 80% at 50% -20%, rgba(80,130,140,.5) 0%, rgba(22,49,58,0) 62%),
-    radial-gradient(40% 70% at 88% 130%, rgba(200,119,90,.16) 0%, rgba(22,49,58,0) 60%);
+  background: rgba(10,30,38,.70);
 }
 .fq-hero::after {
-  content: ""; position: absolute; inset: 0; opacity: .45;
-  background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+  content: ""; position: absolute; inset: 0; opacity: .25;
+  background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
   background-size: 26px 26px;
 }
 .fq-hero-content { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }

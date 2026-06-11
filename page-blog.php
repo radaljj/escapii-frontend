@@ -76,12 +76,12 @@ a{color:inherit;}
 .nav-link svg{width:14px; height:14px;}
 
 /* ---------- hero ---------- */
-.hero{position:relative; background:var(--teal-deep); overflow:hidden; text-align:center; padding:88px 24px 120px;}
+.hero{position:relative; overflow:hidden; text-align:center; padding:88px 24px 120px;
+  background:url('https://images.unsplash.com/photo-1756674105285-a136b84d869c?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);}
 .hero::before{content:""; position:absolute; inset:0;
-  background:radial-gradient(60% 80% at 50% -10%, rgba(80,130,140,.45) 0%, rgba(22,49,58,0) 60%),
-    radial-gradient(40% 60% at 85% 120%, rgba(200,119,90,.18) 0%, rgba(22,49,58,0) 60%);}
-.hero::after{content:""; position:absolute; inset:0; opacity:.5;
-  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px); background-size:26px 26px;}
+  background:rgba(10,30,38,.72);}
+.hero::after{content:""; position:absolute; inset:0; opacity:.25;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); background-size:26px 26px;}
 .hero-content{position:relative; z-index:2; max-width:760px; margin:0 auto;}
 .hero-pill{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans);
   font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fbe3d6;
