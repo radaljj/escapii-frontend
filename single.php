@@ -293,13 +293,7 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
       <a href="<?php echo $cat_link; ?>" class="cat-pill"><?php echo $cat_name; ?></a>
       <h1 class="title"><?php the_title(); ?></h1>
       <div class="hero-meta">
-        <div class="author">
-          <div class="author-avatar"><?php echo get_avatar($author_id, 84, '', $author, ['class' => '']); ?></div>
-          <span>
-            <b><?php echo esc_html($author); ?></b>
-            <small><?php echo get_the_date('d. F Y.'); ?></small>
-          </span>
-        </div>
+        <span><?php echo esc_date_sr('d. F Y.'); ?></span>
         <span class="dot"></span>
         <span><?php echo $read_min; ?> min čitanja</span>
       </div>

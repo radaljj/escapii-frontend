@@ -301,7 +301,7 @@ a{color:inherit;}
       <?php if ($feat_cat): ?><span class="f-tag"><?php echo $feat_cat; ?></span><?php endif; ?>
     </div>
     <div class="f-body">
-      <div class="f-eyebrow"><?php echo get_the_date('d. F Y.'); ?> · <?php echo $feat_read; ?> min čitanja</div>
+      <div class="f-eyebrow"><?php echo esc_date_sr('d. F Y.'); ?> · <?php echo $feat_read; ?> min čitanja</div>
       <h3><?php the_title(); ?></h3>
       <p class="f-excerpt"><?php echo esc_html($feat_excerpt); ?></p>
       <span class="read-link">Čitaj članak

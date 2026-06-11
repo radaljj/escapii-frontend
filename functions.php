@@ -237,3 +237,12 @@ function escapii_serve_sitemap() {
     echo '</urlset>';
     exit;
 }
+
+function esc_date_sr(string $format, $timestamp = null): string {
+    if ($timestamp === null) $timestamp = get_the_time('U');
+    $en = ['January','February','March','April','May','June',
+           'July','August','September','October','November','December'];
+    $sr = ['januar','februar','mart','april','maj','jun',
+           'jul','avgust','septembar','oktobar','novembar','decembar'];
+    return str_replace($en, $sr, date($format, $timestamp));
+}
