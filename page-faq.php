@@ -58,6 +58,9 @@ $site_url  = get_site_url();
   --serif:     "Newsreader", Georgia, serif;
   --display:   "Playfair Display", Georgia, serif;
   --sans:      "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --gray:      #7A9FA8;
+  --white-nav: #2D5F6B;
+  --accent:    #CA8A71;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 * { -webkit-tap-highlight-color: transparent; }
@@ -189,71 +192,24 @@ a { color: inherit; }
 .faq-a-inner ol { padding-left: 20px; margin: 8px 0; }
 .faq-a-inner br + br { display: block; margin-top: 8px; }
 
-/* ── CTA ── */
-.fq-cta {
-  margin: 40px 0 0; background: var(--ink); border-radius: 24px;
-  overflow: hidden; position: relative; padding: 56px 40px; text-align: center;
-}
-.fq-cta::before {
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(60% 130% at 50% 0%, rgba(200,119,90,.28), transparent 70%);
-}
-.fq-cta-in { position: relative; z-index: 2; max-width: 480px; margin: 0 auto; }
-.fq-cta h2 {
-  font-family: var(--display); font-weight: 600; color: #fff;
-  font-size: 28px; line-height: 1.2; letter-spacing: -.4px; margin-bottom: 12px;
-}
-.fq-cta p { font-family: var(--serif); font-size: 16px; line-height: 1.65; color: rgba(255,255,255,.7); margin-bottom: 28px; }
-.fq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.fq-btn-primary {
-  font-family: var(--sans); font-size: 14px; font-weight: 600; color: #fff;
-  text-decoration: none; padding: 13px 26px; border-radius: 100px;
-  background: var(--terra); transition: .2s; display: inline-flex; align-items: center; gap: 8px;
-}
-.fq-btn-primary:hover { background: var(--peach); }
-.fq-cta-note { margin-top: 16px; font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,.45); }
-
-/* ── Footer ── */
-.fq-footer {
-  background: var(--ink); color: #cbbfae;
-  padding: 64px 40px 32px; margin-top: 80px;
-}
-.fq-foot-wrap {
-  max-width: 900px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 44px;
-}
-.fq-foot-brand img { height: 40px; width: auto; margin-bottom: 16px; display: block; }
-.fq-foot-brand p {
-  font-family: var(--sans); font-size: 14px; line-height: 1.65;
-  color: #9a8d7c; max-width: 32ch; margin-bottom: 20px;
-}
-.fq-foot-social { display: flex; gap: 10px; margin-top: 4px; }
-.fq-social-icon {
-  width: 38px; height: 38px; border-radius: 9px;
-  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
-  display: flex; align-items: center; justify-content: center;
-  color: #9a8d7c; text-decoration: none; transition: all .2s;
-}
-.fq-social-icon:hover { background: var(--terra); border-color: var(--terra); color: #fff; }
-.fq-social-icon svg { width: 17px; height: 17px; fill: currentColor; }
-.fq-foot-col h4 {
-  font-family: var(--sans); font-size: 10px; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase; color: #7d7160; margin-bottom: 18px;
-}
-.fq-foot-col a {
-  display: block; font-family: var(--sans); font-size: 14px;
-  color: #cbbfae; text-decoration: none; margin-bottom: 11px; transition: .2s;
-}
-.fq-foot-col a:hover { color: var(--peach); }
-.fq-foot-divider { max-width: 900px; margin: 40px auto 0; height: 1px; background: rgba(255,255,255,.08); }
-.fq-foot-bottom {
-  max-width: 900px; margin: 0 auto; padding-top: 22px;
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 10px;
-  font-family: var(--sans); font-size: 12px; color: #7d7160;
-}
-.fq-foot-bottom a { color: #7d7160; text-decoration: none; margin-left: 20px; transition: .2s; }
-.fq-foot-bottom a:hover { color: var(--peach); }
+/* ── Footer (identičan blog/glavnoj strani) ── */
+.esc-footer{background:#EFE9E7; padding:64px 64px 28px; border-top:1px solid rgba(15,45,53,.07); margin-top:88px;}
+.footer-main{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:56px;}
+.footer-brand p{font-size:14px; color:var(--gray); line-height:1.75; margin-top:16px; max-width:280px;}
+.footer-col h4{font-family:var(--sans); font-size:11px; font-weight:800; color:var(--white-nav); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:18px;}
+.footer-col a{display:block; font-size:14px; color:var(--gray); text-decoration:none; margin-bottom:10px; transition:color .2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-social{margin-top:28px;}
+.footer-social h4{font-size:11px; font-weight:800; color:var(--white-nav); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px; font-family:var(--sans);}
+.social-icons{display:flex; gap:12px;}
+.social-icon{width:40px; height:40px; border-radius:10px; background:rgba(15,45,53,.06); border:1px solid rgba(15,45,53,.1); display:flex; align-items:center; justify-content:center; color:var(--gray); text-decoration:none; transition:all .2s;}
+.social-icon:hover{background:var(--accent); border-color:var(--accent); color:#fff;}
+.social-icon svg{width:18px; height:18px; fill:currentColor;}
+.footer-divider{height:1px; background:rgba(15,45,53,.08); margin-bottom:24px;}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; font-family:var(--sans); font-size:13px; color:var(--gray); flex-wrap:wrap; gap:12px;}
+.footer-bottom-links{display:flex; gap:24px;}
+.footer-bottom-links a{color:var(--gray); text-decoration:none; font-size:13px; transition:color .2s;}
+.footer-bottom-links a:hover{color:var(--white-nav);}
 
 /* ── Responsive ── */
 @media (max-width: 760px) {
@@ -263,15 +219,10 @@ a { color: inherit; }
   .faq-q h3 { font-size: 17px; }
   .faq-q { padding: 18px 20px; }
   .faq-a-inner { padding: 0 20px 22px; }
-  .fq-cta { border-radius: 16px; padding: 44px 24px; }
-  .fq-footer { padding: 48px 20px 24px; }
-  .fq-foot-wrap { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .fq-foot-brand { grid-column: 1 / -1; }
-  .fq-foot-bottom { flex-direction: column; text-align: center; }
-  .fq-foot-bottom a { margin: 0 10px; }
-}
-@media (max-width: 480px) {
-  .fq-foot-wrap { grid-template-columns: 1fr; }
+  .footer-main{grid-template-columns:1fr 1fr; gap:32px;}
+  .esc-footer{padding:48px 24px 24px;}
+  .footer-bottom{flex-direction:column; text-align:center;}
+  .footer-bottom-links{flex-wrap:wrap; justify-content:center; gap:16px;}
 }
 </style>
 </head>
@@ -403,66 +354,56 @@ a { color: inherit; }
     </details>
   </section>
 
-  <!-- CTA -->
-  <section class="fq-cta">
-    <div class="fq-cta-in">
-      <h2 data-i18n="cta.h">Imaš još pitanja? Escapii tim je tu za tebe.</h2>
-      <p data-i18n="cta.p">Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije.</p>
-      <div class="fq-cta-btns">
-        <a href="mailto:escapii.team@gmail.com" class="fq-btn-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span data-i18n="cta.mail">escapii.team@gmail.com</span>
-        </a>
-      </div>
-      <p class="fq-cta-note" data-i18n="cta.note">Odgovaramo u roku od 24h</p>
-    </div>
-  </section>
 
 </main>
 
 <!-- FOOTER -->
-<footer class="fq-footer">
-  <div class="fq-foot-wrap">
-    <div class="fq-foot-brand">
-      <a href="<?php echo esc_url($site_url); ?>">
-        <img src="<?php echo esc_url($theme_uri); ?>/images/escapii-logo.png" alt="Escapii"
-             onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-style:italic;color:#fff;font-size:22px;font-weight:600;\'>escapii</span>'">
-      </a>
-      <p data-i18n="ft.desc">Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
-      <div class="fq-foot-social">
-        <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener" class="fq-social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com/@escapii.rs?_r=1&_t=ZS-96jzf1blOsf" target="_blank" rel="noopener noreferrer" class="fq-social-icon" aria-label="TikTok">
-          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
-        </a>
+<footer class="esc-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="<?php echo home_url('/'); ?>"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-black.svg" alt="Escapii" style="height:36px;display:block;"></a>
+      <p>Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
+      <div class="footer-social">
+        <h4>Pratite nas</h4>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@escapii.rs?_r=1&_t=ZS-96jzf1blOsf" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
       </div>
     </div>
-    <div class="fq-foot-col">
-      <h4 data-i18n="ft.nav">Navigacija</h4>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-booking" data-i18n="ft.book">Rezervacija</a>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-dest" data-i18n="ft.dest">Destinacije</a>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-how" data-i18n="ft.how">Kako funkcioniše</a>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-who" data-i18n="ft.who">Za koga</a>
-      <a href="/faq" data-i18n="ft.faq">FAQ</a>
-      <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--peach);font-weight:600;" data-i18n="ft.gift">🎁 Pokloni putovanje</a>
+    <div class="footer-col">
+      <h4>Navigacija</h4>
+      <a href="<?php echo home_url('/'); ?>#esc-about">O nama</a>
+      <a href="<?php echo home_url('/'); ?>#esc-dest">Destinacije</a>
+      <a href="<?php echo home_url('/'); ?>#esc-how">Kako funkcioniše</a>
+      <a href="<?php echo home_url('/'); ?>#esc-who">Za koga</a>
+      <a href="<?php echo home_url('/'); ?>#esc-faq">FAQ</a>
+      <a href="<?php echo home_url('/blog'); ?>">Blog</a>
+      <a href="<?php echo home_url('/pokloni-putovanje-iznenadjenja'); ?>" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
     </div>
-    <div class="fq-foot-col">
-      <h4 data-i18n="ft.dep">Polasci</h4>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-booking">✈ Beograd (BEG)</a>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-booking">✈ Niš (INI)</a>
+    <div class="footer-col">
+      <h4>Polasci</h4>
+      <a href="<?php echo home_url('/'); ?>#esc-booking">✈ Beograd (BEG)</a>
+      <a href="<?php echo home_url('/'); ?>#esc-booking">✈ Niš (INI)</a>
     </div>
-    <div class="fq-foot-col">
-      <h4 data-i18n="ft.contact">Kontakt</h4>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
       <a href="mailto:escapii.team@gmail.com">✉ escapii.team@gmail.com</a>
     </div>
   </div>
-  <div class="fq-foot-divider"></div>
-  <div class="fq-foot-bottom">
-    <span>© 2026 Escapii — <span data-i18n="ft.rights">Sva prava zadržana</span></span>
-    <div>
-      <a href="/uslovi-koriscenja" data-i18n="ft.terms">Uslovi korišćenja</a>
-      <a href="/politika-privatnosti" data-i18n="ft.privacy">Politika privatnosti</a>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <span>© 2026 Escapii - Sva prava zadržana</span>
+    <div class="footer-bottom-links">
+      <a href="<?php echo home_url('/uslovi-koriscenja'); ?>">Uslovi korišćenja</a>
+      <a href="<?php echo home_url('/politika-privatnosti'); ?>">Politika privatnosti</a>
     </div>
   </div>
 </footer>
@@ -509,10 +450,6 @@ const I18N_EN = {
   'a12':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message - we\'ll send a beautifully designed PDF voucher (boarding pass style) ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong>. Vouchers cannot be exchanged for cash.',
   'q13':'What is a custom trip and how do I book one?',
   'a13':'A custom trip is designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually.',
-  'cta.h':'Still have questions? The Escapii team is here for you.',
-  'cta.p':'We know this is a completely new concept - and that\'s exactly why we\'re here. Send us an email or reach out if you\'d like a quick chat with our team before booking.',
-  'cta.mail':'escapii.team@gmail.com',
-  'cta.note':'We reply within 24 hours',
   'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
   'ft.nav':'Navigation', 'ft.book':'Book a trip', 'ft.dest':'Destinations',
   'ft.how':'How it works', 'ft.who':'Who it\'s for', 'ft.faq':'FAQ',
