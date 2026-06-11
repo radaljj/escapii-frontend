@@ -583,23 +583,21 @@
                  padding:12px; width:100%; font-size:13px; font-weight:700;
                  cursor:pointer; font-family:inherit; }
     @media (max-width:767px) {
-      .ab-two-col { flex-direction:column; gap:40px; }
-      .ab-mob-intro { display:none; }
-      .ab-text-col { display:block; max-width:100%; opacity:1 !important; animation:none !important; }
-      .ab-text-col .ab-tag,
-      .ab-text-col .ab-heading,
-      .ab-text-col .ab-body-text,
-      .ab-text-col .ab-steps,
-      .ab-text-col .ab-btn-primary,
-      .ab-text-col .ab-trust { opacity:1 !important; animation:none !important; }
+      .ab-two-col { flex-direction:column; gap:0; }
+      .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
-      .ab-overlay { position:static; display:flex; transform:none !important; transition:none; background:transparent; padding:24px 4px 0; overflow:visible; inset:auto; max-height:none; }
-      .ab-steps { grid-template-columns:1fr; gap:12px; }
-      .ab-steps::before { display:none; }
-      .ab-step { display:grid; grid-template-columns:54px 1fr; gap:12px; align-items:center; text-align:left; }
-      .ab-step-chip { margin:0; }
-      .ab-btn-primary { width:100%; justify-content:center; }
+      .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; }
     }
+    /* Overlay steps — kompaktno na desktopu (unutar telefona), normalno na mobilnom */
+    .ab-overlay .ab-steps { grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+    .ab-overlay .ab-steps::before { display:none; }
+    .ab-overlay .ab-step { display:grid; grid-template-columns:44px 1fr; gap:10px; align-items:center; text-align:left; }
+    .ab-overlay .ab-step-chip { margin:0; width:44px; height:44px; border-radius:12px; }
+    .ab-overlay .ab-step-lbl { font-size:13px; }
+    .ab-overlay .ab-step-sub { font-size:11px; }
+    .ab-overlay .ab-btn-primary { width:100%; justify-content:center; font-size:14px; padding:13px 20px; }
+    .ab-overlay .ab-trust { margin-top:16px; gap:6px 14px; }
+    .ab-overlay .ab-trust-item { font-size:12px; }
     @media (max-width:400px) {
       .ab-phone-frame { width:290px; height:580px; border-radius:44px; }
       .ab-phone-inner { border-radius:38px; }
@@ -2995,15 +2993,28 @@
   <!-- Mobile-only content block - always visible below phone -->
   <div class="ab-overlay" id="abOverlay">
     <div class="ab-ov-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h3 class="ab-ov-title" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h3>
-    <p class="ab-ov-body" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.</p>
-    <ul class="ab-ov-features">
-      <li class="ab-ov-feature"><div class="ab-ov-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">📍</div><span data-i18n="ab.f2">Destinacija ostaje tajna sve do 48h pre polaska</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-      <li class="ab-ov-feature"><div class="ab-ov-icon">🤝</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
-    </ul>
-    <button class="ab-ov-btn" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
+    <h3 class="ab-ov-title" data-i18n-html="ab.heading">Prva platforma u regionu za putovanja <span class="ab-accent">iznenađenja</span> po Evropi.</h3>
+    <p class="ab-ov-body" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.</p>
+    <div class="ab-steps">
+      <div class="ab-step">
+        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg></div>
+        <div><div class="ab-step-num">01</div><div class="ab-step-lbl" data-i18n="ab.s1">Izabereš termin</div><div class="ab-step-sub" data-i18n="ab.s1s">Datum, broj putnika i budžet.</div></div>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l-2 1 1.5 3 2.5-1M19 4l1 1-7.5 8.5-5 1.5 1.5-5L17 3.5z"/><path d="M14.5 6.5l3 3"/></svg></div>
+        <div><div class="ab-step-num">02</div><div class="ab-step-lbl" data-i18n="ab.s2">Mi sve sredimo</div><div class="ab-step-sub" data-i18n="ab.s2s">Destinacija, let i hotel - na nama.</div></div>
+      </div>
+      <div class="ab-step">
+        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+        <div><div class="ab-step-num">03</div><div class="ab-step-lbl" data-i18n="ab.s3">Otkrivamo 48h pre</div><div class="ab-step-sub" data-i18n="ab.s3s">Do tada - samo nagoveštaji.</div></div>
+      </div>
+    </div>
+    <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
+    <div class="ab-trust">
+      <span class="ab-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l8-2 7-7 1.5 1.5-4 6 5 2-2 2-5-1-3 5L9 19l1-5-8-2z"/></svg><span data-i18n="ab.f1">Let + hotel uključeni</span></span>
+      <span class="ab-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="ab.f3">Bez skrivenih troškova</span></span>
+      <span class="ab-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l3 3 4-7"/><circle cx="12" cy="12" r="9.5"/></svg><span data-i18n="ab.f4">Licencirana agencija</span></span>
+    </div>
   </div>
 </section>
 
