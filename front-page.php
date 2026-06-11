@@ -3807,8 +3807,8 @@
 <section class="call-us-section" id="esc-contact-cta">
   <div class="call-us-inner">
     <div class="call-us-icon">✉️</div>
-    <h2 class="call-us-heading" data-i18n="callus.h">Nisi siguran? Kontaktiraj nas!</h2>
-    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše - Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.</p>
+    <h2 class="call-us-heading" data-i18n="callus.h">Imaš još pitanja? Escapii tim je tu za tebe.</h2>
+    <p class="call-us-sub" data-i18n="callus.p">Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije. Rado ćemo odgovoriti na sva tvoja pitanja.</p>
     <div class="call-us-actions">
       <a class="call-us-btn primary" href="mailto:escapii.team@gmail.com">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -4156,8 +4156,8 @@ const TR = {
     's8.phone':'Telefon', 's8.notes':'Napomene (opciono)', 's8.submit':'Pošalji upit ✓',
     'success.h':'Upit je primljen!',
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
-    'callus.h':'Nisi siguran? Kontaktiraj nas!',
-    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše - Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.',
+    'callus.h':'Imaš još pitanja? Escapii tim je tu za tebe.',
+    'callus.p':'Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije. Rado ćemo odgovoriti na sva tvoja pitanja.',
     'callus.note':'Odgovaramo u roku od 24h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
@@ -4399,8 +4399,8 @@ const TR = {
     's8.phone':'Phone', 's8.notes':'Notes (optional)', 's8.submit':'Send inquiry ✓',
     'success.h':'Inquiry received!',
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
-    'callus.h':'Not sure? Contact us!',
-    'callus.p':'If you have questions or are not sure how this works - the Escapii team is here for you. Write to us and we\'ll get back to you as soon as possible.',
+    'callus.h':'Still have questions? The Escapii team is here for you.',
+    'callus.p':'We know this is a completely new concept - and that\'s exactly why we\'re here. Send us an email or reach out if you\'d like a quick chat with our team before booking. We\'re happy to answer all your questions.',
     'callus.note':'We respond within 24 hours',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About us', 'footer.dest':'Destinations',

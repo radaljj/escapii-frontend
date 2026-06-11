@@ -148,62 +148,35 @@ body {
 .faq-a strong { color: var(--teal); }
 .faq-a ol { padding-left: 20px; margin: 8px 0; }
 
-/* ── Bottom CTA ── */
-.fq-cta {
-  margin-top: 56px; text-align: center;
-  background: #0D2E38;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 24px; padding: 44px 32px;
-}
-.fq-cta h2 { color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -.4px; }
-.fq-cta p { color: rgba(255,255,255,.65); font-size: 14px; margin-bottom: 24px; }
-.fq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.fq-cta-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--accent); color: #fff; text-decoration: none;
-  padding: 13px 26px; border-radius: 12px;
-  font-size: 14px; font-weight: 800;
-  transition: all .25s; border: none; cursor: pointer; font-family: inherit;
-}
-.fq-cta-btn:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(202,138,113,.6); }
-.fq-cta-btn.ghost {
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
-}
-.fq-cta-btn.ghost:hover { background: rgba(255,255,255,.15); box-shadow: none; }
 
-/* ── Footer ── */
-.fq-footer {
-  background: #EFE9E7; border-top: 1px solid rgba(15,45,53,.07);
-  padding: 56px 24px 24px; margin-top: 64px;
+/* ── Footer (identičan sa glavnom stranicom) ── */
+.esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(15,45,53,.07); }
+.footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+.footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.75; margin-top: 16px; max-width: 280px; }
+.footer-col h4 { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-col a { display: block; font-size: 14px; color: var(--gray); text-decoration: none; margin-bottom: 10px; transition: color .2s; }
+.footer-col a:hover { color: var(--accent); }
+.footer-social { margin-top: 28px; }
+.footer-social h4 { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+.social-icons { display: flex; gap: 12px; }
+.social-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(15,45,53,.07); border: 1px solid rgba(15,45,53,.1);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray); text-decoration: none; transition: all .2s;
 }
-.fq-footer-main {
-  max-width: 860px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px;
-}
-.fq-footer-brand img { height: 42px; width: auto; margin-bottom: 14px; }
-.fq-footer-brand p { font-size: 13.5px; color: var(--gray); line-height: 1.6; max-width: 280px; }
-.fq-footer-col h4 {
-  font-size: 11px; font-weight: 800; color: var(--teal);
-  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
-}
-.fq-footer-col a {
-  display: block; font-size: 14px; color: var(--gray);
-  text-decoration: none; padding: 4px 0; transition: color .2s;
-}
-.fq-footer-col a:hover { color: var(--accent); }
-.fq-footer-divider { max-width: 860px; margin: 36px auto 0; height: 1px; background: rgba(15,45,53,.08); }
-.fq-footer-bottom {
-  max-width: 860px; margin: 0 auto; padding-top: 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 10px;
-  font-size: 12.5px; color: var(--gray);
-}
-.fq-footer-bottom a { color: var(--gray); text-decoration: none; margin-left: 18px; transition: color .2s; }
-.fq-footer-bottom a:hover { color: var(--accent); }
-@media (max-width: 680px) {
-  .fq-footer-main { grid-template-columns: 1fr; gap: 28px; }
-  .fq-footer-bottom { flex-direction: column; text-align: center; }
-  .fq-footer-bottom a { margin: 0 9px; }
+.social-icon:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.social-icon svg { width: 18px; height: 18px; fill: currentColor; }
+.footer-divider { height: 1px; background: rgba(15,45,53,.08); margin-bottom: 24px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--gray); flex-wrap: wrap; gap: 12px; }
+.footer-bottom-links { display: flex; gap: 24px; }
+.footer-bottom-links a { color: var(--gray); text-decoration: none; font-size: 13px; transition: color .2s; }
+.footer-bottom-links a:hover { color: var(--accent); }
+@media (max-width: 768px) {
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .esc-footer { padding: 48px 24px 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .footer-bottom-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
 }
 
 @media (max-width: 600px) {
@@ -307,40 +280,48 @@ body {
 
   </div>
 
-  <div class="fq-cta">
-    <h2 data-i18n="cta.h">Imaš još pitanja? Escapii tim je tu za tebe.</h2>
-    <p data-i18n="cta.p">Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije. Rado ćemo odgovoriti na sva tvoja pitanja.</p>
-    <div class="fq-cta-btns">
-      <a href="mailto:escapii.team@gmail.com" class="fq-cta-btn">✉ escapii.team@gmail.com</a>
-    </div>
-    <p style="margin-top:16px;font-size:13px;color:rgba(255,255,255,.5);" data-i18n="cta.sub">Odgovaramo u roku od 24h</p>
-  </div>
 </div>
 
-<footer class="fq-footer">
-  <div class="fq-footer-main">
-    <div class="fq-footer-brand">
-      <a href="<?php echo esc_url($site_url); ?>"><img src="<?php echo esc_url($theme_uri); ?>/images/logo-black.svg" alt="Escapii"></a>
+<footer class="esc-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="<?php echo esc_url($site_url); ?>"><img src="<?php echo esc_url($theme_uri); ?>/images/logo-black.svg" alt="Escapii" style="height:42px;width:auto;"></a>
       <p data-i18n="ft.desc">Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
+      <div class="footer-social">
+        <h4 data-i18n="ft.social">Pratite nas</h4>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@escapii.rs?_r=1&_t=ZS-96jzf1blOsf" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="fq-footer-col">
+    <div class="footer-col">
       <h4 data-i18n="ft.nav">Navigacija</h4>
       <a href="<?php echo esc_url($site_url); ?>/#esc-booking" data-i18n="ft.book">Rezervacija</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-dest" data-i18n="ft.dest">Destinacije</a>
       <a href="<?php echo esc_url($site_url); ?>/#esc-how" data-i18n="ft.how">Kako funkcioniše</a>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-who" data-i18n="ft.who">Za koga</a>
+      <a href="/faq" data-i18n="ft.faq">FAQ</a>
       <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;" data-i18n="ft.gift">🎁 Pokloni putovanje</a>
     </div>
-    <div class="fq-footer-col">
+    <div class="footer-col">
+      <h4 data-i18n="ft.dep">Polasci</h4>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-booking">✈ Beograd (BEG)</a>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-booking">✈ Niš (INI)</a>
+    </div>
+    <div class="footer-col">
       <h4 data-i18n="ft.contact">Kontakt</h4>
-      <a href="mailto:escapii.team@gmail.com">✉ escapii.team@gmail.com</a>
-      <a href="https://www.instagram.com/escapii.rs" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.tiktok.com/@escapii.rs" target="_blank" rel="noopener noreferrer">TikTok</a>
+      <a href="mailto:escapii.team@gmail.com" style="display:inline-flex;align-items:center;gap:6px;">✉ escapii.team@gmail.com</a>
     </div>
   </div>
-  <div class="fq-footer-divider"></div>
-  <div class="fq-footer-bottom">
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
     <span>© 2026 Escapii - <span data-i18n="ft.rights">Sva prava zadržana</span></span>
-    <div>
+    <div class="footer-bottom-links">
       <a href="/uslovi-koriscenja" data-i18n="ft.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="ft.privacy">Politika privatnosti</a>
     </div>
@@ -379,15 +360,16 @@ const I18N_EN = {
   'a12':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message - we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip - group or custom. Vouchers cannot be exchanged for cash.',
   'q13':'What is a custom trip and how do I book one?',
   'a13':'A custom trip is an option designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request for a custom trip:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks flight and accommodation availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually, based on available options for your chosen period and number of travellers. ✈️🏨',
-  'cta.h':'Still have questions? The Escapii team is here for you.',
-  'cta.p':'We know this is a completely new concept - and that\'s exactly why we\'re here. Send us an email or reach out if you\'d like a quick chat with our team before booking. We\'re happy to answer all your questions.',
-  'cta.sub':'We reply within 24 hours',
   'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
+  'ft.social':'Follow us',
   'ft.nav':'Navigation',
   'ft.book':'Book a trip',
   'ft.dest':'Destinations',
   'ft.how':'How it works',
+  'ft.who':'Who it\'s for',
+  'ft.faq':'FAQ',
   'ft.gift':'🎁 Gift a trip',
+  'ft.dep':'Departures',
   'ft.contact':'Contact',
   'ft.rights':'All rights reserved',
   'ft.terms':'Terms of Use',
