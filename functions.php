@@ -24,7 +24,7 @@ function escapii_head_meta() {
     $img_url = get_template_directory_uri() . '/images';
     $site_name = 'Escapii';
     $og_title  = 'Escapii - Putovanja iznenađenja već od 239€';
-    $desc      = 'Rezerviši putovanje iznenađenja — destinacija ostaje tajna do 3 dana pre polaska!';
+    $desc      = 'Vikend putovanja iznenađenja po Evropi. Ti biraš datum, mi biramo destinaciju. Let i hotel uključeni. Destinaciju ćeš saznati tek 48h pre polaska.';
     $og_img    = $img_url . '/og-image.jpg';
     $home      = home_url('/');
     ?>

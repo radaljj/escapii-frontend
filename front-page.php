@@ -4,7 +4,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escapii - Putovanja iznenađenja već od 239€</title>
-  <meta name="description" content="Rezerviši putovanje iznenađenja — ti biraš datum i budžet, mi biramo destinaciju. Destinacija ostaje tajna do 48h pre polaska!">
+  <meta name="description" content="Vikend putovanja iznenađenja po Evropi. Ti biraš datum, mi biramo destinaciju. Let i hotel uključeni. Destinaciju ćeš saznati tek 48h pre polaska.">
 
   <?php wp_head(); ?>
   <!-- SweetAlert2 -->
@@ -2752,7 +2752,7 @@
   <div class="hero-video-overlay"></div>
   <div class="hero-eyebrow" data-i18n="hero.badge">Putovanja iznenađenja</div>
   <h1 class="hero-h1" data-i18n-html="hero.h1">Ti biraš kada. <em>Mi biramo gde.</em></h1>
-  <p class="hero-sub" data-i18n="hero.sub">Izaberi aerodrom, datum i budžet — sve ostalo organizujemo mi. Destinaciju ćeš saznati tek 48h pre polaska.</p>
+  <p class="hero-sub" data-i18n="hero.sub">Izaberi aerodrom polaska i datum tvog putovanja iznenađenja. Sve ostalo organizujemo mi. Destinaciju ćeš saznati 48h pre početka putovanja.</p>
   <div class="hero-btns">
     <button class="btn-gold" onclick="escScrollTo('esc-booking')" data-i18n="hero.cta">Rezerviši svoje iznenađenje</button>
     <button class="btn-ghost" onclick="escScrollTo('esc-how')" data-i18n="hero.how">Kako funkcioniše Escapii?</button>
@@ -2780,7 +2780,7 @@
         <span class="feat-icon">📅</span>
         <div class="feat-content">
           <h3 data-i18n="how.c1.t">Kreiraj svoje putovanje iznenađenja.</h3>
-          <p data-i18n="how.c1.p">Izaberi datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.</p>
+          <p data-i18n="how.c1.p">Izaberi polazni aerodrom, datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.</p>
         </div>
       </div>
       <div class="feat-card">
@@ -2788,7 +2788,7 @@
         <span class="feat-icon">✈️</span>
         <div class="feat-content">
           <h3 data-i18n="how.c2.t">Mi organizujemo sve.</h3>
-          <p data-i18n="how.c2.p">Naša Escapii ekipa će skrojiti iznenađenje baš za tebe — let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.</p>
+          <p data-i18n="how.c2.p">Naša Escapii ekipa će skrojiti iznenađenje baš za tebe - let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.</p>
         </div>
       </div>
       <div class="feat-card">
@@ -4025,7 +4025,7 @@ const TR = {
     'status.btn':'Proveri →',
     'hero.badge':'Putovanja iznenađenja',
     'hero.h1':'Ti biraš kada. <em>Mi biramo gde.</em>',
-    'hero.sub':'Izaberi aerodrom, datum i budžet — sve ostalo organizujemo mi. Destinaciju ćeš saznati tek 48h pre polaska.',
+    'hero.sub':'Izaberi aerodrom polaska i datum tvog putovanja iznenađenja. Sve ostalo organizujemo mi. Destinaciju ćeš saznati 48h pre početka putovanja.',
     'hero.cta':'Rezerviši svoje iznenađenje', 'hero.how':'Kako funkcioniše Escapii?',
     'hero.stat.dest':'Destinacija', 'hero.stat.airports':'Aerodroma polaska', 'hero.stat.surprise':'Iznenađenje',
     'mf.tag':'Šta je Escapii?',
@@ -4057,8 +4057,8 @@ const TR = {
     'dest.mystery':'Ali ne znaš šta ćeš dobiti',
     'how.tag':'Kako funkcioniše?', 'how.heading':'Četiri koraka do tvoje avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
-    'how.c1.t':'Kreiraj svoje putovanje iznenađenja.', 'how.c1.p':'Izaberi datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.',
-    'how.c2.t':'Mi organizujemo sve.', 'how.c2.p':'Naša Escapii ekipa će skrojiti iznenađenje baš za tebe — let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.',
+    'how.c1.t':'Kreiraj svoje putovanje iznenađenja.', 'how.c1.p':'Izaberi polazni aerodrom, datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.',
+    'how.c2.t':'Mi organizujemo sve.', 'how.c2.p':'Naša Escapii ekipa će skrojiti iznenađenje baš za tebe - let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.',
     'how.c3.t':'Otkrij svoje iznenađenje.', 'how.c3.p':'Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.',
     'how.c4.t':'Stvori priču za prepričavanje.', 'how.c4.p':'Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.',
     'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',

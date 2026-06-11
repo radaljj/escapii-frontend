@@ -13,7 +13,7 @@ $site_url  = get_site_url();
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokloni putovanje iznenađenja — Escapii</title>
-  <meta name="description" content="Pokloni nekome posebnom nezaboravno putovanje iznenađenja. Odaberi vaučer ili rezerviši konkretan termin — destinacija ostaje tajna do 48h pre polaska.">
+  <meta name="description" content="Pokloni avanturu koja se pamti. Ti biraš budžet, mi biramo destinaciju i organizujemo sve. Savršen poklon za rođendan ili godišnjicu.">
   <link rel="canonical" href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja">
   <?php wp_head(); ?>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
