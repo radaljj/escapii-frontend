@@ -741,11 +741,12 @@
     /* ── FAQ CTA ka /faq stranici ── */
     .faq-cta {
       position: relative; display: block; margin-top: 28px;
-      border-radius: 18px; overflow: hidden; text-decoration: none;
-      background: linear-gradient(135deg, #16313a 0%, #2D5F6B 100%);
-      transition: transform .3s cubic-bezier(.25,.46,.45,.94), box-shadow .3s;
+      border-radius: 24px; overflow: hidden; text-decoration: none;
+      background: #0D2E38;
+      border: 1px solid rgba(255,255,255,.08);
+      transition: transform .3s cubic-bezier(.25,.46,.45,.94), box-shadow .3s, border-color .3s;
     }
-    .faq-cta:hover { transform: translateY(-4px); box-shadow: 0 18px 44px -16px rgba(22,49,58,.55); }
+    .faq-cta:hover { transform: translateY(-4px); border-color: rgba(202,138,113,.4); box-shadow: 0 18px 44px -16px rgba(13,46,56,.6); }
     .faq-cta-glow {
       position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(110deg, transparent 30%, rgba(202,138,113,.25) 50%, transparent 70%);

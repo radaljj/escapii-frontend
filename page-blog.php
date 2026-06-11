@@ -50,9 +50,9 @@ function bl_read_time($post_id) {
   --cream:#faf6ee; --sand:#f4eee1; --paper:#fffdf8;
   --ink:#1a1410; --mute:#6b5d4f; --faint:#a3978a; --line:#e7ddcd;
   --terra:#a85e44; --peach:#c8775a; --teal:#22424a; --teal-deep:#16313a;
-  --serif:"Newsreader",Georgia,serif;
-  --display:"Playfair Display",Georgia,serif;
-  --sans:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   /* footer vars */
   --gray:#7A9FA8; --white-nav:#2D5F6B; --accent:#CA8A71;
 }

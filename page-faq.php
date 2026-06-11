@@ -151,8 +151,9 @@ body {
 /* ── Bottom CTA ── */
 .fq-cta {
   margin-top: 56px; text-align: center;
-  background: linear-gradient(135deg, #16313a 0%, #2D5F6B 100%);
-  border-radius: 20px; padding: 44px 32px;
+  background: #0D2E38;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px; padding: 44px 32px;
 }
 .fq-cta h2 { color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -.4px; }
 .fq-cta p { color: rgba(255,255,255,.65); font-size: 14px; margin-bottom: 24px; }
@@ -169,6 +170,41 @@ body {
   background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
 }
 .fq-cta-btn.ghost:hover { background: rgba(255,255,255,.15); box-shadow: none; }
+
+/* ── Footer ── */
+.fq-footer {
+  background: #EFE9E7; border-top: 1px solid rgba(15,45,53,.07);
+  padding: 56px 24px 24px; margin-top: 64px;
+}
+.fq-footer-main {
+  max-width: 860px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px;
+}
+.fq-footer-brand img { height: 42px; width: auto; margin-bottom: 14px; }
+.fq-footer-brand p { font-size: 13.5px; color: var(--gray); line-height: 1.6; max-width: 280px; }
+.fq-footer-col h4 {
+  font-size: 11px; font-weight: 800; color: var(--teal);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
+}
+.fq-footer-col a {
+  display: block; font-size: 14px; color: var(--gray);
+  text-decoration: none; padding: 4px 0; transition: color .2s;
+}
+.fq-footer-col a:hover { color: var(--accent); }
+.fq-footer-divider { max-width: 860px; margin: 36px auto 0; height: 1px; background: rgba(15,45,53,.08); }
+.fq-footer-bottom {
+  max-width: 860px; margin: 0 auto; padding-top: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  font-size: 12.5px; color: var(--gray);
+}
+.fq-footer-bottom a { color: var(--gray); text-decoration: none; margin-left: 18px; transition: color .2s; }
+.fq-footer-bottom a:hover { color: var(--accent); }
+@media (max-width: 680px) {
+  .fq-footer-main { grid-template-columns: 1fr; gap: 28px; }
+  .fq-footer-bottom { flex-direction: column; text-align: center; }
+  .fq-footer-bottom a { margin: 0 9px; }
+}
 
 @media (max-width: 600px) {
   .fq-back span { display: none; }
@@ -281,6 +317,36 @@ body {
   </div>
 </div>
 
+<footer class="fq-footer">
+  <div class="fq-footer-main">
+    <div class="fq-footer-brand">
+      <a href="<?php echo esc_url($site_url); ?>"><img src="<?php echo esc_url($theme_uri); ?>/images/logo-black.svg" alt="Escapii"></a>
+      <p data-i18n="ft.desc">Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
+    </div>
+    <div class="fq-footer-col">
+      <h4 data-i18n="ft.nav">Navigacija</h4>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-booking" data-i18n="ft.book">Rezervacija</a>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-dest" data-i18n="ft.dest">Destinacije</a>
+      <a href="<?php echo esc_url($site_url); ?>/#esc-how" data-i18n="ft.how">Kako funkcioniše</a>
+      <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;" data-i18n="ft.gift">🎁 Pokloni putovanje</a>
+    </div>
+    <div class="fq-footer-col">
+      <h4 data-i18n="ft.contact">Kontakt</h4>
+      <a href="mailto:escapii.team@gmail.com">✉ escapii.team@gmail.com</a>
+      <a href="https://www.instagram.com/escapii.rs" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@escapii.rs" target="_blank" rel="noopener noreferrer">TikTok</a>
+    </div>
+  </div>
+  <div class="fq-footer-divider"></div>
+  <div class="fq-footer-bottom">
+    <span>© 2026 Escapii - <span data-i18n="ft.rights">Sva prava zadržana</span></span>
+    <div>
+      <a href="/uslovi-koriscenja" data-i18n="ft.terms">Uslovi korišćenja</a>
+      <a href="/politika-privatnosti" data-i18n="ft.privacy">Politika privatnosti</a>
+    </div>
+  </div>
+</footer>
+
 <script>
 const I18N_EN = {
   'back':'Back to site',
@@ -316,7 +382,17 @@ const I18N_EN = {
   'cta.h':'Didn\'t find your answer?',
   'cta.p':'Write to us - we reply within 24 hours.',
   'cta.mail':'Contact us',
-  'cta.book':'Book a trip →'
+  'cta.book':'Book a trip →',
+  'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
+  'ft.nav':'Navigation',
+  'ft.book':'Book a trip',
+  'ft.dest':'Destinations',
+  'ft.how':'How it works',
+  'ft.gift':'🎁 Gift a trip',
+  'ft.contact':'Contact',
+  'ft.rights':'All rights reserved',
+  'ft.terms':'Terms of Use',
+  'ft.privacy':'Privacy Policy'
 };
 
 // Sacuvani SR tekstovi za vracanje sa EN
