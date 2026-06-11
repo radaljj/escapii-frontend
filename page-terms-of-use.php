@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Use — Escapii</title>
+  <title>Terms of Use - Escapii</title>
   <meta name="robots" content="noindex, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -363,7 +363,7 @@ body {
     Legal document
   </div>
   <h1>Terms of Use</h1>
-  <p>Please read these terms before submitting an enquiry — by using the platform you accept these rules.</p>
+  <p>Please read these terms before submitting an enquiry - by using the platform you accept these rules.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
     Last updated: May 2026 · v2 (gift vouchers, private trips)
@@ -405,7 +405,7 @@ body {
         <h2>Who we are and what we do</h2>
       </div>
 
-      <p><strong>Escapii</strong> is a digital platform for organising surprise trips. The user selects an airport, dates, number of travellers, and preferences — we find and organise the trip.</p>
+      <p><strong>Escapii</strong> is a digital platform for organising surprise trips. The user selects an airport, dates, number of travellers, and preferences - we find and organise the trip.</p>
       <p>Escapii <strong>is not a travel agency</strong> and does not act as a licensed travel organiser. We act as a <strong>sub-agent</strong> of a partner travel agency that is fully responsible for executing the travel package.</p>
     </section>
 
@@ -418,12 +418,12 @@ body {
         <h2>How Escapii works</h2>
       </div>
 
-      <p>Escapii is a platform for <strong>surprise trips</strong> — the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>48 hours before departure</strong>.</p>
+      <p>Escapii is a platform for <strong>surprise trips</strong> - the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>48 hours before departure</strong>.</p>
 
       <h3>The surprise concept</h3>
       <ul class="pp-list">
         <li><strong>The traveller chooses:</strong> airport, dates, number of passengers, accommodation type, add-ons (insurance, breakfast, seats together, cabin bag) and up to 5 destinations to exclude</li>
-        <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded — every trip is tailored to the best available options at that moment, so the final destination may be one not currently featured on the website</li>
+        <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded - every trip is tailored to the best available options at that moment, so the final destination may be one not currently featured on the website</li>
         <li><strong>The destination is revealed</strong> to the traveller via email 48 hours before departure</li>
         <li>By submitting an enquiry, the traveller <strong>accepts the surprise as an inherent part of the service</strong> and may not request a change of destination after the booking is confirmed</li>
       </ul>
@@ -480,7 +480,7 @@ body {
         <li>Base package price per person (flight + accommodation)</li>
         <li>Accommodation upgrade supplement (Superior or Premium, where applicable)</li>
         <li>Traveller-selected add-ons: travel insurance, breakfast, seats together, cabin bag</li>
-        <li>Destination exclusion fee (1st exclusion is free — each subsequent exclusion +15€ per person)</li>
+        <li>Destination exclusion fee (1st exclusion is free - each subsequent exclusion +15€ per person)</li>
       </ul>
 
       <h3>Payment method</h3>
@@ -504,9 +504,9 @@ body {
       <h3>How gift vouchers work</h3>
       <ul class="pp-list">
         <li>Vouchers are purchased on the <strong>Gift</strong> page at escapii.rs by selecting an amount and entering the recipient's details</li>
-        <li>Once payment is confirmed, the buyer receives a <strong>PDF voucher</strong> (boarding pass design) by email with a unique code — ready to forward or print</li>
-        <li>The voucher is activated when the Escapii team confirms payment — the validity period starts from that date</li>
-        <li>The recipient enters the voucher code when submitting an inquiry; the amount corresponding to the trip price is <strong>deducted from the voucher balance</strong> — any remaining balance stays available for future trips</li>
+        <li>Once payment is confirmed, the buyer receives a <strong>PDF voucher</strong> (boarding pass design) by email with a unique code - ready to forward or print</li>
+        <li>The voucher is activated when the Escapii team confirms payment - the validity period starts from that date</li>
+        <li>The recipient enters the voucher code when submitting an inquiry; the amount corresponding to the trip price is <strong>deducted from the voucher balance</strong> - any remaining balance stays available for future trips</li>
         <li>Vouchers can be used on both <strong>group and custom trips</strong></li>
       </ul>
 
@@ -534,7 +534,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vouchers cannot be exchanged for cash</strong> — any unused balance is not refunded but remains on the voucher until the validity period expires. Once activated, a voucher is non-transferable.
+          <strong>Vouchers cannot be exchanged for cash</strong> - any unused balance is not refunded but remains on the voucher until the validity period expires. Once activated, a voucher is non-transferable.
         </div>
       </div>
     </section>
@@ -588,11 +588,11 @@ body {
       <ul class="pp-list">
         <li>Provide the <strong>exact full name of each traveller</strong> as it appears on the travel document to be used for the trip</li>
         <li>Provide the <strong>correct date of birth</strong> of each traveller</li>
-        <li>Check the <strong>expiry date of the travel document</strong> — the passport must be valid for at least 6 months after the return date</li>
-        <li>State in the <strong>Notes field</strong> when submitting the enquiry which countries the travellers hold an active visa for, and whether any traveller may require a visa for certain destinations — this allows us to adapt the destination selection accordingly</li>
+        <li>Check the <strong>expiry date of the travel document</strong> - the passport must be valid for at least 6 months after the return date</li>
+        <li>State in the <strong>Notes field</strong> when submitting the enquiry which countries the travellers hold an active visa for, and whether any traveller may require a visa for certain destinations - this allows us to adapt the destination selection accordingly</li>
         <li>Pay the deposit and remaining balance by the agreed deadlines</li>
         <li>Arrive at the airport within the time required by the airline (at least 2 hours before departure for European flights)</li>
-        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (48 hours before departure) — Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
+        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (48 hours before departure) - Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
       </ul>
 
       <div class="pp-warning">
@@ -614,7 +614,7 @@ body {
         <h2>Cancellation &amp; changes</h2>
       </div>
 
-      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview — exact conditions are available from the Escapii team at <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
+      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview - exact conditions are available from the Escapii team at <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
@@ -622,7 +622,7 @@ body {
             <tr><th>Period before departure</th><th>Cancellation fee</th></tr>
           </thead>
           <tbody>
-            <tr><td>Before payment of deposit</td><td>No charge — the enquiry is non-binding</td></tr>
+            <tr><td>Before payment of deposit</td><td>No charge - the enquiry is non-binding</td></tr>
             <tr><td>After deposit payment, more than 30 days before departure</td><td>Deposit retained (per BTA terms)</td></tr>
             <tr><td>15–30 days before departure</td><td>Portion of total price (per BTA terms)</td></tr>
             <tr><td>Fewer than 15 days before departure</td><td>Full amount may be retained</td></tr>
@@ -656,9 +656,9 @@ body {
       </div>
 
       <h3>Escapii's liability</h3>
-      <p>Escapii is liable solely for the proper functioning of the digital platform — collecting enquiries and communicating with the traveller. Escapii is not liable for:</p>
+      <p>Escapii is liable solely for the proper functioning of the digital platform - collecting enquiries and communicating with the traveller. Escapii is not liable for:</p>
       <ul class="pp-list">
-        <li>Execution of the travel package — this is the responsibility of the partner travel agency</li>
+        <li>Execution of the travel package - this is the responsibility of the partner travel agency</li>
         <li>The quality of flights, accommodation, or ancillary services</li>
         <li>Flight delays, cancellations, or changes by airlines</li>
         <li>Force majeure events (natural disasters, epidemics, armed conflicts, strikes)</li>
@@ -742,7 +742,7 @@ body {
       </div>
       <div class="pp-contact">
         <h3>Have a question?</h3>
-        <p>The Escapii team is here for you — we respond within 24 hours.</p>
+        <p>The Escapii team is here for you - we respond within 24 hours.</p>
         <div class="pp-contact-links">
           <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>

@@ -28,14 +28,14 @@ function escapii_head_meta() {
     $og_img    = $img_url . '/og-image.jpg';
     $home      = home_url('/');
     ?>
-    <!-- Favicon — sve putanje idu na /images/ u temi, ne na root -->
+    <!-- Favicon - sve putanje idu na /images/ u temi, ne na root -->
     <link rel="icon" type="image/png" sizes="512x512" href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
     <link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
     <link rel="icon" type="image/svg+xml"             href="<?php echo esc_url($img_url . '/favicon.svg'); ?>">
     <link rel="shortcut icon"                         href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
     <link rel="apple-touch-icon" sizes="180x180"      href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
 
-    <!-- Canonical — dinamički po URL-u stranice -->
+    <!-- Canonical - dinamički po URL-u stranice -->
     <?php
     if ( is_front_page() ) {
         $canonical = $home;
@@ -71,10 +71,10 @@ function escapii_head_meta() {
 }
 add_action('wp_head', 'escapii_head_meta', 1);
 
-// Ukloni WordPress-ov wp_site_icon() — mi sami outputujemo favicon tagove u escapii_head_meta()
+// Ukloni WordPress-ov wp_site_icon() - mi sami outputujemo favicon tagove u escapii_head_meta()
 remove_action('wp_head', 'wp_site_icon');
 
-// Ukloni WordPress-ov automatski canonical — mi dodajemo eksplicitan u escapii_head_meta()
+// Ukloni WordPress-ov automatski canonical - mi dodajemo eksplicitan u escapii_head_meta()
 remove_action('wp_head', 'rel_canonical');
 
 // Automatski kreiraj /admin-panel stranicu ako ne postoji
@@ -173,7 +173,7 @@ add_action('template_redirect', function () {
     }
 });
 
-// ── robots.txt — override WordPress default ──────────────────────────────────
+// ── robots.txt - override WordPress default ──────────────────────────────────
 add_filter('robots_txt', 'escapii_robots_txt', 99);
 function escapii_robots_txt() {
     return "User-agent: *\n"
@@ -206,7 +206,7 @@ function escapii_robots_txt() {
          . "\nSitemap: " . home_url('/sitemap.xml') . "\n";
 }
 
-// ── sitemap.xml — intercept rano, pre WordPress rewrite sistema ──────────────
+// ── sitemap.xml - intercept rano, pre WordPress rewrite sistema ──────────────
 // Isključi WordPress-ov ugrađeni sitemap da ne pravi konflikt
 add_filter('wp_sitemaps_enabled', '__return_false');
 

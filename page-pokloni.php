@@ -12,7 +12,7 @@ $site_url  = get_site_url();
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokloni putovanje iznenađenja — Escapii</title>
+  <title>Pokloni putovanje iznenađenja - Escapii</title>
   <meta name="description" content="Pokloni avanturu koja se pamti. Ti biraš budžet, mi biramo destinaciju i organizujemo sve. Savršen poklon za rođendan ili godišnjicu.">
   <link rel="canonical" href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja">
   <?php wp_head(); ?>
@@ -332,7 +332,7 @@ $site_url  = get_site_url();
     .validate-hint { font-size: 13px; color: var(--gray); margin-top: 24px; text-align: center; }
     .validate-hint a { color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; }
 
-    /* ══ VOUCHER REVEAL — premešteno na page-poklon.php (/poklon?code=...) ══ */
+    /* ══ VOUCHER REVEAL - premešteno na page-poklon.php (/poklon?code=...) ══ */
     #voucherReveal {
       min-height: 100vh;
       background: linear-gradient(160deg, #0a1e26 0%, #0f2d35 55%, #122830 100%);
@@ -566,7 +566,7 @@ $site_url  = get_site_url();
 <section class="gift-hero" id="gift-top">
   <div class="gift-eyebrow" data-i18n="gift.hero.badge">🎁 Poklon koji se pamti</div>
   <h1 class="gift-h1" data-i18n-html="gift.hero.h1">Pokloni nekome <em>iznenađenje</em></h1>
-  <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi iznos vaučera — primalac ga koristi za bilo koje Escapii putovanje po izboru.</p>
+  <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru.</p>
   <button class="gift-submit-btn" onclick="scrollToVoucher()" type="button" style="max-width:320px;margin-top:0;" data-i18n="gift.hero.cta">🎟️ Pokloni vaučer →</button>
 </section>
 
@@ -575,7 +575,7 @@ $site_url  = get_site_url();
   <div class="gift-sec-wrap">
     <div class="gift-sec-tag">🎟️ <span data-i18n="gift.sec.voucher.tag">Poklon vaučer</span></div>
     <h2 class="gift-sec-h" data-i18n="gift.sec.voucher.h">Odaberi iznos i pokloni nekome putovanje koje će pamtiti</h2>
-    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Odaberi iznos vaučera, upiši ime i poruku — mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.</p>
+    <p class="gift-sec-desc" data-i18n="gift.sec.voucher.desc">Odaberi iznos vaučera, upiši ime i poruku - mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.</p>
 
     <div class="voucher-card">
       <!-- Iznos -->
@@ -594,7 +594,7 @@ $site_url  = get_site_url();
       </div>
       <div class="amount-hint">
         <span>✈️</span>
-        <span data-i18n-html="gift.amount.hint">Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.</span>
+        <span data-i18n-html="gift.amount.hint">Naša putovanja počinju od <strong>279€ po osobi</strong> - vaučer umanjuje tu cenu.</span>
       </div>
 
       <!-- Podaci -->
@@ -667,7 +667,7 @@ $site_url  = get_site_url();
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii — <span data-i18n="footer.rights">Sva prava zadržana</span></span>
+    <span>© 2026 Escapii - <span data-i18n="footer.rights">Sva prava zadržana</span></span>
     <div class="footer-bottom-links">
       <a href="/uslovi-koriscenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
@@ -687,13 +687,13 @@ const TR = {
     'nav.gift.voucher':      'Poklon vaučer',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
     'gift.hero.h1':          'Pokloni nekome <em>iznenađenje</em>',
-    'gift.hero.sub':         'Odaberi iznos vaučera — primalac ga koristi za bilo koje Escapii putovanje po izboru.',
+    'gift.hero.sub':         'Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru.',
     'gift.hero.cta':         '🎟️ Pokloni vaučer →',
     'gift.sec.voucher.tag':  'Poklon vaučer',
     'gift.sec.voucher.h':    'Odaberi iznos i pokloni nekome putovanje koje će pamtiti',
-    'gift.sec.voucher.desc': 'Odaberi iznos vaučera, upiši ime i poruku — mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.',
+    'gift.sec.voucher.desc': 'Odaberi iznos vaučera, upiši ime i poruku - mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.',
     'gift.amount.label':     'Iznos vaučera (EUR)',
-    'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> — vaučer umanjuje tu cenu.',
+    'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> - vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Email za dostavu vaučera',
     'gift.buyer.email.ph':   'tvoj@email.com',
     'gift.buyer.name.label': 'Ime i prezime (piše se na vaučeru)',
@@ -719,13 +719,13 @@ const TR = {
     'nav.gift.voucher':      'Gift voucher',
     'gift.hero.badge':       '🎁 A gift they\'ll remember',
     'gift.hero.h1':          'Gift someone a <em>surprise</em>',
-    'gift.hero.sub':         'Choose a voucher amount — recipient uses it on any Escapii trip of their choice.',
+    'gift.hero.sub':         'Choose a voucher amount - recipient uses it on any Escapii trip of their choice.',
     'gift.hero.cta':         '🎟️ Gift a voucher →',
     'gift.sec.voucher.tag':  'Gift voucher',
     'gift.sec.voucher.h':    'Choose an amount and gift someone a trip they\'ll never forget',
-    'gift.sec.voucher.desc': 'Choose a voucher amount, add a name and message — we generate a voucher with a unique code. The recipient uses it when booking any Escapii surprise trip, and the value is automatically deducted from the trip price. Valid for one year.',
+    'gift.sec.voucher.desc': 'Choose a voucher amount, add a name and message - we generate a voucher with a unique code. The recipient uses it when booking any Escapii surprise trip, and the value is automatically deducted from the trip price. Valid for one year.',
     'gift.amount.label':     'Voucher amount (EUR)',
-    'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> — the voucher reduces that price.',
+    'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> - the voucher reduces that price.',
     'gift.buyer.email.label':'Email for voucher delivery',
     'gift.buyer.email.ph':   'your@email.com',
     'gift.buyer.name.label': 'Full name (printed on voucher)',
@@ -862,7 +862,7 @@ async function submitVoucher() {
   }
 }
 
-// ── Voucher Reveal — premešteno na page-poklon.php (/poklon?code=...) ────────
+// ── Voucher Reveal - premešteno na page-poklon.php (/poklon?code=...) ────────
 // QR kod vodi na /poklon, ne ovde. Reveal logika je tamo.
 
 function _renderRevealCard_UNUSED(container, code, d) {
@@ -872,7 +872,7 @@ function _renderRevealCard_UNUSED(container, code, d) {
     <div class="bp-msg" style="margin-top:13px;">
       <div class="bp-msg-k">Lična poruka</div>
       <div class="bp-msg-text">${_esc(d.giftMessage)}</div>
-      ${d.buyerName ? `<div class="bp-msg-sig">— <strong>${_esc(d.buyerName)}</strong></div>` : ''}
+      ${d.buyerName ? `<div class="bp-msg-sig">- <strong>${_esc(d.buyerName)}</strong></div>` : ''}
     </div>` : '';
 
   container.innerHTML = `
@@ -891,14 +891,14 @@ function _renderRevealCard_UNUSED(container, code, d) {
             <div class="bp-tag">🎟️ Poklon vaučer</div>
           </div>
           <div class="bp-title-area">
-            <div class="bp-eyebrow">— Iskoristi vaučer za Escapii putovanje —</div>
+            <div class="bp-eyebrow">- Iskoristi vaučer za Escapii putovanje -</div>
             <h2 class="bp-h1">Tvoja sledeća<br><em>avantura te čeka.</em></h2>
           </div>
           <div class="bp-route">
             <div class="bp-route-from">
               <div class="bp-iata">BEG</div>
               <div class="bp-city">Beograd</div>
-              <div class="bp-cap">Polazak — bilo kada</div>
+              <div class="bp-cap">Polazak - bilo kada</div>
             </div>
             <div class="bp-route-mid">
               <span class="bp-plane-icon">✈</span>
@@ -935,13 +935,13 @@ function _renderRevealCard_UNUSED(container, code, d) {
           <div class="bp-stub-head">BOARDING PASS · <b>GIFT</b></div>
           <div class="bp-stub-k">Vrednost</div>
           <div class="bp-stub-amount">${amount}<span class="bp-cur"> €</span></div>
-          <div class="bp-stub-sub">— ${_esc(words)} —</div>
+          <div class="bp-stub-sub">- ${_esc(words)} -</div>
           <div class="bp-stub-k">Vaučer kod</div>
           <div class="bp-code-wrap">
             <span class="bp-code-text">${_esc(code)}</span>
           </div>
           <div class="bp-stub-info">
-            Unesi kod pri rezervaciji — cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
+            Unesi kod pri rezervaciji - cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
             Važi do: <strong>${_fmtDate(d.expiresAt)}</strong>
           </div>
           <div class="bp-stub-scan">escapii.rs/poklon<br>ili unesi kod pri rezervaciji</div>
@@ -956,18 +956,18 @@ function _renderRevealCard_UNUSED(container, code, d) {
         <div class="bp-how-card">
           <div class="bp-how-icon">✈️</div>
           <div class="bp-how-title">Escapii putovanje</div>
-          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> — cena se automatski umanjuje za ${amount}€.</div>
+          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> - cena se automatski umanjuje za ${amount}€.</div>
           <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Pogledaj termine →</a>
         </div>
         <div class="bp-how-card">
           <div class="bp-how-icon">🌍</div>
           <div class="bp-how-title">Prilagođeni termin</div>
-          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara — iznenađenje i dalje ostaje tajna.</div>
+          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara - iznenađenje i dalje ostaje tajna.</div>
           <a href="${SITE_URL}/#esc-custom" class="bp-how-btn">Zatraži termin koji ti odgovara →</a>
         </div>
       </div>
       <div class="bp-how-info">
-        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> — do ${_fmtDate(d.expiresAt)}</div>
+        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> - do ${_fmtDate(d.expiresAt)}</div>
         <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
         <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
         <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>

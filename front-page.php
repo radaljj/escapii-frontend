@@ -16,7 +16,7 @@
   <!-- Tom Select -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.min.css">
   <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-  <!-- AOS — scroll animations -->
+  <!-- AOS - scroll animations -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <!-- GSAP -->
@@ -38,15 +38,15 @@
     :focus:not(:focus-visible) { outline: none; }
 
     :root {
-      /* Sandstone — svetla pozadina */
+      /* Sandstone - svetla pozadina */
       --navy:    #EFE9E7;
       --navy2:   #FAF7F5;
       --navy3:   #F0EBE8;
-      /* Soft Copper — CTA akcent */
+      /* Soft Copper - CTA akcent */
       --accent:  #CA8A71;
       --accent2: #B57560;
       --accent3: #D4A08C;
-      /* Light Aegean — sekundarni ton */
+      /* Light Aegean - sekundarni ton */
       --cream:   #BFD8DE;
       --cream2:  #BFD8DE;
       --cream3:  #A3C4CB;
@@ -63,7 +63,7 @@
       --teal:  var(--cream2);
     }
 
-    /* scroll-behavior:smooth removed — conflicts with programmatic scrollTo on mobile */
+    /* scroll-behavior:smooth removed - conflicts with programmatic scrollTo on mobile */
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
            background: #EFE9E7; color: #4A4442; overflow-x: hidden; }
 
@@ -277,7 +277,7 @@
     @media (max-width: 768px) {
       .sec-nav { display: none !important; }
     }
-    /* Mobile menu — "Pozovi nas" red */
+    /* Mobile menu - "Pozovi nas" red */
     .mob-menu-call { color: var(--accent) !important; }
     .mob-menu-call-hours { display: block; font-size: 11px; color: rgba(255,255,255,.38); font-weight: 500; margin-top: 3px; }
 
@@ -752,7 +752,7 @@
                  letter-spacing: 1px; margin-top: 8px; }
 
     /* ══════════════════════ BOOKING */
-    /* Private link mode — hide Back button only on step 4 (can't go back to steps 1-3) */
+    /* Private link mode - hide Back button only on step 4 (can't go back to steps 1-3) */
     .private-mode #step4 .btn-back { display: none !important; }
     .esc-booking { background: var(--navy2); padding: 100px 24px; overflow-anchor: none; }
     .step-wrap { overflow-anchor: none; }
@@ -783,7 +783,7 @@
     .sn-label { font-size: 10px; color: var(--gray); }
     .step-wrap { display: none; }
     .step-wrap.on { display: block; }
-    /* Anti-bot honeypot — nevidljivo za ljude, bots ga popune */
+    /* Anti-bot honeypot - nevidljivo za ljude, bots ga popune */
     .hp-field { position:absolute; left:-9999px; top:-9999px; width:1px; height:1px;
                 opacity:0; pointer-events:none; tab-index:-1; }
     .step-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
@@ -1644,7 +1644,7 @@
     /* SweetAlert custom */
     .swal-escapii { border: 1px solid rgba(202,138,113,.25) !important; border-radius: 20px !important; }
 
-    /* Step 6 — image grid */
+    /* Step 6 - image grid */
     .excl-info {
       margin-bottom: 20px;
       border-radius: 14px;
@@ -1733,7 +1733,7 @@
     }
     .excl-tile.on .excl-overlay { opacity: .4; }
     .excl-x { display: none; } /* handled via ::after pseudo-element */
-    /* Step 7 — Traveler cards */
+    /* Step 7 - Traveler cards */
     .pax-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .pax-item {
       background: rgba(246,241,230,.03); border: 1px solid rgba(246,241,230,.08);
@@ -1816,7 +1816,7 @@
     .dob-fp-wrap:focus-within .dob-fp-icon,
     .dob-fp-wrap .dob-input.active ~ .dob-fp-icon { color: var(--gold); }
 
-    /* ── Flatpickr — Escapii dark theme ── */
+    /* ── Flatpickr - Escapii dark theme ── */
     .flatpickr-calendar {
       background: #102832; border: 1px solid rgba(246,241,230,.12);
       border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.45);
@@ -1828,14 +1828,14 @@
     .flatpickr-months { padding: 10px 8px 8px; align-items: center; height: auto; overflow: visible; }
     .flatpickr-month { color: #fff; height: 48px; overflow: visible; display: flex; align-items: center; }
     .flatpickr-current-month { position: static; width: 100%; height: auto; font-size: 15px; font-weight: 700; padding: 0; display: flex; align-items: center; justify-content: center; gap: 8px; overflow: visible; }
-    /* Mesec dropdown — beli tekst, vidljiv na teal pozadini */
+    /* Mesec dropdown - beli tekst, vidljiv na teal pozadini */
     .flatpickr-current-month .flatpickr-monthDropdown-months {
       color: #fff; font-weight: 700; font-size: 15px;
       background-color: rgba(255,255,255,.06); border-radius: 8px;
       padding: 4px 8px; appearance: none; -webkit-appearance: none; outline: none;
     }
     .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background-color: rgba(255,255,255,.12); }
-    /* Opcije u otvorenom dropdownu — tamna pozadina, beli tekst (inače belo-na-belo) */
+    /* Opcije u otvorenom dropdownu - tamna pozadina, beli tekst (inače belo-na-belo) */
     .flatpickr-current-month .flatpickr-monthDropdown-months option,
     .flatpickr-monthDropdown-month {
       background-color: #102832 !important; color: #fff !important; font-weight: 600;
@@ -1843,7 +1843,7 @@
     .flatpickr-current-month .flatpickr-monthDropdown-months option:checked {
       background-color: #a85e44 !important; color: #fff !important;
     }
-    /* Godina — dropdown umesto spinnera (sakrij nativni numInput) */
+    /* Godina - dropdown umesto spinnera (sakrij nativni numInput) */
     .flatpickr-current-month .numInputWrapper { display: none !important; }
     .fp-year-select {
       color: #fff; font-weight: 700; font-size: 15px;
@@ -1861,7 +1861,7 @@
     .flatpickr-prev-month, .flatpickr-next-month { padding: 8px 10px; }
     .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: var(--gold); width: 13px; height: 13px; }
     .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #fff; }
-    /* Fiksne širine: kontejner = 7 × dan (280px) — sprečava da 8 dana stane u red */
+    /* Fiksne širine: kontejner = 7 × dan (280px) - sprečava da 8 dana stane u red */
     .flatpickr-rContainer { width: 280px; }
     .flatpickr-weekdaycontainer { width: 280px; }
     .flatpickr-weekdays { background: transparent; margin-top: 4px; width: 280px; }
@@ -1885,7 +1885,7 @@
     .numInputWrapper span.arrowUp, .numInputWrapper span.arrowDown { border: none; }
     .numInputWrapper span:hover { background: rgba(255,255,255,.08); }
 
-    /* Select — hide native arrow, inject SVG via background-image */
+    /* Select - hide native arrow, inject SVG via background-image */
     .t-sel-wrap { position: relative; }
     .t-sel-wrap .t-control {
       padding-right: 40px; cursor: pointer;
@@ -2112,7 +2112,7 @@
     @keyframes voucherIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
     @keyframes priceFlash { 0%,100% { color:var(--gold); } 50% { color:#86efac; transform:scale(1.08); } }
     .price-flash { animation: priceFlash .6s ease both; }
-    /* Step 8 — box style matching traveler form */
+    /* Step 8 - box style matching traveler form */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
     .form-field { display: flex; flex-direction: column; gap: 8px; }
     .form-field.full { grid-column: span 2; }
@@ -2123,7 +2123,7 @@
       transition: color .2s;
     }
     .form-field:focus-within .f-label { color: var(--gold); }
-    .f-input-wrap { /* wrapper kept for JS compat — no special styling */ }
+    .f-input-wrap { /* wrapper kept for JS compat - no special styling */ }
     .f-input {
       background: rgba(246,241,230,.04); border: 1px solid rgba(246,241,230,.09);
       border-radius: 12px; padding: 14px 16px;
@@ -2505,7 +2505,7 @@
     .social-icon { background: rgba(15,45,53,.07); border-color: rgba(15,45,53,.12); color: #7A9FA8; }
     .footer-divider { background: rgba(15,45,53,.08); }
 
-    /* --- Booking card — dark interior, all text must be light --- */
+    /* --- Booking card - dark interior, all text must be light --- */
     .card {
       background: #0D2E38;            /* deep purple-midnight */
       border-color: rgba(255,255,255,.08);
@@ -2515,16 +2515,16 @@
     .card .hint { color: rgba(255,255,255,.45); }
 
     /* Passenger items */
-    /* traveler cards already styled for dark — no overrides needed */
+    /* traveler cards already styled for dark - no overrides needed */
     .pax-select { color: #ffffff; }
     .pax-select option { background: #0D2E38; color: #ffffff; }
 
     /* Counter/trav inside card */
     .trav-info h3 { color: #ffffff; }
     .trav-row { background: rgba(255,255,255,.06); }
-    /* Counter number — nasleđivalo bi tamni body color, mora biti belo */
+    /* Counter number - nasleđivalo bi tamni body color, mora biti belo */
     .card .cv { color: #ffffff; }
-    /* Accom tiles inside card — text beo na tamnoj pozadini */
+    /* Accom tiles inside card - text beo na tamnoj pozadini */
     .card .a-name { color: #ffffff; }
     .card .a-desc { color: rgba(255,255,255,.6); }
     .card .accom-tile { border-color: rgba(255,255,255,.14); }
@@ -2538,7 +2538,7 @@
     .card h3 { color: #ffffff; }
     .card p, .card .sec-sub { color: rgba(255,255,255,.65); }
 
-    /* Choices.js — selected value lighter */
+    /* Choices.js - selected value lighter */
     .choices__list--single .choices__item.choices__item--selectable:not(.choices__placeholder) {
       color: #BFD8DE !important;
     }
@@ -2554,7 +2554,7 @@
     /* Terms checkboxes */
     .terms-check-row { border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.03); }
 
-    /* Date rows — dr-daynum was 'white' which is fine on dark */
+    /* Date rows - dr-daynum was 'white' which is fine on dark */
     .month-body { background: rgba(0,0,0,.2); }
 
     /* ── Term cards & month accordion inside dark card ── */
@@ -2610,17 +2610,17 @@
       .excl-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* ══════════ MOBILE BOOKING CARD — fixes cramped add-ons + passenger steps */
+    /* ══════════ MOBILE BOOKING CARD - fixes cramped add-ons + passenger steps */
     @media (max-width: 540px) {
       /* Root fix: card padding eats 80px on 375px screen → reduce */
       .card { padding: 22px 16px; }
 
-      /* Suit row — icon+text fill row 1, counter+price wrap to row 2 */
+      /* Suit row - icon+text fill row 1, counter+price wrap to row 2 */
       .suit-row { padding: 14px 12px; gap: 8px; flex-wrap: wrap; }
       .suit-row .e-txt { min-width: 0; } /* flex:1 already set; expands to fill row so counter wraps */
       .suit-row .counter { margin-left: auto; } /* right-align counter on row 2 */
 
-      /* Extra toggle cards — grid so price+toggle never overlap long title */
+      /* Extra toggle cards - grid so price+toggle never overlap long title */
       .extra-card { display: grid; grid-template-columns: 38px 1fr auto; grid-template-rows: auto auto; column-gap: 10px; row-gap: 4px; padding: 12px; align-items: center; }
       .extra-card-icon { width: 38px; height: 38px; font-size: 18px; grid-column: 1; grid-row: 1 / 3; align-self: center; }
       .extra-card-body { grid-column: 2 / 4; grid-row: 1; }
@@ -2636,11 +2636,11 @@
       /* Pax grid 1 col */
       .pax-fields { grid-template-columns: 1fr; }
 
-      /* Step 7 traveler form — 1 col on mobile */
+      /* Step 7 traveler form - 1 col on mobile */
       .traveler-grid { grid-template-columns: 1fr; }
       .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
-      /* Date row price — ne izlazi van granica */
+      /* Date row price - ne izlazi van granica */
       .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; }
       .term-price { min-width: 62px; overflow: visible; }
       .t-price-v { font-size: 17px; }
@@ -2886,7 +2886,7 @@
 
   </div>
 
-  <!-- Mobile-only content block — always visible below phone -->
+  <!-- Mobile-only content block - always visible below phone -->
   <div class="ab-overlay" id="abOverlay">
     <div class="ab-ov-tag" data-i18n="mf.tag">Šta je Escapii?</div>
     <h3 class="ab-ov-title" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h3>
@@ -2961,17 +2961,17 @@
     { who:'ana',    text:'Found a flight for €189/person. Should we book today?' },
     { who:'marko',  text:'I\'m in!' },
     { who:'stefan', text:'Let me just check with Milica and I\'ll get back to you 😅' },
-    { who:'me',     text:'Sure, but let\'s wrap this up today — prices are going crazy' },
+    { who:'me',     text:'Sure, but let\'s wrap this up today - prices are going crazy' },
     { who:'ana',    text:'Stefan, let us know asap so we can count you in..' },
     { type:'div',   text:'Thursday morning' },
     { who:'ana',    text:'Are we buying the tickets?' },
     { who:'stefan', text:'Sorry guys, forgot to ask her 😬 doing it now' },
     { who:'ana',    text:'Btw... flight is now €250 😭' },
     { who:'marko',  text:'Stefaaaan, dude...' },
-    { who:'stefan', text:'Fine, I\'ll buy the drinks — Milica says let\'s book!' },
+    { who:'stefan', text:'Fine, I\'ll buy the drinks - Milica says let\'s book!' },
     { who:'ana',    text:'Guys, it\'s €265 now...' },
     { type:'div',   text:'Friday' },
-    { who:'ana',    text:'Found accommodation. Looks decent and central — €50/person/night.' },
+    { who:'ana',    text:'Found accommodation. Looks decent and central - €50/person/night.' },
     { who:'me',     text:'Should we just book it now?' },
     { who:'stefan', text:'I found something pricier but with way better reviews. Link:' },
     { who:'jovana', text:'Can we please just speed this up, like the hotel even matters 🙏' },
@@ -2997,13 +2997,13 @@
     if(m.type==='div'){
       d=document.createElement('div');
       d.className='ab-divider-row';
-      d.textContent='— '+m.text+' —';
+      d.textContent='- '+m.text+' -';
       return d;
     }
     if(m.type==='poll'){
       d=document.createElement('div');
       d.className='ab-poll';
-      d.innerHTML='<div class="ab-poll-title">'+(lang==='en'?'Vote — September':'Glasanje — septembar')+'</div>'+
+      d.innerHTML='<div class="ab-poll-title">'+(lang==='en'?'Vote - September':'Glasanje - septembar')+'</div>'+
         '<div class="ab-poll-opt"><span class="ab-poll-label">Berlin</span>'+
         '<div class="ab-bar-wrap"><div class="ab-bar" style="width:20%;background:#E8E0D0;color:rgba(74,68,66,.5);">1</div></div></div>'+
         '<div class="ab-poll-opt"><span class="ab-poll-label">Madrid</span>'+
@@ -3024,7 +3024,7 @@
       d.innerHTML = lang==='en'
         ? '<div class="ab-esc-badge">✦ Escapii has a suggestion ✦</div>'+
           '<div class="ab-esc-title">Tired of planning and coordinating?</div>'+
-          '<div class="ab-esc-sub">Book a surprise weekend trip — we choose the destination. You\'ll find out where you\'re going just 48h before departure.</div>'+
+          '<div class="ab-esc-sub">Book a surprise weekend trip - we choose the destination. You\'ll find out where you\'re going just 48h before departure.</div>'+
           '<div class="ab-esc-feats">'+
             '<span class="ab-esc-feat">✈️ Flight + hotel included</span>'+
             '<span class="ab-esc-feat">📍 Destination secret until 48h</span>'+
@@ -3032,7 +3032,7 @@
           '</div>'
         : '<div class="ab-esc-badge">✦ Escapii ti šalje predlog ✦</div>'+
           '<div class="ab-esc-title">Umoran/a od planiranja i dogovaranja?</div>'+
-          '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja — a destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
+          '<div class="ab-esc-sub">Rezerviši vikend putovanje iznenađenja - a destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'+
           '<div class="ab-esc-feats">'+
             '<span class="ab-esc-feat">✈️ Let + hotel uključeni</span>'+
             '<span class="ab-esc-feat">📍 Destinacija tajna 48h</span>'+
@@ -3123,7 +3123,7 @@
 
     <!-- Step 1: Airport -->
     <div class="step-wrap on" id="step1">
-      <!-- Anti-bot honeypot — ne diraj ovo polje -->
+      <!-- Anti-bot honeypot - ne diraj ovo polje -->
       <div class="hp-field" aria-hidden="true">
         <label for="hp_website">Website</label>
         <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off">
@@ -3246,7 +3246,7 @@
               <label class="inq-label" data-i18n="inq.date">Datum polaska</label>
               <div class="inq-cal">
                 <div class="inq-cal-head">
-                  <div class="inq-cal-month" id="inqCalMonth">—</div>
+                  <div class="inq-cal-month" id="inqCalMonth">-</div>
                   <div class="inq-cal-nav">
                     <button id="inqPrevM" type="button" aria-label="Prethodni mesec">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -3307,7 +3307,7 @@
         <h2 data-i18n="s4.h">Izaberi kategoriju smeštaja</h2>
         <p class="hint" data-i18n="s4.hint">Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.</p>
         <div id="singleNotice" class="single-notice">
-          🛏️ <strong data-i18n="single.warn">Napomena za solo putnike —</strong>
+          🛏️ <strong data-i18n="single.warn">Napomena za solo putnike -</strong>
           <span data-i18n="single.msg"> hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.</span>
         </div>
         <div class="accom-grid">
@@ -3330,7 +3330,7 @@
               <div class="a-desc" data-i18n="accom.sup.d">4★ ili 5★, viša kategorija hotela</div>
             </div>
             <div class="a-hover">
-              <div class="a-hover-desc" data-i18n="accom.sup.hover">4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.</div>
+              <div class="a-hover-desc" data-i18n="accom.sup.hover">4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti - za one koji žele malo više od iznenađenja.</div>
             </div>
           </div>
         </div>
@@ -3346,7 +3346,7 @@
       <div class="card">
         <h2 data-i18n="s5.h">Dodaci</h2>
         <p class="hint" data-i18n="s5.hint">Sve je opciono</p>
-        <!-- Ranac — uvek uključen -->
+        <!-- Ranac - uvek uključen -->
         <div class="connecting-tooltip-wrap" style="margin-bottom:10px;">
           <div class="suit-row" style="opacity:.75;pointer-events:none;">
             <div class="e-icon">🎒</div>
@@ -3358,11 +3358,11 @@
           </div>
           <div class="connecting-tooltip">
             <div class="connecting-tooltip-title">⚠️ Važno</div>
-            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina — ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong></div>
+            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina - ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong></div>
           </div>
         </div>
 
-        <!-- Ručni kofer — opciono -->
+        <!-- Ručni kofer - opciono -->
         <div class="connecting-tooltip-wrap">
           <div class="suit-row" id="suitRow">
             <div class="e-icon">🧳</div>
@@ -3410,7 +3410,7 @@
             </div>
             <div class="connecting-tooltip">
               <div class="connecting-tooltip-title" data-i18n="ext.bfst.tip.title">🍳 Doručak u hotelu</div>
-              <div class="connecting-tooltip-body" data-i18n-html="ext.bfst.tip.body">Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit — nema brige šta i gde ćeš jesti ujutru.</div>
+              <div class="connecting-tooltip-body" data-i18n-html="ext.bfst.tip.body">Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit - nema brige šta i gde ćeš jesti ujutru.</div>
             </div>
           </div>
           <div class="connecting-tooltip-wrap">
@@ -3438,7 +3438,7 @@
           <div class="extra-card reveal-box-card" id="ec-hasRevealBox" onclick="togRevealBox(this)">
             <div class="extra-card-icon">📦</div>
             <div class="extra-card-body">
-              <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box — destinacija skrivena do poslednjeg trenutka</div>
+              <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box - destinacija skrivena do poslednjeg trenutka</div>
               <div class="extra-card-sub" data-i18n="ext.revealbox.d">Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦</div>
             </div>
             <div class="extra-card-price">+25€</div>
@@ -3450,7 +3450,7 @@
           </div>
         </div>
 
-        <!-- Presedanje — na dnu -->
+        <!-- Presedanje - na dnu -->
         <div class="connecting-tooltip-wrap" style="margin-top:14px;">
           <div class="extra-card" id="ec-hasConnectingFlights" onclick="togExtra(this,'hasConnectingFlights')">
             <div class="extra-card-icon">🔄</div>
@@ -3463,7 +3463,7 @@
           </div>
           <div class="connecting-tooltip">
             <div class="connecting-tooltip-title" data-i18n="ext.connecting.tip.title">✈️ Više destinacija, više iznenađenja</div>
-            <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong></div>
+            <div class="connecting-tooltip-body" data-i18n-html="ext.connecting.tip.body">Saglasnost na presedanje ti otvara više mogućnosti - destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong></div>
           </div>
         </div>
 
@@ -3513,7 +3513,7 @@
         <div class="price-box">
           <div class="price-box-title" data-i18n="price.title">Pregled cene</div>
           <div id="priceRows"><div style="color:var(--gray);font-size:14px;text-align:center;padding:16px;">Izračunavanje...</div></div>
-          <!-- Voucher discount row — hidden until code applied -->
+          <!-- Voucher discount row - hidden until code applied -->
           <div id="voucherDiscountRow" class="voucher-discount-row" style="display:none;">
             <div class="voucher-discount-label">
               🎟️ Poklon vaučer
@@ -3527,7 +3527,7 @@
 
           <div class="pr-total">
             <div class="ptl" data-i18n="price.total">Ukupno</div>
-            <div><div class="ptv" id="priceTotal">—</div><div class="pr-per" id="pricePer"></div></div>
+            <div><div class="ptv" id="priceTotal">-</div><div class="pr-per" id="pricePer"></div></div>
           </div>
 
           <!-- Voucher code input -->
@@ -3599,10 +3599,10 @@
             <span data-i18n="pay.heading">Kako funkcioniše plaćanje?</span>
           </div>
           <ol class="pi-steps">
-            <li data-i18n-html="pay.s1">Pošalji upit klikom na dugme ispod — besplatno i bez obaveza</li>
+            <li data-i18n-html="pay.s1">Pošalji upit klikom na dugme ispod - besplatno i bez obaveza</li>
             <li data-i18n-html="pay.s2">U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun</li>
-            <li data-i18n-html="pay.s3">Izvrši uplatu — rezervacija se <strong>potvrđuje tek nakon uplate</strong></li>
-            <li data-i18n-html="pay.s4">Potvrda stiže na email — putovanje je tvoje! ✓</li>
+            <li data-i18n-html="pay.s3">Izvrši uplatu - rezervacija se <strong>potvrđuje tek nakon uplate</strong></li>
+            <li data-i18n-html="pay.s4">Potvrda stiže na email - putovanje je tvoje! ✓</li>
           </ol>
           <div class="pi-note" data-i18n="pay.note">Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.</div>
         </div>
@@ -3641,7 +3641,7 @@
   <div class="dest-header">
     <span class="sec-tag" data-i18n="dest.tag">Naše destinacije</span>
     <h2 class="sec-heading" data-i18n="dest.heading">Sve ovo te čeka…</h2>
-    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija</p>
+    <p class="sec-sub" data-i18n="dest.sub">Izaberi da isključiš ono što ne voliš - ostatak ostaje misterija</p>
   </div>
   <div class="carousel-outer">
     <div class="carousel-track" id="carouselTrack">
@@ -3654,7 +3654,7 @@
 <section class="esc-who" id="esc-who">
   <div class="who-inner">
     <div class="who-header">
-      <span class="sec-tag" data-i18n="who.tag">Budimo iskreni — Escapii nije za svakoga</span>
+      <span class="sec-tag" data-i18n="who.tag">Budimo iskreni - Escapii nije za svakoga</span>
       <h2 class="sec-heading" data-i18n="who.heading">I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.</h2>
     </div>
     <div class="who-grid">
@@ -3669,8 +3669,8 @@
       </div>
       <div class="who-card no">
         <div class="who-card-title">✕ <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja — ili u suprotnom, ne ideš</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Uvek želiš da ideš na iste destinacije i biraš iste hotele — i to ti odgovara</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja - ili u suprotnom, ne ideš</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Uvek želiš da ideš na iste destinacije i biraš iste hotele - i to ti odgovara</span></div>
         <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Ideš samo na destinacije koje ti je neko od poznanika već preporučio</span></div>
         <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Hoćeš klasičnu turističku agenciju i unapred poznat aranžman</span></div>
       </div>
@@ -3719,7 +3719,7 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.7.q">Da li mogu da poklonlim putovanje nekome?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.7.a">Da, apsolutno! Postoje dve opcije za poklon putovanje:<br><br><strong>Poklon vaučer</strong> — na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer koji primalac koristi pri rezervaciji bilo kog Escapii putovanja.<br><br><strong>Personalizovana ponuda</strong> — javi nam se i kreiraćemo ponudu prilagođenu željenom datumu, trajanju i budžetu.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri — jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.</div>
+        <div class="faq-a" data-i18n-html="faq.7.a">Da, apsolutno! Postoje dve opcije za poklon putovanje:<br><br><strong>Poklon vaučer</strong> - na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> biraš iznos vaučera, unosiš ime i poruku - a mi šaljemo elegantni PDF vaučer koji primalac koristi pri rezervaciji bilo kog Escapii putovanja.<br><br><strong>Personalizovana ponuda</strong> - javi nam se i kreiraćemo ponudu prilagođenu željenom datumu, trajanju i budžetu.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
@@ -3744,7 +3744,7 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.13.q">Kako funkcioniše poklon vaučer?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.13.a">Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.</div>
+        <div class="faq-a" data-i18n-html="faq.13.a">Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku - a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju - grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
@@ -3794,7 +3794,7 @@
   <div class="call-us-inner">
     <div class="call-us-icon">✉️</div>
     <h2 class="call-us-heading" data-i18n="callus.h">Nisi siguran? Kontaktiraj nas!</h2>
-    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.</p>
+    <p class="call-us-sub" data-i18n="callus.p">Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše - Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.</p>
     <div class="call-us-actions">
       <a class="call-us-btn primary" href="mailto:escapii.team@gmail.com">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -3849,7 +3849,7 @@
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii — <span data-i18n="footer.rights">Sva prava zadržana</span></span>
+    <span>© 2026 Escapii - <span data-i18n="footer.rights">Sva prava zadržana</span></span>
     <div class="footer-bottom-links">
       <a href="/uslovi-koriscenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
@@ -3929,7 +3929,7 @@
     <div class="inq-field">
       <div class="inq-cal">
         <div class="inq-cal-head">
-          <div class="inq-cal-month" id="giftCalMonth">—</div>
+          <div class="inq-cal-month" id="giftCalMonth">-</div>
           <div class="inq-cal-nav">
             <button id="giftPrevM" type="button" aria-label="Prethodni mesec">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -3976,7 +3976,7 @@
                oninput="document.getElementById('giftRecipEmailErr').style.display='none';document.getElementById('giftRecipEmailWrap').style.borderColor='';">
       </div>
       <div id="giftRecipEmailErr" style="display:none;color:#f87171;font-size:12px;margin-top:6px;padding-left:4px;"></div>
-      <p class="gift-recip-note" data-i18n="gift.recip.note">Ako ostaviš prazno — link šaljemo tebi, ti ga proslediš primaocu.</p>
+      <p class="gift-recip-note" data-i18n="gift.recip.note">Ako ostaviš prazno - link šaljemo tebi, ti ga proslediš primaocu.</p>
     </div>
     <div class="inq-field">
       <label class="inq-label" data-i18n="gift.msg.label">Poruka primaocu</label>
@@ -4033,27 +4033,27 @@ const TR = {
     'mf.why':'Zašto Escapii?',
     'mf.p1':'Zato što najbolje priče počinju sa <em style="color:var(--gold);font-style:normal;">"putujemo sledeći vikend, ali ne znamo gde."</em>',
     'ab.q':'Da li vaše planiranje putovanja sa društvom izgleda ovako?',
-    'ab.sub':'Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje — i na kraju Novi Sad. Poznata priča.',
+    'ab.sub':'Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje - i na kraju Novi Sad. Poznata priča.',
     'ab.ptitle':'Escapii postoji zbog toga.',
-    'ab.pbody':'Ti izabereš datum — mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
+    'ab.pbody':'Ti izabereš datum - mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
     'ab.heading':'Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.',
     'ab.body':'Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.',
     'ab.f1':'Let + hotel uključeni u cenu',
     'ab.f2':'Destinacija ostaje tajna sve do 48h pre polaska',
     'ab.f3':'Bez skrivenih troškova',
     'ab.f4':'Radimo sa licenciranom turističkom agencijom',
-    'ab.clead':'Veruj nam kad ti kažemo — Escapii nije putovanje koje ćeš zaboraviti.',
+    'ab.clead':'Veruj nam kad ti kažemo - Escapii nije putovanje koje ćeš zaboraviti.',
     'ab.cbold':'To je avantura koju ćeš prepričavati zauvek.',
     'ab.btn1':'Rezerviši svoje iznenađenje →',
     'ab.btn2':'Kako funkcioniše?',
-    'mf.p2':'Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima — kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).',
+    'mf.p2':'Bez obzira na to da li si ti ona osoba koja planira sva putovanja, ili ona za koju drugi organizuju, a prijatelji te i dalje zatrpavaju pitanjima - kraj je uvek isti. Glasaš za destinaciju, biraš hotel, i na kraju se ispostavi da je baš ta destinacija preskupa, let ti poskupljuje već treći put u 24h, a dobar smeštaj je uveliko rasprodat. I onda završiš na vikend putovanju po regionu (nema tu ništa loše, da se razumemo, ali si maštao/la o Siciliji).',
     'mf.p3':'A kad konačno dođe dan putovanja, raduješ se ali se i dalje malo preispituješ: da li je hotel na dovoljno dobroj lokaciji, da li si uneo/la sve podatke tačno, da li si odabrao/la pravu destinaciju, da li bi možda Barcelona bila bolja od Lisabona, da li si preplatio/la karte jer si ih kupio/la previše kasno ili previše rano? A faktor iznenađenja? <strong>Nestao je čim si kliknuo/la \'potvrdi rezervaciju\'.</strong>',
-    'mf.p4':'Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu — bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.',
+    'mf.p4':'Sa Escapii platformom sada možeš da rezervišeš vikend putovanje iznenađenja u Evropi za svega 10 minuta za tebe i celu tvoju ekipu - bez trošenja gomile sati na istraživanje, dogovaranje, kupovinu karata i proveru hotela. Plus da na sve to dobijaš iskustvo koje ćeš pamtiti ceo život.',
     'mf.p5':'Zato postoji Escapii. Pronađeš datum koji ti odgovara, a naša ekipa će se pobrinuti za sve ostalo. Nema stresa, nema beskrajnog dogovaranja, nema gomile dosadnih poruka po grupnom četu. Samo ti, tvoja ekipa i onaj mali adrenalin u stomaku dok ne saznate gde to tačno putujete.',
-    'mf.p6':'A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje — analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.',
+    'mf.p6':'A onda kreće uzbuđenje. Svi se radujete i iščekujete nagoveštaje koje vam Escapii tim šalje - analizirate vremensku prognozu i pokušavate da skapirate na koju vas to destinaciju vodimo.',
     'mf.quote':'Escapii nije putovanje koje ćeš zaboraviti. Escapii je avantura koju ćeš prepričavati <em>zauvek</em>.',
     'dest.tag':'Naše destinacije', 'dest.heading':'Sve ovo te čeka…',
-    'dest.sub':'Izaberi da isključiš ono što ne voliš — ostatak ostaje misterija',
+    'dest.sub':'Izaberi da isključiš ono što ne voliš - ostatak ostaje misterija',
     'dest.mystery':'Ali ne znaš šta ćeš dobiti',
     'how.tag':'Kako funkcioniše?', 'how.heading':'Četiri koraka do tvoje avanture',
     'how.sub':'Sve što treba je da odabereš polazak i budžet.',
@@ -4061,7 +4061,7 @@ const TR = {
     'how.c2.t':'Mi organizujemo sve.', 'how.c2.p':'Naša Escapii ekipa će skrojiti iznenađenje baš za tebe - let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.',
     'how.c3.t':'Otkrij svoje iznenađenje.', 'how.c3.p':'Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.',
     'how.c4.t':'Stvori priču za prepričavanje.', 'how.c4.p':'Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.',
-    'who.tag':'Budimo iskreni — Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
+    'who.tag':'Budimo iskreni - Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
     'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da ti uvek sve organizuješ',
     'who.yes.2':'Spreman/na si da otkriješ destinaciju o kojoj nisi ni razmišljao/la',
@@ -4070,8 +4070,8 @@ const TR = {
     'who.yes.5':'Tvoje najdraže uspomene su uvek ona putovanja koja nisu išla 100% po planu',
     'who.yes.6':'Hoćeš da nekome pokloniš avanturu i iskustvo koje se pamti ceo život',
     'who.no.title':'Escapii nije za tebe ako...',
-    'who.no.1':'Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja — ili u suprotnom, ne ideš',
-    'who.no.2':'Uvek želiš da ideš na iste destinacije i biraš iste hotele — i to ti odgovara',
+    'who.no.1':'Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja - ili u suprotnom, ne ideš',
+    'who.no.2':'Uvek želiš da ideš na iste destinacije i biraš iste hotele - i to ti odgovara',
     'who.no.3':'Ideš samo na destinacije koje ti je neko od poznanika već preporučio',
     'who.no.4':'Hoćeš klasičnu turističku agenciju i unapred poznat aranžman',
     'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
@@ -4108,15 +4108,15 @@ const TR = {
     'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'3★ hotel ili apartman, dobra lokacija',
     'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★, viša kategorija hotela',
     'accom.std.hover':'Hotel od 3 ★ ili apartman. Udoban smeštaj sa svim osnovnim sadržajima.',
-    'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti — za one koji žele malo više od iznenađenja.',
-    'single.warn':'Napomena za solo putnike —', 'single.msg':' hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.',
+    'accom.sup.hover':'4★ ili 5★ hotel, pažljivo odabran za svaku destinaciju. Viši nivo komfora, bolja lokacija i usluga koja se primeti - za one koji žele malo više od iznenađenja.',
+    'single.warn':'Napomena za solo putnike -', 'single.msg':' hotelske sobe se standardno rezervišu za 2 osobe. Za jednokrevetnu sobu primenjuje se doplata od +60€.',
     's5.h':'Dodaci', 's5.hint':'Sve je opciono',
     'ext.suit':'Dodaj ručni kofer (carry-on)', 'ext.suit.d':'Dimenzije 55×40×20cm · 50€/smer × 2 smera = 100€ po osobi',
     'ext.ins':'Putno osiguranje', 'ext.ins.d':'Pokriva medicinske troškove u inostranstvu. Preporučujemo svim putnicima.',
     'ext.bfst':'Doručak u hotelu', 'ext.bfst.d':'Doručak u hotelu uključen za svaki dan boravka.',
     'ext.seats':'Želim sedišta jedan pored drugog', 'ext.seats.d':'po osobi, po smeru leta',
     'ext.connecting':'Prihvatam let sa presedanjem', 'ext.connecting.d':'Letovi sa presedanjem, više destinacija',
-    'ext.revealbox':'Reveal Box — destinacija skrivena do poslednjeg trenutka', 'ext.revealbox.d':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦',
+    'ext.revealbox':'Reveal Box - destinacija skrivena do poslednjeg trenutka', 'ext.revealbox.d':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
     'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
@@ -4126,11 +4126,11 @@ const TR = {
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
-    'ext.bfst.tip.body':'Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit — nema brige šta i gde ćeš jesti ujutru.',
+    'ext.bfst.tip.body':'Doručak u hotelu uključen <strong>svakog dana boravka</strong>. Kreni odmoran i sit - nema brige šta i gde ćeš jesti ujutru.',
     'ext.seats.tip.title':'💺 Sedišta zajedno',
     'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>zajedno</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
-    'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti — destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
+    'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti - destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
     's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
@@ -4143,7 +4143,7 @@ const TR = {
     'success.h':'Upit je primljen!',
     'success.p':'Javimo se u roku od 24 sata. Jedva čekamo da vas iznenadimo!',
     'callus.h':'Nisi siguran? Kontaktiraj nas!',
-    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše — Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.',
+    'callus.p':'Ako imaš pitanja ili nisi siguran kako sve ovo funkcioniše - Escapii tim je tu za tebe. Piši nam i odgovorićemo ti u najkraćem roku.',
     'callus.note':'Odgovaramo u roku od 24h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
@@ -4151,7 +4151,7 @@ const TR = {
     'footer.book':'Rezervacija', 'footer.departure':'Polasci', 'footer.rights':'Sva prava zadržana',
     'steps':['Aerodrom','Putnici','Datum','Smeštaj','Dodaci','Isključi','Putnici','Kontakt'],
     'nights': n=>n===1?'1 noć':`${n} noći`, 'slots': n=>`${n} mesta`,
-    'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i} — Ime i prezime`,
+    'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i} - Ime i prezime`,
     'gender.m':'Muški', 'gender.f':'Ženski',
     'pax.num': n=>`Putnik ${n}`, 'pax.name':'Ime i prezime', 'pax.name.err':'Unesite ime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
     'pax.passport':'Zemlja pasoša', 'pax.passport.ph':'npr. Srbija', 'pax.passport.err':'Unesite zemlju pasoša.',
@@ -4181,7 +4181,7 @@ const TR = {
     'faq.6.q':'Mogu li da otkažem ili promenim rezervaciju?',
     'faq.6.a':'Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.',
     'faq.7.q':'Da li mogu da poklonlim putovanje nekome?',
-    'faq.7.a':'Da, apsolutno! Postoje dve opcije za poklon putovanje:<br><br><strong>Poklon vaučer</strong> — na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer koji primalac koristi pri rezervaciji bilo kog Escapii putovanja.<br><br><strong>Personalizovana ponuda</strong> — javi nam se i kreiraćemo ponudu prilagođenu željenom datumu, trajanju i budžetu.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri — jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.',
+    'faq.7.a':'Da, apsolutno! Postoje dve opcije za poklon putovanje:<br><br><strong>Poklon vaučer</strong> - na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> biraš iznos vaučera, unosiš ime i poruku - a mi šaljemo elegantni PDF vaučer koji primalac koristi pri rezervaciji bilo kog Escapii putovanja.<br><br><strong>Personalizovana ponuda</strong> - javi nam se i kreiraćemo ponudu prilagođenu željenom datumu, trajanju i budžetu.<br><br>Naši Escaperi najčešće poklanjaju putovanja iznenađenja za rođendane, godišnjice, devojačke i momačke večeri - jer avantura koja se pamti uvek pobeđuje svaki materijalni poklon.',
     'faq.8.q':'Ko organizuje putovanje i da li je Escapii registrovana firma?',
     'faq.8.a':'Da, Escapii je registrovana firma. Sarađujemo sa partnerskim turističkim agencijama sa licencom, sa kojima zajedno kreiramo iznenađenja za tebe. To znači da je svako putovanje organizovano profesionalno i u skladu sa svim propisima.',
     'faq.9.q':'Da li mogu da putujem sam/sama?',
@@ -4191,14 +4191,14 @@ const TR = {
     'faq.12.q':'Kako funkcioniše plaćanje?',
     'faq.12.a':'Nakon što pošalješ upit, naša ekipa će te kontaktirati u roku od 24h sa svim detaljima i podacima za uplatu. Rezervacija se potvrđuje tek nakon izvršene uplate. Po završetku uplate, dobijaš potvrdu na mejl.<br><br>Uplata se vrši na naš račun - bez naknade za karticu i bez skrivenih troškova. Cena koju vidiš na sajtu je cena koju plaćaš.',
     'faq.13.q':'Kako funkcioniše poklon vaučer?',
-    'faq.13.a':'Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku — a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju — grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.',
+    'faq.13.a':'Poklon vaučer je idealan poklon za nekoga ko voli iznenađenja i putovanja. Na stranici <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> biraš iznos vaučera, unosiš ime i poruku - a mi šaljemo elegantni PDF vaučer (boarding pass dizajn) na email koji možeš proslediti ili odštampati.<br><br>Primaoc unosi kod vaučera pri rezervaciji Escapii putovanja, a iznos se oduzima od ukupne cene. Vaučer važi <strong>godinu dana od aktivacije</strong> i može se iskoristiti na bilo kom Escapii putovanju - grupnom ili prilagođenom terminu. Vaučer se ne može razmeniti za gotovinu.',
     'faq.14.q':'Šta je prilagođeni termin i kako ga rezervisati?',
     'faq.14.a':'Prilagođeni termin je opcija namenjena putnicima kojima ne odgovaraju dostupni datumi ili žele putovanje organizovano u periodu koji sami odaberu.<br><br>Da biste poslali upit za prilagođeni termin:<br><ol><li>U booking formi izaberite opciju <strong>Prilagođeni termin</strong>.</li><li>Unesite željeni period putovanja i broj putnika.</li><li>Pošaljite upit.</li></ol>Nakon prijema upita, naš tim proverava dostupnost letova i smeštaja, formira ponudu i dostavlja vam sve potrebne informacije. Cena se određuje individualno, u skladu sa raspoloživim opcijama za odabrani period i broj putnika. ✈️🏨',
     'swal.excl.title':'Maksimalno 4 isključivanja',
-    'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
+    'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
     'swal.excl.ini.title':'Maksimalno 1 isključivanje',
-    'swal.excl.ini.html':'Za polaske iz Niša dostupno je maksimalno 1 isključivanje — 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama — tu počinje pravo iznenađenje! 🌍</strong>',
+    'swal.excl.ini.html':'Za polaske iz Niša dostupno je maksimalno 1 isključivanje - 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
     'pr.pp': n=>`≈ ${n}€ po osobi`, 'err.price':'Nije moguće učitati cenu.',
@@ -4213,30 +4213,30 @@ const TR = {
     'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
     'err.srv':'Nešto nije u redu. Pokušajte ponovo, a ako se problem ponovi kontaktirajte nas na escapii.team@gmail.com.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na escapii.team@gmail.com.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
     's3.nodates.title':'Nema dostupnih termina',
-    's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email — javljamo ti čim se otvore novi.',
+    's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email - javljamo ti čim se otvore novi.',
     's3.nodates.btn':'Obavesti me',
     'per.p':' po osobi',
     'accom.sup.badge':'+100€ po osobi',
     'ins.price':'+12€ po osobi', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
     'waitlist.ph':'tvoj@email.com',
-    'waitlist.already':'📬 Već si na listi — javiće ti se čim se otvore termini.',
+    'waitlist.already':'📬 Već si na listi - javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
-    'waitlist.err':'Greška — pokušaj ponovo.',
+    'waitlist.err':'Greška - pokušaj ponovo.',
     'waitlist.swal.ok.title':'Uspešno ste prijavljeni na listu čekanja!',
     'waitlist.swal.ok.html':'Email adresa {email} je uspešno registrovana za praćenje slobodnih termina na aerodromu {airportName}.<br><br>Obavestićemo vas čim bude dostupan novi termin. ✈️',
     'waitlist.swal.already.title':'📬 Već ste na listi',
     'waitlist.swal.already.html':'Email adresa {email} je već registrovana za praćenje slobodnih termina na aerodromu {airportName}.<br><br>Obavestićemo vas čim bude dostupan novi termin. ✈️',
     'waitlist.swal.err.title':'Greška',
-    'waitlist.swal.err.text':'Nešto nije pošlo kako treba — pokušaj ponovo.',
+    'waitlist.swal.err.text':'Nešto nije pošlo kako treba - pokušaj ponovo.',
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
     's8.notes.ph':'Alergije, posebni zahtevi...',
     'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju ćeš saznati 48h pre polaska', 'trust.3':'Sarađujemo sa licenciranom turističkom agencijom',
     'pay.heading':'Kako funkcioniše plaćanje?',
-    'pay.s1':'Pošalji upit klikom na dugme ispod — besplatno i bez obaveza',
+    'pay.s1':'Pošalji upit klikom na dugme ispod - besplatno i bez obaveza',
     'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
-    'pay.s3':'Izvrši uplatu — rezervacija se <strong>potvrđuje tek nakon uplate</strong>',
-    'pay.s4':'Potvrda stiže na email — putovanje je tvoje! ✓',
+    'pay.s3':'Izvrši uplatu - rezervacija se <strong>potvrđuje tek nakon uplate</strong>',
+    'pay.s4':'Potvrda stiže na email - putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
     's2.max.msg':'Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
@@ -4262,7 +4262,7 @@ const TR = {
     'gift.recip.name.ph':'Ana Anić',
     'gift.recip.email.label':'Email primaoca',
     'gift.recip.email.ph':'ana@gmail.com',
-    'gift.recip.note':'Ako ostaviš prazno — link šaljemo tebi, ti ga proslediš primaocu.',
+    'gift.recip.note':'Ako ostaviš prazno - link šaljemo tebi, ti ga proslediš primaocu.',
     'gift.msg.label':'Poruka primaocu',
     'gift.msg.ph':'Srećan rođendan! Pripremila sam ti iznenađenje...',
     'gift.sec.giver':'Tvoji podaci',
@@ -4285,7 +4285,7 @@ const TR = {
     'status.btn':'Check →',
     'hero.badge':'Surprise travel experiences',
     'hero.h1':'You choose when. <em>We choose where.</em>',
-    'hero.sub':'Choose your airport, date and budget — we handle everything else. You\'ll find out the destination only 48h before departure.',
+    'hero.sub':'Choose your airport, date and budget - we handle everything else. You\'ll find out the destination only 48h before departure.',
     'hero.cta':'Book your surprise', 'hero.how':'How does Escapii work?',
     'hero.stat.dest':'Destinations', 'hero.stat.airports':'Departure airports', 'hero.stat.surprise':'Surprise',
     'mf.tag':'What is Escapii?',
@@ -4293,35 +4293,35 @@ const TR = {
     'mf.why':'Why Escapii?',
     'mf.p1':'Because the best stories start with <em style="color:var(--gold);font-style:normal;">"we\'re traveling next weekend, but we don\'t know where."</em>',
     'ab.q':'Does your travel planning with friends look like this?',
-    'ab.sub':'Three days of messages, flights getting expensive before your eyes, accommodation disappearing — and you end up in Novi Sad. Sound familiar.',
+    'ab.sub':'Three days of messages, flights getting expensive before your eyes, accommodation disappearing - and you end up in Novi Sad. Sound familiar.',
     'ab.ptitle':'That\'s why Escapii exists.',
-    'ab.pbody':'You pick a date — we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
+    'ab.pbody':'You pick a date - we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
     'ab.heading':'The first surprise travel platform in the region.',
     'ab.body':'You choose the date, number of travelers and budget. We choose the destination and organise the surprise. You\'ll find out where you\'re going just 48h before departure.',
     'ab.f1':'Flight + hotel included in the price',
     'ab.f2':'Destination revealed 48h before departure',
     'ab.f3':'No hidden costs',
     'ab.f4':'We work with a licensed travel agency',
-    'ab.clead':'Trust us when we say — Escapii isn\'t a trip you\'ll forget.',
+    'ab.clead':'Trust us when we say - Escapii isn\'t a trip you\'ll forget.',
     'ab.cbold':'It\'s an adventure you\'ll be talking about forever.',
     'ab.btn1':'Book your surprise →',
     'ab.btn2':'How does it work?',
-    'mf.p2':'We all know that feeling. You\'re either the person who plans and organizes every trip, or the one others plan for — yet your friends still bombard you with questions. You vote on a destination, pick a hotel, and it turns out it\'s too expensive, the flight went up in price for the third time in 24 hours, or the good accommodation is already sold out — and you\'re back to square one. Or you end up on a weekend trip in the region (nothing wrong with that, but you were dreaming of Sicily).',
-    'mf.p3':'You\'ve searched the same website 4,328 times, you know the map of your destination by heart, you\'ve become an expert — but when you finally go, you already know exactly what to expect. The element of surprise? <strong>Doesn\'t exist.</strong>',
-    'mf.p4':'Did you know you can now book a surprise weekend trip in Europe — without spending hours researching, coordinating, and checking hotels? Plus get an experience you\'ll remember for life?',
+    'mf.p2':'We all know that feeling. You\'re either the person who plans and organizes every trip, or the one others plan for - yet your friends still bombard you with questions. You vote on a destination, pick a hotel, and it turns out it\'s too expensive, the flight went up in price for the third time in 24 hours, or the good accommodation is already sold out - and you\'re back to square one. Or you end up on a weekend trip in the region (nothing wrong with that, but you were dreaming of Sicily).',
+    'mf.p3':'You\'ve searched the same website 4,328 times, you know the map of your destination by heart, you\'ve become an expert - but when you finally go, you already know exactly what to expect. The element of surprise? <strong>Doesn\'t exist.</strong>',
+    'mf.p4':'Did you know you can now book a surprise weekend trip in Europe - without spending hours researching, coordinating, and checking hotels? Plus get an experience you\'ll remember for life?',
     'mf.p5':'That\'s exactly why we created Escapii. You find a date that works for you, and our team handles everything else. No stress, no spreadsheets, no 75,430 messages in the group chat. Just you, your crew, and that little flutter in your stomach as you wait to find out where you\'re headed.',
-    'mf.p6':'And that\'s where the fun starts. Everyone gets excited and hyped up until 3 days before departure — analyzing the weather forecast and trying to guess the destination, and whoever figures it out doesn\'t pay for the expensive coffee at the airport.',
+    'mf.p6':'And that\'s where the fun starts. Everyone gets excited and hyped up until 3 days before departure - analyzing the weather forecast and trying to guess the destination, and whoever figures it out doesn\'t pay for the expensive coffee at the airport.',
     'mf.quote':'Escapii is not a trip you\'ll forget. Escapii is an adventure you\'ll be telling stories about <em>forever</em>.',
     'dest.tag':'Our destinations', 'dest.heading':'All this awaits you…',
-    'dest.sub':'Choose to exclude what you don\'t like — the rest stays a mystery',
+    'dest.sub':'Choose to exclude what you don\'t like - the rest stays a mystery',
     'dest.mystery':'But you don\'t know what you\'ll get',
     'how.tag':'How does it work?', 'how.heading':'Four steps to your adventure',
     'how.sub':'All you need to do is pick a date and a budget.',
     'how.c1.t':'Create your surprise trip.', 'how.c1.p':'Choose your date, number of travelers, budget and extras. Exclude destinations you don\'t want.',
-    'how.c2.t':'We handle everything.', 'how.c2.p':'Our Escapii team will craft the perfect surprise just for you — flight, hotel and everything else. All you need to do is pack your bag.',
-    'how.c3.t':'Discover your surprise.', 'how.c3.p':'You\'ll find out your destination 48h before departure. Don\'t worry — 7 days before the trip we\'ll send you a weather forecast, without revealing the destination.',
+    'how.c2.t':'We handle everything.', 'how.c2.p':'Our Escapii team will craft the perfect surprise just for you - flight, hotel and everything else. All you need to do is pack your bag.',
+    'how.c3.t':'Discover your surprise.', 'how.c3.p':'You\'ll find out your destination 48h before departure. Don\'t worry - 7 days before the trip we\'ll send you a weather forecast, without revealing the destination.',
     'how.c4.t':'Create a story worth telling.', 'how.c4.p':'Enjoy your surprise, discover the destination in a new way, and come back with memories you\'ll be talking about for a long time.',
-    'who.tag':'Let\'s be honest — Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
+    'who.tag':'Let\'s be honest - Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
     'who.yes.1':'You love traveling, but you\'re tired of always organizing everything yourself',
     'who.yes.2':'You\'re ready to discover a destination you\'ve never even thought about',
@@ -4330,8 +4330,8 @@ const TR = {
     'who.yes.5':'Your favorite memories are always the trips that didn\'t go 100% according to plan',
     'who.yes.6':'You want to give someone an adventure and an experience they\'ll remember for life',
     'who.no.title':'Escapii is not for you if...',
-    'who.no.1':'You like to plan every day of your trip down to the smallest detail — or you won\'t go at all',
-    'who.no.2':'You always want to go to the same destinations and choose the same hotels — and that works for you',
+    'who.no.1':'You like to plan every day of your trip down to the smallest detail - or you won\'t go at all',
+    'who.no.2':'You always want to go to the same destinations and choose the same hotels - and that works for you',
     'who.no.3':'You only go to destinations that someone you know has already recommended',
     'who.no.4':'You want a classic travel agency and a predetermined package',
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
@@ -4368,15 +4368,15 @@ const TR = {
     'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
     'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★, higher category hotel',
     'accom.std.hover':'3★ hotel or apartment. Comfortable accommodation with all the essentials.',
-    'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service — for those who want a little more.',
-    'single.warn':'Note for solo travelers —', 'single.msg':' hotel rooms are standardly reserved for 2 people. A single room supplement of +60€ applies.',
+    'accom.sup.hover':'4★ or 5★ hotel, carefully selected for each destination. Higher comfort, better location and service - for those who want a little more.',
+    'single.warn':'Note for solo travelers -', 'single.msg':' hotel rooms are standardly reserved for 2 people. A single room supplement of +60€ applies.',
     's5.h':'Add-ons', 's5.hint':'All optional',
     'ext.suit':'Add cabin luggage (carry-on)', 'ext.suit.d':'Dimensions 55×40×20cm · 50€/way × 2 ways = 100€ per person',
     'ext.ins':'Travel insurance', 'ext.ins.d':'Covers medical expenses abroad. Recommended for all travelers.',
     'ext.bfst':'Hotel breakfast', 'ext.bfst.d':'Hotel breakfast included for every day of stay.',
     'ext.seats':'I want seats next to each other', 'ext.seats.d':'per person, per flight direction',
     'ext.connecting':'I accept a connecting flight', 'ext.connecting.d':'Connecting flights, more destinations',
-    'ext.revealbox':'Reveal Box — destination hidden until the last moment', 'ext.revealbox.d':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦',
+    'ext.revealbox':'Reveal Box - destination hidden until the last moment', 'ext.revealbox.d':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
     'revealbox.modal.title':'Reveal Box Delivery Address',
@@ -4386,11 +4386,11 @@ const TR = {
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
-    'ext.bfst.tip.body':'Hotel breakfast included <strong>every day of your stay</strong>. Start refreshed — no need to worry about where to eat in the morning.',
+    'ext.bfst.tip.body':'Hotel breakfast included <strong>every day of your stay</strong>. Start refreshed - no need to worry about where to eat in the morning.',
     'ext.seats.tip.title':'💺 Seats together',
     'ext.seats.tip.body':'We guarantee your entire group sits <strong>together</strong>, on both flights. Perfect for couples and groups who don\'t want to travel apart.',
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
-    'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities — destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
+    'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities - destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
     's6.h':'Exclude destinations you don\'t want us to take you to',
     's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +15€ per person.',
     's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd, 3rd & 4th exclusion',
@@ -4404,7 +4404,7 @@ const TR = {
     'success.h':'Inquiry received!',
     'success.p':'We\'ll get back to you within 24 hours. We can\'t wait to surprise you!',
     'callus.h':'Not sure? Contact us!',
-    'callus.p':'If you have questions or are not sure how this works — the Escapii team is here for you. Write to us and we\'ll get back to you as soon as possible.',
+    'callus.p':'If you have questions or are not sure how this works - the Escapii team is here for you. Write to us and we\'ll get back to you as soon as possible.',
     'callus.note':'We respond within 24 hours',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About us', 'footer.dest':'Destinations',
@@ -4412,7 +4412,7 @@ const TR = {
     'footer.book':'Book', 'footer.departure':'Departures', 'footer.rights':'All rights reserved',
     'steps':['Airport','Travelers','Date','Stay','Add-ons','Exclude','Passengers','Contact'],
     'nights': n=>n===1?'1 night':`${n} nights`, 'slots': n=>`${n} seats`,
-    'excl.n': n=>`${n} excluded`, 'pax.ph': i=>`Traveler ${i} — Full name`,
+    'excl.n': n=>`${n} excluded`, 'pax.ph': i=>`Traveler ${i} - Full name`,
     'gender.m':'Male', 'gender.f':'Female',
     'pax.num': n=>`Traveler ${n}`, 'pax.name':'Full name', 'pax.name.err':'Please enter traveler name.', 'pax.dob.err':'Each traveler must be at least 18 years old.',
     'pax.gender':'Gender', 'pax.dob':'Date of birth',
@@ -4430,36 +4430,36 @@ const TR = {
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
-    'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag — typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
+    'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag - typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
     'faq.2.q':'When will I find out where I\'m going?',
-    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure — no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
+    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure - no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
     'faq.3.q':'How does Escapii choose my destination?',
-    'faq.3.a':'We choose based on several factors — flight availability on your selected dates, price, accommodation quality, and current options from our partner agency. Every destination in our pool has been carefully vetted, and our goal is always to find the best option for your date and budget. The rest is a surprise.',
+    'faq.3.a':'We choose based on several factors - flight availability on your selected dates, price, accommodation quality, and current options from our partner agency. Every destination in our pool has been carefully vetted, and our goal is always to find the best option for your date and budget. The rest is a surprise.',
     'faq.4.q':'What if I get a destination I don\'t like?',
-    'faq.4.a':'We get it — that\'s a completely valid question. It\'s possible you\'ll receive a destination you wouldn\'t have picked yourself, but that\'s kind of the whole point. Sometimes it\'s not about where you are, but what you experience when you get there. Our trips are short weekend adventures, and every destination in our pool has plenty to see, do, and discover. On top of that, you\'ll get our guide with insider tips, local recommendations, discounts, and ideas for making the most of 2–3 days in that city. Many of our travelers came back with a completely different perspective — about the destination, and about what travel really means.',
+    'faq.4.a':'We get it - that\'s a completely valid question. It\'s possible you\'ll receive a destination you wouldn\'t have picked yourself, but that\'s kind of the whole point. Sometimes it\'s not about where you are, but what you experience when you get there. Our trips are short weekend adventures, and every destination in our pool has plenty to see, do, and discover. On top of that, you\'ll get our guide with insider tips, local recommendations, discounts, and ideas for making the most of 2–3 days in that city. Many of our travelers came back with a completely different perspective - about the destination, and about what travel really means.',
     'faq.5.q':'Can I exclude destinations?',
-    'faq.5.a':'Yes, you can! During booking, you have the option to exclude destinations you don\'t want to visit.<br><br>If you\'re departing from Belgrade, you can exclude up to 4 destinations — the first one is free, and each additional costs +15€. We don\'t recommend excluding more than 2–3, though — the fewer you exclude, the bigger the surprise, and that\'s the whole point.<br><br>If you\'re departing from Niš, due to the smaller destination pool, you can exclude a maximum of 1 destination for a fee of 15€.',
+    'faq.5.a':'Yes, you can! During booking, you have the option to exclude destinations you don\'t want to visit.<br><br>If you\'re departing from Belgrade, you can exclude up to 4 destinations - the first one is free, and each additional costs +15€. We don\'t recommend excluding more than 2–3, though - the fewer you exclude, the bigger the surprise, and that\'s the whole point.<br><br>If you\'re departing from Niš, due to the smaller destination pool, you can exclude a maximum of 1 destination for a fee of 15€.',
     'faq.6.q':'Can I cancel or change my booking?',
-    'faq.6.a':'Unfortunately, trips cannot be canceled — we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
+    'faq.6.a':'Unfortunately, trips cannot be canceled - we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
     'faq.7.q':'Can I give a trip as a gift?',
-    'faq.7.a':'Yes, absolutely! There are two ways to gift a surprise trip:<br><br><strong>Gift voucher</strong> — on the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> page, choose a voucher amount, enter a name and message — we\'ll send a beautifully designed PDF voucher the recipient uses when booking any Escapii trip.<br><br><strong>Personalized offer</strong> — just reach out and we\'ll create an offer tailored to the dates, duration, and budget that works for you.<br><br>Our Escapers most often give surprise trips as gifts for birthdays, anniversaries, hen and stag parties — because an adventure you\'ll remember always beats any material gift.',
+    'faq.7.a':'Yes, absolutely! There are two ways to gift a surprise trip:<br><br><strong>Gift voucher</strong> - on the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);">Pokloni iznenađenje</a> page, choose a voucher amount, enter a name and message - we\'ll send a beautifully designed PDF voucher the recipient uses when booking any Escapii trip.<br><br><strong>Personalized offer</strong> - just reach out and we\'ll create an offer tailored to the dates, duration, and budget that works for you.<br><br>Our Escapers most often give surprise trips as gifts for birthdays, anniversaries, hen and stag parties - because an adventure you\'ll remember always beats any material gift.',
     'faq.8.q':'Who organizes the trip and is Escapii a registered company?',
     'faq.8.a':'Yes, Escapii is a registered company. We work with licensed partner travel agencies to co-create surprises for you. This means every trip is organized professionally and in full compliance with all regulations.',
     'faq.9.q':'Can I travel alone?',
-    'faq.9.a':'Absolutely — we have plenty of solo Escapers! The only thing to note is that a single room supplement of 60€ per night applies, since hotel rooms are standardly reserved for two people. Everything else works exactly the same as for groups.',
+    'faq.9.a':'Absolutely - we have plenty of solo Escapers! The only thing to note is that a single room supplement of 60€ per night applies, since hotel rooms are standardly reserved for two people. Everything else works exactly the same as for groups.',
     'faq.11.q':'Is there an age limit, and can I travel with children?',
-    'faq.11.a':'Our trips are open to all ages. Anyone under 18 cannot travel without an adult companion. Children travel under the same conditions as adults — with their own ticket and accommodation. The only note is that children under 2 are subject to special airline conditions, so please contact us before booking so we can find the best option for your group.',
+    'faq.11.a':'Our trips are open to all ages. Anyone under 18 cannot travel without an adult companion. Children travel under the same conditions as adults - with their own ticket and accommodation. The only note is that children under 2 are subject to special airline conditions, so please contact us before booking so we can find the best option for your group.',
     'faq.12.q':'How does payment work?',
-    'faq.12.a':'After you submit your inquiry, our team will contact you within 24 hours with all the details and payment information. Your booking is confirmed only after payment is received. Once payment is completed, you\'ll receive a confirmation by email.<br><br>Payment is made directly to our account — no card fees, no hidden costs. The price you see on the site is the price you pay.',
+    'faq.12.a':'After you submit your inquiry, our team will contact you within 24 hours with all the details and payment information. Your booking is confirmed only after payment is received. Once payment is completed, you\'ll receive a confirmation by email.<br><br>Payment is made directly to our account - no card fees, no hidden costs. The price you see on the site is the price you pay.',
     'faq.13.q':'How does a gift voucher work?',
-    'faq.13.a':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message — we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip — group or custom. Vouchers cannot be exchanged for cash.',
+    'faq.13.a':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--gold);"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message - we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip - group or custom. Vouchers cannot be exchanged for cash.',
     'faq.14.q':'What is a custom trip and how do I book one?',
     'faq.14.a':'A custom trip is an option designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request for a custom trip:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks flight and accommodation availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually, based on available options for your chosen period and number of travellers. ✈️🏨',
     'swal.excl.title':'Maximum 4 exclusions',
-    'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
+    'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us - that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
     'swal.excl.ini.title':'Maximum 1 exclusion',
-    'swal.excl.ini.html':'For departures from Niš, up to 1 exclusion is available — 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us — that\'s where the real surprise begins! 🌍</strong>',
+    'swal.excl.ini.html':'For departures from Niš, up to 1 exclusion is available - 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us - that\'s where the real surprise begins! 🌍</strong>',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
     'pr.pp': n=>`≈ ${n}€ per person`, 'err.price':'Unable to load price.',
@@ -4472,32 +4472,32 @@ const TR = {
     'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
     'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
-    'err.srv':'Something went wrong. Please try again — if the problem persists, contact us at escapii.team@gmail.com.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at escapii.team@gmail.com.', 'success.ref': id=>`Booking reference: ${id}`,
+    'err.srv':'Something went wrong. Please try again - if the problem persists, contact us at escapii.team@gmail.com.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at escapii.team@gmail.com.', 'success.ref': id=>`Booking reference: ${id}`,
     's3.nodates.title':'No available dates',
-    's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email — we\'ll notify you when new ones open.',
+    's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email - we\'ll notify you when new ones open.',
     's3.nodates.btn':'Notify me',
     'per.p':' per person',
     'accom.sup.badge':'+100€ per person',
     'ins.price':'+12€ per person', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
     'waitlist.ph':'your@email.com',
-    'waitlist.already':'📬 You\'re already on the list — we\'ll notify you when dates open up.',
+    'waitlist.already':'📬 You\'re already on the list - we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
-    'waitlist.err':'Error — please try again.',
+    'waitlist.err':'Error - please try again.',
     'waitlist.swal.ok.title':'Successfully joined the waitlist!',
     'waitlist.swal.ok.html':'Email address {email} has been registered for availability updates at {airportName} airport.<br><br>We\'ll notify you as soon as a new date becomes available. ✈️',
     'waitlist.swal.already.title':'📬 Already on the list',
     'waitlist.swal.already.html':'Email address {email} is already registered for availability updates at {airportName} airport.<br><br>We\'ll notify you as soon as a new date becomes available. ✈️',
     'waitlist.swal.err.title':'Error',
-    'waitlist.swal.err.text':'Something went wrong — please try again.',
+    'waitlist.swal.err.text':'Something went wrong - please try again.',
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
     's8.notes.ph':'Allergies, special requests...',
     'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'We work with a licensed travel agency',
     'pay.heading':'How does payment work?',
-    'pay.s1':'Submit your inquiry by clicking the button below — free and with no obligation',
+    'pay.s1':'Submit your inquiry by clicking the button below - free and with no obligation',
     'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
-    'pay.s3':'Make the transfer — your booking is <strong>confirmed only after payment</strong>',
-    'pay.s4':'Confirmation arrives by email — the trip is yours! ✓',
+    'pay.s3':'Make the transfer - your booking is <strong>confirmed only after payment</strong>',
+    'pay.s4':'Confirmation arrives by email - the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
     'bp.label': (s,t) => `Step ${s} of ${t}`,
     's2.max.msg':'For trips with more than 6 travelers, contact us at <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
@@ -4523,7 +4523,7 @@ const TR = {
     'gift.recip.name.ph':'Ana Anić',
     'gift.recip.email.label':'Recipient\'s email',
     'gift.recip.email.ph':'ana@gmail.com',
-    'gift.recip.note':'If left blank — we send the link to you and you forward it to the recipient.',
+    'gift.recip.note':'If left blank - we send the link to you and you forward it to the recipient.',
     'gift.msg.label':'Message to recipient',
     'gift.msg.ph':'Happy birthday! I\'ve prepared a surprise for you...',
     'gift.sec.giver':'Your details',
@@ -4712,7 +4712,7 @@ function setLang(l) {
   lang = l;
   localStorage.setItem('esc-lang', l);
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
-  // Uvek primeni prevod bez uslova — garantuje tačan prevod pri svakom prelasku
+  // Uvek primeni prevod bez uslova - garantuje tačan prevod pri svakom prelasku
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{ el.innerHTML = t(el.dataset.i18nHtml); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = t(el.dataset.i18nPh); });
@@ -4761,7 +4761,7 @@ function escScrollTo(id) {
   const secNav = document.querySelector('.sec-nav');
   const offset = 72 + (secNav && secNav.classList.contains('visible') ? 44 : 0) + 8;
 
-  // Snapshot target BEFORE animation starts — immune to layout shifts during scroll
+  // Snapshot target BEFORE animation starts - immune to layout shifts during scroll
   const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset);
   const startY  = window.scrollY;
   const dist     = targetY - startY;
@@ -4787,7 +4787,7 @@ const IMG_BASE = '<?php echo get_template_directory_uri(); ?>/images/destination
 const IMG_EXT = '.jpg';
 
 // Slike u folderu se zovu isto kao destinacije (lowercase, bez dijakritika, bez razmaka).
-// Za nekoliko gradova postoji razlika između srpskog naziva i naziva fajla — override mapa.
+// Za nekoliko gradova postoji razlika između srpskog naziva i naziva fajla - override mapa.
 const IMG_OVERRIDE = {
   'alikante':   'alicante',
   'bazelmuluz': 'bazel',
@@ -4826,7 +4826,7 @@ function airportImgUrl(code) {
 }
 
 // ══════════ STATE
-// Countries loaded from backend — see loadCountries()
+// Countries loaded from backend - see loadCountries()
 
 const FLAGS = {RS:'🇷🇸',DE:'🇩🇪',FR:'🇫🇷',ES:'🇪🇸',IT:'🇮🇹',GB:'🇬🇧',NL:'🇳🇱',SE:'🇸🇪',
                PT:'🇵🇹',AT:'🇦🇹',MT:'🇲🇹',CY:'🇨🇾',GR:'🇬🇷',HR:'🇭🇷',BA:'🇧🇦',SK:'🇸🇰',
@@ -4842,14 +4842,14 @@ const S = {
   lastPrice:null
 };
 
-// ══════════ COUNTRIES (from backend — no external API dependency)
+// ══════════ COUNTRIES (from backend - no external API dependency)
 async function loadCountries() {
   try {
     const r = await fetch(`${API}/api/destinations/countries`);
     if (!r.ok) throw new Error();
     S.countries = await r.json();
   } catch(e) {
-    // fallback: empty array — Choices.js will show empty dropdown
+    // fallback: empty array - Choices.js will show empty dropdown
     S.countries = [];
   }
 }
@@ -4864,7 +4864,7 @@ function showExclSkeleton() {
 }
 
 async function loadDestinations() {
-  // Build carousel immediately with fallback data — images are local so it shows instantly.
+  // Build carousel immediately with fallback data - images are local so it shows instantly.
   // This way the carousel is never empty; we silently rebuild when the API responds.
   buildCarousel();
   showExclSkeleton();
@@ -4882,7 +4882,7 @@ async function loadDestinations() {
     buildCarousel();
     renderExclGrid();
   } catch(e) {
-    // fallback — carousel already rendered, just fill excl grid with FALLBACK_DESTS
+    // fallback - carousel already rendered, just fill excl grid with FALLBACK_DESTS
     S.destinations = FALLBACK_DESTS;
     renderExclGrid();
   }
@@ -5208,7 +5208,7 @@ function onEnter() {
   if(S.step===5) { updateSuitUI(); updateSeatsVisibility(); }
   if(S.step===6) updateExclStep();
   if(S.step===7) {
-    // Renderuj formu samo ako broj putnika ne odgovara — ne resetuj popunjena polja
+    // Renderuj formu samo ako broj putnika ne odgovara - ne resetuj popunjena polja
     if(document.querySelectorAll('.pax-item').length !== S.travelers) renderPax();
     loadPrice();
   }
@@ -5231,7 +5231,7 @@ async function loadDestinationsByAirport(airport) {
     if (!r.ok) throw new Error();
     S.destinations = await r.json();
     renderExclGrid();
-  } catch(e) { /* fallback — ostaje prethodni S.destinations */ }
+  } catch(e) { /* fallback - ostaje prethodni S.destinations */ }
 }
 
 // ══════════ STEP 2
@@ -5278,8 +5278,8 @@ function buildDateRow(d) {
   const onclick = notEnoughSlots ? '' : `onclick="pickDate(this,${d.id},${JSON.stringify(d).replace(/"/g,'&quot;')})"`;
   const tooltipText = notEnoughSlots
     ? (lang==='sr'
-        ? `Nema dovoljno mesta — izabrali ste ${S.travelers} putnika, dostupno ${d.availableSlots}.`
-        : `Not enough spots — you picked ${S.travelers} travelers, only ${d.availableSlots} available.`)
+        ? `Nema dovoljno mesta - izabrali ste ${S.travelers} putnika, dostupno ${d.availableSlots}.`
+        : `Not enough spots - you picked ${S.travelers} travelers, only ${d.availableSlots} available.`)
     : '';
   const tooltip = notEnoughSlots ? `data-tippy-content="${tooltipText}"` : '';
   const nightLabel = lang==='sr' ? `${d.numberOfNights} noći` : `${d.numberOfNights} nights`;
@@ -5361,8 +5361,8 @@ function renderDatesFromCache() {
   if (savetEl) {
     tippy(savetEl, {
       content: lang === 'en'
-        ? '💡 <strong>Escapii tip</strong><br>Don\'t exclude too many destinations. Even places you\'ve visited before look completely different through the Escapii experience.<br><em>You can take our word for it — or not.</em>'
-        : '💡 <strong>Escapii savet</strong><br>Ne isključuj previše destinacija. Čak i destinacije koje poznaješ izgledaju potpuno drugačije kroz Escapii iskustvo.<br><em>Možeš nas poslušati — a i ne moraš.</em>',
+        ? '💡 <strong>Escapii tip</strong><br>Don\'t exclude too many destinations. Even places you\'ve visited before look completely different through the Escapii experience.<br><em>You can take our word for it - or not.</em>'
+        : '💡 <strong>Escapii savet</strong><br>Ne isključuj previše destinacija. Čak i destinacije koje poznaješ izgledaju potpuno drugačije kroz Escapii iskustvo.<br><em>Možeš nas poslušati - a i ne moraš.</em>',
       allowHTML: true,
       theme: 'escapii',
       placement: 'top',
@@ -5415,7 +5415,7 @@ async function loadDates() {
   const el = document.getElementById('datesList');
   el.innerHTML = '';
 
-  // Loader se prikazuje tek nakon 400ms — da ne treperi ako backend odgovori brzo
+  // Loader se prikazuje tek nakon 400ms - da ne treperi ako backend odgovori brzo
   const loaderTimer = setTimeout(() => {
     el.innerHTML = `
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:16px">
@@ -5490,7 +5490,7 @@ function togRevealBox(el) {
     document.getElementById('revealBoxOverlay').classList.add('open');
     document.getElementById('rbAddress').focus();
   } else {
-    // Isključi — resetuj
+    // Isključi - resetuj
     S.hasRevealBox = false;
     S.deliveryAddress = '';
     S.deliveryCity = '';
@@ -5502,7 +5502,7 @@ function togRevealBox(el) {
 function closeRevealBoxModal(confirm) {
   document.getElementById('revealBoxOverlay').classList.remove('open');
   if (!confirm) {
-    // Korisnik odustao — ne uključuj
+    // Korisnik odustao - ne uključuj
     const el = document.getElementById('ec-hasRevealBox');
     S.hasRevealBox = false;
     el.classList.remove('on');
@@ -5581,8 +5581,8 @@ function updateSeatsNotice() {
   }
 
   const priceInfo = lang === 'sr'
-    ? `Sedišta zajedno važe u <strong>oba smera</strong> — 12€ po osobi, po smeru = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
-    : `Seats together apply on <strong>both flights</strong> — 12€/person/way = <strong>${totalCost}€ total</strong> for ${n} travelers.`;
+    ? `Sedišta zajedno važe u <strong>oba smera</strong> - 12€ po osobi, po smeru = <strong>${totalCost}€ ukupno</strong> za ${n} putnika.`
+    : `Seats together apply on <strong>both flights</strong> - 12€/person/way = <strong>${totalCost}€ total</strong> for ${n} travelers.`;
 
   text.innerHTML = `${arrangement}<br><span style="color:var(--accent);">${priceInfo}</span>`;
   notice.style.display = 'block';
@@ -5629,7 +5629,7 @@ function updateExclStep() {
     if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
     if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
     if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
-    if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions — fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja — manje isključivanja znači više iznenađenja!';
+    if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions - fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja - manje isključivanja znači više iznenađenja!';
   }
 
   loadPrice();
@@ -5694,7 +5694,7 @@ function togExcl(id, event) {
   }
 }
 
-// ══════════ STEP 7 — helpers (datum rođenja: dan / mesec / godina)
+// ══════════ STEP 7 - helpers (datum rođenja: dan / mesec / godina)
 function dobDays(max) {
   const n = max || 31;
   const ph = `<option value="" selected disabled>${lang==='sr'?'Dan':'Day'}</option>`;
@@ -5714,17 +5714,17 @@ function dobYears() {
   for(let y=cur;y>=1940;y--) o+=`<option value="${y}">${y}</option>`;
   return o;
 }
-// Dinamički broj dana po mesecu (februar 28/29, april 30...) — zadržava izbor ako je validan
+// Dinamički broj dana po mesecu (februar 28/29, april 30...) - zadržava izbor ako je validan
 function syncDobDays(i) {
   const dSel=document.getElementById('pd-d-'+i);
   const m=+(document.getElementById('pd-m-'+i)||{}).value;
   const y=+(document.getElementById('pd-y-'+i)||{}).value;
   if(!dSel||!m) return;
-  const yr = y || 2000; // 2000 je prestupna — bezbedan default dok god nije izabrana
+  const yr = y || 2000; // 2000 je prestupna - bezbedan default dok god nije izabrana
   const maxDay = new Date(yr, m, 0).getDate();
   const prev = dSel.value;
   const dc = _dayChoices[i];
-  // Ako je Choices montiran na ovom (povezanom) selectu — osveži preko setChoices
+  // Ako je Choices montiran na ovom (povezanom) selectu - osveži preko setChoices
   if (dc && dc.passedElement && dc.passedElement.element === dSel && document.body.contains(dSel)) {
     const arr=[{value:'',label:(lang==='sr'?'Dan':'Day'),disabled:true,selected:!prev||+prev>maxDay,placeholder:true}];
     for(let k=1;k<=maxDay;k++){const v=String(k).padStart(2,'0');arr.push({value:v,label:String(k),selected:v===prev});}
@@ -5760,7 +5760,7 @@ function initChoices() {
     const gSel = document.getElementById('pg'+i);
     if(gSel) _choices.push(new Choices(gSel, cfg));
 
-    // DOB dropdowni (desktop) — moderniji izgled preko Choices.js
+    // DOB dropdowni (desktop) - moderniji izgled preko Choices.js
     const dSel = document.getElementById('pd-d-'+i);
     const mSel = document.getElementById('pd-m-'+i);
     const ySel = document.getElementById('pd-y-'+i);
@@ -5938,7 +5938,7 @@ async function loadPrice() {
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
-    // Reveal Box — flat 25€, dodajemo na frontendu
+    // Reveal Box - flat 25€, dodajemo na frontendu
     if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'fizički koverat na adresu':'physical envelope to address')}</span><span>+25€</span></div>`;
     rows.innerHTML = html;
     // Osnovna cena (bez vaučera) + reveal box
@@ -5954,7 +5954,7 @@ async function loadPrice() {
   }
 }
 
-// ══════════ STEP 8 — SUMMARY CARD
+// ══════════ STEP 8 - SUMMARY CARD
 function updateSummaryCard() {
   const el = document.getElementById('bookingSummary');
   if (!el || !S.selectedDate) return;
@@ -5991,7 +5991,7 @@ function updateSummaryCard() {
 
   // Price breakdown
   let priceRowsHtml = '';
-  let totalHtml = '—';
+  let totalHtml = '-';
   if (S.lastPrice) {
     const p = S.lastPrice;
     const isSr = lang === 'sr';
@@ -6047,7 +6047,7 @@ function updateSummaryCard() {
   `;
 }
 
-// ══════════ STEP 8 — SUBMIT
+// ══════════ STEP 8 - SUBMIT
 function validateContact() {
   let ok=true;
   const fields=[
@@ -6183,7 +6183,7 @@ async function submitBooking() {
     } else if(r.status === 409) {
       const errMsg409 = d.error || '';
       if (errMsg409.includes('slobodnih mesta') || errMsg409.includes('No spots')) {
-        // Mesta popunjena — vrati na korak 3
+        // Mesta popunjena - vrati na korak 3
         await Swal.fire({
           icon: 'error',
           title: lang==='sr' ? '😔 Mesta su popunjena' : '😔 No spots available',
@@ -6206,7 +6206,7 @@ async function submitBooking() {
         loadDates();
         btn.disabled=false; btn.textContent=t('s8.submit');
       } else {
-        // Duplikat rezervacije ili drugi 409 — prikaži konkretnu poruku
+        // Duplikat rezervacije ili drugi 409 - prikaži konkretnu poruku
         await Swal.fire({
           icon: 'warning',
           title: lang==='sr' ? 'Rezervacija nije moguća' : 'Booking not allowed',
@@ -6218,14 +6218,14 @@ async function submitBooking() {
         btn.disabled=false; btn.textContent=t('s8.submit');
       }
     } else {
-      // Sve ostale greške (4xx, 5xx) — user-friendly poruka, bez backend detalja
+      // Sve ostale greške (4xx, 5xx) - user-friendly poruka, bez backend detalja
       Swal.fire({icon:'error',title:lang==='sr'?'Nešto nije u redu':'Something went wrong',
         text:t('err.srv'),
         confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
       btn.disabled=false; btn.textContent=t('s8.submit');
     }
   } catch(e) {
-    // Mrežna greška (fetch sam failovao — backend nedostupan, timeout…)
+    // Mrežna greška (fetch sam failovao - backend nedostupan, timeout…)
     Swal.fire({icon:'error',title:lang==='sr'?'Mrežna greška':'Network error',
       text:t('err.unexpected'),
       confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
@@ -6245,11 +6245,11 @@ updateProgress();
 loadCountries();
 loadDestinations();
 
-// ══════════ SECONDARY NAV — show after hero, highlight active section
+// ══════════ SECONDARY NAV - show after hero, highlight active section
 (function() {
   const secNav = document.getElementById('secNav');
 
-  // Sve sekcije na stranici u redosledu — uključujući i one bez nav linka
+  // Sve sekcije na stranici u redosledu - uključujući i one bez nav linka
   // kako bi detekcija "trenutne sekcije" bila tačna pri skrolovanju kroz booking
   const sectionIds = [
     'esc-how',
@@ -6262,7 +6262,7 @@ loadDestinations();
   const heroH = () => document.querySelector('.esc-hero')?.offsetHeight || 500;
 
   function navOffset() {
-    // Isti offset kao u escScrollTo — threshold mora da se poklopi s njim
+    // Isti offset kao u escScrollTo - threshold mora da se poklopi s njim
     return 72 + (secNav.classList.contains('visible') ? 44 : 0) + 16;
   }
 
@@ -6314,7 +6314,7 @@ ScrollTrigger.create({
 });
 
 // ── GSAP magnetic effect on primary buttons (desktop/hover-capable only)
-// Disabled on touch devices — elastic spring-back animation interferes with mobile scroll
+// Disabled on touch devices - elastic spring-back animation interferes with mobile scroll
 const isHoverDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 if (isHoverDevice) {
   document.querySelectorAll('.btn-gold, .btn-next').forEach(btn => {
@@ -6373,7 +6373,7 @@ function equalFeatCards() {
 }
 document.addEventListener('DOMContentLoaded', () => {
   equalFeatCards();
-  // Primeni sačuvani jezik — dugmad + ceo prevod (popravlja bug: refresh gubi prevod)
+  // Primeni sačuvani jezik - dugmad + ceo prevod (popravlja bug: refresh gubi prevod)
   if (lang !== 'sr') setLang(lang);
   // Forsira autoplay na mobilnom (iOS ignoruje autoplay atribut)
   const hv = document.querySelector('.hero-video');
@@ -6383,7 +6383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tryPlay();
     hv.addEventListener('canplay', tryPlay, { once: true });
     hv.addEventListener('loadeddata', tryPlay, { once: true });
-    // iOS zahteva user gesture — pokreni na prvom touchu/scrollu
+    // iOS zahteva user gesture - pokreni na prvom touchu/scrollu
     const onInteract = () => { tryPlay(); document.removeEventListener('touchstart', onInteract); window.removeEventListener('scroll', onInteract); };
     document.addEventListener('touchstart', onInteract, { once: true, passive: true });
     window.addEventListener('scroll', onInteract, { once: true, passive: true });
@@ -6393,7 +6393,7 @@ window.addEventListener('load', equalFeatCards);
 window.addEventListener('resize', equalFeatCards);
 
 // ══════════════════════════════════════════════════════════════════
-// CUSTOM DATE INQUIRY — range calendar picker (2 or 3 nights only)
+// CUSTOM DATE INQUIRY - range calendar picker (2 or 3 nights only)
 // ══════════════════════════════════════════════════════════════════
 
 let _inqDep      = null;   // departure Date
@@ -6449,8 +6449,8 @@ function updateInqRangeStatus() {
   } else if (_inqDep && !_inqRet) {
     el.className += ' dep-set';
     el.innerHTML = (lang==='sr'
-      ? `✈️ Polazak: <strong>${inqFmtDate(_inqDep)}</strong> — sada odaberi datum povratka`
-      : `✈️ Departure: <strong>${inqFmtDate(_inqDep)}</strong> — now select return date`);
+      ? `✈️ Polazak: <strong>${inqFmtDate(_inqDep)}</strong> - sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${inqFmtDate(_inqDep)}</strong> - now select return date`);
   } else if (_inqDep && _inqRet) {
     const nights = inqDateDiff(_inqDep, _inqRet);
     el.className += ' valid';
@@ -6458,7 +6458,7 @@ function updateInqRangeStatus() {
   }
 }
 
-// Lightweight hover update — never re-renders the grid, so clicks are never disrupted
+// Lightweight hover update - never re-renders the grid, so clicks are never disrupted
 function updateInqHoverClasses() {
   const grid = document.getElementById('inqCalGrid');
   if (!grid) return;
@@ -6549,12 +6549,12 @@ function renderInqCalendar() {
         // Dep is set, set return
         const diff = inqDateDiff(_inqDep, date);
         if (diff < 1) {
-          // Clicked before or on departure — restart
+          // Clicked before or on departure - restart
           _inqDep = date; _inqRet = null;
         } else if (diff === 2 || diff === 3) {
           _inqRet = date;
         } else {
-          // Invalid range — show error in status
+          // Invalid range - show error in status
           const statusEl = document.getElementById('inqRangeStatus');
           if (statusEl) {
             statusEl.className = 'inq-range-status invalid';
@@ -6571,7 +6571,7 @@ function renderInqCalendar() {
       updateInqRangeStatus();
     });
 
-    // Hover preview — update classes only (no full re-render, avoids click disruption)
+    // Hover preview - update classes only (no full re-render, avoids click disruption)
     el.addEventListener('mouseenter', () => {
       if (_inqDep && !_inqRet) { _inqHover = date; updateInqHoverClasses(); }
     });
@@ -6592,7 +6592,7 @@ function renderInqCalendar() {
   }
 }
 
-// Calendar nav — attached once on DOMContentLoaded
+// Calendar nav - attached once on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('inqPrevM').addEventListener('click', () => {
     const prev = new Date(_inqCurMonth); prev.setMonth(prev.getMonth() - 1);
@@ -6667,7 +6667,7 @@ async function submitInquiry() {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// GIFT INQUIRY — pokloni putovanje overlay
+// GIFT INQUIRY - pokloni putovanje overlay
 // ══════════════════════════════════════════════════════════════════
 
 let _giftDep      = null;
@@ -6792,8 +6792,8 @@ async function checkRedeemCode() {
       document.getElementById('rdmAmount').textContent    = data.amount + '€';
       document.getElementById('rdmCodeBadge').textContent = code;
       document.getElementById('rdmSuccessMsg').innerHTML  = isSr
-        ? '✅ Vaučer je aktivan. <strong style="color:var(--gold)">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje — iznos se oduzima od ukupne cene.'
-        : '✅ Voucher is active. <strong style="color:var(--gold)">Apply it in step 7</strong> when booking — the amount will be deducted from your total.';
+        ? '✅ Vaučer je aktivan. <strong style="color:var(--gold)">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje - iznos se oduzima od ukupne cene.'
+        : '✅ Voucher is active. <strong style="color:var(--gold)">Apply it in step 7</strong> when booking - the amount will be deducted from your total.';
       document.getElementById('rdmMain').style.display    = 'none';
       document.getElementById('rdmSuccess').style.display = '';
     } else {
@@ -6965,8 +6965,8 @@ function updateGiftRangeStatus() {
   } else if (_giftDep && !_giftRet) {
     el.className += ' dep-set';
     el.innerHTML = lang === 'sr'
-      ? `✈️ Polazak: <strong>${inqFmtDate(_giftDep)}</strong> — sada odaberi datum povratka`
-      : `✈️ Departure: <strong>${inqFmtDate(_giftDep)}</strong> — now select return date`;
+      ? `✈️ Polazak: <strong>${inqFmtDate(_giftDep)}</strong> - sada odaberi datum povratka`
+      : `✈️ Departure: <strong>${inqFmtDate(_giftDep)}</strong> - now select return date`;
   } else if (_giftDep && _giftRet) {
     const nights = inqDateDiff(_giftDep, _giftRet);
     el.className += ' valid';
@@ -7162,7 +7162,7 @@ async function checkPrivateDateToken() {
     S.step           = 4;
 
     // Učitaj destinacije filtrovane po aerodromu (privatni link preskače korak 1
-    // gde se normalno poziva loadDestinationsByAirport — bez ovoga korak 6 prikazuje
+    // gde se normalno poziva loadDestinationsByAirport - bez ovoga korak 6 prikazuje
     // pogrešan/nepotpun skup destinacija jer S.destinations nema airport filter)
     loadDestinationsByAirport(date.departureAirport);
 
@@ -7170,7 +7170,7 @@ async function checkPrivateDateToken() {
     const cleanUrl = window.location.pathname + window.location.hash;
     window.history.replaceState({}, '', cleanUrl);
 
-    // Prikaži korak 4 — sakrij Back dugmad (korisnik ne sme da se vrati na prethodne korake)
+    // Prikaži korak 4 - sakrij Back dugmad (korisnik ne sme da se vrati na prethodne korake)
     document.getElementById('esc-booking')?.classList.add('private-mode');
     onEnter();
     showStep(4);
@@ -7196,7 +7196,7 @@ async function checkPrivateDateToken() {
 // Pokreni proveru privatnog linka čim je DOM spreman
 document.addEventListener('DOMContentLoaded', checkPrivateDateToken);
 
-// ── feat-card tilt on hover (desktop only — 3D transforms trigger scroll correction on mobile)
+// ── feat-card tilt on hover (desktop only - 3D transforms trigger scroll correction on mobile)
 if (isHoverDevice) {
   document.querySelectorAll('.feat-card, .airport-card, .accom-tile').forEach(card => {
     card.addEventListener('mousemove', e => {

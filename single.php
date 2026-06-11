@@ -18,7 +18,7 @@ $author    = get_the_author();
 $author_bio= get_the_author_meta('description');
 $tags      = get_the_tags();
 
-// Related posts — 3 najnovija, isključi trenutni
+// Related posts - 3 najnovija, isključi trenutni
 $related = new WP_Query([
     'post_type'      => 'post',
     'posts_per_page' => 3,
@@ -33,7 +33,7 @@ $related = new WP_Query([
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php the_title(); ?> — Escapii Blog</title>
+<title><?php the_title(); ?> - Escapii Blog</title>
 <meta name="description" content="<?php echo esc_attr(wp_trim_words($excerpt, 28, '')); ?>">
 <?php if ($has_img): ?>
 <meta property="og:image" content="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>">
@@ -359,13 +359,13 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
         <?php if ($author_bio): ?>
         <p><?php echo esc_html($author_bio); ?></p>
         <?php else: ?>
-        <p>Deo Escapii tima — organizujemo putovanja iznenađenja iz kojih se vraćaš sa pričama.</p>
+        <p>Deo Escapii tima - organizujemo putovanja iznenađenja iz kojih se vraćaš sa pričama.</p>
         <?php endif; ?>
       </div>
     </div>
     <?php endif; ?>
 
-    <!-- Mobile share bar — vidljivo samo na mobilnom -->
+    <!-- Mobile share bar - vidljivo samo na mobilnom -->
     <div class="mob-share">
       <span class="mob-share-label">Podeli</span>
       <div class="mob-share-btns">
@@ -470,7 +470,7 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii — Sva prava zadržana</span>
+    <span>© 2026 Escapii - Sva prava zadržana</span>
     <div class="footer-bottom-links">
       <a href="<?php echo home_url('/uslovi-koriscenja'); ?>">Uslovi korišćenja</a>
       <a href="<?php echo home_url('/politika-privatnosti'); ?>">Politika privatnosti</a>
@@ -493,7 +493,7 @@ function onScroll(){
 window.addEventListener('scroll',onScroll,{passive:true});
 onScroll();
 
-// Instagram — Web Share API na mobilnom (otvara native share sheet + Instagram Stories)
+// Instagram - Web Share API na mobilnom (otvara native share sheet + Instagram Stories)
 // Na desktopu fallback: kopiraj link
 document.getElementById('shareIG').addEventListener('click', function(e) {
   e.preventDefault();

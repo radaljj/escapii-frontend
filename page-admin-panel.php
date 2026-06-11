@@ -12,7 +12,7 @@ if (!current_user_can('administrator')) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escapii — Admin Panel</title>
+  <title>Escapii - Admin Panel</title>
   <link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri(); ?>/images/favicon.svg">
   <link rel="icon" type="image/png"     href="<?php echo get_template_directory_uri(); ?>/images/favicon.png">
   <link rel="apple-touch-icon"          href="<?php echo get_template_directory_uri(); ?>/images/favicon-white.png">
@@ -696,7 +696,7 @@ tbody tr:last-child td { border-bottom: none; }
   min-height: 46px !important;
 }
 .ts-wrapper.focus .ts-control { border-color: var(--accent) !important; box-shadow: none !important; }
-/* single select — show cursor pointer, no tag bg */
+/* single select - show cursor pointer, no tag bg */
 .ts-wrapper.single .ts-control { cursor: pointer !important; padding-right: 36px !important; }
 .ts-wrapper.single .ts-control .item { background: transparent !important; color: white !important; padding: 0 !important; font-weight: 500 !important; font-size: 14px !important; }
 .ts-dropdown {
@@ -762,7 +762,7 @@ tbody td  { padding: 11px 12px; }
   .btn-logout { padding: 7px 12px; font-size: 12px; }
 }
 
-/* Tabs — horizontally scrollable on mobile */
+/* Tabs - horizontally scrollable on mobile */
 @media (max-width: 900px) {
   .tabs {
     width: 100%;
@@ -799,7 +799,7 @@ tbody td  { padding: 11px 12px; }
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
     <div class="login-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></div>
-    <div class="login-subtitle">Admin Panel — unesite ključ za pristup</div>
+    <div class="login-subtitle">Admin Panel - unesite ključ za pristup</div>
     <div class="form-group">
       <label>Admin ključ</label>
       <input type="password" class="form-input" id="keyInput" placeholder="••••••••••••" autocomplete="off">
@@ -881,7 +881,7 @@ tbody td  { padding: 11px 12px; }
             <input type="number" class="form-input" id="fPrice" value="279" min="1">
           </div>
           <div class="form-span">
-            <label class="field-label">Potencijalne destinacije <span style="color:var(--gray);font-weight:500;">(opciono — vidljivo samo vama)</span></label>
+            <label class="field-label">Potencijalne destinacije <span style="color:var(--gray);font-weight:500;">(opciono - vidljivo samo vama)</span></label>
             <select id="fDestinations" multiple placeholder="Pretraži i izaberi destinacije..."></select>
           </div>
         </div>
@@ -966,7 +966,7 @@ tbody td  { padding: 11px 12px; }
     <!-- ══ REZERVACIJE ══ -->
     <div class="panel" id="panel-bookings">
       <div class="panel-title">Rezervacije</div>
-      <div class="panel-subtitle">Pregled svih upita — potvrdi ili otkaži rezervaciju</div>
+      <div class="panel-subtitle">Pregled svih upita - potvrdi ili otkaži rezervaciju</div>
 
       <div class="booking-toolbar">
         <input type="text" class="booking-search" id="bookingSearch"
@@ -1023,7 +1023,7 @@ tbody td  { padding: 11px 12px; }
 
       <!-- ⚠️ Podsetnik: vaučer lifecycle -->
       <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
-        <strong style="color:#CA8A71;">⚠️ Vaučer lifecycle — VAŽNO:</strong><br>
+        <strong style="color:#CA8A71;">⚠️ Vaučer lifecycle - VAŽNO:</strong><br>
         Kad korisnik unese vaučer pri rezervaciji → iznos se odmah oduzima od preostalog iznosa vaučera.<br>
         Ako vaučer <strong>pokrije celu cenu putovanja</strong> → status postaje <strong style="color:#fbbf24;">RESERVED</strong> (čeka COMPLETED da postane USED).<br>
         Ako vaučer <strong>pokrije samo deo</strong> → ostaje <strong style="color:#22c55e;">ACTIVE</strong> i može se odmah koristiti ponovo za preostali iznos.<br>
@@ -1059,7 +1059,7 @@ tbody td  { padding: 11px 12px; }
     <!-- ══ GREŠKE ══ -->
     <div class="panel" id="panel-errors">
       <div class="panel-title">Log grešaka</div>
-      <div class="panel-subtitle">Neočekivane greške aplikacije — ista greška se grupiše, email se šalje samo pri prvoj pojavi</div>
+      <div class="panel-subtitle">Neočekivane greške aplikacije - ista greška se grupiše, email se šalje samo pri prvoj pojavi</div>
       <div class="card">
         <div class="err-header-actions">
           <button class="btn-clear-resolved" onclick="clearResolvedErrors()">🧹 Obriši rešene</button>
@@ -1131,7 +1131,7 @@ document.getElementById('keyInput').addEventListener('keydown', e => {
 });
 
 function showPriceBreakdown(b) {
-  document.getElementById('pricePopupTitle').textContent = `Cenovnik — ${b.bookingRef}`;
+  document.getElementById('pricePopupTitle').textContent = `Cenovnik - ${b.bookingRef}`;
   const rows = [];
   const tr = (label, val) => `<tr><td>${label}</td><td>${val}</td></tr>`;
   rows.push(tr('Osnovna cena', `${b.basePricePerPerson}€/os`));
@@ -1160,7 +1160,7 @@ let airportTs = null;
 let nightsTs  = null;
 
 async function initAdmin() {
-  // Briši autofill iz search polja — browser ponekad ubaci korisničko ime
+  // Briši autofill iz search polja - browser ponekad ubaci korisničko ime
   const bs = document.getElementById('bookingSearch');
   if (bs) { bs.value = ''; bs.setAttribute('readonly', 'true'); setTimeout(() => bs.removeAttribute('readonly'), 100); }
 
@@ -1188,7 +1188,7 @@ function getAdminNights() {
 }
 
 // ══ ERROR HELPER ══
-// Swal toast — ne blokira, auto-dismiss za 4s. Koristi se za API greške u load funkcijama.
+// Swal toast - ne blokira, auto-dismiss za 4s. Koristi se za API greške u load funkcijama.
 function apiErr(msg) {
   Swal.fire({
     toast: true, position: 'top-end', icon: 'error',
@@ -1343,7 +1343,7 @@ function renderDatesTable(dates) {
     tbody.innerHTML = javni.map(d => {
       const chips = (d.potentialDestinations || [])
         .map(pd => `<span class="dest-chip">${pd.name}</span>`).join('');
-      const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">—</span>`;
+      const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">-</span>`;
       return `
       <tr>
         <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
@@ -1375,7 +1375,7 @@ function renderDatesTable(dates) {
       const expires   = d.expiresAt ? new Date(d.expiresAt) : null;
       const expiryStr = expires
         ? expires.toLocaleString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
-        : '—';
+        : '-';
       const privateUrl = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
       return `
       <tr>
@@ -1456,7 +1456,7 @@ function copyPrivateLink(url, btn) {
 }
 
 function formatDate(str) {
-  if (!str) return '—';
+  if (!str) return '-';
   const [y, m, d] = str.split('-');
   const months = ['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec'];
   return `${d}. ${months[parseInt(m)-1]} ${y}.`;
@@ -1537,7 +1537,7 @@ async function editDestinations(dateId) {
   _dpSelected = new Set((date.potentialDestinations || []).map(d => d.id));
   _dpItems = ALL_DESTINATIONS;
 
-  document.getElementById('destPickerTitle').textContent = `Destinacije — termin #${dateId}`;
+  document.getElementById('destPickerTitle').textContent = `Destinacije - termin #${dateId}`;
   document.getElementById('destPickerSub').innerHTML =
     `<strong style="color:#e2e8f0;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong>
      &nbsp;<span style="background:rgba(202,138,113,.15);color:#CA8A71;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;">${date.departureAirport}</span>`;
@@ -1664,7 +1664,7 @@ async function editPrice(id, currentPrice) {
       <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutna osnovna cena: <strong style="color:#CA8A71;">${currentPrice}€</strong></div>
       <input id="swal-price" type="number" min="1" max="9999" value="${currentPrice}"
         class="swal2-input" style="width:140px;text-align:center;font-size:22px;font-weight:700;">
-      <div style="margin-top:8px;color:#64748b;font-size:12px;">Cena po osobi u EUR — dodaci se računaju posebno</div>
+      <div style="margin-top:8px;color:#64748b;font-size:12px;">Cena po osobi u EUR - dodaci se računaju posebno</div>
     `,
     confirmButtonText: 'Sačuvaj',
     confirmButtonColor: '#CA8A71',
@@ -1811,10 +1811,10 @@ async function loadErrors() {
             <div class="err-type">${e.exceptionType}</div>
             <div class="err-endpoint">${e.endpoint}</div>
           </td>
-          <td><div class="err-msg" title="${e.message?.replace(/"/g,"'") || ''}">${e.message || '—'}</div></td>
+          <td><div class="err-msg" title="${e.message?.replace(/"/g,"'") || ''}">${e.message || '-'}</div></td>
           <td><span class="err-count">${e.count}×</span></td>
           <td class="err-time">${firstSeen}</td>
-          <td class="err-time">${e.count > 1 ? lastSeen : '—'}</td>
+          <td class="err-time">${e.count > 1 ? lastSeen : '-'}</td>
           <td class="err-actions" onclick="event.stopPropagation()">${statusBadge}</td>
         </tr>
         <tr id="stack-${e.id}" class="err-stack-wrap">
@@ -1919,7 +1919,7 @@ async function loadWaitlist() {
     document.getElementById('wlCards').innerHTML = allAirports.map(ap => `
       <div class="card" style="text-align:center;padding:32px 24px;">
         <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px;">
-          ${ap}${airportNames[ap] ? ' — ' + airportNames[ap] : ''}
+          ${ap}${airportNames[ap] ? ' - ' + airportNames[ap] : ''}
         </div>
         <div style="font-size:48px;font-weight:900;color:var(--accent);line-height:1;" id="wlCount-${ap}">${byAirport[ap] ?? 0}</div>
         <div style="font-size:13px;color:var(--gray);margin:6px 0 20px;">korisnika čeka</div>
@@ -1950,7 +1950,7 @@ async function notifyWaitlist(airport) {
   const countEl = document.getElementById('wlCount-' + airport);
   const count   = countEl ? countEl.textContent : '0';
 
-  if (count === '0' || count === '—') {
+  if (count === '0' || count === '-') {
     Swal.fire({ icon: 'info', title: 'Nema čekajućih', text: `Lista čekanja za ${airport} je prazna.`, background: '#0d1b38', color: '#fff' });
     return;
   }
@@ -2043,7 +2043,7 @@ function buildPassengersSection(passengers) {
         <div class="bc-passenger-name">
           <span class="bc-passenger-num">${i + 1}</span>
           ${p.name}
-          <span class="bc-passenger-gender ${p.gender || ''}">${p.gender === 'F' ? 'Ž' : p.gender || '—'}</span>
+          <span class="bc-passenger-gender ${p.gender || ''}">${p.gender === 'F' ? 'Ž' : p.gender || '-'}</span>
         </div>
         <div class="bc-passenger-meta">
           ${dobInfo}
@@ -2055,7 +2055,7 @@ function buildPassengersSection(passengers) {
 
   return `
     <div class="bc-passengers-wrap bc-field--full">
-      <div class="bc-passengers-title">👤 Putnici — detalji</div>
+      <div class="bc-passengers-title">👤 Putnici - detalji</div>
       ${rows}
     </div>`;
 }
@@ -2075,9 +2075,9 @@ function renderBookings() {
       hour:'2-digit', minute:'2-digit'
     });
     const depDate = b.departureDate
-      ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '—';
+      ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '-';
     const retDate = b.returnDate
-      ? new Date(b.returnDate).toLocaleDateString('sr-RS') : '—';
+      ? new Date(b.returnDate).toLocaleDateString('sr-RS') : '-';
 
     const extras = [
       b.hasInsurance         && '🛡 Osiguranje',
@@ -2087,7 +2087,7 @@ function renderBookings() {
       b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
       b.hasRevealBox && '📦 Reveal Box',
       b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
-    ].filter(Boolean).join(' · ') || '—';
+    ].filter(Boolean).join(' · ') || '-';
 
     const isConfirmed  = b.status === 'CONFIRMED';
     const isCancelled  = b.status === 'CANCELLED';
@@ -2129,7 +2129,7 @@ function renderBookings() {
           <div style="margin-top:6px;">
             <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
               style="width:100%;font-size:11px;opacity:.8;"
-              placeholder="🌤 Grad za prognozu (opcionalno) — npr. Santa Cruz de Tenerife, Spain"
+              placeholder="🌤 Grad za prognozu (opcionalno) - npr. Santa Cruz de Tenerife, Spain"
               value="${b.weatherCity || ''}"
               onkeydown="if(event.key==='Enter')saveWeatherCity(${b.id})"
               onblur="saveWeatherCity(${b.id})" />
@@ -2167,11 +2167,11 @@ function renderBookings() {
 
       ${b.hasRevealBox ? `
       <div class="bc-reveal-box-section" id="rbs-${b.id}">
-        <div class="bc-reveal-box-header">📦 Reveal Box — adresa dostave</div>
+        <div class="bc-reveal-box-header">📦 Reveal Box - adresa dostave</div>
         <div class="bc-reveal-box-body">
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '—'}</span></div>
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '—'}</span></div>
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '—'}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '-'}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '-'}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '-'}</span></div>
           <div style="margin-top:12px;">
             ${b.revealBoxSent
               ? `<span style="color:#4ade80;font-size:13px;font-weight:700;">✅ Reveal Box poslan</span>`
@@ -2208,7 +2208,7 @@ function renderBookings() {
           <button class="bc-note-save" onclick="saveAirlineCode(${b.id})" title="Sačuvaj (Enter)">✓</button>
         </div>
         <div class="bc-note-status" id="airline-code-status-${b.id}">
-          ${b.airlineBookingCode ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>` : '<span style="opacity:.45;font-size:11px;">Unesi kod — biće vidljiv korisniku na reveal stranici</span>'}
+          ${b.airlineBookingCode ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>` : '<span style="opacity:.45;font-size:11px;">Unesi kod - biće vidljiv korisniku na reveal stranici</span>'}
         </div>
       </div>
 
@@ -2226,7 +2226,7 @@ function renderBookings() {
 
       ${isCompleted ? `
       <div class="bc-actions">
-        <span style="color:#818cf8;font-size:12px;font-weight:600;">🏁 Putovanje završeno — automatski zatvorena rezervacija</span>
+        <span style="color:#818cf8;font-size:12px;font-weight:600;">🏁 Putovanje završeno - automatski zatvorena rezervacija</span>
       </div>` : `
       <div class="bc-actions">
         <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>
@@ -2390,7 +2390,7 @@ async function saveAirlineCode(id) {
     if (statusEl) {
       statusEl.innerHTML = updated.airlineBookingCode
         ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>`
-        : `<span style="opacity:.45;font-size:11px;">Unesi kod — biće vidljiv korisniku na reveal stranici</span>`;
+        : `<span style="opacity:.45;font-size:11px;">Unesi kod - biće vidljiv korisniku na reveal stranici</span>`;
     }
   } catch {
     el.style.borderColor = 'var(--red)';
@@ -2398,7 +2398,7 @@ async function saveAirlineCode(id) {
   }
 }
 
-// ══ REVEAL BOX — označi kao poslan ═══════════════════════════════════════════
+// ══ REVEAL BOX - označi kao poslan ═══════════════════════════════════════════
 
 async function markRevealBoxSent(id) {
   const btn = document.getElementById(`btn-rbs-${id}`);
@@ -2421,7 +2421,7 @@ async function markRevealBoxSent(id) {
     }
   } catch {
     if (btn) { btn.disabled = false; btn.textContent = '📦 Označi kao poslan'; }
-    alert('Greška — pokušaj ponovo.');
+    alert('Greška - pokušaj ponovo.');
   }
 }
 
@@ -2440,7 +2440,7 @@ function getBtnAttrs(b, type) {
     var days = b.departureDate
       ? Math.round((new Date(b.departureDate) - new Date()) / 86400000)
       : 0;
-    if (days > 7) return 'disabled title="Prerano — polazak za ' + days + ' dana (prognoza je pouzdana max 7 dana unapred)"';
+    if (days > 7) return 'disabled title="Prerano - polazak za ' + days + ' dana (prognoza je pouzdana max 7 dana unapred)"';
     return 'onclick="sendForecast(' + b.id + ')"';
   }
 }
@@ -2708,9 +2708,9 @@ async function deleteBooking(id, ref) {
 
 let _inquiries = [];
 
-// Format LocalDate — handles both "2026-06-15" string and [2026,6,15] Java array
+// Format LocalDate - handles both "2026-06-15" string and [2026,6,15] Java array
 function fmtLocalDate(d) {
-  if (!d) return '—';
+  if (!d) return '-';
   if (Array.isArray(d)) {
     // Java serializes LocalDate as [year, month(1-indexed), day]
     const [y, m, day] = d;
@@ -2758,7 +2758,7 @@ function renderInquiries() {
     const created = new Date(i.createdAt).toLocaleString('sr-RS');
     const depDate  = fmtLocalDate(i.desiredDepartureDate);
     const retDate  = (() => {
-      if (!i.desiredDepartureDate || !i.nights) return '—';
+      if (!i.desiredDepartureDate || !i.nights) return '-';
       let d;
       if (Array.isArray(i.desiredDepartureDate)) {
         d = new Date(i.desiredDepartureDate[0], i.desiredDepartureDate[1]-1, i.desiredDepartureDate[2]);
@@ -2781,7 +2781,7 @@ function renderInquiries() {
         <td style="text-align:center;">${i.travelers}</td>
         <td style="white-space:nowrap;">${period} <span style="color:var(--gray);font-size:11px;">${i.nights}🌙</span></td>
         <td><a href="mailto:${i.email}" style="color:#60a5fa;word-break:break-all;">${i.email}</a></td>
-        <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '—'}</td>
+        <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '-'}</td>
         <td>
           <div style="display:flex;flex-direction:column;gap:4px;min-width:110px;">
             <input type="number" min="0" max="99999" step="1"
@@ -2956,7 +2956,7 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
   if (!formValues) return;
 
   try {
-    // Jedan atomični poziv — termin je privatan od prvog trenutka, nema race conditiona
+    // Jedan atomični poziv - termin je privatan od prvog trenutka, nema race conditiona
     const res = await fetch(`${API}/api/admin/inquiries/${inquiryId}/create-private-date`, {
       method: 'POST',
       headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' },
@@ -3056,8 +3056,8 @@ function renderGiftVouchers() {
   const statusLabel = { PENDING:'⏳ Na čekanju', ACTIVE:'✅ Aktivan', RESERVED:'🔒 Rezervisan', USED:'🏁 Iskorišćen', EXPIRED:'⌛ Istekao' };
   const statusClass = { PENDING:'iq-PENDING', ACTIVE:'badge-green', RESERVED:'iq-IN_REVIEW', USED:'badge-gray', EXPIRED:'badge-red' };
   tbody.innerHTML = _gVouchers.map(v => {
-    const created  = v.createdAt  ? new Date(v.createdAt).toLocaleDateString('sr-RS')  : '—';
-    const expires  = v.expiresAt  ? new Date(v.expiresAt).toLocaleDateString('sr-RS')  : '—';
+    const created  = v.createdAt  ? new Date(v.createdAt).toLocaleDateString('sr-RS')  : '-';
+    const expires  = v.expiresAt  ? new Date(v.expiresAt).toLocaleDateString('sr-RS')  : '-';
     const msg      = v.giftMessage ? `<span title="${escHtml(v.giftMessage)}" style="cursor:help;color:#94a3b8;">💬</span>` : '';
     const codePill = (v.status === 'ACTIVE' || v.status === 'RESERVED') && v.code
       ? `<span style="font-family:monospace;font-size:11px;background:rgba(202,138,113,.1);color:#CA8A71;padding:2px 7px;border-radius:5px;">${escHtml(v.code)}</span>` : '';
@@ -3073,11 +3073,11 @@ function renderGiftVouchers() {
            ${v.status === 'RESERVED' ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})" title="Ručni override">🏁 USED</button>` : ''}
            <button class="btn-action" style="background:rgba(147,197,253,.15);color:#93c5fd;border:1px solid rgba(147,197,253,.3);" onclick="reactivateGiftVoucher(${v.id})" title="Vrati vaučer u ACTIVE stanje (npr. test rezervacija, otkazano putovanje)">🔓 Reaktiviraj</button>
          </div>`
-      : '—';
+      : '-';
     return `<tr>
       <td style="color:#64748b;font-size:12px;">#${v.id}</td>
       <td>
-        <div style="font-size:13px;font-weight:600;">${escHtml(v.buyerName || '—')}</div>
+        <div style="font-size:13px;font-weight:600;">${escHtml(v.buyerName || '-')}</div>
         <div style="font-size:11px;color:#64748b;">${escHtml(v.buyerEmail)}</div>
       </td>
       <td style="font-weight:800;color:#CA8A71;">
@@ -3100,7 +3100,7 @@ async function activateGiftVoucher(id) {
   const v = _gVouchers.find(x => x.id === id);
   const { isConfirmed } = await Swal.fire({
     title: '✅ Aktiviraj vaučer?',
-    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€) biće aktiviran — kupac <strong style="color:#CA8A71;">${escHtml(v?.buyerEmail||'')}</strong> dobija PDF vaučer na email.</p>`,
+    html: `<p style="color:#94a3b8;font-size:14px;">Vaučer <strong style="color:#fff;">#${id}</strong> (${v?.amount}€) biće aktiviran - kupac <strong style="color:#CA8A71;">${escHtml(v?.buyerEmail||'')}</strong> dobija PDF vaučer na email.</p>`,
     showCancelButton: true, confirmButtonText: 'Da, aktiviraj', cancelButtonText: 'Odustani',
     confirmButtonColor: '#22c55e', background: '#0b1929', color: '#fff'
   });
@@ -3114,7 +3114,7 @@ async function activateGiftVoucher(id) {
     const idx = _gVouchers.findIndex(x => x.id === id);
     if (idx !== -1) _gVouchers[idx] = updated;
     renderGiftVouchers();
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer aktiviran — email poslat primaocu', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer aktiviran - email poslat primaocu', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
   } catch(e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }
@@ -3162,7 +3162,7 @@ async function reactivateGiftVoucher(id) {
     const idx = _gVouchers.findIndex(x => x.id === id);
     if (idx !== -1) _gVouchers[idx] = updated;
     renderGiftVouchers();
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer reaktiviran — sada ACTIVE', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer reaktiviran - sada ACTIVE', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
   } catch(e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }

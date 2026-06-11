@@ -39,7 +39,7 @@ function bl_read_time($post_id) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog — Escapii</title>
+<title>Blog - Escapii</title>
 <meta name="description" content="Priče sa naših iznenađenja i sve što treba da znaš pre polaska.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -434,7 +434,7 @@ a{color:inherit;}
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii — Sva prava zadržana</span>
+    <span>© 2026 Escapii - Sva prava zadržana</span>
     <div class="footer-bottom-links">
       <a href="<?php echo home_url('/uslovi-koriscenja'); ?>">Uslovi korišćenja</a>
       <a href="<?php echo home_url('/politika-privatnosti'); ?>">Politika privatnosti</a>

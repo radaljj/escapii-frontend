@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uslovi korišćenja — Escapii</title>
+  <title>Uslovi korišćenja - Escapii</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <?php wp_head(); ?>
@@ -335,7 +335,7 @@ body {
     Pravni dokument
   </div>
   <h1>Uslovi korišćenja</h1>
-  <p>Pročitajte uslove pre nego što pošaljete upit — korišćenjem platforme prihvatate ova pravila.</p>
+  <p>Pročitajte uslove pre nego što pošaljete upit - korišćenjem platforme prihvatate ova pravila.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
     Poslednje ažuriranje: Maj 2026 · v2 (poklon vaučeri, prilagođeni termini)
@@ -377,7 +377,7 @@ body {
         <h2>Ko smo i šta radimo</h2>
       </div>
 
-      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Korisnik bira aerodrom, datume, broj putnika i preferencije — mi pronalazimo i organizujemo putovanje.</p>
+      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja. Korisnik bira aerodrom, datume, broj putnika i preferencije - mi pronalazimo i organizujemo putovanje.</p>
       <p>Escapii <strong>nije turistička agencija</strong> i ne nastupa kao licencirani organizator putovanja. Nastupamo kao <strong>subagent</strong> partnerske turističke agencije koja u potpunosti odgovara za realizaciju aranžmana.</p>
     </section>
 
@@ -390,12 +390,12 @@ body {
         <h2>Kako funkcioniše Escapii</h2>
       </div>
 
-      <p>Escapii je platforma za <strong>iznenađujuća putovanja</strong> — korisnik ne bira destinaciju, već bira aerodrom polaska, period putovanja i svoje preferencije. Destinacija ostaje tajna sve do otkrića koje se šalje emailom <strong>48 sata pre polaska</strong>.</p>
+      <p>Escapii je platforma za <strong>iznenađujuća putovanja</strong> - korisnik ne bira destinaciju, već bira aerodrom polaska, period putovanja i svoje preferencije. Destinacija ostaje tajna sve do otkrića koje se šalje emailom <strong>48 sata pre polaska</strong>.</p>
 
       <h3>Koncept iznenađenja</h3>
       <ul class="pp-list">
         <li><strong>Korisnik bira:</strong> aerodrom, datume, broj putnika, tip smeštaja, dodaci (osiguranje, doručak, sedišta zajedno, prtljag) i do 5 destinacija koje želi isključiti</li>
-        <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni — svako putovanje prilagođavamo najboljim dostupnim opcijama u datom trenutku, pa konačna destinacija može biti i neka koja nije trenutno istaknuta na sajtu</li>
+        <li><strong>Escapii bira destinaciju</strong> iz skupa odgovarajućih letova koji nisu isključeni - svako putovanje prilagođavamo najboljim dostupnim opcijama u datom trenutku, pa konačna destinacija može biti i neka koja nije trenutno istaknuta na sajtu</li>
         <li><strong>Destinacija se otkriva</strong> korisniku emailom 48 sata pre polaska</li>
         <li>Slanjem upita korisnik <strong>prihvata iznenađenje kao sastavni deo usluge</strong> i ne može zahtevati promenu destinacije nakon potvrde rezervacije</li>
       </ul>
@@ -452,7 +452,7 @@ body {
         <li>Osnovna cena aranžmana po osobi (let + smeštaj)</li>
         <li>Doplata za tip smeštaja (Superior ili Premium, po potrebi)</li>
         <li>Dodaci koje je korisnik odabrao: putno osiguranje, doručak, sedišta zajedno, kabinski kofer</li>
-        <li>Naknada za isključivanje destinacija (1. isključivanje je besplatno — svako naredno +15€ po osobi)</li>
+        <li>Naknada za isključivanje destinacija (1. isključivanje je besplatno - svako naredno +15€ po osobi)</li>
       </ul>
 
       <h3>Načini plaćanja</h3>
@@ -477,8 +477,8 @@ body {
       <ul class="pp-list">
         <li>Vaučer se kupuje na stranici <strong>Poklon</strong> na sajtu escapii.rs odabirom željenog iznosa i unosom podataka o primaocu</li>
         <li>Nakon potvrde uplate, kupac dobija <strong>PDF vaučer</strong> (boarding pass dizajn) na email sa jedinstvenim kodom</li>
-        <li>Vaučer se aktivira u trenutku kada Escapii tim potvrdi uplatu — od tog datuma počinje da teče rok važenja</li>
-        <li>Primalac unosi kod vaučera pri slanju upita za Escapii putovanje; iznos koji odgovara ceni aranžmana se <strong>oduzima od iznosa vaučera</strong> — preostali iznos ostaje dostupan za buduća putovanja</li>
+        <li>Vaučer se aktivira u trenutku kada Escapii tim potvrdi uplatu - od tog datuma počinje da teče rok važenja</li>
+        <li>Primalac unosi kod vaučera pri slanju upita za Escapii putovanje; iznos koji odgovara ceni aranžmana se <strong>oduzima od iznosa vaučera</strong> - preostali iznos ostaje dostupan za buduća putovanja</li>
         <li>Vaučer se može iskoristiti na <strong>grupnom i prilagođenom terminu</strong></li>
       </ul>
 
@@ -506,7 +506,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="pp-warning-text">
-          <strong>Vaučer se ne može razmeniti za gotovinu</strong> — neiskorišćeni iznos se ne refundira, već ostaje na vaučeru do isteka roka važenja. Jednom aktiviran vaučer nije prenosiv na drugu osobu.
+          <strong>Vaučer se ne može razmeniti za gotovinu</strong> - neiskorišćeni iznos se ne refundira, već ostaje na vaučeru do isteka roka važenja. Jednom aktiviran vaučer nije prenosiv na drugu osobu.
         </div>
       </div>
     </section>
@@ -560,11 +560,11 @@ body {
       <ul class="pp-list">
         <li>Unese <strong>tačno ime i prezime svakog putnika</strong> onako kako stoji u putnom dokumentu koji će se koristiti za putovanje</li>
         <li>Unese <strong>tačan datum rođenja</strong> svakog putnika</li>
-        <li>Proveri <strong>rok važnosti putnog dokumenta</strong> — pasoš mora biti važeći najmanje 6 meseci nakon datuma povratka</li>
-        <li>U polju <strong>Napomene</strong> pri slanju upita naglasi ukoliko mu je potrebna viza za neku od potencijalnih destinacija, ili ukoliko poseduje aktivnu vizu za određene države (za sve putnike, ne samo nosioca rezervacije) — ovo nam omogućava da prilagodimo izbor destinacije</li>
+        <li>Proveri <strong>rok važnosti putnog dokumenta</strong> - pasoš mora biti važeći najmanje 6 meseci nakon datuma povratka</li>
+        <li>U polju <strong>Napomene</strong> pri slanju upita naglasi ukoliko mu je potrebna viza za neku od potencijalnih destinacija, ili ukoliko poseduje aktivnu vizu za određene države (za sve putnike, ne samo nosioca rezervacije) - ovo nam omogućava da prilagodimo izbor destinacije</li>
         <li>Pravovremeno uplati avans i ostatak iznosa prema dogovorenim rokovima</li>
         <li>Stigne na aerodrom u vreme koje odredi avio kompanija (najkasnije 2 sata pre polaska za evropske letove)</li>
-        <li><strong>Samostalno izvrši check-in</strong> kod avio kompanije nakon što primi obaveštenje o destinaciji (48h pre polaska) — Escapii dostavlja booking kod avio kompanije putem reveal linka, a svaki putnik je odgovoran da se prijavi za let na vreme i u skladu sa uslovima prevoznika</li>
+        <li><strong>Samostalno izvrši check-in</strong> kod avio kompanije nakon što primi obaveštenje o destinaciji (48h pre polaska) - Escapii dostavlja booking kod avio kompanije putem reveal linka, a svaki putnik je odgovoran da se prijavi za let na vreme i u skladu sa uslovima prevoznika</li>
       </ul>
 
       <div class="pp-warning">
@@ -586,7 +586,7 @@ body {
         <h2>Otkaz i izmene rezervacije</h2>
       </div>
 
-      <p>Na otkaz i izmene aranžmana primenjuju se uslovi partnerske turističke agencije koja realizuje putovanje. Sledeće je okvirni pregled — tačne uslove možete dobiti od Escapii tima na <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
+      <p>Na otkaz i izmene aranžmana primenjuju se uslovi partnerske turističke agencije koja realizuje putovanje. Sledeće je okvirni pregled - tačne uslove možete dobiti od Escapii tima na <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
@@ -594,7 +594,7 @@ body {
             <tr><th>Vremenski period pre polaska</th><th>Naknada za otkaz</th></tr>
           </thead>
           <tbody>
-            <tr><td>Pre uplate avansa</td><td>Bez troškova — upit nije obavezujuć</td></tr>
+            <tr><td>Pre uplate avansa</td><td>Bez troškova - upit nije obavezujuć</td></tr>
             <tr><td>Nakon uplate avansa, više od 30 dana pre polaska</td><td>Zadržava se avans</td></tr>
             <tr><td>15–30 dana pre polaska</td><td>Deo ukupne cene</td></tr>
             <tr><td>Manje od 15 dana pre polaska</td><td>Celokupan iznos može biti zadržan</td></tr>
@@ -628,9 +628,9 @@ body {
       </div>
 
       <h3>Odgovornost Escapii</h3>
-      <p>Escapii je odgovoran isključivo za pravilno funkcionisanje digitalne platforme — prikupljanje upita i komunikaciju sa korisnikom. Escapii nije odgovoran za:</p>
+      <p>Escapii je odgovoran isključivo za pravilno funkcionisanje digitalne platforme - prikupljanje upita i komunikaciju sa korisnikom. Escapii nije odgovoran za:</p>
       <ul class="pp-list">
-        <li>Realizaciju turističkog aranžmana — ovo je odgovornost partnerske agencije koja organizuje putovanje</li>
+        <li>Realizaciju turističkog aranžmana - ovo je odgovornost partnerske agencije koja organizuje putovanje</li>
         <li>Kvalitet letova, smeštaja ili pratećih usluga</li>
         <li>Kašnjenja, otkazivanja ili izmene letova od strane avio kompanija</li>
         <li>Vanredne okolnosti (prirodne katastrofe, epidemije, ratna dešavanja, štrajkovi)</li>
@@ -659,7 +659,7 @@ body {
       <h3>Minimalni zahtevi</h3>
       <ul class="pp-list">
         <li><strong>Pasoš</strong> mora biti važeći najmanje 6 meseci nakon datuma povratka</li>
-        <li>Za putovnike sa srpskim pasošem — provera potrebe za vizom za sve potencijalne destinacije u okviru ponude</li>
+        <li>Za putovnike sa srpskim pasošem - provera potrebe za vizom za sve potencijalne destinacije u okviru ponude</li>
         <li>Deca moraju imati sopstveni putni dokument</li>
       </ul>
 
@@ -714,7 +714,7 @@ body {
       </div>
       <div class="pp-contact">
         <h3>Imate pitanje?</h3>
-        <p>Tim Escapii-ja je tu za vas — odgovaramo u roku od 24 sata.</p>
+        <p>Tim Escapii-ja je tu za vas - odgovaramo u roku od 24 sata.</p>
         <div class="pp-contact-links">
           <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>

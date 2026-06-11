@@ -11,7 +11,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Upit primljen — Escapii</title>
+  <title>Upit primljen - Escapii</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -366,12 +366,12 @@
       <div class="bp-meta">
         <div class="bp-meta-cell">
           <div class="bp-meta-label" id="bpl-dep">Polazak</div>
-          <div class="bp-meta-value" id="bp-dep-date">—</div>
+          <div class="bp-meta-value" id="bp-dep-date">-</div>
         </div>
         <div class="bp-meta-div"></div>
         <div class="bp-meta-cell">
           <div class="bp-meta-label" id="bpl-ret">Povratak</div>
-          <div class="bp-meta-value" id="bp-ret-date">—</div>
+          <div class="bp-meta-value" id="bp-ret-date">-</div>
         </div>
         <div class="bp-meta-div"></div>
         <div class="bp-meta-cell">
@@ -390,7 +390,7 @@
         </div>
         <div class="bp-ref">
           <div class="bp-ref-label" id="bpl-ref">Rezervacija</div>
-          <div class="bp-ref-code" id="bp-ref-code">—</div>
+          <div class="bp-ref-code" id="bp-ref-code">-</div>
         </div>
       </div>
     </div>
@@ -404,7 +404,7 @@
     <div class="bp-stub">
       <div>
         <div class="bp-stub-label">Gate</div>
-        <div class="bp-stub-value">—</div>
+        <div class="bp-stub-value">-</div>
       </div>
       <div>
         <div class="bp-stub-label">Boarding</div>
@@ -412,7 +412,7 @@
       </div>
       <div>
         <div class="bp-stub-label" id="bpl-seat">Sedište</div>
-        <div class="bp-stub-value">—</div>
+        <div class="bp-stub-value">-</div>
       </div>
       <div class="bp-barcode">
         <span></span><span></span><span></span><span></span><span></span>
@@ -436,20 +436,20 @@
       <div class="ty-step-num">2</div>
       <div class="ty-step-body">
         <div class="ty-step-title" id="step2-title">Detalji rezervacije i uplata</div>
-        <div class="ty-step-desc" id="step2-desc">Javićemo vam se sa svim detaljima — koracima za uplatu, pravilima putovanja i svim informacijama koje su vam potrebne pre polaska.</div>
+        <div class="ty-step-desc" id="step2-desc">Javićemo vam se sa svim detaljima - koracima za uplatu, pravilima putovanja i svim informacijama koje su vam potrebne pre polaska.</div>
       </div>
     </div>
     <div class="ty-step">
       <div class="ty-step-num">3</div>
       <div class="ty-step-body">
-        <div class="ty-step-title" id="step3-title">Vremenska prognoza — 7 dana pre polaska</div>
+        <div class="ty-step-title" id="step3-title">Vremenska prognoza - 7 dana pre polaska</div>
         <div class="ty-step-desc" id="step3-desc">Dobijate prognozu da znate šta da spakujete. Destinacija? I dalje tajna. 🌤</div>
       </div>
     </div>
     <div class="ty-step">
       <div class="ty-step-num">4</div>
       <div class="ty-step-body">
-        <div class="ty-step-title" id="step4-title">Koverta s destinacijom — 48h pre polaska</div>
+        <div class="ty-step-title" id="step4-title">Koverta s destinacijom - 48h pre polaska</div>
         <div class="ty-step-desc" id="step4-desc">Koverta otkriva gde putujete. ✉</div>
       </div>
     </div>
@@ -477,7 +477,7 @@ const urlRef = new URLSearchParams(window.location.search).get('ref') || '';
 // Formatiraj datum iz "2026-04-20" → "21.05.2026"
 const lang = localStorage.getItem('esc-lang') || 'sr';
 function fmtDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const [y, m, d] = iso.split('-');
   return d + '.' + m + '.' + y;
 }
@@ -514,7 +514,7 @@ function fillBoardingPass() {
   const retDate   = fmtDate(bp?.returnDate || '');
   const ref       = bp?.ref || urlRef;
   const n         = bp?.travelers || 1;
-  const paxNames  = (bp?.passengers && bp.passengers.length) ? bp.passengers : [bp?.name || '—'];
+  const paxNames  = (bp?.passengers && bp.passengers.length) ? bp.passengers : [bp?.name || '-'];
 
   const wrap = document.getElementById('boardingPass');
   if (wrap) setTimeout(() => wrap.classList.add('visible'), 200);
@@ -561,10 +561,10 @@ function fillBoardingPass() {
     }
   }, 1100);
 
-  // Ref — typewriter
+  // Ref - typewriter
   setTimeout(() => {
     const rc = document.getElementById('bp-ref-code');
-    if (rc) typeIn(rc, ref || '—', 50);
+    if (rc) typeIn(rc, ref || '-', 50);
   }, 1300);
 }
 
@@ -579,10 +579,10 @@ const TY = {
     s1t:   'The Escapii team will reach out within 24 hours',
     s1d:   'We verify availability and confirm your reservation.',
     s2t:   'Reservation details & payment',
-    s2d:   'We\'ll send you all the details — payment steps, travel rules and everything you need to know before departure.',
-    s3t:   'Weather forecast — 7 days before departure',
+    s2d:   'We\'ll send you all the details - payment steps, travel rules and everything you need to know before departure.',
+    s3t:   'Weather forecast - 7 days before departure',
     s3d:   'You\'ll get a forecast so you know what to pack. Destination? Still a secret. 🌤',
-    s4t:   'Destination envelope — 48h before departure',
+    s4t:   'Destination envelope - 48h before departure',
     s4d:   'The envelope reveals where you\'re going. ✉',
     btn:   '← Back to home',
     ig:    'Follow us on Instagram for sneak peeks →',

@@ -1,6 +1,6 @@
 <?php
 /**
- * 404 template — vraća pravi HTTP 404 i preusmerava na početnu.
+ * 404 template - vraća pravi HTTP 404 i preusmerava na početnu.
  * Bez ovog fajla WordPress vraća 200 (soft 404) što Google tretira kao
  * grešku pri indeksiranju.
  */
@@ -15,7 +15,7 @@ nocache_headers();
 <head>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
-    <title>Stranica nije pronađena — Escapii</title>
+    <title>Stranica nije pronađena - Escapii</title>
     <meta http-equiv="refresh" content="0;url=<?php echo esc_url(home_url('/')); ?>">
 </head>
 <body>

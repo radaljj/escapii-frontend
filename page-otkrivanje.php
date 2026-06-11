@@ -10,7 +10,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tvoja destinacija — Escapii</title>
+  <title>Tvoja destinacija - Escapii</title>
   <meta name="robots" content="noindex, nofollow">
   <?php wp_head(); ?>
   <style>
@@ -128,7 +128,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
     .envelope-wrap.shifted { transform: translateY(110px); }
 
-    /* The envelope — 380×240 */
+    /* The envelope - 380×240 */
     .envelope {
       width: 380px; height: 240px;
       position: relative;
@@ -186,7 +186,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       border-left: 1px solid rgba(202,138,113,0.12);
     }
 
-    /* Airmail border — diagonal stripes in brand colors */
+    /* Airmail border - diagonal stripes in brand colors */
     .env-airmail {
       position: absolute; inset: 0;
       border-radius: 6px 6px 10px 10px;
@@ -279,7 +279,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       overflow: hidden;
     }
 
-    /* Slide ticket upward — NO z-index change, env-base naturally hides inside portion */
+    /* Slide ticket upward - NO z-index change, env-base naturally hides inside portion */
     .envelope.opened .env-ticket {
       animation: ticketRise 1.2s cubic-bezier(.22,1,.36,1) 0.55s both;
     }
@@ -535,7 +535,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       opacity: 1;
     }
 
-    /* Glow ostaje unutar modala — bez negativnih offsets */
+    /* Glow ostaje unutar modala - bez negativnih offsets */
     .tp-glow {
       position: absolute; top: 0; left: 0; right: 0;
       height: 180px;
@@ -751,7 +751,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       /* Ticket: left/right kao % od envelope širine → skalira zajedno */
       .env-ticket { left: 4.5%; right: 4.5%; bottom: 0; height: 218px; }
 
-      /* Detalji: 2x2 grid — Polazak/Povratak top row, Rezervacija/Airline bottom row */
+      /* Detalji: 2x2 grid - Polazak/Povratak top row, Rezervacija/Airline bottom row */
       .ticket-details { flex-wrap: wrap; }
       .ticket-detail  { flex: 0 0 50%; min-width: 0; }
       .ticket-detail:nth-child(3) {
@@ -838,7 +838,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       <div class="env-address-line"></div>
     </div>
 
-    <!-- Boarding pass (z:1 — hidden behind folds while inside, slides above) -->
+    <!-- Boarding pass (z:1 - hidden behind folds while inside, slides above) -->
     <div class="env-ticket">
       <div class="ticket-header">
         <div class="ticket-header-logo">
@@ -861,31 +861,31 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
           </div>
           <div class="ticket-airport" style="text-align:right;">
             <div class="ticket-airport-label" style="text-align:right;">Do</div>
-            <div class="ticket-iata to" id="ticketDestIata">—</div>
-            <div class="ticket-city to"  id="ticketDestCity">—</div>
+            <div class="ticket-iata to" id="ticketDestIata">-</div>
+            <div class="ticket-city to"  id="ticketDestCity">-</div>
           </div>
         </div>
         <div class="ticket-tear"></div>
         <div class="ticket-details">
           <div class="ticket-detail">
             <div class="ticket-detail-label">Polazak</div>
-            <div class="ticket-detail-value" id="ticketDate">—</div>
+            <div class="ticket-detail-value" id="ticketDate">-</div>
           </div>
           <div class="ticket-detail">
             <div class="ticket-detail-label">Povratak</div>
-            <div class="ticket-detail-value" id="ticketReturn">—</div>
+            <div class="ticket-detail-value" id="ticketReturn">-</div>
           </div>
           <div class="ticket-detail">
             <div class="ticket-detail-label">Rezervacija</div>
-            <div class="ticket-detail-value accent" id="ticketRef">—</div>
+            <div class="ticket-detail-value accent" id="ticketRef">-</div>
           </div>
           <div class="ticket-detail" id="ticketAirlineRow" style="display:none;">
             <div class="ticket-detail-label" id="ticketAirlineLabel">Check-in kod</div>
-            <div class="ticket-detail-value accent" id="ticketAirlineCode">—</div>
+            <div class="ticket-detail-value accent" id="ticketAirlineCode">-</div>
           </div>
         </div>
         <div class="ticket-pax">
-          <div class="ticket-pax-row">✈&nbsp;<span id="ticketPassengers">—</span></div>
+          <div class="ticket-pax-row">✈&nbsp;<span id="ticketPassengers">-</span></div>
         </div>
       </div>
     </div>
@@ -903,14 +903,14 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
   </div><!-- /envelope -->
 
-  <!-- Scratch hint — inside envelope-wrap so it shifts down with it -->
+  <!-- Scratch hint - inside envelope-wrap so it shifts down with it -->
   <div id="scratchHintExternal">
     <span class="sh-coin">🪙</span>
     OGREBI I OTKRIJ DESTINACIJU
     <span class="sh-coin">🪙</span>
   </div>
 
-  <!-- CTA dugme — pojavljuje se posle grebalice, na mestu hinta -->
+  <!-- CTA dugme - pojavljuje se posle grebalice, na mestu hinta -->
   <div id="revealCTA">
     <div class="rv-cta-label">✦ destinacija otkrivena</div>
     <button class="rv-cta-btn" onclick="openTripPopup()">Vidi detalje putovanja</button>
@@ -926,7 +926,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   <div class="hint-pulse"></div>
 </div>
 
-<!-- success-city hidden span — koristi se samo za JS -->
+<!-- success-city hidden span - koristi se samo za JS -->
 <span id="success-city" style="display:none;"></span>
 
 <!-- Trip details popup -->
@@ -939,19 +939,19 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     <div class="tp-inner tp-stagger">
       <span class="tp-eyebrow"><span class="tp-dot"></span>Putovanje potvrđeno</span>
       <h2 class="tp-title">Detalji vašeg <em>putovanja</em></h2>
-      <p class="tp-sub">Rezervacija <strong id="tpRef">—</strong> · spremamo sve za vaš odlazak.</p>
+      <p class="tp-sub">Rezervacija <strong id="tpRef">-</strong> · spremamo sve za vaš odlazak.</p>
 
       <div class="tp-route">
         <div class="tp-rs">
           <div class="lab">POLAZAK</div>
-          <div class="city" id="tpFrom">—</div>
-          <div class="when" id="tpDepDate">—</div>
+          <div class="city" id="tpFrom">-</div>
+          <div class="when" id="tpDepDate">-</div>
         </div>
         <div class="tp-plane-ic">✈</div>
         <div class="tp-rs r">
           <div class="lab">DESTINACIJA</div>
-          <div class="city dest" id="tpDest">—</div>
-          <div class="when" id="tpRetDate">—</div>
+          <div class="city dest" id="tpDest">-</div>
+          <div class="when" id="tpRetDate">-</div>
         </div>
       </div>
 
@@ -959,33 +959,33 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
         <div class="tp-stat">
           <div class="ic">👥</div>
           <div class="lab">PUTNIKA</div>
-          <div class="v" id="tpTravelers">—</div>
+          <div class="v" id="tpTravelers">-</div>
         </div>
         <div class="tp-stat">
           <div class="ic">📅</div>
           <div class="lab">TRAJANJE</div>
-          <div class="v" id="tpNights">—</div>
+          <div class="v" id="tpNights">-</div>
         </div>
         <div class="tp-stat">
           <div class="ic">📍</div>
           <div class="lab">DESTINACIJA</div>
-          <div class="v" id="tpDestCity">—</div>
+          <div class="v" id="tpDestCity">-</div>
         </div>
       </div>
 
       <div class="tp-details">
-        <div class="tp-det-row" id="tpAirlineNameRow" style="display:none;"><span class="l">🛫 Avio kompanija</span><span class="v" id="tpAirlineName">—</span></div>
-        <div class="tp-det-row" id="tpAirlineRow" style="display:none;"><span class="l">✈ Check-in kod</span><span class="v" id="tpAirlineCode" style="color:var(--pop-accent2);font-weight:700;letter-spacing:1px;">—</span></div>
-        <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">—</span></div>
-        <div class="tp-det-row"><span class="l">Putnici</span><span class="v" id="tpPassengerList">—</span></div>
-        <div class="tp-det-row"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">—</span></div>
+        <div class="tp-det-row" id="tpAirlineNameRow" style="display:none;"><span class="l">🛫 Avio kompanija</span><span class="v" id="tpAirlineName">-</span></div>
+        <div class="tp-det-row" id="tpAirlineRow" style="display:none;"><span class="l">✈ Check-in kod</span><span class="v" id="tpAirlineCode" style="color:var(--pop-accent2);font-weight:700;letter-spacing:1px;">-</span></div>
+        <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">-</span></div>
+        <div class="tp-det-row"><span class="l">Putnici</span><span class="v" id="tpPassengerList">-</span></div>
+        <div class="tp-det-row"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">-</span></div>
       </div>
 
       <div class="tp-inbox">
         <div class="tp-inbox-ic">✉️</div>
         <div class="tp-inbox-tx">
           <h4>Uskoro stiže email sa boarding kartama</h4>
-          <p>Poslaćemo ti zvanični email sa svim daljim koracima — check-in instrukcije, boarding pass i savete za putovanje. Proveri inbox u narednih 24h.</p>
+          <p>Poslaćemo ti zvanični email sa svim daljim koracima - check-in instrukcije, boarding pass i savete za putovanje. Proveri inbox u narednih 24h.</p>
         </div>
       </div>
 
@@ -1035,13 +1035,13 @@ window.addEventListener('unhandledrejection', function() { showError(0); });
 
 /* ── Helpers ── */
 function fmtDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const [y,m,d] = iso.split('-');
   const mon = ['JAN','FEB','MAR','APR','MAJ','JUN','JUL','AVG','SEP','OKT','NOV','DEC'];
   return d + '. ' + (mon[+m-1] || m) + ' ' + y + '.';
 }
 function airportCity(iata) {
-  return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
+  return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '-';
 }
 
 /* ── Mapa prevoda destinacija (engleski → srpski prikaz) ── */
@@ -1094,7 +1094,7 @@ const DEST_SR = {
   'New York':'Njujork', 'Cape Town':'Kejptaun',
 };
 function translateDest(name) {
-  if (!name || name === '—') return name;
+  if (!name || name === '-') return name;
   return DEST_SR[name] || name;
 }
 
@@ -1106,7 +1106,7 @@ function showError(status) {
     404: ['🔒','Link nije validan','Ovaj link nije ispravan ili je istekao. Proveri da li si kopirao ceo link iz emaila.'],
     410: ['✈️','Putovanje je počelo!','Tvoje putovanje je već počelo. Srećan put i uživaj u iznenađenju!'],
     403: ['⏳','Još nije dostupno','Rezervacija još nije potvrđena ili destinacija nije unesena. Pokušaj ponovo uskoro.'],
-  }[status] || ['🌍','Nešto nije pošlo kako treba','Pokušaj ponovo ili nas kontaktiraj — rešićemo to u najkraćem roku.'];
+  }[status] || ['🌍','Nešto nije pošlo kako treba','Pokušaj ponovo ili nas kontaktiraj - rešićemo to u najkraćem roku.'];
   document.getElementById('rvErrIcon').textContent  = m[0];
   document.getElementById('rvErrTitle').textContent = m[1];
   document.getElementById('rvErrMsg').textContent   = m[2];
@@ -1121,12 +1121,12 @@ function showEnvelope(data) {
   const iata = (data.departureAirport || '').toUpperCase();
   document.getElementById('ticketFromIata').textContent = iata || 'BEG';
   document.getElementById('ticketFromCity').textContent = airportCity(iata);
-  document.getElementById('ticketDestIata').textContent = '—'; /* hidden under scratch card */
-  document.getElementById('ticketDestCity').textContent = translateDest(data.destination) || '—';
+  document.getElementById('ticketDestIata').textContent = '-'; /* hidden under scratch card */
+  document.getElementById('ticketDestCity').textContent = translateDest(data.destination) || '-';
   document.getElementById('ticketDate').textContent     = fmtDate(data.departureDate);
   document.getElementById('ticketReturn').textContent   = fmtDate(data.returnDate);
-  document.getElementById('ticketRef').textContent      = data.bookingRef || '—';
-  // Airline booking code — prikazuje se tek kad admin unese
+  document.getElementById('ticketRef').textContent      = data.bookingRef || '-';
+  // Airline booking code - prikazuje se tek kad admin unese
   if (data.airlineBookingCode) {
     document.getElementById('ticketAirlineCode').textContent = data.airlineBookingCode;
     // Ako je uneta i avio kompanija, koristi je kao labelu na tiketu
@@ -1137,15 +1137,15 @@ function showEnvelope(data) {
     const airlineRow = document.getElementById('ticketAirlineRow');
     if (airlineRow) airlineRow.style.display = '';
   }
-  // (success-city se ne prikazuje više — sklonjen success bar)
+  // (success-city se ne prikazuje više - sklonjen success bar)
 
   const names = Array.isArray(data.passengers) && data.passengers.length
-    ? data.passengers.join(' · ') : '—';
+    ? data.passengers.join(' · ') : '-';
   document.getElementById('ticketPassengers').textContent = names;
   document.getElementById('teaserName').textContent = '✦ ' + (data.firstName || 'Tvoje putovanje');
 
   // Store translated destination for post-scratch reveal
-  document.getElementById('ticketDestIata').dataset.dest = translateDest(data.destination) || '—';
+  document.getElementById('ticketDestIata').dataset.dest = translateDest(data.destination) || '-';
 
   const teaser  = document.getElementById('rvTeaser');
   const envWrap = document.getElementById('rvEnvWrap');
@@ -1187,7 +1187,7 @@ function openEnv() {
     if (t) t.style.zIndex = '20';
   }, 1700);
 
-  // Add scratch card IMMEDIATELY — canvas covers ticket-body from the start,
+  // Add scratch card IMMEDIATELY - canvas covers ticket-body from the start,
   // so the white background is never visible (even while ticket is still inside).
   addScratchCard();
 
@@ -1353,7 +1353,7 @@ function addScratchCard() {
   function fullyReveal() {
     // Show real destination name in IATA slot
     const destEl = document.getElementById('ticketDestIata');
-    if (destEl) destEl.textContent = destEl.dataset.dest || '—';
+    if (destEl) destEl.textContent = destEl.dataset.dest || '-';
 
     canvas.style.transition = 'opacity 0.5s ease';
     canvas.style.opacity    = '0';
@@ -1404,18 +1404,18 @@ function addScratchCard() {
 
 /* ── Trip popup helpers ── */
 function fmtDateLong(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const [y,m,d] = iso.split('-');
   const mon = ['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec'];
   return d + '. ' + (mon[+m-1] || m) + ' ' + y + '.';
 }
 
 function airportCityFull(iata) {
-  return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '—';
+  return ({BEG:'Beograd',INI:'Niš',ZAG:'Zagreb',BUD:'Budimpešta',TIM:'Temišvar'})[iata] || iata || '-';
 }
 
 function fmtMoney(eur) {
-  if (!eur && eur !== 0) return '—';
+  if (!eur && eur !== 0) return '-';
   return '€' + Number(eur).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
@@ -1437,13 +1437,13 @@ function setupModalConfetti() {
 function openTripPopup() {
   if (!revealData) return;
   const d = revealData;
-  const dest      = translateDest(d.destination) || d.destination || '—';
+  const dest      = translateDest(d.destination) || d.destination || '-';
   const fromCity  = airportCityFull(d.departureAirport);
   const nights    = d.numberOfNights;
   const travelers = d.numberOfTravelers || 1;
   const addons    = Array.isArray(d.addons) ? d.addons : [];
 
-  document.getElementById('tpRef').textContent       = d.bookingRef || '—';
+  document.getElementById('tpRef').textContent       = d.bookingRef || '-';
   document.getElementById('tpFrom').textContent      = fromCity;
   document.getElementById('tpDest').textContent      = dest;
   document.getElementById('tpDepDate').textContent   = fmtDateLong(d.departureDate);
@@ -1484,7 +1484,7 @@ function openTripPopup() {
   const paxEl = document.getElementById('tpPassengerList');
   if (paxEl) {
     const paxNames = Array.isArray(d.passengers) && d.passengers.length ? d.passengers : [];
-    paxEl.textContent = paxNames.length ? paxNames.join(', ') : '—';
+    paxEl.textContent = paxNames.length ? paxNames.join(', ') : '-';
   }
 
   document.getElementById('tpTotal').textContent = fmtMoney(d.totalPriceAll);

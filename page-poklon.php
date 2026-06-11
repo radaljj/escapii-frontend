@@ -13,7 +13,7 @@ $site_url  = get_site_url();
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Neko ti je poklonio iznenađenje — Escapii</title>
+  <title>Neko ti je poklonio iznenađenje - Escapii</title>
   <?php wp_head(); ?>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -360,7 +360,7 @@ const _AMOUNT_WORDS = {
 };
 
 function _fmtDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
 }
 
@@ -372,7 +372,7 @@ function _renderRevealCard(container, code, d) {
     <div class="bp-msg" style="margin-top:13px;">
       <div class="bp-msg-k">Lična poruka</div>
       <div class="bp-msg-text">${_esc(d.giftMessage)}</div>
-      ${d.buyerName ? `<div class="bp-msg-sig">— <strong>${_esc(d.buyerName)}</strong></div>` : ''}
+      ${d.buyerName ? `<div class="bp-msg-sig">- <strong>${_esc(d.buyerName)}</strong></div>` : ''}
     </div>` : '';
 
   container.innerHTML = `
@@ -390,7 +390,7 @@ function _renderRevealCard(container, code, d) {
             <div class="bp-tag">🎟️ Poklon vaučer</div>
           </div>
           <div class="bp-title-area">
-            <div class="bp-eyebrow">— Iskoristi vaučer za Escapii putovanje —</div>
+            <div class="bp-eyebrow">- Iskoristi vaučer za Escapii putovanje -</div>
             <h2 class="bp-h1">Tvoja sledeća<br><em>avantura te čeka.</em></h2>
           </div>
           <div class="bp-route">
@@ -437,7 +437,7 @@ function _renderRevealCard(container, code, d) {
             <span class="bp-code-text">${_esc(code)}</span>
           </div>
           <div class="bp-stub-info">
-            Unesi kod pri rezervaciji — cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
+            Unesi kod pri rezervaciji - cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
             Važi do: <strong>${_fmtDate(d.expiresAt)}</strong>
           </div>
           <div class="bp-stub-scan">escapii.rs · unesi kod pri rezervaciji</div>
@@ -451,18 +451,18 @@ function _renderRevealCard(container, code, d) {
         <div class="bp-how-card">
           <div class="bp-how-icon">✈️</div>
           <div class="bp-how-title">Escapii putovanje</div>
-          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> — cena se automatski umanjuje za ${amount}€.</div>
+          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> - cena se automatski umanjuje za ${amount}€.</div>
           <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Pogledaj termine →</a>
         </div>
         <div class="bp-how-card">
           <div class="bp-how-icon">🌍</div>
           <div class="bp-how-title">Prilagođeni termin</div>
-          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara — iznenađenje i dalje ostaje tajna.</div>
+          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara - iznenađenje i dalje ostaje tajna.</div>
           <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Zatraži termin koji ti odgovara →</a>
         </div>
       </div>
       <div class="bp-how-info">
-        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> — do ${_fmtDate(d.expiresAt)}</div>
+        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> - do ${_fmtDate(d.expiresAt)}</div>
         <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
         <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
         <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>

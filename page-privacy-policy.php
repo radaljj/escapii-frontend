@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — Escapii</title>
+  <title>Privacy Policy - Escapii</title>
   <meta name="robots" content="noindex, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -436,7 +436,7 @@ body {
         </div>
         <h2>Who we are</h2>
       </div>
-      <p><strong>Escapii</strong> is a digital platform for organising surprise trips from Serbia. We are not a travel agency — we act as a <strong>sub-agent</strong> of a licensed travel agency and facilitate the creation of travel packages.</p>
+      <p><strong>Escapii</strong> is a digital platform for organising surprise trips from Serbia. We are not a travel agency - we act as a <strong>sub-agent</strong> of a licensed travel agency and facilitate the creation of travel packages.</p>
       <p>For any questions regarding the processing of your personal data, please contact us at <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
@@ -473,15 +473,15 @@ body {
 
       <h3>Data we collect automatically</h3>
       <ul class="pp-list">
-        <li><strong>IP address</strong> — solely to prevent abuse (we rate-limit requests per IP); stored for 24 hours</li>
-        <li><strong>Date and time of submission</strong> — for booking records</li>
+        <li><strong>IP address</strong> - solely to prevent abuse (we rate-limit requests per IP); stored for 24 hours</li>
+        <li><strong>Date and time of submission</strong> - for booking records</li>
       </ul>
 
       <h3>What we do NOT collect</h3>
       <div class="pp-not-collected">
         <div class="pp-not-collected-title">We do not collect</div>
         <ul>
-          <li>Payment card details — payments are made by bank transfer</li>
+          <li>Payment card details - payments are made by bank transfer</li>
           <li>Passport or ID document details</li>
           <li>Tracking or profiling cookies</li>
         </ul>
@@ -498,10 +498,10 @@ body {
       </div>
       <p>We use your data solely for:</p>
       <ul class="pp-list">
-        <li><strong>Processing your travel enquiry</strong> — without this data we cannot organise your trip</li>
-        <li><strong>Sending an enquiry confirmation to your email</strong> — automatically, immediately upon receipt</li>
-        <li><strong>Booking-related communication</strong> — sending payment instructions, booking confirmation, and notifications of any changes or cancellations</li>
-        <li><strong>Waitlist notifications</strong> — if you signed up to be notified about new dates for a particular airport</li>
+        <li><strong>Processing your travel enquiry</strong> - without this data we cannot organise your trip</li>
+        <li><strong>Sending an enquiry confirmation to your email</strong> - automatically, immediately upon receipt</li>
+        <li><strong>Booking-related communication</strong> - sending payment instructions, booking confirmation, and notifications of any changes or cancellations</li>
+        <li><strong>Waitlist notifications</strong> - if you signed up to be notified about new dates for a particular airport</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
@@ -528,10 +528,10 @@ body {
       <h3>Third parties</h3>
       <p>We share your data with the following categories of recipients, strictly to the extent necessary to organise your trip:</p>
       <ul class="pp-list">
-        <li><strong>Partner travel agency</strong> — receives the data required to book your flight and accommodation (full names of travellers, airport, dates, number of travellers, accommodation type), solely for the purpose of fulfilling the travel package</li>
-        <li><strong>Airlines and hotels</strong> — for booking purposes, through the partner agency</li>
-        <li><strong>Insurance companies</strong> — only if you selected travel insurance</li>
-        <li><strong>Google (Gmail)</strong> — emails we send pass through Google infrastructure</li>
+        <li><strong>Partner travel agency</strong> - receives the data required to book your flight and accommodation (full names of travellers, airport, dates, number of travellers, accommodation type), solely for the purpose of fulfilling the travel package</li>
+        <li><strong>Airlines and hotels</strong> - for booking purposes, through the partner agency</li>
+        <li><strong>Insurance companies</strong> - only if you selected travel insurance</li>
+        <li><strong>Google (Gmail)</strong> - emails we send pass through Google infrastructure</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
@@ -619,10 +619,10 @@ body {
         <h2>Data security</h2>
       </div>
       <ul class="pp-list">
-        <li><strong>HTTPS encryption</strong> — all communication between your browser and our service is encrypted</li>
-        <li><strong>Restricted access</strong> — only authorised personnel have access to personal data</li>
-        <li><strong>Rate limiting</strong> — automatic protection against bulk attacks and API abuse</li>
-        <li><strong>Secured admin access</strong> — the admin panel is accessible only to authenticated users</li>
+        <li><strong>HTTPS encryption</strong> - all communication between your browser and our service is encrypted</li>
+        <li><strong>Restricted access</strong> - only authorised personnel have access to personal data</li>
+        <li><strong>Rate limiting</strong> - automatic protection against bulk attacks and API abuse</li>
+        <li><strong>Secured admin access</strong> - the admin panel is accessible only to authenticated users</li>
       </ul>
     </section>
 
@@ -660,7 +660,7 @@ body {
       </div>
       <div class="pp-contact">
         <h3>Have a privacy question?</h3>
-        <p>Feel free to reach out — we respond within 48 hours.</p>
+        <p>Feel free to reach out - we respond within 48 hours.</p>
         <div class="pp-contact-links">
           <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>

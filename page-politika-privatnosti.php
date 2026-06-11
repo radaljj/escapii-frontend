@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Politika privatnosti — Escapii</title>
+  <title>Politika privatnosti - Escapii</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <?php wp_head(); ?>
@@ -499,7 +499,7 @@ body {
         </div>
         <h2>Ko smo mi</h2>
       </div>
-      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. Nismo turistička agencija — nastupamo kao <strong>subagent</strong> licencirane turističke agencije i posredujemo pri formiranju aranžmana.</p>
+      <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. Nismo turistička agencija - nastupamo kao <strong>subagent</strong> licencirane turističke agencije i posredujemo pri formiranju aranžmana.</p>
       <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>escapii.team@gmail.com</strong>.</p>
     </section>
 
@@ -536,15 +536,15 @@ body {
 
       <h3>Podaci koje prikupljamo automatski</h3>
       <ul class="pp-list">
-        <li><strong>IP adresa</strong> — isključivo za zaštitu od zloupotrebe (ograničavamo broj upita po IP adresi), čuva se 24 sata</li>
-        <li><strong>Datum i vreme slanja upita</strong> — radi evidentiranja rezervacije</li>
+        <li><strong>IP adresa</strong> - isključivo za zaštitu od zloupotrebe (ograničavamo broj upita po IP adresi), čuva se 24 sata</li>
+        <li><strong>Datum i vreme slanja upita</strong> - radi evidentiranja rezervacije</li>
       </ul>
 
       <h3>Šta ne prikupljamo</h3>
       <div class="pp-not-collected">
         <div class="pp-not-collected-title">Ne prikupljamo</div>
         <ul>
-          <li>Podatke o platnoj kartici — plaćanje se vrši bankovnim transferom</li>
+          <li>Podatke o platnoj kartici - plaćanje se vrši bankovnim transferom</li>
           <li>Brojeve pasoša niti kopije putnih isprava</li>
           <li>Kolačiće za praćenje ili profilisanje korisnika</li>
         </ul>
@@ -561,10 +561,10 @@ body {
       </div>
       <p>Vaše podatke koristimo isključivo za:</p>
       <ul class="pp-list">
-        <li><strong>Obradu vašeg upita za putovanje</strong> — bez ovih podataka ne možemo organizovati putovanje</li>
-        <li><strong>Slanje potvrde upita na email</strong> — automatski, odmah po prijemu upita</li>
-        <li><strong>Komunikaciju u vezi sa rezervacijom</strong> — slanje detalja o uplati, potvrde rezervacije, obaveštenja o izmenama ili otkazivanjima</li>
-        <li><strong>Waitlist notifikacije</strong> — ukoliko ste se prijavili za obaveštenje o novim terminima za određeni aerodrom</li>
+        <li><strong>Obradu vašeg upita za putovanje</strong> - bez ovih podataka ne možemo organizovati putovanje</li>
+        <li><strong>Slanje potvrde upita na email</strong> - automatski, odmah po prijemu upita</li>
+        <li><strong>Komunikaciju u vezi sa rezervacijom</strong> - slanje detalja o uplati, potvrde rezervacije, obaveštenja o izmenama ili otkazivanjima</li>
+        <li><strong>Waitlist notifikacije</strong> - ukoliko ste se prijavili za obaveštenje o novim terminima za određeni aerodrom</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
@@ -591,10 +591,10 @@ body {
       <h3>Treće strane</h3>
       <p>Vaše podatke delimo sa sledećim kategorijama primaoca, isključivo u meri neophodnoj za organizaciju putovanja:</p>
       <ul class="pp-list">
-        <li><strong>Partnerska turistička agencija</strong> — prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja), isključivo u svrhu izvršenja aranžmana</li>
-        <li><strong>Avio kompanije i hoteli</strong> — radi rezervacije, posredstvom partnerske agencije</li>
-        <li><strong>Osiguravajuće kompanije</strong> — isključivo ukoliko ste odabrali putno osiguranje</li>
-        <li><strong>Google (Gmail)</strong> — emailovi koje šaljemo prolaze kroz Google infrastrukturu</li>
+        <li><strong>Partnerska turistička agencija</strong> - prima podatke neophodne za rezervaciju leta i smeštaja (ime i prezime putnika, aerodrom, datumi, broj putnika, tip smeštaja), isključivo u svrhu izvršenja aranžmana</li>
+        <li><strong>Avio kompanije i hoteli</strong> - radi rezervacije, posredstvom partnerske agencije</li>
+        <li><strong>Osiguravajuće kompanije</strong> - isključivo ukoliko ste odabrali putno osiguranje</li>
+        <li><strong>Google (Gmail)</strong> - emailovi koje šaljemo prolaze kroz Google infrastrukturu</li>
       </ul>
       <div class="pp-notice">
         <div class="pp-notice-icon">
@@ -682,10 +682,10 @@ body {
         <h2>Bezbednost podataka</h2>
       </div>
       <ul class="pp-list">
-        <li><strong>HTTPS enkripcija</strong> — sva komunikacija između vašeg browsera i našeg servisa je šifrovana</li>
-        <li><strong>Ograničen pristup</strong> — samo ovlašćene osobe imaju pristup podacima</li>
-        <li><strong>Rate limiting</strong> — automatska zaštita od masovnih napada i zloupotrebe API-ja</li>
-        <li><strong>Zaštićen admin pristup</strong> — admin panel dostupan isključivo autentikovanim korisnicima</li>
+        <li><strong>HTTPS enkripcija</strong> - sva komunikacija između vašeg browsera i našeg servisa je šifrovana</li>
+        <li><strong>Ograničen pristup</strong> - samo ovlašćene osobe imaju pristup podacima</li>
+        <li><strong>Rate limiting</strong> - automatska zaštita od masovnih napada i zloupotrebe API-ja</li>
+        <li><strong>Zaštićen admin pristup</strong> - admin panel dostupan isključivo autentikovanim korisnicima</li>
       </ul>
     </section>
 
@@ -723,7 +723,7 @@ body {
       </div>
       <div class="pp-contact">
         <h3>Imate pitanje o privatnosti?</h3>
-        <p>Slobodno nam se obratite — odgovaramo u roku od 48 sati.</p>
+        <p>Slobodno nam se obratite - odgovaramo u roku od 48 sati.</p>
         <div class="pp-contact-links">
           <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
