@@ -408,12 +408,32 @@
     .ab-heading { font-size:clamp(24px,3vw,38px); font-weight:900; letter-spacing:-1px;
                   line-height:1.15; color:var(--white); margin-bottom:16px; }
     .ab-body-text { font-size:clamp(14px,1.4vw,16px); color:var(--gray); line-height:1.7; margin-bottom:28px; }
-    .ab-features { list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:32px; }
-    .ab-feature { display:flex; align-items:flex-start; gap:12px;
-                  font-size:clamp(13px,1.3vw,15px); color:#4A4442; line-height:1.4; }
-    .ab-feature-icon { width:30px; height:30px; border-radius:9px;
-                       background:rgba(202,138,113,.12); display:flex;
-                       align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+    .ab-accent { color: var(--accent); }
+    /* Steps */
+    .ab-steps { position:relative; display:grid; grid-template-columns:repeat(3,1fr);
+                gap:16px; margin:0 0 32px; }
+    .ab-steps::before { content:""; position:absolute; top:27px; left:18%; right:18%;
+                        border-top:2px dotted rgba(202,138,113,.4); z-index:0; pointer-events:none; }
+    .ab-step { position:relative; z-index:1; text-align:center; }
+    .ab-step-chip { width:54px; height:54px; border-radius:15px; margin:0 auto 12px;
+                    background:#fff; border:1px solid rgba(15,45,53,.1);
+                    box-shadow:0 6px 18px -10px rgba(15,45,53,.25);
+                    display:flex; align-items:center; justify-content:center; color:var(--accent); }
+    .ab-step-num { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+                   color:var(--gray); margin-bottom:4px; font-variant-numeric:tabular-nums; }
+    .ab-step-lbl { font-size:14px; font-weight:700; color:var(--white); line-height:1.2; margin-bottom:3px; }
+    .ab-step-sub { font-size:11.5px; color:var(--gray); line-height:1.35; }
+    /* Trust badges */
+    .ab-trust { display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:20px; }
+    .ab-trust-item { display:inline-flex; align-items:center; gap:7px;
+                     font-size:13px; color:var(--gray); font-weight:500; }
+    .ab-trust-item svg { color:var(--accent); flex-shrink:0; }
+    @media (max-width:560px) {
+      .ab-steps { grid-template-columns:1fr; gap:12px; }
+      .ab-steps::before { display:none; }
+      .ab-step { display:grid; grid-template-columns:54px 1fr; gap:12px; align-items:center; text-align:left; }
+      .ab-step-chip { margin:0; }
+    }
     .ab-btn-primary { background:var(--accent); color:#fff; border:none;
                       padding:14px 30px; border-radius:999px; font-size:15px; font-weight:700;
                       cursor:pointer; font-family:inherit; transition:all .2s;
@@ -423,13 +443,15 @@
     .ab-text-col .ab-tag,
     .ab-text-col .ab-heading,
     .ab-text-col .ab-body-text,
-    .ab-text-col .ab-features,
-    .ab-text-col .ab-btn-primary { opacity:0; }
+    .ab-text-col .ab-steps,
+    .ab-text-col .ab-btn-primary,
+    .ab-text-col .ab-trust { opacity:0; }
     .ab-text-col.anim .ab-tag      { animation:abFadeUp .55s .05s both; }
     .ab-text-col.anim .ab-heading  { animation:abFadeUp .55s .18s both; }
     .ab-text-col.anim .ab-body-text{ animation:abFadeUp .55s .32s both; }
-    .ab-text-col.anim .ab-features { animation:abFadeUp .55s .46s both; }
+    .ab-text-col.anim .ab-steps    { animation:abFadeUp .55s .46s both; }
     .ab-text-col.anim .ab-btn-primary { animation:abFadeUp .55s .62s both; }
+    .ab-text-col.anim .ab-trust    { animation:abFadeUp .55s .74s both; }
     /* Right phone col */
     .ab-phone-col { flex-shrink:0; }
     .ab-phone-frame {
@@ -2869,7 +2891,7 @@
   <!-- Mobile-only intro (hidden on desktop) -->
   <div class="ab-mob-intro">
     <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-    <h2 class="ab-heading" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h2>
+    <h2 class="ab-heading" data-i18n-html="ab.heading">Prva platforma u regionu za putovanja <span class="ab-accent">iznenađenja</span> po Evropi.</h2>
   </div>
 
   <div class="ab-two-col">
@@ -2877,15 +2899,35 @@
     <!-- Left: text -->
     <div class="ab-text-col" id="abTextCol">
       <div class="ab-tag" data-i18n="mf.tag">Šta je Escapii?</div>
-      <h2 class="ab-heading" data-i18n="ab.heading">Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.</h2>
-      <p class="ab-body-text" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.</p>
-      <ul class="ab-features">
-        <li class="ab-feature"><div class="ab-feature-icon">✈️</div><span data-i18n="ab.f1">Let + hotel uključeni u cenu</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">📍</div><span data-i18n="ab.f2">Destinaciju ti otkrivamo 48h pre polaska</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">✓</div><span data-i18n="ab.f3">Bez skrivenih troškova</span></li>
-        <li class="ab-feature"><div class="ab-feature-icon">🤝</div><span data-i18n="ab.f4">Radimo sa licenciranom turističkom agencijom</span></li>
-      </ul>
+      <h2 class="ab-heading" data-i18n-html="ab.heading">Prva platforma u regionu za putovanja <span class="ab-accent">iznenađenja</span> po Evropi.</h2>
+      <p class="ab-body-text" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.</p>
+      <div class="ab-steps">
+        <div class="ab-step">
+          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg></div>
+          <div class="ab-step-num">01</div>
+          <div class="ab-step-lbl" data-i18n="ab.s1">Izabereš termin</div>
+          <div class="ab-step-sub" data-i18n="ab.s1s">Datum, broj putnika i budžet.</div>
+        </div>
+        <div class="ab-step">
+          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l-2 1 1.5 3 2.5-1M19 4l1 1-7.5 8.5-5 1.5 1.5-5L17 3.5z"/><path d="M14.5 6.5l3 3"/></svg></div>
+          <div class="ab-step-num">02</div>
+          <div class="ab-step-lbl" data-i18n="ab.s2">Mi sve sredimo</div>
+          <div class="ab-step-sub" data-i18n="ab.s2s">Destinacija, let i hotel - na nama.</div>
+        </div>
+        <div class="ab-step">
+          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+          <div class="ab-step-num">03</div>
+          <div class="ab-step-lbl" data-i18n="ab.s3">Otkrivamo 48h pre</div>
+          <div class="ab-step-sub" data-i18n="ab.s3s">Do tada - samo nagoveštaji.</div>
+        </div>
+      </div>
       <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
+      <div class="ab-trust">
+        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l8-2 7-7 1.5 1.5-4 6 5 2-2 2-5-1-3 5L9 19l1-5-8-2z"/></svg><span data-i18n="ab.f1">Let + hotel uključeni</span></span>
+        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span data-i18n="ab.f2">Otkrivamo 48h pre polaska</span></span>
+        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="ab.f3">Bez skrivenih troškova</span></span>
+        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l3 3 4-7"/><circle cx="12" cy="12" r="9.5"/></svg><span data-i18n="ab.f4">Licencirana agencija</span></span>
+      </div>
     </div>
 
     <!-- Right: phone -->
@@ -4050,12 +4092,15 @@ const TR = {
     'ab.sub':'Tri dana poruka, letovi koji poskupljuju pred očima, smeštaj koji nestaje - i na kraju Novi Sad. Poznata priča.',
     'ab.ptitle':'Escapii postoji zbog toga.',
     'ab.pbody':'Ti izabereš datum - mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
-    'ab.heading':'Prva platforma u regionu za organizovana putovanja iznenađenja po Evropi.',
-    'ab.body':'Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo iznenađenje za tebe i tvoje društvo. Saznaćeš gde ideš tek 48h pre polaska.',
-    'ab.f1':'Let + hotel uključeni u cenu',
-    'ab.f2':'Destinacija ostaje tajna sve do 48h pre polaska',
+    'ab.heading':'Prva platforma u regionu za putovanja <span class="ab-accent">iznenađenja</span> po Evropi.',
+    'ab.body':'Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.',
+    'ab.s1':'Izabereš termin', 'ab.s1s':'Datum, broj putnika i budžet.',
+    'ab.s2':'Mi sve sredimo', 'ab.s2s':'Destinacija, let i hotel - na nama.',
+    'ab.s3':'Otkrivamo 48h pre', 'ab.s3s':'Do tada - samo nagoveštaji.',
+    'ab.f1':'Let + hotel uključeni',
+    'ab.f2':'Otkrivamo 48h pre polaska',
     'ab.f3':'Bez skrivenih troškova',
-    'ab.f4':'Radimo sa licenciranom turističkom agencijom',
+    'ab.f4':'Licencirana agencija',
     'ab.clead':'Veruj nam kad ti kažemo - Escapii nije putovanje koje ćeš zaboraviti.',
     'ab.cbold':'To je avantura koju ćeš prepričavati zauvek.',
     'ab.btn1':'Rezerviši svoje iznenađenje →',
@@ -4292,12 +4337,15 @@ const TR = {
     'ab.sub':'Three days of messages, flights getting expensive before your eyes, accommodation disappearing - and you end up in Novi Sad. Sound familiar.',
     'ab.ptitle':'That\'s why Escapii exists.',
     'ab.pbody':'You pick a date - we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
-    'ab.heading':'The first surprise travel platform in the region.',
-    'ab.body':'You choose the date, number of travelers and budget. We choose the destination and organise the surprise. You\'ll find out where you\'re going just 48h before departure.',
-    'ab.f1':'Flight + hotel included in the price',
-    'ab.f2':'Destination revealed 48h before departure',
+    'ab.heading':'The first platform in the region for <span class="ab-accent">surprise</span> trips across Europe.',
+    'ab.body':'You choose the date, number of travelers and budget. We take care of everything - flights, hotel, and the surprise. You\'ll find out where you\'re going just 48h before departure.',
+    'ab.s1':'Pick a date', 'ab.s1s':'Date, travelers and budget.',
+    'ab.s2':'We handle it all', 'ab.s2s':'Destination, flight and hotel - on us.',
+    'ab.s3':'Reveal 48h before', 'ab.s3s':'Until then - only hints.',
+    'ab.f1':'Flight + hotel included',
+    'ab.f2':'Destination revealed 48h before',
     'ab.f3':'No hidden costs',
-    'ab.f4':'We work with a licensed travel agency',
+    'ab.f4':'Licensed travel agency',
     'ab.clead':'Trust us when we say - Escapii isn\'t a trip you\'ll forget.',
     'ab.cbold':'It\'s an adventure you\'ll be talking about forever.',
     'ab.btn1':'Book your surprise →',
