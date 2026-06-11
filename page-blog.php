@@ -39,7 +39,7 @@ function bl_read_time($post_id) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog - Escapii</title>
+<title>Blog o putovanjima iznenađenja | Escapii</title>
 <meta name="description" content="Priče sa naših iznenađenja i sve što treba da znaš pre polaska.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

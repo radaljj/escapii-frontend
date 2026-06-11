@@ -33,7 +33,7 @@ $related = new WP_Query([
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php the_title(); ?> - Escapii Blog</title>
+<title><?php the_title(); ?> | Escapii Blog</title>
 <meta name="description" content="<?php echo esc_attr(wp_trim_words($excerpt, 28, '')); ?>">
 <?php if ($has_img): ?>
 <meta property="og:image" content="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>">
