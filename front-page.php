@@ -583,10 +583,22 @@
                  padding:12px; width:100%; font-size:13px; font-weight:700;
                  cursor:pointer; font-family:inherit; }
     @media (max-width:767px) {
-      .ab-two-col { flex-direction:column; gap:0; }
-      .ab-text-col { display:none; }
+      .ab-two-col { flex-direction:column; gap:40px; }
+      .ab-mob-intro { display:none; }
+      .ab-text-col { display:block; max-width:100%; opacity:1 !important; animation:none !important; }
+      .ab-text-col .ab-tag,
+      .ab-text-col .ab-heading,
+      .ab-text-col .ab-body-text,
+      .ab-text-col .ab-steps,
+      .ab-text-col .ab-btn-primary,
+      .ab-text-col .ab-trust { opacity:1 !important; animation:none !important; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
       .ab-overlay { position:static; display:flex; transform:none !important; transition:none; background:transparent; padding:24px 4px 0; overflow:visible; inset:auto; max-height:none; }
+      .ab-steps { grid-template-columns:1fr; gap:12px; }
+      .ab-steps::before { display:none; }
+      .ab-step { display:grid; grid-template-columns:54px 1fr; gap:12px; align-items:center; text-align:left; }
+      .ab-step-chip { margin:0; }
+      .ab-btn-primary { width:100%; justify-content:center; }
     }
     @media (max-width:400px) {
       .ab-phone-frame { width:290px; height:580px; border-radius:44px; }
