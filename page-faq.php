@@ -38,9 +38,6 @@ $site_url  = get_site_url();
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -55,9 +52,9 @@ $site_url  = get_site_url();
   --peach:     #c8775a;
   --teal:      #22424a;
   --teal-deep: #16313a;
-  --serif:     "Newsreader", Georgia, serif;
-  --display:   "Playfair Display", Georgia, serif;
-  --sans:      "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --serif:     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --display:   -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --sans:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --gray:      #7A9FA8;
   --white-nav: #2D5F6B;
   --accent:    #CA8A71;
