@@ -308,12 +308,12 @@ body {
   </div>
 
   <div class="fq-cta">
-    <h2 data-i18n="cta.h">Nismo odgovorili na tvoje pitanje?</h2>
-    <p data-i18n="cta.p">Piši nam - odgovaramo u roku od 24h.</p>
+    <h2 data-i18n="cta.h">Imaš još pitanja? Escapii tim je tu za tebe.</h2>
+    <p data-i18n="cta.p">Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije. Rado ćemo odgovoriti na sva tvoja pitanja.</p>
     <div class="fq-cta-btns">
-      <a href="mailto:escapii.team@gmail.com" class="fq-cta-btn">✉ <span data-i18n="cta.mail">Kontaktiraj nas</span></a>
-      <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="fq-cta-btn ghost" data-i18n="cta.book">Rezerviši putovanje →</a>
+      <a href="mailto:escapii.team@gmail.com" class="fq-cta-btn">✉ escapii.team@gmail.com</a>
     </div>
+    <p style="margin-top:16px;font-size:13px;color:rgba(255,255,255,.5);" data-i18n="cta.sub">Odgovaramo u roku od 24h</p>
   </div>
 </div>
 
@@ -379,10 +379,9 @@ const I18N_EN = {
   'a12':'A gift voucher is the perfect gift for someone who loves surprises and travel. On the <a href="/pokloni-putovanje-iznenadjenja"><strong>Pokloni iznenađenje</strong></a> page, choose a voucher amount, enter the recipient\'s name and a personal message - we\'ll send a beautifully designed PDF voucher (boarding pass style) to the email address you provide, ready to forward or print.<br><br>The recipient enters the voucher code when booking an Escapii trip, and the amount is deducted from the total price. Vouchers are valid for <strong>one year from activation</strong> and can be used on any Escapii trip - group or custom. Vouchers cannot be exchanged for cash.',
   'q13':'What is a custom trip and how do I book one?',
   'a13':'A custom trip is an option designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request for a custom trip:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks flight and accommodation availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually, based on available options for your chosen period and number of travellers. ✈️🏨',
-  'cta.h':'Didn\'t find your answer?',
-  'cta.p':'Write to us - we reply within 24 hours.',
-  'cta.mail':'Contact us',
-  'cta.book':'Book a trip →',
+  'cta.h':'Still have questions? The Escapii team is here for you.',
+  'cta.p':'We know this is a completely new concept - and that\'s exactly why we\'re here. Send us an email or reach out if you\'d like a quick chat with our team before booking. We\'re happy to answer all your questions.',
+  'cta.sub':'We reply within 24 hours',
   'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
   'ft.nav':'Navigation',
   'ft.book':'Book a trip',
