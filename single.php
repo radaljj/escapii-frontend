@@ -181,14 +181,6 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
   text-decoration:none; transition:.2s;}
 .tag:hover{border-color:var(--terra); color:var(--terra);}
 
-.author-card{display:flex; gap:22px; align-items:flex-start; max-width:66ch;
-  margin:52px 0 0; padding:30px; background:var(--paper); border:1px solid var(--line); border-radius:18px;}
-.author-card .ac-avatar{width:72px; height:72px; border-radius:50%; object-fit:cover; flex:none;
-  background:var(--sand); overflow:hidden;}
-.author-card .ac-name{font-family:var(--display); font-size:21px; font-weight:600; margin:0 0 6px;}
-.author-card .ac-role{font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:1.5px;
-  text-transform:uppercase; color:var(--terra); margin-bottom:12px;}
-.author-card p{font-size:15.5px; line-height:1.6; color:var(--mute); margin:0;}
 
 /* ── Mobile share bar (vidljivo samo ispod 900px) ── */
 .mob-share{display:none; align-items:center; gap:12px; max-width:66ch;
@@ -266,8 +258,7 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
   .body{font-size:17px;}
   .lede{font-size:18px;}
   .sp-hd-back span{display:none;}
-  .author-card{flex-direction:column; gap:16px;}
-  .author-card .ac-avatar{width:56px; height:56px;}
+
 }
 </style>
 </head>
@@ -347,21 +338,6 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
       <?php foreach ($tags as $tag): ?>
         <a href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>" class="tag">#<?php echo esc_html($tag->name); ?></a>
       <?php endforeach; ?>
-    </div>
-    <?php endif; ?>
-
-    <?php if ($author): ?>
-    <div class="author-card">
-      <div class="ac-avatar"><?php echo get_avatar($author_id, 144, '', $author); ?></div>
-      <div>
-        <div class="ac-role">Autor</div>
-        <h3 class="ac-name"><?php echo esc_html($author); ?></h3>
-        <?php if ($author_bio): ?>
-        <p><?php echo esc_html($author_bio); ?></p>
-        <?php else: ?>
-        <p>Deo Escapii tima - organizujemo putovanja iznenađenja iz kojih se vraćaš sa pričama.</p>
-        <?php endif; ?>
-      </div>
     </div>
     <?php endif; ?>
 
