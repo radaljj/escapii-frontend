@@ -127,30 +127,6 @@ a { color: inherit; }
   color: rgba(255,255,255,.7); max-width: 48ch; margin: 0 auto;
 }
 
-/* ── Search ── */
-.fq-search {
-  position: relative; z-index: 10;
-  max-width: 600px; margin: -32px auto 0; padding: 0 24px;
-}
-.fq-search-box {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 100px;
-  padding: 6px 8px 6px 20px;
-  box-shadow: 0 20px 40px -20px rgba(26,20,16,.35);
-}
-.fq-search-box svg { width: 18px; height: 18px; color: var(--faint); flex: none; }
-.fq-search-box input {
-  flex: 1; border: none; outline: none; background: transparent;
-  font-family: var(--sans); font-size: 15px; color: var(--ink); padding: 11px 0;
-}
-.fq-search-box input::placeholder { color: var(--faint); }
-.fq-search-btn {
-  font-family: var(--sans); font-size: 13px; font-weight: 600; color: #fff;
-  background: var(--terra); border: none; border-radius: 100px;
-  padding: 10px 20px; cursor: pointer; transition: .2s;
-}
-.fq-search-btn:hover { background: var(--peach); }
-
 /* ── Categories ── */
 .fq-cats {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
@@ -282,7 +258,6 @@ a { color: inherit; }
 /* ── Responsive ── */
 @media (max-width: 760px) {
   .fq-nav { padding: 14px 20px; }
-  .fq-back span { display: none; }
   .fq-hero { padding: 52px 20px 92px; }
   .fq-wrap { padding: 48px 20px 0; }
   .faq-q h3 { font-size: 17px; }
@@ -315,7 +290,7 @@ a { color: inherit; }
     </div>
     <a href="<?php echo esc_url($site_url); ?>" class="fq-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      <span data-i18n="back">Nazad na sajt</span>
+      <span data-i18n="back" style="display:inline">Nazad na sajt</span>
     </a>
   </div>
 </nav>
@@ -331,15 +306,6 @@ a { color: inherit; }
     <p data-i18n="sub">Od cene i destinacija do otkazivanja i poklona - tu su odgovori na sva pitanja o Escapii putovanjima iznenađenja.</p>
   </div>
 </header>
-
-<!-- SEARCH -->
-<div class="fq-search">
-  <div class="fq-search-box">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input id="fqSearch" type="text" placeholder="Pretraži pitanja…" aria-label="Pretraga">
-    <button class="fq-search-btn" data-i18n="srch.btn">Traži</button>
-  </div>
-</div>
 
 <!-- CATEGORIES -->
 <div class="fq-cats" id="fqCats">
@@ -508,7 +474,6 @@ const I18N_EN = {
   'badge':'FAQ',
   'h1':'Everything you want to know, in one place',
   'sub':'From pricing and destinations to cancellations and gifts - answers to all your questions about Escapii surprise trips.',
-  'srch.btn':'Search',
   'cat.all':'All',
   'cat.cena':'Price & payment',
   'cat.dest':'Destinations',
@@ -613,24 +578,6 @@ catsEl.addEventListener('click', function(e) {
   document.querySelectorAll('.fq-group').forEach(function(g) {
     g.style.display = (cat === 'all' || g.dataset.group === cat) ? '' : 'none';
   });
-});
-
-// ── Search ─────────────────────────────────────────────────────────────────
-document.getElementById('fqSearch').addEventListener('input', function() {
-  var term = this.value.trim().toLowerCase();
-  document.querySelectorAll('.fq-group').forEach(function(g) {
-    var any = false;
-    g.querySelectorAll('.faq').forEach(function(f) {
-      var hit = !term || f.textContent.toLowerCase().indexOf(term) > -1;
-      f.style.display = hit ? '' : 'none';
-      if (hit) any = true;
-    });
-    g.style.display = any ? '' : 'none';
-  });
-  if (term) {
-    catsEl.querySelectorAll('.fq-cat').forEach(function(x) { x.classList.remove('active'); });
-    catsEl.querySelector('[data-cat="all"]').classList.add('active');
-  }
 });
 
 if (lang === 'en') applyLang();
