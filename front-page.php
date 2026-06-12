@@ -5784,14 +5784,14 @@ function syncDobDays(i) {
   }
 }
 function getPaxDob(i) {
-  // Mobilni: jedno date polje (vidljivo → offsetParent nije null)
-  const dateEl=document.getElementById('pd-date-'+i);
-  if(dateEl && dateEl.offsetParent !== null) return dateEl.value || '';
-  // Desktop: 3 dropdowna
-  const d=(document.getElementById('pd-d-'+i)||{}).value||'';
-  const m=(document.getElementById('pd-m-'+i)||{}).value||'';
-  const y=(document.getElementById('pd-y-'+i)||{}).value||'';
-  if(!d||!m||!y) return '';
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    const dateEl = document.getElementById('pd-date-' + i);
+    return (dateEl && dateEl.value) ? dateEl.value : '';
+  }
+  const d = (document.getElementById('pd-d-' + i) || {}).value || '';
+  const m = (document.getElementById('pd-m-' + i) || {}).value || '';
+  const y = (document.getElementById('pd-y-' + i) || {}).value || '';
+  if (!d || !m || !y) return '';
   return `${y}-${m}-${d}`;
 }
 
