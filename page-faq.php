@@ -96,7 +96,7 @@ a { color: inherit; }
 .fq-hero {
   position: relative; overflow: hidden;
   text-align: center; padding: 70px 24px 110px;
-  background: url('https://images.unsplash.com/photo-1622272515909-f7facc49271e?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);
+  background: url('https://images.unsplash.com/photo-1646303297330-17073f7823c3?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);
 }
 .fq-hero::before {
   content: ""; position: absolute; inset: 0;

@@ -77,7 +77,7 @@ a{color:inherit;}
 
 /* ---------- hero ---------- */
 .hero{position:relative; overflow:hidden; text-align:center; padding:88px 24px 120px;
-  background:url('https://images.unsplash.com/photo-1756674105285-a136b84d869c?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);}
+  background:url('https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);}
 .hero::before{content:""; position:absolute; inset:0;
   background:rgba(10,30,38,.72);}
 .hero::after{content:""; position:absolute; inset:0; opacity:.25;
