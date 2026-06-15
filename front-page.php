@@ -3663,7 +3663,7 @@
               <div class="voucher-input-row">
                 <input class="voucher-code-inp" id="voucherCodeInp" type="text"
                        placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20"
-                       oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')"
+                       oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'').replace(/0/g,'O').replace(/1/g,'I')"
                        onkeydown="if(event.key==='Enter'){event.preventDefault();applyVoucher();}">
                 <button class="voucher-apply-btn" id="voucherApplyBtn" type="button" onclick="applyVoucher()">Primeni</button>
               </div>
@@ -4090,7 +4090,9 @@
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
 // Anti-bot: beleži vreme učitavanja stranice
 const _FORM_START = Date.now();
-let _appliedVoucher = null; // { code, amount } ili null
+let _appliedVoucher   = null; // { code, amount } ili null
+let _voucherApplying  = false;
+let _bookingSubmitting = false;
 
 // ══════════ i18n
 const TR = {
@@ -5545,7 +5547,7 @@ function togRevealBox(el) {
     S.deliveryCity = '';
     S.deliveryPhone = '';
     el.classList.remove('on');
-    recalcPrice();
+    loadPrice();
   }
 }
 function closeRevealBoxModal(confirm) {
@@ -5555,7 +5557,7 @@ function closeRevealBoxModal(confirm) {
     const el = document.getElementById('ec-hasRevealBox');
     S.hasRevealBox = false;
     el.classList.remove('on');
-    recalcPrice();
+    loadPrice();
   }
 }
 function confirmRevealBoxAddress() {
@@ -5575,7 +5577,7 @@ function confirmRevealBoxAddress() {
   S.deliveryPhone = phone;
   document.getElementById('ec-hasRevealBox').classList.add('on');
   closeRevealBoxModal(true);
-  recalcPrice();
+  loadPrice();
 }
 
 function updateSeatsVisibility() {
@@ -6062,14 +6064,17 @@ function updateSummaryCard() {
     }
     if (p.soloSurcharge > 0)
       priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
+    if (S.hasRevealBox)
+      priceRowsHtml += `<div class="bs-pr-row"><span>📦 ${lang==='sr'?'Reveal Box':'Reveal Box'}</span><span>+25€</span></div>`;
 
     // Vaučer popust
+    const revealBoxExtra8 = S.hasRevealBox ? 25 : 0;
     const vDisc8 = _appliedVoucher ? _appliedVoucher.amount : 0;
     if (vDisc8 > 0) {
       priceRowsHtml += `<div class="bs-pr-row" style="color:#86efac;"><span>🎟️ ${lang==='sr'?'Poklon vaučer':'Gift voucher'} <span style="font-family:monospace;font-size:11px;opacity:.65;margin-left:4px;">${_appliedVoucher.code}</span></span><span>−${vDisc8}€</span></div>`;
     }
 
-    const finalAmt8 = Math.max(0, p.totalEurAll - vDisc8);
+    const finalAmt8 = Math.max(0, p.totalEurAll + revealBoxExtra8 - vDisc8);
     totalHtml = `${finalAmt8}€`;
   }
 
@@ -6168,12 +6173,14 @@ function validateContact() {
 }
 
 async function submitBooking() {
+  if (_bookingSubmitting) return;
   if(!validateContact()) {
     showFormAlert(lang === 'sr'
       ? 'Molimo popunite sva obavezna polja i prihvatite uslove.'
       : 'Please fill in all required fields and accept the terms.');
     return;
   }
+  _bookingSubmitting = true;
   const btn=document.getElementById('btnSubmit');
   const firstName=document.getElementById('fFirstName').value.trim();
   const lastName=document.getElementById('fLastName').value.trim();
@@ -6253,7 +6260,7 @@ async function submitBooking() {
         S.selectedDate = null;
         showStep(3);
         loadDates();
-        btn.disabled=false; btn.textContent=t('s8.submit');
+        _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
       } else {
         // Duplikat rezervacije ili drugi 409 - prikaži konkretnu poruku
         await Swal.fire({
@@ -6264,21 +6271,21 @@ async function submitBooking() {
           background: '#2D5F6B',
           color: '#fff'
         });
-        btn.disabled=false; btn.textContent=t('s8.submit');
+        _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
       }
     } else {
       // Sve ostale greške (4xx, 5xx) - user-friendly poruka, bez backend detalja
       Swal.fire({icon:'error',title:lang==='sr'?'Nešto nije u redu':'Something went wrong',
         text:t('err.srv'),
         confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
-      btn.disabled=false; btn.textContent=t('s8.submit');
+      _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
     }
   } catch(e) {
     // Mrežna greška (fetch sam failovao - backend nedostupan, timeout…)
     Swal.fire({icon:'error',title:lang==='sr'?'Mrežna greška':'Network error',
       text:t('err.unexpected'),
       confirmButtonColor:'#CA8A71',background:'#2D5F6B',color:'#fff'});
-    btn.disabled=false; btn.textContent=t('s8.submit');
+    _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
   }
 }
 
@@ -6445,7 +6452,8 @@ window.addEventListener('resize', equalFeatCards);
 // CUSTOM DATE INQUIRY - range calendar picker (2 or 3 nights only)
 // ══════════════════════════════════════════════════════════════════
 
-let _inqDep      = null;   // departure Date
+let _inqSubmitting = false;
+let _inqDep        = null;   // departure Date
 let _inqRet      = null;   // return Date
 let _inqCurMonth = null;   // displayed month (1st of month)
 let _inqHover    = null;   // hovered date (for range preview)
@@ -6658,6 +6666,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function submitInquiry() {
+  if (_inqSubmitting) return;
   if (!_inqDep || !_inqRet) {
     const statusEl = document.getElementById('inqRangeStatus');
     if (statusEl) {
@@ -6677,6 +6686,7 @@ async function submitInquiry() {
   }
 
   const btn = document.getElementById('inqSubmitBtn');
+  _inqSubmitting = true;
   btn.disabled = true;
 
   const pad     = n => String(n).padStart(2,'0');
@@ -6707,11 +6717,11 @@ async function submitInquiry() {
     } else {
       const err = await r.json().catch(() => ({}));
       showFormAlert(err.error || (lang==='sr' ? 'Greška pri slanju.' : 'Send error.'));
-      btn.disabled = false;
+      _inqSubmitting = false; btn.disabled = false;
     }
   } catch(e) {
     showFormAlert(lang==='sr' ? 'Greška pri slanju. Proveri konekciju.' : 'Send error. Check connection.');
-    btn.disabled = false;
+    _inqSubmitting = false; btn.disabled = false;
   }
 }
 
@@ -6873,6 +6883,7 @@ function toggleVoucherInput() {
 }
 
 async function applyVoucher() {
+  if (_voucherApplying) return;
   const input = document.getElementById('voucherCodeInp');
   const btn   = document.getElementById('voucherApplyBtn');
   const msg   = document.getElementById('voucherMsg');
@@ -6886,6 +6897,7 @@ async function applyVoucher() {
     return;
   }
 
+  _voucherApplying = true;
   btn.disabled = true;
   btn.textContent = '...';
   msg.textContent = '';
@@ -6918,8 +6930,11 @@ async function applyVoucher() {
     msg.className = 'voucher-msg err';
     msg.textContent = isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Try again.';
   } finally {
-    btn.disabled = false;
-    btn.textContent = isSr ? 'Primeni' : 'Apply';
+    _voucherApplying = false;
+    if (!_appliedVoucher) {
+      btn.disabled = false;
+      btn.textContent = isSr ? 'Primeni' : 'Apply';
+    }
   }
 }
 
