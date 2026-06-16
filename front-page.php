@@ -2702,6 +2702,7 @@
       /* Suit row - icon+text fill row 1, counter+price wrap to row 2 */
       .suit-row { padding: 14px 12px; gap: 8px; flex-wrap: wrap; }
       .suit-row .e-txt { min-width: 0; } /* flex:1 already set; expands to fill row so counter wraps */
+      .suit-row .e-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .suit-row .counter { margin-left: auto; } /* right-align counter on row 2 */
 
       /* Extra toggle cards - grid so price+toggle never overlap long title */
@@ -2726,6 +2727,8 @@
 
       /* Date row price - ne izlazi van granica */
       .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; }
+      .term-mid { min-width: 0; overflow: hidden; }
+      .low-stock-badge { white-space: nowrap; }
       .term-price { min-width: 62px; overflow: visible; }
       .t-price-v { font-size: 17px; }
       .t-price-unit { font-size: 10px; }
@@ -5990,7 +5993,7 @@ async function loadPrice() {
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
     // Reveal Box - flat 25€, dodajemo na frontendu
-    if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'fizički koverat na adresu':'physical envelope to address')}</span><span>+25€</span></div>`;
+    if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'iznenađenje na tvojoj adresi':'surprise at your address')}</span><span>+25€</span></div>`;
     rows.innerHTML = html;
     // Osnovna cena (bez vaučera) + reveal box
     const revealBoxExtra = S.hasRevealBox ? 25 : 0;

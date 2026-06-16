@@ -138,14 +138,6 @@
     }
     .ty-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(202,138,113,.45); }
 
-    /* ── LOGO ── */
-    .ty-logo {
-      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-      text-decoration: none; z-index: 10; display: inline-flex; align-items: center;
-    }
-    .ty-logo img { height: 42px; width: auto; display: block; }
-    @media (max-width: 560px) { .ty-logo img { height: 34px; } }
-
     /* ── INSTAGRAM ── */
     .ty-ig {
       margin-top: 24px; font-size: 13px; color: var(--gray);
@@ -313,8 +305,6 @@
 <body>
 
 <canvas id="confetti-canvas"></canvas>
-
-<a href="/" class="ty-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo-white.svg" alt="Escapii"></a>
 
 <div class="ty-card">
 
