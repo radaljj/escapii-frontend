@@ -3946,7 +3946,7 @@
     <div style="text-align:center;margin-bottom:22px;">
       <div style="font-size:40px;margin-bottom:10px;">📦</div>
       <h3 class="rdm-title" data-i18n="revealbox.modal.title">Adresa za dostavu Reveal Box-a</h3>
-      <p class="rdm-sub" data-i18n="revealbox.modal.sub">Unesite adresu na koju da pošaljemo koverat sa iznenađenjem.</p>
+      <p class="rdm-sub" data-i18n="revealbox.modal.sub">Unesite adresu na koju da vam pošaljemo iznenađenje.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div>
@@ -4207,7 +4207,7 @@ const TR = {
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
     'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
-    'revealbox.modal.sub':'Unesite adresu na koju da pošaljemo koverat sa iznenađenjem.',
+    'revealbox.modal.sub':'Unesite adresu na koju da vam pošaljemo iznenađenje.',
     'revealbox.address':'Ulica i broj', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
     'revealbox.confirm':'Potvrdi adresu →', 'revealbox.skip':'Odustani',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
@@ -4452,7 +4452,7 @@ const TR = {
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
     'revealbox.modal.title':'Reveal Box Delivery Address',
-    'revealbox.modal.sub':'Enter the address where we should send your surprise envelope.',
+    'revealbox.modal.sub':'Enter the address where we should send your surprise.',
     'revealbox.address':'Street address', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
     'revealbox.confirm':'Confirm address →', 'revealbox.skip':'Cancel',
     'ext.ins.tip.title':'🛡️ Travel insurance',
@@ -6236,6 +6236,7 @@ async function submitBooking() {
         returnDate: S.selectedDate?.returnDate || '',
         ref:        d.bookingRef,
         travelers:  S.travelers || 1,
+        hasRevealBox: !!S.hasRevealBox,
         passengers: passengers.map(p => (p.name || '').toUpperCase()).filter(Boolean)
       }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);

@@ -599,6 +599,21 @@ const TY = {
   document.querySelector('.ty-ig').innerHTML = tr.ig + ' <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener">@escapii.rs</a>';
 })();
 
+// ── Reveal Box: korak 4 menja tekst u "Iznenađenje na tvojoj adresi"
+// (samo za korisnike koji su odabrali fizički Reveal Box; ostali zadržavaju digitalni reveal)
+(function applyRevealBoxStep() {
+  if (!bp || !bp.hasRevealBox) return;
+  const t4 = document.getElementById('step4-title');
+  const d4 = document.getElementById('step4-desc');
+  if (lang === 'en') {
+    if (t4) t4.textContent = 'Surprise at your address - 48h before departure';
+    if (d4) d4.textContent = 'Your Reveal Box arrives at your address and reveals where you\'re going. 📦';
+  } else {
+    if (t4) t4.textContent = 'Iznenađenje na tvojoj adresi - 48h pre polaska';
+    if (d4) d4.textContent = 'Reveal Box stiže na tvoju adresu i otkriva gde putuješ. 📦';
+  }
+})();
+
 // ── Confetti animacija
 (function () {
   const canvas = document.getElementById('confetti-canvas');
