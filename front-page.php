@@ -2728,7 +2728,8 @@
 
       /* Date row price - ne izlazi van granica */
       .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; overflow: visible; }
-      .term-mid { min-width: 0; }
+      .term-mid { min-width: 0; align-items: center; justify-content: center; text-align: center; }
+      .t-nights-pill { white-space: nowrap; }
       /* "Ostalo X" lebdi kao tag na gornjoj ivici kartice - ne stoji ispod "3 noći" */
       .low-stock-badge {
         position: absolute; top: -9px; left: 14px; z-index: 3;
