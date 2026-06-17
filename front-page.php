@@ -1084,6 +1084,7 @@
     }
     @keyframes pulse-badge { 0%,100%{box-shadow:0 0 6px rgba(239,68,68,.15);} 50%{box-shadow:0 0 14px rgba(239,68,68,.4);} }
     @keyframes blink-dot { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+    @keyframes badge-float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
     /* ── Month accordion ──────────────────────────── */
     .month-card {
       margin-bottom: 12px; border-radius: 18px; overflow: hidden;
@@ -2726,9 +2727,16 @@
       .traveler-triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
       /* Date row price - ne izlazi van granica */
-      .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; }
-      .term-mid { min-width: 0; overflow: hidden; }
-      .low-stock-badge { white-space: nowrap; }
+      .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; overflow: visible; }
+      .term-mid { min-width: 0; }
+      /* "Ostalo X" lebdi kao tag na gornjoj ivici kartice - ne stoji ispod "3 noći" */
+      .low-stock-badge {
+        position: absolute; top: -9px; left: 14px; z-index: 3;
+        white-space: nowrap;
+        background: #2a1416; border-color: rgba(239,68,68,.5);
+        box-shadow: 0 4px 12px rgba(0,0,0,.28);
+        animation: badge-float 2.6s ease-in-out infinite, pulse-badge 2s ease-in-out infinite;
+      }
       .term-price { min-width: 62px; overflow: visible; }
       .t-price-v { font-size: 17px; }
       .t-price-unit { font-size: 10px; }
