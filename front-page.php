@@ -2730,13 +2730,19 @@
       .term { grid-template-columns: auto 1fr minmax(62px, auto); gap: 10px; padding: 12px 14px; overflow: visible; }
       .term-mid { min-width: 0; align-items: center; justify-content: center; text-align: center; }
       .t-nights-pill { white-space: nowrap; }
-      /* "Ostalo X" lebdi kao tag na gornjoj ivici kartice - ne stoji ispod "3 noći" */
-      .low-stock-badge {
+      /* "Ostalo X" / "Samo X mesta" lebde kao tag na gornjoj ivici kartice - ne stoje ispod "3 noći" */
+      .low-stock-badge, .sold-out-badge {
         position: absolute; top: -9px; left: 14px; z-index: 3;
         white-space: nowrap;
-        background: #2a1416; border-color: rgba(239,68,68,.5);
         box-shadow: 0 4px 12px rgba(0,0,0,.28);
+        animation: badge-float 2.6s ease-in-out infinite;
+      }
+      .low-stock-badge {
+        background: #2a1416; border-color: rgba(239,68,68,.5);
         animation: badge-float 2.6s ease-in-out infinite, pulse-badge 2s ease-in-out infinite;
+      }
+      .sold-out-badge {
+        background: #232527; border-color: rgba(255,255,255,.18); color: rgba(255,255,255,.7);
       }
       .term-price { min-width: 62px; overflow: visible; }
       .t-price-v { font-size: 17px; }
