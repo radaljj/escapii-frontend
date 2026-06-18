@@ -2703,7 +2703,7 @@
       /* Suit row - icon+text fill row 1, counter+price wrap to row 2 */
       .suit-row { padding: 14px 12px; gap: 8px; flex-wrap: wrap; }
       .suit-row .e-txt { min-width: 0; } /* flex:1 already set; expands to fill row so counter wraps */
-      .suit-row .e-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .suit-row .e-label { white-space: normal; word-break: break-word; line-height: 1.3; }
       .suit-row .counter { margin-left: auto; } /* right-align counter on row 2 */
 
       /* Extra toggle cards - grid so price+toggle never overlap long title */
@@ -3969,6 +3969,10 @@
         <input id="rbAddress" class="rdm-input" type="text" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200">
       </div>
       <div>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</label>
+        <input id="rbApartment" class="rdm-input" type="text" placeholder="npr. stan 5, 2. sprat" maxlength="150">
+      </div>
+      <div>
         <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.city">Grad i poštanski broj</label>
         <input id="rbCity" class="rdm-input" type="text" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100">
       </div>
@@ -4223,7 +4227,7 @@ const TR = {
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
     'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
     'revealbox.modal.sub':'Unesite adresu na koju da vam pošaljemo iznenađenje.',
-    'revealbox.address':'Ulica i broj', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
+    'revealbox.address':'Ulica i broj', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
     'revealbox.confirm':'Potvrdi adresu →', 'revealbox.skip':'Odustani',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
@@ -4468,7 +4472,7 @@ const TR = {
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
     'revealbox.modal.title':'Reveal Box Delivery Address',
     'revealbox.modal.sub':'Enter the address where we should send your surprise.',
-    'revealbox.address':'Street address', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
+    'revealbox.address':'Street address', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
     'revealbox.confirm':'Confirm address →', 'revealbox.skip':'Cancel',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
@@ -4906,7 +4910,7 @@ const S = {
   step:1, airport:null, travelers:1,
   selectedDateId:null, selectedDate:null, accommodationType:'STANDARD',
   cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
-  hasRevealBox:false, deliveryAddress:'', deliveryCity:'', deliveryPhone:'',
+  hasRevealBox:false, deliveryAddress:'', deliveryApartment:'', deliveryCity:'', deliveryPhone:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   lastPrice:null
 };
@@ -5340,7 +5344,7 @@ function buildDateRow(d) {
   const stockBadge = notEnoughSlots
     ? `<span class="sold-out-badge">⛔ ${lang==='sr'?`Samo ${d.availableSlots} mesta`:`Only ${d.availableSlots} spots`}</span>`
     : isLowStock
-      ? `<span class="low-stock-badge">${lang==='sr'?`Ostalo ${d.availableSlots}`:`${d.availableSlots} left`}</span>`
+      ? `<span class="low-stock-badge">${lang==='sr'?`Još ${d.availableSlots} mesta`:`${d.availableSlots} spots left`}</span>`
       : '';
 
   const cls = notEnoughSlots ? 'term disabled' : `term${isSelected?' on':''}`;
@@ -5562,6 +5566,7 @@ function togRevealBox(el) {
     // Isključi - resetuj
     S.hasRevealBox = false;
     S.deliveryAddress = '';
+    S.deliveryApartment = '';
     S.deliveryCity = '';
     S.deliveryPhone = '';
     el.classList.remove('on');
@@ -5580,6 +5585,7 @@ function closeRevealBoxModal(confirm) {
 }
 function confirmRevealBoxAddress() {
   const addr  = document.getElementById('rbAddress').value.trim();
+  const apt   = document.getElementById('rbApartment').value.trim();
   const city  = document.getElementById('rbCity').value.trim();
   const phone = document.getElementById('rbPhone').value.trim();
   const errEl = document.getElementById('rbError');
@@ -5591,6 +5597,7 @@ function confirmRevealBoxAddress() {
   errEl.style.display = 'none';
   S.hasRevealBox = true;
   S.deliveryAddress = addr;
+  S.deliveryApartment = apt;
   S.deliveryCity = city;
   S.deliveryPhone = phone;
   document.getElementById('ec-hasRevealBox').classList.add('on');
@@ -6224,6 +6231,7 @@ async function submitBooking() {
     hasConnectingFlights:S.hasConnectingFlights,
     hasRevealBox:S.hasRevealBox,
     deliveryAddress:S.hasRevealBox ? S.deliveryAddress : null,
+    deliveryApartment:S.hasRevealBox ? (S.deliveryApartment || null) : null,
     deliveryCity:S.hasRevealBox ? S.deliveryCity : null,
     deliveryPhone:S.hasRevealBox ? S.deliveryPhone : null,
     excludedDestination1Id:S.excludedIds[0]||null,

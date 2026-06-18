@@ -605,7 +605,7 @@ $site_url  = get_site_url();
                  data-i18n-ph="gift.buyer.email.ph" placeholder="tvoj@email.com">
         </div>
         <div class="gf-field">
-          <label class="gf-label" data-i18n="gift.buyer.name.label">Ime i prezime (piše se na vaučeru)</label>
+          <label class="gf-label" data-i18n="gift.buyer.name.label">Ime i prezime na vaučeru</label>
           <input class="gf-input" id="vBuyerName" type="text" autocomplete="given-name"
                  data-i18n-ph="gift.buyer.name.ph" placeholder="Marko Marković">
         </div>
@@ -696,7 +696,7 @@ const TR = {
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> - vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Email za dostavu vaučera',
     'gift.buyer.email.ph':   'tvoj@email.com',
-    'gift.buyer.name.label': 'Ime i prezime (piše se na vaučeru)',
+    'gift.buyer.name.label': 'Ime i prezime na vaučeru',
     'gift.buyer.name.ph':    'Marko Marković',
     'gift.msg.label':        'Poruka na vaučeru (opciono)',
     'gift.msg.ph':           'Ovo putovanje je posebno za tebe...',
@@ -728,7 +728,7 @@ const TR = {
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> - the voucher reduces that price.',
     'gift.buyer.email.label':'Email for voucher delivery',
     'gift.buyer.email.ph':   'your@email.com',
-    'gift.buyer.name.label': 'Full name (printed on voucher)',
+    'gift.buyer.name.label': 'Full name on voucher',
     'gift.buyer.name.ph':    'Marko Markovic',
     'gift.msg.label':        'Message on the voucher (optional)',
     'gift.msg.ph':           'This trip is something special for you...',

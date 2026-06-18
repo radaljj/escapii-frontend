@@ -1134,15 +1134,26 @@ function showPriceBreakdown(b) {
   document.getElementById('pricePopupTitle').textContent = `Cenovnik - ${b.bookingRef}`;
   const rows = [];
   const tr = (label, val) => `<tr><td>${label}</td><td>${val}</td></tr>`;
+  const n = b.numberOfTravelers || 1;
+  // Broj noći (za doručak) - iz polja ili izračunato iz datuma
+  let nights = b.numberOfNights;
+  if (!nights && b.departureDate && b.returnDate) {
+    nights = Math.round((new Date(b.returnDate) - new Date(b.departureDate)) / 86400000);
+  }
+  // ── Po osobi (množi se brojem putnika) ──
   rows.push(tr('Osnovna cena', `${b.basePricePerPerson}€/os`));
   if (b.accommodationType === 'SUPERIOR') rows.push(tr('Superior hotel', '+100€/os'));
-  if (b.hasBreakfast)       rows.push(tr('Doručak', '+15€/os'));
-  if (b.cabinSuitcaseCount > 0) rows.push(tr(`Kofer × ${b.cabinSuitcaseCount}`, `+${50 * b.cabinSuitcaseCount}€/os`));
-  if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€ flat`));
-  if (b.hasInsurance)       rows.push(tr('Osiguranje', '+20€ flat'));
-  if (b.hasSeatsTogther)    rows.push(tr('Sedišta zajedno', '+20€/os'));
+  if (b.hasBreakfast)     rows.push(tr(`Doručak${nights ? ' ('+nights+' noći)' : ''}`, `+${20 * (nights || 0)}€/os`));
+  if (b.hasInsurance)     rows.push(tr('Osiguranje', '+12€/os'));
+  if (b.hasSeatsTogether) rows.push(tr('Sedišta zajedno', '+24€/os'));
+  rows.push(`<tr class="subtotal"><td>Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}</td><td>${b.totalPricePerPerson * n}€</td></tr>`);
+  // ── Flat doplate (NE množe se brojem putnika) ──
+  if (b.cabinSuitcaseCount > 0) rows.push(tr(`Ručni kofer × ${b.cabinSuitcaseCount}`, `+${100 * b.cabinSuitcaseCount}€`));
+  if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€`));
+  if (n === 1)            rows.push(tr('Doplata za solo putnika', '+60€'));
+  if (b.hasRevealBox)     rows.push(tr('📦 Reveal Box', '+25€'));
   if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${b.appliedVoucherCode || ''})`, `−${b.voucherDiscount}€`));
-  rows.push(`<tr class="total"><td><strong>${b.totalPricePerPerson}€/os × ${b.numberOfTravelers}</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
+  rows.push(`<tr class="total"><td><strong>UKUPNO</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
   document.getElementById('pricePopupTable').innerHTML = rows.join('');
   document.getElementById('pricePopupOverlay').classList.add('open');
 }
@@ -2170,6 +2181,7 @@ function renderBookings() {
         <div class="bc-reveal-box-header">📦 Reveal Box - adresa dostave</div>
         <div class="bc-reveal-box-body">
           <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '-'}</span></div>
+          ${b.deliveryApartment ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Stan/sprat</span><span>${b.deliveryApartment}</span></div>` : ''}
           <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '-'}</span></div>
           <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '-'}</span></div>
           <div style="margin-top:12px;">
