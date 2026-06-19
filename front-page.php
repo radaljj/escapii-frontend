@@ -3965,7 +3965,7 @@
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.address">Ulica i broj</label>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.address">Ulica i broj <span style="color:#f87171;">*</span></label>
         <input id="rbAddress" class="rdm-input" type="text" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200">
       </div>
       <div>
@@ -3973,11 +3973,11 @@
         <input id="rbApartment" class="rdm-input" type="text" placeholder="npr. stan 5, 2. sprat" maxlength="150">
       </div>
       <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.city">Grad i poštanski broj</label>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.city">Grad i poštanski broj <span style="color:#f87171;">*</span></label>
         <input id="rbCity" class="rdm-input" type="text" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100">
       </div>
       <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.phone">Telefon za dostavu</label>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.phone">Telefon za dostavu <span style="color:#f87171;">*</span></label>
         <input id="rbPhone" class="rdm-input" type="tel" placeholder="+381641234567" autocomplete="tel" maxlength="20">
       </div>
     </div>
@@ -4227,7 +4227,7 @@ const TR = {
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
     'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
     'revealbox.modal.sub':'Unesite adresu na koju da vam pošaljemo iznenađenje.',
-    'revealbox.address':'Ulica i broj', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
+    'revealbox.address':'Ulica i broj <span style="color:#f87171;">*</span>', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj <span style="color:#f87171;">*</span>', 'revealbox.phone':'Telefon za dostavu <span style="color:#f87171;">*</span>',
     'revealbox.confirm':'Potvrdi adresu →', 'revealbox.skip':'Odustani',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
@@ -4472,7 +4472,7 @@ const TR = {
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
     'revealbox.modal.title':'Reveal Box Delivery Address',
     'revealbox.modal.sub':'Enter the address where we should send your surprise.',
-    'revealbox.address':'Street address', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
+    'revealbox.address':'Street address <span style="color:#f87171;">*</span>', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code <span style="color:#f87171;">*</span>', 'revealbox.phone':'Phone for delivery <span style="color:#f87171;">*</span>',
     'revealbox.confirm':'Confirm address →', 'revealbox.skip':'Cancel',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
@@ -5591,7 +5591,7 @@ function confirmRevealBoxAddress() {
   const errEl = document.getElementById('rbError');
   if (!addr || !city || !phone) {
     errEl.style.display = 'block';
-    errEl.textContent = lang === 'sr' ? 'Sva polja su obavezna.' : 'All fields are required.';
+    errEl.textContent = lang === 'sr' ? 'Popunite sva obavezna polja.' : 'Please fill in all required fields.';
     return;
   }
   errEl.style.display = 'none';
