@@ -3969,16 +3969,16 @@
         <input id="rbAddress" class="rdm-input" type="text" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200">
       </div>
       <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</label>
-        <input id="rbApartment" class="rdm-input" type="text" placeholder="npr. stan 5, 2. sprat" maxlength="150">
-      </div>
-      <div>
         <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.city">Grad i poštanski broj <span style="color:#f87171;">*</span></label>
         <input id="rbCity" class="rdm-input" type="text" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100">
       </div>
       <div>
         <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.phone">Telefon za dostavu <span style="color:#f87171;">*</span></label>
         <input id="rbPhone" class="rdm-input" type="tel" placeholder="+381641234567" autocomplete="tel" maxlength="20">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</label>
+        <input id="rbApartment" class="rdm-input" type="text" placeholder="npr. stan 5, 2. sprat" maxlength="150">
       </div>
     </div>
     <div id="rbError" style="display:none;color:#f87171;font-size:12px;margin-top:10px;text-align:center;"></div>
