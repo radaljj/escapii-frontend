@@ -291,9 +291,20 @@ $site_url  = get_site_url();
       .gv-voucher { width:360px; }
       .gv-badge.gv-cal { left:0; } .gv-badge.gv-mystery { right:0; }
     }
-    @media (max-width:520px) {
-      .gv-voucher { width:300px; }
-      .gv-stage::before { width:280px; height:280px; }
+    /* Mobilni: bez rotacije (da se ne seče cena), širina vezana za ekran */
+    @media (max-width:600px) {
+      .gv-stage { height:auto; padding:24px 0 8px; overflow:visible; }
+      .gv-voucher { width:min(340px, 86vw); transform:rotate(0);
+        animation:gv-float-flat 6s ease-in-out infinite; }
+      @keyframes gv-float-flat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+      .gv-stage::before { width:240px; height:240px; }
+      .gv-badge { padding:10px 13px; }
+      .gv-badge.gv-mystery { top:6px; right:0; }
+      .gv-badge.gv-cal { bottom:6px; left:0; }
+    }
+    @media (max-width:360px) {
+      .gv-stub { width:104px; padding:20px 12px; }
+      .gv-stub-amt { font-size:34px; }
     }
 
     /* ══ SECTIONS WRAPPER ════════════════════════════════════════════════════ */
