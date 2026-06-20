@@ -2277,7 +2277,23 @@
       border-top: 2px solid rgba(202,138,113,.35);
     }
     .bs-total-label { font-size: 16px; font-weight: 800; color: rgba(255,255,255,.9); }
-    .bs-total-price { font-size: 34px; font-weight: 900; color: var(--accent); line-height: 1; }
+    .bs-total-price { font-family: Georgia,'Times New Roman',serif; font-size: 38px; font-weight: 700; color: #fff; line-height: 1; letter-spacing: -.5px; }
+    .bs-total-price .cur { color: var(--accent); font-style: italic; }
+    .bs-total-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    /* Pregled cena - redizajn (ikonica + naslov/podnaslov + iznos) */
+    .bs-sec-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin: 16px 0 4px; }
+    .bs-line { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 13px;
+      padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .bs-line:last-child { border-bottom: none; }
+    .bs-line-ic { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); font-size: 17px; }
+    .bs-line-main { min-width: 0; }
+    .bs-line-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.3; }
+    .bs-line-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+    .bs-line-amt { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
+    .bs-line-amt.add { color: var(--accent); }
+    .bs-line-amt.disc { color: #86efac; }
 
     /* ══════════════════════ FOOTER */
     /* ── Call-us section ── */
@@ -6071,36 +6087,70 @@ function updateSummaryCard() {
   if (S.lastPrice) {
     const p = S.lastPrice;
     const isSr = lang === 'sr';
-    const mul = (pp, total) => `${pp}€ × ${n} = ${total}€`;
-    priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.base')}</span><span>${mul(p.basePricePerPerson, p.basePricePerPerson * n)}</span></div>`;
+    const fmt = v => Number(v).toLocaleString(isSr ? 'sr-RS' : 'en-US');
+    const pax = isSr ? 'putnika' : 'travelers';
+    const line = (ic, title, subtxt, amt, cls) =>
+      `<div class="bs-line"><div class="bs-line-ic">${ic}</div>`
+      + `<div class="bs-line-main"><div class="bs-line-title">${title}</div>`
+      + (subtxt ? `<div class="bs-line-sub">${subtxt}</div>` : '')
+      + `</div><div class="bs-line-amt ${cls||''}">${amt}</div></div>`;
+
+    // ── OSNOVNO ──
+    priceRowsHtml += `<div class="bs-sec-label">${isSr?'Osnovno':'Base'}</div>`;
+    priceRowsHtml += line('✈', t('pr.base'),
+        `${p.basePricePerPerson} € × ${n} ${pax}`,
+        `${fmt(p.basePricePerPerson * n)} €`, '');
+
+    // ── DODACI PO ŽELJI ──
+    let addons = '';
     if (p.accommodationExtraPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.accom')}</span><span>+${mul(p.accommodationExtraPerPerson, p.accommodationExtraPerPerson * n)}</span></div>`;
+      addons += line('🏨', t('pr.accom'),
+        `+${p.accommodationExtraPerPerson} € × ${n} ${pax}`,
+        `+ ${fmt(p.accommodationExtraPerPerson * n)} €`, 'add');
     if (p.cabinSuitcaseTotal > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
+      addons += line('🧳', t('pr.suit'),
+        `${p.cabinSuitcaseCount} × 100 €`,
+        `+ ${fmt(p.cabinSuitcaseTotal)} €`, 'add');
     if (p.insurancePerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.ins')}</span><span>+${mul(p.insurancePerPerson, p.insurancePerPerson * n)}</span></div>`;
+      addons += line('🛡️', t('pr.ins'),
+        `+${p.insurancePerPerson} € × ${n} ${pax}`,
+        `+ ${fmt(p.insurancePerPerson * n)} €`, 'add');
     if (p.breakfastPerPerson > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.bfst')} (${p.numberOfNights} ${isSr?'noći':'nights'} × ${n} ${isSr?'osoba':'pp'})</span><span>+${p.breakfastPerPerson * n}€</span></div>`;
+      addons += line('☕', t('pr.bfst'),
+        `${p.numberOfNights} ${isSr?'noći':'nights'} × ${n} ${isSr?'osoba':'pp'}`,
+        `+ ${fmt(p.breakfastPerPerson * n)} €`, 'add');
     if (p.seatsTogether > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.seats')}</span><span>+${mul(p.seatsTogether, p.seatsTogether * n)}</span></div>`;
+      addons += line('💺', t('pr.seats'),
+        `+${p.seatsTogether} € × ${n} ${pax}`,
+        `+ ${fmt(p.seatsTogether * n)} €`, 'add');
     if (p.exclusionCostFlat > 0) {
       const exclPP = Math.round(p.exclusionCostFlat / n);
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.excl')}</span><span>+${mul(exclPP, p.exclusionCostFlat)}</span></div>`;
+      addons += line('🚫', t('pr.excl'),
+        `+${exclPP} € × ${n} ${pax}`,
+        `+ ${fmt(p.exclusionCostFlat)} €`, 'add');
     }
     if (p.soloSurcharge > 0)
-      priceRowsHtml += `<div class="bs-pr-row"><span>${t('pr.solo')}</span><span>+${p.soloSurcharge}€</span></div>`;
+      addons += line('👤', t('pr.solo'),
+        isSr?'jednokratna doplata':'one-time surcharge',
+        `+ ${fmt(p.soloSurcharge)} €`, 'add');
     if (S.hasRevealBox)
-      priceRowsHtml += `<div class="bs-pr-row"><span>📦 ${lang==='sr'?'Reveal Box':'Reveal Box'}</span><span>+25€</span></div>`;
+      addons += line('🎁', 'Reveal Box ✨',
+        isSr?'paket iznenađenja':'surprise package',
+        `+ 25 €`, 'add');
 
     // Vaučer popust
     const revealBoxExtra8 = S.hasRevealBox ? 25 : 0;
     const vDisc8 = _appliedVoucher ? _appliedVoucher.amount : 0;
-    if (vDisc8 > 0) {
-      priceRowsHtml += `<div class="bs-pr-row" style="color:#86efac;"><span>🎟️ ${lang==='sr'?'Poklon vaučer':'Gift voucher'} <span style="font-family:monospace;font-size:11px;opacity:.65;margin-left:4px;">${_appliedVoucher.code}</span></span><span>−${vDisc8}€</span></div>`;
-    }
+    if (vDisc8 > 0)
+      addons += line('🎟️', isSr?'Poklon vaučer':'Gift voucher',
+        _appliedVoucher.code,
+        `− ${fmt(vDisc8)} €`, 'disc');
+
+    if (addons)
+      priceRowsHtml += `<div class="bs-sec-label">${isSr?'Dodaci po želji':'Optional add-ons'}</div>` + addons;
 
     const finalAmt8 = Math.max(0, p.totalEurAll + revealBoxExtra8 - vDisc8);
-    totalHtml = `${finalAmt8}€`;
+    totalHtml = `${fmt(finalAmt8)} <span class="cur">€</span>`;
   }
 
   el.innerHTML = `
@@ -6119,7 +6169,10 @@ function updateSummaryCard() {
     <div class="bs-price-rows">
       ${priceRowsHtml}
       <div class="bs-total">
-        <div class="bs-total-label">${lang==='sr'?'Ukupno':'Total'}</div>
+        <div>
+          <div class="bs-total-label">${lang==='sr'?'Ukupno':'Total'}</div>
+          <div class="bs-total-sub">${lang==='sr'?'PDV uključen · plaćanje jednokratno':'VAT included · one-time payment'}</div>
+        </div>
         <div class="bs-total-price">${totalHtml}</div>
       </div>
     </div>
