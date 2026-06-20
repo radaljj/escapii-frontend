@@ -212,8 +212,10 @@ $site_url  = get_site_url();
       background:
         radial-gradient(60% 90% at 18% -10%, rgba(80,130,140,.5) 0%, rgba(22,49,58,0) 60%),
         radial-gradient(50% 80% at 92% 115%, rgba(200,119,90,.22) 0%, rgba(22,49,58,0) 60%); }
-    .gv-hero::after { content:""; position:absolute; inset:0; z-index:0; opacity:.5;
+    .gv-hero::after { content:""; position:absolute; inset:0; z-index:0; opacity:.4;
       background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px); background-size:28px 28px; }
+    /* Suptilne konture / putanje leta preko teala */
+    .gv-bg { position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:.5; }
     .gv-grid { position:relative; z-index:2; max-width:1200px; margin:0 auto;
       display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
 
@@ -665,6 +667,31 @@ $site_url  = get_site_url();
 
 <!-- HERO -->
 <section class="gv-hero" id="gift-top">
+
+  <!-- Dekorativni sloj: konture + putanja leta (suptilno preko teala) -->
+  <svg class="gv-bg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="gvLine" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0"   stop-color="#7fb0a0" stop-opacity="0"/>
+        <stop offset=".5"  stop-color="#a9d0c4" stop-opacity=".9"/>
+        <stop offset="1"   stop-color="#c8775a" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#gvLine)" stroke-width="1">
+      <path d="M-60 90  C 220 30, 420 150, 660 95  S 1040 30, 1280 110"/>
+      <path d="M-60 170 C 200 110, 440 220, 680 160 S 1060 110, 1280 185"/>
+      <path d="M-60 255 C 240 200, 420 300, 660 250 S 1080 195, 1280 270"/>
+      <path d="M-60 340 C 200 285, 460 385, 700 335 S 1060 285, 1280 350"/>
+      <path d="M-60 425 C 240 370, 420 470, 660 420 S 1080 370, 1280 440"/>
+      <path d="M-60 510 C 200 455, 460 555, 700 505 S 1060 455, 1280 525"/>
+    </g>
+    <!-- putanja leta -->
+    <path d="M150 470 Q 600 200 1060 360" fill="none" stroke="#f0c3ae" stroke-width="1.3"
+          stroke-dasharray="3 9" stroke-linecap="round" opacity=".55"/>
+    <circle cx="150" cy="470" r="3.5" fill="#f0c3ae" opacity=".7"/>
+    <circle cx="1060" cy="360" r="3.5" fill="#f0c3ae" opacity=".7"/>
+  </svg>
+
   <div class="gv-grid">
 
     <!-- LEVO: tekst -->
