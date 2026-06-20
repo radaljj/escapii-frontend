@@ -206,6 +206,96 @@ $site_url  = get_site_url();
       .gift-hero-card { max-width: 100%; }
     }
 
+    /* ══ NOVI GIFT HERO (gv-) — sistemski font + Georgia za vaučer ═══════════ */
+    .gv-hero { position:relative; background:#16313a; overflow:hidden; padding:120px 56px 104px; }
+    .gv-hero::before { content:""; position:absolute; inset:0; z-index:0;
+      background:
+        radial-gradient(60% 90% at 18% -10%, rgba(80,130,140,.5) 0%, rgba(22,49,58,0) 60%),
+        radial-gradient(50% 80% at 92% 115%, rgba(200,119,90,.22) 0%, rgba(22,49,58,0) 60%); }
+    .gv-hero::after { content:""; position:absolute; inset:0; z-index:0; opacity:.5;
+      background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px); background-size:28px 28px; }
+    .gv-grid { position:relative; z-index:2; max-width:1200px; margin:0 auto;
+      display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+
+    .gv-pill { display:inline-flex; align-items:center; gap:9px;
+      font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fbe3d6;
+      background:rgba(200,119,90,.2); border:1px solid rgba(200,119,90,.5);
+      padding:8px 16px; border-radius:100px; margin-bottom:26px; }
+    .gv-h1 { font-weight:800; color:#fff; margin:0 0 20px;
+      font-size:clamp(40px,4.6vw,62px); line-height:1.05; letter-spacing:-1.5px; }
+    .gv-h1 em { font-style:italic; color:#f0c3ae; }
+    .gv-sub { font-size:19px; line-height:1.6; color:rgba(255,255,255,.74); margin:0 0 34px; max-width:42ch; }
+    .gv-cta { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    .gv-btn { font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; border:none; font-family:inherit;
+      display:inline-flex; align-items:center; gap:10px; padding:17px 30px; border-radius:100px; transition:.2s; }
+    .gv-btn-primary { background:#a85e44; color:#fff; box-shadow:0 16px 34px -16px rgba(168,94,68,.8); }
+    .gv-btn-primary:hover { background:#c8775a; transform:translateY(-2px); }
+    .gv-trust { display:flex; align-items:center; gap:9px; font-size:13px; color:rgba(255,255,255,.62); }
+    .gv-trust svg { width:15px; height:15px; color:#7fb0a0; }
+
+    .gv-stage { position:relative; height:480px; display:flex; align-items:center; justify-content:center; }
+    .gv-stage::before { content:""; position:absolute; width:380px; height:380px; border-radius:50%;
+      background:radial-gradient(circle, rgba(200,119,90,.4), transparent 68%); filter:blur(20px); }
+    .gv-voucher { position:relative; width:420px; transform:rotate(-7deg);
+      filter:drop-shadow(0 40px 70px rgba(0,0,0,.45)); animation:gv-float 6s ease-in-out infinite; }
+    @keyframes gv-float { 0%,100%{transform:rotate(-7deg) translateY(0);} 50%{transform:rotate(-7deg) translateY(-14px);} }
+    @media (prefers-reduced-motion:reduce) { .gv-voucher{ animation:none; } }
+
+    .gv-card { display:flex; background:#fffdf8; border-radius:18px; overflow:hidden; }
+    .gv-card-main { flex:1; padding:26px 24px; }
+    .gv-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+    .gv-logo { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:21px; color:#1a1410; letter-spacing:-.5px; }
+    .gv-logo i { font-style:italic; } .gv-logo b { color:#a85e44; font-weight:600; }
+    .gv-mini-tag { font-size:8px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+      color:#a85e44; border:1px solid #e6c6b6; background:#faf0ea; padding:5px 10px; border-radius:100px; }
+    .gv-route { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .gv-iata { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:38px; color:#1a1410; line-height:1; letter-spacing:-1px; }
+    .gv-iata.gv-dest { color:#a85e44; font-style:italic; }
+    .gv-iata-sub { font-size:8px; color:#a89888; letter-spacing:.5px; margin-top:4px; }
+    .gv-route .gv-mid { flex:1; text-align:center; padding:0 12px; }
+    .gv-plane { display:inline-block; color:#c8775a; font-size:18px; }
+    .gv-route .gv-ln { border-top:1.5px dashed #e0c3b2; margin-top:6px; }
+    .gv-row { display:flex; border-top:1px dashed #e7ddcd; padding-top:16px; }
+    .gv-cell { flex:1; }
+    .gv-cell .gv-k { font-size:7.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#a89888; }
+    .gv-cell .gv-v { font-size:12px; font-weight:700; color:#1a1410; margin-top:4px; }
+    .gv-cell .gv-v.gv-terra { color:#a85e44; }
+
+    .gv-stub { width:120px; background:#16313a; padding:24px 16px; position:relative;
+      border-left:2px dashed #d8cab2; display:flex; flex-direction:column; align-items:center; text-align:center; }
+    .gv-stub-k { font-size:7px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.5); margin-bottom:6px; }
+    .gv-stub-amt { font-family:Georgia,'Times New Roman',serif; font-weight:600; font-size:40px; color:#fff; line-height:1; }
+    .gv-stub-amt .gv-cur { color:#c8775a; font-size:18px; font-style:italic; }
+    .gv-stub-words { font-family:Georgia,serif; font-style:italic; font-size:9px; color:rgba(255,255,255,.6); margin:6px 0 18px; }
+    .gv-qr { width:72px; height:72px; border-radius:8px; background:#fff; padding:7px; margin-bottom:14px; }
+    .gv-qr svg { width:100%; height:100%; display:block; }
+    .gv-stub-foot { font-size:7px; color:rgba(255,255,255,.55); line-height:1.5; }
+
+    .gv-badge { position:absolute; z-index:4; background:#fffdf8; border-radius:14px;
+      box-shadow:0 18px 36px -18px rgba(0,0,0,.5); padding:13px 16px; display:flex; align-items:center; gap:11px;
+      animation:gv-float2 7s ease-in-out infinite; }
+    @keyframes gv-float2 { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+    .gv-badge .gv-ic { width:34px; height:34px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center;
+      font-family:Georgia,serif; font-weight:700; font-size:20px; }
+    .gv-badge .gv-tx b { font-size:12px; font-weight:700; color:#1a1410; display:block; line-height:1.2; }
+    .gv-badge .gv-tx small { font-size:10px; color:#6b5d4f; }
+    .gv-badge.gv-mystery { top:36px; right:-6px; animation-delay:.4s; }
+    .gv-badge.gv-mystery .gv-ic { background:#16313a; color:#f0c3ae; }
+    .gv-badge.gv-cal { bottom:48px; left:-18px; animation-delay:1.2s; }
+    .gv-badge.gv-cal .gv-ic { background:#faf0ea; color:#a85e44; }
+
+    @media (max-width:960px) {
+      .gv-hero { padding:96px 24px 72px; }
+      .gv-grid { grid-template-columns:1fr; gap:56px; }
+      .gv-stage { height:420px; }
+      .gv-voucher { width:360px; }
+      .gv-badge.gv-cal { left:0; } .gv-badge.gv-mystery { right:0; }
+    }
+    @media (max-width:520px) {
+      .gv-voucher { width:300px; }
+      .gv-stage::before { width:280px; height:280px; }
+    }
+
     /* ══ SECTIONS WRAPPER ════════════════════════════════════════════════════ */
     .gift-sections { padding: 0 0 80px; }
 
@@ -563,11 +653,76 @@ $site_url  = get_site_url();
 </div>
 
 <!-- HERO -->
-<section class="gift-hero" id="gift-top">
-  <div class="gift-eyebrow" data-i18n="gift.hero.badge">🎁 Poklon koji se pamti</div>
-  <h1 class="gift-h1" data-i18n-html="gift.hero.h1">Pokloni nekome <em>iznenađenje</em></h1>
-  <p class="gift-hero-sub" data-i18n="gift.hero.sub">Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru.</p>
-  <button class="gift-submit-btn" onclick="scrollToVoucher()" type="button" style="max-width:320px;margin-top:0;" data-i18n="gift.hero.cta">🎟️ Pokloni vaučer →</button>
+<section class="gv-hero" id="gift-top">
+  <div class="gv-grid">
+
+    <!-- LEVO: tekst -->
+    <div class="gv-copy">
+      <span class="gv-pill" data-i18n="gift.hero.badge">🎁 Poklon koji se pamti</span>
+      <h1 class="gv-h1" data-i18n-html="gift.hero.h1">Pokloni nekome <em>iznenađenje</em></h1>
+      <p class="gv-sub" data-i18n="gift.hero.sub">Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru. Destinaciju otkriva tek 48h pre polaska.</p>
+      <div class="gv-cta">
+        <button class="gv-btn gv-btn-primary" onclick="scrollToVoucher()" type="button" data-i18n="gift.hero.cta">🎟️ Pokloni vaučer →</button>
+        <span class="gv-trust">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          <span data-i18n="gift.hero.trust">Vaučer važi godinu dana</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- DESNO: vizuelni vaučer -->
+    <div class="gv-stage">
+      <div class="gv-voucher">
+        <div class="gv-card">
+          <div class="gv-card-main">
+            <div class="gv-card-top">
+              <span class="gv-logo">escap<i>ii</i><b>?</b></span>
+              <span class="gv-mini-tag">Poklon vaučer</span>
+            </div>
+            <div class="gv-route">
+              <div>
+                <div class="gv-iata">BEG</div>
+                <div class="gv-iata-sub">Beograd · bilo kada</div>
+              </div>
+              <div class="gv-mid">
+                <span class="gv-plane">✈</span>
+                <div class="gv-ln"></div>
+              </div>
+              <div style="text-align:right;">
+                <div class="gv-iata gv-dest">???</div>
+                <div class="gv-iata-sub">otkriva se 48h pre</div>
+              </div>
+            </div>
+            <div class="gv-row">
+              <div class="gv-cell"><div class="gv-k">Izdato</div><div class="gv-v">20.06.2026</div></div>
+              <div class="gv-cell"><div class="gv-k">Važi do</div><div class="gv-v gv-terra">20.06.2027</div></div>
+              <div class="gv-cell"><div class="gv-k">Vrednost</div><div class="gv-v">200 €</div></div>
+            </div>
+          </div>
+          <div class="gv-stub">
+            <div class="gv-stub-k">Vrednost</div>
+            <div class="gv-stub-amt">200<span class="gv-cur"> €</span></div>
+            <div class="gv-stub-words">— dvesta evra —</div>
+            <div class="gv-qr">
+              <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#16313a"><rect x="0" y="0" width="30" height="30"/><rect x="8" y="8" width="14" height="14" fill="#fff"/><rect x="70" y="0" width="30" height="30"/><rect x="78" y="8" width="14" height="14" fill="#fff"/><rect x="0" y="70" width="30" height="30"/><rect x="8" y="78" width="14" height="14" fill="#fff"/><rect x="40" y="0" width="8" height="8"/><rect x="52" y="0" width="8" height="8"/><rect x="40" y="14" width="8" height="8"/><rect x="60" y="14" width="8" height="8"/><rect x="0" y="40" width="8" height="8"/><rect x="14" y="40" width="8" height="8"/><rect x="40" y="40" width="8" height="8"/><rect x="52" y="48" width="8" height="8"/><rect x="64" y="40" width="8" height="8"/><rect x="76" y="48" width="8" height="8"/><rect x="88" y="40" width="8" height="8"/><rect x="40" y="60" width="8" height="8"/><rect x="60" y="60" width="8" height="8"/><rect x="80" y="64" width="8" height="8"/><rect x="40" y="76" width="8" height="8"/><rect x="56" y="80" width="8" height="8"/><rect x="72" y="76" width="8" height="8"/><rect x="88" y="80" width="8" height="8"/></g></svg>
+            </div>
+            <div class="gv-stub-foot">Skeniraj<br>escapii.rs/poklon</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating badge-ovi -->
+      <div class="gv-badge gv-mystery">
+        <span class="gv-ic">?</span>
+        <span class="gv-tx"><b>Tajna destinacija</b><small>otkriva se 48h pre</small></span>
+      </div>
+      <div class="gv-badge gv-cal">
+        <span class="gv-ic">12</span>
+        <span class="gv-tx"><b>Važi 12 meseci</b><small>iskoristi bilo kada</small></span>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!-- ═══ VAUČER SEKCIJA ═══════════════════════════════════════════════════════ -->
@@ -687,8 +842,9 @@ const TR = {
     'nav.gift.voucher':      'Poklon vaučer',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
     'gift.hero.h1':          'Pokloni nekome <em>iznenađenje</em>',
-    'gift.hero.sub':         'Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru.',
+    'gift.hero.sub':         'Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru. Destinaciju otkriva tek 48h pre polaska.',
     'gift.hero.cta':         '🎟️ Pokloni vaučer →',
+    'gift.hero.trust':       'Vaučer važi godinu dana',
     'gift.sec.voucher.tag':  'Poklon vaučer',
     'gift.sec.voucher.h':    'Odaberi iznos i pokloni nekome putovanje koje će pamtiti',
     'gift.sec.voucher.desc': 'Odaberi iznos vaučera, upiši ime i poruku - mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.',
@@ -719,8 +875,9 @@ const TR = {
     'nav.gift.voucher':      'Gift voucher',
     'gift.hero.badge':       '🎁 A gift they\'ll remember',
     'gift.hero.h1':          'Gift someone a <em>surprise</em>',
-    'gift.hero.sub':         'Choose a voucher amount - recipient uses it on any Escapii trip of their choice.',
+    'gift.hero.sub':         'Choose a voucher amount - recipient uses it on any Escapii trip of their choice. The destination is revealed only 48h before departure.',
     'gift.hero.cta':         '🎟️ Gift a voucher →',
+    'gift.hero.trust':       'Voucher valid for one year',
     'gift.sec.voucher.tag':  'Gift voucher',
     'gift.sec.voucher.h':    'Choose an amount and gift someone a trip they\'ll never forget',
     'gift.sec.voucher.desc': 'Choose a voucher amount, add a name and message - we generate a voucher with a unique code. The recipient uses it when booking any Escapii surprise trip, and the value is automatically deducted from the trip price. Valid for one year.',
