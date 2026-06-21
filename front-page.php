@@ -7327,8 +7327,20 @@ async function checkPrivateDateToken() {
     await Swal.fire({
       title: lang === 'sr' ? '🔒 Prilagođeni termin' : '🔒 Custom trip',
       html:  lang === 'sr'
-        ? `Tvoj prilagođeni termin je spreman!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} ${date.numberOfNights === 1 ? 'noć' : 'noći'} · ${S.travelers} ${S.travelers === 1 ? 'putnik' : 'putnika'}<br><br>Nastavi sa izborom smeštaja.`
-        : `Your custom trip is ready!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} night${date.numberOfNights !== 1 ? 's' : ''} · ${S.travelers} traveller${S.travelers !== 1 ? 's' : ''}<br><br>Continue with accommodation selection.`,
+        ? `Tvoj prilagođeni termin je spreman!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} ${date.numberOfNights === 1 ? 'noć' : 'noći'} · ${S.travelers} ${S.travelers === 1 ? 'putnik' : 'putnika'}`
+          + `<div style="margin:20px auto 0;max-width:300px;padding:16px;border:1px solid rgba(202,138,113,.35);border-radius:14px;background:rgba(202,138,113,.08);">`
+          + `<div style="font-size:13px;color:rgba(246,241,230,.7);">Za tvoje odabrane datume cena je</div>`
+          + `<div style="font-size:34px;font-weight:900;color:var(--accent);line-height:1.1;margin-top:6px;">${date.basePrice}€</div>`
+          + `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,241,230,.55);margin-top:2px;">po osobi</div>`
+          + `</div>`
+          + `<div style="margin-top:18px;font-size:14px;">Nastavi sa izborom smeštaja.</div>`
+        : `Your custom trip is ready!<br><strong>${departureFmt}</strong> · ${date.numberOfNights} night${date.numberOfNights !== 1 ? 's' : ''} · ${S.travelers} traveller${S.travelers !== 1 ? 's' : ''}`
+          + `<div style="margin:20px auto 0;max-width:300px;padding:16px;border:1px solid rgba(202,138,113,.35);border-radius:14px;background:rgba(202,138,113,.08);">`
+          + `<div style="font-size:13px;color:rgba(246,241,230,.7);">For your selected dates the price is</div>`
+          + `<div style="font-size:34px;font-weight:900;color:var(--accent);line-height:1.1;margin-top:6px;">€${date.basePrice}</div>`
+          + `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,241,230,.55);margin-top:2px;">per person</div>`
+          + `</div>`
+          + `<div style="margin-top:18px;font-size:14px;">Continue with accommodation selection.</div>`,
       icon:  'success',
       confirmButtonColor: 'var(--accent)',
       background: '#1a3a42',
