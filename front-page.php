@@ -4014,7 +4014,7 @@
       <p class="rdm-sub" id="rdmSub">Unesi kod koji si dobio/la i videćeš koliko iznosi</p>
       <input id="redeemCodeInp" class="rdm-input" type="text"
              placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20" autocomplete="off"
-             oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')"
+             oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'').replace(/0/g,'O').replace(/1/g,'I')"
              onkeydown="if(event.key==='Enter')checkRedeemCode()">
       <div id="redeemStatus" class="rdm-status" style="display:none;"></div>
       <button id="redeemCheckBtn" class="rdm-btn" onclick="checkRedeemCode()" type="button">
@@ -6039,7 +6039,7 @@ async function loadPrice() {
     // Osnovna cena (bez vaučera) + reveal box
     const revealBoxExtra = S.hasRevealBox ? 25 : 0;
     const baseTotal = p.totalEurAll + revealBoxExtra;
-    const vDisc = _appliedVoucher ? _appliedVoucher.amount : 0;
+    const vDisc = _appliedVoucher ? Math.min(_appliedVoucher.amount, baseTotal) : 0;
     const finalTotal = Math.max(0, baseTotal - vDisc);
     document.getElementById('priceTotal').textContent = finalTotal+'€';
     const perPerson = p.numberOfTravelers > 1 ? Math.round(finalTotal / p.numberOfTravelers) : 0;
@@ -6143,7 +6143,7 @@ function updateSummaryCard() {
 
     // Vaučer popust
     const revealBoxExtra8 = S.hasRevealBox ? 25 : 0;
-    const vDisc8 = _appliedVoucher ? _appliedVoucher.amount : 0;
+    const vDisc8 = _appliedVoucher ? Math.min(_appliedVoucher.amount, p.totalEurAll + revealBoxExtra8) : 0;
     if (vDisc8 > 0)
       addons += line('🎟️', isSr?'Poklon vaučer':'Gift voucher',
         _appliedVoucher.code,
@@ -7043,8 +7043,8 @@ function removeVoucher() {
 
 function updatePriceTotalWithVoucher() {
   if (!S.lastPrice) return;
-  const base  = S.lastPrice.totalEurAll;
-  const disc  = _appliedVoucher ? _appliedVoucher.amount : 0;
+  const base  = S.lastPrice.totalEurAll + (S.hasRevealBox ? 25 : 0);
+  const disc  = _appliedVoucher ? Math.min(_appliedVoucher.amount, base) : 0;
   const total = Math.max(0, base - disc);
   const el    = document.getElementById('priceTotal');
   el.textContent = total + '€';
