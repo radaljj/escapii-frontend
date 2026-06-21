@@ -2277,7 +2277,8 @@
       border-top: 2px solid rgba(202,138,113,.35);
     }
     .bs-total-label { font-size: 16px; font-weight: 800; color: rgba(255,255,255,.9); }
-    .bs-total-price { font-family: Georgia,'Times New Roman',serif; font-size: 38px; font-weight: 700; color: #fff; line-height: 1; letter-spacing: -.5px; }
+    .bs-total-price { font-family: Georgia,'Times New Roman',serif; font-size: 38px; font-weight: 700; color: #fff; line-height: 1; letter-spacing: -.5px; white-space: nowrap; flex-shrink: 0; padding-left: 12px; }
+    .bs-total-price .cur { font-size: 26px; }
     .bs-total-price .cur { color: var(--accent); font-style: italic; }
     .bs-total-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
     /* Pregled cena - redizajn (ikonica + naslov/podnaslov + iznos) */
@@ -5358,7 +5359,9 @@ function buildDateRow(d) {
   const isSelected = S.selectedDateId === d.id;
 
   const stockBadge = notEnoughSlots
-    ? `<span class="sold-out-badge">⛔ ${lang==='sr'?`Samo ${d.availableSlots} mesta`:`Only ${d.availableSlots} spots`}</span>`
+    ? `<span class="sold-out-badge">⛔ ${d.availableSlots === 0
+        ? (lang==='sr'?'Popunjeno':'Sold out')
+        : (lang==='sr'?`Samo ${d.availableSlots} mesta`:`Only ${d.availableSlots} spots`)}</span>`
     : isLowStock
       ? `<span class="low-stock-badge">${lang==='sr'?`Još ${d.availableSlots} mesta`:`${d.availableSlots} spots left`}</span>`
       : '';
