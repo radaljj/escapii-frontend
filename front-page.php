@@ -2277,9 +2277,9 @@
       border-top: 2px solid rgba(202,138,113,.35);
     }
     .bs-total-label { font-size: 16px; font-weight: 800; color: rgba(255,255,255,.9); }
-    .bs-total-price { font-family: Georgia,'Times New Roman',serif; font-size: 38px; font-weight: 700; color: #fff; line-height: 1; letter-spacing: -.5px; white-space: nowrap; flex-shrink: 0; padding-left: 12px; }
-    .bs-total-price .cur { font-size: 26px; }
-    .bs-total-price .cur { color: var(--accent); font-style: italic; }
+    .bs-total-price { font-family: inherit; font-size: 34px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -.5px; white-space: nowrap; flex-shrink: 0; padding-left: 12px; }
+    .bs-total-price .cur { font-size: 22px; }
+    .bs-total-price .cur { color: var(--accent); }
     .bs-total-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
     /* Pregled cena - redizajn (ikonica + naslov/podnaslov + iznos) */
     .bs-sec-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
