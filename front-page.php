@@ -564,12 +564,27 @@
                         display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     /* Mobile overlay (inside phone, only on mobile) */
     .ab-overlay { position:absolute; inset:0; z-index:20; background:rgba(250,247,245,.98);
-                  opacity:0; visibility:hidden; transform:scale(.92);
-                  transition:opacity .45s ease, transform .6s cubic-bezier(.34,1.56,.64,1), visibility .45s;
-                  padding:18px 16px 24px; overflow-y:auto; display:flex;
-                  flex-direction:column; justify-content:center; scrollbar-width:none; }
+                  transform:translateY(100%); transition:transform .7s cubic-bezier(0.22,.9,.32,1.06);
+                  padding:18px 16px 24px; overflow-y:auto; display:none;
+                  flex-direction:column; justify-content:flex-start; scrollbar-width:none; }
     .ab-overlay::-webkit-scrollbar { display:none; }
-    .ab-overlay.visible { opacity:1; visibility:visible; transform:scale(1); }
+    .ab-overlay.visible { transform:translateY(0); }
+    /* Full-phone splash CTA na kraju chata (unutar telefona) */
+    .ab-phone-splash { position:absolute; inset:0; z-index:6;
+                  background:linear-gradient(180deg,#fffdf9,#faf6ee);
+                  display:flex; flex-direction:column; justify-content:center;
+                  padding:22px 18px; text-align:center; overflow-y:auto; scrollbar-width:none;
+                  opacity:0; visibility:hidden; transform:scale(.9);
+                  transition:opacity .45s ease, transform .6s cubic-bezier(.34,1.56,.64,1), visibility .45s; }
+    .ab-phone-splash::-webkit-scrollbar { display:none; }
+    .ab-phone-splash.visible { opacity:1; visibility:visible; transform:scale(1); }
+    .ab-sp-badge { font-size:10px; font-weight:700; color:var(--accent); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px; }
+    .ab-sp-title { font-size:17px; font-weight:800; color:#2d2a28; line-height:1.25; margin-bottom:8px; font-style:italic; }
+    .ab-sp-sub { font-size:12px; color:rgba(74,68,66,.6); line-height:1.5; margin-bottom:14px; }
+    .ab-sp-feats { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; align-items:center; }
+    .ab-sp-feat { font-size:11px; color:rgba(74,68,66,.7); background:#F5EFE6; border-radius:999px; padding:5px 12px; }
+    .ab-sp-btn { background:var(--accent); color:#fff; border:none; border-radius:12px; padding:13px 16px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 8px 20px -8px rgba(202,138,113,.6); transition:background .2s; }
+    .ab-sp-btn:hover { background:var(--accent2); }
     .ab-ov-tag { font-size:10px; font-weight:800; letter-spacing:1.5px;
                  text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
     .ab-ov-title { font-size:16px; font-weight:800; color:var(--white); margin-bottom:8px;
@@ -587,7 +602,8 @@
       .ab-two-col { flex-direction:column; gap:0; }
       .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
-      .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; opacity:1 !important; visibility:visible !important; justify-content:flex-start; }
+      .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; }
+      .ab-phone-splash { display:none !important; }
     }
     /* Overlay steps — kompaktno na desktopu (unutar telefona), normalno na mobilnom */
     .ab-overlay .ab-steps { grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
@@ -3019,6 +3035,9 @@
               </div>
             </div>
 
+            <!-- Full-phone splash CTA (puni se i prikazuje na kraju chata) -->
+            <div class="ab-phone-splash" id="abPhoneSplash"></div>
+
           </div>
         </div>
       </div>
@@ -3211,10 +3230,10 @@
   function run(){
     clr();
     var body=document.getElementById('abChatBody');
-    var overlay=document.getElementById('abOverlay');
+    var splash=document.getElementById('abPhoneSplash');
     if(!body) return;
     body.innerHTML='';
-    if(overlay) overlay.classList.remove('visible');
+    if(splash){ splash.classList.remove('visible'); splash.innerHTML=''; }
     var t=0;
     (lang==='en' ? SCRIPT_EN : SCRIPT).forEach(function(m){
       var d = m.type==='div'     ? 950
@@ -3226,7 +3245,21 @@
         go(function(){
           if(isEsc){
             // Full-phone splash preko celog ekrana telefona (umesto male kartice)
-            if(overlay){ void overlay.offsetWidth; overlay.classList.add('visible'); }
+            if(splash){
+              splash.innerHTML = (lang==='en'
+                ? '<div class="ab-sp-badge">✦ Escapii has a suggestion ✦</div>'
+                  +'<div class="ab-sp-title">Tired of planning and coordinating?</div>'
+                  +'<div class="ab-sp-sub">Book a surprise weekend trip — we choose the destination. You\'ll find out where you\'re going just 48h before departure.</div>'
+                  +'<div class="ab-sp-feats"><span class="ab-sp-feat">✈️ Flight + hotel included</span><span class="ab-sp-feat">📍 Destination secret until 48h</span><span class="ab-sp-feat">✓ No hidden costs</span></div>'
+                  +'<button class="ab-sp-btn" onclick="escScrollTo(\'esc-booking\')">Book your surprise →</button>'
+                : '<div class="ab-sp-badge">✦ Escapii ti šalje predlog ✦</div>'
+                  +'<div class="ab-sp-title">Umoran/a od planiranja i dogovaranja?</div>'
+                  +'<div class="ab-sp-sub">Rezerviši vikend putovanje iznenađenja — destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'
+                  +'<div class="ab-sp-feats"><span class="ab-sp-feat">✈️ Let + hotel uključeni</span><span class="ab-sp-feat">📍 Destinacija tajna 48h</span><span class="ab-sp-feat">✓ Bez skrivenih troškova</span></div>'
+                  +'<button class="ab-sp-btn" onclick="escScrollTo(\'esc-booking\')">Rezerviši svoje iznenađenje →</button>');
+              void splash.offsetWidth;
+              splash.classList.add('visible');
+            }
             return;
           }
           var el=makeEl(mi);
