@@ -227,8 +227,7 @@ a { color: inherit; }
 <!-- NAV -->
 <nav class="fq-nav">
   <a href="<?php echo esc_url($site_url); ?>" class="fq-logo">
-    <img src="<?php echo esc_url($theme_uri); ?>/images/escapii-logo.png" alt="Escapii"
-         onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-style:italic;color:#fff;font-size:22px;font-weight:600;\'>escapii</span>'">
+    <img src="<?php echo esc_url($theme_uri); ?>/images/logo-white.svg" alt="Escapii">
   </a>
   <div class="fq-nav-right">
     <div class="fq-lang">
