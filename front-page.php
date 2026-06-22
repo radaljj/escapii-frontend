@@ -564,11 +564,12 @@
                         display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     /* Mobile overlay (inside phone, only on mobile) */
     .ab-overlay { position:absolute; inset:0; z-index:20; background:rgba(250,247,245,.98);
-                  transform:translateY(100%); transition:transform .7s cubic-bezier(0.22,.9,.32,1.06);
-                  padding:18px 16px 24px; overflow-y:auto; display:none;
-                  flex-direction:column; justify-content:flex-start; scrollbar-width:none; }
+                  opacity:0; visibility:hidden; transform:scale(.92);
+                  transition:opacity .45s ease, transform .6s cubic-bezier(.34,1.56,.64,1), visibility .45s;
+                  padding:18px 16px 24px; overflow-y:auto; display:flex;
+                  flex-direction:column; justify-content:center; scrollbar-width:none; }
     .ab-overlay::-webkit-scrollbar { display:none; }
-    .ab-overlay.visible { transform:translateY(0); }
+    .ab-overlay.visible { opacity:1; visibility:visible; transform:scale(1); }
     .ab-ov-tag { font-size:10px; font-weight:800; letter-spacing:1.5px;
                  text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
     .ab-ov-title { font-size:16px; font-weight:800; color:var(--white); margin-bottom:8px;
@@ -586,7 +587,7 @@
       .ab-two-col { flex-direction:column; gap:0; }
       .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
-      .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; }
+      .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; opacity:1 !important; visibility:visible !important; justify-content:flex-start; }
     }
     /* Overlay steps — kompaktno na desktopu (unutar telefona), normalno na mobilnom */
     .ab-overlay .ab-steps { grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
@@ -3081,7 +3082,7 @@
     { who:'ana',    text:'Jel kupujemo karte?' },
     { who:'stefan', text:'Jao izvinite, zaboravio da je pitam 😬 evo sad ću' },
     { who:'ana',    text:'Btw... let je sad 250€ 😭' },
-    { who:'marko',  text:'A Stefaneee brate...' },
+    { who:'marko',  text:'A Stefaneee...' },
     { who:'stefan', text:'A dobro šta sad, častim ja piće, evo Milica kaže da bukiramo!' },
     { who:'ana',    text:'E ljudi sad je 265€...' },
     { type:'div',   text:'Petak' },
@@ -3223,6 +3224,11 @@
             : Math.min(550+(m.text||'').length*30,1800);
       (function(mi,isEsc){
         go(function(){
+          if(isEsc){
+            // Full-phone splash preko celog ekrana telefona (umesto male kartice)
+            if(overlay){ void overlay.offsetWidth; overlay.classList.add('visible'); }
+            return;
+          }
           var el=makeEl(mi);
           body.appendChild(el);
           /* force reflow so CSS transition fires */
