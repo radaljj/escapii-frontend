@@ -6406,9 +6406,8 @@ loadDestinations();
   }
 
   function updateSecNav() {
-    const scrollY = window.scrollY;
-    if (scrollY > heroH() - 120) secNav.classList.add('visible');
-    else secNav.classList.remove('visible');
+    // Meni je uvek vidljiv (na desktopu; na mobilnom je sec-nav display:none)
+    secNav.classList.add('visible');
 
     // Sekcija je "aktivna" čim njen vrh prođe ispod navbara (offset + mali buffer)
     const threshold = navOffset();
