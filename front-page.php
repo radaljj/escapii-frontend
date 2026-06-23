@@ -603,7 +603,7 @@
       .ab-text-col { display:none; }
       .ab-phone-col { width:100%; display:flex; justify-content:center; }
       .ab-overlay { position:static; display:flex; flex-direction:column; transform:none !important; transition:none; background:transparent; padding:24px 16px 0; overflow:visible; inset:auto; max-height:none; }
-      .ab-phone-splash { position:static; inset:auto; max-height:none; padding:0; }
+      .ab-phone-splash { position:absolute; inset:0; z-index:70; }
     }
     /* Overlay steps — kompaktno na desktopu (unutar telefona), normalno na mobilnom */
     .ab-overlay .ab-steps { grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
