@@ -570,7 +570,7 @@
     .ab-overlay::-webkit-scrollbar { display:none; }
     .ab-overlay.visible { transform:translateY(0); }
     /* Full-phone splash CTA na kraju chata (unutar telefona) */
-    .ab-phone-splash { position:absolute; inset:0; z-index:6;
+    .ab-phone-splash { position:absolute; inset:0; z-index:70;
                   background:linear-gradient(180deg,#fffdf9,#faf6ee);
                   display:flex; flex-direction:column; justify-content:center;
                   padding:22px 18px; text-align:center; overflow-y:auto; scrollbar-width:none;
@@ -3035,10 +3035,10 @@
               </div>
             </div>
 
-            <!-- Full-phone splash CTA (puni se i prikazuje na kraju chata) -->
-            <div class="ab-phone-splash" id="abPhoneSplash"></div>
-
           </div>
+
+          <!-- Full-phone splash CTA - pokriva CEO ekran telefona (dete ab-phone-inner) -->
+          <div class="ab-phone-splash" id="abPhoneSplash"></div>
         </div>
       </div>
     </div>
@@ -3272,7 +3272,7 @@
       })(m, m.type==='escapii');
       t+=d;
     });
-    go(function(){ run(); }, t+9000);
+    go(function(){ run(); }, t+15000);
   }
 
   // Expose restart so setLang() can retrigger with correct language immediately
