@@ -3251,10 +3251,12 @@
                   +'<div class="ab-sp-title">Tired of planning and coordinating?</div>'
                   +'<div class="ab-sp-sub">Book a surprise weekend trip — we choose the destination. You\'ll find out where you\'re going just 48h before departure.</div>'
                   +'<div class="ab-sp-feats"><span class="ab-sp-feat">✈️ Flight + hotel included</span><span class="ab-sp-feat">📍 Destination secret until 48h</span><span class="ab-sp-feat">✓ No hidden costs</span></div>'
+                  +'<button class="ab-sp-btn" onclick="escScrollTo(\'esc-booking\')">Book your surprise →</button>'
                 : '<div class="ab-sp-badge">✦ Escapii ti šalje predlog ✦</div>'
                   +'<div class="ab-sp-title">Umoran/a od planiranja i dogovaranja?</div>'
                   +'<div class="ab-sp-sub">Rezerviši vikend putovanje iznenađenja — destinaciju biramo mi. Saznaćeš gde putuješ tek 48h pre polaska.</div>'
-                  +'<div class="ab-sp-feats"><span class="ab-sp-feat">✈️ Let + hotel uključeni</span><span class="ab-sp-feat">📍 Destinacija tajna 48h</span><span class="ab-sp-feat">✓ Bez skrivenih troškova</span></div>');
+                  +'<div class="ab-sp-feats"><span class="ab-sp-feat">✈️ Let + hotel uključeni</span><span class="ab-sp-feat">📍 Destinacija tajna 48h</span><span class="ab-sp-feat">✓ Bez skrivenih troškova</span></div>'
+                  +'<button class="ab-sp-btn" onclick="escScrollTo(\'esc-booking\')">Rezerviši svoje iznenađenje →</button>');
               void splash.offsetWidth;
               splash.classList.add('visible');
             }
