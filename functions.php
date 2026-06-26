@@ -34,7 +34,7 @@ function escapii_head_meta() {
     <link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
     <link rel="icon" type="image/svg+xml"             href="<?php echo esc_url($img_url . '/favicon.svg'); ?>">
     <link rel="shortcut icon"                         href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
-    <link rel="apple-touch-icon" sizes="180x180"      href="<?php echo esc_url($img_url . '/favicon-white.png'); ?>">
+    <link rel="apple-touch-icon" sizes="180x180"      href="<?php echo esc_url($img_url . '/favicon.png'); ?>">
 
     <!-- Canonical - dinamički po URL-u stranice -->
     <?php
