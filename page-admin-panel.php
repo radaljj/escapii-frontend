@@ -831,13 +831,14 @@ tbody td  { padding: 11px 12px; }
                 <th>Aerodrom</th>
                 <th>Polazak → Povratak</th>
                 <th>Mesta / Cena</th>
+                <th>Destinacije</th>
                 <th>Privatni link</th>
                 <th>Ističe</th>
                 <th>Akcije</th>
               </tr>
             </thead>
             <tbody id="privateDatesBody">
-              <tr><td colspan="6" class="empty-state">Nema aktivnih privatnih termina.</td></tr>
+              <tr><td colspan="7" class="empty-state">Nema aktivnih privatnih termina.</td></tr>
             </tbody>
           </table>
         </div>
@@ -1661,11 +1662,16 @@ function renderDatesTable(dates) {
     privateTbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nema aktivnih privatnih termina.</td></tr>';
   } else {
     privateTbody.innerHTML = privatni.map(d => {
-      const expires   = d.expiresAt ? new Date(d.expiresAt) : null;
-      const expiryStr = expires
+      const expires     = d.expiresAt ? new Date(d.expiresAt) : null;
+      const expiryStr   = expires
         ? expires.toLocaleString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
         : '-';
-      const privateUrl = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
+      const privateUrl  = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
+      const dests       = d.destinations || [];
+      const activeCount = dests.filter(x => x.active).length;
+      const destHtml    = dests.length
+        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${x.name}</span>`).join('')}</div>`
+        : `<span style="color:var(--gray);font-size:12px;">-</span>`;
       return `
       <tr>
         <td><span class="badge badge-accent">${d.departureAirport}</span></td>
@@ -1677,12 +1683,14 @@ function renderDatesTable(dates) {
           <span style="font-size:13px;">${d.availableSlots} mesta</span><br>
           <strong>${d.basePrice}€/os</strong>
         </td>
+        <td>${destHtml}</td>
         <td>
           <button class="btn-action" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;"
             onclick="copyPrivateLink('${privateUrl}', this)">📋 Kopiraj link</button>
         </td>
         <td><span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span></td>
-        <td>
+        <td style="white-space:nowrap;">
+          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id}, '${d.departureAirport}')" style="margin-right:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>
         </td>
       </tr>`;
