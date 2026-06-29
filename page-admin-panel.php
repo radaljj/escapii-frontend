@@ -1073,30 +1073,136 @@ tbody td  { padding: 11px 12px; }
 
     <!-- ══ DESTINACIJE ══ -->
     <div class="panel" id="panel-destinations">
-      <div class="panel-title">Pregled destinacija</div>
-      <div class="panel-subtitle">Sve destinacije u sistemu (aktivne i neaktivne)</div>
+      <div class="panel-title">Upravljanje destinacijama</div>
+      <div class="panel-subtitle">Dodaj, uredi ili ukloni destinacije iz sistema</div>
+
+      <!-- Forma za dodavanje -->
       <div class="card">
+        <div class="card-title">➕ Dodaj novu destinaciju</div>
+        <div class="form-grid three">
+          <div>
+            <label class="field-label">Naziv <span class="req">*</span></label>
+            <input type="text" class="form-input" id="dName" placeholder="npr. Barselona">
+          </div>
+          <div>
+            <label class="field-label">IATA kod odredišta <span class="req">*</span></label>
+            <input type="text" class="form-input" id="dIata" placeholder="npr. BCN" maxlength="10" oninput="this.value=this.value.toUpperCase()">
+          </div>
+          <div>
+            <label class="field-label">Država <span class="req">*</span></label>
+            <input type="text" class="form-input" id="dCountry" placeholder="npr. Španija">
+          </div>
+          <div>
+            <label class="field-label">Region</label>
+            <select class="form-input" id="dRegion">
+              <option value="">-- izaberi --</option>
+              <option value="Mediteran">Mediteran</option>
+              <option value="Zapadna Evropa">Zapadna Evropa</option>
+              <option value="Centralna Evropa">Centralna Evropa</option>
+              <option value="Jugoistočna Evropa">Jugoistočna Evropa</option>
+              <option value="Severna Evropa">Severna Evropa</option>
+              <option value="Bliski istok">Bliski istok</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
+            <div style="display:flex;gap:20px;padding:12px 0;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+                <input type="checkbox" id="dBEG" value="BEG" checked style="accent-color:var(--accent);width:16px;height:16px;"> BEG (Beograd)
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+                <input type="checkbox" id="dINI" value="INI" style="accent-color:var(--accent);width:16px;height:16px;"> INI (Niš)
+              </label>
+            </div>
+          </div>
+        </div>
+        <button class="btn-add" onclick="createDestination()">Dodaj destinaciju</button>
+      </div>
+
+      <!-- Tabela destinacija -->
+      <div class="card">
+        <div class="card-title">Sve destinacije</div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Slika</th>
                 <th>Grad</th>
                 <th>Zemlja</th>
                 <th>IATA</th>
-                <th>Aerodrom polaska</th>
+                <th>Aerodromi</th>
                 <th>Status</th>
                 <th>Akcije</th>
               </tr>
             </thead>
             <tbody id="destBody">
-              <tr><td colspan="7" class="empty-state">Učitavanje...</td></tr>
+              <tr><td colspan="8" class="empty-state">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </main>
+</div>
+
+<!-- ══ EDIT DESTINATION MODAL ══ -->
+<div id="editDestOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeEditDest()">
+  <div style="background:#0d1b38;border:1px solid rgba(255,255,255,.12);border-radius:18px;width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;padding:32px;">
+    <div style="font-size:18px;font-weight:800;margin-bottom:24px;color:var(--white);">✏️ Uredi destinaciju</div>
+    <input type="hidden" id="editDestId">
+    <div class="form-grid" style="margin-bottom:16px;">
+      <div>
+        <label class="field-label">Naziv <span class="req">*</span></label>
+        <input type="text" class="form-input" id="editDestName">
+      </div>
+      <div>
+        <label class="field-label">IATA kod odredišta <span class="req">*</span></label>
+        <input type="text" class="form-input" id="editDestIata" maxlength="10" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div>
+        <label class="field-label">Država <span class="req">*</span></label>
+        <input type="text" class="form-input" id="editDestCountry">
+      </div>
+      <div>
+        <label class="field-label">Region</label>
+        <select class="form-input" id="editDestRegion">
+          <option value="">-- izaberi --</option>
+          <option value="Mediteran">Mediteran</option>
+          <option value="Zapadna Evropa">Zapadna Evropa</option>
+          <option value="Centralna Evropa">Centralna Evropa</option>
+          <option value="Jugoistočna Evropa">Jugoistočna Evropa</option>
+          <option value="Severna Evropa">Severna Evropa</option>
+          <option value="Bliski istok">Bliski istok</option>
+        </select>
+      </div>
+      <div class="form-span">
+        <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
+        <div style="display:flex;gap:20px;padding:12px 0;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+            <input type="checkbox" id="editDestBEG" value="BEG" style="accent-color:var(--accent);width:16px;height:16px;"> BEG (Beograd)
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+            <input type="checkbox" id="editDestINI" value="INI" style="accent-color:var(--accent);width:16px;height:16px;"> INI (Niš)
+          </label>
+        </div>
+      </div>
+    </div>
+    <div style="margin-bottom:24px;">
+      <label class="field-label">Slika destinacije</label>
+      <div id="editDestImgPreview" style="margin-bottom:10px;"></div>
+      <input type="file" id="editDestImg" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="previewEditImg(this)">
+      <button onclick="document.getElementById('editDestImg').click()"
+              style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.2);border-radius:10px;padding:12px 20px;color:var(--gray);cursor:pointer;font-size:13px;width:100%;font-family:inherit;transition:border-color .2s;"
+              onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,.2)'">
+        📁 Izaberi sliku (JPG, PNG, WebP — max 5MB)
+      </button>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button onclick="closeEditDest()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--gray);border-radius:10px;padding:10px 20px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">Otkaži</button>
+      <button onclick="saveEditDest()" style="background:var(--accent);border:none;color:white;border-radius:10px;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;">Sačuvaj promene</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1226,47 +1332,174 @@ async function loadDestinations() {
 function renderDestTable() {
   const tbody = document.getElementById('destBody');
   if (!ALL_DESTINATIONS.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nema destinacija</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nema destinacija</td></tr>';
     return;
   }
   tbody.innerHTML = ALL_DESTINATIONS.map(d => {
     const isActive = d.active !== false;
+    const imgHtml = d.imageUrl
+      ? `<img src="${d.imageUrl}" alt="${d.name}" style="width:56px;height:40px;object-fit:cover;border-radius:6px;display:block;">`
+      : `<div style="width:56px;height:40px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:20px;">✈️</div>`;
     return `
     <tr style="${isActive ? '' : 'opacity:.55;'}">
       <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
+      <td>${imgHtml}</td>
       <td><strong>${d.name}</strong></td>
       <td>${d.country}</td>
       <td><span class="badge badge-gray">${d.airportCode}</span></td>
-      <td>${(d.departureAirports||[]).map(a => `<span class="badge badge-accent">${a}</span>`).join(' ')}</td>
+      <td>${(d.departureAirports||[]).sort().map(a => `<span class="badge badge-accent">${a}</span>`).join(' ')}</td>
       <td>${isActive ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>'}</td>
-      <td>
-        <button class="btn-action ${isActive ? 'btn-cancel' : 'btn-confirm'}"
-                onclick="toggleDestActive(${d.id}, ${isActive})">
+      <td style="white-space:nowrap;">
+        <button class="btn-action btn-edit" onclick="openEditDest(${d.id})">Uredi</button>
+        <button class="btn-action ${isActive ? 'btn-toggle-off' : 'btn-toggle-on'}"
+                onclick="toggleDestActive(${d.id}, ${isActive})" style="margin-left:4px;">
           ${isActive ? 'Deaktiviraj' : 'Aktiviraj'}
         </button>
+        <button class="btn-action btn-delete" onclick="deleteDestination(${d.id})" style="margin-left:4px;">Obriši</button>
       </td>
     </tr>`;
   }).join('');
+}
+
+async function createDestination() {
+  const name    = document.getElementById('dName').value.trim();
+  const iata    = document.getElementById('dIata').value.trim().toUpperCase();
+  const country = document.getElementById('dCountry').value.trim();
+  const region  = document.getElementById('dRegion').value;
+  const airports = [];
+  if (document.getElementById('dBEG').checked) airports.push('BEG');
+  if (document.getElementById('dINI').checked) airports.push('INI');
+
+  if (!name || !iata || !country) {
+    Swal.fire({ icon: 'warning', title: 'Popuni obavezna polja', text: 'Naziv, IATA kod i država su obavezni.', background: '#0d1b38', color: '#fff' });
+    return;
+  }
+  if (airports.length === 0) {
+    Swal.fire({ icon: 'warning', title: 'Izaberi aerodrom', text: 'Barem jedan aerodrom polaska mora biti odabran.', background: '#0d1b38', color: '#fff' });
+    return;
+  }
+  try {
+    const r = await fetch(`${API}/api/admin/destinations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ name, airportCode: iata, country, region: region || null, departureAirports: airports })
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${r.status}`);
+    }
+    const newDest = await r.json();
+    document.getElementById('dName').value    = '';
+    document.getElementById('dIata').value    = '';
+    document.getElementById('dCountry').value = '';
+    document.getElementById('dRegion').value  = '';
+    document.getElementById('dBEG').checked   = true;
+    document.getElementById('dINI').checked   = false;
+    await loadDestinations();
+    Swal.fire({ icon: 'success', title: 'Destinacija dodana!', text: `${newDest.name} (${newDest.airportCode}) je dodata u sistem.`, timer: 2000, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
+  }
+}
+
+function openEditDest(id) {
+  const d = ALL_DESTINATIONS.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('editDestId').value      = id;
+  document.getElementById('editDestName').value    = d.name;
+  document.getElementById('editDestIata').value    = d.airportCode;
+  document.getElementById('editDestCountry').value = d.country;
+  document.getElementById('editDestRegion').value  = d.region || '';
+  document.getElementById('editDestBEG').checked   = (d.departureAirports||[]).includes('BEG');
+  document.getElementById('editDestINI').checked   = (d.departureAirports||[]).includes('INI');
+  document.getElementById('editDestImg').value     = '';
+  const preview = document.getElementById('editDestImgPreview');
+  preview.innerHTML = d.imageUrl
+    ? `<img src="${d.imageUrl}" style="height:72px;border-radius:8px;object-fit:cover;" alt="${d.name}">
+       <div style="font-size:11px;color:var(--gray);margin-top:5px;">Trenutna slika — izaberi novu da je zameniš</div>`
+    : '';
+  document.getElementById('editDestOverlay').style.display = 'flex';
+}
+
+function closeEditDest() {
+  document.getElementById('editDestOverlay').style.display = 'none';
+}
+
+function previewEditImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('editDestImgPreview').innerHTML =
+      `<img src="${e.target.result}" style="height:72px;border-radius:8px;object-fit:cover;" alt="preview">
+       <div style="font-size:11px;color:#4ade80;margin-top:5px;">Nova slika — biće uploadovana</div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveEditDest() {
+  const id      = parseInt(document.getElementById('editDestId').value);
+  const name    = document.getElementById('editDestName').value.trim();
+  const iata    = document.getElementById('editDestIata').value.trim().toUpperCase();
+  const country = document.getElementById('editDestCountry').value.trim();
+  const region  = document.getElementById('editDestRegion').value;
+  const airports = [];
+  if (document.getElementById('editDestBEG').checked) airports.push('BEG');
+  if (document.getElementById('editDestINI').checked) airports.push('INI');
+
+  if (!name || !iata || !country) {
+    Swal.fire({ icon: 'warning', title: 'Popuni obavezna polja', background: '#0d1b38', color: '#fff' });
+    return;
+  }
+  if (airports.length === 0) {
+    Swal.fire({ icon: 'warning', title: 'Izaberi barem jedan aerodrom', background: '#0d1b38', color: '#fff' });
+    return;
+  }
+  try {
+    const r = await fetch(`${API}/api/admin/destinations/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ name, airportCode: iata, country, region: region || null, departureAirports: airports })
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${r.status}`);
+    }
+    const imgFile = document.getElementById('editDestImg').files[0];
+    if (imgFile) {
+      const fd = new FormData();
+      fd.append('file', imgFile);
+      const ri = await fetch(`${API}/api/admin/destinations/${id}/image`, {
+        method: 'POST',
+        headers: { 'X-Admin-Key': ADMIN_KEY },
+        body: fd
+      });
+      if (!ri.ok) throw new Error('Greška pri uploadovanju slike');
+    }
+    closeEditDest();
+    await loadDestinations();
+    Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1500, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška pri čuvanju', text: e.message, background: '#0d1b38', color: '#fff' });
+  }
 }
 
 async function toggleDestActive(id, currentActive) {
   const newValue = !currentActive;
   const dest = ALL_DESTINATIONS.find(d => d.id === id);
   const name = dest ? dest.name : `#${id}`;
-  const action = newValue ? 'aktivirati' : 'deaktivirati';
 
-  const confirm = await Swal.fire({
+  const { isConfirmed } = await Swal.fire({
     title: `${newValue ? 'Aktiviraj' : 'Deaktiviraj'} destinaciju?`,
-    html: `<span style="color:#94a3b8;">Da li želiš da <strong style="color:white;">${action}</strong> destinaciju <strong style="color:white;">${name}</strong>?</span>`,
+    html: `<span style="color:#94a3b8;">Destinacija <strong style="color:white;">${name}</strong> biće ${newValue ? 'aktivirana' : 'deaktivirana'}.</span>`,
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: newValue ? '✓ Aktiviraj' : '✗ Deaktiviraj',
     cancelButtonText: 'Otkaži',
     confirmButtonColor: newValue ? '#22c55e' : '#ef4444',
-    cancelButtonColor: '#334155',
     background: '#0d1b38', color: '#fff'
   });
-  if (!confirm.isConfirmed) return;
+  if (!isConfirmed) return;
 
   try {
     const r = await fetch(`${API}/api/admin/destinations/${id}/active?value=${newValue}`, {
@@ -1274,20 +1507,43 @@ async function toggleDestActive(id, currentActive) {
       headers: { 'X-Admin-Key': ADMIN_KEY }
     });
     if (!r.ok) throw new Error();
-    // Ažuriraj lokalno bez re-fetch-a
     const idx = ALL_DESTINATIONS.findIndex(d => d.id === id);
     if (idx !== -1) ALL_DESTINATIONS[idx].active = newValue;
     renderDestTable();
-    Swal.fire({
-      icon: 'success',
-      title: newValue ? 'Destinacija aktivirana' : 'Destinacija deaktivirana',
-      text: `${name} je sada ${newValue ? 'aktivna' : 'neaktivna'}.`,
-      timer: 2000, showConfirmButton: false,
-      background: '#0d1b38', color: '#fff'
-    });
+    Swal.fire({ icon: 'success', title: newValue ? 'Destinacija aktivirana' : 'Destinacija deaktivirana',
+      timer: 1800, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
   } catch {
-    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije moguće promeniti status.',
-      background: '#0d1b38', color: '#fff' });
+    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije moguće promeniti status.', background: '#0d1b38', color: '#fff' });
+  }
+}
+
+async function deleteDestination(id) {
+  const dest = ALL_DESTINATIONS.find(d => d.id === id);
+  const name = dest ? dest.name : `#${id}`;
+  const { isConfirmed } = await Swal.fire({
+    title: 'Obrisati destinaciju?',
+    html: `<span style="color:#94a3b8;">Ovo trajno briše <strong style="color:white;">${name}</strong> iz sistema.<br>Akcija je <strong style="color:#ef4444;">nepovratna</strong>.</span>`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Obriši',
+    cancelButtonText: 'Otkaži',
+    confirmButtonColor: '#ef4444',
+    background: '#0d1b38', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/destinations/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${r.status}`);
+    }
+    await loadDestinations();
+    Swal.fire({ icon: 'success', title: 'Destinacija obrisana', timer: 1500, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
   }
 }
 
@@ -1296,7 +1552,6 @@ function initDestSelect() {
   const filtered = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(airport)
   );
-
   if (destTomSelect) { destTomSelect.destroy(); destTomSelect = null; }
   destTomSelect = new TomSelect('#fDestinations', {
     maxItems: 10,
