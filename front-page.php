@@ -5056,7 +5056,7 @@ function buildCarousel() {
   const track    = document.getElementById('carouselTrack');
   const html     = [...shuffled, ...shuffled].map(d => `
     <div class="dest-card-c">
-      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
+      <img src="${d.imageUrl || destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="dest-card-label">
         <div class="dest-card-label-name">${carouselDestName(d)}</div>
       </div>
@@ -5782,7 +5782,7 @@ function renderExclGrid() {
   }
   grid.innerHTML = S.destinations.map(d => `
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
-      <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
+      <img src="${d.imageUrl || destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="excl-overlay">
         <div class="excl-name">${destDisplayName(d.name)}</div>
       </div>
