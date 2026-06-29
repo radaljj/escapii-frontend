@@ -5348,13 +5348,11 @@ function pickAirport(el, code) {
   el.classList.add('on');
   S.airport = code;
   document.getElementById('btnN1').disabled = false;
-  // Učitaj destinacije filtrowane po aerodromu (za grid isključivanja u koraku 6)
-  loadDestinationsByAirport(code);
 }
 
-async function loadDestinationsByAirport(airport) {
+async function loadDestinationsForDate(dateId) {
   try {
-    const r = await fetch(`${API}/api/destinations?airport=${airport}`);
+    const r = await fetch(`${API}/api/dates/${dateId}/destinations`);
     if (!r.ok) throw new Error();
     S.destinations = await r.json();
     renderExclGrid();
@@ -5597,6 +5595,7 @@ function pickDate(el,id,d) {
   S.selectedDateId = id;
   S.selectedDate = d;
   document.getElementById('btnN3').disabled = false;
+  loadDestinationsForDate(id);
 }
 
 // ══════════ STEP 4
@@ -7344,10 +7343,9 @@ async function checkPrivateDateToken() {
     S.dates          = [date];                  // niz sa jednim datumom (za price preview)
     S.step           = 4;
 
-    // Učitaj destinacije filtrovane po aerodromu (privatni link preskače korak 1
-    // gde se normalno poziva loadDestinationsByAirport - bez ovoga korak 6 prikazuje
-    // pogrešan/nepotpun skup destinacija jer S.destinations nema airport filter)
-    loadDestinationsByAirport(date.departureAirport);
+    // Učitaj per-termin aktivne destinacije (privatni link preskače korak 3
+    // gde se normalno poziva loadDestinationsForDate - bez ovoga korak 6 prikazuje prazan grid)
+    loadDestinationsForDate(date.id);
 
     // Ukloni token iz URL-a (bez reload-a)
     const cleanUrl = window.location.pathname + window.location.hash;
