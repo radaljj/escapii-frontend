@@ -685,6 +685,14 @@ tbody td  { padding: 11px 12px; }
   tbody td  { padding: 9px 9px; }
 }
 
+/* Term-dest popup responsive */
+.td-popup-inner { padding: 32px; }
+@media (max-width: 540px) {
+  .td-popup-inner { padding: 18px; }
+  .td-item { flex-wrap: wrap !important; gap: 8px !important; }
+  .td-item-right { width: 100%; justify-content: flex-end !important; }
+}
+
 /* Booking cards */
 @media (max-width: 500px) {
   .bc-body { grid-template-columns: 1fr; }
@@ -1096,7 +1104,7 @@ tbody td  { padding: 11px 12px; }
 
 <!-- ══ TERM DESTINATIONS POPUP ══ -->
 <div id="termDestOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeTermDestPopup()">
-  <div style="background:#0d1b38;border:1px solid rgba(255,255,255,.12);border-radius:18px;width:580px;max-width:95vw;max-height:88vh;overflow-y:auto;padding:32px;">
+  <div class="td-popup-inner" style="background:#0d1b38;border:1px solid rgba(255,255,255,.12);border-radius:18px;width:580px;max-width:95vw;max-height:88vh;overflow-y:auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div style="font-size:18px;font-weight:800;color:var(--white);">✈️ Destinacije za termin <span id="termDestTitle" style="color:var(--accent);"></span></div>
       <button onclick="closeTermDestPopup()" style="background:none;border:none;color:var(--gray);font-size:20px;cursor:pointer;padding:4px 8px;">✕</button>
@@ -1504,17 +1512,17 @@ async function refreshTermDestList() {
     return;
   }
   list.innerHTML = dests.map(td => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07);${td.active ? '' : 'opacity:.55;'}">
-      <div style="display:flex;align-items:center;gap:12px;">
+    <div class="td-item" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07);${td.active ? '' : 'opacity:.55;'}">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
         ${td.imageUrl
-          ? `<img src="${td.imageUrl}" style="width:44px;height:32px;object-fit:cover;border-radius:6px;" alt="${td.name}">`
-          : `<div style="width:44px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;">✈️</div>`}
-        <div>
-          <div style="font-weight:700;font-size:14px;color:var(--white);">${td.name}</div>
+          ? `<img src="${td.imageUrl}" style="width:44px;height:32px;object-fit:cover;border-radius:6px;flex-shrink:0;" alt="${td.name}">`
+          : `<div style="width:44px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">✈️</div>`}
+        <div style="min-width:0;">
+          <div style="font-weight:700;font-size:14px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${td.name}</div>
           <div style="font-size:11px;color:var(--gray);margin-top:2px;">${td.country} · <span style="color:var(--accent);">${td.airportCode}</span></div>
         </div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;">
+      <div class="td-item-right" style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
         <span style="font-size:11px;padding:2px 8px;border-radius:6px;${td.active ? 'background:rgba(34,197,94,.12);color:#4ade80;' : 'background:rgba(239,68,68,.1);color:#f87171;'}">${td.active ? '● Aktivan' : '● Neaktivan'}</span>
         <button onclick="toggleTermDest(${td.destinationId}, ${td.active})"
           style="background:${td.active ? 'rgba(239,68,68,.1)' : 'rgba(34,197,94,.1)'};border:none;color:${td.active ? '#f87171' : '#4ade80'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
