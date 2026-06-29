@@ -1452,20 +1452,13 @@ function initDestSelect() {
 // ══ PER-TERMIN DESTINACIJE POPUP ══
 let _termDestDateId = null;
 
-async function openTermDestPopup(dateId) {
+async function openTermDestPopup(dateId, airport) {
   _termDestDateId = dateId;
   const overlay = document.getElementById('termDestOverlay');
   overlay.style.display = 'flex';
-  document.getElementById('termDestTitle').textContent = `#${dateId}`;
+  document.getElementById('termDestTitle').textContent = `#${dateId} — ${airport || ''}`;
   document.getElementById('termDestList').innerHTML =
     '<div style="color:var(--gray);text-align:center;padding:20px;">Učitavanje...</div>';
-
-  // Popuni dropdown sa destinacijama filtriranim po aerodromu ovog termina
-  // Pronalazimo termin iz lokalne liste da dobijemo airport
-  const dates = await fetch(`${API}/api/admin/dates`, { headers: { 'X-Admin-Key': ADMIN_KEY } })
-    .then(r => r.json()).catch(() => []);
-  const date = dates.find(d => d.id === dateId);
-  const airport = date ? date.departureAirport : null;
 
   const select = document.getElementById('termDestSelect');
   const availDests = airport
@@ -1625,7 +1618,7 @@ function renderDatesTable(dates) {
         <td style="white-space:nowrap;">
           <button class="btn-action btn-toggle-off"
             onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
-          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id})" style="margin-left:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
+          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id}, '${d.departureAirport}')" style="margin-left:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
           <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
           <button class="btn-action" onclick="editPrice(${d.id}, ${d.basePrice})" style="margin-left:4px;background:rgba(34,197,94,.1);color:#86efac;">💶 Cena (${d.basePrice}€)</button>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
