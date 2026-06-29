@@ -5592,6 +5592,9 @@ async function loadDates() {
 function pickDate(el,id,d) {
   document.querySelectorAll('.term').forEach(r => r.classList.remove('on'));
   el.classList.add('on');
+  if (S.selectedDateId !== id) {
+    S.excludedIds = [];
+  }
   S.selectedDateId = id;
   S.selectedDate = d;
   document.getElementById('btnN3').disabled = false;
@@ -5767,7 +5770,14 @@ function updateExclStep() {
 }
 
 function renderExclGrid() {
-  document.getElementById('exclGrid').innerHTML = S.destinations.map(d => `
+  const grid = document.getElementById('exclGrid');
+  if (!S.destinations.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:32px 0;color:rgba(255,255,255,.45);font-size:14px;">
+      ${lang === 'en' ? 'No destinations available for this term.' : 'Nema dostupnih destinacija za izabrani termin.'}
+    </div>`;
+    return;
+  }
+  grid.innerHTML = S.destinations.map(d => `
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="excl-overlay">

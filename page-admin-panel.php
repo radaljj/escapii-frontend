@@ -1530,11 +1530,14 @@ async function toggleTermDest(destId, currentActive) {
     const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}/active?value=${newVal}`, {
       method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `Greška ${r.status}`);
+    }
     await refreshTermDestList();
     await loadDates();
-  } catch {
-    Swal.fire({ icon: 'error', title: 'Greška', background: '#0d1b38', color: '#fff' });
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
   }
 }
 
@@ -1551,11 +1554,14 @@ async function removeTermDest(destId) {
     const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}`, {
       method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY }
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `Greška ${r.status}`);
+    }
     await refreshTermDestList();
     await loadDates();
-  } catch {
-    Swal.fire({ icon: 'error', title: 'Greška', background: '#0d1b38', color: '#fff' });
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
   }
 }
 
