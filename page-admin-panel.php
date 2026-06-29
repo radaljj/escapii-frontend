@@ -572,20 +572,25 @@ tbody tr:last-child td { border-bottom: none; }
 
 /* Tom Select dark theme */
 .ts-wrapper .ts-control {
-  background: rgba(255,255,255,.07) !important;
-  border: 1px solid rgba(255,255,255,.12) !important;
+  background: #0a1628 !important;
+  border: 1px solid rgba(255,255,255,.22) !important;
   border-radius: 12px !important;
   color: white !important;
   padding: 10px 14px !important;
   min-height: 46px !important;
 }
-.ts-wrapper.focus .ts-control { border-color: var(--accent) !important; box-shadow: none !important; }
-/* single select - show cursor pointer, no tag bg */
+.ts-wrapper.focus .ts-control { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(202,138,113,.15) !important; }
+/* single select */
 .ts-wrapper.single .ts-control { cursor: pointer !important; padding-right: 36px !important; }
 .ts-wrapper.single .ts-control .item { background: transparent !important; color: white !important; padding: 0 !important; font-weight: 500 !important; font-size: 14px !important; }
+/* multi select — placeholder visible */
+.ts-wrapper.multi .ts-control { cursor: text !important; }
+.ts-wrapper.multi .ts-control input { color: white !important; background: transparent !important; }
+.ts-wrapper.multi .ts-control input::placeholder { color: rgba(255,255,255,.35) !important; }
+.ts-wrapper.multi.has-items .ts-control input::placeholder { color: rgba(255,255,255,.25) !important; }
 .ts-dropdown {
   background: #0b1929 !important;
-  border: 1px solid rgba(255,255,255,.15) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
   border-radius: 12px !important;
   box-shadow: 0 12px 40px rgba(0,0,0,.7) !important;
   color: white !important;
@@ -594,8 +599,8 @@ tbody tr:last-child td { border-bottom: none; }
 .ts-dropdown .option:hover, .ts-dropdown .option.active { background: rgba(202,138,113,.14) !important; color: var(--accent) !important; }
 .ts-wrapper .item { background: var(--accent) !important; color: var(--navy) !important; border-radius: 6px !important; padding: 3px 10px !important; font-weight: 700 !important; font-size: 12px !important; border: none !important; }
 .ts-wrapper .item .remove { color: var(--navy) !important; }
-.ts-wrapper input { color: white !important; }
-.ts-wrapper input::placeholder { color: #64748b !important; }
+.ts-wrapper input { color: white !important; background: transparent !important; }
+.ts-wrapper input::placeholder { color: rgba(255,255,255,.35) !important; }
 
 /* Flatpickr dark */
 .flatpickr-calendar {
@@ -613,6 +618,20 @@ tbody tr:last-child td { border-bottom: none; }
 .flatpickr-month, .flatpickr-weekday, .flatpickr-current-month { color: white !important; fill: white !important; }
 .flatpickr-day.flatpickr-disabled { color: #334155 !important; }
 .numInputWrapper:hover { background: rgba(255,255,255,.07) !important; }
+.flatpickr-monthDropdown-months {
+  background: #0d1b38 !important;
+  color: white !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  border-radius: 6px !important;
+  padding: 2px 4px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+.flatpickr-monthDropdown-months option {
+  background: #1a2f50 !important;
+  color: white !important;
+}
+.numInputWrapper input { color: white !important; }
 
 /* SweetAlert dark */
 .swal2-popup {
@@ -1426,13 +1445,16 @@ async function deleteDestination(id) {
 }
 
 function initDestSelect() {
-  const airport  = document.getElementById('fAirport').value;
+  const airport  = getAdminAirport() || 'BEG';
   const filtered = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(airport)
   );
   if (destTomSelect) { destTomSelect.destroy(); destTomSelect = null; }
   destTomSelect = new TomSelect('#fDestinations', {
     maxItems: 20,
+    valueField: 'value',
+    labelField: 'text',
+    searchField: ['text'],
     options: filtered.map(d => ({
       value: String(d.id),
       text:  `${d.name} (${d.airportCode})`,
