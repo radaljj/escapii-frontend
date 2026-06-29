@@ -548,122 +548,6 @@ tbody tr:last-child td { border-bottom: none; }
   font-weight: 700;
 }
 
-/* ── Dest picker modal ── */
-#destPickerOverlay {
-  display: none;
-  position: fixed; inset: 0; z-index: 9999;
-  background: rgba(0,0,0,.6);
-  backdrop-filter: blur(4px);
-  align-items: center;
-  justify-content: center;
-}
-#destPickerOverlay.open { display: flex; }
-#destPickerBox {
-  background: #0d1b38;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 16px;
-  width: 480px;
-  max-width: 95vw;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-#destPickerHeader {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-#destPickerTitle {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-#destPickerSub {
-  font-size: 12px;
-  color: #64748b;
-}
-#destPickerSearch {
-  width: 100%;
-  margin-top: 12px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 8px;
-  padding: 9px 14px;
-  font-size: 13px;
-  color: #fff;
-  outline: none;
-}
-#destPickerSearch::placeholder { color: #64748b; }
-#destPickerSearch:focus { border-color: rgba(202,138,113,.5); }
-#destPickerList {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px 12px;
-}
-.dp-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background .15s;
-  user-select: none;
-}
-.dp-item:hover { background: rgba(255,255,255,.05); }
-.dp-item.selected { background: rgba(202,138,113,.12); }
-.dp-check {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,.2);
-  border-radius: 5px;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s;
-}
-.dp-item.selected .dp-check {
-  background: #CA8A71;
-  border-color: #CA8A71;
-}
-.dp-check-icon { display: none; color: #fff; font-size: 11px; font-weight: 700; }
-.dp-item.selected .dp-check-icon { display: block; }
-.dp-name { font-size: 14px; color: #e2e8f0; font-weight: 500; }
-.dp-code { font-size: 11px; color: #64748b; margin-left: auto; }
-#destPickerFooter {
-  padding: 14px 24px;
-  border-top: 1px solid rgba(255,255,255,.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-#destPickerCount { font-size: 12px; color: #64748b; }
-#destPickerCount strong { color: #CA8A71; }
-.dp-btn-cancel {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
-  color: #94a3b8;
-  border-radius: 8px;
-  padding: 9px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .2s;
-}
-.dp-btn-cancel:hover { background: rgba(255,255,255,.1); color: #fff; }
-.dp-btn-save {
-  background: #CA8A71;
-  border: none;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 24px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity .2s;
-}
-.dp-btn-save:hover { opacity: .85; }
-
 .btn-action {
   border: none;
   border-radius: 8px;
@@ -881,7 +765,7 @@ tbody td  { padding: 11px 12px; }
             <input type="number" class="form-input" id="fPrice" value="279" min="1">
           </div>
           <div class="form-span">
-            <label class="field-label">Potencijalne destinacije <span style="color:var(--gray);font-weight:500;">(opciono - vidljivo samo vama)</span></label>
+            <label class="field-label">Destinacije za ovaj termin <span style="color:var(--gray);font-weight:500;">(filtrirane po aerodromu polaska)</span></label>
             <select id="fDestinations" multiple placeholder="Pretraži i izaberi destinacije..."></select>
           </div>
         </div>
@@ -1130,7 +1014,6 @@ tbody td  { padding: 11px 12px; }
                 <th>Zemlja</th>
                 <th>IATA</th>
                 <th>Aerodromi</th>
-                <th>Status</th>
                 <th>Akcije</th>
               </tr>
             </thead>
@@ -1187,6 +1070,33 @@ tbody td  { padding: 11px 12px; }
     <div style="display:flex;gap:10px;justify-content:flex-end;">
       <button onclick="closeEditDest()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--gray);border-radius:10px;padding:10px 20px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">Otkaži</button>
       <button onclick="saveEditDest()" style="background:var(--accent);border:none;color:white;border-radius:10px;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;">Sačuvaj promene</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TERM DESTINATIONS POPUP ══ -->
+<div id="termDestOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeTermDestPopup()">
+  <div style="background:#0d1b38;border:1px solid rgba(255,255,255,.12);border-radius:18px;width:580px;max-width:95vw;max-height:88vh;overflow-y:auto;padding:32px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:18px;font-weight:800;color:var(--white);">✈️ Destinacije za termin <span id="termDestTitle" style="color:var(--accent);"></span></div>
+      <button onclick="closeTermDestPopup()" style="background:none;border:none;color:var(--gray);font-size:20px;cursor:pointer;padding:4px 8px;">✕</button>
+    </div>
+    <!-- Dodaj destinaciju -->
+    <div style="margin-bottom:20px;padding:16px;background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.08);">
+      <label class="field-label" style="margin-bottom:8px;display:block;">Dodaj destinaciju u ovaj termin</label>
+      <div style="display:flex;gap:10px;">
+        <select id="termDestSelect" style="flex:1;background:#0a1628;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 14px;color:var(--white);font-family:inherit;font-size:14px;">
+          <option value="">-- izaberi destinaciju --</option>
+        </select>
+        <button onclick="addDestToTerm()" style="background:var(--accent);border:none;color:white;border-radius:10px;padding:10px 20px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;white-space:nowrap;">+ Dodaj</button>
+      </div>
+    </div>
+    <!-- Lista destinacija -->
+    <div id="termDestList" style="display:flex;flex-direction:column;gap:8px;">
+      <div style="color:var(--gray);text-align:center;padding:20px;">Učitavanje...</div>
+    </div>
+    <div style="margin-top:20px;text-align:right;">
+      <button onclick="closeTermDestPopup()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--gray);border-radius:10px;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;">Zatvori</button>
     </div>
   </div>
 </div>
@@ -1318,29 +1228,23 @@ async function loadDestinations() {
 function renderDestTable() {
   const tbody = document.getElementById('destBody');
   if (!ALL_DESTINATIONS.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nema destinacija</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nema destinacija</td></tr>';
     return;
   }
   tbody.innerHTML = ALL_DESTINATIONS.map(d => {
-    const isActive = d.active !== false;
     const imgHtml = d.imageUrl
       ? `<img src="${d.imageUrl}" alt="${d.name}" style="width:56px;height:40px;object-fit:cover;border-radius:6px;display:block;">`
       : `<div style="width:56px;height:40px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:20px;">✈️</div>`;
     return `
-    <tr style="${isActive ? '' : 'opacity:.55;'}">
+    <tr>
       <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
       <td>${imgHtml}</td>
       <td><strong>${d.name}</strong></td>
       <td>${d.country}</td>
       <td><span class="badge badge-gray">${d.airportCode}</span></td>
       <td>${(d.departureAirports||[]).sort().map(a => `<span class="badge badge-accent">${a}</span>`).join(' ')}</td>
-      <td>${isActive ? '<span class="badge badge-green">● Aktivan</span>' : '<span class="badge badge-red">● Neaktivan</span>'}</td>
       <td style="white-space:nowrap;">
         <button class="btn-action btn-edit" onclick="openEditDest(${d.id})">Uredi</button>
-        <button class="btn-action ${isActive ? 'btn-toggle-off' : 'btn-toggle-on'}"
-                onclick="toggleDestActive(${d.id}, ${isActive})" style="margin-left:4px;">
-          ${isActive ? 'Deaktiviraj' : 'Aktiviraj'}
-        </button>
         <button class="btn-action btn-delete" onclick="deleteDestination(${d.id})" style="margin-left:4px;">Obriši</button>
       </td>
     </tr>`;
@@ -1491,39 +1395,6 @@ async function saveEditDest() {
   }
 }
 
-async function toggleDestActive(id, currentActive) {
-  const newValue = !currentActive;
-  const dest = ALL_DESTINATIONS.find(d => d.id === id);
-  const name = dest ? dest.name : `#${id}`;
-
-  const { isConfirmed } = await Swal.fire({
-    title: `${newValue ? 'Aktiviraj' : 'Deaktiviraj'} destinaciju?`,
-    html: `<span style="color:#94a3b8;">Destinacija <strong style="color:white;">${name}</strong> biće ${newValue ? 'aktivirana' : 'deaktivirana'}.</span>`,
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: newValue ? '✓ Aktiviraj' : '✗ Deaktiviraj',
-    cancelButtonText: 'Otkaži',
-    confirmButtonColor: newValue ? '#22c55e' : '#ef4444',
-    background: '#0d1b38', color: '#fff'
-  });
-  if (!isConfirmed) return;
-
-  try {
-    const r = await fetch(`${API}/api/admin/destinations/${id}/active?value=${newValue}`, {
-      method: 'PATCH',
-      headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) throw new Error();
-    const idx = ALL_DESTINATIONS.findIndex(d => d.id === id);
-    if (idx !== -1) ALL_DESTINATIONS[idx].active = newValue;
-    renderDestTable();
-    Swal.fire({ icon: 'success', title: newValue ? 'Destinacija aktivirana' : 'Destinacija deaktivirana',
-      timer: 1800, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
-  } catch {
-    Swal.fire({ icon: 'error', title: 'Greška', text: 'Nije moguće promeniti status.', background: '#0d1b38', color: '#fff' });
-  }
-}
-
 async function deleteDestination(id) {
   const dest = ALL_DESTINATIONS.find(d => d.id === id);
   const name = dest ? dest.name : `#${id}`;
@@ -1555,20 +1426,20 @@ async function deleteDestination(id) {
 }
 
 function initDestSelect() {
-  const airport = document.getElementById('fAirport').value;
+  const airport  = document.getElementById('fAirport').value;
   const filtered = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(airport)
   );
   if (destTomSelect) { destTomSelect.destroy(); destTomSelect = null; }
   destTomSelect = new TomSelect('#fDestinations', {
-    maxItems: 10,
+    maxItems: 20,
     options: filtered.map(d => ({
       value: String(d.id),
-      text: `${d.name} (${d.airportCode})`,
+      text:  `${d.name} (${d.airportCode})`,
       label: `${d.name}`
     })),
     placeholder: filtered.length
-      ? `Pretraži ${airport} destinacije...`
+      ? `Pretraži destinacije za ${airport}...`
       : 'Nema destinacija za ovaj aerodrom',
     plugins: ['remove_button'],
     render: {
@@ -1576,6 +1447,128 @@ function initDestSelect() {
       item:   (d) => `<div>${d.label}</div>`,
     }
   });
+}
+
+// ══ PER-TERMIN DESTINACIJE POPUP ══
+let _termDestDateId = null;
+
+async function openTermDestPopup(dateId) {
+  _termDestDateId = dateId;
+  const overlay = document.getElementById('termDestOverlay');
+  overlay.style.display = 'flex';
+  document.getElementById('termDestTitle').textContent = `#${dateId}`;
+  document.getElementById('termDestList').innerHTML =
+    '<div style="color:var(--gray);text-align:center;padding:20px;">Učitavanje...</div>';
+
+  // Popuni dropdown sa destinacijama filtriranim po aerodromu ovog termina
+  // Pronalazimo termin iz lokalne liste da dobijemo airport
+  const dates = await fetch(`${API}/api/admin/dates`, { headers: { 'X-Admin-Key': ADMIN_KEY } })
+    .then(r => r.json()).catch(() => []);
+  const date = dates.find(d => d.id === dateId);
+  const airport = date ? date.departureAirport : null;
+
+  const select = document.getElementById('termDestSelect');
+  const availDests = airport
+    ? ALL_DESTINATIONS.filter(d => Array.isArray(d.departureAirports) && d.departureAirports.includes(airport))
+    : ALL_DESTINATIONS;
+  select.innerHTML = '<option value="">-- izaberi destinaciju --</option>' +
+    availDests.map(d => `<option value="${d.id}">${d.name} (${d.airportCode})</option>`).join('');
+
+  await refreshTermDestList();
+}
+
+async function refreshTermDestList() {
+  const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations`, {
+    headers: { 'X-Admin-Key': ADMIN_KEY }
+  });
+  const dests = r.ok ? await r.json() : [];
+  const list = document.getElementById('termDestList');
+  if (!dests.length) {
+    list.innerHTML = '<div style="color:var(--gray);text-align:center;padding:20px;font-size:13px;">Nema destinacija u ovom terminu</div>';
+    return;
+  }
+  list.innerHTML = dests.map(td => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07);${td.active ? '' : 'opacity:.55;'}">
+      <div style="display:flex;align-items:center;gap:12px;">
+        ${td.imageUrl
+          ? `<img src="${td.imageUrl}" style="width:44px;height:32px;object-fit:cover;border-radius:6px;" alt="${td.name}">`
+          : `<div style="width:44px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;">✈️</div>`}
+        <div>
+          <div style="font-weight:700;font-size:14px;color:var(--white);">${td.name}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${td.country} · <span style="color:var(--accent);">${td.airportCode}</span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span style="font-size:11px;padding:2px 8px;border-radius:6px;${td.active ? 'background:rgba(34,197,94,.12);color:#4ade80;' : 'background:rgba(239,68,68,.1);color:#f87171;'}">${td.active ? '● Aktivan' : '● Neaktivan'}</span>
+        <button onclick="toggleTermDest(${td.destinationId}, ${td.active})"
+          style="background:${td.active ? 'rgba(239,68,68,.1)' : 'rgba(34,197,94,.1)'};border:none;color:${td.active ? '#f87171' : '#4ade80'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
+          ${td.active ? 'Deaktiviraj' : 'Aktiviraj'}
+        </button>
+        <button onclick="removeTermDest(${td.destinationId})"
+          style="background:rgba(239,68,68,.08);border:none;color:#f87171;border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
+          Ukloni
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+async function addDestToTerm() {
+  const destId = parseInt(document.getElementById('termDestSelect').value);
+  if (!destId) return;
+  try {
+    const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}`, {
+      method: 'POST', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${r.status}`);
+    }
+    document.getElementById('termDestSelect').value = '';
+    await refreshTermDestList();
+    await loadDates();
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
+  }
+}
+
+async function toggleTermDest(destId, currentActive) {
+  const newVal = !currentActive;
+  try {
+    const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}/active?value=${newVal}`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error();
+    await refreshTermDestList();
+    await loadDates();
+  } catch {
+    Swal.fire({ icon: 'error', title: 'Greška', background: '#0d1b38', color: '#fff' });
+  }
+}
+
+async function removeTermDest(destId) {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Ukloniti destinaciju?',
+    text: 'Destinacija će biti uklonjena iz ovog termina.',
+    icon: 'question', showCancelButton: true,
+    confirmButtonText: 'Ukloni', cancelButtonText: 'Otkaži',
+    confirmButtonColor: '#ef4444', background: '#0d1b38', color: '#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}`, {
+      method: 'DELETE', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error();
+    await refreshTermDestList();
+    await loadDates();
+  } catch {
+    Swal.fire({ icon: 'error', title: 'Greška', background: '#0d1b38', color: '#fff' });
+  }
+}
+
+function closeTermDestPopup() {
+  document.getElementById('termDestOverlay').style.display = 'none';
+  _termDestDateId = null;
 }
 
 // ══ DATES ══
@@ -1614,9 +1607,11 @@ function renderDatesTable(dates) {
     tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
   } else {
     tbody.innerHTML = javni.map(d => {
-      const chips = (d.potentialDestinations || [])
-        .map(pd => `<span class="dest-chip">${pd.name}</span>`).join('');
-      const destHtml = chips ? `<div class="dest-chips">${chips}</div>` : `<span style="color:var(--gray);font-size:12px;">-</span>`;
+      const dests = d.destinations || [];
+      const activeCount = dests.filter(x => x.active).length;
+      const destHtml = dests.length
+        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${x.name}</span>`).join('')}</div>`
+        : `<span style="color:var(--gray);font-size:12px;">-</span>`;
       return `
       <tr>
         <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
@@ -1630,7 +1625,7 @@ function renderDatesTable(dates) {
         <td style="white-space:nowrap;">
           <button class="btn-action btn-toggle-off"
             onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
-          <button class="btn-action btn-edit" onclick="editDestinations(${d.id})" style="margin-left:4px;">Destinacije</button>
+          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id})" style="margin-left:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
           <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
           <button class="btn-action" onclick="editPrice(${d.id}, ${d.basePrice})" style="margin-left:4px;background:rgba(34,197,94,.1);color:#86efac;">💶 Cena (${d.basePrice}€)</button>
           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
@@ -1757,7 +1752,7 @@ async function addDate() {
     numberOfNights: nights,
     availableSlots: slots,
     basePrice: price,
-    potentialDestinationIds: destIds
+    destinationIds: destIds
   };
 
   try {
@@ -1795,98 +1790,6 @@ function resetForm() {
   if (destTomSelect) destTomSelect.clear();
 }
 
-// ══ EDIT DESTINATIONS ══
-let _dpDateId = null;
-let _dpSelected = new Set();
-let _dpItems = [];
-
-async function editDestinations(dateId) {
-  const r = await fetch(`${API}/api/admin/dates`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
-  const dates = await r.json();
-  const date = dates.find(d => d.id === dateId);
-  if (!date) return;
-
-  _dpDateId = dateId;
-  _dpSelected = new Set((date.potentialDestinations || []).map(d => d.id));
-  _dpItems = ALL_DESTINATIONS;
-
-  document.getElementById('destPickerTitle').textContent = `Destinacije - termin #${dateId}`;
-  document.getElementById('destPickerSub').innerHTML =
-    `<strong style="color:#e2e8f0;">${formatDate(date.departureDate)} → ${formatDate(date.returnDate)}</strong>
-     &nbsp;<span style="background:rgba(202,138,113,.15);color:#CA8A71;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;">${date.departureAirport}</span>`;
-  document.getElementById('destPickerSearch').value = '';
-
-  renderDestPickerList('');
-  document.getElementById('destPickerOverlay').classList.add('open');
-  document.getElementById('destPickerSearch').focus();
-}
-
-function renderDestPickerList(query) {
-  const q = query.toLowerCase();
-  const filtered = q ? _dpItems.filter(d => d.name.toLowerCase().includes(q) || d.airportCode.toLowerCase().includes(q)) : _dpItems;
-  const list = document.getElementById('destPickerList');
-  list.innerHTML = filtered.map(d => `
-    <div class="dp-item ${_dpSelected.has(d.id) ? 'selected' : ''}" onclick="toggleDpItem(${d.id})">
-      <div class="dp-check"><span class="dp-check-icon">✓</span></div>
-      <div class="dp-name">${d.name}</div>
-      <div class="dp-code">${d.airportCode}</div>
-    </div>`).join('');
-  updateDpCount();
-}
-
-function toggleDpItem(id) {
-  if (_dpSelected.has(id)) _dpSelected.delete(id);
-  else _dpSelected.add(id);
-  // Toggle just the clicked element without re-rendering whole list
-  const q = document.getElementById('destPickerSearch').value;
-  renderDestPickerList(q);
-}
-
-function updateDpCount() {
-  document.getElementById('destPickerCount').innerHTML =
-    `<strong>${_dpSelected.size}</strong> odabrano`;
-}
-
-function closeDestPicker() {
-  document.getElementById('destPickerOverlay').classList.remove('open');
-  _dpDateId = null;
-}
-
-async function saveDestPicker() {
-  if (!_dpDateId) return;
-  const ids = Array.from(_dpSelected);
-  console.log('[destPicker] saving dateId=', _dpDateId, 'ids=', ids);
-  let res;
-  try {
-    res = await fetch(`${API}/api/admin/dates/${_dpDateId}/destinations`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify(ids)
-    });
-  } catch(e) {
-    console.error('[destPicker] fetch error:', e);
-    Swal.fire({ icon: 'error', title: 'Greška mreže', text: e.message, background: '#0d1b38', color: '#fff' });
-    return;
-  }
-  console.log('[destPicker] response status:', res.status);
-  const dateIdSaved = _dpDateId;
-  closeDestPicker();
-  if (res.ok) {
-    await loadDates();
-    Swal.fire({ icon: 'success', title: 'Sačuvano!', timer: 1200, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
-  } else {
-    const errText = await res.text().catch(() => '');
-    console.error('[destPicker] error response:', errText);
-    Swal.fire({ icon: 'error', title: `Greška ${res.status}`, text: errText || 'Nije uspelo čuvanje.', background: '#0d1b38', color: '#fff' });
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('destPickerSearch').addEventListener('input', e => renderDestPickerList(e.target.value));
-  document.getElementById('destPickerOverlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('destPickerOverlay')) closeDestPicker();
-  });
-});
 
 // ══ EDIT SLOTS ══
 async function editSlots(id, currentSlots) {
@@ -3445,23 +3348,5 @@ async function reactivateGiftVoucher(id) {
 
 </script>
 
-<!-- Dest Picker Modal -->
-<div id="destPickerOverlay">
-  <div id="destPickerBox">
-    <div id="destPickerHeader">
-      <div id="destPickerTitle">Destinacije</div>
-      <div id="destPickerSub"></div>
-      <input id="destPickerSearch" type="text" placeholder="Pretraži destinacije...">
-    </div>
-    <div id="destPickerList"></div>
-    <div id="destPickerFooter">
-      <div id="destPickerCount"><strong>0</strong> odabrano</div>
-      <div style="display:flex;gap:8px;">
-        <button class="dp-btn-cancel" onclick="closeDestPicker()">Otkaži</button>
-        <button class="dp-btn-save" onclick="saveDestPicker()">Sačuvaj</button>
-      </div>
-    </div>
-  </div>
-</div>
 </body>
 </html>
