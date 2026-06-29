@@ -5355,6 +5355,8 @@ async function loadDestinationsForDate(dateId) {
     const r = await fetch(`${API}/api/dates/${dateId}/destinations`);
     if (!r.ok) throw new Error();
     S.destinations = await r.json();
+    const validIds = new Set(S.destinations.map(d => d.id));
+    S.excludedIds  = S.excludedIds.filter(id => validIds.has(id));
     renderExclGrid();
   } catch(e) { /* fallback - ostaje prethodni S.destinations */ }
 }
@@ -5736,8 +5738,9 @@ function updateSuitUI() {
 function updateExclStep() {
   const isINI = S.airport === 'INI';
 
-  // Re-renduj grid sa destinacijama iz izabranog datuma
+  // Prikaži trenutne destinacije odmah, pa tiho osvježi s backenda
   renderExclGrid();
+  if (S.selectedDateId) loadDestinationsForDate(S.selectedDateId);
 
   // Ako je INI i korisnik je već izabrao >1 isključivanje, obreži na max 1
   if (isINI && S.excludedIds.length > 1) {
