@@ -6049,8 +6049,70 @@ function renderPax() {
     </div>`
   ).join('');
   initTagInputs();
-  setTimeout(initChoices, 0);
+  setTimeout(() => { initChoices(); restorePaxDraft(); }, 0);
 }
+
+// ── Booking draft (preživljava page refresh) ────────────────────────────────
+const DRAFT_KEY = 'esc_booking_draft';
+const DRAFT_TTL = 4 * 60 * 60 * 1000; // 4h
+
+function saveDraft() {
+  if (!document.querySelector('.pax-item')) return;
+  const pax = Array.from({length: S.travelers}, (_, i) => ({
+    name:            (document.getElementById('pn'+i)  || {}).value  || '',
+    gender:          (document.getElementById('pg'+i)  || {}).value  || 'M',
+    dob:             getPaxDob(i),
+    passport:        (document.getElementById('pp'+i)  || {}).value  || '',
+    hasValidPassport:(document.getElementById('phv'+i) || {checked:false}).checked,
+    visa:            getVisaValue(i),
+  }));
+  const contact = {
+    firstName: document.getElementById('fFirstName')?.value || '',
+    lastName:  document.getElementById('fLastName')?.value  || '',
+    email:     document.getElementById('fEmail')?.value     || '',
+    phone:     document.getElementById('fPhone')?.value     || '',
+    notes:     document.getElementById('fNotes')?.value     || '',
+  };
+  try {
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ expires: Date.now() + DRAFT_TTL, pax, contact }));
+  } catch(e) {}
+}
+
+function restorePaxDraft() {
+  try {
+    const raw = sessionStorage.getItem(DRAFT_KEY);
+    if (!raw) return;
+    const draft = JSON.parse(raw);
+    if (!draft || Date.now() > draft.expires) { sessionStorage.removeItem(DRAFT_KEY); return; }
+    (draft.pax || []).forEach((p, i) => {
+      const n = document.getElementById('pn'+i);   if (n)  n.value = p.name || '';
+      const g = document.getElementById('pg'+i);   if (g)  g.value = p.gender || 'M';
+      const pp = document.getElementById('pp'+i);  if (pp) pp.value = p.passport || '';
+      const phv = document.getElementById('phv'+i);if (phv) phv.checked = !!p.hasValidPassport;
+      if (p.visa) { const vi = document.getElementById('pv'+i); if (vi) vi.value = p.visa; }
+      if (p.dob) {
+        const [yy, mm, dd] = p.dob.split('-');
+        const md = document.getElementById('pd-date-'+i); if (md) md.value = p.dob;
+        const ds = document.getElementById('pd-d-'+i);    if (ds) ds.value = dd;
+        const ms = document.getElementById('pd-m-'+i);    if (ms) ms.value = mm;
+        const ys = document.getElementById('pd-y-'+i);    if (ys) ys.value = yy;
+      }
+    });
+    const c = draft.contact || {};
+    ['fFirstName','fLastName','fEmail','fPhone','fNotes'].forEach(id => {
+      const el = document.getElementById(id);
+      const key = id.replace('f','').replace(/^./, s => s.toLowerCase());
+      if (el && c[key]) el.value = c[key];
+    });
+  } catch(e) {}
+}
+
+function clearDraft() {
+  try { sessionStorage.removeItem(DRAFT_KEY); } catch(e) {}
+}
+
+window.addEventListener('beforeunload', saveDraft);
+// ────────────────────────────────────────────────────────────────────────────
 
 async function loadPrice() {
   if(!S.selectedDateId) return;
@@ -6356,6 +6418,7 @@ async function submitBooking() {
     const r=await fetch(`${API}/api/booking`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const d=await r.json();
     if(r.ok){
+      clearDraft();
       // Sačuvaj podatke za boarding pass na hvala stranici
       sessionStorage.setItem('esc_bp', JSON.stringify({
         name:       (firstName + ' ' + lastName).toUpperCase(),
