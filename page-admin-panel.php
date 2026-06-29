@@ -1079,10 +1079,10 @@ tbody td  { padding: 11px 12px; }
       <!-- Forma za dodavanje -->
       <div class="card">
         <div class="card-title">➕ Dodaj novu destinaciju</div>
-        <div class="form-grid three">
+        <div class="form-grid">
           <div>
             <label class="field-label">Naziv <span class="req">*</span></label>
-            <input type="text" class="form-input" id="dName" placeholder="npr. Barselona">
+            <input type="text" class="form-input" id="dName" placeholder="npr. Barcelona">
           </div>
           <div>
             <label class="field-label">IATA kod odredišta <span class="req">*</span></label>
@@ -1091,18 +1091,6 @@ tbody td  { padding: 11px 12px; }
           <div>
             <label class="field-label">Država <span class="req">*</span></label>
             <input type="text" class="form-input" id="dCountry" placeholder="npr. Španija">
-          </div>
-          <div>
-            <label class="field-label">Region</label>
-            <select class="form-input" id="dRegion">
-              <option value="">-- izaberi --</option>
-              <option value="Mediteran">Mediteran</option>
-              <option value="Zapadna Evropa">Zapadna Evropa</option>
-              <option value="Centralna Evropa">Centralna Evropa</option>
-              <option value="Jugoistočna Evropa">Jugoistočna Evropa</option>
-              <option value="Severna Evropa">Severna Evropa</option>
-              <option value="Bliski istok">Bliski istok</option>
-            </select>
           </div>
           <div>
             <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
@@ -1114,6 +1102,16 @@ tbody td  { padding: 11px 12px; }
                 <input type="checkbox" id="dINI" value="INI" style="accent-color:var(--accent);width:16px;height:16px;"> INI (Niš)
               </label>
             </div>
+          </div>
+          <div class="form-span">
+            <label class="field-label">Slika destinacije <span style="color:var(--gray);font-weight:400;">(opciono)</span></label>
+            <div id="dImgPreview" style="margin-bottom:8px;"></div>
+            <input type="file" id="dImg" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="previewNewImg(this)">
+            <button onclick="document.getElementById('dImg').click()"
+                    style="background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.2);border-radius:10px;padding:10px 20px;color:var(--gray);cursor:pointer;font-size:13px;width:100%;font-family:inherit;transition:border-color .2s;"
+                    onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,.2)'">
+              📁 Izaberi sliku (JPG, PNG, WebP — max 5MB)
+            </button>
           </div>
         </div>
         <button class="btn-add" onclick="createDestination()">Dodaj destinaciju</button>
@@ -1165,18 +1163,6 @@ tbody td  { padding: 11px 12px; }
         <input type="text" class="form-input" id="editDestCountry">
       </div>
       <div>
-        <label class="field-label">Region</label>
-        <select class="form-input" id="editDestRegion">
-          <option value="">-- izaberi --</option>
-          <option value="Mediteran">Mediteran</option>
-          <option value="Zapadna Evropa">Zapadna Evropa</option>
-          <option value="Centralna Evropa">Centralna Evropa</option>
-          <option value="Jugoistočna Evropa">Jugoistočna Evropa</option>
-          <option value="Severna Evropa">Severna Evropa</option>
-          <option value="Bliski istok">Bliski istok</option>
-        </select>
-      </div>
-      <div class="form-span">
         <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
         <div style="display:flex;gap:20px;padding:12px 0;">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
@@ -1361,11 +1347,22 @@ function renderDestTable() {
   }).join('');
 }
 
+function previewNewImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('dImgPreview').innerHTML =
+      `<img src="${e.target.result}" style="height:64px;border-radius:8px;object-fit:cover;" alt="preview">
+       <div style="font-size:11px;color:#4ade80;margin-top:4px;">Slika će biti uploadovana</div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
 async function createDestination() {
   const name    = document.getElementById('dName').value.trim();
   const iata    = document.getElementById('dIata').value.trim().toUpperCase();
   const country = document.getElementById('dCountry').value.trim();
-  const region  = document.getElementById('dRegion').value;
   const airports = [];
   if (document.getElementById('dBEG').checked) airports.push('BEG');
   if (document.getElementById('dINI').checked) airports.push('INI');
@@ -1382,19 +1379,31 @@ async function createDestination() {
     const r = await fetch(`${API}/api/admin/destinations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify({ name, airportCode: iata, country, region: region || null, departureAirports: airports })
+      body: JSON.stringify({ name, airportCode: iata, country, region: null, departureAirports: airports })
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       throw new Error(err.message || `HTTP ${r.status}`);
     }
     const newDest = await r.json();
+    // Upload slike ako je izabrana
+    const imgFile = document.getElementById('dImg').files[0];
+    if (imgFile) {
+      const fd = new FormData();
+      fd.append('file', imgFile);
+      await fetch(`${API}/api/admin/destinations/${newDest.id}/image`, {
+        method: 'POST',
+        headers: { 'X-Admin-Key': ADMIN_KEY },
+        body: fd
+      });
+    }
     document.getElementById('dName').value    = '';
     document.getElementById('dIata').value    = '';
     document.getElementById('dCountry').value = '';
-    document.getElementById('dRegion').value  = '';
     document.getElementById('dBEG').checked   = true;
     document.getElementById('dINI').checked   = false;
+    document.getElementById('dImg').value     = '';
+    document.getElementById('dImgPreview').innerHTML = '';
     await loadDestinations();
     Swal.fire({ icon: 'success', title: 'Destinacija dodana!', text: `${newDest.name} (${newDest.airportCode}) je dodata u sistem.`, timer: 2000, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
   } catch(e) {
@@ -1409,7 +1418,6 @@ function openEditDest(id) {
   document.getElementById('editDestName').value    = d.name;
   document.getElementById('editDestIata').value    = d.airportCode;
   document.getElementById('editDestCountry').value = d.country;
-  document.getElementById('editDestRegion').value  = d.region || '';
   document.getElementById('editDestBEG').checked   = (d.departureAirports||[]).includes('BEG');
   document.getElementById('editDestINI').checked   = (d.departureAirports||[]).includes('INI');
   document.getElementById('editDestImg').value     = '';
@@ -1442,7 +1450,6 @@ async function saveEditDest() {
   const name    = document.getElementById('editDestName').value.trim();
   const iata    = document.getElementById('editDestIata').value.trim().toUpperCase();
   const country = document.getElementById('editDestCountry').value.trim();
-  const region  = document.getElementById('editDestRegion').value;
   const airports = [];
   if (document.getElementById('editDestBEG').checked) airports.push('BEG');
   if (document.getElementById('editDestINI').checked) airports.push('INI');
@@ -1459,7 +1466,7 @@ async function saveEditDest() {
     const r = await fetch(`${API}/api/admin/destinations/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify({ name, airportCode: iata, country, region: region || null, departureAirports: airports })
+      body: JSON.stringify({ name, airportCode: iata, country, region: null, departureAirports: airports })
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
