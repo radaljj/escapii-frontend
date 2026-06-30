@@ -2333,11 +2333,33 @@ function renderBookings() {
         <div class="bc-field bc-field--full">
           <div class="bc-label">✈ Dodeljena destinacija</div>
           <div class="bc-dest-row">
-            <input class="bc-dest-input" id="dest-${b.id}" type="text"
-              placeholder="npr. Barcelona"
-              value="${b.assignedDestination || ''}"
-              onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />
-            <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju (Enter)">✓</button>
+            ${(() => {
+              const termDests = b.termDestinations || [];
+              const excludedIds = new Set(b.excludedDestinationIds || []);
+              if (!termDests.length) {
+                return `<input class="bc-dest-input" id="dest-${b.id}" type="text"
+                  placeholder="npr. Barcelona"
+                  value="${b.assignedDestination || ''}"
+                  onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />`;
+              }
+              const opts = termDests.map(td => {
+                const isExcluded = excludedIds.has(td.destinationId);
+                const isCurrent  = td.name === b.assignedDestination;
+                return `<option value="${td.name}"
+                  ${isCurrent  ? 'selected' : ''}
+                  ${isExcluded ? 'disabled' : ''}
+                  style="${isExcluded ? 'text-decoration:line-through;color:#64748b;' : ''}${!td.active ? 'opacity:.45;' : ''}">
+                  ${td.name}${isExcluded ? ' 🚫' : ''}${!td.active ? ' (neaktivna)' : ''}
+                </option>`;
+              }).join('');
+              return `<select class="bc-dest-input" id="dest-${b.id}"
+                onchange="saveDestination(${b.id})"
+                style="cursor:pointer;">
+                <option value="">-- izaberi destinaciju --</option>
+                ${opts}
+              </select>`;
+            })()}
+            <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju">✓</button>
           </div>
           <div style="margin-top:6px;">
             <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
