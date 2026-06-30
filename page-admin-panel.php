@@ -255,6 +255,16 @@ body {
   font-family: inherit; outline: none; transition: border .2s;
 }
 .bc-dest-input:focus { border-color: var(--accent); }
+select.bc-dest-input {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  cursor: pointer;
+}
+select.bc-dest-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(234,179,8,.12); }
+select.bc-dest-input option { background: #0d1b38; color: var(--white); padding: 6px 10px; }
+select.bc-dest-input option:disabled { color: #64748b; }
 .bc-reveal-sent { color: #4ade80; font-size: 11px; font-weight: 600; }
 /* Manual send buttons */
 .bc-send-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
