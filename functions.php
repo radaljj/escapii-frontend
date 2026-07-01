@@ -73,7 +73,7 @@ function escapii_head_meta() {
 add_action('wp_head', 'escapii_head_meta', 1);
 
 // Ukloni WordPress-ov wp_site_icon() - mi sami outputujemo favicon tagove u escapii_head_meta()
-remove_action('wp_head', 'wp_site_icon');
+remove_action('wp_head', 'wp_site_icon', 99);
 
 // Ukloni WordPress-ov automatski canonical - mi dodajemo eksplicitan u escapii_head_meta()
 remove_action('wp_head', 'rel_canonical');
