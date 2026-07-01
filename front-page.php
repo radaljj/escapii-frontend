@@ -5354,7 +5354,13 @@ async function loadDestinationsForDate(dateId) {
   try {
     const r = await fetch(`${API}/api/dates/${dateId}/destinations`);
     if (!r.ok) throw new Error();
-    S.destinations = await r.json();
+    const raw = await r.json();
+    // Normalizuj: TermDestinationResponse ima destinationId (pravi Destination ID)
+    // i id (TermDestination ID). Svi ostali kodovi koriste d.id pa mapiramo na Destination ID.
+    S.destinations = raw.map(d => d.destinationId != null
+      ? { ...d, id: d.destinationId }
+      : d
+    );
     const validIds = new Set(S.destinations.map(d => d.id));
     S.excludedIds  = S.excludedIds.filter(id => validIds.has(id));
     renderExclGrid();
