@@ -298,7 +298,7 @@ $site_url  = get_site_url();
     /* Mobilni: bez rotacije (da se ne seče cena), širina vezana za ekran */
     @media (max-width:600px) {
       .gv-stage { height:auto; padding:24px 0 8px; overflow:visible; }
-      .gv-voucher { width:min(360px, 92vw); transform:rotate(0);
+      .gv-voucher { width:min(360px, calc(100vw - 48px)); transform:rotate(0);
         animation:gv-float-flat 6s ease-in-out infinite; }
       @keyframes gv-float-flat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
       .gv-stage::before { width:240px; height:240px; }
