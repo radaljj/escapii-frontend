@@ -297,7 +297,7 @@ $site_url  = get_site_url();
     }
     /* Mobilni: bez rotacije (da se ne seče cena), širina vezana za ekran */
     @media (max-width:600px) {
-      .gv-stage { height:auto; padding:24px 0 8px; overflow:visible; }
+      .gv-stage { height:auto; padding:40px 0 40px; overflow:visible; }
       .gv-voucher { width:min(360px, calc(100vw - 48px)); transform:rotate(0);
         animation:gv-float-flat 6s ease-in-out infinite; }
       @keyframes gv-float-flat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
@@ -310,8 +310,8 @@ $site_url  = get_site_url();
       .gv-badge .gv-ic { width:28px; height:28px; font-size:16px; }
       .gv-badge .gv-tx b { font-size:10px; }
       .gv-badge .gv-tx small { font-size:8.5px; }
-      .gv-badge.gv-mystery { top:6px; right:4px; }
-      .gv-badge.gv-cal { bottom:6px; left:4px; }
+      .gv-badge.gv-mystery { top:-14px; left:12px; right:auto; }
+      .gv-badge.gv-cal { bottom:-14px; right:12px; left:auto; }
     }
     @media (max-width:360px) {
       .gv-stub { width:84px; padding:16px 8px; }
