@@ -302,7 +302,7 @@ $site_url  = get_site_url();
         animation:gv-float-flat 6s ease-in-out infinite; }
       @keyframes gv-float-flat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
       .gv-stage::before { width:240px; height:240px; }
-      .gv-stub { width:96px; padding:18px 10px; }
+      .gv-stub { display:none; }
       .gv-stub-amt { font-size:30px; }
       .gv-stub-words { font-size:7.5px; margin:4px 0 12px; }
       .gv-qr { width:58px; height:58px; padding:5px; margin-bottom:10px; }
