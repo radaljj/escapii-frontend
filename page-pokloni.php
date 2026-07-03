@@ -246,8 +246,7 @@ $site_url  = get_site_url();
     .gv-card { display:flex; background:#fffdf8; border-radius:18px; overflow:hidden; }
     .gv-card-main { flex:1; padding:26px 24px; }
     .gv-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
-    .gv-logo { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:21px; color:#1a1410; letter-spacing:-.5px; }
-    .gv-logo i { font-style:italic; } .gv-logo b { color:#a85e44; font-weight:600; }
+    .gv-card-logo { height:26px; width:auto; display:block; }
     .gv-mini-tag { font-size:8px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
       color:#a85e44; border:1px solid #e6c6b6; background:#faf0ea; padding:5px 10px; border-radius:100px; }
     .gv-route { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
@@ -257,10 +256,13 @@ $site_url  = get_site_url();
     .gv-route .gv-mid { flex:1; text-align:center; padding:0 12px; }
     .gv-plane { display:inline-block; color:#c8775a; font-size:18px; }
     .gv-route .gv-ln { border-top:1.5px dashed #e0c3b2; margin-top:6px; }
-    .gv-row { display:flex; border-top:1px dashed #e7ddcd; padding-top:16px; }
-    .gv-cell { flex:1; }
-    .gv-cell .gv-k { font-size:7.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#a89888; }
-    .gv-cell .gv-v { font-size:12px; font-weight:700; color:#1a1410; margin-top:4px; }
+    .gv-row { display:flex; border-top:1px dashed #e7ddcd; margin-top:4px;
+      background:#fff; border-radius:10px; overflow:hidden;
+      border:1px solid rgba(168,94,68,.12); }
+    .gv-cell { flex:1; padding:9px 12px; border-right:1px solid rgba(168,94,68,.1); }
+    .gv-cell:last-child { border-right:none; }
+    .gv-cell .gv-k { font-size:7px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#b4a89a; }
+    .gv-cell .gv-v { font-size:11px; font-weight:700; color:#1a1410; margin-top:5px; }
     .gv-cell .gv-v.gv-terra { color:#a85e44; }
 
     .gv-stub { width:120px; background:#16313a; padding:24px 16px; position:relative;
@@ -281,9 +283,9 @@ $site_url  = get_site_url();
       font-family:Georgia,serif; font-weight:700; font-size:20px; }
     .gv-badge .gv-tx b { font-size:12px; font-weight:700; color:#1a1410; display:block; line-height:1.2; }
     .gv-badge .gv-tx small { font-size:10px; color:#6b5d4f; }
-    .gv-badge.gv-mystery { top:36px; right:-6px; animation-delay:.4s; }
+    .gv-badge.gv-mystery { top:28px; right:-32px; animation-delay:.4s; }
     .gv-badge.gv-mystery .gv-ic { background:#16313a; color:#f0c3ae; }
-    .gv-badge.gv-cal { bottom:48px; left:-18px; animation-delay:1.2s; }
+    .gv-badge.gv-cal { bottom:40px; left:-12px; animation-delay:1.2s; }
     .gv-badge.gv-cal .gv-ic { background:#faf0ea; color:#a85e44; }
 
     @media (max-width:960px) {
@@ -301,8 +303,8 @@ $site_url  = get_site_url();
       @keyframes gv-float-flat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
       .gv-stage::before { width:240px; height:240px; }
       .gv-badge { padding:10px 13px; }
-      .gv-badge.gv-mystery { top:6px; right:0; }
-      .gv-badge.gv-cal { bottom:6px; left:0; }
+      .gv-badge.gv-mystery { top:6px; right:4px; }
+      .gv-badge.gv-cal { bottom:6px; left:4px; }
     }
     @media (max-width:360px) {
       .gv-stub { width:104px; padding:20px 12px; }
@@ -637,13 +639,13 @@ $site_url  = get_site_url();
       <button class="lang-btn on" onclick="setLang('sr')">SR</button>
       <button class="lang-btn"    onclick="setLang('en')">EN</button>
     </div>
-    <button class="nav-status" onclick="goHome()" title="Rezerviši putovanje">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span data-i18n="nav.home">Početna</span>
-    </button>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-how" class="nav-status">Kako funkcioniše</a>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-dest" class="nav-status">Destinacije</a>
+    <a href="<?php echo esc_url($site_url); ?>/faq" class="nav-status">FAQ</a>
     <button class="nav-gift-btn" onclick="scrollToVoucher()" type="button">
       🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span>
     </button>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="nav-gift-btn" style="background:rgba(202,138,113,.18);border-color:rgba(202,138,113,.45);color:#CA8A71;">Rezerviši →</a>
   </div>
   <button class="nav-burger" id="navBurger" onclick="togBurger()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -653,15 +655,20 @@ $site_url  = get_site_url();
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <div class="mob-menu-links">
-    <button class="mob-menu-link" onclick="closeMobMenu();goHome();" data-i18n="nav.home">🏠 Početna</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();scrollToVoucher();">🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span></button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/';">🏠 Početna</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-how';">Kako funkcioniše</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-about';">O nama</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-dest';">Destinacije</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/faq';">FAQ</button>
+    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/blog';">Blog</button>
+    <button class="mob-menu-link" style="color:#d4a83c;" onclick="closeMobMenu();scrollToVoucher();">🎟️ Poklon vaučer</button>
   </div>
   <div class="mob-menu-bottom">
     <div class="lang-wrap">
       <button class="lang-btn on" onclick="setLang('sr')">SR</button>
       <button class="lang-btn"    onclick="setLang('en')">EN</button>
     </div>
-    <button class="mob-menu-book" onclick="closeMobMenu();goHome();" data-i18n="nav.home">Nazad na sajt</button>
+    <button class="mob-menu-book" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-booking';">Rezerviši →</button>
   </div>
 </div>
 
@@ -714,7 +721,7 @@ $site_url  = get_site_url();
         <div class="gv-card">
           <div class="gv-card-main">
             <div class="gv-card-top">
-              <span class="gv-logo">escap<i>ii</i><b>?</b></span>
+              <img src="<?php echo $theme_uri; ?>/images/logo-black.svg" alt="Escapii" class="gv-card-logo">
               <span class="gv-mini-tag">Poklon vaučer</span>
             </div>
             <div class="gv-route">
@@ -744,7 +751,6 @@ $site_url  = get_site_url();
             <div class="gv-qr">
               <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#16313a"><rect x="0" y="0" width="30" height="30"/><rect x="8" y="8" width="14" height="14" fill="#fff"/><rect x="70" y="0" width="30" height="30"/><rect x="78" y="8" width="14" height="14" fill="#fff"/><rect x="0" y="70" width="30" height="30"/><rect x="8" y="78" width="14" height="14" fill="#fff"/><rect x="40" y="0" width="8" height="8"/><rect x="52" y="0" width="8" height="8"/><rect x="40" y="14" width="8" height="8"/><rect x="60" y="14" width="8" height="8"/><rect x="0" y="40" width="8" height="8"/><rect x="14" y="40" width="8" height="8"/><rect x="40" y="40" width="8" height="8"/><rect x="52" y="48" width="8" height="8"/><rect x="64" y="40" width="8" height="8"/><rect x="76" y="48" width="8" height="8"/><rect x="88" y="40" width="8" height="8"/><rect x="40" y="60" width="8" height="8"/><rect x="60" y="60" width="8" height="8"/><rect x="80" y="64" width="8" height="8"/><rect x="40" y="76" width="8" height="8"/><rect x="56" y="80" width="8" height="8"/><rect x="72" y="76" width="8" height="8"/><rect x="88" y="80" width="8" height="8"/></g></svg>
             </div>
-            <div class="gv-stub-foot">Skeniraj<br>escapii.rs/poklon</div>
           </div>
         </div>
       </div>

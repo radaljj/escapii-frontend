@@ -66,36 +66,82 @@ body { background: var(--cream); color: var(--ink); font-family: var(--serif);
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; line-height: 1.7; }
 a { color: inherit; }
 
-/* ── Nav ── */
+/* ── Nav (identičan front-page.php) ── */
 .fq-nav {
-  position: sticky; top: 0; z-index: 100;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 15px 40px;
-  background: var(--teal-deep);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 0 64px; height: 72px;
+  background: rgba(15,45,53,.92); backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
 }
 .fq-logo { display: inline-flex; align-items: center; text-decoration: none; }
-.fq-logo img { height: 38px; width: auto; display: block; }
-.fq-nav-right { display: flex; align-items: center; gap: 12px; }
-.fq-lang { display: flex; border: 1px solid rgba(255,255,255,.18); border-radius: 8px; overflow: hidden; }
+.fq-logo img { height: 48px; width: auto; display: block; }
+@media (max-width:768px) { .fq-logo img { height:36px; } }
+.fq-nav-right { display: flex; align-items: center; gap: 14px; }
+.fq-lang { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
 .fq-lang button {
-  font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 7px 13px;
-  border: none; background: transparent; color: rgba(255,255,255,.55); cursor: pointer; transition: all .2s;
+  font-family: var(--sans); font-size: 13px; font-weight: 700; padding: 7px 16px;
+  border: none; background: transparent; color: rgba(122,159,168,.9); cursor: pointer; transition: all .2s; letter-spacing:.5px;
 }
 .fq-lang button.on { background: var(--terra); color: #fff; }
-.fq-back {
-  font-family: var(--sans); font-size: 13px; font-weight: 500;
-  color: rgba(255,255,255,.8); text-decoration: none;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 16px; border: 1px solid rgba(255,255,255,.2); border-radius: 100px; transition: all .2s;
+.fq-nav-link {
+  font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,.65);
+  text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: all .2s;
+  background: none; border: none; cursor: pointer;
 }
-.fq-back:hover { border-color: var(--peach); color: #fff; }
-.fq-back svg { width: 14px; height: 14px; }
+.fq-nav-link:hover { color: #fff; background: rgba(255,255,255,.07); }
+.fq-nav-link.active { color: #fff; }
+.fq-nav-cta {
+  font-family: var(--sans); font-size: 13px; font-weight: 700; color: #fff;
+  background: var(--terra); border: none; border-radius: 8px;
+  padding: 9px 18px; cursor: pointer; transition: all .2s; text-decoration: none;
+  display: inline-flex; align-items: center;
+}
+.fq-nav-cta:hover { background: var(--peach); transform: translateY(-1px); }
+.fq-gift-btn {
+  font-family: var(--sans); font-size: 13px; font-weight: 700; color: #d4a83c;
+  background: rgba(200,149,58,.12); border: 1.5px solid rgba(200,149,58,.28);
+  border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: all .2s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+}
+.fq-gift-btn:hover { background: rgba(200,149,58,.22); border-color: rgba(200,149,58,.5); }
+.fq-burger { display:none; flex-direction:column; justify-content:center; gap:5px;
+             width:40px; height:40px; background:none; border:none; cursor:pointer; padding:8px; }
+.fq-burger span { display:block; height:2px; background:white; border-radius:2px;
+                  transition: transform .3s, opacity .3s, width .3s; width:100%; }
+.fq-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.fq-burger.open span:nth-child(2) { opacity:0; width:0; }
+.fq-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.fq-mob-menu {
+  display:none; position:fixed; top:72px; left:0; right:0; z-index:997;
+  background:rgba(15,45,53,.97); backdrop-filter:blur(28px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  flex-direction:column; padding:16px 24px 24px;
+  transform:translateY(-8px); opacity:0;
+  transition: transform .25s ease, opacity .25s ease;
+  pointer-events: none;
+}
+.fq-mob-menu.open { transform:translateY(0); opacity:1; pointer-events: auto; }
+.fq-mob-links { display:flex; flex-direction:column; gap:2px; margin-bottom:20px; }
+.fq-mob-link { padding:13px 4px; font-size:15px; font-weight:700; color:rgba(255,255,255,.7);
+               background:none; border:none; text-align:left; cursor:pointer; font-family:var(--sans);
+               border-bottom:1px solid rgba(255,255,255,.06); transition:color .15s; text-decoration:none; display:block; }
+.fq-mob-link:last-child { border-bottom:none; }
+.fq-mob-link:hover { color:white; }
+.fq-mob-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:4px; }
+.fq-mob-book { flex:1; background:var(--terra); color:#ffffff; border:none;
+               padding:13px; border-radius:10px; font-size:14px; font-weight:800; cursor:pointer; font-family:var(--sans); }
+@media (max-width:768px) {
+  .fq-nav { padding: 0 20px; }
+  .fq-nav-right { display: none; }
+  .fq-burger { display: flex; }
+  .fq-mob-menu { display: flex; }
+}
 
 /* ── Hero ── */
 .fq-hero {
   position: relative; overflow: hidden;
-  text-align: center; padding: 70px 24px 110px;
+  text-align: center; padding: 142px 24px 110px;
   background: url('https://images.unsplash.com/photo-1646303297330-17073f7823c3?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat var(--teal-deep);
 }
 .fq-hero::before {
@@ -210,7 +256,7 @@ a { color: inherit; }
 /* ── Responsive ── */
 @media (max-width: 760px) {
   .fq-nav { padding: 14px 20px; }
-  .fq-hero { padding: 52px 20px 92px; }
+  .fq-hero { padding: 124px 20px 92px; }
   .fq-wrap { padding: 48px 20px 0; }
   .faq-q h3 { font-size: 17px; }
   .faq-q { padding: 18px 20px; }
@@ -225,21 +271,49 @@ a { color: inherit; }
 <body>
 
 <!-- NAV -->
-<nav class="fq-nav">
-  <a href="<?php echo esc_url($site_url); ?>" class="fq-logo">
+<nav class="fq-nav" id="fqNav">
+  <a href="<?php echo esc_url($site_url); ?>/" class="fq-logo">
     <img src="<?php echo esc_url($theme_uri); ?>/images/logo-white.svg" alt="Escapii">
   </a>
+
   <div class="fq-nav-right">
+    <a href="<?php echo esc_url($site_url); ?>/#esc-how"    class="fq-nav-link">Kako funkcioniše</a>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-dest"   class="fq-nav-link">Destinacije</a>
+    <a href="<?php echo esc_url($site_url); ?>/faq"         class="fq-nav-link active">FAQ</a>
+    <a href="<?php echo esc_url($site_url); ?>/blog"        class="fq-nav-link">Blog</a>
+    <a href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja" class="fq-gift-btn">
+      🎁 Pokloni
+    </a>
     <div class="fq-lang">
       <button id="langSr" class="on" onclick="setLang('sr')">SR</button>
       <button id="langEn" onclick="setLang('en')">EN</button>
     </div>
-    <a href="<?php echo esc_url($site_url); ?>" class="fq-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      <span data-i18n="back" style="display:inline">Nazad na sajt</span>
-    </a>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="fq-nav-cta">Rezerviši</a>
   </div>
+
+  <button class="fq-burger" id="fqBurger" onclick="toggleMobMenu()" aria-label="Meni">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="fq-mob-menu" id="fqMobMenu">
+  <div class="fq-mob-links">
+    <a href="<?php echo esc_url($site_url); ?>/#esc-how"  class="fq-mob-link" onclick="location.href=this.href">Kako funkcioniše</a>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-dest"  class="fq-mob-link" onclick="location.href=this.href">Destinacije</a>
+    <a href="<?php echo esc_url($site_url); ?>/#esc-who"   class="fq-mob-link" onclick="location.href=this.href">Ko smo mi</a>
+    <a href="<?php echo esc_url($site_url); ?>/faq"        class="fq-mob-link" style="color:#fff;">FAQ</a>
+    <a href="<?php echo esc_url($site_url); ?>/blog"       class="fq-mob-link">Blog</a>
+    <a href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja" class="fq-mob-link" style="color:#d4a83c;">🎁 Pokloni iznenađenja</a>
+  </div>
+  <div class="fq-mob-bottom">
+    <div class="fq-lang" style="flex:1;">
+      <button onclick="setLang('sr')" class="on" id="mobLangSr">SR</button>
+      <button onclick="setLang('en')"             id="mobLangEn">EN</button>
+    </div>
+    <button class="fq-mob-book" onclick="location.href='<?php echo esc_url($site_url); ?>/#esc-booking'">Rezerviši →</button>
+  </div>
+</div>
 
 <!-- HERO -->
 <header class="fq-hero">
@@ -468,8 +542,8 @@ function applyLang() {
     const k = el.getAttribute('data-i18n-html');
     if (dict[k] !== undefined) el.innerHTML = dict[k];
   });
-  document.getElementById('langSr').classList.toggle('on', lang === 'sr');
-  document.getElementById('langEn').classList.toggle('on', lang === 'en');
+  ['langSr','mobLangSr'].forEach(id => { var el = document.getElementById(id); if(el) el.classList.toggle('on', lang==='sr'); });
+  ['langEn','mobLangEn'].forEach(id => { var el = document.getElementById(id); if(el) el.classList.toggle('on', lang==='en'); });
   document.documentElement.lang = lang;
   // update search placeholder
   const inp = document.getElementById('fqSearch');
@@ -510,6 +584,28 @@ catsEl.addEventListener('click', function(e) {
   document.querySelectorAll('.fq-group').forEach(function(g) {
     g.style.display = (cat === 'all' || g.dataset.group === cat) ? '' : 'none';
   });
+});
+
+// ── Mobile menu toggle ────────────────────────────────────────────────────
+function toggleMobMenu() {
+  var burger = document.getElementById('fqBurger');
+  var menu   = document.getElementById('fqMobMenu');
+  var open   = burger.classList.toggle('open');
+  menu.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+// Zatvori mob meni na klik izvan
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#fqMobMenu') && !e.target.closest('#fqBurger')) {
+    var burger = document.getElementById('fqBurger');
+    var menu   = document.getElementById('fqMobMenu');
+    if (burger && burger.classList.contains('open')) {
+      burger.classList.remove('open');
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
 });
 
 if (lang === 'en') applyLang();
