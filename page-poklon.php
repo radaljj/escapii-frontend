@@ -273,10 +273,6 @@ $site_url  = get_site_url();
 <canvas id="starsCanvas"></canvas>
 <div class="bg-glow"></div>
 
-<a href="<?php echo esc_url($site_url); ?>/" class="top-logo">
-  <img src="<?php echo $theme_uri; ?>/images/logo-white.svg" alt="Escapii">
-</a>
-
 <!-- STATE: LOADING -->
 <div id="stateLoading">
   <div class="spinner"></div>
