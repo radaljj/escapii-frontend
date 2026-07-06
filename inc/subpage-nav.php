@@ -1,9 +1,4 @@
 <?php
-/**
- * Identičan nav kao na homepage-u, adaptiran za podstranice.
- * Sekcijski linkovi koriste location.href='/#id' umjesto escScrollTo().
- * Koristi $site_url iz roditeljskog templatea.
- */
 $_nav_site = isset($site_url) ? $site_url : get_site_url();
 $_nav_uri  = get_template_directory_uri();
 ?>
@@ -25,6 +20,39 @@ $_nav_uri  = get_template_directory_uri();
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<!-- SECONDARY NAV - uvijek vidljiv na podstranicama -->
+<nav class="sec-nav visible" id="secNav">
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-how'"          data-i18n="snav.how">Kako funkcioniše</button>
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-about'"        data-i18n="snav.about">O nama</button>
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-dest'"         data-i18n="snav.dest">Destinacije</button>
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-who'"          data-i18n="snav.who">Za koga</button>
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/faq/'"              data-i18n="snav.faq">FAQ</button>
+  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/blog/'"             data-i18n="snav.blog">Blog</button>
+  <button class="sec-nav-cta"  onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-booking'"      data-i18n="snav.book.cta">Rezerviši →</button>
+  <button class="sec-nav-call" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-contact-cta'"  data-i18n="snav.call">✉ Kontaktiraj nas</button>
+  <div class="sec-gift-wrap" id="secGiftWrap">
+    <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
+      🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span> <span class="sec-gift-caret">▾</span>
+    </button>
+  </div>
+</nav>
+<div class="sec-gift-drop" id="secGiftDrop">
+  <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni/';" type="button">
+    <span class="nav-gift-item-icon">🎁</span>
+    <span class="nav-gift-item-text">
+      <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje iznenađenja</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
+    </span>
+  </button>
+  <button class="nav-gift-item" onclick="closeSecGift();window.location.href='<?php echo esc_url($_nav_site); ?>/poklon/';" type="button">
+    <span class="nav-gift-item-icon">🔓</span>
+    <span class="nav-gift-item-text">
+      <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
+      <span class="nav-gift-item-sub" data-i18n="nav.gift.redeem.sub">Imaš poklon kod? Aktiviraj ga ovde</span>
+    </span>
+  </button>
+</div>
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
