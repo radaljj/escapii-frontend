@@ -219,7 +219,7 @@ function escapii_serve_sitemap() {
         ['loc' => $h,                                     'priority' => '1.0', 'freq' => 'weekly'],
         ['loc' => $h . 'blog/',                           'priority' => '0.8', 'freq' => 'weekly'],
         ['loc' => $h . 'faq/',                            'priority' => '0.7', 'freq' => 'monthly'],
-        ['loc' => $h . 'pokloni-putovanje-iznenadjenja/', 'priority' => '0.8', 'freq' => 'monthly'],
+        ['loc' => $h . 'pokloni/',                        'priority' => '0.8', 'freq' => 'monthly'],
         ['loc' => $h . 'politika-privatnosti/',           'priority' => '0.2', 'freq' => 'yearly'],
         ['loc' => $h . 'uslovi-koristenja/',              'priority' => '0.2', 'freq' => 'yearly'],
         // privacy-policy i terms-of-use su engleski duplikati sa noindex — ne idu u sitemap
