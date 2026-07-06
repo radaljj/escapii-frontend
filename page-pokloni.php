@@ -147,6 +147,8 @@ $site_url  = get_site_url();
                         text-align:left; cursor:pointer; font-family:inherit; transition:color .15s; }
     .mob-gift-sub-btn:last-child { border-bottom:none; }
     .mob-gift-sub-btn:hover { color:#fff; }
+    .mob-menu-call { flex-direction:column; align-items:flex-start; gap:2px; }
+    .mob-menu-call-hours { font-size:12px; font-weight:500; color:rgba(255,255,255,.4); }
     @media (max-width:768px) {
       .nav-right { display:none; }
       .nav-burger { display:flex; }
@@ -638,47 +640,7 @@ $site_url  = get_site_url();
 <body>
 
 <!-- NAV -->
-<nav class="esc-nav" id="mainNav">
-  <a href="<?php echo esc_url($site_url); ?>/" class="esc-logo">
-    <img src="<?php echo $theme_uri; ?>/images/logo-white.svg" alt="Escapii">
-  </a>
-  <div class="nav-right">
-    <div class="lang-wrap">
-      <button class="lang-btn on" onclick="setLang('sr')">SR</button>
-      <button class="lang-btn"    onclick="setLang('en')">EN</button>
-    </div>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-how" class="nav-status">Kako funkcioniše</a>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-dest" class="nav-status">Destinacije</a>
-    <a href="<?php echo esc_url($site_url); ?>/faq" class="nav-status">FAQ</a>
-    <button class="nav-gift-btn" onclick="scrollToVoucher()" type="button">
-      🎟️ <span data-i18n="nav.gift.voucher">Poklon vaučer</span>
-    </button>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="nav-gift-btn" style="background:rgba(202,138,113,.18);border-color:rgba(202,138,113,.45);color:#CA8A71;">Rezerviši →</a>
-  </div>
-  <button class="nav-burger" id="navBurger" onclick="togBurger()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE MENU -->
-<div class="mob-menu" id="mobMenu">
-  <div class="mob-menu-links">
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/';">🏠 Početna</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-how';">Kako funkcioniše</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-about';">O nama</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-dest';">Destinacije</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/faq';">FAQ</button>
-    <button class="mob-menu-link" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/blog';">Blog</button>
-    <button class="mob-menu-link" style="color:#d4a83c;" onclick="closeMobMenu();scrollToVoucher();">🎟️ Poklon vaučer</button>
-  </div>
-  <div class="mob-menu-bottom">
-    <div class="lang-wrap">
-      <button class="lang-btn on" onclick="setLang('sr')">SR</button>
-      <button class="lang-btn"    onclick="setLang('en')">EN</button>
-    </div>
-    <button class="mob-menu-book" onclick="closeMobMenu();location.href='<?php echo esc_js($site_url); ?>/#esc-booking';">Rezerviši →</button>
-  </div>
-</div>
+<?php include get_template_directory() . '/inc/subpage-nav.php'; ?>
 
 <!-- HERO -->
 <section class="gv-hero" id="gift-top">
@@ -891,7 +853,20 @@ const SITE_URL   = '<?php echo esc_js($site_url); ?>';
 const TR = {
   sr: {
     'nav.home':              'Početna',
+    'nav.status':            'Moja rezervacija',
     'nav.gift.voucher':      'Poklon vaučer',
+    'nav.gift.label':        'Pokloni putovanje iznenađenja',
+    'nav.gift.offer':        '🎁 Pokloni putovanje iznenađenja',
+    'nav.gift.redeem':       '🔓 Iskoristi poklon',
+    'snav.how':              'Kako funkcioniše',
+    'snav.about':            'O nama',
+    'snav.dest':             'Destinacije',
+    'snav.who':              'Za koga',
+    'snav.faq':              'FAQ',
+    'snav.blog':             'Blog',
+    'snav.call':             '✉ Kontaktiraj nas',
+    'snav.call.hours':       'escapii.team@gmail.com',
+    'snav.book':             'Rezerviši',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
     'gift.hero.h1':          'Pokloni nekome <em>iznenađenje</em>',
     'gift.hero.sub':         'Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru. Destinaciju otkriva tek 48h pre polaska.',
@@ -924,7 +899,20 @@ const TR = {
   },
   en: {
     'nav.home':              'Home',
+    'nav.status':            'My reservation',
     'nav.gift.voucher':      'Gift voucher',
+    'nav.gift.label':        'Gift a Surprise Trip',
+    'nav.gift.offer':        '🎁 Gift a Surprise Trip',
+    'nav.gift.redeem':       '🔓 Redeem gift',
+    'snav.how':              'How it works',
+    'snav.about':            'About us',
+    'snav.dest':             'Destinations',
+    'snav.who':              'Who\'s it for',
+    'snav.faq':              'FAQ',
+    'snav.blog':             'Blog',
+    'snav.call':             '✉ Contact us',
+    'snav.call.hours':       'escapii.team@gmail.com',
+    'snav.book':             'Book now',
     'gift.hero.badge':       '🎁 A gift they\'ll remember',
     'gift.hero.h1':          'Gift someone a <em>surprise</em>',
     'gift.hero.sub':         'Choose a voucher amount - recipient uses it on any Escapii trip of their choice. The destination is revealed only 48h before departure.',
@@ -963,7 +951,7 @@ function t(k) { return TR[lang][k] || k; }
 function setLang(l) {
   lang = l;
   localStorage.setItem('esc-lang', l);
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent === l.toUpperCase()));
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent.trim() === l.toUpperCase()));
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
@@ -973,12 +961,20 @@ function setLang(l) {
 function goHome() { window.location.href = '<?php echo esc_js($site_url); ?>/'; }
 
 function togBurger() {
-  document.getElementById('navBurger').classList.toggle('open');
-  document.getElementById('mobMenu').classList.toggle('open');
+  var burger = document.getElementById('navBurger');
+  var menu   = document.getElementById('mobMenu');
+  var open   = burger.classList.toggle('open');
+  menu.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
 }
 function closeMobMenu() {
   document.getElementById('navBurger').classList.remove('open');
   document.getElementById('mobMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function togMobGift() {
+  document.getElementById('mobGiftToggle').classList.toggle('open');
+  document.getElementById('mobGiftSub').classList.toggle('open');
 }
 
 function scrollToVoucher() {

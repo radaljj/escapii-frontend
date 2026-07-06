@@ -49,6 +49,9 @@ $site_url  = get_site_url();
   --faint:     #a3978a;
   --line:      #e7ddcd;
   --terra:     #a85e44;
+  --gold:      #CA8A71;
+  --gold2:     #b87a62;
+  --white:     #ffffff;
   --peach:     #c8775a;
   --teal:      #22424a;
   --teal-deep: #16313a;
@@ -66,76 +69,80 @@ body { background: var(--cream); color: var(--ink); font-family: var(--serif);
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; line-height: 1.7; }
 a { color: inherit; }
 
-/* ── Nav (identičan front-page.php) ── */
-.fq-nav {
+/* ── Nav (identičan homepage) ── */
+.esc-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 999;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 64px; height: 72px;
   background: rgba(15,45,53,.92); backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255,255,255,.07); transition: background .3s;
 }
-.fq-logo { display: inline-flex; align-items: center; text-decoration: none; }
-.fq-logo img { height: 48px; width: auto; display: block; }
-@media (max-width:768px) { .fq-logo img { height:36px; } }
-.fq-nav-right { display: flex; align-items: center; gap: 14px; }
-.fq-lang { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
-.fq-lang button {
-  font-family: var(--sans); font-size: 13px; font-weight: 700; padding: 7px 16px;
-  border: none; background: transparent; color: rgba(122,159,168,.9); cursor: pointer; transition: all .2s; letter-spacing:.5px;
+.esc-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.esc-logo img { height: 48px; width: auto; display: block; }
+@media (max-width:768px) { .esc-logo img { height:36px; } }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.lang-wrap { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; overflow: hidden; }
+.lang-btn { padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+            border: none; background: transparent; color: var(--gray);
+            letter-spacing: .5px; transition: all .2s; }
+.lang-btn.on { background: var(--gold); color: #fff; }
+.nav-status { background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.12);
+              color: var(--gray); border-radius: 8px; padding: 8px 14px;
+              font-size: 13px; font-weight: 600; font-family: inherit;
+              cursor: pointer; transition: all .2s;
+              display: flex; align-items: center; gap: 6px; }
+.nav-status:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.22); color: var(--white); }
+.nav-status svg { flex-shrink: 0; }
+/* mobile gift accordion */
+.mob-gift-wrap { border-bottom: 1px solid rgba(255,255,255,.06); }
+.mob-gift-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 4px; font-size: 15px; font-weight: 700; color: #d4a83c;
+  background: none; border: none; text-align: left; cursor: pointer; font-family: inherit; transition: color .15s;
 }
-.fq-lang button.on { background: var(--terra); color: #fff; }
-.fq-nav-link {
-  font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,.65);
-  text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: all .2s;
-  background: none; border: none; cursor: pointer;
-}
-.fq-nav-link:hover { color: #fff; background: rgba(255,255,255,.07); }
-.fq-nav-link.active { color: #fff; }
-.fq-nav-cta {
-  font-family: var(--sans); font-size: 13px; font-weight: 700; color: #fff;
-  background: var(--terra); border: none; border-radius: 8px;
-  padding: 9px 18px; cursor: pointer; transition: all .2s; text-decoration: none;
-  display: inline-flex; align-items: center;
-}
-.fq-nav-cta:hover { background: var(--peach); transform: translateY(-1px); }
-.fq-gift-btn {
-  font-family: var(--sans); font-size: 13px; font-weight: 700; color: #d4a83c;
-  background: rgba(200,149,58,.12); border: 1.5px solid rgba(200,149,58,.28);
-  border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: all .2s; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
-}
-.fq-gift-btn:hover { background: rgba(200,149,58,.22); border-color: rgba(200,149,58,.5); }
-.fq-burger { display:none; flex-direction:column; justify-content:center; gap:5px;
-             width:40px; height:40px; background:none; border:none; cursor:pointer; padding:8px; }
-.fq-burger span { display:block; height:2px; background:white; border-radius:2px;
-                  transition: transform .3s, opacity .3s, width .3s; width:100%; }
-.fq-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.fq-burger.open span:nth-child(2) { opacity:0; width:0; }
-.fq-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.fq-mob-menu {
-  display:none; position:fixed; top:72px; left:0; right:0; z-index:997;
-  background:rgba(15,45,53,.97); backdrop-filter:blur(28px);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  flex-direction:column; padding:16px 24px 24px;
-  transform:translateY(-8px); opacity:0;
-  transition: transform .25s ease, opacity .25s ease;
-  pointer-events: none;
-}
-.fq-mob-menu.open { transform:translateY(0); opacity:1; pointer-events: auto; }
-.fq-mob-links { display:flex; flex-direction:column; gap:2px; margin-bottom:20px; }
-.fq-mob-link { padding:13px 4px; font-size:15px; font-weight:700; color:rgba(255,255,255,.7);
-               background:none; border:none; text-align:left; cursor:pointer; font-family:var(--sans);
-               border-bottom:1px solid rgba(255,255,255,.06); transition:color .15s; text-decoration:none; display:block; }
-.fq-mob-link:last-child { border-bottom:none; }
-.fq-mob-link:hover { color:white; }
-.fq-mob-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:4px; }
-.fq-mob-book { flex:1; background:var(--terra); color:#ffffff; border:none;
-               padding:13px; border-radius:10px; font-size:14px; font-weight:800; cursor:pointer; font-family:var(--sans); }
+.mob-gift-caret { font-size: 11px; transition: transform .22s; flex-shrink: 0; margin-left: 6px; }
+.mob-gift-toggle.open .mob-gift-caret { transform: rotate(180deg); }
+.mob-gift-sub { display: flex; flex-direction: column; padding: 0 0 4px 16px;
+                max-height: 0; overflow: hidden; transition: max-height .25s ease; }
+.mob-gift-sub.open { max-height: 120px; }
+.mob-gift-sub-btn { padding: 10px 4px; font-size: 14px; font-weight: 600;
+                    color: rgba(255,255,255,.65); background: none; border: none;
+                    border-bottom: 1px solid rgba(255,255,255,.05); text-align: left;
+                    cursor: pointer; font-family: inherit; transition: color .15s; }
+.mob-gift-sub-btn:last-child { border-bottom: none; }
+.mob-gift-sub-btn:hover { color: #fff; }
+/* hamburger */
+.nav-burger { display:none; flex-direction:column; justify-content:center; gap:5px;
+              width:40px; height:40px; background:none; border:none; cursor:pointer; padding:8px; }
+.nav-burger span { display:block; height:2px; background:white; border-radius:2px;
+                   transition: transform .3s, opacity .3s, width .3s; width:100%; }
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0; width:0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* mobile menu */
+.mob-menu { display:none; position:fixed; top:72px; left:0; right:0; z-index:997;
+            background:rgba(15,45,53,.97); backdrop-filter:blur(28px);
+            border-bottom:1px solid rgba(255,255,255,.07);
+            flex-direction:column; padding:16px 24px 24px;
+            transform:translateY(-8px); opacity:0;
+            transition: transform .25s ease, opacity .25s ease; pointer-events: none; }
+.mob-menu.open { transform:translateY(0); opacity:1; pointer-events: auto; }
+.mob-menu-links { display:flex; flex-direction:column; gap:2px; margin-bottom:20px; }
+.mob-menu-link { padding:13px 4px; font-size:15px; font-weight:700; color:rgba(255,255,255,.7);
+                 background:none; border:none; text-align:left; cursor:pointer;
+                 border-bottom:1px solid rgba(255,255,255,.06); transition:color .15s; }
+.mob-menu-link:last-child { border-bottom:none; }
+.mob-menu-link:hover { color:white; }
+.mob-menu-call { color: var(--accent) !important; }
+.mob-menu-call-hours { display:block; font-size:11px; color:rgba(255,255,255,.38); font-weight:500; margin-top:3px; }
+.mob-menu-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:4px; }
+.mob-menu-book { flex:1; background:var(--gold); color:#fff; border:none;
+                 padding:13px; border-radius:10px; font-size:14px; font-weight:800; cursor:pointer; font-family:inherit; }
 @media (max-width:768px) {
-  .fq-nav { padding: 0 20px; }
-  .fq-nav-right { display: none; }
-  .fq-burger { display: flex; }
-  .fq-mob-menu { display: flex; }
+  .esc-nav { padding: 0 20px; }
+  .nav-right { display: none; }
+  .nav-burger { display: flex; }
+  .mob-menu { display: flex; }
 }
 
 /* ── Hero ── */
@@ -271,49 +278,7 @@ a { color: inherit; }
 <body>
 
 <!-- NAV -->
-<nav class="fq-nav" id="fqNav">
-  <a href="<?php echo esc_url($site_url); ?>/" class="fq-logo">
-    <img src="<?php echo esc_url($theme_uri); ?>/images/logo-white.svg" alt="Escapii">
-  </a>
-
-  <div class="fq-nav-right">
-    <a href="<?php echo esc_url($site_url); ?>/#esc-how"    class="fq-nav-link">Kako funkcioniše</a>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-dest"   class="fq-nav-link">Destinacije</a>
-    <a href="<?php echo esc_url($site_url); ?>/faq"         class="fq-nav-link active">FAQ</a>
-    <a href="<?php echo esc_url($site_url); ?>/blog"        class="fq-nav-link">Blog</a>
-    <a href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja" class="fq-gift-btn">
-      🎁 Pokloni
-    </a>
-    <div class="fq-lang">
-      <button id="langSr" class="on" onclick="setLang('sr')">SR</button>
-      <button id="langEn" onclick="setLang('en')">EN</button>
-    </div>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="fq-nav-cta">Rezerviši</a>
-  </div>
-
-  <button class="fq-burger" id="fqBurger" onclick="toggleMobMenu()" aria-label="Meni">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE MENU -->
-<div class="fq-mob-menu" id="fqMobMenu">
-  <div class="fq-mob-links">
-    <a href="<?php echo esc_url($site_url); ?>/#esc-how"  class="fq-mob-link" onclick="location.href=this.href">Kako funkcioniše</a>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-dest"  class="fq-mob-link" onclick="location.href=this.href">Destinacije</a>
-    <a href="<?php echo esc_url($site_url); ?>/#esc-who"   class="fq-mob-link" onclick="location.href=this.href">Ko smo mi</a>
-    <a href="<?php echo esc_url($site_url); ?>/faq"        class="fq-mob-link" style="color:#fff;">FAQ</a>
-    <a href="<?php echo esc_url($site_url); ?>/blog"       class="fq-mob-link">Blog</a>
-    <a href="<?php echo esc_url($site_url); ?>/pokloni-putovanje-iznenadjenja" class="fq-mob-link" style="color:#d4a83c;">🎁 Pokloni iznenađenja</a>
-  </div>
-  <div class="fq-mob-bottom">
-    <div class="fq-lang" style="flex:1;">
-      <button onclick="setLang('sr')" class="on" id="mobLangSr">SR</button>
-      <button onclick="setLang('en')"             id="mobLangEn">EN</button>
-    </div>
-    <button class="fq-mob-book" onclick="location.href='<?php echo esc_url($site_url); ?>/#esc-booking'">Rezerviši →</button>
-  </div>
-</div>
+<?php include get_template_directory() . '/inc/subpage-nav.php'; ?>
 
 <!-- HERO -->
 <header class="fq-hero">
@@ -523,7 +488,14 @@ const I18N_EN = {
   'ft.nav':'Navigation', 'ft.book':'Book a trip', 'ft.dest':'Destinations',
   'ft.how':'How it works', 'ft.who':'Who it\'s for', 'ft.faq':'FAQ',
   'ft.gift':'🎁 Gift a trip', 'ft.dep':'Departures', 'ft.contact':'Contact',
-  'ft.rights':'All rights reserved', 'ft.terms':'Terms of Use', 'ft.privacy':'Privacy Policy'
+  'ft.rights':'All rights reserved', 'ft.terms':'Terms of Use', 'ft.privacy':'Privacy Policy',
+  'nav.status':'My reservation',
+  'snav.how':'How it works', 'snav.about':'About us', 'snav.dest':'Destinations',
+  'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog',
+  'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com',
+  'snav.book':'Book now', 'snav.book.cta':'Book now →',
+  'nav.gift.label':'Gift a Surprise', 'nav.gift.offer':'Gift a Surprise',
+  'nav.gift.redeem':'Redeem gift'
 };
 
 const I18N_SR = {};
@@ -542,8 +514,9 @@ function applyLang() {
     const k = el.getAttribute('data-i18n-html');
     if (dict[k] !== undefined) el.innerHTML = dict[k];
   });
-  ['langSr','mobLangSr'].forEach(id => { var el = document.getElementById(id); if(el) el.classList.toggle('on', lang==='sr'); });
-  ['langEn','mobLangEn'].forEach(id => { var el = document.getElementById(id); if(el) el.classList.toggle('on', lang==='en'); });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('on', b.textContent.trim() === lang.toUpperCase());
+  });
   document.documentElement.lang = lang;
   // update search placeholder
   const inp = document.getElementById('fqSearch');
@@ -586,25 +559,26 @@ catsEl.addEventListener('click', function(e) {
   });
 });
 
-// ── Mobile menu toggle ────────────────────────────────────────────────────
-function toggleMobMenu() {
-  var burger = document.getElementById('fqBurger');
-  var menu   = document.getElementById('fqMobMenu');
+// ── Nav functions (identične homepage-u) ─────────────────────────────────
+function togBurger() {
+  var burger = document.getElementById('navBurger');
+  var menu   = document.getElementById('mobMenu');
   var open   = burger.classList.toggle('open');
   menu.classList.toggle('open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
-
-// Zatvori mob meni na klik izvan
+function closeMobMenu() {
+  document.getElementById('navBurger').classList.remove('open');
+  document.getElementById('mobMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function togMobGift() {
+  document.getElementById('mobGiftToggle').classList.toggle('open');
+  document.getElementById('mobGiftSub').classList.toggle('open');
+}
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('#fqMobMenu') && !e.target.closest('#fqBurger')) {
-    var burger = document.getElementById('fqBurger');
-    var menu   = document.getElementById('fqMobMenu');
-    if (burger && burger.classList.contains('open')) {
-      burger.classList.remove('open');
-      menu.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+  if (!e.target.closest('#mobMenu') && !e.target.closest('#navBurger')) {
+    closeMobMenu();
   }
 });
 
