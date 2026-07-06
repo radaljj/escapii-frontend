@@ -216,13 +216,10 @@ function escapii_serve_sitemap() {
     if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== '/sitemap.xml') return;
     $h = trailingslashit(home_url('/'));
     $pages = [
-        ['loc' => $h,                                     'priority' => '1.0', 'freq' => 'weekly'],
-        ['loc' => $h . 'blog/',                           'priority' => '0.8', 'freq' => 'weekly'],
-        ['loc' => $h . 'faq/',                            'priority' => '0.7', 'freq' => 'monthly'],
-        ['loc' => $h . 'pokloni/',                        'priority' => '0.8', 'freq' => 'monthly'],
-        ['loc' => $h . 'politika-privatnosti/',           'priority' => '0.2', 'freq' => 'yearly'],
-        ['loc' => $h . 'uslovi-koristenja/',              'priority' => '0.2', 'freq' => 'yearly'],
-        // privacy-policy i terms-of-use su engleski duplikati sa noindex — ne idu u sitemap
+        ['loc' => $h,               'priority' => '1.0', 'freq' => 'weekly'],
+        ['loc' => $h . 'pokloni/', 'priority' => '0.8', 'freq' => 'monthly'],
+        ['loc' => $h . 'faq/',     'priority' => '0.7', 'freq' => 'monthly'],
+        ['loc' => $h . 'blog/',    'priority' => '0.7', 'freq' => 'weekly'],
     ];
     header('Content-Type: application/xml; charset=UTF-8');
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
