@@ -13,7 +13,7 @@ $site_url  = get_site_url();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Česta pitanja o putovanjima iznenađenja | Escapii FAQ</title>
   <meta name="description" content="Kako funkcioniše putovanje iznenađenja? Šta je uključeno u cenu, kada saznaješ destinaciju, može li otkaz, kako pokloniti putovanje - svi odgovori na jednom mestu.">
-  <link rel="canonical" href="<?php echo esc_url($site_url); ?>/faq">
+  <link rel="canonical" href="<?php echo esc_url($site_url); ?>/faq/">
   <?php wp_head(); ?>
 
   <script type="application/ld+json">

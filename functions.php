@@ -200,10 +200,9 @@ function escapii_robots_txt() {
          . "Disallow: /2027/\n"
          . "Disallow: /cdn-cgi/\n"
          . "Disallow: /admin-panel/\n"
-         . "Disallow: /hvala/\n"
-         . "Disallow: /otkrivanje/\n"
-         . "Disallow: /poklon/\n"
          . "Allow: /wp-admin/admin-ajax.php\n"
+         // /hvala/, /otkrivanje/, /poklon/ imaju noindex u templateu —
+         // NE blokiraj robots.txt jer Google mora crawlati da vidi noindex i deindeksira
          . "\nSitemap: " . home_url('/sitemap.xml') . "\n";
 }
 
@@ -217,13 +216,13 @@ function escapii_serve_sitemap() {
     if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== '/sitemap.xml') return;
     $h = trailingslashit(home_url('/'));
     $pages = [
-        ['loc' => $h,                            'priority' => '1.0', 'freq' => 'weekly'],
-        ['loc' => $h . 'blog/',                          'priority' => '0.8', 'freq' => 'weekly'],
+        ['loc' => $h,                                     'priority' => '1.0', 'freq' => 'weekly'],
+        ['loc' => $h . 'blog/',                           'priority' => '0.8', 'freq' => 'weekly'],
+        ['loc' => $h . 'faq/',                            'priority' => '0.7', 'freq' => 'monthly'],
         ['loc' => $h . 'pokloni-putovanje-iznenadjenja/', 'priority' => '0.8', 'freq' => 'monthly'],
-        ['loc' => $h . 'politika-privatnosti/',  'priority' => '0.3', 'freq' => 'yearly'],
-        ['loc' => $h . 'privacy-policy/',        'priority' => '0.3', 'freq' => 'yearly'],
-        ['loc' => $h . 'uslovi-koristenja/',     'priority' => '0.3', 'freq' => 'yearly'],
-        ['loc' => $h . 'terms-of-use/',          'priority' => '0.3', 'freq' => 'yearly'],
+        ['loc' => $h . 'politika-privatnosti/',           'priority' => '0.2', 'freq' => 'yearly'],
+        ['loc' => $h . 'uslovi-koristenja/',              'priority' => '0.2', 'freq' => 'yearly'],
+        // privacy-policy i terms-of-use su engleski duplikati sa noindex — ne idu u sitemap
     ];
     header('Content-Type: application/xml; charset=UTF-8');
     echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
