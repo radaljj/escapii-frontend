@@ -4318,9 +4318,9 @@ const TR = {
     'footer.book':'Rezervacija', 'footer.departure':'Polasci', 'footer.rights':'Sva prava zadržana',
     'steps':['Aerodrom','Putnici','Datum','Smeštaj','Dodaci','Isključi','Putnici','Kontakt'],
     'nights': n=>n===1?'1 noć':`${n} noći`, 'slots': n=>`${n} mesta`,
-    'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i} - Ime i prezime`,
+    'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i}`,
     'gender.m':'Muški', 'gender.f':'Ženski',
-    'pax.num': n=>`Putnik ${n}`, 'pax.name':'Ime i prezime', 'pax.name.err':'Unesite ime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
+    'pax.num': n=>`Putnik ${n}`, 'pax.fname':'Ime', 'pax.lname':'Prezime', 'pax.fname.err':'Unesite ime putnika.', 'pax.lname.err':'Unesite prezime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
     'pax.passport':'Zemlja pasoša', 'pax.passport.ph':'npr. Srbija', 'pax.passport.err':'Unesite zemlju pasoša.',
     'pax.valid.passport':'Putnik ima validan pasoš (važeći min. 6 meseci od povratka)',
     'pax.valid.passport.err':'Putnik mora imati validan pasoš da bi nastavio.',
@@ -4564,9 +4564,9 @@ const TR = {
     'footer.book':'Book', 'footer.departure':'Departures', 'footer.rights':'All rights reserved',
     'steps':['Airport','Travelers','Date','Stay','Add-ons','Exclude','Passengers','Contact'],
     'nights': n=>n===1?'1 night':`${n} nights`, 'slots': n=>`${n} seats`,
-    'excl.n': n=>`${n} excluded`, 'pax.ph': i=>`Traveler ${i} - Full name`,
+    'excl.n': n=>`${n} excluded`, 'pax.ph': i=>`Traveler ${i}`,
     'gender.m':'Male', 'gender.f':'Female',
-    'pax.num': n=>`Traveler ${n}`, 'pax.name':'Full name', 'pax.name.err':'Please enter traveler name.', 'pax.dob.err':'Each traveler must be at least 18 years old.',
+    'pax.num': n=>`Traveler ${n}`, 'pax.fname':'First name', 'pax.lname':'Last name', 'pax.fname.err':'Please enter traveler first name.', 'pax.lname.err':'Please enter traveler last name.', 'pax.dob.err':'Each traveler must be at least 18 years old.',
     'pax.gender':'Gender', 'pax.dob':'Date of birth',
     'pax.visa':'Active visas (optional)', 'pax.visa.ph':'e.g. England, Ireland, Morocco...',
     'pax.passport':'Passport country', 'pax.passport.ph':'e.g. Serbia', 'pax.passport.err':'Please enter passport country.',
@@ -4857,14 +4857,16 @@ function setLang(l) {
   // Re-renderuj formu putnika sačuvavši unesene vrednosti
   if(document.querySelectorAll('.pax-item').length > 0) {
     const savedPax = Array.from({length:S.travelers},(_,i)=>({
-      name:   (document.getElementById('pn'+i)||{}).value||'',
+      fname:  (document.getElementById('pnf'+i)||{}).value||'',
+      lname:  (document.getElementById('pnl'+i)||{}).value||'',
       gender: (document.getElementById('pg'+i)||{}).value||'M',
       dob:    getPaxDob(i),
       visa:   getVisaValue(i)
     }));
     renderPax();
     savedPax.forEach((p,i)=>{
-      const n=document.getElementById('pn'+i);    if(n) n.value=p.name;
+      const nf=document.getElementById('pnf'+i); if(nf) nf.value=p.fname;
+      const nl=document.getElementById('pnl'+i); if(nl) nl.value=p.lname;
       const g=document.getElementById('pg'+i);    if(g) g.value=p.gender;
       if(p.dob){
         const [yy,mm,dd]=p.dob.split('-');
@@ -5273,15 +5275,15 @@ function validatePassengers() {
   let ok = true;
   let underage = false;
   for(let i=0;i<S.travelers;i++){
-    // Name
-    const name=(document.getElementById('pn'+i)||{}).value||'';
-    const wrap=document.getElementById('pf-name-'+i);
-    if(!name.trim()){
-      if(wrap) wrap.classList.add('field-error');
-      ok=false;
-    } else {
-      if(wrap) wrap.classList.remove('field-error');
-    }
+    // Name (split fields)
+    const fname=(document.getElementById('pnf'+i)||{}).value||'';
+    const lname=(document.getElementById('pnl'+i)||{}).value||'';
+    const fwrap=document.getElementById('pf-fname-'+i);
+    const lwrap=document.getElementById('pf-lname-'+i);
+    if(!fname.trim()){ if(fwrap) fwrap.classList.add('field-error'); ok=false; }
+    else { if(fwrap) fwrap.classList.remove('field-error'); }
+    if(!lname.trim()){ if(lwrap) lwrap.classList.add('field-error'); ok=false; }
+    else { if(lwrap) lwrap.classList.remove('field-error'); }
     // DOB
     const dob = getPaxDob(i);
     const dobWrap = document.getElementById('pf-dob-'+i);
@@ -5351,12 +5353,12 @@ function onEnter() {
     // Auto-fill ime/prezime nosioca rezervacije iz prvog putnika (samo ako prazno)
     const fn = document.getElementById('fFirstName');
     const ln = document.getElementById('fLastName');
-    if(fn && ln && !fn.value && !ln.value) {
-      const pax0name = (document.getElementById('pn0')?.value || '').trim();
-      if(pax0name) {
-        const parts = pax0name.split(/\s+/);
-        fn.value = parts[0] || '';
-        ln.value = parts.slice(1).join(' ') || '';
+    if(fn && ln) {
+      const pax0f = (document.getElementById('pnf0')?.value || '').trim();
+      const pax0l = (document.getElementById('pnl0')?.value || '').trim();
+      if(pax0f || pax0l) {
+        fn.value = pax0f;
+        ln.value = pax0l;
         fn.readOnly = true; fn.style.opacity = '0.7';
         ln.readOnly = true; ln.style.opacity = '0.7';
       }
@@ -6014,13 +6016,22 @@ function renderPax() {
       </div>
       <div class="traveler-grid">
 
-        <div class="traveler-field full" id="pf-name-${i}">
-          <label>${t('pax.name')} <span class="req">*</span></label>
+        <div class="traveler-field" id="pf-fname-${i}">
+          <label>${t('pax.fname')} <span class="req">*</span></label>
           <div class="t-field-ic">
-            <input class="t-control" id="pn${i}" type="text" placeholder="${t('pax.ph',i+1)}" autocomplete="off">
+            <input class="t-control" id="pnf${i}" type="text" placeholder="${t('pax.fname')}" autocomplete="given-name">
             <svg class="t-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           </div>
-          <div class="field-error-msg">${t('pax.name.err')}</div>
+          <div class="field-error-msg">${t('pax.fname.err')}</div>
+        </div>
+
+        <div class="traveler-field" id="pf-lname-${i}">
+          <label>${t('pax.lname')} <span class="req">*</span></label>
+          <div class="t-field-ic">
+            <input class="t-control" id="pnl${i}" type="text" placeholder="${t('pax.lname')}" autocomplete="family-name">
+            <svg class="t-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="field-error-msg">${t('pax.lname.err')}</div>
         </div>
 
         <div class="traveler-field">
@@ -6088,7 +6099,8 @@ const DRAFT_TTL = 4 * 60 * 60 * 1000; // 4h
 function saveDraft() {
   if (!document.querySelector('.pax-item')) return;
   const pax = Array.from({length: S.travelers}, (_, i) => ({
-    name:            (document.getElementById('pn'+i)  || {}).value  || '',
+    fname:           (document.getElementById('pnf'+i) || {}).value  || '',
+    lname:           (document.getElementById('pnl'+i) || {}).value  || '',
     gender:          (document.getElementById('pg'+i)  || {}).value  || 'M',
     dob:             getPaxDob(i),
     passport:        (document.getElementById('pp'+i)  || {}).value  || '',
@@ -6114,7 +6126,8 @@ function restorePaxDraft() {
     const draft = JSON.parse(raw);
     if (!draft || Date.now() > draft.expires) { sessionStorage.removeItem(DRAFT_KEY); return; }
     (draft.pax || []).forEach((p, i) => {
-      const n = document.getElementById('pn'+i);   if (n)  n.value = p.name || '';
+      const nf = document.getElementById('pnf'+i); if (nf) nf.value = p.fname || '';
+      const nl = document.getElementById('pnl'+i); if (nl) nl.value = p.lname || '';
       const g = document.getElementById('pg'+i);   if (g)  g.value = p.gender || 'M';
       const pp = document.getElementById('pp'+i);  if (pp) pp.value = p.passport || '';
       const phv = document.getElementById('phv'+i);if (phv) phv.checked = !!p.hasValidPassport;
@@ -6410,7 +6423,7 @@ async function submitBooking() {
   const passengers=Array.from({length:S.travelers},(_,i)=>({
     passportNumber:(document.getElementById('pp'+i)||{}).value?.trim()||'',
     hasValidPassport:!!(document.getElementById('phv'+i)||{checked:false}).checked,
-    name:(document.getElementById('pn'+i)||{}).value||'',
+    name:[(document.getElementById('pnf'+i)||{}).value||'',(document.getElementById('pnl'+i)||{}).value||''].filter(Boolean).join(' '),
     gender:(document.getElementById('pg'+i)||{}).value||'M',
     dateOfBirth:getPaxDob(i),
     visaInfo:(document.getElementById('pv'+i)||{}).value||''
@@ -6457,7 +6470,7 @@ async function submitBooking() {
         ref:        d.bookingRef,
         travelers:  S.travelers || 1,
         hasRevealBox: !!S.hasRevealBox,
-        passengers: passengers.map(p => (p.name || '').toUpperCase()).filter(Boolean)
+        passengers: passengers.map(p => (p.name || '').trim().toUpperCase()).filter(Boolean)
       }));
       window.location.href = '/hvala?ref=' + encodeURIComponent(d.bookingRef);
     } else if(r.status === 409) {
