@@ -1843,9 +1843,16 @@
     }
     .pax-item:hover { border-color: rgba(246,241,230,.14); }
     .traveler-head {
-      display: flex; align-items: center;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
       margin-bottom: 22px; padding-bottom: 16px;
       border-bottom: 1px solid rgba(246,241,230,.08);
+    }
+    .pax-lead-badge {
+      margin-left: auto; font-size: 11px; font-weight: 700;
+      color: var(--gold); background: rgba(202,138,113,.12);
+      border: 1px solid rgba(202,138,113,.3);
+      border-radius: 20px; padding: 3px 10px;
+      cursor: default; white-space: nowrap;
     }
     .traveler-num {
       width: 32px; height: 32px; border-radius: 100px;
@@ -5339,7 +5346,22 @@ function onEnter() {
     if(document.querySelectorAll('.pax-item').length !== S.travelers) renderPax();
     loadPrice();
   }
-  if(S.step===8) updateSummaryCard();
+  if(S.step===8) {
+    updateSummaryCard();
+    // Auto-fill ime/prezime nosioca rezervacije iz prvog putnika (samo ako prazno)
+    const fn = document.getElementById('fFirstName');
+    const ln = document.getElementById('fLastName');
+    if(fn && ln && !fn.value && !ln.value) {
+      const pax0name = (document.getElementById('pn0')?.value || '').trim();
+      if(pax0name) {
+        const parts = pax0name.split(/\s+/);
+        fn.value = parts[0] || '';
+        ln.value = parts.slice(1).join(' ') || '';
+        fn.readOnly = true; fn.style.opacity = '0.7';
+        ln.readOnly = true; ln.style.opacity = '0.7';
+      }
+    }
+  }
 }
 
 // ══════════ STEP 1
@@ -5988,6 +6010,7 @@ function renderPax() {
       <div class="traveler-head">
         <div class="traveler-num">${i+1}</div>
         <span class="traveler-lbl">${lang==='sr'?'Putnik':'Traveler'} ${i+1}</span>
+        ${i===0 ? `<span class="pax-lead-badge" title="${lang==='sr'?'Rezervacija će biti napravljena na ime ovog putnika':'Booking will be made in this traveler\'s name'}">👤 ${lang==='sr'?'Nosilac rezervacije':'Lead traveler'}</span>` : ''}
       </div>
       <div class="traveler-grid">
 
