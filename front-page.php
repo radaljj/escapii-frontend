@@ -2244,6 +2244,11 @@
     .f-input::placeholder { color: rgba(246,241,230,.22); font-weight: 400; }
     .f-input:hover { background: rgba(246,241,230,.07); border-color: rgba(246,241,230,.16); }
     .f-input:focus { background: rgba(246,241,230,.1); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(202,138,113,.12); }
+    .f-input.locked, .f-input.locked:hover, .f-input.locked:focus {
+      background: rgba(246,241,230,.03); border-color: rgba(246,241,230,.06);
+      color: rgba(246,241,230,.45); cursor: default; pointer-events: none;
+      box-shadow: none;
+    }
     textarea.f-input { min-height: 90px; }
     .field-error .f-input { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .err-msg { color: #f87171; font-size: 13px; margin-top: 12px; display: none; }
@@ -5359,8 +5364,8 @@ function onEnter() {
       if(pax0f || pax0l) {
         fn.value = pax0f;
         ln.value = pax0l;
-        fn.readOnly = true; fn.style.opacity = '0.7';
-        ln.readOnly = true; ln.style.opacity = '0.7';
+        fn.readOnly = true; fn.classList.add('locked');
+        ln.readOnly = true; ln.classList.add('locked');
       }
     }
   }
