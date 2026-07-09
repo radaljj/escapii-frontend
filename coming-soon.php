@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Escapii — Uskoro</title>
 <link href="https://api.fontshare.com/v2/css?f[]=chillax@500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --evergreen: #041F1E;
@@ -208,20 +209,21 @@
     <circle cx="42" cy="74" r="6.5" fill="#C57B57"/>
     <text x="24" y="97" class="airport-label">BEG</text>
 
-    <!-- destination pin — dark (always visible) -->
-    <g opacity=".92">
-      <circle cx="465" cy="68" r="16" fill="#0A2B29"/>
-      <circle cx="465" cy="68" r="16" fill="none" stroke="#F7DBA7" stroke-width="1.5" opacity=".55"/>
-      <text x="465" y="74" text-anchor="middle"
-            font-family="Georgia,serif" font-style="italic" font-size="16" font-weight="700"
+    <!-- destination pin — dark map-pin (always visible) -->
+    <g transform="translate(461,36)" opacity=".92">
+      <path d="M0,0 C-11,0 -18,7 -18,16 C-18,26 0,44 0,44 C0,44 18,26 18,16 C18,7 11,0 0,0 Z"
+            fill="#0A2B29" stroke="#F7DBA7" stroke-width="1.5"/>
+      <text x="0" y="21" text-anchor="middle"
+            font-family="Georgia,serif" font-style="italic" font-size="15" font-weight="700"
             fill="#FAF7F2">?</text>
     </g>
 
     <!-- destination pin — orange flash on arrival -->
-    <g class="pin-orange">
-      <circle cx="465" cy="68" r="16" fill="#C57B57"/>
-      <text x="465" y="74" text-anchor="middle"
-            font-family="Georgia,serif" font-style="italic" font-size="16" font-weight="700"
+    <g class="pin-orange" transform="translate(461,36)">
+      <path d="M0,0 C-11,0 -18,7 -18,16 C-18,26 0,44 0,44 C0,44 18,26 18,16 C18,7 11,0 0,0 Z"
+            fill="#C57B57"/>
+      <text x="0" y="21" text-anchor="middle"
+            font-family="Georgia,serif" font-style="italic" font-size="15" font-weight="700"
             fill="#FAF7F2">?</text>
     </g>
 
