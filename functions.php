@@ -1,6 +1,18 @@
 <?php
 defined('ABSPATH') || exit;
 
+// ── Coming Soon gate — blokira sve neadmince ─────────────────────────────────
+add_action('template_redirect', 'esc_coming_soon_gate', 1);
+function esc_coming_soon_gate() {
+    if (is_admin())           return; // WP admin panel
+    if (wp_doing_ajax())      return; // AJAX pozivi
+    if (current_user_can('manage_options')) return; // ulogovani admin
+    nocache_headers();
+    include get_template_directory() . '/coming-soon.php';
+    exit;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function escapii_setup() {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
