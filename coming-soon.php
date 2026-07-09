@@ -209,23 +209,14 @@
     <circle cx="42" cy="74" r="6.5" fill="#C57B57"/>
     <text x="24" y="97" class="airport-label">BEG</text>
 
-    <!-- destination pin — cream map-pin (always visible) -->
-    <g opacity=".97">
-      <path d="M465,50 C473,50 480,57 480,65 C480,74 465,97 465,97 C465,97 450,74 450,65 C450,57 457,50 465,50 Z"
-            fill="#FAF7F2"/>
-      <text x="465" y="72" text-anchor="middle"
-            font-family="Georgia,serif" font-style="italic" font-size="16" font-weight="700"
-            fill="#1E2D2F">?</text>
-    </g>
+    <!-- destination pin — white (always visible) -->
+    <image href="<?php echo esc_url(get_template_directory_uri() . '/images/escapii-pin-white.png'); ?>"
+           x="450" y="50" width="30" height="47" opacity=".97"/>
 
     <!-- destination pin — orange flash on arrival -->
-    <g class="pin-orange">
-      <path d="M465,50 C473,50 480,57 480,65 C480,74 465,97 465,97 C465,97 450,74 450,65 C450,57 457,50 465,50 Z"
-            fill="#C57B57"/>
-      <text x="465" y="72" text-anchor="middle"
-            font-family="Georgia,serif" font-style="italic" font-size="16" font-weight="700"
-            fill="#FAF7F2">?</text>
-    </g>
+    <image class="pin-orange"
+           href="<?php echo esc_url(get_template_directory_uri() . '/images/escapii-pin-orange.png'); ?>"
+           x="450" y="50" width="30" height="47"/>
 
     <!-- plane travelling along path -->
     <g class="plane">
