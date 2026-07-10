@@ -234,7 +234,7 @@
 
 <h1>
   Sledeća destinacija?<br>
-  <span class="tajna">Za sada ostaje tajna. ✈️</span>
+  <span class="tajna">Za sada ostaje tajna ✈️</span>
 </h1>
 
 <p class="body-copy">
