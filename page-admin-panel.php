@@ -776,9 +776,31 @@ tbody td  { padding: 11px 12px; }
 }
 .bt-chevron { font-size: 11px; color: var(--gray); transition: transform .25s; display: inline-block; }
 .bt-chevron.open { transform: rotate(180deg); }
+
+/* tablet: sakrij Primljeno */
 @media (max-width: 768px) {
   .booking-table thead th:nth-child(4),
   .booking-table tbody td:nth-child(4) { display: none; }
+  .bt-detail-card { margin: 6px 6px 12px; padding: 14px; }
+}
+/* mobile: ostavi samo Ime+email, Status, Ukupno, chevron */
+@media (max-width: 560px) {
+  .booking-table thead th:nth-child(1),
+  .booking-table tbody td:nth-child(1),
+  .booking-table thead th:nth-child(3),
+  .booking-table tbody td:nth-child(3),
+  .booking-table thead th:nth-child(7),
+  .booking-table tbody td:nth-child(7) { display: none; }
+  .booking-table tbody td { padding: 10px 10px; }
+  .sort-select { width: 100%; }
+  .booking-stats { grid-template-columns: 1fr 1fr; }
+}
+/* xs: kompresuj još */
+@media (max-width: 400px) {
+  .booking-stats { grid-template-columns: 1fr; }
+  .booking-table tbody td { padding: 9px 8px; font-size: 12px; }
+  .bc-body { grid-template-columns: 1fr; }
+  .bt-detail-card { margin: 4px; padding: 12px; }
 }
 
 </style>
