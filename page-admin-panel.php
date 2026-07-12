@@ -993,8 +993,8 @@ tbody td  { padding: 11px 12px; }
           <div class="bs-lbl">Potvrđene</div>
         </div>
         <div class="bs-card bs-revenue">
-          <div class="bs-num" id="stat-revenue">—</div>
-          <div class="bs-lbl">Prihod ovog meseca</div>
+          <div class="bs-num" id="stat-week">—</div>
+          <div class="bs-lbl">Polasci u 7 dana</div>
         </div>
         <div class="bs-card bs-next">
           <div class="bs-num" id="stat-next">—</div>
@@ -2346,12 +2346,14 @@ function updateBookingBadge() {
 
 function updateBookingStats() {
   const now        = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const pending    = ALL_BOOKINGS.filter(b => b.status === 'PENDING').length;
   const confirmed  = ALL_BOOKINGS.filter(b => b.status === 'CONFIRMED').length;
-  const revenue    = ALL_BOOKINGS
-    .filter(b => b.status === 'CONFIRMED' && new Date(b.createdAt) >= monthStart)
-    .reduce((s, b) => s + (b.totalPriceAll || 0), 0);
+  const in7days    = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const weekDeps   = ALL_BOOKINGS.filter(b => {
+    if (b.status !== 'CONFIRMED' || !b.departureDate) return false;
+    const d = new Date(b.departureDate);
+    return d >= now && d <= in7days;
+  }).length;
   const nextDep = ALL_BOOKINGS
     .filter(b => b.status === 'CONFIRMED' && b.departureDate && new Date(b.departureDate) >= now)
     .sort((a, b) => new Date(a.departureDate) - new Date(b.departureDate))[0]?.departureDate;
@@ -2360,7 +2362,7 @@ function updateBookingStats() {
     : '—';
   document.getElementById('stat-pending').textContent   = pending;
   document.getElementById('stat-confirmed').textContent = confirmed;
-  document.getElementById('stat-revenue').textContent   = revenue > 0 ? `${revenue}€` : '0€';
+  document.getElementById('stat-week').textContent      = weekDeps;
   document.getElementById('stat-next').textContent      = nextStr;
 }
 
