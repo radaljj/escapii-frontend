@@ -712,6 +712,75 @@ tbody td  { padding: 11px 12px; }
   .card { padding: 16px; }
 }
 
+/* ── Booking Stats Dashboard ─────────────────────────────────────────────── */
+.booking-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) { .booking-stats { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .booking-stats { grid-template-columns: 1fr; } }
+.bs-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-left: 3px solid transparent;
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+.bs-num { font-size: 26px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; }
+.bs-lbl { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.bs-pending   { border-left-color: var(--yellow); } .bs-pending .bs-num   { color: var(--yellow); }
+.bs-confirmed { border-left-color: var(--green);  } .bs-confirmed .bs-num { color: var(--green);  }
+.bs-revenue   { border-left-color: #818cf8; }       .bs-revenue .bs-num   { color: #818cf8; }
+.bs-next      { border-left-color: #38bdf8; }       .bs-next .bs-num      { color: #38bdf8; }
+
+/* ── Sort select ─────────────────────────────────────────────────────────── */
+.sort-select {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px; padding: 8px 14px; color: var(--white); font-size: 13px;
+  font-family: inherit; cursor: pointer; outline: none; transition: border .2s;
+}
+.sort-select:focus { border-color: var(--accent); }
+.sort-select option { background: #0d1b38; }
+
+/* ── Booking Table ───────────────────────────────────────────────────────── */
+.booking-table-wrap { overflow-x: auto; }
+.booking-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.booking-table thead th {
+  text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700;
+  color: var(--gray); text-transform: uppercase; letter-spacing: .5px;
+  border-bottom: 1px solid rgba(255,255,255,.08); white-space: nowrap;
+}
+.booking-table tbody tr.bt-summary {
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  cursor: pointer; transition: background .15s;
+}
+.booking-table tbody tr.bt-summary:hover { background: rgba(255,255,255,.04); }
+.booking-table tbody tr.bt-summary.expanded { background: rgba(202,138,113,.06); }
+.booking-table tbody tr.bt-summary.s-PENDING   { border-left-color: var(--yellow); }
+.booking-table tbody tr.bt-summary.s-CONFIRMED { border-left-color: var(--green); }
+.booking-table tbody tr.bt-summary.s-CANCELLED { border-left-color: var(--red); opacity: .7; }
+.booking-table tbody tr.bt-summary.s-COMPLETED { border-left-color: #818cf8; }
+.booking-table tbody td { padding: 12px 14px; vertical-align: middle; }
+.bt-detail-row td { padding: 0 !important; border-bottom: 1px solid rgba(255,255,255,.08) !important; }
+.bt-detail-inner { overflow: hidden; max-height: 0; transition: max-height .38s ease; }
+.bt-detail-inner.open { max-height: 4000px; }
+.bt-detail-card {
+  margin: 8px 12px 16px;
+  background: var(--navy3);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px;
+  padding: 20px;
+}
+.bt-chevron { font-size: 11px; color: var(--gray); transition: transform .25s; display: inline-block; }
+.bt-chevron.open { transform: rotate(180deg); }
+@media (max-width: 768px) {
+  .booking-table thead th:nth-child(4),
+  .booking-table tbody td:nth-child(4) { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -890,12 +959,39 @@ tbody td  { padding: 11px 12px; }
       <div class="panel-title">Rezervacije</div>
       <div class="panel-subtitle">Pregled svih upita - potvrdi ili otkaži rezervaciju</div>
 
+      <div class="booking-stats">
+        <div class="bs-card bs-pending">
+          <div class="bs-num" id="stat-pending">—</div>
+          <div class="bs-lbl">Na čekanju</div>
+        </div>
+        <div class="bs-card bs-confirmed">
+          <div class="bs-num" id="stat-confirmed">—</div>
+          <div class="bs-lbl">Potvrđene</div>
+        </div>
+        <div class="bs-card bs-revenue">
+          <div class="bs-num" id="stat-revenue">—</div>
+          <div class="bs-lbl">Prihod ovog meseca</div>
+        </div>
+        <div class="bs-card bs-next">
+          <div class="bs-num" id="stat-next">—</div>
+          <div class="bs-lbl">Sledeći polazak</div>
+        </div>
+      </div>
+
       <div class="booking-toolbar">
         <input type="text" class="booking-search" id="bookingSearch"
                placeholder="🔍 Pretraži po imenu, emailu, broju rezervacije..."
                autocomplete="new-password" name="booking-search-field"
                onfocus="this.value=''" oninput="renderBookings()">
         <button class="btn-export" onclick="exportCSV()">📥 Export CSV</button>
+        <select class="sort-select" id="sortSelect" onchange="activeSortKey=this.value;renderBookings()">
+          <option value="createdAt_desc">⬇ Datum prijema (novije)</option>
+          <option value="createdAt_asc">⬆ Datum prijema (starije)</option>
+          <option value="departureDate_asc">⬇ Termin (najraniji)</option>
+          <option value="departureDate_desc">⬆ Termin (najkasniji)</option>
+          <option value="totalPriceAll_desc">⬇ Iznos</option>
+          <option value="totalPriceAll_asc">⬆ Iznos</option>
+        </select>
       </div>
 
       <div class="booking-filters">
@@ -2201,6 +2297,7 @@ async function notifyWaitlist(airport) {
 // ══ REZERVACIJE ══════════════════════════════════════════════════════════════
 let ALL_BOOKINGS   = [];
 let activeFilter   = 'PENDING';
+let activeSortKey  = 'createdAt_desc';
 
 async function loadBookings() {
   const list = document.getElementById('bookingList');
@@ -2223,6 +2320,26 @@ function updateBookingBadge() {
   document.getElementById('bookingsBadge').textContent = pending > 0 ? pending : '';
 }
 
+function updateBookingStats() {
+  const now        = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const pending    = ALL_BOOKINGS.filter(b => b.status === 'PENDING').length;
+  const confirmed  = ALL_BOOKINGS.filter(b => b.status === 'CONFIRMED').length;
+  const revenue    = ALL_BOOKINGS
+    .filter(b => b.status === 'CONFIRMED' && new Date(b.createdAt) >= monthStart)
+    .reduce((s, b) => s + (b.totalPriceAll || 0), 0);
+  const nextDep = ALL_BOOKINGS
+    .filter(b => b.status === 'CONFIRMED' && b.departureDate && new Date(b.departureDate) >= now)
+    .sort((a, b) => new Date(a.departureDate) - new Date(b.departureDate))[0]?.departureDate;
+  const nextStr = nextDep
+    ? new Date(nextDep).toLocaleDateString('sr-RS', { day: '2-digit', month: '2-digit' })
+    : '—';
+  document.getElementById('stat-pending').textContent   = pending;
+  document.getElementById('stat-confirmed').textContent = confirmed;
+  document.getElementById('stat-revenue').textContent   = revenue > 0 ? `${revenue}€` : '0€';
+  document.getElementById('stat-next').textContent      = nextStr;
+}
+
 function filterBookings(status, btn) {
   activeFilter = status;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -2231,10 +2348,21 @@ function filterBookings(status, btn) {
 }
 
 function getFilteredBookings() {
-  const q = (document.getElementById('bookingSearch')?.value || '').toLowerCase().trim();
+  const q   = (document.getElementById('bookingSearch')?.value || '').toLowerCase().trim();
+  const [key, dir] = activeSortKey.split('_');
   return ALL_BOOKINGS
     .filter(b => activeFilter === 'ALL' || b.status === activeFilter)
-    .filter(b => !q || `${b.firstName} ${b.lastName} ${b.email} ${b.bookingRef}`.toLowerCase().includes(q));
+    .filter(b => !q || `${b.firstName} ${b.lastName} ${b.email} ${b.bookingRef}`.toLowerCase().includes(q))
+    .sort((a, b) => {
+      let va = a[key], vb = b[key];
+      if (key === 'createdAt' || key === 'departureDate') {
+        va = va ? new Date(va).getTime() : 0;
+        vb = vb ? new Date(vb).getTime() : 0;
+      } else {
+        va = va || 0; vb = vb || 0;
+      }
+      return dir === 'asc' ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+    });
 }
 
 function buildPassengersSection(passengers) {
@@ -2283,213 +2411,255 @@ function buildPassengersSection(passengers) {
     </div>`;
 }
 
+function buildBookingDetail(b) {
+  const created = new Date(b.createdAt).toLocaleString('sr-RS', {
+    day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+  const depDate = b.departureDate ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '-';
+  const retDate = b.returnDate    ? new Date(b.returnDate).toLocaleDateString('sr-RS')    : '-';
+  const extras  = [
+    b.hasInsurance         && '🛡 Osiguranje',
+    b.hasBreakfast         && '🍳 Doručak',
+    b.hasSeatsTogether     && '💺 Sedišta zajedno',
+    b.hasConnectingFlights && '✈✈ Presedanje',
+    b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
+    b.hasRevealBox && '📦 Reveal Box',
+    b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
+  ].filter(Boolean).join(' · ') || '-';
+  const isConfirmed = b.status === 'CONFIRMED';
+  const isCancelled = b.status === 'CANCELLED';
+  const isPending   = b.status === 'PENDING';
+  const isCompleted = b.status === 'COMPLETED';
+  const statusLabels = { PENDING: '⏳ Na čekanju', CONFIRMED: '✅ Potvrđena', CANCELLED: '❌ Otkazana', COMPLETED: '🏁 Završena' };
+
+  const termDests  = b.termDestinations || [];
+  const excludedIds = new Set(b.excludedDestinationIds || []);
+  const destInput  = !termDests.length
+    ? `<input class="bc-dest-input" id="dest-${b.id}" type="text"
+         placeholder="npr. Barcelona" value="${b.assignedDestination || ''}"
+         onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />`
+    : `<select class="bc-dest-input" id="dest-${b.id}" onchange="saveDestination(${b.id})" style="cursor:pointer;">
+         <option value="">-- izaberi destinaciju --</option>
+         ${termDests.map(td => {
+           const isExc = excludedIds.has(td.destinationId);
+           const isCur = td.name === b.assignedDestination;
+           return `<option value="${td.name}" ${isCur?'selected':''} ${isExc?'disabled':''}
+             style="${isExc?'text-decoration:line-through;color:#64748b;':''}${!td.active?'opacity:.45;':''}">
+             ${td.name}${isExc?' 🚫':''}${!td.active?' (neaktivna)':''}
+           </option>`;
+         }).join('')}
+       </select>`;
+
+  return `
+    <div class="bc-header">
+      <div>
+        <div class="bc-ref">${b.bookingRef}</div>
+        <div class="bc-date">Primljeno: ${created}</div>
+      </div>
+      <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
+    </div>
+
+    <div class="bc-body">
+      <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.firstName} ${b.lastName}</div></div>
+      <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${b.email}</div></div>
+      <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
+      <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
+      <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
+      <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
+      ${buildPassengersSection(b.passengers)}
+      <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
+      <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
+      <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
+      <div class="bc-field bc-field--full">
+        <div class="bc-label">✈ Dodeljena destinacija</div>
+        <div class="bc-dest-row">
+          ${destInput}
+          <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju">✓</button>
+        </div>
+        <div style="margin-top:6px;">
+          <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
+            style="width:100%;font-size:11px;opacity:.8;"
+            placeholder="🌤 Grad za prognozu (opcionalno) - npr. Santa Cruz de Tenerife, Spain"
+            value="${b.weatherCity || ''}"
+            onkeydown="if(event.key==='Enter')saveWeatherCity(${b.id})"
+            onblur="saveWeatherCity(${b.id})" />
+          <div id="weather-city-status-${b.id}" style="font-size:10px;color:var(--gray);margin-top:2px;">
+            ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
+          </div>
+        </div>
+        <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+          ${b.revealSentAt
+            ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+            : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">✉ Reveal još nije poslan</span>' : '')}
+          ${b.forecastSentAt
+            ? `<span style="color:#38bdf8;font-size:11px;font-weight:600;">🌤 Prognoza poslata ${new Date(b.forecastSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+            : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">🌤 Prognoza još nije poslata</span>' : '')}
+          ${b.destinationRevealedAt
+            ? `<span style="color:#fbbf24;font-size:11px;font-weight:600;">👁 Korisnik video destinaciju ${new Date(b.destinationRevealedAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
+            : ''}
+        </div>
+        ${b.assignedDestination && b.status === 'CONFIRMED' ? `
+        <div class="bc-send-row">
+          <button class="bc-btn-reveal" id="btn-reveal-${b.id}" ${getBtnAttrs(b, 'reveal')}>
+            ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
+          </button>
+          <button class="bc-btn-forecast" id="btn-forecast-${b.id}" ${getBtnAttrs(b, 'forecast')}>
+            🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
+          </button>
+        </div>` : (b.assignedDestination && b.status !== 'CONFIRMED' ? `
+        <div style="font-size:11px;color:#f87171;margin-top:6px;">
+          ⚠️ Reveal i prognoza se mogu poslati samo za CONFIRMED rezervacije
+        </div>` : '')}
+      </div>
+    </div>
+
+    ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
+
+    ${b.hasRevealBox ? `
+    <div class="bc-reveal-box-section" id="rbs-${b.id}">
+      <div class="bc-reveal-box-header">📦 Reveal Box - adresa dostave</div>
+      <div class="bc-reveal-box-body">
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '-'}</span></div>
+        ${b.deliveryApartment ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Stan/sprat</span><span>${b.deliveryApartment}</span></div>` : ''}
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '-'}</span></div>
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '-'}</span></div>
+        <div style="margin-top:12px;">
+          ${b.revealBoxSent
+            ? `<span style="color:#4ade80;font-size:13px;font-weight:700;">✅ Reveal Box poslan</span>`
+            : `<button class="bc-btn-reveal-box" id="btn-rbs-${b.id}" onclick="markRevealBoxSent(${b.id})">📦 Označi kao poslan</button>`}
+        </div>
+      </div>
+    </div>` : ''}
+
+    <div class="bc-note-wrap">
+      <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
+      <div class="bc-note-row">
+        <input class="bc-note-input" id="airline-name-${b.id}" type="text"
+          placeholder="npr. Wizz Air, Ryanair..." value="${b.airlineName || ''}"
+          onkeydown="if(event.key==='Enter')saveAirlineName(${b.id})"
+          onblur="saveAirlineName(${b.id})" />
+        <button class="bc-note-save" onclick="saveAirlineName(${b.id})" title="Sačuvaj (Enter)">✓</button>
+      </div>
+      <div class="bc-note-status" id="airline-name-status-${b.id}">
+        ${b.airlineName ? `<span style="color:#22c55e;font-size:11px;">✓ ${b.airlineName}</span>` : '<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>'}
+      </div>
+    </div>
+
+    <div class="bc-note-wrap">
+      <div class="bc-label" style="margin-bottom:6px;">✈ Airline booking kod (check-in)</div>
+      <div class="bc-note-row">
+        <input class="bc-note-input" id="airline-code-${b.id}" type="text"
+          style="text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-size:14px;font-weight:700;"
+          placeholder="npr. ABC123" value="${b.airlineBookingCode || ''}"
+          onkeydown="if(event.key==='Enter')saveAirlineCode(${b.id})"
+          onblur="saveAirlineCode(${b.id})" />
+        <button class="bc-note-save" onclick="saveAirlineCode(${b.id})" title="Sačuvaj (Enter)">✓</button>
+      </div>
+      <div class="bc-note-status" id="airline-code-status-${b.id}">
+        ${b.airlineBookingCode ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>` : '<span style="opacity:.45;font-size:11px;">Unesi kod - biće vidljiv korisniku na reveal stranici</span>'}
+      </div>
+    </div>
+
+    <div class="bc-note-wrap">
+      <div class="bc-label" style="margin-bottom:6px;">📝 Interna napomena</div>
+      <div class="bc-note-row">
+        <textarea class="bc-note-input" id="note-${b.id}"
+          placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
+          onkeydown="if(event.ctrlKey&&event.key==='Enter')saveNote(${b.id})"
+        >${b.adminNotes || ''}</textarea>
+        <button class="bc-note-save" id="note-btn-${b.id}" onclick="saveNote(${b.id})" title="Sačuvaj napomenu (Ctrl+Enter)">✓</button>
+      </div>
+      <div class="bc-note-status" id="note-status-${b.id}"></div>
+    </div>
+
+    ${isCompleted ? `
+    <div class="bc-actions">
+      <span style="color:#818cf8;font-size:12px;font-weight:600;">🏁 Putovanje završeno - automatski zatvorena rezervacija</span>
+    </div>` : `
+    <div class="bc-actions">
+      <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>✅ Potvrdi</button>
+      <button class="bc-btn bc-btn-cancel"  onclick="changeStatus(${b.id},'CANCELLED')" ${isCancelled?'disabled':''}>❌ Otkaži</button>
+      ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')">⏳ Vrati na čekanje</button>` : ''}
+      ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
+      <button class="bc-btn" onclick="deleteBooking(${b.id},'${b.bookingRef}')"
+        style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
+        🗑 Obriši
+      </button>` : ''}
+    </div>`}`;
+}
+
 function renderBookings() {
-  const list = document.getElementById('bookingList');
+  const list     = document.getElementById('bookingList');
   const filtered = getFilteredBookings();
+
+  updateBookingStats();
 
   if (!filtered.length) {
     list.innerHTML = '<div class="empty-state">Nema rezervacija.</div>';
     return;
   }
 
-  list.innerHTML = filtered.map(b => {
-    const created = new Date(b.createdAt).toLocaleString('sr-RS', {
-      day:'2-digit', month:'2-digit', year:'numeric',
-      hour:'2-digit', minute:'2-digit'
-    });
-    const depDate = b.departureDate
-      ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '-';
-    const retDate = b.returnDate
-      ? new Date(b.returnDate).toLocaleDateString('sr-RS') : '-';
+  const statusLabels = { PENDING: '⏳ Na čekanju', CONFIRMED: '✅ Potvrđena', CANCELLED: '❌ Otkazana', COMPLETED: '🏁 Završena' };
 
-    const extras = [
-      b.hasInsurance         && '🛡 Osiguranje',
-      b.hasBreakfast         && '🍳 Doručak',
-      b.hasSeatsTogether     && '💺 Sedišta zajedno',
-      b.hasConnectingFlights && '✈✈ Presedanje',
-      b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
-      b.hasRevealBox && '📦 Reveal Box',
-      b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
-    ].filter(Boolean).join(' · ') || '-';
-
-    const isConfirmed  = b.status === 'CONFIRMED';
-    const isCancelled  = b.status === 'CANCELLED';
-    const isPending    = b.status === 'PENDING';
-    const isCompleted  = b.status === 'COMPLETED';
-
-    const statusLabels = { PENDING: '⏳ Na čekanju', CONFIRMED: '✅ Potvrđena', CANCELLED: '❌ Otkazana', COMPLETED: '🏁 Završena' };
-
+  const rows = filtered.map(b => {
+    const depDate = b.departureDate ? new Date(b.departureDate).toLocaleDateString('sr-RS') : '-';
+    const retDate = b.returnDate    ? new Date(b.returnDate).toLocaleDateString('sr-RS')    : '-';
+    const created = new Date(b.createdAt).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
     return `
-    <div class="booking-card status-${b.status}" id="bcard-${b.id}">
-      <div class="bc-header">
-        <div>
-          <div class="bc-ref">${b.bookingRef}</div>
-          <div class="bc-date">Primljeno: ${created}</div>
-        </div>
-        <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
-      </div>
-
-      <div class="bc-body">
-        <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.firstName} ${b.lastName}</div></div>
-        <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${b.email}</div></div>
-        <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
-        <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
-        <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
-        <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
-        ${buildPassengersSection(b.passengers)}
-        <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
-        <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
-        <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
-        <div class="bc-field bc-field--full">
-          <div class="bc-label">✈ Dodeljena destinacija</div>
-          <div class="bc-dest-row">
-            ${(() => {
-              const termDests = b.termDestinations || [];
-              const excludedIds = new Set(b.excludedDestinationIds || []);
-              if (!termDests.length) {
-                return `<input class="bc-dest-input" id="dest-${b.id}" type="text"
-                  placeholder="npr. Barcelona"
-                  value="${b.assignedDestination || ''}"
-                  onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />`;
-              }
-              const opts = termDests.map(td => {
-                const isExcluded = excludedIds.has(td.destinationId);
-                const isCurrent  = td.name === b.assignedDestination;
-                return `<option value="${td.name}"
-                  ${isCurrent  ? 'selected' : ''}
-                  ${isExcluded ? 'disabled' : ''}
-                  style="${isExcluded ? 'text-decoration:line-through;color:#64748b;' : ''}${!td.active ? 'opacity:.45;' : ''}">
-                  ${td.name}${isExcluded ? ' 🚫' : ''}${!td.active ? ' (neaktivna)' : ''}
-                </option>`;
-              }).join('');
-              return `<select class="bc-dest-input" id="dest-${b.id}"
-                onchange="saveDestination(${b.id})"
-                style="cursor:pointer;">
-                <option value="">-- izaberi destinaciju --</option>
-                ${opts}
-              </select>`;
-            })()}
-            <button class="bc-note-save" id="dest-btn-${b.id}" onclick="saveDestination(${b.id})" title="Sačuvaj destinaciju">✓</button>
-          </div>
-          <div style="margin-top:6px;">
-            <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
-              style="width:100%;font-size:11px;opacity:.8;"
-              placeholder="🌤 Grad za prognozu (opcionalno) - npr. Santa Cruz de Tenerife, Spain"
-              value="${b.weatherCity || ''}"
-              onkeydown="if(event.key==='Enter')saveWeatherCity(${b.id})"
-              onblur="saveWeatherCity(${b.id})" />
-            <div id="weather-city-status-${b.id}" style="font-size:10px;color:var(--gray);margin-top:2px;">
-              ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
+      <tr class="bt-summary s-${b.status}" id="btrow-${b.id}" onclick="toggleDetail(${b.id})">
+        <td><span style="font-size:12px;font-weight:700;color:var(--gray);">${b.bookingRef}</span></td>
+        <td>
+          <strong>${b.firstName} ${b.lastName}</strong>
+          <div style="font-size:11px;color:var(--gray);margin-top:1px;">${b.email}</div>
+        </td>
+        <td>${depDate} → ${retDate}</td>
+        <td style="font-size:12px;color:var(--gray);">${created}</td>
+        <td><span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span></td>
+        <td><strong style="color:var(--accent);">${b.totalPriceAll}€</strong></td>
+        <td>${b.assignedDestination
+          ? `<span style="color:#4ade80;font-size:12px;font-weight:600;">✓ ${b.assignedDestination}</span>`
+          : '<span style="opacity:.35;font-size:12px;">—</span>'}</td>
+        <td><span class="bt-chevron" id="chev-${b.id}">▼</span></td>
+      </tr>
+      <tr class="bt-detail-row" id="btdetail-${b.id}">
+        <td colspan="8">
+          <div class="bt-detail-inner" id="btinner-${b.id}">
+            <div class="bt-detail-card" id="bcard-${b.id}">
+              ${buildBookingDetail(b)}
             </div>
           </div>
-          <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
-            ${b.revealSentAt
-              ? `<span class="bc-reveal-sent">✉ Reveal poslan ${new Date(b.revealSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
-              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">✉ Reveal još nije poslan</span>' : '')}
-            ${b.forecastSentAt
-              ? `<span style="color:#38bdf8;font-size:11px;font-weight:600;">🌤 Prognoza poslata ${new Date(b.forecastSentAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
-              : (b.assignedDestination ? '<span style="color:var(--gray);font-size:11px;">🌤 Prognoza još nije poslata</span>' : '')}
-            ${b.destinationRevealedAt
-              ? `<span style="color:#fbbf24;font-size:11px;font-weight:600;">👁 Korisnik video destinaciju ${new Date(b.destinationRevealedAt).toLocaleString('sr-RS',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`
-              : ''}
-          </div>
-          ${b.assignedDestination && b.status === 'CONFIRMED' ? `
-          <div class="bc-send-row">
-            <button class="bc-btn-reveal" id="btn-reveal-${b.id}" ${getBtnAttrs(b, 'reveal')}>
-              ✉ ${b.revealSentAt ? 'Reveal poslan' : 'Pošalji Reveal'}
-            </button>
-            <button class="bc-btn-forecast" id="btn-forecast-${b.id}" ${getBtnAttrs(b, 'forecast')}>
-              🌤 ${b.forecastSentAt ? 'Prognoza poslata' : 'Pošalji Prognozu'}
-            </button>
-          </div>` : (b.assignedDestination && b.status !== 'CONFIRMED' ? `
-          <div style="font-size:11px;color:#f87171;margin-top:6px;">
-            ⚠️ Reveal i prognoza se mogu poslati samo za CONFIRMED rezervacije
-          </div>` : '')}
-        </div>
-      </div>
-
-      ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
-
-      ${b.hasRevealBox ? `
-      <div class="bc-reveal-box-section" id="rbs-${b.id}">
-        <div class="bc-reveal-box-header">📦 Reveal Box - adresa dostave</div>
-        <div class="bc-reveal-box-body">
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '-'}</span></div>
-          ${b.deliveryApartment ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Stan/sprat</span><span>${b.deliveryApartment}</span></div>` : ''}
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '-'}</span></div>
-          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '-'}</span></div>
-          <div style="margin-top:12px;">
-            ${b.revealBoxSent
-              ? `<span style="color:#4ade80;font-size:13px;font-weight:700;">✅ Reveal Box poslan</span>`
-              : `<button class="bc-btn-reveal-box" id="btn-rbs-${b.id}" onclick="markRevealBoxSent(${b.id})">📦 Označi kao poslan</button>`
-            }
-          </div>
-        </div>
-      </div>` : ''}
-
-      <div class="bc-note-wrap">
-        <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
-        <div class="bc-note-row">
-          <input class="bc-note-input" id="airline-name-${b.id}" type="text"
-            placeholder="npr. Wizz Air, Ryanair..."
-            value="${b.airlineName || ''}"
-            onkeydown="if(event.key==='Enter')saveAirlineName(${b.id})"
-            onblur="saveAirlineName(${b.id})" />
-          <button class="bc-note-save" onclick="saveAirlineName(${b.id})" title="Sačuvaj (Enter)">✓</button>
-        </div>
-        <div class="bc-note-status" id="airline-name-status-${b.id}">
-          ${b.airlineName ? `<span style="color:#22c55e;font-size:11px;">✓ ${b.airlineName}</span>` : '<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>'}
-        </div>
-      </div>
-
-      <div class="bc-note-wrap">
-        <div class="bc-label" style="margin-bottom:6px;">✈ Airline booking kod (check-in)</div>
-        <div class="bc-note-row">
-          <input class="bc-note-input" id="airline-code-${b.id}" type="text"
-            style="text-transform:uppercase;letter-spacing:1.5px;font-family:monospace;font-size:14px;font-weight:700;"
-            placeholder="npr. ABC123"
-            value="${b.airlineBookingCode || ''}"
-            onkeydown="if(event.key==='Enter')saveAirlineCode(${b.id})"
-            onblur="saveAirlineCode(${b.id})" />
-          <button class="bc-note-save" onclick="saveAirlineCode(${b.id})" title="Sačuvaj (Enter)">✓</button>
-        </div>
-        <div class="bc-note-status" id="airline-code-status-${b.id}">
-          ${b.airlineBookingCode ? `<span style="color:#22c55e;font-size:11px;">✓ Kod poslan korisniku na reveal linku</span>` : '<span style="opacity:.45;font-size:11px;">Unesi kod - biće vidljiv korisniku na reveal stranici</span>'}
-        </div>
-      </div>
-
-      <div class="bc-note-wrap">
-        <div class="bc-label" style="margin-bottom:6px;">📝 Interna napomena</div>
-        <div class="bc-note-row">
-          <textarea class="bc-note-input" id="note-${b.id}"
-            placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
-            onkeydown="if(event.ctrlKey&&event.key==='Enter')saveNote(${b.id})"
-          >${b.adminNotes || ''}</textarea>
-          <button class="bc-note-save" id="note-btn-${b.id}" onclick="saveNote(${b.id})" title="Sačuvaj napomenu (Ctrl+Enter)">✓</button>
-        </div>
-        <div class="bc-note-status" id="note-status-${b.id}"></div>
-      </div>
-
-      ${isCompleted ? `
-      <div class="bc-actions">
-        <span style="color:#818cf8;font-size:12px;font-weight:600;">🏁 Putovanje završeno - automatski zatvorena rezervacija</span>
-      </div>` : `
-      <div class="bc-actions">
-        <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>
-          ✅ Potvrdi
-        </button>
-        <button class="bc-btn bc-btn-cancel" onclick="changeStatus(${b.id},'CANCELLED')" ${isCancelled?'disabled':''}>
-          ❌ Otkaži
-        </button>
-        ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')">⏳ Vrati na čekanje</button>` : ''}
-        ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
-        <button class="bc-btn" onclick="deleteBooking(${b.id},'${b.bookingRef}')"
-          style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
-          🗑 Obriši
-        </button>` : ''}
-      </div>`}
-    </div>`;
+        </td>
+      </tr>`;
   }).join('');
+
+  list.innerHTML = `
+    <div class="booking-table-wrap">
+      <table class="booking-table">
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>Ime i prezime</th>
+            <th>Termin</th>
+            <th>Primljeno</th>
+            <th>Status</th>
+            <th>Ukupno</th>
+            <th>Destinacija</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function toggleDetail(id) {
+  const inner = document.getElementById(`btinner-${id}`);
+  const chev  = document.getElementById(`chev-${id}`);
+  const row   = document.getElementById(`btrow-${id}`);
+  if (!inner) return;
+  const isOpen = inner.classList.toggle('open');
+  chev.classList.toggle('open', isOpen);
+  row.classList.toggle('expanded', isOpen);
 }
 
 // ══ NOTES (API) ═══════════════════════════════════════════════════════════════
