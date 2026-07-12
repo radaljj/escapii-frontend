@@ -786,11 +786,11 @@ tbody td  { padding: 11px 12px; }
 /* mobile: ostavi samo Ime+email, Status, Ukupno, chevron */
 @media (max-width: 560px) {
   .booking-table thead th:nth-child(1),
-  .booking-table tbody td:nth-child(1),
   .booking-table thead th:nth-child(3),
-  .booking-table tbody td:nth-child(3),
   .booking-table thead th:nth-child(7),
-  .booking-table tbody td:nth-child(7) { display: none; }
+  .bt-summary td:nth-child(1),
+  .bt-summary td:nth-child(3),
+  .bt-summary td:nth-child(7) { display: none; }
   .booking-table tbody td { padding: 10px 10px; }
   .sort-select { width: 100%; }
   .booking-stats { grid-template-columns: 1fr 1fr; }
