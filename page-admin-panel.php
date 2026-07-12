@@ -720,7 +720,10 @@ tbody td  { padding: 11px 12px; }
   margin-bottom: 20px;
 }
 @media (max-width: 768px) { .booking-stats { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .booking-stats { grid-template-columns: 1fr; } }
+
+/* ── Waitlist cards ──────────────────────────────────────────────────────── */
+.wl-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+@media (max-width: 560px) { .wl-cards { grid-template-columns: 1fr; } }
 .bs-card {
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.08);
@@ -799,7 +802,6 @@ tbody td  { padding: 11px 12px; }
 @media (max-width: 400px) {
   .booking-stats { grid-template-columns: 1fr; }
   .booking-table tbody td { padding: 9px 8px; font-size: 12px; }
-  .bc-body { grid-template-columns: 1fr; }
   .bt-detail-card { margin: 4px; padding: 12px; }
 }
 
@@ -1040,7 +1042,7 @@ tbody td  { padding: 11px 12px; }
     <div class="panel" id="panel-waitlist">
       <div class="panel-title">Lista čekanja</div>
       <div class="panel-subtitle">Korisnici koji čekaju da se otvore termini</div>
-      <div id="wlCards" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;"></div>
+      <div id="wlCards" class="wl-cards"></div>
       <div class="card">
         <div class="table-wrap">
           <table>
