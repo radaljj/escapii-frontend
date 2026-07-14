@@ -315,73 +315,91 @@ a { color: inherit; }
 
 /* ── Google Reviews ── */
 .ut-gr {
-  background: var(--sand);
-  padding: 80px 32px 88px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  background: var(--cream);
+  padding: 88px 0 96px;
+  overflow: hidden;
 }
-.ut-gr-inner { max-width: 1120px; margin: 0 auto; }
-.ut-gr-header {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 24px;
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--line);
+.ut-gr-hero {
+  text-align: center;
+  padding: 0 24px;
+  margin-bottom: 56px;
 }
-.ut-gr-brand { display: flex; align-items: center; gap: 16px; }
-.ut-gr-glogo { width: 36px; height: 36px; flex-shrink: 0; }
-.ut-gr-platform { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
-.ut-gr-biz { font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-top: 2px; }
-.ut-gr-aggregate { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.ut-gr-score { font-size: 42px; font-weight: 800; color: var(--ink); line-height: 1; }
-.ut-gr-stars-row { display: flex; gap: 2px; }
-.ut-gr-stars-row span { font-size: 20px; color: #FBBC05; }
-.ut-gr-count { font-size: 13px; color: var(--faint); margin-top: 2px; }
-.ut-gr-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 36px;
+.ut-gr-glogo-wrap {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
 }
+.ut-gr-glogo { width: 28px; height: 28px; flex-shrink: 0; }
+.ut-gr-platform-label {
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--faint);
+}
+.ut-gr-big-score {
+  font-size: clamp(72px, 12vw, 110px);
+  font-weight: 800; color: var(--ink); line-height: 1;
+  letter-spacing: -4px; margin-bottom: 10px;
+}
+.ut-gr-stars-big { display: flex; justify-content: center; gap: 4px; margin-bottom: 10px; }
+.ut-gr-stars-big span { font-size: 28px; color: #FBBC05; }
+.ut-gr-count { font-size: 14px; color: var(--faint); }
+/* marquee */
+.ut-gr-marquee-outer {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-bottom: 48px;
+}
+.ut-gr-marquee-track {
+  display: flex; gap: 12px;
+  width: max-content;
+}
+.ut-gr-marquee-track.go-left  { animation: gr-left  38s linear infinite; }
+.ut-gr-marquee-track.go-right { animation: gr-right 38s linear infinite; }
+@keyframes gr-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes gr-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.ut-gr-marquee-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+.ut-gr-marquee-outer:hover .ut-gr-marquee-track { animation-play-state: paused; }
+/* card */
 .ut-gr-card {
+  width: 300px; flex-shrink: 0;
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 18px;
+  padding: 20px 22px;
   display: flex; flex-direction: column; gap: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  box-shadow: 0 2px 16px rgba(0,0,0,.05);
+  cursor: default;
   transition: box-shadow .2s, transform .2s;
 }
-.ut-gr-card:hover {
-  box-shadow: 0 8px 28px rgba(0,0,0,.09);
-  transform: translateY(-2px);
-}
+.ut-gr-card:hover { box-shadow: 0 10px 32px rgba(0,0,0,.1); transform: translateY(-3px); }
 .ut-gr-card-top { display: flex; align-items: center; gap: 10px; }
 .ut-gr-avatar {
-  width: 38px; height: 38px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0;
+  font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
 }
-.ut-gr-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.ut-gr-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.2; }
 .ut-gr-date { font-size: 11px; color: var(--faint); margin-top: 1px; }
-.ut-gr-gmark { width: 16px; height: 16px; margin-left: auto; flex-shrink: 0; opacity: .7; }
+.ut-gr-gmark { width: 14px; height: 14px; margin-left: auto; flex-shrink: 0; }
 .ut-gr-stars { display: flex; gap: 1px; }
-.ut-gr-stars span { font-size: 13px; color: #FBBC05; }
-.ut-gr-text { font-size: 13px; line-height: 1.65; color: var(--mute); flex: 1; }
+.ut-gr-stars span { font-size: 12px; color: #FBBC05; }
+.ut-gr-text { font-size: 13px; line-height: 1.65; color: var(--mute); }
+/* cta */
 .ut-gr-cta {
-  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 0 24px;
 }
 .ut-gr-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 11px 22px; background: #fff; color: var(--ink);
+  padding: 12px 26px; background: #fff; color: var(--ink);
   font-size: 14px; font-weight: 700; font-family: inherit;
-  border: 1.5px solid var(--line); border-radius: 10px;
-  text-decoration: none; white-space: nowrap;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  border: 1.5px solid var(--line); border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 1px 6px rgba(0,0,0,.07);
   transition: border-color .2s, box-shadow .2s, transform .2s;
 }
-.ut-gr-btn:hover { border-color: #4285F4; box-shadow: 0 4px 16px rgba(66,133,244,.15); transform: translateY(-1px); }
-.ut-gr-note { font-size: 13px; color: var(--faint); line-height: 1.5; }
+.ut-gr-btn:hover { border-color: #4285F4; box-shadow: 0 4px 20px rgba(66,133,244,.18); transform: translateY(-1px); }
+.ut-gr-note { font-size: 13px; color: var(--faint); }
 
 /* ── Separator ── */
 .ut-sep {
@@ -501,8 +519,7 @@ a { color: inherit; }
 @media (max-width: 900px) {
   .ut-reviews-grid { grid-template-columns: repeat(2, 1fr); }
   .ut-reviews { padding: 72px 28px 56px; }
-  .ut-gr-grid { grid-template-columns: repeat(2, 1fr); }
-  .ut-gr { padding: 64px 28px 72px; }
+  .ut-gr { padding: 64px 0 72px; }
 }
 @media (max-width: 768px) {
   .ut-hero { padding: 110px 24px 80px; }
@@ -512,9 +529,8 @@ a { color: inherit; }
   .ut-hero { padding: 96px 20px 72px; }
   .ut-reviews { padding: 56px 16px 40px; }
   .ut-reviews-grid { grid-template-columns: 1fr; gap: 16px; }
-  .ut-gr { padding: 48px 16px 56px; }
-  .ut-gr-grid { grid-template-columns: 1fr; }
-  .ut-gr-aggregate { align-items: flex-start; }
+  .ut-gr { padding: 48px 0 56px; }
+  .ut-gr-big-score { letter-spacing: -2px; }
   .ut-ig { padding: 56px 16px 64px; }
   .ut-swiper .swiper-slide { width: 78vw; max-width: 300px; }
   .ut-swiper-wrap { padding: 8px 0 48px; }
@@ -645,95 +661,60 @@ a { color: inherit; }
 
 <!-- GOOGLE REVIEWS -->
 <section class="ut-gr" id="google-recenzije">
-  <div class="ut-gr-inner">
 
-    <div class="ut-gr-header">
-      <div class="ut-gr-brand">
-        <svg class="ut-gr-glogo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        <div>
-          <div class="ut-gr-platform">Google recenzije</div>
-          <div class="ut-gr-biz">Escapii</div>
-        </div>
-      </div>
-      <div class="ut-gr-aggregate">
-        <div class="ut-gr-score">5.0</div>
-        <div class="ut-gr-stars-row">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-        </div>
-        <div class="ut-gr-count">na osnovu 24 recenzije</div>
-      </div>
+  <div class="ut-gr-hero">
+    <div class="ut-gr-glogo-wrap">
+      <svg class="ut-gr-glogo" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <span class="ut-gr-platform-label">Google recenzije</span>
     </div>
-
-    <div class="ut-gr-grid">
-
-      <div class="ut-gr-card">
-        <div class="ut-gr-card-top">
-          <div class="ut-gr-avatar" style="background:#4285F4;">M</div>
-          <div>
-            <div class="ut-gr-name">Milica D.</div>
-            <div class="ut-gr-date">pre mesec dana</div>
-          </div>
-          <svg class="ut-gr-gmark" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        </div>
-        <div class="ut-gr-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="ut-gr-text">Prag je bio wow. Nisam ni sanjala tu destinaciju a sad je jedna od omiljenih. Organizacija bez greške, sve je stiglo na vreme. Definitivno ponavljamo.</p>
-      </div>
-
-      <div class="ut-gr-card">
-        <div class="ut-gr-card-top">
-          <div class="ut-gr-avatar" style="background:#34A853;">J</div>
-          <div>
-            <div class="ut-gr-name">Jovana M.</div>
-            <div class="ut-gr-date">pre 2 meseca</div>
-          </div>
-          <svg class="ut-gr-gmark" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        </div>
-        <div class="ut-gr-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="ut-gr-text">Poklonila muzu za godišnjicu i nije ni slutio kuda idemo. Budimpešta je bila savršena. Muz me sad pita kad idemo opet :) Svaka preporuka.</p>
-      </div>
-
-      <div class="ut-gr-card">
-        <div class="ut-gr-card-top">
-          <div class="ut-gr-avatar" style="background:#EA4335;">L</div>
-          <div>
-            <div class="ut-gr-name">Lazar N.</div>
-            <div class="ut-gr-date">pre mesec dana</div>
-          </div>
-          <svg class="ut-gr-gmark" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        </div>
-        <div class="ut-gr-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="ut-gr-text">Prosto radi. Uplatiš, čekaš, pakuješ kofere dan pre. Mi smo otišli u Rim a nisam znao ni koji aerodrom. Sve informacije stigle tačno kad je trebalo.</p>
-      </div>
-
-      <div class="ut-gr-card">
-        <div class="ut-gr-card-top">
-          <div class="ut-gr-avatar" style="background:#FBBC05;">T</div>
-          <div>
-            <div class="ut-gr-name">Tamara V.</div>
-            <div class="ut-gr-date">pre 3 meseca</div>
-          </div>
-          <svg class="ut-gr-gmark" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        </div>
-        <div class="ut-gr-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="ut-gr-text">Treće putovanje sa Escapii. Krakow ovaj put, i opet sam pogodila krivo :) Svaki put budem oduševljena destinacijom. Ovo je jedini način da putujem odavde pa nadalje.</p>
-      </div>
-
-    </div>
-
-    <div class="ut-gr-cta">
-      <a href="#" class="ut-gr-btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        Ostavi recenziju na Google-u
-      </a>
-      <span class="ut-gr-note">Svaka recenzija nam znači puno — i pomaže sledećem Escaperu da odluči</span>
-    </div>
-
+    <div class="ut-gr-big-score">5.0</div>
+    <div class="ut-gr-stars-big"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <div class="ut-gr-count">na osnovu 24 recenzije · Escapii</div>
   </div>
+
+  <?php
+  $gsvg = '<svg class="ut-gr-gmark" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>';
+  $stars = '<div class="ut-gr-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>';
+
+  $cards = [
+    ['M','#4285F4','Milica D.','pre mesec dana','Prag je bio wow. Nisam ni sanjala tu destinaciju a sad je jedna od omiljenih. Definitivno ponavljamo.'],
+    ['J','#34A853','Jovana M.','pre 2 meseca','Poklonila muzu za godišnjicu, nije ni slutio kuda idemo. Budimpešta savršena. Muz sad pita kad idemo opet :)'],
+    ['L','#EA4335','Lazar N.','pre mesec dana','Prosto radi. Uplatiš, čekaš, pakuješ kofere dan pre. Otišli smo u Rim a nisam znao ni koji aerodrom.'],
+    ['T','#FBBC05','Tamara V.','pre 3 meseca','Treće putovanje, Krakow ovaj put. Svaki put pogodim krivo i svaki put budem oduševljena. Jedini način da putujem.'],
+    ['S','#4285F4','Stefan J.','pre 2 meseca','Malo sam se plašio ali Porto je bio odličan. Jedina žalba — premalo dana. Sledeće putovanje već planiram.'],
+    ['A','#34A853','Ana K.','pre mesec dana','Putovala sama, malo nervozna. Sve prošlo odlično, Barsa savršena za solo trip. Već rezervisala sledeće.'],
+  ];
+
+  function gr_card($c, $gsvg, $stars) {
+    return '<div class="ut-gr-card">
+      <div class="ut-gr-card-top">
+        <div class="ut-gr-avatar" style="background:'.$c[1].'">'.$c[0].'</div>
+        <div><div class="ut-gr-name">'.$c[2].'</div><div class="ut-gr-date">'.$c[3].'</div></div>'
+        .$gsvg.
+      '</div>'.$stars.'<p class="ut-gr-text">'.$c[4].'</p></div>';
+  }
+
+  $row1 = array_slice($cards, 0, 3);
+  $row2 = array_slice($cards, 3, 3);
+  ?>
+
+  <div class="ut-gr-marquee-outer ut-gr-marquee-fade">
+    <div class="ut-gr-marquee-track go-left">
+      <?php foreach(array_merge($row1,$row1) as $c) echo gr_card($c,$gsvg,$stars); ?>
+    </div>
+    <div class="ut-gr-marquee-track go-right">
+      <?php foreach(array_merge($row2,$row2) as $c) echo gr_card($c,$gsvg,$stars); ?>
+    </div>
+  </div>
+
+  <div class="ut-gr-cta">
+    <a href="#" class="ut-gr-btn" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Ostavi recenziju na Google-u
+    </a>
+    <span class="ut-gr-note">Svaka recenzija pomaže sledećem Escaperu da odluči</span>
+  </div>
+
 </section>
 
 <!-- SEPARATOR -->
