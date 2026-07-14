@@ -15,6 +15,7 @@ $site_url  = get_site_url();
   <meta name="description" content="Pročitaj šta Escaperi kažu o putovanjima iznenađenja. Autentična iskustva putnika koji su verovali iznenađenju - i nisu požalili.">
   <link rel="canonical" href="<?php echo esc_url($site_url); ?>/utisci/">
   <?php wp_head(); ?>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <style>
 :root {
   --cream:     #faf6ee;
@@ -336,22 +337,41 @@ a { color: inherit; }
 .ut-ig .ut-section-label::before { background: var(--gold); }
 .ut-ig .ut-section-h2 { color: #fff; }
 .ut-ig .ut-section-sub { color: rgba(255,255,255,.55); }
-.ut-ig-grid {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* ── Swiper coverflow ── */
+.ut-swiper-wrap { position: relative; padding: 8px 0 64px; }
+.ut-swiper { width: 100%; overflow: visible; }
+.ut-swiper .swiper-slide {
+  width: 360px; max-width: 85vw;
+  transition: opacity .3s;
 }
-.ut-ig-embed-wrap {
-  width: 100%; max-width: 380px; flex-shrink: 0;
-}
-.ut-ig-embed-wrap .instagram-media {
-  border-radius: 16px !important;
+.ut-swiper .swiper-slide:not(.swiper-slide-active) { opacity: .65; }
+.ut-swiper .swiper-slide .instagram-media {
   margin: 0 auto !important;
-  min-width: 280px !important;
+  border-radius: 18px !important;
   width: 100% !important;
-  max-width: 380px !important;
+  min-width: 0 !important;
 }
+.ut-swiper-pagination { margin-top: 32px; display: flex; justify-content: center; gap: 6px; }
+.ut-swiper-pagination .swiper-pagination-bullet {
+  width: 8px; height: 8px; border-radius: 4px;
+  background: rgba(255,255,255,.25); opacity: 1; transition: all .25s;
+}
+.ut-swiper-pagination .swiper-pagination-bullet-active {
+  background: var(--gold); width: 24px;
+}
+.ut-swiper-nav {
+  display: flex; justify-content: center; gap: 12px; margin-top: 24px;
+}
+.ut-swiper-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  color: #fff; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s;
+}
+.ut-swiper-btn:hover { background: var(--gold); border-color: var(--gold); }
+.ut-swiper-btn.swiper-button-disabled { opacity: .3; cursor: default; }
+.ut-swiper-btn.swiper-button-disabled:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.18); }
 .ut-ig-handle {
   text-align: center; margin-top: 36px;
 }
@@ -415,7 +435,7 @@ a { color: inherit; }
   .ut-reviews { padding: 64px 20px 48px; }
   .ut-reviews-grid { grid-template-columns: 1fr; }
   .ut-ig { padding: 64px 20px 72px; }
-  .ut-ig-grid { grid-template-columns: 1fr; max-width: 320px; }
+  .ut-swiper .swiper-slide { width: 320px; max-width: 88vw; }
   .ut-cta { padding: 64px 20px; }
   .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
   .esc-footer { padding: 48px 24px 24px; }
@@ -436,23 +456,22 @@ a { color: inherit; }
       <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       Utisci Escapera
     </span>
-    <h1>Šta kažu oni koji su verovali iznenađenju</h1>
-    <p>Svako putovanje počinje istim pitanjem: "Kuda idemo?" — i završava se istim odgovorom: "Ponavljamo!"</p>
+    <h1>Šta kažu Escaperi</h1>
+    <p>Nismo pisali ove utiske. Samo smo ih prikupili.</p>
   </div>
 </header>
 
 <!-- REVIEWS -->
 <section class="ut-reviews" id="utisci">
   <div class="ut-section-label">Utisci</div>
-  <h2 class="ut-section-h2">Govorimo kroz iskustva</h2>
-  <p class="ut-section-sub">Autentična iskustva putnika koji su prepustili kontrolu — i nisu požalili.</p>
+  <h2 class="ut-section-h2">Pravi ljudi, pravi utisci</h2>
 
   <div class="ut-reviews-grid">
 
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Nisam znala kuda idemo sve do aerodroma, i to je bila najlepša stvar ikada. Prag je bio savršen izbor — grad koji nikad ne bih sama birala, a sad je jedno od mojih omiljenih mesta na svetu.</p>
+      <p class="ut-review-text">Iskreno nisam verovala da ću biti zadovoljna jer sam skeptik po prirodi. Ali Prag je bio wow. Svaka čast Escapii, jedva čekam sledeće.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">M</div>
         <div>
@@ -466,7 +485,7 @@ a { color: inherit; }
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Bio sam skeptičan, ali Escapii me je potpuno promenio. Porto je bio nešto posebno — mali grad koji smo otkrili bez ikakvog plana i ispunili ga slučajnim avanturama. To ne može da se plira.</p>
+      <p class="ut-review-text">Malo sam se plašio šta ako dobijemo neku destinaciju koja nam ne odgovara. Porto je bio odličan. Jedina žalba — premalo dana.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">S</div>
         <div>
@@ -480,7 +499,7 @@ a { color: inherit; }
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Poklonila sam muzu Escapii putovanje za 10. godišnjicu i on još uvek priča o Budimpešti. Reveal Box je bio pravi pogodak — otvarali smo zajedno i vrištali od sreće. Definitivno ponavljamo!</p>
+      <p class="ut-review-text">Poklonila sam muzu za godišnjicu. Bio je siguran da zna kuda idemo i pogodio je krivo :) Budimpešta je bila top, on sad traži da ponovo idemo.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">J</div>
         <div>
@@ -494,7 +513,7 @@ a { color: inherit; }
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Organizacija bez premca. Od momenta rezervacije do povratka kući, sve je funkcionisalo savršeno. Rim je bio sanjiva destinacija — a to što smo saznali tek na aerodromu učinilo je taj trenutak nezaboravnim.</p>
+      <p class="ut-review-text">Prosto radi. Rezervišeš, platiš i čekaš. Otišli smo u Rim, a ja nisam znao ni koji aerodrom koristimo sve do dva dana pre polaska.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">L</div>
         <div>
@@ -508,7 +527,7 @@ a { color: inherit; }
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Putovala sam sama i bila mi je zabrinutost hoće li biti dobro. Odgovorili su na svako pitanje, a Barcelona je bila toliko dobra da sam već rezervisala sledeće putovanje. Nema povratka na klasična putovanja!</p>
+      <p class="ut-review-text">Putovala sam sama, malo nervozna zbog toga. Sve je prošlo odlično, Barsa je bila savršena za solo trip. Već rezervisala sledeće.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">A</div>
         <div>
@@ -522,7 +541,7 @@ a { color: inherit; }
     <div class="ut-review-card">
       <div class="ut-review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <div class="ut-review-quote">"</div>
-      <p class="ut-review-text">Treće putovanje sa Escapii i svaki put me iznenade. Beč, Lisabon, a sad i Krakow — destinacije koje sam sama nikad ne bih stavila na listu, a sada su između mojih top omiljenih. Hvala na hrabrosti!</p>
+      <p class="ut-review-text">Treće putovanje, ista priča — mislim da znam kuda idemo, svaki put pogrešim. I svaki put budem oduševljena. Krakow mi je bio najdraži do sad.</p>
       <div class="ut-review-footer">
         <div class="ut-review-avatar">T</div>
         <div>
@@ -538,35 +557,46 @@ a { color: inherit; }
 
 <!-- SEPARATOR -->
 <div class="ut-sep">
-  <div class="ut-sep-inner">I tvoja avantura čeka</div>
+  <div class="ut-sep-inner">A sada tvoj red</div>
 </div>
 
 <!-- INSTAGRAM -->
 <section class="ut-ig" id="instagram">
   <div class="ut-ig-inner">
     <div class="ut-section-label">Instagram</div>
-    <h2 class="ut-section-h2">Prati nas na putu</h2>
-    <p class="ut-section-sub">Trenutci koji ne mogu da se opišu rečima — samo da se dožive.</p>
+    <h2 class="ut-section-h2">Reels sa puta</h2>
+    <p class="ut-section-sub">Snimci koje su naši putnici podelili — bez filtera, bez režije.</p>
 
-    <div class="ut-ig-grid">
+    <div class="ut-swiper-wrap">
+      <div class="swiper ut-swiper" id="utSwiperIG">
+        <div class="swiper-wrapper">
 
-      <div class="ut-ig-embed-wrap">
-        <blockquote class="instagram-media"
-          data-instgrm-permalink="https://www.instagram.com/reel/Dasa7Ieo-RR/?utm_source=ig_embed&utm_campaign=loading"
-          data-instgrm-version="14"
-          style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;max-width:380px;min-width:280px;padding:0;width:calc(100% - 2px);">
-        </blockquote>
+          <div class="swiper-slide">
+            <blockquote class="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/reel/Dasa7Ieo-RR/?utm_source=ig_embed&utm_campaign=loading"
+              data-instgrm-version="14"
+              style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;padding:0;width:100%;">
+            </blockquote>
+          </div>
+
+          <div class="swiper-slide">
+            <blockquote class="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/reel/DaqGCg1ojBT/?utm_source=ig_embed&utm_campaign=loading"
+              data-instgrm-version="14"
+              style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;padding:0;width:100%;">
+            </blockquote>
+          </div>
+
+        </div>
       </div>
 
-      <div class="ut-ig-embed-wrap">
-        <blockquote class="instagram-media"
-          data-instgrm-permalink="https://www.instagram.com/reel/DaqGCg1ojBT/?utm_source=ig_embed&utm_campaign=loading"
-          data-instgrm-version="14"
-          style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;max-width:380px;min-width:280px;padding:0;width:calc(100% - 2px);">
-        </blockquote>
+      <div class="ut-swiper-pagination" id="utSwiperPag"></div>
+      <div class="ut-swiper-nav">
+        <button class="ut-swiper-btn" id="utSwiperPrev" aria-label="Prethodni">&#8592;</button>
+        <button class="ut-swiper-btn" id="utSwiperNext" aria-label="Sledeci">&#8594;</button>
       </div>
-
     </div>
+
     <script async src="//www.instagram.com/embed.js"></script>
 
     <div class="ut-ig-handle">
@@ -580,8 +610,8 @@ a { color: inherit; }
 
 <!-- CTA -->
 <section class="ut-cta">
-  <h2>Spremi se za svoju avanturu</h2>
-  <p>Prepusti se iznenađenju — mi se brinemo za sve ostalo.</p>
+  <h2>Spreman/a na iznenađenje?</h2>
+  <p>Rezerviši i čekaj. Sve ostalo je na nama.</p>
   <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="ut-cta-btn">
     Rezerviši putovanje
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -692,8 +722,35 @@ document.addEventListener('click', function(e) {
 });
 
 if (lang === 'en') setLang('en');
+</script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+(function() {
+  var swiper = new Swiper('#utSwiperIG', {
+    slidesPerView: 'auto',
+    centeredSlides: true,
+    spaceBetween: 24,
+    loop: false,
+    grabCursor: true,
+    pagination: {
+      el: '#utSwiperPag',
+      clickable: true,
+      bulletClass: 'swiper-pagination-bullet',
+      bulletActiveClass: 'swiper-pagination-bullet-active'
+    },
+    navigation: {
+      nextEl: '#utSwiperNext',
+      prevEl: '#utSwiperPrev',
+      disabledClass: 'swiper-button-disabled'
+    },
+    on: {
+      afterInit: function() {
+        if (window.instgrm) window.instgrm.Embeds.process();
+      }
+    }
+  });
+})();
 </script>
 
 <?php wp_footer(); ?>
