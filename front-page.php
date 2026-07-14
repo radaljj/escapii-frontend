@@ -5019,8 +5019,7 @@ async function loadDestinations() {
     S.destinations    = await rActive.json();
     S.allDestinations = await rAll.json();
     const count = Math.max(S.destinations.length, 50);
-    document.getElementById('destCount').textContent = count + '+';
-    document.getElementById('statsDestCount').textContent = count + '+';
+    ['destCount','statsDestCount'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=count+'+';});
     buildCarousel();
     renderExclGrid();
   } catch(e) {
