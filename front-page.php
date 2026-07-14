@@ -4957,8 +4957,9 @@ const CITY_EN = {
   'Stokholm':'Stockholm','Varšava':'Warsaw','Venecija':'Venice',
   'Ženeva':'Geneva',
 };
-function destDisplayName(name) {
-  return lang === 'en' ? (CITY_EN[name] || name) : name;
+function destDisplayName(d) {
+  if (typeof d === 'string') return lang === 'en' ? (CITY_EN[d] || d) : d;
+  return lang === 'en' ? (d.nameEn || CITY_EN[d.name] || d.name) : d.name;
 }
 
 function airportImgUrl(code) {
@@ -5057,10 +5058,8 @@ const CAROUSEL_DEST_SR = {
 };
 function carouselDestName(d) {
   if (lang === 'en') {
-    // Backend šalje engleski naziv → ostavi ga; fallback lista ima srpski → prevedi
-    return CITY_EN[d.name] || d.name;
+    return d.nameEn || CITY_EN[d.name] || d.name;
   }
-  // SR: backend šalje engleski → prevedi; fallback lista srpski → ostavi
   return CAROUSEL_DEST_SR[d.name] || d.name;
 }
 
@@ -5819,7 +5818,7 @@ function renderExclGrid() {
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${d.imageUrl || destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="excl-overlay">
-        <div class="excl-name">${destDisplayName(d.name)}</div>
+        <div class="excl-name">${destDisplayName(d)}</div>
       </div>
       <div class="excl-x">✕</div>
     </div>`
