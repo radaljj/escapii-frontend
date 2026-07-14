@@ -337,21 +337,33 @@ a { color: inherit; }
 .ut-ig .ut-section-label::before { background: var(--gold); }
 .ut-ig .ut-section-h2 { color: #fff; }
 .ut-ig .ut-section-sub { color: rgba(255,255,255,.55); }
-/* ── Swiper coverflow ── */
-.ut-swiper-wrap { position: relative; padding: 8px 0 64px; }
+/* ── Swiper ── */
+.ut-swiper-wrap { position: relative; padding: 8px 0 56px; }
 .ut-swiper { width: 100%; overflow: visible; }
 .ut-swiper .swiper-slide {
-  width: 360px; max-width: 85vw;
-  transition: opacity .3s;
+  width: 360px; max-width: 82vw;
+  position: relative;
+  transform: scale(0.84);
+  opacity: .5;
+  transition: transform .45s ease, opacity .45s ease;
 }
-.ut-swiper .swiper-slide:not(.swiper-slide-active) { opacity: .65; }
+.ut-swiper .swiper-slide-active {
+  transform: scale(1);
+  opacity: 1;
+}
 .ut-swiper .swiper-slide .instagram-media {
   margin: 0 auto !important;
   border-radius: 18px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
-.ut-swiper-pagination { margin-top: 32px; display: flex; justify-content: center; gap: 6px; }
+.ut-slide-overlay {
+  display: none;
+  position: absolute; inset: 0; z-index: 10;
+  border-radius: 18px; cursor: pointer;
+}
+.ut-swiper .swiper-slide:not(.swiper-slide-active) .ut-slide-overlay { display: block; }
+.ut-swiper-pagination { margin-top: 28px; display: flex; justify-content: center; gap: 6px; }
 .ut-swiper-pagination .swiper-pagination-bullet {
   width: 8px; height: 8px; border-radius: 4px;
   background: rgba(255,255,255,.25); opacity: 1; transition: all .25s;
@@ -359,19 +371,6 @@ a { color: inherit; }
 .ut-swiper-pagination .swiper-pagination-bullet-active {
   background: var(--gold); width: 24px;
 }
-.ut-swiper-nav {
-  display: flex; justify-content: center; gap: 12px; margin-top: 24px;
-}
-.ut-swiper-btn {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
-  color: #fff; font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s, border-color .2s;
-}
-.ut-swiper-btn:hover { background: var(--gold); border-color: var(--gold); }
-.ut-swiper-btn.swiper-button-disabled { opacity: .3; cursor: default; }
-.ut-swiper-btn.swiper-button-disabled:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.18); }
 .ut-ig-handle {
   text-align: center; margin-top: 36px;
 }
@@ -435,7 +434,7 @@ a { color: inherit; }
   .ut-reviews { padding: 64px 20px 48px; }
   .ut-reviews-grid { grid-template-columns: 1fr; }
   .ut-ig { padding: 64px 20px 72px; }
-  .ut-swiper .swiper-slide { width: 320px; max-width: 88vw; }
+  .ut-swiper .swiper-slide { width: 300px; max-width: 88vw; }
   .ut-cta { padding: 64px 20px; }
   .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
   .esc-footer { padding: 48px 24px 24px; }
@@ -454,17 +453,17 @@ a { color: inherit; }
   <div class="ut-hero-content">
     <span class="ut-hero-pill">
       <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Utisci Escapera
+      Pravi Escaperi govore
     </span>
-    <h1>Šta kažu Escaperi</h1>
-    <p>Nismo pisali ove utiske. Samo smo ih prikupili.</p>
+    <h1>Čuli smo svašta.</h1>
+    <p>Skupljamo poruke posle svakog putovanja. Nismo birali ni uređivali — ovo je sve.</p>
   </div>
 </header>
 
 <!-- REVIEWS -->
 <section class="ut-reviews" id="utisci">
   <div class="ut-section-label">Utisci</div>
-  <h2 class="ut-section-h2">Pravi ljudi, pravi utisci</h2>
+  <h2 class="ut-section-h2">Stiglo u inbox</h2>
 
   <div class="ut-reviews-grid">
 
@@ -564,14 +563,15 @@ a { color: inherit; }
 <section class="ut-ig" id="instagram">
   <div class="ut-ig-inner">
     <div class="ut-section-label">Instagram</div>
-    <h2 class="ut-section-h2">Reels sa puta</h2>
-    <p class="ut-section-sub">Snimci koje su naši putnici podelili — bez filtera, bez režije.</p>
+    <h2 class="ut-section-h2">Uhvaćeni na putu</h2>
+    <p class="ut-section-sub">Telefoni iz džepa. Niko nije snimao za promo.</p>
 
     <div class="ut-swiper-wrap">
       <div class="swiper ut-swiper" id="utSwiperIG">
         <div class="swiper-wrapper">
 
           <div class="swiper-slide">
+            <div class="ut-slide-overlay"></div>
             <blockquote class="instagram-media"
               data-instgrm-permalink="https://www.instagram.com/reel/Dasa7Ieo-RR/?utm_source=ig_embed&utm_campaign=loading"
               data-instgrm-version="14"
@@ -580,6 +580,7 @@ a { color: inherit; }
           </div>
 
           <div class="swiper-slide">
+            <div class="ut-slide-overlay"></div>
             <blockquote class="instagram-media"
               data-instgrm-permalink="https://www.instagram.com/reel/DaqGCg1ojBT/?utm_source=ig_embed&utm_campaign=loading"
               data-instgrm-version="14"
@@ -591,10 +592,6 @@ a { color: inherit; }
       </div>
 
       <div class="ut-swiper-pagination" id="utSwiperPag"></div>
-      <div class="ut-swiper-nav">
-        <button class="ut-swiper-btn" id="utSwiperPrev" aria-label="Prethodni">&#8592;</button>
-        <button class="ut-swiper-btn" id="utSwiperNext" aria-label="Sledeci">&#8594;</button>
-      </div>
     </div>
 
     <script async src="//www.instagram.com/embed.js"></script>
@@ -610,8 +607,8 @@ a { color: inherit; }
 
 <!-- CTA -->
 <section class="ut-cta">
-  <h2>Spreman/a na iznenađenje?</h2>
-  <p>Rezerviši i čekaj. Sve ostalo je na nama.</p>
+  <h2>Tvoj red.</h2>
+  <p>Rezerviši i zaboravi. Javljamo se kad je vreme.</p>
   <a href="<?php echo esc_url($site_url); ?>/#esc-booking" class="ut-cta-btn">
     Rezerviši putovanje
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -730,7 +727,7 @@ if (lang === 'en') setLang('en');
   var swiper = new Swiper('#utSwiperIG', {
     slidesPerView: 'auto',
     centeredSlides: true,
-    spaceBetween: 24,
+    spaceBetween: 28,
     loop: false,
     grabCursor: true,
     pagination: {
@@ -739,16 +736,19 @@ if (lang === 'en') setLang('en');
       bulletClass: 'swiper-pagination-bullet',
       bulletActiveClass: 'swiper-pagination-bullet-active'
     },
-    navigation: {
-      nextEl: '#utSwiperNext',
-      prevEl: '#utSwiperPrev',
-      disabledClass: 'swiper-button-disabled'
-    },
     on: {
       afterInit: function() {
         if (window.instgrm) window.instgrm.Embeds.process();
       }
     }
+  });
+
+  document.querySelectorAll('.ut-slide-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function() {
+      var slide = this.closest('.swiper-slide');
+      var idx = Array.from(swiper.slides).indexOf(slide);
+      if (idx !== -1) swiper.slideTo(idx);
+    });
   });
 })();
 </script>
