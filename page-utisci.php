@@ -258,6 +258,7 @@ a { color: inherit; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  perspective: 1000px;
 }
 .ut-review-card {
   background: var(--paper);
@@ -267,12 +268,12 @@ a { color: inherit; }
   display: flex;
   flex-direction: column;
   gap: 0;
-  transition: box-shadow .25s, border-color .25s, transform .25s;
+  will-change: transform, opacity;
+  transition: box-shadow .25s, border-color .25s;
 }
 .ut-review-card:hover {
   border-color: #e3c8b8;
-  box-shadow: 0 20px 48px -16px rgba(168,94,68,.18);
-  transform: translateY(-3px);
+  box-shadow: 0 24px 56px -16px rgba(168,94,68,.22);
 }
 .ut-review-stars {
   display: flex; gap: 3px; margin-bottom: 18px;
@@ -719,6 +720,49 @@ document.addEventListener('click', function(e) {
 });
 
 if (lang === 'en') setLang('en');
+
+// ── Review card animations ─────────────────────────────────────────────────
+(function() {
+  var cards = Array.from(document.querySelectorAll('.ut-review-card'));
+
+  // Set initial hidden state
+  cards.forEach(function(card) {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(48px)';
+  });
+
+  // Staggered scroll entrance
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var card = entry.target;
+      var idx = cards.indexOf(card);
+      setTimeout(function() {
+        card.style.transition = 'opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1)';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        setTimeout(function() { card.style.transition = ''; }, 700);
+      }, idx * 85);
+      observer.unobserve(card);
+    });
+  }, { threshold: 0.08 });
+  cards.forEach(function(card) { observer.observe(card); });
+
+  // 3D tilt on hover
+  cards.forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var r = card.getBoundingClientRect();
+      var dx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      var dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      card.style.transition = 'box-shadow .12s, border-color .12s, transform .12s';
+      card.style.transform = 'translateY(-5px) rotateX(' + (-dy * 7) + 'deg) rotateY(' + (dx * 7) + 'deg)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transition = 'box-shadow .4s, border-color .4s, transform .55s cubic-bezier(.16,1,.3,1)';
+      card.style.transform = '';
+    });
+  });
+})();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
