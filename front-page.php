@@ -4955,7 +4955,7 @@ const CITY_EN = {
   'Nica':'Nice','Pariz':'Paris','Rim':'Rome','Sardinija':'Sardinia',
   'Sicilija':'Sicily','Sofija':'Sofia','Solun':'Thessaloniki',
   'Stokholm':'Stockholm','Varšava':'Warsaw','Venecija':'Venice',
-  'Ženeva':'Geneva',
+  'Piza':'Pisa','Ženeva':'Geneva',
 };
 function destDisplayName(d) {
   if (typeof d === 'string') return lang === 'en' ? (CITY_EN[d] || d) : d;
