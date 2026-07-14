@@ -337,86 +337,21 @@ a { color: inherit; }
 .ut-ig .ut-section-h2 { color: #fff; }
 .ut-ig .ut-section-sub { color: rgba(255,255,255,.55); }
 .ut-ig-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 24px;
-  max-width: 700px;
-  margin: 0 auto;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.ut-reel-link {
-  display: block; text-decoration: none;
-  border-radius: 20px; overflow: hidden;
-  position: relative; cursor: pointer;
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+.ut-ig-embed-wrap {
+  width: 100%; max-width: 380px; flex-shrink: 0;
 }
-.ut-reel-link:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 32px 64px rgba(0,0,0,.5); }
-.ut-reel-card {
-  aspect-ratio: 9/16;
-  background: linear-gradient(160deg, #0f3540 0%, #071e23 60%, #0a1a1f 100%);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
+.ut-ig-embed-wrap .instagram-media {
+  border-radius: 16px !important;
+  margin: 0 auto !important;
+  min-width: 280px !important;
+  width: 100% !important;
+  max-width: 380px !important;
 }
-.ut-reel-card::before {
-  content: "";
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, rgba(202,138,113,.12) 0%, transparent 65%);
-}
-.ut-reel-pattern {
-  position: absolute; inset: 0; opacity: .06;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,.3) 30px, rgba(255,255,255,.3) 31px),
-    repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,.3) 30px, rgba(255,255,255,.3) 31px);
-}
-.ut-reel-ig-badge {
-  position: absolute; top: 18px; left: 18px;
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(0,0,0,.45); backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 100px; padding: 5px 12px 5px 8px;
-}
-.ut-reel-ig-badge svg { width: 14px; height: 14px; fill: #fff; }
-.ut-reel-ig-badge span { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: .3px; }
-.ut-reel-play {
-  position: relative; z-index: 2;
-  width: 64px; height: 64px;
-  background: rgba(255,255,255,.14); backdrop-filter: blur(12px);
-  border: 2px solid rgba(255,255,255,.25);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .25s, border-color .25s, transform .25s;
-  margin-bottom: 16px;
-}
-.ut-reel-link:hover .ut-reel-play {
-  background: var(--gold); border-color: var(--gold);
-  transform: scale(1.1);
-}
-.ut-reel-play svg { width: 22px; height: 22px; fill: #fff; margin-left: 3px; }
-.ut-reel-label {
-  position: relative; z-index: 2;
-  font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7);
-  letter-spacing: .3px;
-  transition: color .25s;
-}
-.ut-reel-link:hover .ut-reel-label { color: #fff; }
-.ut-reel-bottom {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 36px 18px 18px;
-  background: linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 100%);
-  display: flex; align-items: flex-end; justify-content: space-between;
-}
-.ut-reel-handle {
-  font-size: 12px; font-weight: 700; color: rgba(255,255,255,.8);
-  display: flex; align-items: center; gap: 5px;
-}
-.ut-reel-watch {
-  font-size: 11px; font-weight: 700; color: var(--gold);
-  display: flex; align-items: center; gap: 4px;
-  background: rgba(202,138,113,.18); border: 1px solid rgba(202,138,113,.35);
-  border-radius: 100px; padding: 4px 10px;
-  transition: background .2s;
-}
-.ut-reel-link:hover .ut-reel-watch { background: rgba(202,138,113,.32); }
 .ut-ig-handle {
   text-align: center; margin-top: 36px;
 }
@@ -428,34 +363,6 @@ a { color: inherit; }
 .ut-ig-handle a:hover { color: var(--gold); }
 .ut-ig-handle svg { width: 16px; height: 16px; fill: currentColor; }
 
-/* ── Instagram Modal ── */
-.ig-modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 2000;
-  background: rgba(0,0,0,.82); backdrop-filter: blur(12px);
-  align-items: center; justify-content: center; padding: 20px;
-}
-.ig-modal-overlay.open { display: flex; }
-.ig-modal-box {
-  position: relative; width: 100%; max-width: 420px;
-  animation: igModalIn .25s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes igModalIn {
-  from { transform: scale(.88); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
-}
-.ig-modal-close {
-  position: absolute; top: -44px; right: 0; z-index: 10;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
-  color: #fff; font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
-}
-.ig-modal-close:hover { background: rgba(255,255,255,.28); }
-#igModalContent { min-height: 200px; }
-#igModalContent .instagram-media {
-  margin: 0 auto !important; border-radius: 12px !important;
-}
 
 /* ── CTA section ── */
 .ut-cta {
@@ -643,33 +550,24 @@ a { color: inherit; }
 
     <div class="ut-ig-grid">
 
-      <?php
-      $reels = [
-        'Dasa7Ieo-RR',
-        'DaqGCg1ojBT',
-      ];
-      $ig_svg = '<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>';
-      foreach ($reels as $code): ?>
-        <div class="ut-reel-link"
-             onclick="openIgModal('https://www.instagram.com/reel/<?php echo esc_js($code); ?>/')"
-             role="button" tabindex="0"
-             aria-label="Pogledaj Escapii reel na Instagramu">
-          <div class="ut-reel-card">
-            <div class="ut-reel-pattern"></div>
-            <div class="ut-reel-ig-badge"><?php echo $ig_svg; ?><span>escapii.rs</span></div>
-            <div class="ut-reel-play">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-            <span class="ut-reel-label">Pogledaj reel</span>
-            <div class="ut-reel-bottom">
-              <span class="ut-reel-handle"><?php echo $ig_svg; ?>@escapii.rs</span>
-              <span class="ut-reel-watch">▶ Gledaj</span>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
+      <div class="ut-ig-embed-wrap">
+        <blockquote class="instagram-media"
+          data-instgrm-permalink="https://www.instagram.com/reel/Dasa7Ieo-RR/?utm_source=ig_embed&utm_campaign=loading"
+          data-instgrm-version="14"
+          style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;max-width:380px;min-width:280px;padding:0;width:calc(100% - 2px);">
+        </blockquote>
+      </div>
+
+      <div class="ut-ig-embed-wrap">
+        <blockquote class="instagram-media"
+          data-instgrm-permalink="https://www.instagram.com/reel/DaqGCg1ojBT/?utm_source=ig_embed&utm_campaign=loading"
+          data-instgrm-version="14"
+          style="background:#FFF;border:0;border-radius:16px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0 auto;max-width:380px;min-width:280px;padding:0;width:calc(100% - 2px);">
+        </blockquote>
+      </div>
 
     </div>
+    <script async src="//www.instagram.com/embed.js"></script>
 
     <div class="ut-ig-handle">
       <a href="https://www.instagram.com/escapii.rs" target="_blank" rel="noopener">
@@ -689,14 +587,6 @@ a { color: inherit; }
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
   </a>
 </section>
-
-<!-- INSTAGRAM MODAL -->
-<div class="ig-modal-overlay" id="igModal" onclick="if(event.target===this)closeIgModal()">
-  <div class="ig-modal-box">
-    <button class="ig-modal-close" onclick="closeIgModal()" aria-label="Zatvori">✕</button>
-    <div id="igModalContent"></div>
-  </div>
-</div>
 
 <!-- FOOTER -->
 <footer class="esc-footer">
@@ -803,37 +693,6 @@ document.addEventListener('click', function(e) {
 
 if (lang === 'en') setLang('en');
 
-// ── Instagram Modal ────────────────────────────────────────────────────────
-function openIgModal(permalink) {
-  var modal   = document.getElementById('igModal');
-  var content = document.getElementById('igModalContent');
-  content.innerHTML =
-    '<blockquote class="instagram-media" ' +
-    'data-instgrm-permalink="' + permalink + '?utm_source=ig_embed&utm_campaign=loading" ' +
-    'data-instgrm-version="14" ' +
-    'style="background:#FFF;border:0;border-radius:12px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);' +
-    'margin:0 auto;max-width:420px;min-width:280px;padding:0;width:calc(100% - 2px);">' +
-    '<div style="padding:16px;text-align:center;color:#999;font-size:14px;">Učitavanje snimka...</div>' +
-    '</blockquote>';
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (window.instgrm) {
-    window.instgrm.Embeds.process();
-  } else {
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = '//www.instagram.com/embed.js';
-    document.body.appendChild(s);
-  }
-}
-function closeIgModal() {
-  document.getElementById('igModal').classList.remove('open');
-  document.body.style.overflow = '';
-  document.getElementById('igModalContent').innerHTML = '';
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeIgModal();
-});
 
 </script>
 
