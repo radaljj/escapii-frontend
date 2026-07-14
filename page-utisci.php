@@ -316,49 +316,40 @@ a { color: inherit; }
 /* ── Google Reviews ── */
 .ut-gr {
   background: var(--cream);
-  padding: 88px 0 96px;
+  padding: 80px 0 88px;
   overflow: hidden;
 }
 .ut-gr-hero {
   text-align: center;
   padding: 0 24px;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 .ut-gr-glogo-wrap {
   display: inline-flex; align-items: center; gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
-.ut-gr-glogo { width: 28px; height: 28px; flex-shrink: 0; }
+.ut-gr-glogo { width: 26px; height: 26px; flex-shrink: 0; }
 .ut-gr-platform-label {
-  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--faint);
 }
-.ut-gr-big-score {
-  font-size: clamp(72px, 12vw, 110px);
-  font-weight: 800; color: var(--ink); line-height: 1;
-  letter-spacing: -4px; margin-bottom: 10px;
-}
-.ut-gr-stars-big { display: flex; justify-content: center; gap: 4px; margin-bottom: 10px; }
-.ut-gr-stars-big span { font-size: 28px; color: #FBBC05; }
+.ut-gr-stars-big { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; }
+.ut-gr-stars-big span { font-size: 26px; color: #FBBC05; }
 .ut-gr-count { font-size: 14px; color: var(--faint); }
 /* marquee */
 .ut-gr-marquee-outer {
-  display: flex; flex-direction: column; gap: 12px;
-  margin-bottom: 48px;
+  overflow: hidden;
+  margin-bottom: 44px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
 .ut-gr-marquee-track {
-  display: flex; gap: 12px;
+  display: flex; gap: 14px;
   width: max-content;
-}
-.ut-gr-marquee-track.go-left  { animation: gr-left  38s linear infinite; }
-.ut-gr-marquee-track.go-right { animation: gr-right 38s linear infinite; }
-@keyframes gr-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes gr-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-.ut-gr-marquee-fade {
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  animation: gr-left 45s linear infinite;
 }
 .ut-gr-marquee-outer:hover .ut-gr-marquee-track { animation-play-state: paused; }
+@keyframes gr-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 /* card */
 .ut-gr-card {
   width: 300px; flex-shrink: 0;
@@ -667,7 +658,6 @@ a { color: inherit; }
       <svg class="ut-gr-glogo" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       <span class="ut-gr-platform-label">Google recenzije</span>
     </div>
-    <div class="ut-gr-big-score">5.0</div>
     <div class="ut-gr-stars-big"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
     <div class="ut-gr-count">na osnovu 24 recenzije · Escapii</div>
   </div>
@@ -693,17 +683,11 @@ a { color: inherit; }
         .$gsvg.
       '</div>'.$stars.'<p class="ut-gr-text">'.$c[4].'</p></div>';
   }
-
-  $row1 = array_slice($cards, 0, 3);
-  $row2 = array_slice($cards, 3, 3);
   ?>
 
-  <div class="ut-gr-marquee-outer ut-gr-marquee-fade">
-    <div class="ut-gr-marquee-track go-left">
-      <?php foreach(array_merge($row1,$row1) as $c) echo gr_card($c,$gsvg,$stars); ?>
-    </div>
-    <div class="ut-gr-marquee-track go-right">
-      <?php foreach(array_merge($row2,$row2) as $c) echo gr_card($c,$gsvg,$stars); ?>
+  <div class="ut-gr-marquee-outer">
+    <div class="ut-gr-marquee-track">
+      <?php foreach(array_merge($cards,$cards) as $c) echo gr_card($c,$gsvg,$stars); ?>
     </div>
   </div>
 
