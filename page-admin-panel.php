@@ -3225,23 +3225,6 @@ function renderInquiries() {
         <td><a href="mailto:${i.email}" style="color:#60a5fa;word-break:break-all;">${i.email}</a></td>
         <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '-'}</td>
         <td>
-          <div style="display:flex;flex-direction:column;gap:4px;min-width:110px;">
-            <input type="number" min="0" max="99999" step="1"
-              value="${i.price != null ? i.price : ''}"
-              placeholder="npr. 279"
-              title="Ukupna cena u EUR (za sve putnike)"
-              onchange="updateInquiryPrice(${i.id}, this)"
-              style="width:100%;padding:5px 8px;border-radius:6px;font-size:13px;font-weight:700;
-                background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
-                color:#f6f1e6;outline:none;text-align:right;">
-            <span style="font-size:10px;color:#64748b;text-align:right;">
-              ${i.price != null
-                ? `≈ <strong style="color:#CA8A71">${Math.round(i.price / i.travelers)}€</strong>/os.`
-                : '<span style="color:#475569">unesi cenu</span>'}
-            </span>
-          </div>
-        </td>
-        <td>
           <span class="iq-pill iq-${i.status}">${INQ_STATUS_ICONS[i.status] || '●'} ${INQ_STATUS_LABELS[i.status] || i.status}</span>
           <select class="iq-status-sel" onchange="updateInquiryStatus(${i.id}, this.value)">
             ${Object.keys(INQ_STATUS_LABELS).map(s =>
@@ -3264,7 +3247,7 @@ function renderInquiries() {
         <thead><tr>
           <th>Datum upita</th><th>Aerodrom</th><th>Putnici</th>
           <th>Period</th><th>Email</th><th>Napomena</th>
-          <th>Cena (€)</th><th>Status</th><th>Akcija</th>
+          <th>Status</th><th>Akcija</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -3438,6 +3421,14 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
           ⏱ Link ističe za <strong style="color:#94a3b8">${formValues.expiresInHours}h</strong>
           &nbsp;·&nbsp; 📅 ${desiredPeriod}
         </p>
+        <div style="margin-top:14px;padding:10px 14px;border-radius:8px;background:rgba(251,191,36,.08);
+                    border:1px solid rgba(251,191,36,.3);text-align:left;">
+          <span style="font-size:12px;color:#fbbf24;font-weight:600;">⚠️ Ne zaboravi!</span>
+          <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;line-height:1.5;">
+            Dodaj <strong style="color:#e2e8f0;">destinacije</strong> za ovaj privatni termin u tabeli
+            <strong style="color:#e2e8f0;">Termini → Privatni termini</strong>.
+          </p>
+        </div>
       `,
       confirmButtonText: 'Zatvori',
       confirmButtonColor: 'var(--accent)',
