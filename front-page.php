@@ -2468,6 +2468,7 @@
     .sr-badge.PENDING   { background: rgba(202,138,113,.15); color: var(--accent); }
     .sr-badge.CONFIRMED { background: rgba(34,197,94,.15);  color: #22c55e; }
     .sr-badge.CANCELLED { background: rgba(239,68,68,.15);  color: #f87171; }
+    .sr-badge.COMPLETED { background: rgba(99,102,241,.15); color: #818cf8; }
     .sr-label  { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 3px; }
     .sr-name   { font-size: 17px; font-weight: 800; color: var(--white); }
     .sr-ref    { font-size: 12px; color: var(--gray); }
@@ -2481,6 +2482,21 @@
     .sr-msg.PENDING   { border-color: var(--accent); }
     .sr-msg.CONFIRMED { border-color: #22c55e; }
     .sr-msg.CANCELLED { border-color: #f87171; }
+    .sr-msg.COMPLETED { border-color: #818cf8; }
+    .sr-countdown {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2);
+      border-radius: 12px; padding: 12px 14px;
+    }
+    .sr-countdown-num { font-size: 28px; font-weight: 900; color: #22c55e; line-height: 1; }
+    .sr-countdown-label { font-size: 12px; color: var(--gray); line-height: 1.4; }
+    .sr-countdown-label strong { display: block; font-size: 13px; color: var(--white); }
+    @keyframes sr-fly {
+      0%   { transform: translateX(-40px) translateY(4px); opacity: 0; }
+      60%  { opacity: 1; }
+      100% { transform: translateX(0) translateY(0); opacity: 1; }
+    }
+    .sr-plane-anim { font-size: 26px; display: inline-block; animation: sr-fly .55s cubic-bezier(.34,1.2,.64,1) forwards; }
 
     /* ══════════════════════ SCROLL TO TOP */
     .scroll-top {
@@ -4766,19 +4782,23 @@ async function checkStatus() {
       PENDING:   '⏳ Na čekanju',
       CONFIRMED: '✅ Potvrđeno',
       CANCELLED: '❌ Otkazano',
+      COMPLETED: '🎉 Završeno',
     } : {
       PENDING:   '⏳ Pending',
       CONFIRMED: '✅ Confirmed',
       CANCELLED: '❌ Cancelled',
+      COMPLETED: '🎉 Completed',
     };
     const statusMsgs = isSr ? {
       PENDING:   'Vaš upit je primljen. Kontaktiraćemo vas u roku od 24h sa detaljima za plaćanje.',
-      CONFIRMED: 'Rezervacija potvrđena! Vaše iznenađenje putovanje je osigurano. Vidimo se na aerodromu! ✈',
+      CONFIRMED: 'Rezervacija potvrđena! Vaše iznenađenje putovanje je osigurano.',
       CANCELLED: 'Ova rezervacija je otkazana. Kontaktirajte nas ukoliko smatrate da je ovo greška.',
+      COMPLETED: 'Putovanje je završeno. Nadamo se da je bilo nezaboravno! 🌍',
     } : {
       PENDING:   'Your inquiry has been received. We will contact you within 24h with payment details.',
-      CONFIRMED: 'Booking confirmed! Your surprise trip is secured. See you at the airport! ✈',
+      CONFIRMED: 'Booking confirmed! Your surprise trip is secured.',
       CANCELLED: 'This booking has been cancelled. Contact us if you think this is a mistake.',
+      COMPLETED: 'Your trip is complete. We hope it was unforgettable! 🌍',
     };
     const lbl = isSr ? {
       leadTraveler: 'Nosilac rezervacije',
@@ -4786,17 +4806,36 @@ async function checkStatus() {
       travelDates:  'Datumi putovanja',
       travelers:    'Putnici',
       names:        'Imena',
+      daysLeft:     'dana do polaska',
+      tripSoon:     'Polazak uskoro!',
+      departed:     'Trenutno na putu ✈',
     } : {
       leadTraveler: 'Lead traveler',
       depAirport:   'Departure airport',
       travelDates:  'Travel dates',
       travelers:    'Travelers',
       names:        'Names',
+      daysLeft:     'days until departure',
+      tripSoon:     'Departing soon!',
+      departed:     'Currently travelling ✈',
     };
 
     const airportNames = { BEG:'Beograd (BEG)', INI:'Niš (INI)', ZAG:'Zagreb (ZAG)', BUD:'Budimpešta (BUD)', TIM:'Timișoara (TIM)' };
     const dep = new Date(d.departureDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
     const ret = new Date(d.returnDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const depDate = new Date(d.departureDate); depDate.setHours(0,0,0,0);
+    const retDate = new Date(d.returnDate);    retDate.setHours(0,0,0,0);
+    const daysLeft = Math.round((depDate - today) / 86400000);
+    const onTrip   = today >= depDate && today <= retDate;
+
+    const countdownHtml = d.status === 'CONFIRMED' ? (() => {
+      if (onTrip) return `<div class="sr-countdown"><span style="font-size:28px;">✈️</span><div class="sr-countdown-label"><strong>${lbl.departed}</strong>${dep} → ${ret}</div></div>`;
+      if (daysLeft <= 0) return '';
+      const planeAnim = daysLeft <= 7 ? '<span class="sr-plane-anim">✈️</span>' : '✈️';
+      return `<div class="sr-countdown">${planeAnim}<div class="sr-countdown-num">${daysLeft}</div><div class="sr-countdown-label"><strong>${daysLeft === 1 ? (isSr ? 'dan do polaska!' : 'day until departure!') : lbl.daysLeft}</strong>${daysLeft <= 7 ? lbl.tripSoon : ''}</div></div>`;
+    })() : '';
 
     resEl.innerHTML = `
       <div>
@@ -4805,6 +4844,7 @@ async function checkStatus() {
         <div class="sr-ref">${d.bookingRef}</div>
       </div>
       <span class="sr-badge ${d.status}">${statusLabels[d.status] || d.status}</span>
+      ${countdownHtml}
       <div class="sr-info">
         <div class="sr-row">
           <span class="sr-row-label">${lbl.depAirport}</span>
