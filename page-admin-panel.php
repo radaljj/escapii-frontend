@@ -2606,6 +2606,10 @@ function buildBookingDetail(b) {
       <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>✅ Potvrdi</button>
       <button class="bc-btn bc-btn-cancel"  onclick="changeStatus(${b.id},'CANCELLED')" ${isCancelled?'disabled':''}>❌ Otkaži</button>
       ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')">⏳ Vrati na čekanje</button>` : ''}
+      ${isPending ? `<button class="bc-btn" id="btn-invoice-${b.id}" onclick="sendInvoice(${b.id})"
+        style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);">
+        📄 Pošalji fakturu
+      </button>` : ''}
       ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
       <button class="bc-btn" onclick="deleteBooking(${b.id},'${b.bookingRef}')"
         style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
@@ -2864,6 +2868,48 @@ async function markRevealBoxSent(id) {
   } catch {
     if (btn) { btn.disabled = false; btn.textContent = '📦 Označi kao poslan'; }
     alert('Greška - pokušaj ponovo.');
+  }
+}
+
+// ══ FAKTURA (PROFAKTURA) ═════════════════════════════════════════════════════
+
+async function sendInvoice(id) {
+  const btn = document.getElementById(`btn-invoice-${id}`);
+  const booking = ALL_BOOKINGS.find(b => b.id === id);
+  const ref = booking ? booking.bookingRef : `#${id}`;
+
+  const confirm = await Swal.fire({
+    title: '📄 Poslati profakturu?',
+    html: `Profaktura u PDF formatu biće poslata klijentu na email.<br><small style="color:#94a3b8;">Rezervacija: <strong>${ref}</strong></small>`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Da, pošalji',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#a85e44'
+  });
+  if (!confirm.isConfirmed) return;
+
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Generišem...'; }
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/send-invoice`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || 'Greška');
+    }
+    Swal.fire({ toast: true, position: 'top-end', icon: 'success',
+      title: 'Profaktura poslata!', showConfirmButton: false, timer: 2500,
+      background: '#0b1929', color: '#fff' });
+    if (btn) { btn.disabled = false; btn.textContent = '📄 Pošalji fakturu'; }
+  } catch (e) {
+    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
+      title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3000,
+      background: '#0b1929', color: '#fff' });
+    if (btn) { btn.disabled = false; btn.textContent = '📄 Pošalji fakturu'; }
   }
 }
 
