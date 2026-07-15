@@ -759,14 +759,7 @@ body {
   </main>
 </div>
 
-<!-- Footer -->
-<footer class="pp-footer">
-  <p>
-    © <?php echo date('Y'); ?> Escapii · Republic of Serbia ·
-    <a href="<?php echo home_url('/privacy-policy'); ?>">Privacy Policy</a> ·
-    Prepared in accordance with the Tourism Act (Official Gazette of RS, No. 17/2019) and the Consumer Protection Act (Official Gazette of RS, No. 88/2021)
-  </p>
-</footer>
+<?php include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>

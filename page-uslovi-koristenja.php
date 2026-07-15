@@ -731,14 +731,7 @@ body {
   </main>
 </div>
 
-<!-- Footer -->
-<footer class="pp-footer">
-  <p>
-    © <?php echo date('Y'); ?> Escapii · Republika Srbija ·
-    <a href="<?php echo home_url('/politika-privatnosti'); ?>">Politika privatnosti</a> ·
-    Sastavljen u skladu sa Zakonom o turizmu („Sl. glasnik RS", br. 17/2019) i ZZP („Sl. glasnik RS", br. 88/2021)
-  </p>
-</footer>
+<?php include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>

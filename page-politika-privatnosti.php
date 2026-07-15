@@ -740,14 +740,7 @@ body {
   </main>
 </div>
 
-<!-- Footer -->
-<footer class="pp-footer">
-  <p>
-    © <?php echo date('Y'); ?> Escapii · Republika Srbija ·
-    <a href="<?php echo home_url('/uslovi-koriscenja'); ?>">Uslovi korišćenja</a> ·
-    Sastavljen u skladu sa ZZPL („Sl. glasnik RS", br. 87/2018) i GDPR (EU) 2016/679
-  </p>
-</footer>
+<?php include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>

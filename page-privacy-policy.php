@@ -677,14 +677,7 @@ body {
   </main>
 </div>
 
-<!-- Footer -->
-<footer class="pp-footer">
-  <p>
-    © <?php echo date('Y'); ?> Escapii · Republic of Serbia ·
-    <a href="<?php echo home_url('/terms-of-use'); ?>">Terms of Use</a> ·
-    Compiled in accordance with the Personal Data Protection Act (Official Gazette RS, No. 87/2018) and GDPR (EU) 2016/679
-  </p>
-</footer>
+<?php include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>

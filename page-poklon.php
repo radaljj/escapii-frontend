@@ -524,6 +524,7 @@ async function init() {
 document.addEventListener('DOMContentLoaded', init);
 </script>
 
+<?php include get_template_directory() . '/inc/footer.php'; ?>
 <?php wp_footer(); ?>
 </body>
 </html>
