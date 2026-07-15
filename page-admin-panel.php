@@ -3544,7 +3544,10 @@ function renderGiftVouchers() {
       ? `<div style="font-size:11px;color:#fbbf24;margin-top:3px;">⏳ Čeka potvrdu rezervacije</div>` : '';
     const canReactivate = ['RESERVED','USED','EXPIRED'].includes(v.status);
     const actions  = v.status === 'PENDING'
-      ? `<button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>`
+      ? `<div style="display:flex;gap:5px;flex-wrap:wrap;">
+           <button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>
+           <button class="btn-action" style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);" onclick="sendVoucherInvoice(${v.id})"${v.invoiceNumber ? ` title="Već poslato: ${escHtml(v.invoiceNumber)}" disabled` : ''}>📄 Faktura</button>
+         </div>`
       : v.status === 'ACTIVE'
       ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})">🏁 Iskorišćen</button>`
       : canReactivate
@@ -3596,6 +3599,29 @@ async function activateGiftVoucher(id) {
     Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Vaučer aktiviran - email poslat primaocu', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
   } catch(e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function sendVoucherInvoice(id) {
+  const v = _gVouchers.find(x => x.id === id);
+  const { isConfirmed } = await Swal.fire({
+    title: '📄 Pošalji profakturu?',
+    html: `<p style="color:#94a3b8;font-size:14px;">Kupac <strong style="color:#CA8A71;">${escHtml(v?.buyerEmail||'')}</strong> dobija profakturu (${v?.amount}€) na email sa detaljima za uplatu.</p>`,
+    showCancelButton: true, confirmButtonText: 'Da, pošalji', cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff', confirmButtonColor: '#CA8A71',
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/send-invoice`, {
+      method: 'POST', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) { const e = await r.json().catch(()=>({})); throw new Error(e.message || r.status); }
+    const updated = await r.json().catch(()=>null);
+    if (updated) { const idx = _gVouchers.findIndex(x => x.id === id); if (idx !== -1) _gVouchers[idx] = updated; }
+    await loadGiftVouchers();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Profaktura poslata!', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
+  } catch(e) {
+    Swal.fire({ toast:true, position:'top-end', icon:'error', title: e.message || 'Greška pri slanju', showConfirmButton:false, timer:3000, background:'#0b1929', color:'#fff' });
   }
 }
 
