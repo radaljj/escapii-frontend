@@ -837,7 +837,7 @@ $site_url  = get_site_url();
         <button class="amount-btn" onclick="selectAmount(400)" type="button">400€</button>
       </div>
       <div class="amount-custom-wrap">
-        <input class="amount-custom-input" id="vCustomAmount" type="number" min="50" step="10"
+        <input class="amount-custom-input" id="vCustomAmount" type="number" min="50" step="1"
                placeholder="ili unesi iznos po izboru (min. 50€)"
                oninput="onCustomAmount(this.value)">
       </div>
@@ -1100,7 +1100,7 @@ function selectAmount(val) {
 function onCustomAmount(val) {
   selectedAmount = null;
   document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('on'));
-  const num = parseFloat(val);
+  const num = parseInt(val, 10);
   if (!isNaN(num) && num >= 50) selectedAmount = num;
 }
 
@@ -1110,11 +1110,16 @@ async function submitVoucher() {
   const isSr = lang === 'sr';
   err.textContent = '';
 
-  const customVal = parseFloat(document.getElementById('vCustomAmount').value);
+  const customRaw = document.getElementById('vCustomAmount').value;
+  const customVal = parseInt(customRaw, 10);
   const amount = selectedAmount || (!isNaN(customVal) ? customVal : null);
 
   if (!amount || amount < 50) {
     err.textContent = isSr ? 'Odaberi ili unesi iznos vaučera (min. 50€).' : 'Select or enter a voucher amount (min. €50).';
+    return;
+  }
+  if (customRaw && String(customVal) !== String(parseFloat(customRaw))) {
+    err.textContent = isSr ? 'Iznos mora biti ceo broj (bez decimala).' : 'Amount must be a whole number.';
     return;
   }
   const buyerEmail = document.getElementById('vBuyerEmail').value.trim();
