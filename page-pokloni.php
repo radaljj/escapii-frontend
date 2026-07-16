@@ -900,6 +900,7 @@ const TR = {
     'snav.call':             '✉ Kontaktiraj nas',
     'snav.call.hours':       'escapii.team@gmail.com',
     'snav.book':             'Rezerviši',
+    'snav.book.cta':         'Rezerviši →',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
     'gift.hero.h1':          'Pokloni nekome <em>iznenađenje</em>',
     'gift.hero.sub':         'Odaberi iznos vaučera - primalac ga koristi za bilo koje Escapii putovanje po izboru. Destinaciju otkriva tek 48h pre polaska.',
