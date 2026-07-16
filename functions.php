@@ -255,3 +255,131 @@ function esc_date_sr(string $format, $timestamp = null): string {
            'jul','avgust','septembar','oktobar','novembar','decembar'];
     return str_replace($en, $sr, date($format, $timestamp));
 }
+
+// ── Blog EN prevod ────────────────────────────────────────────────────────────
+// Jezik se čita server-side iz kolačića (isti 'esc-lang' koji ostatak sajta već
+// koristi u localStorage) - potreban je server-side jer je sadržaj posta (naslov,
+// izvod, telo) dinamički iz baze, JS ga ne može prevesti kao statički UI tekst.
+function esc_lang(): string {
+    $lang = $_COOKIE['esc-lang'] ?? 'sr';
+    return $lang === 'en' ? 'en' : 'sr';
+}
+
+function esc_post_title(int $post_id, ?string $lang = null): string {
+    $lang = $lang ?? esc_lang();
+    if ($lang === 'en') {
+        $en = get_post_meta($post_id, '_title_en', true);
+        if ($en !== '') return $en;
+    }
+    return get_the_title($post_id);
+}
+
+function esc_post_excerpt(int $post_id, ?string $lang = null): string {
+    $lang = $lang ?? esc_lang();
+    if ($lang === 'en') {
+        $en = get_post_meta($post_id, '_excerpt_en', true);
+        if ($en !== '') return $en;
+    }
+    return has_excerpt($post_id) ? get_the_excerpt($post_id) : '';
+}
+
+function esc_post_content(int $post_id, ?string $lang = null): string {
+    $lang = $lang ?? esc_lang();
+    if ($lang === 'en') {
+        $en = get_post_meta($post_id, '_content_en', true);
+        if ($en !== '') return apply_filters('the_content', $en);
+    }
+    return apply_filters('the_content', get_the_content(null, false, $post_id));
+}
+
+function esc_post_date(string $format_sr, string $format_en, $timestamp = null, ?string $lang = null): string {
+    $lang = $lang ?? esc_lang();
+    if ($timestamp === null) $timestamp = get_the_time('U');
+    return $lang === 'en' ? date($format_en, $timestamp) : esc_date_sr($format_sr, $timestamp);
+}
+
+function esc_category_name($term, ?string $lang = null): string {
+    if (!$term) return '';
+    $lang = $lang ?? esc_lang();
+    if ($lang === 'en') {
+        $en = get_term_meta($term->term_id, 'name_en', true);
+        if ($en !== '') return $en;
+    }
+    return $term->name;
+}
+
+// ── Meta box: EN prevod posta (Title/Excerpt/Content) ────────────────────────
+add_action('add_meta_boxes', function () {
+    add_meta_box(
+        'esc_en_translation',
+        'Engleski prevod (EN)',
+        'esc_render_en_meta_box',
+        'post',
+        'normal',
+        'high'
+    );
+});
+
+function esc_render_en_meta_box(WP_Post $post) {
+    wp_nonce_field('esc_save_en_translation', 'esc_en_nonce');
+    $title_en   = get_post_meta($post->ID, '_title_en', true);
+    $excerpt_en = get_post_meta($post->ID, '_excerpt_en', true);
+    $content_en = get_post_meta($post->ID, '_content_en', true);
+    ?>
+    <p>
+        <label for="esc_title_en"><strong>Title (EN)</strong></label><br>
+        <input type="text" id="esc_title_en" name="esc_title_en" style="width:100%;"
+               value="<?php echo esc_attr($title_en); ?>">
+    </p>
+    <p>
+        <label for="esc_excerpt_en"><strong>Excerpt (EN)</strong></label><br>
+        <textarea id="esc_excerpt_en" name="esc_excerpt_en" rows="3" style="width:100%;"><?php echo esc_textarea($excerpt_en); ?></textarea>
+    </p>
+    <?php
+    wp_editor($content_en, 'esc_content_en', [
+        'textarea_name' => 'esc_content_en',
+        'textarea_rows' => 12,
+        'media_buttons' => true,
+    ]);
+    ?>
+    <p style="color:#666;font-size:12px;">Ostavi prazno da se na engleskoj verziji sajta prikaže originalni (srpski) tekst.</p>
+    <?php
+}
+
+add_action('save_post_post', function (int $post_id) {
+    if (!isset($_POST['esc_en_nonce']) || !wp_verify_nonce($_POST['esc_en_nonce'], 'esc_save_en_translation')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    update_post_meta($post_id, '_title_en', sanitize_text_field($_POST['esc_title_en'] ?? ''));
+    update_post_meta($post_id, '_excerpt_en', sanitize_textarea_field($_POST['esc_excerpt_en'] ?? ''));
+    update_post_meta($post_id, '_content_en', wp_kses_post($_POST['esc_content_en'] ?? ''));
+});
+
+// ── Term meta: EN naziv kategorije ────────────────────────────────────────────
+add_action('category_add_form_fields', function () { ?>
+    <div class="form-field">
+        <label for="name_en">Name (EN)</label>
+        <input type="text" name="name_en" id="name_en" value="">
+        <p>Engleski naziv kategorije. Ostavi prazno da ostane isti kao srpski.</p>
+    </div>
+<?php });
+
+add_action('category_edit_form_fields', function (WP_Term $term) {
+    $name_en = get_term_meta($term->term_id, 'name_en', true);
+    ?>
+    <tr class="form-field">
+        <th scope="row"><label for="name_en">Name (EN)</label></th>
+        <td>
+            <input type="text" name="name_en" id="name_en" value="<?php echo esc_attr($name_en); ?>">
+            <p class="description">Engleski naziv kategorije. Ostavi prazno da ostane isti kao srpski.</p>
+        </td>
+    </tr>
+<?php });
+
+add_action('created_category', 'esc_save_category_name_en');
+add_action('edited_category', 'esc_save_category_name_en');
+function esc_save_category_name_en(int $term_id) {
+    if (!isset($_POST['name_en'])) return;
+    update_term_meta($term_id, 'name_en', sanitize_text_field($_POST['name_en']));
+}

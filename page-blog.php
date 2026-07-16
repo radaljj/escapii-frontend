@@ -33,14 +33,52 @@ function bl_read_time($post_id) {
     $content = get_post_field('post_content', $post_id);
     return max(1, round(str_word_count(wp_strip_all_tags($content)) / 200));
 }
+
+// ── Jezik (server-side, iz kolačića - sadržaj posta je dinamički iz baze) ────
+$lang = esc_lang();
+$T = $lang === 'en' ? [
+    'meta_title'   => 'Travel Blog | Escapii',
+    'meta_desc'    => 'Stories from our surprise trips and everything you need to know before departure.',
+    'pill'         => 'Escapii Blog',
+    'h1_1'         => 'Travel, tips ',
+    'h1_em'        => 'and inspiration',
+    'sub'          => 'Stories from our surprises and everything you need to know before departure.',
+    'all'          => 'All',
+    'featured'     => 'Featured',
+    'latest_article' => 'Latest article',
+    'read_article' => 'Read article',
+    'latest'       => 'Latest',
+    'article_one'  => 'article',
+    'article_many' => 'articles',
+    'read_min'     => 'min read',
+    'empty_h'      => 'Something new is coming soon',
+    'empty_p'      => 'We\'re preparing the next story from the road. Check back soon and be among the first to discover it.',
+] : [
+    'meta_title'   => 'Blog o putovanjima iznenađenja | Escapii',
+    'meta_desc'    => 'Priče sa naših iznenađenja i sve što treba da znaš pre polaska.',
+    'pill'         => 'Escapii Blog',
+    'h1_1'         => 'Putovanja, saveti ',
+    'h1_em'        => 'i inspiracija',
+    'sub'          => 'Priče sa naših iznenađenja i sve što treba da znaš pre polaska.',
+    'all'          => 'Sve',
+    'featured'     => 'Izdvojeno',
+    'latest_article' => 'Najnoviji članak',
+    'read_article' => 'Čitaj članak',
+    'latest'       => 'Najnovije',
+    'article_one'  => 'članak',
+    'article_many' => 'članaka',
+    'read_min'     => 'min čitanja',
+    'empty_h'      => 'Uskoro otkrivamo nešto novo',
+    'empty_p'      => 'Pripremamo narednu priču sa puta. Vrati se uskoro i budi među prvima koji će je otkriti.',
+];
 ?>
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="<?php echo esc_attr($lang); ?>">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog o putovanjima iznenađenja | Escapii</title>
-<meta name="description" content="Priče sa naših iznenađenja i sve što treba da znaš pre polaska.">
+<title><?php echo esc_html($T['meta_title']); ?></title>
+<meta name="description" content="<?php echo esc_attr($T['meta_desc']); ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -390,20 +428,20 @@ a{color:inherit;}
   <div class="hero-content">
     <span class="hero-pill">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-      Escapii Blog
+      <?php echo esc_html($T['pill']); ?>
     </span>
-    <h1>Putovanja, saveti <em>i inspiracija</em></h1>
-    <p>Priče sa naših iznenađenja i sve što treba da znaš pre polaska.</p>
+    <h1><?php echo esc_html($T['h1_1']); ?><em><?php echo esc_html($T['h1_em']); ?></em></h1>
+    <p><?php echo esc_html($T['sub']); ?></p>
   </div>
 </header>
 
 <!-- CATEGORY FILTERS -->
 <nav class="filters">
-  <a href="<?php echo home_url('/blog'); ?>" class="chip <?php echo !$cat_filter ? 'active' : ''; ?>">Sve</a>
+  <a href="<?php echo home_url('/blog'); ?>" class="chip <?php echo !$cat_filter ? 'active' : ''; ?>"><?php echo esc_html($T['all']); ?></a>
   <?php foreach ($all_cats as $cat): ?>
     <a href="<?php echo esc_url(add_query_arg('cat', $cat->term_id, home_url('/blog'))); ?>"
        class="chip <?php echo ($cat_filter === $cat->term_id) ? 'active' : ''; ?>">
-      <?php echo esc_html($cat->name); ?>
+      <?php echo esc_html(esc_category_name($cat, $lang)); ?>
     </a>
   <?php endforeach; ?>
 </nav>
@@ -414,14 +452,15 @@ a{color:inherit;}
   // ── FEATURED (prvi post) ────────────────────────────────────────────────
   $q->the_post();
   $feat_cats = get_the_category();
-  $feat_cat  = $feat_cats ? esc_html($feat_cats[0]->name) : '';
+  $feat_cat  = $feat_cats ? esc_category_name($feat_cats[0], $lang) : '';
   $feat_read = bl_read_time(get_the_ID());
-  $feat_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 28, '…');
+  $feat_excerpt = esc_post_excerpt(get_the_ID(), $lang);
+  if ($feat_excerpt === '') $feat_excerpt = wp_trim_words(get_the_content(), 28, '…');
 ?>
 
   <div class="sec-label">
-    <h2>Izdvojeno</h2><span class="ln"></span>
-    <span class="count">Najnoviji članak</span>
+    <h2><?php echo esc_html($T['featured']); ?></h2><span class="ln"></span>
+    <span class="count"><?php echo esc_html($T['latest_article']); ?></span>
   </div>
 
   <a href="<?php the_permalink(); ?>" class="featured">
@@ -431,29 +470,32 @@ a{color:inherit;}
       <?php else: ?>
         <div class="f-img-placeholder"></div>
       <?php endif; ?>
-      <?php if ($feat_cat): ?><span class="f-tag"><?php echo $feat_cat; ?></span><?php endif; ?>
+      <?php if ($feat_cat): ?><span class="f-tag"><?php echo esc_html($feat_cat); ?></span><?php endif; ?>
     </div>
     <div class="f-body">
-      <div class="f-eyebrow"><?php echo esc_date_sr('d. F Y.'); ?> · <?php echo $feat_read; ?> min čitanja</div>
-      <h3><?php the_title(); ?></h3>
+      <div class="f-eyebrow"><?php echo esc_post_date('d. F Y.', 'M d, Y', null, $lang); ?> · <?php echo $feat_read; ?> <?php echo esc_html($T['read_min']); ?></div>
+      <h3><?php echo esc_html(esc_post_title(get_the_ID(), $lang)); ?></h3>
       <p class="f-excerpt"><?php echo esc_html($feat_excerpt); ?></p>
-      <span class="read-link">Čitaj članak
+      <span class="read-link"><?php echo esc_html($T['read_article']); ?>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </span>
     </div>
   </a>
 
-  <?php if ($q->have_posts()): // ostatak postova u grid ?>
+  <?php if ($q->have_posts()): // ostatak postova u grid
+    $rest_count = $total_posts - 1;
+  ?>
   <div class="sec-label">
-    <h2>Najnovije</h2><span class="ln"></span>
-    <span class="count"><?php echo $total_posts - 1; ?> <?php echo ($total_posts - 1 === 1) ? 'članak' : 'članaka'; ?></span>
+    <h2><?php echo esc_html($T['latest']); ?></h2><span class="ln"></span>
+    <span class="count"><?php echo $rest_count; ?> <?php echo esc_html($rest_count === 1 ? $T['article_one'] : $T['article_many']); ?></span>
   </div>
   <div class="cards">
     <?php while ($q->have_posts()): $q->the_post();
       $g_cats   = get_the_category();
-      $g_cat    = $g_cats ? esc_html($g_cats[0]->name) : '';
+      $g_cat    = $g_cats ? esc_category_name($g_cats[0], $lang) : '';
       $g_read   = bl_read_time(get_the_ID());
-      $g_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 18, '…');
+      $g_excerpt = esc_post_excerpt(get_the_ID(), $lang);
+      if ($g_excerpt === '') $g_excerpt = wp_trim_words(get_the_content(), 18, '…');
     ?>
     <a href="<?php the_permalink(); ?>" class="card">
       <div class="c-img">
@@ -462,13 +504,13 @@ a{color:inherit;}
         <?php else: ?>
           <div class="c-img-placeholder"></div>
         <?php endif; ?>
-        <?php if ($g_cat): ?><span class="c-cat-abs"><?php echo $g_cat; ?></span><?php endif; ?>
+        <?php if ($g_cat): ?><span class="c-cat-abs"><?php echo esc_html($g_cat); ?></span><?php endif; ?>
       </div>
       <div class="card-body">
-        <h3><?php the_title(); ?></h3>
+        <h3><?php echo esc_html(esc_post_title(get_the_ID(), $lang)); ?></h3>
         <p class="c-excerpt"><?php echo esc_html($g_excerpt); ?></p>
         <div class="c-meta">
-          <span><?php echo get_the_date('d.m.Y.'); ?> · <?php echo $g_read; ?> min</span>
+          <span><?php echo esc_post_date('d.m.Y.', 'm/d/Y', null, $lang); ?> · <?php echo $g_read; ?> <?php echo esc_html($T['read_min']); ?></span>
         </div>
       </div>
     </a>
@@ -506,8 +548,8 @@ a{color:inherit;}
 <?php else: ?>
   <div class="bl-empty">
     <span class="bl-empty-icon">✈️</span>
-    <h2>Uskoro otkrivamo nešto novo</h2>
-    <p>Pripremamo narednu priču sa puta. Vrati se uskoro i budi među prvima koji će je otkriti.</p>
+    <h2><?php echo esc_html($T['empty_h']); ?></h2>
+    <p><?php echo esc_html($T['empty_p']); ?></p>
     <div class="bl-empty-dots">
       <span></span><span></span><span></span>
     </div>
@@ -521,15 +563,50 @@ a{color:inherit;}
 
 <?php wp_footer(); ?>
 <script>
-var lang = localStorage.getItem('esc-lang') || 'sr';
+// Jezik ove stranice je odlučen server-side (kolačić 'esc-lang') jer je sadržaj
+// posta dinamički iz baze - JS ga ne može prevesti kao statički UI tekst.
+// Nav (inc/subpage-nav.php) je deljen fajl sa data-i18n atributima - njega i dalje
+// prevodimo client-side, isto kao na FAQ/Pokloni/Utisci stranicama.
+var lang = '<?php echo esc_js($lang); ?>';
+const NAV_I18N_EN = {
+  'nav.status':'My reservation',
+  'snav.how':'How it works', 'snav.about':'About us', 'snav.dest':'Destinations',
+  'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog',
+  'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com',
+  'snav.book':'Book now', 'snav.book.cta':'Book now →',
+  'nav.gift.label':'Gift a Surprise Trip', 'nav.gift.offer':'Gift a Surprise Trip',
+  'nav.gift.offer.sub':'Gift the perfect present for a travel lover',
+  'nav.gift.redeem':'Redeem gift', 'nav.gift.redeem.sub':'Have a gift code? Activate it here'
+};
+const NAV_I18N_SR = {};
+document.querySelectorAll('[data-i18n]').forEach(function(el) {
+  NAV_I18N_SR[el.getAttribute('data-i18n')] = el.textContent;
+});
 function applyLang() {
+  var dict = lang === 'en' ? NAV_I18N_EN : NAV_I18N_SR;
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n');
+    if (dict[k] !== undefined) el.textContent = dict[k];
+  });
   document.querySelectorAll('.lang-btn').forEach(function(b) {
     b.classList.toggle('on', b.textContent.trim() === lang.toUpperCase());
   });
 }
 function setLang(l) {
-  lang = l; localStorage.setItem('esc-lang', l); applyLang();
+  if (l === lang) return;
+  document.cookie = 'esc-lang=' + l + ';path=/;max-age=31536000;SameSite=Lax';
+  localStorage.setItem('esc-lang', l);
+  location.reload();
 }
+// Sinhronizacija: ako je korisnik jezik već izabrao na drugoj stranici
+// (localStorage), a kolačić se razlikuje (npr. prva poseta blogu), uskladi ih.
+(function() {
+  var stored = localStorage.getItem('esc-lang');
+  if (stored && stored !== lang) {
+    document.cookie = 'esc-lang=' + stored + ';path=/;max-age=31536000;SameSite=Lax';
+    location.reload();
+  }
+})();
 function togBurger() {
   var burger = document.getElementById('navBurger');
   var menu   = document.getElementById('mobMenu');
