@@ -321,6 +321,12 @@ select.bc-dest-input option:disabled { color: #64748b; }
 .bc-status.CONFIRMED  { background: rgba(34,197,94,.15);  color: var(--green);  }
 .bc-status.CANCELLED  { background: rgba(239,68,68,.15);  color: var(--red);    }
 .bc-status.COMPLETED  { background: rgba(129,140,248,.15); color: #818cf8;      }
+.invoice-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 100px;
+  background: rgba(34,197,94,.15); color: var(--green);
+  cursor: default; white-space: nowrap;
+}
 .bc-body { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
 .bc-field { font-size: 13px; }
 .bc-label { color: var(--gray); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 3px; }
@@ -2482,7 +2488,10 @@ function buildBookingDetail(b) {
         <div class="bc-ref">${b.bookingRef}</div>
         <div class="bc-date">Primljeno: ${created}</div>
       </div>
-      <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        ${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}
+        <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
+      </div>
     </div>
 
     <div class="bc-body">
@@ -2607,7 +2616,8 @@ function buildBookingDetail(b) {
       <button class="bc-btn bc-btn-cancel"  onclick="changeStatus(${b.id},'CANCELLED')" ${isCancelled?'disabled':''}>❌ Otkaži</button>
       ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')">⏳ Vrati na čekanje</button>` : ''}
       ${isPending ? `<button class="bc-btn" id="btn-invoice-${b.id}" onclick="sendInvoice(${b.id})"
-        style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);">
+        style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);"
+        ${b.invoiceSentAt ? `disabled title="Već poslato: ${escHtml(b.invoiceNumber||'')}"` : ''}>
         📄 Pošalji fakturu
       </button>` : ''}
       ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
@@ -2616,6 +2626,17 @@ function buildBookingDetail(b) {
         🗑 Obriši
       </button>` : ''}
     </div>`}`;
+}
+
+// Kompaktan bedž "faktura poslata" - koristi se i za rezervacije i za vaučere.
+// Hover (title) pokazuje broj fakture i tačan datum/vreme slanja.
+function invoiceBadgeHtml(invoiceNumber, invoiceSentAt) {
+  if (!invoiceSentAt) return '';
+  const when = new Date(invoiceSentAt).toLocaleString('sr-RS', {
+    day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+  const num = invoiceNumber || '-';
+  return `<span class="invoice-badge" title="Faktura ${escHtml(num)} poslata ${when}">📄 ${escHtml(num)}</span>`;
 }
 
 function renderBookings() {
@@ -2637,7 +2658,10 @@ function renderBookings() {
     const created = new Date(b.createdAt).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
     return `
       <tr class="bt-summary s-${b.status}" id="btrow-${b.id}" onclick="toggleDetail(${b.id})">
-        <td><span style="font-size:12px;font-weight:700;color:var(--gray);">${b.bookingRef}</span></td>
+        <td>
+          <span style="font-size:12px;font-weight:700;color:var(--gray);">${b.bookingRef}</span>
+          ${b.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}</div>` : ''}
+        </td>
         <td>
           <strong>${b.firstName} ${b.lastName}</strong>
           <div style="font-size:11px;color:var(--gray);margin-top:1px;">${b.email}</div>
@@ -2901,10 +2925,14 @@ async function sendInvoice(id) {
       const err = await r.json().catch(() => ({}));
       throw new Error(err.message || 'Greška');
     }
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx] = updated;
+    renderBookings();
+
     Swal.fire({ toast: true, position: 'top-end', icon: 'success',
       title: 'Profaktura poslata!', showConfirmButton: false, timer: 2500,
       background: '#0b1929', color: '#fff' });
-    if (btn) { btn.disabled = false; btn.textContent = '📄 Pošalji fakturu'; }
   } catch (e) {
     Swal.fire({ toast: true, position: 'top-end', icon: 'error',
       title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3000,
@@ -3569,6 +3597,7 @@ function renderGiftVouchers() {
       <td>
         <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
         ${codePill}${reservedNote}
+        ${v.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(v.invoiceNumber, v.invoiceSentAt)}</div>` : ''}
       </td>
       <td style="text-align:center;">${msg}</td>
       <td style="font-size:12px;color:#64748b;">${created}</td>
