@@ -26,6 +26,8 @@ jobs:
           rsync -avz --delete \
             --include="*.php" \
             --include="style.css" \
+            --include="inc/" \
+            --include="inc/**" \
             --include="images/" \
             --include="images/**" \
             --include="assets/" \
