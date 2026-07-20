@@ -232,6 +232,94 @@
     height: 1px;
     opacity: 0;
   }
+
+  /* Saglasnost - popup */
+  .consent-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(2, 20, 19, .78);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .consent-overlay.open { display: flex; }
+  .consent-card {
+    background: var(--jet);
+    border: 1px solid rgba(241, 171, 134, .25);
+    border-radius: 20px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .5);
+  }
+  .consent-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .consent-text {
+    font-size: .9rem;
+    line-height: 1.6;
+    color: rgba(250, 247, 242, .75);
+    margin-bottom: 20px;
+  }
+  .consent-text strong { color: var(--peach); }
+  .consent-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .85rem;
+    line-height: 1.5;
+    color: rgba(250, 247, 242, .85);
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+  .consent-check input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--tangerine);
+    cursor: pointer;
+  }
+  .consent-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .consent-cancel {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(250, 247, 242, .2);
+    color: rgba(250, 247, 242, .75);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 12px;
+    cursor: pointer;
+    transition: border-color .18s ease;
+  }
+  .consent-cancel:hover { border-color: rgba(250, 247, 242, .4); }
+  .consent-confirm {
+    flex: 1;
+    background: linear-gradient(120deg, var(--cinnamon), var(--tangerine));
+    color: #23120A;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    padding: 12px;
+    cursor: pointer;
+    transition: opacity .18s ease;
+  }
+  .consent-confirm:disabled { opacity: .4; cursor: default; }
+
   @media (prefers-reduced-motion: reduce) {
     .star, .plane, .trail, .pin-orange { animation: none !important; }
     .trail { stroke-dashoffset: 0; }
@@ -309,6 +397,26 @@
 </form>
 <p class="notify-msg" id="notifyMsg"></p>
 
+<div class="consent-overlay" id="consentOverlay">
+  <div class="consent-card">
+    <div class="consent-title">Samo još jedan korak</div>
+    <div class="consent-text">
+      Čuvamo tvoj email <strong>isključivo</strong> da ti pošaljemo jedno obaveštenje kad Escapii krene live.
+      Nećemo ti slati ništa drugo, niti ga deliti sa trećim stranama. Brišemo ga nakon što ti pošaljemo
+      obaveštenje, ili ranije na tvoj zahtev - piši nam na
+      <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
+    </div>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheck">
+      Slažem se da Escapii sačuva moj email u ovu svrhu.
+    </label>
+    <div class="consent-actions">
+      <button type="button" class="consent-cancel" id="consentCancel">Otkaži</button>
+      <button type="button" class="consent-confirm" id="consentConfirm" disabled>Potvrdi</button>
+    </div>
+  </div>
+</div>
+
 <a href="https://www.instagram.com/escapii.rs/" target="_blank" rel="noopener" class="cta">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <rect x="2" y="2" width="20" height="20" rx="5.5"/>
@@ -327,6 +435,11 @@
   var btn   = document.getElementById('notifyBtn');
   var msg   = document.getElementById('notifyMsg');
 
+  var overlay  = document.getElementById('consentOverlay');
+  var check    = document.getElementById('consentCheck');
+  var cancel   = document.getElementById('consentCancel');
+  var confirm  = document.getElementById('consentConfirm');
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     msg.textContent = '';
@@ -339,13 +452,32 @@
       return;
     }
 
+    // Email je validan - pre slanja tražimo eksplicitnu saglasnost (GDPR)
+    check.checked = false;
+    confirm.disabled = true;
+    overlay.classList.add('open');
+  });
+
+  check.addEventListener('change', function() {
+    confirm.disabled = !check.checked;
+  });
+
+  cancel.addEventListener('click', function() {
+    overlay.classList.remove('open');
+  });
+
+  confirm.addEventListener('click', function() {
+    if (!check.checked) return;
+    overlay.classList.remove('open');
+
+    var val = email.value.trim();
     btn.disabled = true;
     btn.textContent = 'Šaljem...';
 
     fetch(API + '/api/launch-notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: val, hp: hp.value })
+      body: JSON.stringify({ email: val, hp: hp.value, consent: true })
     })
       .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
       .then(function(res) {
@@ -363,6 +495,10 @@
         btn.disabled = false;
         btn.textContent = 'Obavesti me';
       });
+  });
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.classList.remove('open');
   });
 })();
 </script>
