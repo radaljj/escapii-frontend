@@ -177,6 +177,61 @@
   .cta:focus-visible { outline: 3px solid var(--peach); outline-offset: 3px; }
   .cta svg { width: 22px; height: 22px; }
 
+  /* Launch notify forma */
+  .notify {
+    display: flex;
+    gap: 10px;
+    width: min(420px, 92vw);
+    margin-bottom: 28px;
+  }
+  .notify-input {
+    flex: 1;
+    min-width: 0;
+    background: rgba(250, 247, 242, .08);
+    border: 1px solid rgba(241, 171, 134, .3);
+    border-radius: 999px;
+    padding: 14px 20px;
+    font-family: inherit;
+    font-size: .95rem;
+    color: var(--cream);
+    outline: none;
+    transition: border-color .18s ease;
+  }
+  .notify-input::placeholder { color: rgba(250, 247, 242, .45); }
+  .notify-input:focus { border-color: var(--tangerine); }
+  .notify-btn {
+    flex-shrink: 0;
+    background: linear-gradient(120deg, var(--cinnamon), var(--tangerine));
+    color: #23120A;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 26px;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    box-shadow: 0 8px 24px rgba(197, 123, 87, .3);
+  }
+  .notify-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(197, 123, 87, .4); }
+  .notify-btn:disabled { opacity: .6; cursor: default; transform: none; }
+  .notify-msg {
+    width: min(420px, 92vw);
+    font-size: .85rem;
+    margin-top: -16px;
+    margin-bottom: 28px;
+    min-height: 1.2em;
+  }
+  .notify-msg.ok  { color: #9ADBB0; }
+  .notify-msg.err { color: #F1AB86; }
+  /* honeypot - skriveno od ljudi, boti ga popune */
+  .notify-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
   @media (prefers-reduced-motion: reduce) {
     .star, .plane, .trail, .pin-orange { animation: none !important; }
     .trail { stroke-dashoffset: 0; }
@@ -246,6 +301,14 @@
   Saznačeš je tačno 48h pre polaska. Ni minut ranije.
 </p>
 
+<form class="notify" id="notifyForm" novalidate>
+  <label class="notify-hp" for="notifyHp">Ostavi prazno</label>
+  <input class="notify-hp" type="text" id="notifyHp" name="hp" tabindex="-1" autocomplete="off">
+  <input class="notify-input" type="email" id="notifyEmail" placeholder="tvoj@email.com" required autocomplete="email">
+  <button class="notify-btn" type="submit" id="notifyBtn">Obavesti me</button>
+</form>
+<p class="notify-msg" id="notifyMsg"></p>
+
 <a href="https://www.instagram.com/escapii.rs/" target="_blank" rel="noopener" class="cta">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <rect x="2" y="2" width="20" height="20" rx="5.5"/>
@@ -254,6 +317,55 @@
   </svg>
   Prati nas na Instagramu
 </a>
+
+<script>
+(function() {
+  var API = '<?php echo esc_js(escapii_api_url()); ?>';
+  var form  = document.getElementById('notifyForm');
+  var email = document.getElementById('notifyEmail');
+  var hp    = document.getElementById('notifyHp');
+  var btn   = document.getElementById('notifyBtn');
+  var msg   = document.getElementById('notifyMsg');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    msg.textContent = '';
+    msg.className = 'notify-msg';
+
+    var val = email.value.trim();
+    if (!val || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val)) {
+      msg.textContent = 'Unesi validnu email adresu.';
+      msg.className = 'notify-msg err';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Šaljem...';
+
+    fetch(API + '/api/launch-notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: val, hp: hp.value })
+    })
+      .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
+      .then(function(res) {
+        if (!res.ok) throw new Error(res.data.error || 'Greška');
+        msg.textContent = '✓ Javićemo ti se čim krenemo!';
+        msg.className = 'notify-msg ok';
+        email.value = '';
+        form.style.display = 'none';
+      })
+      .catch(function(err) {
+        msg.textContent = err.message || 'Greška - pokušaj ponovo.';
+        msg.className = 'notify-msg err';
+      })
+      .finally(function() {
+        btn.disabled = false;
+        btn.textContent = 'Obavesti me';
+      });
+  });
+})();
+</script>
 
 </body>
 </html>
