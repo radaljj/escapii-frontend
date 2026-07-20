@@ -2566,6 +2566,29 @@ function buildBookingDetail(b) {
       </div>
     </div>` : ''}
 
+    ${!b.hasRevealBox ? `
+    <div class="bc-reveal-box-section" id="cds-${b.id}">
+      <div class="bc-reveal-box-header">📎 Dokument rezervacije (od agencije)</div>
+      <div class="bc-reveal-box-body">
+        ${b.hasConfirmationDocument ? `
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Fajl</span><span>${escHtml(b.confirmationDocumentFilename || '-')}</span></div>
+          <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Uploadovano</span><span>${fmtTs(b.confirmationDocumentUploadedAt)}</span></div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            ${b.confirmationSentAt
+              ? `<span class="invoice-badge" title="Poslato ${fmtTs(b.confirmationSentAt)}">✅ Poslato korisniku</span>`
+              : `<span style="font-size:12px;color:#fbbf24;">⏳ Čeka da korisnik pogleda reveal</span>`}
+            <button class="btn-action" style="background:rgba(148,163,184,.15);color:#94a3b8;border:1px solid rgba(148,163,184,.3);" onclick="uploadConfirmationDocument(${b.id})">🔄 Zameni fajl</button>
+            ${b.confirmationSentAt ? `<button class="btn-action" style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);" onclick="resendConfirmationDocument(${b.id})">📤 Pošalji ponovo</button>` : ''}
+          </div>
+        ` : `
+          <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;line-height:1.6;">
+            Nijedan dokument nije uploadovan. Nakon upload-a, šalje se korisniku automatski čim potvrdi da je video svoju destinaciju (ili odmah, ako je već potvrdio).
+          </div>
+          <button class="btn-action" style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);" onclick="uploadConfirmationDocument(${b.id})">📎 Uploaduj PDF</button>
+        `}
+      </div>
+    </div>` : ''}
+
     <div class="bc-note-wrap">
       <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
       <div class="bc-note-row">
@@ -2938,6 +2961,95 @@ async function sendInvoice(id) {
       title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3000,
       background: '#0b1929', color: '#fff' });
     if (btn) { btn.disabled = false; btn.textContent = '📄 Pošalji fakturu'; }
+  }
+}
+
+// ══ DOKUMENT REZERVACIJE (od agencije) ═══════════════════════════════════════
+
+async function uploadConfirmationDocument(id) {
+  const { value: file } = await Swal.fire({
+    title: '📎 Uploaduj dokument rezervacije',
+    html: `<p style="color:#94a3b8;font-size:13px;text-align:left;">Izaberi PDF sa zvaničnim podacima koje je poslala agencija (karte, vaučer smeštaja).
+      Šalje se korisniku automatski čim potvrdi da je video svoju destinaciju - ili odmah, ako je to već uradio.</p>`,
+    input: 'file',
+    inputAttributes: { accept: 'application/pdf', 'aria-label': 'Uploaduj PDF' },
+    showCancelButton: true,
+    confirmButtonText: 'Uploaduj',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#a85e44'
+  });
+  if (!file) return;
+
+  if (file.type !== 'application/pdf') {
+    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
+      title: 'Dozvoljen je samo PDF fajl', showConfirmButton: false, timer: 3000,
+      background: '#0b1929', color: '#fff' });
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/confirmation-document`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY },
+      body: formData
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || 'Greška');
+    }
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx] = updated;
+    renderBookings();
+
+    Swal.fire({ toast: true, position: 'top-end', icon: 'success',
+      title: updated.confirmationSentAt ? 'Uploadovano i odmah poslato!' : 'Dokument uploadovan!',
+      showConfirmButton: false, timer: 2500, background: '#0b1929', color: '#fff' });
+  } catch (e) {
+    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
+      title: e.message || 'Greška pri upload-u', showConfirmButton: false, timer: 3000,
+      background: '#0b1929', color: '#fff' });
+  }
+}
+
+async function resendConfirmationDocument(id) {
+  const confirm = await Swal.fire({
+    title: '📤 Pošalji dokument ponovo?',
+    text: 'Korisnik će ponovo dobiti mejl sa PDF prilogom.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Da, pošalji',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#a85e44'
+  });
+  if (!confirm.isConfirmed) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/confirmation-document/resend`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.message || 'Greška');
+    }
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx] = updated;
+    renderBookings();
+
+    Swal.fire({ toast: true, position: 'top-end', icon: 'success',
+      title: 'Poslato ponovo!', showConfirmButton: false, timer: 2500,
+      background: '#0b1929', color: '#fff' });
+  } catch (e) {
+    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
+      title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3000,
+      background: '#0b1929', color: '#fff' });
   }
 }
 
