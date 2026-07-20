@@ -396,7 +396,7 @@
   Saznačeš je tačno 48h pre polaska. Ni minut ranije.
 </p>
 
-<p class="notify-label">Ostavi mejl, javimo ti se čim krenemo</p>
+<p class="notify-label">Ostavi svoj email i budi među prvim eskaperima koji će saznati kad krenemo live</p>
 <form class="notify" id="notifyForm" novalidate>
   <label class="notify-hp" for="notifyHp">Ostavi prazno</label>
   <input class="notify-hp" type="text" id="notifyHp" name="hp" tabindex="-1" autocomplete="off">
@@ -409,9 +409,11 @@
   <div class="consent-card">
     <div class="consent-title">Pre nego što pošalješ</div>
     <div class="consent-text">
-      Mejl nam treba samo da ti javimo kad krenemo - jedna poruka, ništa više. Ne šaljemo reklame,
-      ne prosleđujemo ga nikome. Kad ti javimo (ili ako se predomisliš) brišemo ga - dovoljno je da nam
-      pišeš na <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
+      Tvoj mejl nam je potreban samo da te obavestimo kada Escapii bude spreman. Poslaćemo ti jednu
+      poruku i ništa više. Ne šaljemo spam, ne delimo tvoje podatke sa drugima, a nakon obaveštenja
+      (ili ako to zatražiš) tvoj mejl ćemo obrisati. Ako u bilo kom trenutku želiš da ga uklonimo,
+      dovoljno je da nam pišeš na
+      <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
     </div>
     <label class="consent-check">
       <input type="checkbox" id="consentCheck">
