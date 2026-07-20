@@ -178,6 +178,13 @@
   .cta svg { width: 22px; height: 22px; }
 
   /* Launch notify forma */
+  .notify-label {
+    width: min(420px, 92vw);
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--peach);
+    margin-bottom: 10px;
+  }
   .notify {
     display: flex;
     gap: 10px;
@@ -389,6 +396,7 @@
   Saznačeš je tačno 48h pre polaska. Ni minut ranije.
 </p>
 
+<p class="notify-label">Ostavi mejl, javimo ti se čim krenemo</p>
 <form class="notify" id="notifyForm" novalidate>
   <label class="notify-hp" for="notifyHp">Ostavi prazno</label>
   <input class="notify-hp" type="text" id="notifyHp" name="hp" tabindex="-1" autocomplete="off">
@@ -399,16 +407,15 @@
 
 <div class="consent-overlay" id="consentOverlay">
   <div class="consent-card">
-    <div class="consent-title">Samo još jedan korak</div>
+    <div class="consent-title">Pre nego što pošalješ</div>
     <div class="consent-text">
-      Čuvamo tvoj email <strong>isključivo</strong> da ti pošaljemo jedno obaveštenje kad Escapii krene live.
-      Nećemo ti slati ništa drugo, niti ga deliti sa trećim stranama. Brišemo ga nakon što ti pošaljemo
-      obaveštenje, ili ranije na tvoj zahtev - piši nam na
-      <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
+      Mejl nam treba samo da ti javimo kad krenemo - jedna poruka, ništa više. Ne šaljemo reklame,
+      ne prosleđujemo ga nikome. Kad ti javimo (ili ako se predomisliš) brišemo ga - dovoljno je da nam
+      pišeš na <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
     </div>
     <label class="consent-check">
       <input type="checkbox" id="consentCheck">
-      Slažem se da Escapii sačuva moj email u ovu svrhu.
+      Slažem se da mi Escapii čuva mejl u tu svrhu.
     </label>
     <div class="consent-actions">
       <button type="button" class="consent-cancel" id="consentCancel">Otkaži</button>
