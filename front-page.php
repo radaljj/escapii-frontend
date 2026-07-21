@@ -4022,8 +4022,8 @@
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.contact">Kontakt</h4>
-      <a href="mailto:info@escapii.rs" style="display:inline-flex;align-items:center;gap:6px;">✉ info@escapii.rs</a>
-      <a href="javascript:void(0)" onclick="openStatusModal()" data-i18n="footer.status" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;">🔍 Proveri status rezervacije</a>
+      <a href="mailto:info@escapii.rs">✉ info@escapii.rs</a>
+      <a href="javascript:void(0)" onclick="openStatusModal()" data-i18n="footer.status">🔍 Proveri status rezervacije</a>
     </div>
   </div>
   <div class="footer-divider"></div>
