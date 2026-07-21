@@ -898,7 +898,7 @@ const TR = {
     'snav.faq':              'FAQ',
     'snav.blog':             'Blog',
     'snav.call':             '✉ Kontaktiraj nas',
-    'snav.call.hours':       'escapii.team@gmail.com',
+    'snav.call.hours':       'info@escapii.rs',
     'snav.book':             'Rezerviši',
     'snav.book.cta':         'Rezerviši →',
     'gift.hero.badge':       '🎁 Poklon koji se pamti',
@@ -948,7 +948,7 @@ const TR = {
     'snav.faq':              'FAQ',
     'snav.blog':             'Blog',
     'snav.call':             '✉ Contact us',
-    'snav.call.hours':       'escapii.team@gmail.com',
+    'snav.call.hours':       'info@escapii.rs',
     'snav.book':             'Book now',
     'gift.hero.badge':       '🎁 A gift they\'ll remember',
     'gift.hero.h1':          'Gift someone a <em>surprise</em>',
@@ -1236,7 +1236,7 @@ function _renderRevealCard_UNUSED(container, code, d) {
         <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> - do ${_fmtDate(d.expiresAt)}</div>
         <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
         <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
-        <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
+        <div class="bp-info-item">✓ Pitanja? <a href="mailto:info@escapii.rs">info@escapii.rs</a></div>
       </div>
     </div>`;
 

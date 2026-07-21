@@ -614,7 +614,7 @@ body {
         <h2>Cancellation &amp; changes</h2>
       </div>
 
-      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview - exact conditions are available from the Escapii team at <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
+      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview - exact conditions are available from the Escapii team at <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
@@ -713,7 +713,7 @@ body {
       <p>Contracts concluded through the Escapii platform are governed by the law of the <strong>Republic of Serbia</strong>. The courts of Belgrade have exclusive jurisdiction over any disputes.</p>
 
       <h3>Complaints</h3>
-      <p>A traveller who is dissatisfied with the execution of a trip may submit a written complaint to <a href="mailto:escapii.team@gmail.com" style="color:var(--accent);text-decoration:none;">escapii.team@gmail.com</a>.</p>
+      <p>A traveller who is dissatisfied with the execution of a trip may submit a written complaint to <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
       <p>Complaints must be submitted within <strong>8 days of returning</strong> from the trip. The organiser is required to respond within 8 working days of receiving the complaint.</p>
 
       <h3>Consumer protection</h3>
@@ -744,9 +744,9 @@ body {
         <h3>Have a question?</h3>
         <p>The Escapii team is here for you - we respond within 24 hours.</p>
         <div class="pp-contact-links">
-          <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
+          <a href="mailto:info@escapii.rs" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            escapii.team@gmail.com
+            info@escapii.rs
           </a>
           <a href="<?php echo home_url('/'); ?>" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>

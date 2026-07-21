@@ -2851,7 +2851,7 @@
     <button class="mob-menu-link" onclick="closeMobMenu();window.location.href='/blog';" data-i18n="snav.blog">Blog</button>
     <button class="mob-menu-link mob-menu-call" onclick="mobNav('esc-contact-cta')">
       <span data-i18n="snav.call">✉ Kontaktiraj nas</span>
-      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
+      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">info@escapii.rs</span>
     </button>
     <button class="mob-menu-link" onclick="closeMobMenu();openStatusModal();" data-i18n="nav.status" style="color:var(--accent);">🔍 Moja rezervacija</button>
     <div class="mob-gift-wrap">
@@ -3409,7 +3409,7 @@
         </div>
         <div class="trav-max-msg" id="travMaxMsg">
           <span style="font-size:15px;flex-shrink:0;">✉</span>
-          <span data-i18n-html="s2.max.msg">Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></span>
+          <span data-i18n-html="s2.max.msg">Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:info@escapii.rs">info@escapii.rs</a></span>
         </div>
         <div class="step-btns">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
@@ -3975,9 +3975,9 @@
     <h2 class="call-us-heading" data-i18n="callus.h">Imaš još pitanja? Escapii tim je tu za tebe.</h2>
     <p class="call-us-sub" data-i18n="callus.p">Znamo da je ovo potpuno nov koncept u Srbiji - i baš zbog toga smo tu. Piši nam na mejl ili nas kontaktiraj ako želiš kratak razgovor sa našom ekipom pre rezervacije. Rado ćemo odgovoriti na sva tvoja pitanja.</p>
     <div class="call-us-actions">
-      <a class="call-us-btn primary" href="mailto:escapii.team@gmail.com">
+      <a class="call-us-btn primary" href="mailto:info@escapii.rs">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        escapii.team@gmail.com
+        info@escapii.rs
       </a>
     </div>
     <p class="call-us-note" data-i18n="callus.note">Odgovaramo u roku od 24h</p>
@@ -4022,7 +4022,7 @@
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.contact">Kontakt</h4>
-      <a href="mailto:escapii.team@gmail.com" style="display:inline-flex;align-items:center;gap:6px;">✉ escapii.team@gmail.com</a>
+      <a href="mailto:info@escapii.rs" style="display:inline-flex;align-items:center;gap:6px;">✉ info@escapii.rs</a>
       <a href="javascript:void(0)" onclick="openStatusModal()" data-i18n="footer.status" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;">🔍 Proveri status rezervacije</a>
     </div>
   </div>
@@ -4354,7 +4354,7 @@ const TR = {
     'footer.status':'🔍 Proveri status rezervacije',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.booking':'Rezervacija', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
+    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
     'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
@@ -4381,7 +4381,7 @@ const TR = {
     'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
     'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
     'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
-    'err.srv':'Nešto nije u redu. Pokušajte ponovo, a ako se problem ponovi kontaktirajte nas na escapii.team@gmail.com.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na escapii.team@gmail.com.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
+    'err.srv':'Nešto nije u redu. Pokušajte ponovo, a ako se problem ponovi kontaktirajte nas na info@escapii.rs.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na info@escapii.rs.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
     's3.nodates.title':'Nema dostupnih termina',
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email - javljamo ti čim se otvore novi.',
     's3.nodates.btn':'Obavesti me',
@@ -4409,7 +4409,7 @@ const TR = {
     'pay.s4':'Potvrda stiže na email - putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
     'bp.label': (s,t) => `Korak ${s} od ${t}`,
-    's2.max.msg':'Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
+    's2.max.msg':'Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:info@escapii.rs" style="color:#d4a83c;font-weight:700;">info@escapii.rs</a>',
     'nav.gift':'🎁 Pokloni putovanje iznenađenja',
     'nav.gift.label':'Pokloni putovanje iznenađenja',
     'nav.gift.offer':'Pokloni putovanje iznenađenja',
@@ -4600,7 +4600,7 @@ const TR = {
     'footer.status':'🔍 Check reservation status',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About us', 'snav.booking':'Book', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'escapii.team@gmail.com', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
+    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
     'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag - typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
@@ -4627,7 +4627,7 @@ const TR = {
     'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
     'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
-    'err.srv':'Something went wrong. Please try again - if the problem persists, contact us at escapii.team@gmail.com.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at escapii.team@gmail.com.', 'success.ref': id=>`Booking reference: ${id}`,
+    'err.srv':'Something went wrong. Please try again - if the problem persists, contact us at info@escapii.rs.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at info@escapii.rs.', 'success.ref': id=>`Booking reference: ${id}`,
     's3.nodates.title':'No available dates',
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email - we\'ll notify you when new ones open.',
     's3.nodates.btn':'Notify me',
@@ -4655,7 +4655,7 @@ const TR = {
     'pay.s4':'Confirmation arrives by email - the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
     'bp.label': (s,t) => `Step ${s} of ${t}`,
-    's2.max.msg':'For trips with more than 6 travelers, contact us at <a href="mailto:escapii.team@gmail.com" style="color:#d4a83c;font-weight:700;">escapii.team@gmail.com</a>',
+    's2.max.msg':'For trips with more than 6 travelers, contact us at <a href="mailto:info@escapii.rs" style="color:#d4a83c;font-weight:700;">info@escapii.rs</a>',
     'nav.gift':'🎁 Gift a Surprise',
     'nav.gift.label':'Gift a Surprise',
     'nav.gift.offer':'Gift a Surprise',

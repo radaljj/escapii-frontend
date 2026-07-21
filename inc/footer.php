@@ -68,7 +68,7 @@ $_f_home = rtrim(home_url('/'), '/');
     </div>
     <div class="footer-col">
       <h4>Kontakt</h4>
-      <a href="mailto:escapii.team@gmail.com">✉ escapii.team@gmail.com</a>
+      <a href="mailto:info@escapii.rs">✉ info@escapii.rs</a>
       <a href="javascript:void(0)" onclick="openStatusModal()" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;">🔍 Proveri status rezervacije</a>
     </div>
   </div>

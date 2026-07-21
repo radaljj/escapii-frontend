@@ -500,7 +500,7 @@ body {
         <h2>Ko smo mi</h2>
       </div>
       <p><strong>Escapii</strong> je digitalna platforma za organizaciju iznenađujućih putovanja iz Srbije. Nismo turistička agencija - nastupamo kao <strong>subagent</strong> licencirane turističke agencije i posredujemo pri formiranju aranžmana.</p>
-      <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>escapii.team@gmail.com</strong>.</p>
+      <p>Za sva pitanja u vezi sa obradom vaših podataka možete nas kontaktirati na <strong>info@escapii.rs</strong>.</p>
     </section>
 
     <!-- Koji podaci -->
@@ -667,7 +667,7 @@ body {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="pp-notice-text">
-          <strong>Kako ostvariti prava:</strong> Pošaljite email na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a> sa naznakom „Zahtev za zaštitu podataka". Odgovorićemo u roku od 30 dana.<br><br>
+          <strong>Kako ostvariti prava:</strong> Pošaljite email na <a href="mailto:info@escapii.rs">info@escapii.rs</a> sa naznakom „Zahtev za zaštitu podataka". Odgovorićemo u roku od 30 dana.<br><br>
           Ukoliko smatrate da vaša prava nisu zaštićena, možete podneti pritužbu <a href="https://www.poverenik.rs" target="_blank" rel="noopener">Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti</a>.
         </div>
       </div>
@@ -725,9 +725,9 @@ body {
         <h3>Imate pitanje o privatnosti?</h3>
         <p>Slobodno nam se obratite - odgovaramo u roku od 48 sati.</p>
         <div class="pp-contact-links">
-          <a href="mailto:escapii.team@gmail.com" class="pp-contact-link">
+          <a href="mailto:info@escapii.rs" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            escapii.team@gmail.com
+            info@escapii.rs
           </a>
           <a href="<?php echo home_url('/'); ?>" class="pp-contact-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>

@@ -798,7 +798,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     <div class="rv-err-title" id="rvErrTitle">Nešto je pošlo po krivu</div>
     <div class="rv-err-msg"   id="rvErrMsg">Došlo je do neočekivane greške. Pokušaj ponovo ili nas kontaktiraj.</div>
     <a href="/" class="rv-err-btn">← Nazad na početnu</a>
-    <div class="rv-err-contact">Problem? Piši nam na <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
+    <div class="rv-err-contact">Problem? Piši nam na <a href="mailto:info@escapii.rs">info@escapii.rs</a></div>
   </div>
 </div>
 

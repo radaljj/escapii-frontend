@@ -461,7 +461,7 @@ function _renderRevealCard(container, code, d) {
         <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> - do ${_fmtDate(d.expiresAt)}</div>
         <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
         <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
-        <div class="bp-info-item">✓ Pitanja? <a href="mailto:escapii.team@gmail.com">escapii.team@gmail.com</a></div>
+        <div class="bp-info-item">✓ Pitanja? <a href="mailto:info@escapii.rs">info@escapii.rs</a></div>
       </div>
     </div>`;
 

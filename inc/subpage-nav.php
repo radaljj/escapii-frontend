@@ -65,7 +65,7 @@ $_nav_uri  = get_template_directory_uri();
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/blog/'"        data-i18n="snav.blog">Blog</button>
     <button class="mob-menu-link mob-menu-call" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-contact-cta'">
       <span data-i18n="snav.call">✉ Kontaktiraj nas</span>
-      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">escapii.team@gmail.com</span>
+      <span class="mob-menu-call-hours" data-i18n="snav.call.hours">info@escapii.rs</span>
     </button>
     <div class="mob-gift-wrap">
       <button class="mob-gift-toggle" id="mobGiftToggle" onclick="togMobGift()" type="button">
