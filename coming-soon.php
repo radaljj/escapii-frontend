@@ -334,7 +334,8 @@
     animation: pinPop .5s cubic-bezier(.34,1.56,.64,1) 3s forwards;
   }
   @keyframes pinPop {
-    0%   { opacity: 0; transform: scale(0) translateY(6px); }
+    0%   { opacity: 0; transform: scale(1.35) translateY(-4px); }
+    60%  { opacity: 1; transform: scale(1) translateY(0); }
     100% { opacity: 1; transform: scale(1) translateY(0); }
   }
   .sent-ring {
@@ -572,11 +573,12 @@
       <path class="sent-trail" d="M 250 150 C 150 40, 400 20, 505 74" pathLength="300"/>
 
       <!-- tajna destinacija: pin sa upitnikom -->
-      <g class="sent-pin">
-        <path d="M 505 44 C 491 44, 480 55, 480 69 C 480 84, 505 104, 505 104 C 505 104, 530 84, 530 69 C 530 55, 519 44, 505 44 Z"
-              fill="var(--tangerine)"/>
-        <text x="505" y="77" text-anchor="middle" font-size="24" font-weight="700" fill="#23120A" font-family="inherit">?</text>
-      </g>
+      <!-- beli pin (uvek vidljiv) + narandžasti koji se upali kad avion sleti -->
+      <image href="<?php echo esc_url(get_template_directory_uri() . '/images/escapii-pin-white.png'); ?>"
+             x="488" y="44" width="34" height="53" opacity=".97"/>
+      <image class="sent-pin"
+             href="<?php echo esc_url(get_template_directory_uri() . '/images/escapii-pin-orange.png'); ?>"
+             x="488" y="44" width="34" height="53"/>
       <circle class="sent-ring" cx="505" cy="70" r="26" fill="none" stroke="var(--peach)" stroke-width="2"/>
 
       <!-- koverta -->
@@ -597,9 +599,9 @@
     </svg>
 
     <div class="sent-text">
-      <div class="sent-title">Poletelo! <span class="accent">✈️</span></div>
+      <div class="sent-title"><span class="accent">🛫</span> Ukrcavanje uskoro.</div>
       <div class="sent-sub">
-        Tvoj mejl je uspešno stigao do nas. <strong>Javićemo ti se među prvima čim Escapii poleti i postane dostupan.</strong>
+        Tvoje mesto je rezervisano. <strong>Čim Escapii bude spreman za poletanje, među prvima ćeš dobiti poziv za avanturu.</strong>
       </div>
     </div>
   </div>
@@ -661,7 +663,11 @@
 
     var val = email.value.trim();
     btn.disabled = true;
-    btn.textContent = 'Šaljem...';
+
+    // Animacija kreće ODMAH - traje ~4s i sakriva mrežno čekanje.
+    // Ako zahtev pukne, vraćamo formu i prikazujemo grešku.
+    sent.classList.add('show');
+    sent.setAttribute('aria-hidden', 'false');
 
     fetch(API + '/api/launch-notify', {
       method: 'POST',
@@ -672,15 +678,13 @@
       .then(function(res) {
         if (!res.ok) throw new Error(res.data.error || 'Greška');
         email.value = '';
-        // Uspeh - pokreni animaciju (mejl poleti kao avion ka tajnoj destinaciji)
-        sent.classList.add('show');
-        sent.setAttribute('aria-hidden', 'false');
       })
       .catch(function(err) {
+        sent.classList.remove('show');
+        sent.setAttribute('aria-hidden', 'true');
         msg.textContent = err.message || 'Greška - pokušaj ponovo.';
         msg.className = 'notify-msg err';
         btn.disabled = false;
-        btn.textContent = 'Obavesti me';
       });
   });
 
