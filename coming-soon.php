@@ -70,6 +70,10 @@
     opacity: .85;
   }
 
+  /* Linija i avion moraju biti zaključani: ista dužina trajanja (0→88%) i
+     ista funkcija ubrzanja, da vrh linije uvek bude tačno ispod aviona.
+     Putanja se završava na x=446, tj. pre pina (koji počinje na x=450),
+     da linija ne prolazi kroz njega. */
   .trail {
     fill: none;
     stroke: #F1AB86;
@@ -78,34 +82,34 @@
     stroke-dasharray: 100;
     stroke-dashoffset: 100;
     opacity: .38;
-    animation: trailDraw 5.5s ease-in infinite;
+    animation: trailDraw 5.5s ease-in-out infinite;
   }
   @keyframes trailDraw {
     0%   { stroke-dashoffset: 100; opacity: .38; }
-    90%  { opacity: .38; }
-    96%  { stroke-dashoffset: 0; opacity: 0; }
-    100% { stroke-dashoffset: 0; opacity: 0; }
+    88%  { stroke-dashoffset: 0;   opacity: .38; }
+    94%  { stroke-dashoffset: 0;   opacity: 0; }
+    100% { stroke-dashoffset: 0;   opacity: 0; }
   }
 
   .plane {
-    offset-path: path('M 46 70 C 150 12, 340 4, 461 64');
+    offset-path: path('M 46 70 C 150 12, 340 4, 446 74');
     offset-rotate: auto;
-    animation: fly 5.5s ease-in infinite;
+    animation: fly 5.5s ease-in-out infinite;
   }
   @keyframes fly {
     0%   { offset-distance: 0%;   opacity: 1; }
-    92%  { offset-distance: 92%;  opacity: 1; }
-    96%  { offset-distance: 96%;  opacity: 0; }
+    88%  { offset-distance: 100%; opacity: 1; }
+    92%  { offset-distance: 100%; opacity: 0; }
     100% { offset-distance: 100%; opacity: 0; }
   }
 
   .pin-orange {
     opacity: 0;
-    animation: pinFlash 5.5s ease-in infinite;
+    animation: pinFlash 5.5s ease-in-out infinite;
   }
   @keyframes pinFlash {
-    0%, 93%    { opacity: 0; }
-    96%, 100%  { opacity: 1; }
+    0%, 87%    { opacity: 0; }
+    90%, 100%  { opacity: 1; }
   }
 
   /* badge */
@@ -304,9 +308,9 @@
     stroke-dasharray: 2 12;
     stroke-dashoffset: 300;
     opacity: 0;
-    animation: trailDraw 1.6s ease-out 1.5s forwards;
+    animation: sentTrailDraw 1.6s ease-out 1.5s forwards;
   }
-  @keyframes trailDraw {
+  @keyframes sentTrailDraw {
     0%   { stroke-dashoffset: 300; opacity: 0; }
     12%  { opacity: .55; }
     100% { stroke-dashoffset: 0; opacity: .55; }
@@ -373,53 +377,21 @@
   }
   .sent-sub strong { color: var(--peach); }
 
-  /* Saglasnost - popup */
-  .consent-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(2, 20, 19, .78);
-    backdrop-filter: blur(4px);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .consent-overlay.open { display: flex; }
-  .consent-card {
-    background: var(--jet);
-    border: 1px solid rgba(241, 171, 134, .25);
-    border-radius: 20px;
-    padding: 32px 28px;
-    width: 100%;
-    max-width: 420px;
-    text-align: left;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .5);
-  }
-  .consent-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--cream);
-    margin-bottom: 14px;
-  }
-  .consent-text {
-    font-size: .9rem;
-    line-height: 1.6;
-    color: rgba(250, 247, 242, .75);
-    margin-bottom: 20px;
-  }
-  .consent-text strong { color: var(--peach); }
-  .consent-check {
+  /* Saglasnost - inline checkbox ispod polja za mejl */
+  .notify-consent {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    font-size: .85rem;
+    width: min(420px, 92vw);
+    text-align: left;
+    font-size: .82rem;
     line-height: 1.5;
-    color: rgba(250, 247, 242, .85);
-    margin-bottom: 24px;
+    color: rgba(250, 247, 242, .75);
     cursor: pointer;
+    margin-top: -14px;
+    margin-bottom: 14px;
   }
-  .consent-check input {
+  .notify-consent input {
     flex-shrink: 0;
     width: 18px;
     height: 18px;
@@ -427,38 +399,10 @@
     accent-color: var(--tangerine);
     cursor: pointer;
   }
-  .consent-actions {
-    display: flex;
-    gap: 10px;
-  }
-  .consent-cancel {
-    flex: 1;
-    background: transparent;
-    border: 1px solid rgba(250, 247, 242, .2);
-    color: rgba(250, 247, 242, .75);
-    font-family: inherit;
-    font-size: .9rem;
-    font-weight: 600;
-    border-radius: 999px;
-    padding: 12px;
-    cursor: pointer;
-    transition: border-color .18s ease;
-  }
-  .consent-cancel:hover { border-color: rgba(250, 247, 242, .4); }
-  .consent-confirm {
-    flex: 1;
-    background: linear-gradient(120deg, var(--cinnamon), var(--tangerine));
-    color: #23120A;
-    font-family: inherit;
-    font-size: .9rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 999px;
-    padding: 12px;
-    cursor: pointer;
-    transition: opacity .18s ease;
-  }
-  .consent-confirm:disabled { opacity: .4; cursor: default; }
+  /* stanje greške - kad korisnik pokuša da pošalje bez saglasnosti */
+  .notify-consent.err { color: var(--tangerine); }
+  .notify-consent.err input { outline: 2px solid var(--tangerine); outline-offset: 2px; }
+
 
   @media (prefers-reduced-motion: reduce) {
     .star, .plane, .trail, .pin-orange { animation: none !important; }
@@ -494,7 +438,7 @@
 
 <div class="flight" aria-hidden="true">
   <svg viewBox="0 0 520 100">
-    <path id="trail" class="trail" d="M 46 70 C 150 12, 340 4, 461 64" pathLength="100"/>
+    <path id="trail" class="trail" d="M 46 70 C 150 12, 340 4, 446 74" pathLength="100"/>
 
     <!-- departure pin -->
     <circle cx="42" cy="74" r="6.5" fill="#C57B57"/>
@@ -535,35 +479,22 @@
   Saznačeš je tačno 48h pre polaska. Ni minut ranije.
 </p>
 
-<p class="notify-label">Ostavi svoj email i budi među prvim eskaperima koji će saznati kad krenemo live</p>
+<p class="notify-label">
+  Ostavi nam svoj mejl i budi među prvim Escaperima u Srbiji koji će rezervisati putovanje iznenađenja.
+  Javljamo ti se čim budemo spremni za poletanje. ✈️
+</p>
 <form class="notify" id="notifyForm" novalidate>
   <label class="notify-hp" for="notifyHp">Ostavi prazno</label>
   <input class="notify-hp" type="text" id="notifyHp" name="hp" tabindex="-1" autocomplete="off">
   <input class="notify-input" type="email" id="notifyEmail" placeholder="tvoj@email.com" required autocomplete="email">
   <button class="notify-btn" type="submit" id="notifyBtn">Obavesti me</button>
 </form>
-<p class="notify-msg" id="notifyMsg"></p>
 
-<div class="consent-overlay" id="consentOverlay">
-  <div class="consent-card">
-    <div class="consent-title">Pre nego što pošalješ</div>
-    <div class="consent-text">
-      Tvoj mejl nam je potreban samo da te obavestimo kada Escapii bude spreman. Poslaćemo ti jednu
-      poruku i ništa više. Ne šaljemo spam, ne delimo tvoje podatke sa drugima, a nakon obaveštenja
-      (ili ako to zatražiš) tvoj mejl ćemo obrisati. Ako u bilo kom trenutku želiš da ga uklonimo,
-      dovoljno je da nam pišeš na
-      <a href="mailto:escapii.team@gmail.com" style="color:var(--peach);">escapii.team@gmail.com</a>.
-    </div>
-    <label class="consent-check">
-      <input type="checkbox" id="consentCheck">
-      Slažem se da mi Escapii čuva mejl u tu svrhu.
-    </label>
-    <div class="consent-actions">
-      <button type="button" class="consent-cancel" id="consentCancel">Otkaži</button>
-      <button type="button" class="consent-confirm" id="consentConfirm" disabled>Potvrdi</button>
-    </div>
-  </div>
-</div>
+<label class="notify-consent" for="consentCheck">
+  <input type="checkbox" id="consentCheck">
+  <span>Slažem se da Escapii koristi moj mejl za obaveštenja i ponude o putovanjima</span>
+</label>
+<p class="notify-msg" id="notifyMsg"></p>
 
 <!-- Success animacija: mejl poleti kao avion ka tajnoj destinaciji -->
 <div class="sent-overlay" id="sentOverlay" aria-hidden="true">
@@ -599,9 +530,10 @@
     </svg>
 
     <div class="sent-text">
-      <div class="sent-title"><span class="accent">🛫</span> Ukrcavanje uskoro.</div>
+      <div class="sent-title">Sad si korak bliže svom putovanju godine. <span class="accent">🙂</span></div>
       <div class="sent-sub">
-        Tvoje mesto je rezervisano. <strong>Čim Escapii bude spreman za poletanje, među prvima ćeš dobiti poziv za avanturu.</strong>
+        Javićemo ti se mejlom čim Escapii bude 100% spreman za poletanje.<br><br>
+        <strong>Biće brže nego što misliš.</strong>
       </div>
     </div>
   </div>
@@ -613,7 +545,7 @@
     <circle cx="12" cy="12" r="4.5"/>
     <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/>
   </svg>
-  Prati nas na Instagramu
+  Zaprati nas na Instagramu
 </a>
 
 <script>
@@ -625,16 +557,23 @@
   var btn   = document.getElementById('notifyBtn');
   var msg   = document.getElementById('notifyMsg');
 
-  var overlay  = document.getElementById('consentOverlay');
   var check    = document.getElementById('consentCheck');
-  var cancel   = document.getElementById('consentCancel');
-  var confirm  = document.getElementById('consentConfirm');
+  var consent  = document.querySelector('.notify-consent');
   var sent     = document.getElementById('sentOverlay');
+
+  // Saglasnost se skida na svakom učitavanju - browser ume da vrati
+  // prethodno stanje pri refresh-u, a kutijica nikad ne sme biti unapred čekirana.
+  check.checked = false;
+
+  check.addEventListener('change', function() {
+    if (check.checked) consent.classList.remove('err');
+  });
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     msg.textContent = '';
     msg.className = 'notify-msg';
+    consent.classList.remove('err');
 
     var val = email.value.trim();
     if (!val || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val)) {
@@ -643,25 +582,15 @@
       return;
     }
 
-    // Email je validan - pre slanja tražimo eksplicitnu saglasnost (GDPR)
-    check.checked = false;
-    confirm.disabled = true;
-    overlay.classList.add('open');
-  });
+    // Saglasnost je obavezna - bez nje se ne šalje ništa
+    if (!check.checked) {
+      consent.classList.add('err');
+      msg.textContent = 'Moraš označiti saglasnost da bismo ti mogli poslati obaveštenje.';
+      msg.className = 'notify-msg err';
+      check.focus();
+      return;
+    }
 
-  check.addEventListener('change', function() {
-    confirm.disabled = !check.checked;
-  });
-
-  cancel.addEventListener('click', function() {
-    overlay.classList.remove('open');
-  });
-
-  confirm.addEventListener('click', function() {
-    if (!check.checked) return;
-    overlay.classList.remove('open');
-
-    var val = email.value.trim();
     btn.disabled = true;
 
     // Animacija kreće ODMAH - traje ~4s i sakriva mrežno čekanje.
@@ -686,10 +615,6 @@
         msg.className = 'notify-msg err';
         btn.disabled = false;
       });
-  });
-
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) overlay.classList.remove('open');
   });
 })();
 </script>
