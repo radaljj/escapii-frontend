@@ -80,6 +80,24 @@ $site_url  = get_site_url();
       cursor: pointer; transition: all .2s;
     }
     .err-btn:hover { background: #B57560; transform: translateY(-1px); }
+    .err-btn:disabled { opacity: .55; cursor: default; transform: none; }
+
+    /* ── Unos koda (kad se stranica otvori bez ?code= u linku) ── */
+    #stateEntry {
+      display: none; position: relative; z-index: 10;
+      min-height: 100vh; align-items: center; justify-content: center;
+      flex-direction: column; text-align: center; padding: 40px 24px; gap: 20px;
+    }
+    .entry-form { display: flex; flex-direction: column; gap: 12px; width: min(360px, 90vw); }
+    .entry-input {
+      padding: 14px 18px; border-radius: 12px; text-align: center;
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.16);
+      color: #fff; font-size: 16px; font-weight: 700; font-family: inherit;
+      letter-spacing: 1.5px; outline: none; transition: border-color .2s;
+    }
+    .entry-input::placeholder { color: rgba(255,255,255,.3); letter-spacing: 1px; font-weight: 500; }
+    .entry-input:focus { border-color: #CA8A71; }
+    .entry-msg { font-size: 14px; color: #E4A08A; min-height: 1.2em; }
 
     /* ── Reveal wrapper ── */
     #stateReveal {
@@ -289,6 +307,20 @@ $site_url  = get_site_url();
   </button>
 </div>
 
+<!-- STATE: UNOS KODA (stranica otvorena bez ?code= u linku) -->
+<div id="stateEntry">
+  <div class="err-icon">🎁</div>
+  <div class="err-title">Iskoristi poklon</div>
+  <div class="err-sub">Unesi kod sa vaučera pa ti pokažemo koliko iznosi.</div>
+  <form class="entry-form" id="entryForm" novalidate>
+    <input class="entry-input" id="entryCode" type="text"
+           placeholder="ESC-XXXX-XXXX-XXXX" autocomplete="off"
+           spellcheck="false" maxlength="24" aria-label="Vaučer kod">
+    <button class="err-btn" type="submit" id="entryBtn">Proveri kod</button>
+  </form>
+  <div class="entry-msg" id="entryMsg"></div>
+</div>
+
 <!-- STATE: REVEAL -->
 <div id="stateReveal">
   <div class="bp-reveal-wrap" id="bpRevealContent"></div>
@@ -482,31 +514,42 @@ function _renderRevealError(container, msg) {
 function show(state) {
   document.getElementById('stateLoading').style.display = state === 'loading' ? 'flex'  : 'none';
   document.getElementById('stateError').style.display   = state === 'error'   ? 'flex'  : 'none';
+  document.getElementById('stateEntry').style.display   = state === 'entry'   ? 'flex'  : 'none';
   document.getElementById('stateReveal').style.display  = state === 'reveal'  ? 'block' : 'none';
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
-async function init() {
-  const params = new URLSearchParams(window.location.search);
-  const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
+/**
+ * Otkriva vaučer po kodu. Koriste je oba ulaza: link/QR sa ?code= u adresi
+ * i ručni unos u formi. Pri ručnom unosu greška se ispisuje pored polja da
+ * korisnik može odmah da ispravi kod - kod linka nema šta da se ispravlja,
+ * pa se prikazuje puna poruka o grešci.
+ */
+async function revealCode(code, { inline = false } = {}) {
+  const msg = document.getElementById('entryMsg');
+  const btn = document.getElementById('entryBtn');
 
-  if (!code) {
-    document.getElementById('errTitle').textContent = 'Kod nije pronađen';
-    document.getElementById('errSub').textContent   = 'Otvori link koji si dobio/la u email poruci ili skeniraj QR kod sa vaučera.';
-    show('error');
-    return;
-  }
+  const fail = (title, sub) => {
+    if (inline) {
+      msg.textContent = sub;
+      btn.disabled = false;
+      btn.textContent = 'Proveri kod';
+      show('entry');
+    } else {
+      document.getElementById('errTitle').textContent = title;
+      document.getElementById('errSub').textContent   = sub;
+      show('error');
+    }
+  };
 
-  show('loading');
+  if (!inline) show('loading');
 
   try {
     const res  = await fetch(`${API_BASE}/api/gifts/vouchers/reveal?code=${encodeURIComponent(code)}`);
     const data = await res.json();
 
     if (!data.valid) {
-      document.getElementById('errTitle').textContent = 'Vaučer nije aktivan';
-      document.getElementById('errSub').textContent   = data.message || 'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.';
-      show('error');
+      fail('Vaučer nije aktivan',
+           data.message || 'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.');
       return;
     }
 
@@ -515,11 +558,43 @@ async function init() {
     setTimeout(launchConfetti, 600);
 
   } catch (e) {
-    document.getElementById('errTitle').textContent = 'Greška pri učitavanju';
-    document.getElementById('errSub').textContent   = 'Pokušaj ponovo za nekoliko sekundi.';
-    show('error');
+    fail('Greška pri učitavanju', 'Pokušaj ponovo za nekoliko sekundi.');
   }
 }
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
+
+  // Bez koda u adresi - ponudi unos umesto poruke o grešci
+  if (!code) {
+    show('entry');
+    document.getElementById('entryCode').focus();
+    return;
+  }
+
+  revealCode(code);
+}
+
+document.getElementById('entryForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const input = document.getElementById('entryCode');
+  const msg   = document.getElementById('entryMsg');
+  const btn   = document.getElementById('entryBtn');
+  const code  = input.value.trim().toUpperCase();
+
+  msg.textContent = '';
+  if (!code) {
+    msg.textContent = 'Unesi kod sa vaučera.';
+    input.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Proveravamo...';
+  revealCode(code, { inline: true });
+});
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
