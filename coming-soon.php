@@ -352,12 +352,17 @@
   }
   footer .links { display: flex; gap: 20px; font-size: 13.5px; }
   footer .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
     text-decoration: none;
     color: rgba(250,247,242,0.75);
     border-bottom: 1px solid rgba(250,247,242,0.25);
-    padding-bottom: 2px;
+    padding-bottom: 3px;
     transition: color .15s, border-color .15s;
   }
+  /* ikonica nasleđuje boju linka, pa prati i hover */
+  footer .links a svg { width: 18px; height: 18px; flex-shrink: 0; }
   footer .links a:hover { color: var(--peach); border-color: var(--peach); }
   footer .fine { font-family: var(--mono); font-size: 11px; color: rgba(250,247,242,0.35); }
 
@@ -630,9 +635,16 @@
 
   <footer>
     <div class="links">
-      <a href="https://www.instagram.com/escapii.rs/" target="_blank" rel="noopener">Zaprati nas na Instagramu</a>
+      <a href="https://www.instagram.com/escapii.rs/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5.5"/>
+          <circle cx="12" cy="12" r="4.5"/>
+          <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/>
+        </svg>
+        Zaprati nas na Instagramu
+      </a>
     </div>
-    <div class="fine">© 2026 Escapii · Beograd · Niš</div>
+    <div class="fine">© 2026 Escapii</div>
   </footer>
 </div>
 
