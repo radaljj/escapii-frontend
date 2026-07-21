@@ -4,7 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1c3f4c">
+<!-- Ne sme biti vrh gradijenta (#1c3f4c) - preko njega ide vinjeta iz
+     .sky::after koja zatamnjuje ivice, pa je stvarni vrh strane mnogo
+     tamniji. Ova vrednost odgovara gradijentu posle vinjete i senke. -->
+<meta name="theme-color" content="#0d1f25">
 <title>Escapii — Uskoro</title>
 <style>
   :root {
@@ -28,7 +31,8 @@
      telefonu vidi šav i strana deluje kao da nije preko celog ekrana. */
   html {
     scroll-behavior: smooth;
-    background: #1c3f4c;
+    /* ista vrednost kao theme-color - ovo se vidi pri odskoku skrola */
+    background: #0d1f25;
   }
   body {
     background: transparent;
