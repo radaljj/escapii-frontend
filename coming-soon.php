@@ -240,6 +240,138 @@
     opacity: 0;
   }
 
+  /* ── Success animacija (mejl → avion → tajna destinacija) ── */
+  .sent-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: radial-gradient(ellipse at 50% 30%, #0A2B29 0%, var(--evergreen) 55%, #021413 100%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    opacity: 0;
+    transition: opacity .45s ease;
+  }
+  .sent-overlay.show { display: flex; opacity: 1; }
+
+  .sent-stage {
+    width: min(560px, 94vw);
+    position: relative;
+  }
+  .sent-stage svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  /* koverta */
+  .sent-envelope {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation:
+      envIn .5s cubic-bezier(.34,1.56,.64,1) .15s forwards,
+      envBob 1.2s ease-in-out .7s,
+      envLaunch .55s cubic-bezier(.5,0,.75,0) 1.35s forwards;
+  }
+  @keyframes envIn {
+    from { opacity: 0; transform: scale(.4) translateY(14px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes envBob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  @keyframes envLaunch {
+    from { opacity: 1; transform: scale(1) translate(0,0) rotate(0deg); }
+    to   { opacity: 0; transform: scale(.5) translate(-40px,-30px) rotate(-18deg); }
+  }
+  .sent-seal {
+    transform-box: fill-box;
+    transform-origin: top center;
+    animation: sealFlap .4s ease-in .95s both;
+  }
+  @keyframes sealFlap {
+    from { transform: rotateX(0deg); }
+    to   { transform: rotateX(-150deg); }
+  }
+
+  /* trag - tačkice (mystery) */
+  .sent-trail {
+    fill: none;
+    stroke: var(--tangerine);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 2 12;
+    stroke-dashoffset: 300;
+    opacity: 0;
+    animation: trailDraw 1.6s ease-out 1.5s forwards;
+  }
+  @keyframes trailDraw {
+    0%   { stroke-dashoffset: 300; opacity: 0; }
+    12%  { opacity: .55; }
+    100% { stroke-dashoffset: 0; opacity: .55; }
+  }
+
+  /* avion */
+  .sent-plane {
+    offset-path: path('M 250 150 C 150 40, 400 20, 505 74');
+    offset-rotate: auto;
+    opacity: 0;
+    animation: planeFly 1.7s cubic-bezier(.45,.05,.55,.95) 1.5s forwards;
+  }
+  @keyframes planeFly {
+    0%   { offset-distance: 0%;   opacity: 0; }
+    8%   { opacity: 1; }
+    88%  { offset-distance: 92%;  opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+
+  /* tajna destinacija - pin sa upitnikom */
+  .sent-pin {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    opacity: 0;
+    animation: pinPop .5s cubic-bezier(.34,1.56,.64,1) 3s forwards;
+  }
+  @keyframes pinPop {
+    0%   { opacity: 0; transform: scale(0) translateY(6px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .sent-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: ringPulse .8s ease-out 3.1s forwards;
+  }
+  @keyframes ringPulse {
+    0%   { opacity: .7; transform: scale(.3); }
+    100% { opacity: 0; transform: scale(2.2); }
+  }
+
+  .sent-text {
+    opacity: 0;
+    animation: sentTextIn .6s ease-out 3.15s forwards;
+  }
+  @keyframes sentTextIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .sent-title {
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+    font-weight: 600;
+    color: var(--cream);
+    margin: 8px 0 12px;
+  }
+  .sent-title .accent { color: var(--tangerine); }
+  .sent-sub {
+    max-width: 440px;
+    margin: 0 auto;
+    font-size: clamp(.95rem, 3.4vw, 1.1rem);
+    line-height: 1.6;
+    color: rgba(250, 247, 242, .8);
+  }
+  .sent-sub strong { color: var(--peach); }
+
   /* Saglasnost - popup */
   .consent-overlay {
     display: none;
@@ -330,6 +462,12 @@
   @media (prefers-reduced-motion: reduce) {
     .star, .plane, .trail, .pin-orange { animation: none !important; }
     .trail { stroke-dashoffset: 0; }
+    /* bez leta - odmah prikaži krajnje stanje i potvrdu */
+    .sent-envelope { display: none; }
+    .sent-trail    { animation: none !important; stroke-dashoffset: 0; opacity: .55; }
+    .sent-plane    { display: none; }
+    .sent-pin, .sent-text { animation: none !important; opacity: 1; }
+    .sent-ring     { display: none; }
   }
 </style>
 </head>
@@ -426,6 +564,47 @@
   </div>
 </div>
 
+<!-- Success animacija: mejl poleti kao avion ka tajnoj destinaciji -->
+<div class="sent-overlay" id="sentOverlay" aria-hidden="true">
+  <div class="sent-stage">
+    <svg viewBox="0 0 600 220">
+      <!-- trag - tačkice -->
+      <path class="sent-trail" d="M 250 150 C 150 40, 400 20, 505 74" pathLength="300"/>
+
+      <!-- tajna destinacija: pin sa upitnikom -->
+      <g class="sent-pin">
+        <path d="M 505 44 C 491 44, 480 55, 480 69 C 480 84, 505 104, 505 104 C 505 104, 530 84, 530 69 C 530 55, 519 44, 505 44 Z"
+              fill="var(--tangerine)"/>
+        <text x="505" y="77" text-anchor="middle" font-size="24" font-weight="700" fill="#23120A" font-family="inherit">?</text>
+      </g>
+      <circle class="sent-ring" cx="505" cy="70" r="26" fill="none" stroke="var(--peach)" stroke-width="2"/>
+
+      <!-- koverta -->
+      <g class="sent-envelope">
+        <rect x="216" y="120" width="68" height="46" rx="6" fill="var(--cream)"/>
+        <path class="sent-seal" d="M 216 126 L 250 150 L 284 126"
+              fill="none" stroke="var(--cinnamon)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M 216 126 L 250 148 L 284 126" fill="none" stroke="var(--cinnamon)" stroke-width="2.5" stroke-linejoin="round" opacity=".5"/>
+      </g>
+
+      <!-- avion koji poleti -->
+      <g class="sent-plane">
+        <g transform="rotate(90)">
+          <path transform="translate(-13,-13) scale(1.1)" fill="var(--peach)"
+                d="M21.5 15.5v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V8.5l-8 5v2l8-2.5v5.5l-2 1.5v1.5l3.5-1 3.5 1V20l-2-1.5V13l8 2.5z"/>
+        </g>
+      </g>
+    </svg>
+
+    <div class="sent-text">
+      <div class="sent-title">Poletelo! <span class="accent">✈️</span></div>
+      <div class="sent-sub">
+        Tvoj mejl je uspešno stigao do nas. <strong>Javićemo ti se među prvima čim Escapii poleti i postane dostupan.</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
 <a href="https://www.instagram.com/escapii.rs/" target="_blank" rel="noopener" class="cta">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <rect x="2" y="2" width="20" height="20" rx="5.5"/>
@@ -448,6 +627,7 @@
   var check    = document.getElementById('consentCheck');
   var cancel   = document.getElementById('consentCancel');
   var confirm  = document.getElementById('consentConfirm');
+  var sent     = document.getElementById('sentOverlay');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -491,16 +671,14 @@
       .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
       .then(function(res) {
         if (!res.ok) throw new Error(res.data.error || 'Greška');
-        msg.textContent = '✓ Javićemo ti se čim krenemo!';
-        msg.className = 'notify-msg ok';
         email.value = '';
-        form.style.display = 'none';
+        // Uspeh - pokreni animaciju (mejl poleti kao avion ka tajnoj destinaciji)
+        sent.classList.add('show');
+        sent.setAttribute('aria-hidden', 'false');
       })
       .catch(function(err) {
         msg.textContent = err.message || 'Greška - pokušaj ponovo.';
         msg.className = 'notify-msg err';
-      })
-      .finally(function() {
         btn.disabled = false;
         btn.textContent = 'Obavesti me';
       });
