@@ -3,7 +3,8 @@
 <html lang="sr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1c3f4c">
 <title>Escapii — Uskoro</title>
 <style>
   :root {
@@ -22,9 +23,15 @@
     --mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  /* Boju platna uzima <html> - to je ono što se vidi iza statusne trake i
+     pri odskoku skrola. Mora da odgovara vrhu gradijenta, inače se na
+     telefonu vidi šav i strana deluje kao da nije preko celog ekrana. */
+  html {
+    scroll-behavior: smooth;
+    background: #1c3f4c;
+  }
   body {
-    background: var(--evergreen);
+    background: transparent;
     color: var(--cream);
     font-family: var(--sans);
     -webkit-font-smoothing: antialiased;
@@ -38,7 +45,8 @@
     min-height: 100vh;
     min-height: 100dvh;
     background: linear-gradient(180deg, #1c3f4c 0%, var(--teal) 30%, #0e2833 55%, var(--evergreen) 100%);
-    padding: 0 24px 90px;
+    padding: env(safe-area-inset-top) calc(24px + env(safe-area-inset-right))
+             calc(90px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left));
     display: flex;
     flex-direction: column;
     align-items: center;
