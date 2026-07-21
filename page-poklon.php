@@ -486,44 +486,22 @@ $site_url  = get_site_url();
 </div>
 
 <script>
-// ── Nav (isti obrazac kao ostale podstranice) ──
+// ── Nav ───────────────────────────────────────────────────────────────────
+// Stranica je samo na srpskom, pa izbor jezika samo pamti odluku i osveži
+// dugmad - prevod se primenjuje kad korisnik ode na neku drugu stranicu.
 function setLang(l) {
-  lang = l; localStorage.setItem('esc-lang', l); applyLang();
-}
-
-// ── Accordion ─────────────────────────────────────────────────────────────
-var allFaqs = document.querySelectorAll('.faq');
-
-function setOpen(f, on) {
-  f.classList.toggle('open', on);
-  var a = f.querySelector('.faq-a');
-  a.style.maxHeight = on ? (a.querySelector('.faq-a-inner').scrollHeight + 'px') : '0px';
-}
-
-allFaqs.forEach(function(f) {
-  f.querySelector('.faq-q').addEventListener('click', function(e) {
-    e.preventDefault();
-    var willOpen = !f.classList.contains('open');
-    allFaqs.forEach(function(o) { if (o !== f) { o.removeAttribute('open'); setOpen(o, false); } });
-    f.toggleAttribute('open', willOpen);
-    setOpen(f, willOpen);
+  try { localStorage.setItem('esc-lang', l); } catch (e) {}
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('on', b.textContent.trim().toLowerCase() === l);
   });
-  setOpen(f, f.hasAttribute('open'));
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var saved = null;
+  try { saved = localStorage.getItem('esc-lang'); } catch (e) {}
+  if (saved) setLang(saved);
 });
 
-// ── Category filter ────────────────────────────────────────────────────────
-var catsEl = document.getElementById('fqCats');
-catsEl.addEventListener('click', function(e) {
-  var b = e.target.closest('.fq-cat'); if (!b) return;
-  catsEl.querySelectorAll('.fq-cat').forEach(function(x) { x.classList.remove('active'); });
-  b.classList.add('active');
-  var cat = b.dataset.cat;
-  document.querySelectorAll('.fq-group').forEach(function(g) {
-    g.style.display = (cat === 'all' || g.dataset.group === cat) ? '' : 'none';
-  });
-});
 
-// ── Nav functions (identične homepage-u) ─────────────────────────────────
 function togBurger() {
   var burger = document.getElementById('navBurger');
   var menu   = document.getElementById('mobMenu');
@@ -807,7 +785,7 @@ function init() {
   revealCode(code);
 }
 
-document.getElementById('entryForm').addEventListener('submit', function(e) {
+function onEntrySubmit(e) {
   e.preventDefault();
   const input = document.getElementById('entryCode');
   const msg   = document.getElementById('entryMsg');
@@ -824,9 +802,12 @@ document.getElementById('entryForm').addEventListener('submit', function(e) {
   btn.disabled = true;
   btn.textContent = 'Proveravamo...';
   revealCode(code, { inline: true });
-});
+}
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('entryForm').addEventListener('submit', onEntrySubmit);
+  init();
+});
 </script>
 
 <?php include get_template_directory() . '/inc/footer.php'; ?>
