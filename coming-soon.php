@@ -203,7 +203,7 @@
     transition: transform .18s ease-in;
   }
   .flap.locked .flap-char { color: var(--coral); text-shadow: 0 0 18px rgba(216,90,48,.5); }
-  .flap.flipping .flap-char { animation: flipDown .32s ease-in-out; }
+  .flap.flipping .flap-char { animation: flipDown .42s ease-in-out; }
   @keyframes flipDown {
     0%   { transform: translateY(0); }
     45%  { transform: translateY(6px)  scaleY(0.3); opacity: .3; }
@@ -682,7 +682,8 @@
 <script>
 (function() {
   // ── Split-flap tabla: vrti kodove evropskih aerodroma, zaključava se na "???"
-  var cities = ['CDG','FCO','BCN','LHR','AMS','LIS','ATH','???'];
+  // Redosled je izmešan da se susedni kodovi ne liče - prevrtanje se bolje vidi.
+  var cities = ['CDG','FCO','BCN','BER','LHR','PMO','AMS','VLC','LIS','ATH','???'];
   var boardEl = document.getElementById('board');
   var WIDTH = 3; // tri mesta - koliko ima pravi IATA kod
 
@@ -707,8 +708,8 @@
       flap.classList.add('flipping');
       flap.classList.toggle('locked', !!locked);
       var charEl = flap.querySelector('.flap-char');
-      setTimeout(function() { charEl.textContent = padded[i]; }, 90);
-      setTimeout(function() { flap.classList.remove('flipping'); }, 340);
+      setTimeout(function() { charEl.textContent = padded[i]; }, 120);
+      setTimeout(function() { flap.classList.remove('flipping'); }, 440);
     });
   }
 
@@ -721,7 +722,7 @@
       setWord(cities[i], i === cities.length - 1);
       if (i === cities.length - 1) clearInterval(timer);
       i++;
-    }, 550);
+    }, 800);
   }
 
   // ── Prijava na obaveštenje o lansiranju ──
