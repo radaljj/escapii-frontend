@@ -67,13 +67,6 @@
     pointer-events: none;
     z-index: 1;
   }
-  .horizon {
-    position: absolute;
-    top: 32%; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(247,219,167,0.4), transparent);
-    pointer-events: none;
-  }
   .waves { position: absolute; left: 0; width: 100%; pointer-events: none; opacity: .9; }
   .waves svg { display: block; width: 200%; height: auto; }
   .waves.w1 { bottom: 6%; animation: driftLeft 22s linear infinite; }
@@ -92,14 +85,15 @@
     position: relative;
     z-index: 2;
   }
-  nav img { height: 26px; }
+  nav img { height: 40px; }
   .route-pill {
     font-family: var(--mono);
-    font-size: 12.5px;
-    letter-spacing: .06em;
-    background: rgba(250,247,242,0.08);
-    border: 1px solid rgba(250,247,242,0.18);
-    padding: 7px 14px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    background: rgba(250,247,242,0.10);
+    border: 1px solid rgba(250,247,242,0.22);
+    padding: 10px 20px;
     border-radius: 999px;
     display: flex;
     align-items: center;
@@ -244,7 +238,7 @@
   .pass-bottom { padding: 24px 26px 28px; }
   .pass-bottom p.lead {
     font-size: 13.5px;
-    color: rgba(4,31,30,0.65);
+    color: rgba(4,31,30,0.82);
     margin-bottom: 16px;
     line-height: 1.5;
   }
@@ -270,7 +264,7 @@
     min-width: 0;
     padding: 13px 14px;
     border-radius: 10px;
-    border: 1.5px solid rgba(4,31,30,0.15);
+    border: 1.5px solid rgba(4,31,30,0.26);
     background: #fff;
     font-family: var(--sans);
     font-size: 14.5px;
@@ -279,7 +273,7 @@
     transition: border-color .15s;
   }
   input[type="email"]:focus { border-color: var(--coral); }
-  input[type="email"]::placeholder { color: rgba(4,31,30,0.35); }
+  input[type="email"]::placeholder { color: rgba(4,31,30,0.52); }
 
   .submit-btn {
     padding: 13px 20px;
@@ -303,12 +297,39 @@
     display: flex;
     gap: 8px;
     align-items: flex-start;
-    font-size: 12px;
-    color: rgba(4,31,30,0.55);
-    line-height: 1.45;
+    font-size: 12.5px;
+    color: rgba(4,31,30,0.75);
+    line-height: 1.5;
     cursor: pointer;
   }
-  .consent input { margin-top: 3px; accent-color: var(--coral); flex-shrink: 0; cursor: pointer; }
+  /* Sopstveni checkbox - appearance:none pa crtamo kvadrat i kvačicu.
+     Ostaje pravi <input>, tako da fokus, tastatura i klik na label rade sami. */
+  .consent input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 1px 0 0;
+    flex-shrink: 0;
+    border: 1.5px solid rgba(4,31,30,0.3);
+    border-radius: 6px;
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .consent input:hover { border-color: rgba(4,31,30,0.5); }
+  .consent input:checked { background: var(--coral); border-color: var(--coral); }
+  .consent input:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px; top: 2.5px;
+    width: 5px; height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .consent input:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
   /* stanje greške - korisnik je pokušao da pošalje bez saglasnosti */
   .consent.err { color: var(--coral); }
   .consent.err input { outline: 2px solid var(--coral); outline-offset: 2px; }
@@ -351,12 +372,15 @@
   }
 
     /* ── Success animacija (mejl → avion → tajna destinacija) ── */
+  /* Pozadina je ista kao na stranici ispod - isti gradijent mora, ista
+     vinjeta i isti ovalni prozor - da prelaz na animaciju ne deluje kao
+     da si otišao na drugu stranicu. */
   .sent-overlay {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: radial-gradient(ellipse at 50% 30%, #0A2B29 0%, var(--evergreen) 55%, #021413 100%);
+    background: linear-gradient(180deg, #1c3f4c 0%, var(--teal) 30%, #0e2833 55%, var(--evergreen) 100%);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -366,6 +390,32 @@
     transition: opacity .45s ease;
   }
   .sent-overlay.show { display: flex; opacity: 1; }
+
+  /* zatamnjene ivice */
+  .sent-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 68% 62% at 50% 42%, transparent 55%, rgba(2,10,10,0.55) 88%, rgba(2,10,10,0.85) 100%);
+    box-shadow: inset 0 0 140px 40px rgba(0,0,0,0.55);
+    pointer-events: none;
+  }
+  /* ovalni okvir prozora aviona */
+  .sent-overlay::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: min(90vw, 640px);
+    height: min(90vh, 900px);
+    border: 2px solid var(--cream);
+    border-radius: 50%/38%;
+    box-shadow: inset 0 0 0 16px rgba(250,247,242,0.5);
+    opacity: .07;
+    pointer-events: none;
+  }
+  /* sadržaj mora iznad vinjete i okvira */
+  .sent-overlay > * { position: relative; z-index: 1; }
 
   .sent-stage {
     width: min(560px, 94vw);
@@ -526,7 +576,6 @@
 
 <div class="sky">
   <div class="window-frame" aria-hidden="true"></div>
-  <div class="horizon" aria-hidden="true"></div>
 
   <div class="waves w2" aria-hidden="true">
     <svg viewBox="0 0 2400 160" preserveAspectRatio="none">
