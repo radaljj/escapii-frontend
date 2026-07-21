@@ -2861,7 +2861,7 @@
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
         <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/pokloni-putovanje-iznenadjenja';" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
-        <button class="mob-gift-sub-btn" onclick="closeMobMenu();openRedeemModal();" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
+        <button class="mob-gift-sub-btn" onclick="closeMobMenu();window.location.href='/poklon/';" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
       </div>
     </div>
   </div>
@@ -2899,7 +2899,7 @@
       <span class="nav-gift-item-sub" data-i18n="nav.gift.offer.sub">Pokloni savršen poklon nekome ko voli da putuje</span>
     </span>
   </button>
-  <button class="nav-gift-item" onclick="closeSecGift();openRedeemModal();" type="button">
+  <button class="nav-gift-item" onclick="closeSecGift();window.location.href='/poklon/';" type="button">
     <span class="nav-gift-item-icon">🔓</span>
     <span class="nav-gift-item-text">
       <span class="nav-gift-item-label" data-i18n="nav.gift.redeem">Iskoristi poklon</span>
@@ -4070,33 +4070,6 @@
 </div>
 
 <!-- REDEEM VOUCHER MODAL -->
-<div class="rdm-overlay" id="redeemOverlay" onclick="if(event.target===this)closeRedeemModal()">
-  <div class="rdm-card">
-    <button class="rdm-close" onclick="closeRedeemModal()" type="button" aria-label="Close">✕</button>
-    <div id="rdmMain">
-      <div class="rdm-emoji">🎟️</div>
-      <h3 class="rdm-title" id="rdmTitle">Iskoristi vaučer</h3>
-      <p class="rdm-sub" id="rdmSub">Unesi kod koji si dobio/la i videćeš koliko iznosi</p>
-      <input id="redeemCodeInp" class="rdm-input" type="text"
-             placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20" autocomplete="off"
-             oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'').replace(/0/g,'O').replace(/1/g,'I')"
-             onkeydown="if(event.key==='Enter')checkRedeemCode()">
-      <div id="redeemStatus" class="rdm-status" style="display:none;"></div>
-      <button id="redeemCheckBtn" class="rdm-btn" onclick="checkRedeemCode()" type="button">
-        <span id="redeemCheckLbl">Proveri kod</span>
-      </button>
-    </div>
-    <div id="rdmSuccess" class="rdm-success" style="display:none;">
-      <div class="rdm-amount" id="rdmAmount"></div>
-      <div class="rdm-amount-lbl" id="rdmAmountLbl">vaučer</div>
-      <div class="rdm-code-badge" id="rdmCodeBadge"></div>
-      <p class="rdm-success-msg" id="rdmSuccessMsg"></p>
-      <button class="rdm-book-btn" id="rdmBookBtn" onclick="closeRedeemModal();document.getElementById('esc-booking')?.scrollIntoView({behavior:'smooth'});" type="button">
-        ✈️ Rezerviši putovanje
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- GIFT OVERLAY -->
 <div class="gift-overlay" id="giftOverlay" onclick="if(event.target===this)closeGiftPanel()">
@@ -7064,92 +7037,7 @@ document.addEventListener('click', function(e) {
 });
 
 /* ── Redeem modal ── */
-function openRedeemModal() {
-  const isSr = lang === 'sr';
-  const overlay = document.getElementById('redeemOverlay');
-  if (!overlay) return;
 
-  // Texts
-  document.getElementById('rdmTitle').textContent   = isSr ? 'Iskoristi vaučer' : 'Redeem voucher';
-  document.getElementById('rdmSub').textContent     = isSr
-    ? 'Unesi kod koji si dobio/la i videćeš koliko iznosi'
-    : 'Enter the code you received to check its value';
-  document.getElementById('redeemCheckLbl').textContent = isSr ? 'Proveri kod' : 'Check code';
-  document.getElementById('rdmAmountLbl').textContent   = isSr ? 'vaučer' : 'voucher';
-  document.getElementById('rdmBookBtn').textContent     = isSr ? '✈️ Rezerviši putovanje' : '✈️ Book a trip';
-
-  // Reset state
-  document.getElementById('redeemCodeInp').value = '';
-  document.getElementById('redeemCodeInp').className = 'rdm-input';
-  const statusEl = document.getElementById('redeemStatus');
-  statusEl.style.display = 'none'; statusEl.textContent = '';
-  document.getElementById('rdmMain').style.display = '';
-  document.getElementById('rdmSuccess').style.display = 'none';
-  document.getElementById('redeemCheckBtn').disabled = false;
-
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('redeemCodeInp').focus(), 80);
-}
-
-function closeRedeemModal() {
-  document.getElementById('redeemOverlay')?.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-async function checkRedeemCode() {
-  const isSr  = lang === 'sr';
-  const input = document.getElementById('redeemCodeInp');
-  const btn   = document.getElementById('redeemCheckBtn');
-  const lbl   = document.getElementById('redeemCheckLbl');
-  const statusEl = document.getElementById('redeemStatus');
-  const code  = (input.value || '').trim().toUpperCase();
-
-  if (!code) {
-    input.className = 'rdm-input rdm-invalid';
-    statusEl.className = 'rdm-status err';
-    statusEl.textContent = isSr ? 'Unesite vaučer kod.' : 'Enter your voucher code.';
-    statusEl.style.display = '';
-    return;
-  }
-
-  btn.disabled = true;
-  lbl.textContent = '...';
-  statusEl.style.display = 'none';
-
-  try {
-    const res  = await fetch(`${API}/api/gifts/vouchers/validate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code })
-    });
-    const data = await res.json();
-
-    if (data.valid) {
-      input.className = 'rdm-input rdm-valid';
-      document.getElementById('rdmAmount').textContent    = data.amount + '€';
-      document.getElementById('rdmCodeBadge').textContent = code;
-      document.getElementById('rdmSuccessMsg').innerHTML  = isSr
-        ? '✅ Vaučer je aktivan. <strong style="color:var(--gold)">Primeni ga u koraku 7</strong> kada budeš birao/la putovanje - iznos se oduzima od ukupne cene.'
-        : '✅ Voucher is active. <strong style="color:var(--gold)">Apply it in step 7</strong> when booking - the amount will be deducted from your total.';
-      document.getElementById('rdmMain').style.display    = 'none';
-      document.getElementById('rdmSuccess').style.display = '';
-    } else {
-      input.className = 'rdm-input rdm-invalid';
-      statusEl.className = 'rdm-status err';
-      statusEl.textContent = isSr ? 'Vaučer nije validan ili nije aktivan.' : 'Voucher is not valid or not active.';
-      statusEl.style.display = '';
-      btn.disabled = false;
-      lbl.textContent = isSr ? 'Pokušaj ponovo' : 'Try again';
-    }
-  } catch {
-    statusEl.className = 'rdm-status err';
-    statusEl.textContent = isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Please try again.';
-    statusEl.style.display = '';
-    btn.disabled = false;
-    lbl.textContent = isSr ? 'Proveri kod' : 'Check code';
-  }
-}
 
 // ── Voucher u booking formi (korak 7) ────────────────────────────────────────
 
