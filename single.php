@@ -422,6 +422,7 @@ h1.title{font-family:var(--display); font-weight:600; color:#fff;
 </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 <div class="progress" id="progress"></div>
 
 <?php $site_url = home_url(); include get_template_directory() . '/inc/subpage-nav.php'; ?>

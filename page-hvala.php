@@ -303,6 +303,7 @@
   </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <canvas id="confetti-canvas"></canvas>
 

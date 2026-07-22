@@ -540,6 +540,7 @@ a { color: inherit; }
 </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <!-- NAV -->
 <?php include get_template_directory() . '/inc/subpage-nav.php'; ?>

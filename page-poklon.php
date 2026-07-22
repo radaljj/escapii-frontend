@@ -445,6 +445,7 @@ $site_url  = get_site_url();
   </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 <?php include get_template_directory() . '/inc/subpage-nav.php'; ?>
 
 <canvas id="starsCanvas"></canvas>

@@ -782,6 +782,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <canvas id="sky"></canvas>
 <canvas id="takeoff"></canvas>

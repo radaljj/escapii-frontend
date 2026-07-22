@@ -2821,6 +2821,7 @@
   </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <!-- NAV -->
 <nav class="esc-nav" id="mainNav">

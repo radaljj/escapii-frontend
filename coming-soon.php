@@ -9,6 +9,7 @@
      tamniji. Ova vrednost odgovara gradijentu posle vinjete i senke. -->
 <meta name="theme-color" content="#0d1f25">
 <title>Escapii — Uskoro</title>
+<?php wp_head(); ?>
 <style>
   :root {
     --teal:      #1A3A4A;
@@ -590,6 +591,7 @@
 </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <div class="sky">
   <div class="window-frame" aria-hidden="true"></div>

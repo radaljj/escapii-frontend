@@ -383,3 +383,46 @@ function esc_save_category_name_en(int $term_id) {
     if (!isset($_POST['name_en'])) return;
     update_term_meta($term_id, 'name_en', sanitize_text_field($_POST['name_en']));
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Google Tag Manager (GA4)
+
+   Kod stoji na jednom mestu umesto u 17 templejta - kači se na wp_head i
+   wp_body_open, pa svaki templejt koji ih poziva automatski dobija tracking.
+
+   Admin panel (page-admin-panel.php) namerno NE poziva te hookove, pa se
+   interno korišćenje ne meša u statistiku posetilaca. Iz istog razloga se
+   preskaču i prijavljeni korisnici.
+   ────────────────────────────────────────────────────────────────────────── */
+
+const ESC_GTM_ID = 'GTM-N84K66L6';
+
+/** Ne pratimo sebe: WP admin, prijavljene korisnike ni preglede iz uređivača. */
+function esc_gtm_enabled(): bool {
+    return !is_admin() && !is_user_logged_in() && !is_preview();
+}
+
+add_action('wp_head', 'esc_gtm_head', 1);   // prioritet 1 = što više u <head>
+function esc_gtm_head() {
+    if (!esc_gtm_enabled()) return;
+    ?>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<?php echo esc_js(ESC_GTM_ID); ?>');</script>
+<!-- End Google Tag Manager -->
+    <?php
+}
+
+add_action('wp_body_open', 'esc_gtm_body');
+function esc_gtm_body() {
+    if (!esc_gtm_enabled()) return;
+    ?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo esc_attr(ESC_GTM_ID); ?>"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <?php
+}

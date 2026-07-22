@@ -16,9 +16,11 @@ nocache_headers();
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <title>Stranica nije pronađena - Escapii</title>
+<?php wp_head(); ?>
     <meta http-equiv="refresh" content="0;url=<?php echo esc_url(home_url('/')); ?>">
 </head>
 <body>
+<?php wp_body_open(); ?>
     <script>window.location.replace('<?php echo esc_js(home_url('/')); ?>');</script>
 </body>
 </html>

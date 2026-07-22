@@ -436,6 +436,7 @@ body {
 </style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
 <!-- Header -->
 <header class="pp-header">
