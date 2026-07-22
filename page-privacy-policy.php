@@ -484,7 +484,7 @@ body {
         <ul>
           <li>Payment card details - payments are made by bank transfer</li>
           <li>Passport or ID document details</li>
-          <li>Tracking or profiling cookies</li>
+          <li>Advertising, remarketing or profiling cookies</li>
         </ul>
       </div>
     </section>
@@ -635,8 +635,44 @@ body {
         </div>
         <h2>Cookies</h2>
       </div>
-      <p>We use only essential technical cookies required for the site to function (e.g. WordPress session cookies for the admin panel). We do not use cookies for tracking, profiling, or targeted advertising.</p>
-      <p>If we add analytics in the future (e.g. Google Analytics 4), we will update this policy and display a consent banner in accordance with GDPR requirements.</p>
+
+      <style>
+        .pp-cookie-table { width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:14px; }
+        .pp-cookie-table th, .pp-cookie-table td { text-align:left; padding:10px 12px; border-bottom:1px solid rgba(0,0,0,.1); vertical-align:top; }
+        .pp-cookie-table th { font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; opacity:.7; }
+        .pp-cookie-table code { font-size:13px; }
+        .pp-cookie-wrap { overflow-x:auto; }
+      </style>
+
+      <p>Cookies are small files a site stores in your browser. We split them into <strong>essential</strong> ones, without which the site cannot work, and <strong>analytics</strong> ones, which we set <strong>only with your consent</strong>.</p>
+
+      <h3>Essential</h3>
+      <p>These are always set, because the site does not work without them. They do not require consent under Article 5(3) of the ePrivacy Directive.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Name</th><th>Purpose</th><th>Duration</th></tr>
+        <tr><td><code>esc_consent</code></td><td>Remembers your cookie choice so we do not ask on every visit</td><td>12 months</td></tr>
+        <tr><td><code>esc-lang</code></td><td>Remembers the language you selected (Serbian / English)</td><td>12 months</td></tr>
+        <tr><td><code>esc_booking_draft</code><br><small>(sessionStorage)</small></td><td>Keeps an unfinished booking form so your input is not lost if you reload</td><td>4 hours or until the tab closes</td></tr>
+        <tr><td><code>esc_bp</code><br><small>(sessionStorage)</small></td><td>Passes booking details to the confirmation page</td><td>Until the tab closes</td></tr>
+      </table>
+      </div>
+
+      <h3>Analytics - with consent only</h3>
+      <p>We use <strong>Google Analytics 4</strong> through Google Tag Manager to see which pages people visit and what needs fixing. <strong>Until you consent, none of these cookies are set</strong> - we use Google Consent Mode, which keeps them denied by default.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Name</th><th>Purpose</th><th>Duration</th></tr>
+        <tr><td><code>_ga</code></td><td>Distinguishes visitors from one another</td><td>2 years</td></tr>
+        <tr><td><code>_ga_*</code></td><td>Maintains session state</td><td>2 years</td></tr>
+      </table>
+      </div>
+      <p>We do not use cookies for advertising, remarketing or profiling. In our Consent Mode configuration, <code>ad_storage</code>, <code>ad_user_data</code> and <code>ad_personalization</code> are permanently denied.</p>
+      <p>Data is processed by Google Ireland Limited. For more information see the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
+
+      <h3>Changing your choice</h3>
+      <p>You can change your decision at any time - use <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Cookie settings</a> (the link is also in the footer of every page). You can also delete cookies through your browser settings.</p>
+      <p>Withdrawing consent is as easy as giving it, and does not affect the lawfulness of processing carried out before withdrawal.</p>
     </section>
 
     <!-- Changes -->

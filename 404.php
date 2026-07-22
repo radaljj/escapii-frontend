@@ -22,5 +22,6 @@ nocache_headers();
 <body>
 <?php wp_body_open(); ?>
     <script>window.location.replace('<?php echo esc_js(home_url('/')); ?>');</script>
+<?php wp_footer(); ?>
 </body>
 </html>

@@ -4033,6 +4033,7 @@
     <div class="footer-bottom-links">
       <a href="/uslovi-koriscenja" data-i18n="footer.terms">Uslovi korišćenja</a>
       <a href="/politika-privatnosti" data-i18n="footer.privacy">Politika privatnosti</a>
+      <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()" data-i18n="footer.cookies">Kolačići</a>
     </div>
   </div>
 </footer>

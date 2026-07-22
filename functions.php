@@ -8,6 +8,9 @@ function esc_coming_soon_gate() {
     if (wp_doing_ajax())      return; // AJAX pozivi
     if (current_user_can('manage_options')) return; // ulogovani admin
     nocache_headers();
+    // Banner za kolačiće se na ovoj strani prikazuje u sitnoj varijanti -
+    // stranica je svedena na jednu formu, pa puna traka previše odvlači.
+    define('ESC_IS_COMING_SOON', true);
     include get_template_directory() . '/coming-soon.php';
     exit;
 }
@@ -402,7 +405,38 @@ function esc_gtm_enabled(): bool {
     return !is_admin() && !is_user_logged_in() && !is_preview();
 }
 
-add_action('wp_head', 'esc_gtm_head', 1);   // prioritet 1 = što više u <head>
+/**
+ * Consent Mode v2 - MORA da se izvrši pre GTM skripte, zato prioritet 0.
+ * Podrazumevano je sve odbijeno: GTM se učita, ali ne postavlja nijedan
+ * analitički kolačić dok korisnik ne klikne "Prihvatam".
+ *
+ * Ako je korisnik ranije već odlučio, odluku primenjujemo odmah ovde iz
+ * kolačića - da ne bude trenutka u kom je stanje pogrešno.
+ */
+add_action('wp_head', 'esc_consent_mode_default', 0);
+function esc_consent_mode_default() {
+    if (!esc_gtm_enabled()) return;
+    $choice = $_COOKIE['esc_consent'] ?? '';
+    $granted = ($choice === 'granted') ? 'granted' : 'denied';
+    ?>
+<!-- Consent Mode (default: denied) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: '<?php echo esc_js($granted); ?>',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+</script>
+    <?php
+}
+
+add_action('wp_head', 'esc_gtm_head', 1);   // prioritet 1 = odmah posle consent default-a
 function esc_gtm_head() {
     if (!esc_gtm_enabled()) return;
     ?>
@@ -425,4 +459,11 @@ function esc_gtm_body() {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <?php
+}
+
+/** Banner za saglasnost - na svakoj javnoj strani, ista logika svuda. */
+add_action('wp_footer', 'esc_cookie_banner');
+function esc_cookie_banner() {
+    if (!esc_gtm_enabled()) return;
+    include get_template_directory() . '/inc/cookie-consent.php';
 }

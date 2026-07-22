@@ -78,6 +78,7 @@ $_f_home = rtrim(home_url('/'), '/');
     <div class="footer-bottom-links">
       <a href="<?php echo esc_url($_f_home); ?>/uslovi-koriscenja/">Uslovi korišćenja</a>
       <a href="<?php echo esc_url($_f_home); ?>/politika-privatnosti/">Politika privatnosti</a>
+      <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Podešavanja kolačića</a>
     </div>
   </div>
 </footer>

@@ -547,7 +547,7 @@ body {
         <ul>
           <li>Podatke o platnoj kartici - plaćanje se vrši bankovnim transferom</li>
           <li>Brojeve pasoša niti kopije putnih isprava</li>
-          <li>Kolačiće za praćenje ili profilisanje korisnika</li>
+          <li>Kolačiće za oglašavanje, remarketing ili profilisanje korisnika</li>
         </ul>
       </div>
     </section>
@@ -698,8 +698,44 @@ body {
         </div>
         <h2>Kolačići (Cookies)</h2>
       </div>
-      <p>Koristimo isključivo tehničke kolačiće neophodne za funkcionisanje sajta (npr. WordPress sesija za admin panel). Ne koristimo kolačiće za praćenje, profilisanje ili ciljano oglašavanje korisnika.</p>
-      <p>Ukoliko u budućnosti dodamo analitiku (npr. Google Analytics 4), ažuriraćemo ovu politiku i prikazaćemo banner za saglasnost u skladu sa GDPR zahtevima.</p>
+
+      <style>
+        .pp-cookie-table { width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:14px; }
+        .pp-cookie-table th, .pp-cookie-table td { text-align:left; padding:10px 12px; border-bottom:1px solid rgba(0,0,0,.1); vertical-align:top; }
+        .pp-cookie-table th { font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; opacity:.7; }
+        .pp-cookie-table code { font-size:13px; }
+        .pp-cookie-wrap { overflow-x:auto; }
+      </style>
+
+      <p>Kolačići su male datoteke koje sajt čuva u tvom pregledaču. Delimo ih na <strong>neophodne</strong>, koji su nužni da sajt uopšte radi, i <strong>analitičke</strong>, koje postavljamo <strong>samo uz tvoju saglasnost</strong>.</p>
+
+      <h3>Neophodni</h3>
+      <p>Ovi se postavljaju uvek, jer bez njih sajt ne funkcioniše. Za njih se saglasnost ne traži, u skladu sa članom 5(3) ePrivacy direktive.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Naziv</th><th>Svrha</th><th>Trajanje</th></tr>
+        <tr><td><code>esc_consent</code></td><td>Pamti tvoju odluku o kolačićima, da te ne pitamo pri svakoj poseti</td><td>12 meseci</td></tr>
+        <tr><td><code>esc-lang</code></td><td>Pamti izabrani jezik (srpski / engleski)</td><td>12 meseci</td></tr>
+        <tr><td><code>esc_booking_draft</code><br><small>(sessionStorage)</small></td><td>Čuva nedovršen unos u rezervaciji, da se podaci ne izgube ako osvežiš stranicu</td><td>4 sata ili do zatvaranja kartice</td></tr>
+        <tr><td><code>esc_bp</code><br><small>(sessionStorage)</small></td><td>Prenosi podatke o rezervaciji na stranicu potvrde</td><td>Do zatvaranja kartice</td></tr>
+      </table>
+      </div>
+
+      <h3>Analitički - samo uz saglasnost</h3>
+      <p>Koristimo <strong>Google Analytics 4</strong> preko Google Tag Manager-a, da bismo videli koje stranice se posećuju i šta na sajtu ne radi kako treba. <strong>Dok ne daš saglasnost, nijedan od ovih kolačića se ne postavlja</strong> - koristimo Google Consent Mode, koji ih drži isključenima po podrazumevanom podešavanju.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Naziv</th><th>Svrha</th><th>Trajanje</th></tr>
+        <tr><td><code>_ga</code></td><td>Razlikuje posetioce međusobno</td><td>2 godine</td></tr>
+        <tr><td><code>_ga_*</code></td><td>Održava stanje posete</td><td>2 godine</td></tr>
+      </table>
+      </div>
+      <p>Ne koristimo kolačiće za oglašavanje, remarketing ni profilisanje. U Consent Mode podešavanjima su <code>ad_storage</code>, <code>ad_user_data</code> i <code>ad_personalization</code> trajno isključeni.</p>
+      <p>Podaci se obrađuju od strane Google Ireland Limited. Više informacija: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google politika privatnosti</a>.</p>
+
+      <h3>Kako da promeniš odluku</h3>
+      <p>Odluku možeš promeniti u bilo kom trenutku - klikni na <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Podešavanja kolačića</a> (link postoji i u podnožju svake stranice). Kolačiće možeš obrisati i kroz podešavanja svog pregledača.</p>
+      <p>Povlačenje saglasnosti je jednako jednostavno kao i davanje, i ne utiče na zakonitost obrade pre povlačenja.</p>
     </section>
 
     <!-- Izmene -->
