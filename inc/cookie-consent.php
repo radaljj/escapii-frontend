@@ -87,8 +87,8 @@ $_cc_mini = defined('ESC_IS_COMING_SOON') ? ' esc-cc--mini' : '';
      aria-label="Saglasnost za kolačiće">
   <p class="esc-cc-title">Kolačići</p>
   <p class="esc-cc-text">
-    <span class="esc-cc-full">Neki kolačići su nužni da sajt radi. </span>Ako se slažeš, brojali
-    bismo i posete - da znamo koliko vas ima i šta da popravimo.<span class="esc-cc-full">
+    Koristimo kolačiće kako bismo poboljšali vaše iskustvo na sajtu.
+    Analitičke postavljamo samo uz vašu saglasnost.<span class="esc-cc-full">
     <a href="<?php echo esc_url($_cc_home); ?>/politika-privatnosti/#kolacici">Detaljnije</a></span>
   </p>
   <div class="esc-cc-actions">
