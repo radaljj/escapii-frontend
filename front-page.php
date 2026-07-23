@@ -1704,6 +1704,10 @@
     .extra-card.on .extra-toggle { background: var(--accent); }
     .extra-card.on .extra-toggle::after { transform: translateX(20px); }
 
+    /* Privatni termin: presedanje je uvek prihvaćeno (traži se let za tačno
+       zadati datum), pa se izbor ne nudi - vidi checkPrivateDateToken. */
+    #esc-booking.private-mode #connectingWrap { display: none; }
+
     /* Connecting flights tooltip */
     .connecting-tooltip-wrap { position: relative; }
     .connecting-tooltip {
@@ -3458,6 +3462,7 @@
             <div class="inq-badge"><span class="dot"></span><span data-i18n="inq.badge">Prilagođeni termin</span></div>
             <h3 class="inq-h" data-i18n="inq.title">Izaberi <em style="font-style:italic;color:#f0b094;">svoj</em> datum putovanja</h3>
             <p class="inq-sub" data-i18n="inq.sub">Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira privatni termin za tebe.</p>
+            <p class="inq-sub" data-i18n="inq.connecting" style="font-size:13px;opacity:.8;margin-top:-6px;">U zavisnosti od izabranog termina i dostupnosti letova, putovanje može uključivati jedno presedanje.</p>
 
             <!-- Calendar -->
             <div class="inq-field">
@@ -3668,8 +3673,9 @@
           </div>
         </div>
 
-        <!-- Presedanje - na dnu -->
-        <div class="connecting-tooltip-wrap" style="margin-top:14px;">
+        <!-- Presedanje - na dnu. Kod privatnih termina se sakriva (CSS .private-mode):
+             tamo je presedanje uvek prihvaćeno, pa nema šta da se bira. -->
+        <div class="connecting-tooltip-wrap" id="connectingWrap" style="margin-top:14px;">
           <div class="extra-card" id="ec-hasConnectingFlights" onclick="togExtra(this,'hasConnectingFlights')">
             <div class="extra-card-icon">🔄</div>
             <div class="extra-card-body">
@@ -4249,6 +4255,7 @@ const TR = {
     'inq.back':'Nazad na termine',
     'inq.badge':'Prilagođeni termin',
     'inq.title':'Izaberi svoj datum putovanja',
+    'inq.connecting':'U zavisnosti od izabranog termina i dostupnosti letova, putovanje može uključivati jedno presedanje.',
     'inq.sub':'Odaberi željeni datum polaska i broj noćenja. Naš tim proverava dostupnost i kreira prilagođeni termin za tebe.',
     'inq.date':'Datum polaska',
     'inq.nights':'Broj noćenja',
@@ -4494,6 +4501,7 @@ const TR = {
     'inq.back':'Back to dates',
     'inq.badge':'Custom Date',
     'inq.title':'Pick your own travel date',
+    'inq.connecting':'Depending on the selected dates and flight availability, the trip may include one connection.',
     'inq.sub':'Select your preferred departure date and number of nights. Our team checks availability and creates a private slot for you.',
     'inq.date':'Departure date',
     'inq.nights':'Number of nights',
@@ -7401,6 +7409,11 @@ async function checkPrivateDateToken() {
     // Ukloni token iz URL-a (bez reload-a)
     const cleanUrl = window.location.pathname + window.location.hash;
     window.history.replaceState({}, '', cleanUrl);
+
+    // Privatni termin: presedanje je uvek prihvaćeno. Kartica se sakriva CSS-om,
+    // pa vrednost mora biti postavljena ovde - inače bi ostala false.
+    // Backend to i sam forsira, ovo je samo da sažetak i cena budu tačni.
+    S.hasConnectingFlights = true;
 
     // Prikaži korak 4 - sakrij Back dugmad (korisnik ne sme da se vrati na prethodne korake)
     document.getElementById('esc-booking')?.classList.add('private-mode');
