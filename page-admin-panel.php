@@ -1377,10 +1377,24 @@ function apiErr(msg) {
 }
 
 // ══ DESTINATIONS ══
+/**
+ * Backend greške stižu kao {"error": "poruka"} (vidi GlobalExceptionHandler).
+ * Bez ovoga se prikazivalo golo "HTTP 409" umesto razloga - npr. da destinacija
+ * već postoji u terminu, ili da se termin ne može obrisati jer ima rezervacije.
+ */
+async function apiError(r, fallback) {
+  let msg = null;
+  try {
+    const j = await r.json();
+    msg = j.error || j.message;
+  } catch (e) { /* telo nije JSON - ostaje fallback */ }
+  return new Error(msg || fallback || ('Greška ' + r.status));
+}
+
 async function loadDestinations() {
   try {
     const r = await fetch(`${API}/api/admin/destinations`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    if (!r.ok) throw await apiError(r);
     ALL_DESTINATIONS = await r.json();
     renderDestTable();
   } catch (e) {
@@ -1451,7 +1465,7 @@ async function createDestination() {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${r.status}`);
+      throw new Error(err.error || err.message || `HTTP ${r.status}`);
     }
     const newDest = await r.json();
     // Upload slike ako je izabrana
@@ -1538,7 +1552,7 @@ async function saveEditDest() {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${r.status}`);
+      throw new Error(err.error || err.message || `HTTP ${r.status}`);
     }
     const imgFile = document.getElementById('editDestImg').files[0];
     if (imgFile) {
@@ -1580,7 +1594,7 @@ async function deleteDestination(id) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${r.status}`);
+      throw new Error(err.error || err.message || `HTTP ${r.status}`);
     }
     await loadDestinations();
     Swal.fire({ icon: 'success', title: 'Destinacija obrisana', timer: 1500, showConfirmButton: false, background: '#0d1b38', color: '#fff' });
@@ -1681,7 +1695,7 @@ async function addDestToTerm() {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${r.status}`);
+      throw new Error(err.error || err.message || `HTTP ${r.status}`);
     }
     document.getElementById('termDestSelect').value = '';
     await refreshTermDestList();
@@ -1699,7 +1713,7 @@ async function toggleTermDest(destId, currentActive) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `Greška ${r.status}`);
+      throw new Error(err.error || err.message || `Greška ${r.status}`);
     }
     await refreshTermDestList();
     await loadDates();
@@ -1723,7 +1737,7 @@ async function removeTermDest(destId) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || `Greška ${r.status}`);
+      throw new Error(err.error || err.message || `Greška ${r.status}`);
     }
     await refreshTermDestList();
     await loadDates();
@@ -1744,7 +1758,7 @@ async function loadDates() {
       headers: { 'X-Admin-Key': ADMIN_KEY },
       cache: 'no-store'
     });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    if (!r.ok) throw await apiError(r);
     const dates = await r.json();
     renderDatesTable(dates);
   } catch (e) {
@@ -1936,7 +1950,7 @@ async function addDate() {
     });
     if (!r.ok) {
       const err = await r.json();
-      throw new Error(err.message || 'Greška pri dodavanju');
+      throw new Error(err.error || err.message || 'Greška pri dodavanju');
     }
     await Swal.fire({ icon: 'success', title: 'Termin dodat!', text: `${fmtIso(depDate)} → ${fmtIso(retDate)} | ${airport}`, confirmButtonText: 'OK' });
     resetForm();
@@ -2755,7 +2769,7 @@ async function saveNote(id) {
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify({ adminNotes: el.value })
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     // Ažuriraj lokalni cache
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
@@ -2787,7 +2801,7 @@ async function saveDestination(id) {
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify({ destination: el.value.trim() })
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
     if (idx > -1) ALL_BOOKINGS[idx].assignedDestination = updated.assignedDestination;
@@ -2818,7 +2832,7 @@ async function saveWeatherCity(id) {
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify({ weatherCity: val })
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     if (idx > -1) ALL_BOOKINGS[idx].weatherCity = updated.weatherCity;
     msg.innerHTML = updated.weatherCity
@@ -2842,7 +2856,7 @@ async function saveAirlineName(id) {
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify({ name: val })
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     if (idx > -1) ALL_BOOKINGS[idx].airlineName = updated.airlineName;
     el.value = updated.airlineName || '';
@@ -2875,7 +2889,7 @@ async function saveAirlineCode(id) {
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify({ code: val })
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     if (idx > -1) ALL_BOOKINGS[idx].airlineBookingCode = updated.airlineBookingCode;
     el.value = updated.airlineBookingCode || '';
@@ -2901,7 +2915,7 @@ async function markRevealBoxSent(id) {
       method: 'POST',
       headers: { 'X-Admin-Key': ADMIN_KEY }
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
     if (idx > -1) ALL_BOOKINGS[idx].revealBoxSent = true;
@@ -2946,7 +2960,7 @@ async function sendInvoice(id) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || 'Greška');
+      throw new Error(err.error || err.message || 'Greška');
     }
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
@@ -2999,7 +3013,7 @@ async function uploadConfirmationDocument(id) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || 'Greška');
+      throw new Error(err.error || err.message || 'Greška');
     }
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
@@ -3036,7 +3050,7 @@ async function resendConfirmationDocument(id) {
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
-      throw new Error(err.message || 'Greška');
+      throw new Error(err.error || err.message || 'Greška');
     }
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
@@ -3261,7 +3275,7 @@ async function changeStatus(id, status) {
       method: 'PATCH',
       headers: { 'X-Admin-Key': ADMIN_KEY }
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
 
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
@@ -3487,7 +3501,7 @@ async function updateInquiryPrice(id, inputEl) {
       ? `${API}/api/admin/inquiries/${id}/price?value=${value}`
       : `${API}/api/admin/inquiries/${id}/price`;
     const resp = await fetch(url, { method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY } });
-    if (!resp.ok) throw new Error();
+    if (!resp.ok) throw await apiError(resp);
     const updated = await resp.json();
     const i = _inquiries.find(x => x.id === id);
     if (i) i.price = updated.price;
@@ -3581,7 +3595,7 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       return Swal.fire({ icon:'error', title:'Greška',
-        text: err.message || err.error || 'Kreiranje nije uspelo.',
+        text: err.error || err.message || err.error || 'Kreiranje nije uspelo.',
         background:'#0b1929', color:'#fff' });
     }
 
@@ -3655,7 +3669,7 @@ async function loadGiftVouchers() {
   const tbody = document.getElementById('giftVouchersTbody');
   try {
     const r = await fetch(`${API}/api/admin/gifts/vouchers`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     _gVouchers = await r.json();
     const pending = _gVouchers.filter(v => v.status === 'PENDING').length;
     const giftsBadge = document.getElementById('giftsBadge');
@@ -3778,7 +3792,7 @@ async function markGiftVoucherUsed(id) {
     const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/mark-used`, {
       method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
     });
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     const idx = _gVouchers.findIndex(x => x.id === id);
     if (idx !== -1) _gVouchers[idx] = updated;
