@@ -1845,6 +1845,11 @@ function renderDatesTable(dates) {
         <td>
           <button class="btn-action" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;"
             onclick="copyPrivateLink('${privateUrl}', this)">📋 Kopiraj link</button>
+          ${d.clientEmail
+            ? `<div style="margin-top:6px;font-size:11px;color:var(--gray);">
+                 <a href="mailto:${d.clientEmail}" style="color:#a5b4fc;text-decoration:none;">✉ ${d.clientEmail}</a>
+               </div>`
+            : ''}
         </td>
         <td><span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span></td>
         <td style="white-space:nowrap;">
