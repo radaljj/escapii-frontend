@@ -3809,7 +3809,7 @@
           </div>
           <div class="form-field" id="ff-phone">
             <div class="f-label"><span data-i18n="s8.phone">Telefon</span> <span class="req">*</span></div>
-            <div class="f-input-wrap"><input class="f-input" type="tel" id="fPhone" placeholder="+381641234567"></div>
+            <div class="f-input-wrap"><input class="f-input" type="tel" inputmode="tel" id="fPhone" placeholder="+381641234567" oninput="this.value=this.value.replace(/[^0-9+\-\s]/g,'');document.getElementById('ff-phone')?.classList.remove('field-error');"></div>
             <div class="field-error-msg" data-i18n="err.required"></div>
           </div>
           <div class="form-field full">
@@ -6362,24 +6362,41 @@ function updateSummaryCard() {
 }
 
 // ══════════ STEP 8 - SUBMIT
+// Prati backend @Pattern na BookingRequest.phone: ^[+]?[0-9\-\s]{6,20}$
+// (cifre, +, -, razmak; 6-20 karaktera). Zarez, slova i sl. nisu dozvoljeni -
+// ranije su prolazili klijentsku proveru (samo length>5), pa je backend vraćao
+// grešku i korisnik je video generičku "nešto nije u redu".
+const PHONE_RE = /^[+]?[0-9\-\s]{6,20}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Poruka po polju - korisnik odmah zna šta da ispravi, greška ni ne ode backendu.
+window._contactErrors = [];
 function validateContact() {
   let ok=true;
+  const errors=[];
+  const isSr = lang === 'sr';
   const fields=[
-    {id:'fFirstName',wrap:'ff-firstname',check:v=>v.trim().length>0},
-    {id:'fLastName', wrap:'ff-lastname', check:v=>v.trim().length>0},
-    {id:'fEmail',    wrap:'ff-email',    check:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())},
-    {id:'fPhone',    wrap:'ff-phone',    check:v=>v.trim().length>5},
+    {id:'fFirstName',wrap:'ff-firstname',check:v=>v.trim().length>0,
+     msg:isSr?'Unesite ime.':'Enter your first name.'},
+    {id:'fLastName', wrap:'ff-lastname', check:v=>v.trim().length>0,
+     msg:isSr?'Unesite prezime.':'Enter your last name.'},
+    {id:'fEmail',    wrap:'ff-email',    check:v=>EMAIL_RE.test(v.trim()),
+     msg:isSr?'Unesite ispravnu email adresu.':'Enter a valid email address.'},
+    {id:'fPhone',    wrap:'ff-phone',    check:v=>PHONE_RE.test(v.trim()),
+     msg:isSr?'Broj telefona sme da sadrži samo cifre, +, - i razmak.'
+             :'Phone may contain only digits, +, - and spaces.'},
   ];
   fields.forEach(f=>{
     const el=document.getElementById(f.id);
     const wrap=document.getElementById(f.wrap);
     if(!el||!wrap) return;
     if(!f.check(el.value)){
-      wrap.classList.add('field-error'); ok=false;
+      wrap.classList.add('field-error'); ok=false; errors.push(f.msg);
     } else {
       wrap.classList.remove('field-error');
     }
   });
+  window._contactErrors = errors;
 
   // Terms checkbox
   const chkTerms = document.getElementById('chkTerms');
@@ -6435,9 +6452,14 @@ function validateContact() {
 async function submitBooking() {
   if (_bookingSubmitting) return;
   if(!validateContact()) {
-    showFormAlert(lang === 'sr'
-      ? 'Molimo popunite sva obavezna polja i prihvatite uslove.'
-      : 'Please fill in all required fields and accept the terms.');
+    // Ako postoji konkretna greška polja (npr. nevaljan telefon), prikaži baš nju.
+    // Inače opšta poruka - najčešće nedostaje čekiranje uslova/saglasnosti.
+    const specific = (window._contactErrors && window._contactErrors.length)
+      ? window._contactErrors.join('<br>')
+      : (lang === 'sr'
+          ? 'Molimo popunite sva obavezna polja i prihvatite uslove.'
+          : 'Please fill in all required fields and accept the terms.');
+    showFormAlert(specific);
     return;
   }
   _bookingSubmitting = true;
