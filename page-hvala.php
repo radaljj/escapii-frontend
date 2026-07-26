@@ -472,6 +472,11 @@ function fmtDate(iso) {
   return d + '.' + m + '.' + y;
 }
 
+function escHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 // Typewriter efekat
 function typeIn(el, text, charDelay) {
   el.textContent = '';
@@ -545,8 +550,8 @@ function fillBoardingPass() {
     if (paxEl) {
       paxEl.innerHTML = paxNames.map((name, i) =>
         i === 0
-          ? `<div class="bp-pax-name">${name}</div>`
-          : `<div class="bp-pax-extra">${name}</div>`
+          ? `<div class="bp-pax-name">${escHtml(name)}</div>`
+          : `<div class="bp-pax-extra">${escHtml(name)}</div>`
       ).join('');
     }
   }, 1100);

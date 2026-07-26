@@ -3483,7 +3483,7 @@
               </div>
               <!-- Range status -->
               <div class="inq-range-status hint" id="inqRangeStatus" data-i18n="inq.range.hint">
-                Odaberi datum polaska, pa datum povratka (2 ili 3 noći)
+                Odaberi datum polaska, pa datum povratka (1-14 noći)
               </div>
             </div>
 
@@ -4273,7 +4273,7 @@ const TR = {
     'inq.err.nights':'Izaberi broj noćenja (2 ili 3 noći).',
     'inq.err.email':'Unesi validnu email adresu.',
     'inq.err.ret':'Odaberi datum povratka.',
-    'inq.range.hint':'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)',
+    'inq.range.hint':'Odaberi datum polaska, pa datum povratka (1-14 noći)',
     's4.h':'Izaberi kategoriju smeštaja', 's4.hint':'Svi naši hoteli se nalaze u blizini centra grada i/ili su u delovima grada koji su dobro povezani javnim prevozom.',
     'accom.std':'Standard', 'accom.std.p':'Uključeno', 'accom.std.d':'3★ hotel ili apartman, dobra lokacija',
     'accom.sup':'Superior', 'accom.sup.d':'4★ ili 5★, viša kategorija hotela',
@@ -4304,6 +4304,8 @@ const TR = {
     's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
+    'excl.ini.blocked.title':'Isključivanja nisu dostupna',
+    'excl.ini.blocked.msg':'Zbog dostupnosti letova iz Niša, isključivanje destinacija trenutno nije moguće.',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
     's8.h':'Kontakt podaci', 's8.hint':'Javićemo se u roku od 24 sata',
@@ -4349,8 +4351,6 @@ const TR = {
     'swal.excl.title':'Maksimalno 4 isključivanja',
     'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>',
     'swal.excl.btn':'Važi, razumem! ✈',
-    'swal.excl.ini.title':'Maksimalno 1 isključivanje',
-    'swal.excl.ini.html':'Za polaske iz Niša dostupno je maksimalno 1 isključivanje - 15€ po osobi.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
     'pr.pp': n=>`≈ ${n}€ po osobi`, 'err.price':'Nije moguće učitati cenu.',
@@ -4519,7 +4519,7 @@ const TR = {
     'inq.err.nights':'Please select 2 or 3 nights.',
     'inq.err.email':'Please enter a valid email address.',
     'inq.err.ret':'Please select a return date.',
-    'inq.range.hint':'Select departure date, then return date (2 or 3 nights)',
+    'inq.range.hint':'Select departure date, then return date (1-14 nights)',
     's4.h':'Choose accommodation category', 's4.hint':'All our hotels are located near the city center or in well-connected areas.',
     'accom.std':'Standard', 'accom.std.p':'Included', 'accom.std.d':'3★ hotel or apartment, great location',
     'accom.sup':'Superior', 'accom.sup.d':'4★ or 5★, higher category hotel',
@@ -4551,6 +4551,8 @@ const TR = {
     's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +15€ per person.',
     's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd, 3rd & 4th exclusion',
     's6.note':'Escapii tip: don\'t exclude too many destinations.',
+    'excl.ini.blocked.title':'Exclusions not available',
+    'excl.ini.blocked.msg':'Due to flight availability from Niš, excluding destinations isn\'t possible right now.',
     's7.h':'Passenger details', 's7.hint':'Enter details for each traveler',
     'price.title':'Price breakdown', 'price.total':'Total',
     's8.h':'Contact details', 's8.hint':'We\'ll get back to you within 24 hours',
@@ -4596,8 +4598,6 @@ const TR = {
     'swal.excl.title':'Maximum 4 exclusions',
     'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us - that\'s where the real surprise begins! 🌍</strong>',
     'swal.excl.btn':'OK, let\'s do it! 🚀',
-    'swal.excl.ini.title':'Maximum 1 exclusion',
-    'swal.excl.ini.html':'For departures from Niš, up to 1 exclusion is available - 15€ per person.<br><br><strong style="color:#CA8A71">Leave the rest to us - that\'s where the real surprise begins! 🌍</strong>',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
     'pr.pp': n=>`≈ ${n}€ per person`, 'err.price':'Unable to load price.',
@@ -4729,6 +4729,10 @@ function closeStatusModal() {
   document.getElementById('statusRef').value     = '';
   document.getElementById('statusSurname').value = '';
 }
+function escHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 async function checkStatus() {
   const ref     = document.getElementById('statusRef').value.trim().toUpperCase();
   const surname = document.getElementById('statusSurname').value.trim();
@@ -4823,15 +4827,15 @@ async function checkStatus() {
     resEl.innerHTML = `
       <div>
         <div class="sr-label">${lbl.leadTraveler}</div>
-        <div class="sr-name">${d.firstName}${d.lastName ? ' ' + d.lastName : ''}</div>
-        <div class="sr-ref">${d.bookingRef}</div>
+        <div class="sr-name">${escHtml(d.firstName)}${d.lastName ? ' ' + escHtml(d.lastName) : ''}</div>
+        <div class="sr-ref">${escHtml(d.bookingRef)}</div>
       </div>
       <span class="sr-badge ${d.status}">${statusLabels[d.status] || d.status}</span>
       ${countdownHtml}
       <div class="sr-info">
         <div class="sr-row">
           <span class="sr-row-label">${lbl.depAirport}</span>
-          <span class="sr-row-val">${airportNames[d.departureAirport] || d.departureAirport}</span>
+          <span class="sr-row-val">${airportNames[d.departureAirport] || escHtml(d.departureAirport)}</span>
         </div>
         <div class="sr-row">
           <span class="sr-row-label">${lbl.travelDates}</span>
@@ -4844,7 +4848,7 @@ async function checkStatus() {
         ${d.passengerNames && d.passengerNames.length ? `
         <div class="sr-row sr-row-passengers">
           <span class="sr-row-label">${lbl.names}</span>
-          <span class="sr-row-val sr-passengers">${d.passengerNames.join('<br>')}</span>
+          <span class="sr-row-val sr-passengers">${d.passengerNames.map(escHtml).join('<br>')}</span>
         </div>` : ''}
       </div>
       <div class="sr-msg ${d.status}">${statusMsgs[d.status] || ''}</div>
@@ -5798,27 +5802,25 @@ function updateExclStep() {
   renderExclGrid();
   if (S.selectedDateId) loadDestinationsForDate(S.selectedDateId);
 
-  // Ako je INI i korisnik je već izabrao >1 isključivanje, obreži na max 1
-  if (isINI && S.excludedIds.length > 1) {
-    S.excludedIds = S.excludedIds.slice(0, 1);
-    document.querySelectorAll('.excl-tile.on').forEach(t => {
-      const tileId = parseInt(t.id.replace('ex-', ''));
-      if (!S.excludedIds.includes(tileId)) t.classList.remove('on');
-    });
+  // Isključivanja su potpuno ukinuta za INI - obriši sve prethodno izabrano
+  // (npr. korisnik je promenio aerodrom nazad na INI posle BEG izbora).
+  if (isINI && S.excludedIds.length > 0) {
+    S.excludedIds = [];
+    document.querySelectorAll('.excl-tile.on').forEach(t => t.classList.remove('on'));
   }
 
   // Ažuriraj tier prikaz i hint tekst za INI vs BEG
+  const infoBlock  = document.getElementById('exclInfoBlock');
   const tier2Label = document.getElementById('exclTier2Label');
   const tier2Price = document.getElementById('exclTier2Price');
   const hint       = document.querySelector('#step6 .hint');
   const note       = document.getElementById('exclNote');
 
   if (isINI) {
-    if (tier2Label) tier2Label.textContent = lang === 'en' ? '1 exclusion (paid)' : '1 isključivanje (plaćeno)';
-    if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
-    if (hint)       hint.textContent = lang === 'en' ? 'You can exclude 1 destination (15€ per person). No free exclusion for Niš departures.' : 'Za polaske iz Niša možeš isključiti 1 destinaciju (15€ po osobi). Nema besplatnog isključivanja.';
-    if (note)       note.textContent = lang === 'en' ? 'Niš departures: max 1 exclusion at 15€/person.' : 'Polasci iz Niša: max 1 isključivanje, 15€ po osobi.';
+    if (infoBlock)  infoBlock.style.display = 'none';
+    if (hint)       hint.textContent = t('excl.ini.blocked.msg');
   } else {
+    if (infoBlock)  infoBlock.style.display = '';
     if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
     if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
     if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
@@ -5847,17 +5849,21 @@ function renderExclGrid() {
   ).join('');
 }
 function togExcl(id, event) {
+  if (S.airport === 'INI') {
+    // Isključivanja potpuno ukinuta za polaske iz Niša - friendly inline poruka, ne swal.
+    showFormAlert(t('excl.ini.blocked.msg'), t('excl.ini.blocked.title'));
+    return;
+  }
   const i = S.excludedIds.indexOf(id);
   if (i > -1) {
     // removing exclusion
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    const isINI = S.airport === 'INI';
-    const maxExcl = isINI ? 1 : 4;
+    const maxExcl = 4;
     if (S.excludedIds.length >= maxExcl) {
-      const exclTitleKey = isINI ? 'swal.excl.ini.title' : 'swal.excl.title';
-      const exclHtmlKey  = isINI ? 'swal.excl.ini.html'  : 'swal.excl.html';
+      const exclTitleKey = 'swal.excl.title';
+      const exclHtmlKey  = 'swal.excl.html';
       Swal.fire({
         background: '#2D5F6B',
         color: '#fff',
@@ -6733,7 +6739,7 @@ window.addEventListener('load', equalFeatCards);
 window.addEventListener('resize', equalFeatCards);
 
 // ══════════════════════════════════════════════════════════════════
-// CUSTOM DATE INQUIRY - range calendar picker (2 or 3 nights only)
+// CUSTOM DATE INQUIRY - range calendar picker (1-14 nights)
 // ══════════════════════════════════════════════════════════════════
 
 let _inqSubmitting = false;
@@ -6785,8 +6791,8 @@ function updateInqRangeStatus() {
   if (!_inqDep && !_inqRet) {
     el.className += ' hint';
     el.textContent = lang==='sr'
-      ? 'Odaberi datum polaska, pa datum povratka (2 ili 3 noći)'
-      : 'Select departure, then return date (2 or 3 nights)';
+      ? 'Odaberi datum polaska, pa datum povratka (1-14 noći)'
+      : 'Select departure, then return date (1-14 nights)';
   } else if (_inqDep && !_inqRet) {
     el.className += ' dep-set';
     el.innerHTML = (lang==='sr'
@@ -6809,7 +6815,7 @@ function updateInqHoverClasses() {
     const d   = new Date(ts);
     btn.classList.remove('in-range-preview', 'dep-hover');
     if (!_inqDep || _inqRet || !_inqHover) return;
-    if (d > _inqDep && d < _inqHover && (hoverDiff === 2 || hoverDiff === 3))
+    if (d > _inqDep && d < _inqHover && (hoverDiff >= 1 && hoverDiff <= 14))
       btn.classList.add('in-range-preview');
     if (d.toDateString() === _inqHover.toDateString() && hoverDiff > 0)
       btn.classList.add('dep-hover');
@@ -6875,7 +6881,7 @@ function renderInqCalendar() {
     // Hover preview: if dep is set, ret isn't, and user is hovering
     if (_inqDep && !_inqRet && _inqHover) {
       const diff = inqDateDiff(_inqDep, _inqHover);
-      if ((diff === 2 || diff === 3) && date > _inqDep && date < _inqHover) cls += ' in-range-preview';
+      if ((diff >= 1 && diff <= 14) && date > _inqDep && date < _inqHover) cls += ' in-range-preview';
       if (date.toDateString() === _inqHover.toDateString() && diff > 0) cls += ' dep-hover';
     }
 
@@ -6892,7 +6898,7 @@ function renderInqCalendar() {
         if (diff < 1) {
           // Clicked before or on departure - restart
           _inqDep = date; _inqRet = null;
-        } else if (diff === 2 || diff === 3) {
+        } else if (diff >= 1 && diff <= 14) {
           _inqRet = date;
         } else {
           // Invalid range - show error in status
@@ -6900,8 +6906,8 @@ function renderInqCalendar() {
           if (statusEl) {
             statusEl.className = 'inq-range-status invalid';
             statusEl.innerHTML = lang==='sr'
-              ? `⚠️ Moguće je odabrati samo <strong>2 ili 3 noći</strong>. Pokušaj ponovo.`
-              : `⚠️ Only <strong>2 or 3 nights</strong> are allowed. Try again.`;
+              ? `⚠️ Moguće je odabrati od <strong>1 do 14 noći</strong>. Pokušaj ponovo.`
+              : `⚠️ Only <strong>1 to 14 nights</strong> are allowed. Try again.`;
             setTimeout(() => updateInqRangeStatus(), 2500);
           }
           return; // don't re-render, keep dep selected

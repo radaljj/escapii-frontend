@@ -2429,7 +2429,7 @@ function buildPassengersSection(passengers) {
       : `<span class="bc-passport-ok" title="Pasoš validan">✓</span>`;
 
     const passportInfo = p.passportNumber
-      ? `<span>${passportIcon} Pasoš: <strong>${p.passportNumber}</strong></span>`
+      ? `<span>${passportIcon} Pasoš: <strong>${escHtml(p.passportNumber)}</strong></span>`
       : `<span style="opacity:.45;">Broj pasoša nije unesen</span>`;
 
     const dobInfo = dob
@@ -2437,14 +2437,14 @@ function buildPassengersSection(passengers) {
       : '';
 
     const visaInfo = p.visaInfo
-      ? `<span>🛂 Vize: <strong>${p.visaInfo}</strong></span>`
+      ? `<span>🛂 Vize: <strong>${escHtml(p.visaInfo)}</strong></span>`
       : '';
 
     return `
       <div class="bc-passenger-row">
         <div class="bc-passenger-name">
           <span class="bc-passenger-num">${i + 1}</span>
-          ${p.name}
+          ${escHtml(p.name || '')}
           <span class="bc-passenger-gender ${p.gender || ''}">${p.gender === 'F' ? 'Ž' : p.gender || '-'}</span>
         </div>
         <div class="bc-passenger-meta">
@@ -2514,9 +2514,9 @@ function buildBookingDetail(b) {
     </div>
 
     <div class="bc-body">
-      <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${b.firstName} ${b.lastName}</div></div>
-      <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${b.email}</div></div>
-      <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${b.phone}</div></div>
+      <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')}</div></div>
+      <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${escHtml(b.email || '')}</div></div>
+      <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${escHtml(b.phone || '')}</div></div>
       <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
       <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
       <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
@@ -2567,16 +2567,16 @@ function buildBookingDetail(b) {
       </div>
     </div>
 
-    ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${b.notes}</em></div>` : ''}
+    ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${escHtml(b.notes)}</em></div>` : ''}
 
     ${b.hasRevealBox ? `
     <div class="bc-reveal-box-section" id="rbs-${b.id}">
       <div class="bc-reveal-box-header">📦 Reveal Box - adresa dostave</div>
       <div class="bc-reveal-box-body">
-        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${b.deliveryAddress || '-'}</span></div>
-        ${b.deliveryApartment ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Stan/sprat</span><span>${b.deliveryApartment}</span></div>` : ''}
-        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${b.deliveryCity || '-'}</span></div>
-        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${b.deliveryPhone || '-'}</span></div>
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Adresa</span><span>${escHtml(b.deliveryAddress || '-')}</span></div>
+        ${b.deliveryApartment ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Stan/sprat</span><span>${escHtml(b.deliveryApartment)}</span></div>` : ''}
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Grad</span><span>${escHtml(b.deliveryCity || '-')}</span></div>
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Telefon</span><span>${escHtml(b.deliveryPhone || '-')}</span></div>
         <div style="margin-top:12px;">
           ${b.revealBoxSent
             ? `<span style="color:#4ade80;font-size:13px;font-weight:700;">✅ Reveal Box poslan</span>`
@@ -2705,8 +2705,8 @@ function renderBookings() {
           ${b.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}</div>` : ''}
         </td>
         <td>
-          <strong>${b.firstName} ${b.lastName}</strong>
-          <div style="font-size:11px;color:var(--gray);margin-top:1px;">${b.email}</div>
+          <strong>${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')}</strong>
+          <div style="font-size:11px;color:var(--gray);margin-top:1px;">${escHtml(b.email || '')}</div>
         </td>
         <td>${depDate} → ${retDate}</td>
         <td style="font-size:12px;color:var(--gray);">${created}</td>
@@ -3426,7 +3426,12 @@ function renderInquiries() {
         <td style="white-space:nowrap;font-size:12px;color:var(--gray);">${createdShort}</td>
         <td><strong>${i.airport}</strong></td>
         <td style="text-align:center;">${i.travelers}</td>
-        <td style="white-space:nowrap;">${period} <span style="color:var(--gray);font-size:11px;">${i.nights}🌙</span></td>
+        <td style="white-space:nowrap;">${period} <span style="color:var(--gray);font-size:11px;">${i.nights}🌙</span>
+          <button onclick="promptEditInquiryDate(${i.id}, '${rawDepISO}', ${i.nights})" title="Izmeni datum" style="
+            margin-left:4px;padding:2px 6px;border-radius:5px;font-size:11px;background:transparent;
+            border:1px solid rgba(255,255,255,.15);color:var(--gray);cursor:pointer;
+          ">✏️</button>
+        </td>
         <td><a href="mailto:${i.email}" style="color:#60a5fa;word-break:break-all;">${i.email}</a></td>
         <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '-'}</td>
         <td>
@@ -3653,6 +3658,65 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
 
     loadDates();
 
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text:'Mrežna greška. Pokušaj ponovo.', background:'#0b1929', color:'#fff' });
+  }
+}
+
+/**
+ * Izmena traženog datuma/noćenja na upitu PRE kreiranja privatnog termina - npr.
+ * klijent traži datum koji nema dobrih opcija, admin se dogovori telefonom za drugi
+ * datum, pa izmeni upit ovde. promptMakePrivate() posle čita ažurirane vrednosti.
+ */
+async function promptEditInquiryDate(inquiryId, currentDepISO, currentNights) {
+  const { value: formValues } = await Swal.fire({
+    title: '✏️ Izmeni traženi datum',
+    html: `
+      <p style="margin-bottom:10px;font-size:13px;color:#aaa;">Upit #${inquiryId} - koristi ovo ako se dogovoriš sa klijentom za drugi termin.</p>
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Datum polaska:</label>
+      <input id="swal-edit-date" type="date" value="${currentDepISO}"
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Broj noćenja (1-14):</label>
+      <input id="swal-edit-nights" type="number" min="1" max="14" value="${currentNights}"
+        style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+    `,
+    showCancelButton: true,
+    confirmButtonText: '💾 Sačuvaj datum',
+    confirmButtonColor: '#1a4a5a',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    preConfirm: () => {
+      const date   = document.getElementById('swal-edit-date').value;
+      const nights = parseInt(document.getElementById('swal-edit-nights').value);
+      if (!date) { Swal.showValidationMessage('Datum polaska je obavezan.'); return false; }
+      if (new Date(date) <= new Date(new Date().toDateString())) {
+        Swal.showValidationMessage('Datum polaska mora biti u budućnosti.'); return false;
+      }
+      if (!nights || nights < 1 || nights > 14) {
+        Swal.showValidationMessage('Broj noćenja mora biti između 1 i 14.'); return false;
+      }
+      return { date, nights };
+    }
+  });
+
+  if (!formValues) return;
+
+  try {
+    const res = await fetch(
+      `${API}/api/admin/inquiries/${inquiryId}/date?desiredDepartureDate=${formValues.date}&nights=${formValues.nights}`,
+      { method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY } }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return Swal.fire({ icon:'error', title:'Greška',
+        text: err.error || 'Izmena datuma nije uspela.', background:'#0b1929', color:'#fff' });
+    }
+    const updated = await res.json();
+    const i = _inquiries.find(x => x.id === inquiryId);
+    if (i) { i.desiredDepartureDate = updated.desiredDepartureDate; i.nights = updated.nights; }
+    renderInquiries();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Datum ažuriran',
+      showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
   } catch(e) {
     Swal.fire({ icon:'error', title:'Greška', text:'Mrežna greška. Pokušaj ponovo.', background:'#0b1929', color:'#fff' });
   }

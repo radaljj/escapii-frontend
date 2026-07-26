@@ -232,7 +232,7 @@ function escapii_serve_sitemap() {
     $h = trailingslashit(home_url('/'));
     $pages = [
         ['loc' => $h,               'priority' => '1.0', 'freq' => 'weekly'],
-        ['loc' => $h . 'pokloni/', 'priority' => '0.8', 'freq' => 'monthly'],
+        ['loc' => $h . 'pokloni-putovanje-iznenadjenja/', 'priority' => '0.8', 'freq' => 'monthly'],
         ['loc' => $h . 'faq/',     'priority' => '0.7', 'freq' => 'monthly'],
         ['loc' => $h . 'blog/',    'priority' => '0.7', 'freq' => 'weekly'],
     ];

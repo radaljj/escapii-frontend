@@ -114,6 +114,10 @@
 (function() {
   var _STATUS_API = '<?php echo esc_js(escapii_api_url()); ?>';
   var _lang = function() { return (typeof lang !== 'undefined' ? lang : null) || localStorage.getItem('esc-lang') || 'sr'; };
+  var escHtml = function(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  };
 
   window.openStatusModal = function() {
     document.getElementById('statusModal').classList.add('open');
@@ -205,16 +209,16 @@
       resEl.innerHTML =
         '<div>' +
           '<div class="sr-label">' + lbl.leadTraveler + '</div>' +
-          '<div class="sr-name">' + d.firstName + (d.lastName ? ' ' + d.lastName : '') + '</div>' +
-          '<div class="sr-ref">' + d.bookingRef + '</div>' +
+          '<div class="sr-name">' + escHtml(d.firstName) + (d.lastName ? ' ' + escHtml(d.lastName) : '') + '</div>' +
+          '<div class="sr-ref">' + escHtml(d.bookingRef) + '</div>' +
         '</div>' +
         '<span class="sr-badge ' + d.status + '">' + (statusLabels[d.status] || d.status) + '</span>' +
         countdownHtml +
         '<div class="sr-info">' +
-          '<div class="sr-row"><span class="sr-row-label">' + lbl.depAirport + '</span><span class="sr-row-val">' + (airportNames[d.departureAirport] || d.departureAirport) + '</span></div>' +
+          '<div class="sr-row"><span class="sr-row-label">' + lbl.depAirport + '</span><span class="sr-row-val">' + (airportNames[d.departureAirport] || escHtml(d.departureAirport)) + '</span></div>' +
           '<div class="sr-row"><span class="sr-row-label">' + lbl.travelDates + '</span><span class="sr-row-val">' + depStr + ' → ' + retStr + '</span></div>' +
           '<div class="sr-row"><span class="sr-row-label">' + lbl.travelers + '</span><span class="sr-row-val">' + d.numberOfTravelers + '</span></div>' +
-          (d.passengerNames && d.passengerNames.length ? '<div class="sr-row sr-row-passengers"><span class="sr-row-label">' + lbl.names + '</span><span class="sr-row-val sr-passengers">' + d.passengerNames.join('<br>') + '</span></div>' : '') +
+          (d.passengerNames && d.passengerNames.length ? '<div class="sr-row sr-row-passengers"><span class="sr-row-label">' + lbl.names + '</span><span class="sr-row-val sr-passengers">' + d.passengerNames.map(escHtml).join('<br>') + '</span></div>' : '') +
         '</div>' +
         '<div class="sr-msg ' + d.status + '">' + (statusMsgs[d.status] || '') + '</div>';
 

@@ -38,7 +38,7 @@ $_nav_uri  = get_template_directory_uri();
   </div>
 </nav>
 <div class="sec-gift-drop" id="secGiftDrop">
-  <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni/';" type="button">
+  <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni-putovanje-iznenadjenja/';" type="button">
     <span class="nav-gift-item-icon">🎁</span>
     <span class="nav-gift-item-text">
       <span class="nav-gift-item-label" data-i18n="nav.gift.offer">Pokloni putovanje iznenađenja</span>
@@ -73,7 +73,7 @@ $_nav_uri  = get_template_directory_uri();
         <span class="mob-gift-caret">▾</span>
       </button>
       <div class="mob-gift-sub" id="mobGiftSub">
-        <button class="mob-gift-sub-btn" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni/'" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
+        <button class="mob-gift-sub-btn" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni-putovanje-iznenadjenja/'" data-i18n="nav.gift.offer" type="button">🎁 Pokloni putovanje iznenađenja</button>
         <button class="mob-gift-sub-btn" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/poklon/'" data-i18n="nav.gift.redeem" type="button">🔓 Iskoristi poklon</button>
       </div>
     </div>
