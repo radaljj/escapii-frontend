@@ -1221,20 +1221,23 @@ function openEnv() {
   // otvaranja koverte, koja mora da krene glatko odmah.
   requestAnimationFrame(addScratchCard);
 
-  // Confetti + takeoff plane
+  // Confetti + takeoff plane - avion kreće TEK kad se envelope-flap (0-1200ms) i
+  // ticket-rise (550-1750ms) animacije potpuno smire, ne dok su još u toku. Dok se
+  // avion-canvas (position:fixed preko celog ekrana) kompozituje SVAKI frejm istovremeno
+  // sa transform-animacijom u toku ispod njega, to je vidljivo sečenje/bag baš na avionu.
   setTimeout(spawnConfetti, 1200);
-  setTimeout(launchTakeoff,  1400);
+  setTimeout(launchTakeoff,  1850);
 }
 
 /* ── Confetti ── */
 function spawnConfetti(){
   const syms   = ['✦','✈','★','✦','●'];
   const colors = ['#CA8A71','#f97316','#fbbf24','#fff','#fb923c'];
-  // Grupno ubacivanje kroz DocumentFragment - 40 pojedinačnih appendChild poziva
-  // pravi 40 reflow-a baš dok je koverta usred animacije otvaranja; ovako je samo 1.
+  // Grupno ubacivanje kroz DocumentFragment (1 reflow umesto N), i manje elemenata
+  // (22 umesto 40) - manje toga se kompozituje istovremeno dok avion-canvas leti preko.
   const frag = document.createDocumentFragment();
   const els  = [];
-  for(let i=0;i<40;i++){
+  for(let i=0;i<22;i++){
     const el = document.createElement('div');
     el.className = 'confetti-el';
     el.textContent = syms[Math.floor(Math.random()*syms.length)];
