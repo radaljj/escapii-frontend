@@ -125,6 +125,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       position: relative; z-index: 10;
       opacity: 0; animation: fadeUp 0.7s ease 0.8s both;
       transition: transform 0.7s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
     }
     .envelope-wrap.shifted { transform: translateY(110px); }
 
@@ -206,6 +207,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       transform-origin: top center;
       transform-style: preserve-3d;
       transition: transform 1.2s cubic-bezier(.4,0,.15,1);
+      will-change: transform;
       /* When rotated past 90° the back face must be invisible so it
          doesn't cover the ticket that's sliding out from underneath */
       backface-visibility: hidden;
@@ -277,6 +279,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      will-change: transform;
     }
 
     /* Slide ticket upward - NO z-index change, env-base naturally hides inside portion */
@@ -1011,10 +1014,14 @@ let opened = false, errorShown = false, revealData = null;
 window.onerror = function() { showError(0); return true; };
 window.addEventListener('unhandledrejection', function() { showError(0); });
 
-/* ── Starfield ── */
+/* ── Starfield ──
+   Pauziran tokom otvaranja koverte + poletanja aviona (pauseSky/resumeSky ispod) -
+   dva puna canvas-a preko celog ekrana koja crtaju istovremeno (zvezde + avion)
+   su glavni uzrok "bagovanja" baš u tom prozoru na slabijim telefonima, a zvezde
+   se ionako ne primećuju dok je pažnja na koverti/avionu. */
 (function(){
   const c = document.getElementById('sky'), ctx = c.getContext('2d');
-  let stars = [];
+  let stars = [], paused = false, raf = null;
   function resize(){ c.width = innerWidth; c.height = innerHeight; }
   function init(){
     stars = Array.from({length:150}, () => ({
@@ -1033,10 +1040,20 @@ window.addEventListener('unhandledrejection', function() { showError(0); });
       ctx.fillStyle = s.accent ? `rgba(202,138,113,${s.a*.7})` : `rgba(255,255,255,${s.a*.65})`;
       ctx.fill();
     });
-    requestAnimationFrame(draw);
+    raf = requestAnimationFrame(draw);
   }
   resize(); init(); draw();
   addEventListener('resize',()=>{resize();init();});
+  window.pauseSky = function(){
+    if (paused) return;
+    paused = true;
+    if (raf) cancelAnimationFrame(raf);
+  };
+  window.resumeSky = function(){
+    if (!paused) return;
+    paused = false;
+    draw();
+  };
 })();
 
 /* ── Helpers ── */
@@ -1174,6 +1191,11 @@ function openEnv() {
   if (opened) return;
   opened = true;
 
+  // Pauziraj pozadinske zvezde dok traje otvaranje + poletanje aviona - dva puna
+  // canvas-a preko celog ekrana istovremeno su glavni uzrok bagovanja na telefonu
+  // baš u ovom prozoru. resumeSky() se poziva kad se avion sleti (launchTakeoff).
+  if (window.pauseSky) window.pauseSky();
+
   const env     = document.getElementById('env');
   const envWrap = document.getElementById('rvEnvWrap');
   const hint    = document.getElementById('hint');
@@ -1193,9 +1215,11 @@ function openEnv() {
     if (t) t.style.zIndex = '20';
   }, 1700);
 
-  // Add scratch card IMMEDIATELY - canvas covers ticket-body from the start,
-  // so the white background is never visible (even while ticket is still inside).
-  addScratchCard();
+  // Scratch canvas treba da postoji pre nego što korisnik uopšte vidi ticket-body,
+  // ali njegovo iscrtavanje (gradient + linije + tekst) je sinhrono i teško - odloženo
+  // na sledeći frejm (requestAnimationFrame) da ne blokira PRVI frejm CSS animacije
+  // otvaranja koverte, koja mora da krene glatko odmah.
+  requestAnimationFrame(addScratchCard);
 
   // Confetti + takeoff plane
   setTimeout(spawnConfetti, 1200);
@@ -1206,6 +1230,10 @@ function openEnv() {
 function spawnConfetti(){
   const syms   = ['✦','✈','★','✦','●'];
   const colors = ['#CA8A71','#f97316','#fbbf24','#fff','#fb923c'];
+  // Grupno ubacivanje kroz DocumentFragment - 40 pojedinačnih appendChild poziva
+  // pravi 40 reflow-a baš dok je koverta usred animacije otvaranja; ovako je samo 1.
+  const frag = document.createDocumentFragment();
+  const els  = [];
   for(let i=0;i<40;i++){
     const el = document.createElement('div');
     el.className = 'confetti-el';
@@ -1218,9 +1246,11 @@ function spawnConfetti(){
     el.style.setProperty('--delay', (Math.random()*.65)+'s');
     el.style.setProperty('--tx',    (Math.random()*220-110)+'px');
     el.style.setProperty('--rot',   (Math.random()*700-350)+'deg');
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(), 4000);
+    frag.appendChild(el);
+    els.push(el);
   }
+  document.body.appendChild(frag);
+  setTimeout(()=>els.forEach(el=>el.remove()), 4000);
 }
 
 /* ── Takeoff plane ── */
@@ -1271,7 +1301,10 @@ function launchTakeoff(){
     }
     plane(px,py,angle,sc,alpha);
     if(t<1) requestAnimationFrame(frame);
-    else { canvas.classList.remove('active'); ctx.clearRect(0,0,W,H); }
+    else {
+      canvas.classList.remove('active'); ctx.clearRect(0,0,W,H);
+      if (window.resumeSky) window.resumeSky();
+    }
   }
   requestAnimationFrame(frame);
 }
