@@ -1411,14 +1411,14 @@ function renderDestTable() {
   }
   tbody.innerHTML = ALL_DESTINATIONS.map(d => {
     const imgHtml = d.imageUrl
-      ? `<img src="${d.imageUrl}" alt="${d.name}" style="width:56px;height:40px;object-fit:cover;border-radius:6px;display:block;">`
+      ? `<img src="${escHtml(d.imageUrl)}" alt="${escHtml(d.name || '')}" style="width:56px;height:40px;object-fit:cover;border-radius:6px;display:block;">`
       : `<div style="width:56px;height:40px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:20px;">✈️</div>`;
     return `
     <tr>
       <td><span style="color:var(--gray);font-size:12px;">#${d.id}</span></td>
       <td>${imgHtml}</td>
-      <td><strong>${d.name}</strong></td>
-      <td>${d.country}</td>
+      <td><strong>${escHtml(d.name || '')}</strong></td>
+      <td>${escHtml(d.country || '')}</td>
       <td><span class="badge badge-gray">${d.airportCode}</span></td>
       <td>${(d.departureAirports||[]).sort().map(a => `<span class="badge badge-accent">${a}</span>`).join(' ')}</td>
       <td style="white-space:nowrap;">
@@ -1505,7 +1505,7 @@ function openEditDest(id) {
   document.getElementById('editDestImg').value     = '';
   const preview = document.getElementById('editDestImgPreview');
   preview.innerHTML = d.imageUrl
-    ? `<img src="${d.imageUrl}" style="height:72px;border-radius:8px;object-fit:cover;" alt="${d.name}">
+    ? `<img src="${escHtml(d.imageUrl)}" style="height:72px;border-radius:8px;object-fit:cover;" alt="${escHtml(d.name || '')}">
        <div style="font-size:11px;color:var(--gray);margin-top:5px;">Trenutna slika — izaberi novu da je zameniš</div>`
     : '';
   document.getElementById('editDestOverlay').style.display = 'flex';
@@ -1646,7 +1646,7 @@ async function openTermDestPopup(dateId, airport) {
     ? ALL_DESTINATIONS.filter(d => Array.isArray(d.departureAirports) && d.departureAirports.includes(airport))
     : ALL_DESTINATIONS;
   select.innerHTML = '<option value="">-- izaberi destinaciju --</option>' +
-    availDests.map(d => `<option value="${d.id}">${d.name} (${d.airportCode})</option>`).join('');
+    availDests.map(d => `<option value="${d.id}">${escHtml(d.name || '')} (${escHtml(d.airportCode || '')})</option>`).join('');
 
   await refreshTermDestList();
 }
@@ -2176,10 +2176,10 @@ async function loadErrors() {
       return `
         <tr class="err-row ${e.resolved ? 'resolved' : ''}" onclick="toggleErrStack('stack-${e.id}')">
           <td>
-            <div class="err-type">${e.exceptionType}</div>
-            <div class="err-endpoint">${e.endpoint}</div>
+            <div class="err-type">${escHtml(e.exceptionType || '')}</div>
+            <div class="err-endpoint">${escHtml(e.endpoint || '')}</div>
           </td>
-          <td><div class="err-msg" title="${e.message?.replace(/"/g,"'") || ''}">${e.message || '-'}</div></td>
+          <td><div class="err-msg" title="${escHtml(e.message || '')}">${escHtml(e.message || '-')}</div></td>
           <td><span class="err-count">${e.count}×</span></td>
           <td class="err-time">${firstSeen}</td>
           <td class="err-time">${e.count > 1 ? lastSeen : '-'}</td>
@@ -2187,7 +2187,7 @@ async function loadErrors() {
         </tr>
         <tr id="stack-${e.id}" class="err-stack-wrap">
           <td colspan="6">
-            <div class="err-stack">${e.stackTrace || 'nema stack trace-a'}</div>
+            <div class="err-stack">${escHtml(e.stackTrace || 'nema stack trace-a')}</div>
           </td>
         </tr>`;
     }).join('');
@@ -2209,7 +2209,7 @@ async function loadErrors() {
         </table>
       </div>`;
   } catch(e) {
-    el.innerHTML = `<div class="empty-state">Greška pri učitavanju: ${e.message}</div>`;
+    el.innerHTML = `<div class="empty-state">Greška pri učitavanju: ${escHtml(e.message || '')}</div>`;
   }
 }
 
