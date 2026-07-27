@@ -749,7 +749,12 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
         max-height: 130px;
       }
       /* Ticket: left/right kao % od envelope širine → skalira zajedno */
-      .env-ticket { left: 4.5%; right: 4.5%; bottom: 0; height: 218px; }
+      .env-ticket { left: 4.5%; right: 4.5%; bottom: 0; height: 232px; }
+
+      /* Malo veći gap iznad imena putnika - kod 5-6 putnika ime se prelama u
+         2-3 reda i bez ovoga izgleda zbijeno/odsečeno uz donju ivicu tiketa
+         (env-ticket ima overflow:hidden, pa visina mora rasti zajedno sa ovim). */
+      .ticket-pax { padding-top: 14px; }
 
       /* Detalji: 2x2 grid - Polazak/Povratak top row, Rezervacija/Airline bottom row */
       .ticket-details { flex-wrap: wrap; }
@@ -773,7 +778,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       /* Rise veći jer je ticket viši */
       @keyframes ticketRise {
         0%   { transform: translateY(0); }
-        100% { transform: translateY(-248px); }
+        100% { transform: translateY(-262px); }
       }
       .ticket-iata { font-size: 28px; }
       .teaser-big  { font-size: 24px; }

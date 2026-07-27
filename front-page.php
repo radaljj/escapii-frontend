@@ -4322,7 +4322,7 @@ const TR = {
     'footer.how':'Kako funkcioniše', 'footer.who':'Za koga', 'footer.faq':'FAQ',
     'footer.book':'Rezervacija', 'footer.departure':'Polasci', 'footer.rights':'Sva prava zadržana',
     'steps':['Aerodrom','Putnici','Datum','Smeštaj','Dodaci','Isključi','Putnici','Kontakt'],
-    'nights': n=>n===1?'1 noć':`${n} noći`, 'slots': n=>`${n} mesta`,
+    'nights': n=>n===1?'1 noć':`${n} noći`, 'slots': n=>n===1?'1 mesto':`${n} mesta`,
     'excl.n': n=>`${n} isključeno`, 'pax.ph': i=>`Putnik ${i}`,
     'gender.m':'Muški', 'gender.f':'Ženski',
     'pax.num': n=>`Putnik ${n}`, 'pax.fname':'Ime', 'pax.lname':'Prezime', 'pax.fname.err':'Unesite ime putnika.', 'pax.lname.err':'Unesite prezime putnika.', 'pax.dob.err':'Putnik mora imati najmanje 18 godina.',
@@ -5455,12 +5455,14 @@ function buildDateRow(d) {
   const isLowStock     = d.availableSlots <= 5 && !notEnoughSlots;
   const isSelected = S.selectedDateId === d.id;
 
+  const slotsSr = d.availableSlots === 1 ? '1 mesto' : `${d.availableSlots} mesta`;
+  const slotsEn = d.availableSlots === 1 ? '1 spot' : `${d.availableSlots} spots`;
   const stockBadge = notEnoughSlots
     ? `<span class="sold-out-badge">⛔ ${d.availableSlots === 0
         ? (lang==='sr'?'Popunjeno':'Sold out')
-        : (lang==='sr'?`Samo ${d.availableSlots} mesta`:`Only ${d.availableSlots} spots`)}</span>`
+        : (lang==='sr'?`Samo ${slotsSr}`:`Only ${slotsEn}`)}</span>`
     : isLowStock
-      ? `<span class="low-stock-badge">${lang==='sr'?`Još ${d.availableSlots} mesta`:`${d.availableSlots} spots left`}</span>`
+      ? `<span class="low-stock-badge">${lang==='sr'?`Još ${slotsSr}`:`${slotsEn} left`}</span>`
       : '';
 
   const cls = notEnoughSlots ? 'term disabled' : `term${isSelected?' on':''}`;
@@ -5760,8 +5762,8 @@ function updateSeatsNotice() {
 
   if (n <= 3) {
     arrangement = lang === 'sr'
-      ? `Bićete smešteni zajedno (${n} mesta u redu).`
-      : `You will all sit together (${n} seats in a row).`;
+      ? `Bićete smešteni zajedno (${n===1?'1 mesto':`${n} mesta`} u redu).`
+      : `You will all sit together (${n===1?'1 seat':`${n} seats`} in a row).`;
   } else if (n === 4) {
     arrangement = lang === 'sr'
       ? 'Sedećete <strong>2 + 2</strong> zajedno (po 2 u redu).'

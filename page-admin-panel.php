@@ -1838,7 +1838,7 @@ function renderDatesTable(dates) {
           <div style="font-size:11px;color:var(--gray);margin-top:2px;">${d.numberOfNights} noći</div>
         </td>
         <td>
-          <span style="font-size:13px;">${d.availableSlots} mesta</span><br>
+          <span style="font-size:13px;">${d.availableSlots===1?'1 mesto':`${d.availableSlots} mesta`}</span><br>
           <strong>${d.basePrice}€/os</strong>
         </td>
         <td>${destHtml}</td>
@@ -1886,7 +1886,7 @@ function renderDatesTable(dates) {
         </td>
         <td>${d.numberOfNights}n</td>
         <td>
-          <span style="font-size:13px;">${d.availableSlots} mesta</span><br>
+          <span style="font-size:13px;">${d.availableSlots===1?'1 mesto':`${d.availableSlots} mesta`}</span><br>
           <strong>${d.basePrice}€/os</strong>
         </td>
         <td>${razlog}</td>
@@ -1988,7 +1988,7 @@ async function editSlots(id, currentSlots) {
   const { value, isConfirmed } = await Swal.fire({
     title: 'Izmeni broj mesta',
     html: `
-      <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutno: <strong style="color:#CA8A71;">${currentSlots} mesta</strong></div>
+      <div style="margin-bottom:8px;color:#94a3b8;font-size:14px;">Trenutno: <strong style="color:#CA8A71;">${currentSlots===1?'1 mesto':`${currentSlots} mesta`}</strong></div>
       <input id="swal-slots" type="number" min="0" max="9999" value="${currentSlots}"
         class="swal2-input" style="width:140px;text-align:center;font-size:22px;font-weight:700;">
     `,
