@@ -7162,6 +7162,12 @@ function removeVoucher() {
   document.getElementById('voucherMsg').textContent = '';
   document.getElementById('voucherToggleLbl').textContent = lang === 'sr' ? 'Imam poklon vaučer' : 'I have a gift voucher';
   document.getElementById('voucherToggleSub').textContent = lang === 'sr' ? 'Unesi kod i oduzmi iznos od cene' : 'Enter code to deduct from total';
+  // applyVoucher() ostavlja dugme disabled + '...' posle uspešne primene (sekcija se
+  // tada sakrije, pa nije vidljivo) - bez ovoga bi ostalo zaglavljeno na "..." ako
+  // korisnik ukloni vaučer pa pokuša da primeni novi.
+  const btn = document.getElementById('voucherApplyBtn');
+  btn.disabled = false;
+  btn.textContent = lang === 'sr' ? 'Primeni' : 'Apply';
   updatePriceTotalWithVoucher();
 }
 
