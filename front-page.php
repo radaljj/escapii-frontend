@@ -5936,6 +5936,10 @@ function syncDobDays(i) {
   if (dc && dc.passedElement && dc.passedElement.element === dSel && document.body.contains(dSel)) {
     const arr=[{value:'',label:(lang==='sr'?'Dan':'Day'),disabled:true,selected:!prev||+prev>maxDay,placeholder:true}];
     for(let k=1;k<=maxDay;k++){const v=String(k).padStart(2,'0');arr.push({value:v,label:String(k),selected:v===prev});}
+    // clearStore() je obavezan pre setChoices() na istoj instanci - bez njega Choices.js
+    // zadržava stare unose iz prethodnog poziva (menjanje meseca/godine više puta), pa se
+    // u listi pojavi duplirana vrednost (npr. "Dan, 2, 1, 2, 3..." umesto "Dan, 1, 2, 3...").
+    dc.clearStore();
     dc.setChoices(arr,'value','label',true);
   } else {
     dSel.innerHTML = dobDays(maxDay);
