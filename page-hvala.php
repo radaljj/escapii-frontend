@@ -83,6 +83,20 @@
       font-size: 16px; color: var(--gray); line-height: 1.65; margin-bottom: 32px;
     }
 
+    /* ── MAIL HINT ── */
+    .ty-mail-hint {
+      display: flex; gap: 12px; align-items: flex-start; text-align: left;
+      background: rgba(202,138,113,.08); border: 1px solid rgba(202,138,113,.3);
+      border-radius: 12px; padding: 13px 16px; margin-bottom: 24px;
+    }
+    .ty-mail-hint-ic {
+      width: 30px; height: 30px; flex-shrink: 0; font-size: 15px;
+      background: rgba(202,138,113,.18); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ty-mail-hint-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .ty-mail-hint-body  { font-size: 12.5px; color: var(--gray); line-height: 1.55; }
+
     /* ── REF BADGE ── */
     .ty-ref {
       background: rgba(202,138,113,.1);
@@ -313,6 +327,14 @@
 
   <h1 class="ty-h1">Upit je primljen!</h1>
   <p class="ty-sub">Javićemo ti se u roku od <strong style="color:#2D5F6B">24 sata</strong> sa svim detaljima. Tvoje tajno putovanje te čeka!</p>
+
+  <div class="ty-mail-hint">
+    <div class="ty-mail-hint-ic">📩</div>
+    <div>
+      <div class="ty-mail-hint-title">Ne vidiš naš mejl?</div>
+      <div class="ty-mail-hint-body">Proveri i Spam/Junk folder — prvi mejl ponekad završi tamo. Ako ga pronađeš, prebaci ga u Inbox ili označi kao „Nije spam", kako bi ti svi naredni mejlovi stizali direktno.</div>
+    </div>
+  </div>
 
   <!-- BOARDING PASS -->
   <div class="bp-wrap" id="boardingPass">

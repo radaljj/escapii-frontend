@@ -994,7 +994,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
         <div class="tp-inbox-ic">✉️</div>
         <div class="tp-inbox-tx">
           <h4>Uskoro stiže email sa boarding kartama</h4>
-          <p>Poslaćemo ti zvanični email sa svim daljim koracima - check-in instrukcije, boarding pass i savete za putovanje. Proveri inbox u narednih 24h.</p>
+          <p>Poslaćemo ti zvanični email sa svim daljim koracima - check-in instrukcije, boarding pass i savete za putovanje. Proveri inbox u narednih 24h.<br><br>📩 Ne vidiš naš mejl? Proveri i Spam/Junk folder — prvi mejl ponekad završi tamo. Ako ga pronađeš, prebaci ga u Inbox ili označi kao „Nije spam", kako bi ti svi naredni mejlovi stizali direktno.</p>
         </div>
       </div>
 
