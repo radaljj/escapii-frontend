@@ -869,10 +869,8 @@ tbody td  { padding: 11px 12px; }
         <div class="form-grid">
           <div>
             <label class="field-label">Aerodrom polaska <span class="req">*</span></label>
-            <select id="fAirport" class="form-input">
-              <option value="BEG">✈ Beograd (BEG)</option>
-              <option value="INI">✈ Niš (INI)</option>
-            </select>
+            <!-- Opcije se pune iz /api/airports (renderAirportSelects) -->
+            <select id="fAirport" class="form-input"></select>
           </div>
           <div>
             <label class="field-label">Broj noći <span class="req">*</span></label>
@@ -1142,14 +1140,8 @@ tbody td  { padding: 11px 12px; }
           </div>
           <div>
             <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
-            <div style="display:flex;gap:20px;padding:12px 0;">
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
-                <input type="checkbox" id="dBEG" value="BEG" checked style="accent-color:var(--accent);width:16px;height:16px;"> BEG (Beograd)
-              </label>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
-                <input type="checkbox" id="dINI" value="INI" style="accent-color:var(--accent);width:16px;height:16px;"> INI (Niš)
-              </label>
-            </div>
+            <!-- Checkboxovi se crtaju iz /api/airports (renderAirportCheckboxes) -->
+            <div style="display:flex;gap:20px;padding:12px 0;flex-wrap:wrap;" id="dAirportBoxes"></div>
           </div>
           <div class="form-span">
             <label class="field-label">Slika destinacije <span style="color:var(--gray);font-weight:400;">(opciono)</span></label>
@@ -1211,14 +1203,8 @@ tbody td  { padding: 11px 12px; }
       </div>
       <div>
         <label class="field-label">Aerodromi polaska <span class="req">*</span></label>
-        <div style="display:flex;gap:20px;padding:12px 0;">
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
-            <input type="checkbox" id="editDestBEG" value="BEG" style="accent-color:var(--accent);width:16px;height:16px;"> BEG (Beograd)
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
-            <input type="checkbox" id="editDestINI" value="INI" style="accent-color:var(--accent);width:16px;height:16px;"> INI (Niš)
-          </label>
-        </div>
+        <!-- Checkboxovi se crtaju iz /api/airports (renderAirportCheckboxes) -->
+        <div style="display:flex;gap:20px;padding:12px 0;flex-wrap:wrap;" id="editDestAirportBoxes"></div>
       </div>
     </div>
     <div style="margin-bottom:24px;">
@@ -1270,6 +1256,63 @@ const API  = '<?php echo esc_js(escapii_api_url()); ?>';
 let ADMIN_KEY = '';
 let ALL_DESTINATIONS = [];
 let destTomSelect = null;
+
+// ══ AERODROMI POLASKA ══════════════════════════════════════════════════════
+// Jedina definicija je DepartureAirport na backendu. Svaki aerodrom-zavisni
+// element u panelu (dropdown termina, checkboxovi destinacija, kartice liste
+// čekanja) crta se odavde - dodavanje aerodroma ne zahteva izmenu ovog fajla.
+let AIRPORTS = [];
+
+async function loadAirports() {
+  try {
+    const r = await fetch(`${API}/api/airports`);
+    if (!r.ok) throw new Error();
+    AIRPORTS = await r.json();
+  } catch (e) {
+    AIRPORTS = [];
+    console.error('[Admin] Aerodromi nisu učitani - lista je prazna.');
+  }
+}
+
+function airportLabel(code) {
+  const a = AIRPORTS.find(x => x.code === code);
+  return a ? `${a.citySr} (${a.code})` : code;
+}
+
+/** Puni <select> za aerodrom polaska (poziva se pre TomSelect inicijalizacije). */
+function renderAirportSelects() {
+  const sel = document.getElementById('fAirport');
+  if (sel) {
+    sel.innerHTML = AIRPORTS.map(a =>
+      `<option value="${escHtml(a.code)}">✈ ${escHtml(a.citySr)} (${escHtml(a.code)})</option>`).join('');
+  }
+}
+
+/**
+ * Crta checkboxove aerodroma u formi za destinaciju.
+ * @param containerId  gde se crta
+ * @param idPrefix     prefiks id-a checkboxa (npr. "d" → dBEG, "editDest" → editDestBEG)
+ * @param selected     kodovi koji treba da budu čekirani
+ */
+function renderAirportCheckboxes(containerId, idPrefix, selected) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  const on = selected || [];
+  box.innerHTML = AIRPORTS.map(a => `
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+      <input type="checkbox" id="${idPrefix}${escHtml(a.code)}" value="${escHtml(a.code)}"
+             ${on.includes(a.code) ? 'checked' : ''}
+             style="accent-color:var(--accent);width:16px;height:16px;">
+      ${escHtml(a.code)} (${escHtml(a.citySr)})
+    </label>`).join('');
+}
+
+/** Čita čekirane aerodrome iz forme sa datim prefiksom. */
+function readAirportCheckboxes(idPrefix) {
+  return AIRPORTS
+    .filter(a => document.getElementById(idPrefix + a.code)?.checked)
+    .map(a => a.code);
+}
 
 // ══ LOGIN ══
 function doLogin() {
@@ -1340,6 +1383,12 @@ async function initAdmin() {
   // Briši autofill iz search polja - browser ponekad ubaci korisničko ime
   const bs = document.getElementById('bookingSearch');
   if (bs) { bs.value = ''; bs.setAttribute('readonly', 'true'); setTimeout(() => bs.removeAttribute('readonly'), 100); }
+
+  // Aerodromi prvi - dropdown i checkboxovi se pune iz njih, a TomSelect ispod
+  // mora da vidi već popunjene <option> elemente.
+  await loadAirports();
+  renderAirportSelects();
+  renderAirportCheckboxes('dAirportBoxes', 'd', AIRPORTS.length ? [AIRPORTS[0].code] : []);
 
   await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
 
@@ -1445,9 +1494,7 @@ async function createDestination() {
   const name    = document.getElementById('dName').value.trim();
   const iata    = document.getElementById('dIata').value.trim().toUpperCase();
   const country = document.getElementById('dCountry').value.trim();
-  const airports = [];
-  if (document.getElementById('dBEG').checked) airports.push('BEG');
-  if (document.getElementById('dINI').checked) airports.push('INI');
+  const airports = readAirportCheckboxes('d');
 
   if (!name || !iata || !country) {
     Swal.fire({ icon: 'warning', title: 'Popuni obavezna polja', text: 'Naziv, IATA kod i država su obavezni.', background: '#0d1b38', color: '#fff' });
@@ -1482,8 +1529,8 @@ async function createDestination() {
     document.getElementById('dName').value    = '';
     document.getElementById('dIata').value    = '';
     document.getElementById('dCountry').value = '';
-    document.getElementById('dBEG').checked   = true;
-    document.getElementById('dINI').checked   = false;
+    // Reset na podrazumevani (prvi) aerodrom
+    renderAirportCheckboxes('dAirportBoxes', 'd', AIRPORTS.length ? [AIRPORTS[0].code] : []);
     document.getElementById('dImg').value     = '';
     document.getElementById('dImgPreview').innerHTML = '';
     await loadDestinations();
@@ -1500,8 +1547,7 @@ function openEditDest(id) {
   document.getElementById('editDestName').value    = d.name;
   document.getElementById('editDestIata').value    = d.airportCode;
   document.getElementById('editDestCountry').value = d.country;
-  document.getElementById('editDestBEG').checked   = (d.departureAirports||[]).includes('BEG');
-  document.getElementById('editDestINI').checked   = (d.departureAirports||[]).includes('INI');
+  renderAirportCheckboxes('editDestAirportBoxes', 'editDest', d.departureAirports || []);
   document.getElementById('editDestImg').value     = '';
   const preview = document.getElementById('editDestImgPreview');
   preview.innerHTML = d.imageUrl
@@ -1532,9 +1578,7 @@ async function saveEditDest() {
   const name    = document.getElementById('editDestName').value.trim();
   const iata    = document.getElementById('editDestIata').value.trim().toUpperCase();
   const country = document.getElementById('editDestCountry').value.trim();
-  const airports = [];
-  if (document.getElementById('editDestBEG').checked) airports.push('BEG');
-  if (document.getElementById('editDestINI').checked) airports.push('INI');
+  const airports = readAirportCheckboxes('editDest');
 
   if (!name || !iata || !country) {
     Swal.fire({ icon: 'warning', title: 'Popuni obavezna polja', background: '#0d1b38', color: '#fff' });
@@ -1604,7 +1648,7 @@ async function deleteDestination(id) {
 }
 
 function initDestSelect() {
-  const airport  = getAdminAirport() || 'BEG';
+  const airport  = getAdminAirport() || (AIRPORTS[0] || {}).code || '';
   const filtered = ALL_DESTINATIONS.filter(d =>
     Array.isArray(d.departureAirports) && d.departureAirports.includes(airport)
   );
@@ -2282,18 +2326,22 @@ async function loadWaitlist() {
     const byAirport = data.byAirport || {};
     document.getElementById('waitlistBadge').textContent = total > 0 ? total : '';
 
-    const airportNames = { BEG: 'Beograd', INI: 'Niš' };
-    const allAirports  = [...new Set([...Object.keys(byAirport), 'BEG', 'INI'])];
-    document.getElementById('wlCards').innerHTML = allAirports.map(ap => `
+    // Kartica za svaki definisan aerodrom + eventualne stare kodove koji još
+    // postoje na listi čekanja (npr. aerodrom uklonjen iz ponude posle prijava).
+    const allAirports = [...new Set([...AIRPORTS.map(a => a.code), ...Object.keys(byAirport)])];
+    document.getElementById('wlCards').innerHTML = allAirports.map(ap => {
+      const known = AIRPORTS.find(a => a.code === ap);
+      return `
       <div class="card" style="text-align:center;padding:32px 24px;">
         <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px;">
-          ${ap}${airportNames[ap] ? ' - ' + airportNames[ap] : ''}
+          ${escHtml(ap)}${known ? ' - ' + escHtml(known.citySr) : ''}
         </div>
         <div style="font-size:48px;font-weight:900;color:var(--accent);line-height:1;" id="wlCount-${ap}">${byAirport[ap] ?? 0}</div>
         <div style="font-size:13px;color:var(--gray);margin:6px 0 20px;">korisnika čeka</div>
-        <button class="btn-primary" onclick="notifyWaitlist('${ap}')" style="width:100%;padding:12px;">📧 Obavesti za ${ap}</button>
+        <button class="btn-primary" onclick="notifyWaitlist('${escHtml(ap)}')" style="width:100%;padding:12px;">📧 Obavesti za ${escHtml(ap)}</button>
       </div>
-    `).join('');
+    `;
+    }).join('');
 
     const tbody = document.getElementById('waitlistBody');
     if (!data.entries || data.entries.length === 0) {

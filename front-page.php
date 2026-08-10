@@ -2627,6 +2627,54 @@
     .terms-err-msg { color: #f87171; font-size: 12px; margin-top: -4px; display: none; padding: 0 16px 10px; }
     .terms-err-msg.visible { display: block; }
 
+    /* ── Prevoz do aerodroma: isto ponašanje kao terms red, ali topliji ton
+          jer je informativna napomena, ne pravni pristanak ─────────────── */
+    .transfer-note-row {
+      position: relative;
+      border: 1.5px solid rgba(202,138,113,.3);
+      border-radius: 12px;
+      background: rgba(202,138,113,.07);
+      transition: border-color .25s, background .25s, box-shadow .25s;
+    }
+    .transfer-note-row:has(input:checked) {
+      border-color: rgba(202,138,113,.55);
+      background: rgba(202,138,113,.1);
+      box-shadow: 0 0 0 3px rgba(202,138,113,.08);
+    }
+    .transfer-note-row.terms-invalid {
+      border-color: #ef4444 !important;
+      background: rgba(239,68,68,.05) !important;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important;
+    }
+    .transfer-note-row input[type="checkbox"] {
+      position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+    }
+    .transfer-note-row label {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px; cursor: pointer; width: 100%;
+      font-size: 13.5px; color: rgba(255,255,255,.85); line-height: 1.55;
+      user-select: none;
+    }
+    .transfer-note-row label::before {
+      content: ''; flex-shrink: 0;
+      width: 22px; height: 22px;
+      border: 2px solid rgba(202,138,113,.45);
+      border-radius: 7px;
+      background: rgba(255,255,255,.04);
+      transition: all .2s cubic-bezier(.4,0,.2,1);
+      background-size: 14px 14px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .transfer-note-row:hover label::before { border-color: rgba(202,138,113,.7); }
+    .transfer-note-row input:checked + label::before {
+      background-color: var(--accent3);
+      border-color: var(--accent3);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.5 8.5l3 3 6-7' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+    .transfer-note-row.terms-invalid label::before { border-color: #ef4444; }
+    .transfer-note-ic { flex-shrink: 0; font-size: 15px; line-height: 1.4; }
+
 /* ══════════════════════ LIGHT-BG SECTION OVERRIDES
    All rgba(255,255,255,…) styles were designed for dark backgrounds.
    Sections that now use white/parchment need dark equivalents.
@@ -3353,25 +3401,10 @@
       <div class="card">
         <h2 data-i18n="s1.h">Odakle kreće tvoja avantura?</h2>
         <p class="hint" data-i18n="s1.hint">Izaberi aerodrom polaska</p>
-        <div class="airport-cards">
-          <div class="airport-card" id="ap-BEG" onclick="pickAirport(this,'BEG')">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/beograd.jpg" alt="Beograd">
-            <div class="airport-overlay">
-              <div class="airport-iata">BEG</div>
-              <div class="airport-city">Beograd</div>
-              <div class="airport-name" data-i18n="s1.beg.name">Aerodrom Nikola Tesla</div>
-            </div>
-            <div class="airport-check">✓</div>
-          </div>
-          <div class="airport-card" id="ap-INI" onclick="pickAirport(this,'INI')">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/destinations/nis.jpg" alt="Niš">
-            <div class="airport-overlay">
-              <div class="airport-iata">INI</div>
-              <div class="airport-city">Niš</div>
-              <div class="airport-name" data-i18n="s1.ini.name">Aerodrom Konstantin Veliki</div>
-            </div>
-            <div class="airport-check">✓</div>
-          </div>
+        <!-- Kartice se crtaju iz /api/airports (renderAirportCards) - aerodromi se
+             dodaju samo u DepartureAirport na backendu, ovde nema hardkodovanih. -->
+        <div class="airport-cards" id="airportCards">
+          <div class="hint" style="grid-column:1/-1;text-align:center;padding:24px 0;opacity:.6;" data-i18n="s1.loading">Učitavanje aerodroma...</div>
         </div>
 
         <!-- Coming soon airports hint -->
@@ -3384,7 +3417,6 @@
             <div class="ap-soon-title" data-i18n="s1.soon.title">Planirana polazišta</div>
             <div class="ap-soon-list">
               <span>✈ Zagreb (ZAG) <em data-i18n="s1.soon.hr">· Hrvatska</em></span>
-              <span>✈ Budimpešta (BUD) <em data-i18n="s1.soon.hu">· Mađarska</em></span>
               <span>✈ Temišvar (TSR) <em data-i18n="s1.soon.ro">· Rumunija</em></span>
             </div>
           </div>
@@ -3832,6 +3864,18 @@
         </div>
 
         <div class="terms-wrap">
+          <!-- Prevoz do aerodroma - naziv aerodroma se popunjava dinamički
+               (updateTransferNotice), pa nov aerodrom ne traži izmenu ovde. -->
+          <div class="transfer-note-row" id="transfer-row">
+            <input type="checkbox" id="chkTransfer">
+            <label for="chkTransfer">
+              <span class="transfer-note-ic">🚗</span>
+              <span id="transferNoteText"></span>
+              <span class="req">*</span>
+            </label>
+          </div>
+          <div class="terms-err-msg" id="transfer-err" data-i18n="err.transfer">Molimo potvrdi da sam organizuješ prevoz do aerodroma.</div>
+
           <div class="terms-check-row" id="terms-row">
             <input type="checkbox" id="chkTerms">
             <label for="chkTerms" data-i18n-html="terms.check">Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></label>
@@ -4112,14 +4156,8 @@
     <div class="gift-section-label" data-i18n="gift.sec.trip">Detalji putovanja</div>
     <div class="inq-field">
       <label class="inq-label" data-i18n="gift.airport.label">Aerodrom polaska</label>
-      <div class="gift-airport-row">
-        <button class="gift-airport-btn on" id="giftBtnBEG" onclick="selectGiftAirport('BEG')" type="button">
-          <span>BEG</span><small data-i18n="s1.beg.name">Aerodrom Nikola Tesla</small>
-        </button>
-        <button class="gift-airport-btn" id="giftBtnINI" onclick="selectGiftAirport('INI')" type="button">
-          <span>INI</span><small data-i18n="s1.ini.name">Aerodrom Konstantin Veliki</small>
-        </button>
-      </div>
+      <!-- Dugmad se crtaju iz /api/airports (renderGiftAirports) -->
+      <div class="gift-airport-row" id="giftAirportRow"></div>
     </div>
     <div class="inq-field">
       <label class="inq-label" data-i18n="gift.travelers.label">Broj putnika</label>
@@ -4304,8 +4342,9 @@ const TR = {
     's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
-    'excl.ini.blocked.title':'Isključivanja nisu dostupna',
-    'excl.ini.blocked.msg':'Zbog dostupnosti letova iz Niša, isključivanje destinacija trenutno nije moguće.',
+    'excl.blocked.title':'Isključivanja nisu dostupna',
+    'excl.blocked.msg':'Zbog dostupnosti letova sa izabranog aerodroma, isključivanje destinacija trenutno nije moguće.',
+    's1.loading':'Učitavanje aerodroma...',
     's7.h':'Podaci o putnicima', 's7.hint':'Unesite podatke za svakog putnika',
     'price.title':'Pregled cene', 'price.total':'Ukupno',
     's8.h':'Kontakt podaci', 's8.hint':'Javićemo se u roku od 24 sata',
@@ -4331,7 +4370,6 @@ const TR = {
     'pax.valid.passport.err':'Putnik mora imati validan pasoš da bi nastavio.',
     'pax.gender':'Pol', 'pax.dob':'Datum rođenja',
     'pax.visa':'Aktivne vize (opciono)', 'pax.visa.ph':'npr. Engleska, Irska, Maroko...',
-    's1.beg.name':'Aerodrom Nikola Tesla', 's1.ini.name':'Aerodrom Konstantin Veliki',
     's1.soon':'Uskoro i polasci iz susednih zemalja', 's1.soon.title':'Planirana polazišta',
     's1.soon.hr':'· Hrvatska', 's1.soon.hu':'· Mađarska', 's1.soon.ro':'· Rumunija',
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
@@ -4348,8 +4386,8 @@ const TR = {
     'faq.6.a':'Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.',
     'faq.cta.t':'Imaš još pitanja?',
     'faq.cta.s':'Pogledaj sve odgovore - destinacije, pokloni, plaćanje, putovanje sa decom i još mnogo toga.',
-    'swal.excl.title':'Maksimalno 4 isključivanja',
-    'swal.excl.html':'Iskoristio/la si sva 4 isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>',
+    'swal.excl.title': n=>`Maksimalno ${n} isključivanja`,
+    'swal.excl.html':  n=>`Iskoristio/la si sva ${n} isključivanja.<br><br><strong style="color:#CA8A71">Prepusti ostatak nama - tu počinje pravo iznenađenje! 🌍</strong>`,
     'swal.excl.btn':'Važi, razumem! ✈',
     'pr.base':'Osnovna cena', 'pr.accom':'Smeštaj upgrade', 'pr.suit':'Kabinski kofer',
     'pr.ins':'Putno osiguranje', 'pr.bfst':'Doručak', 'pr.seats':'Sedišta zajedno', 'pr.excl':'Isključivanja', 'pr.solo':'Doplata za solo putnika',
@@ -4360,6 +4398,10 @@ const TR = {
     'err.terms':'Morate prihvatiti uslove korišćenja.',
     'err.privacy':'Morate prihvatiti politiku privatnosti.',
     'err.gdpr':'Morate dati saglasnost za obradu podataka.',
+    'err.transfer':'Molimo potvrdi da sam organizuješ prevoz do aerodroma.',
+    // city = grad aerodroma polaska (dinamički, iz /api/airports)
+    'transfer.check': city=>`Prevoz do aerodroma u gradu ${city} organizuješ sam, a mi se dalje brinemo za tvoju avanturu. 🌍`,
+    'transfer.check.generic':'Prevoz do aerodroma polaska organizuješ sam, a mi se dalje brinemo za tvoju avanturu. 🌍',
     'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
     'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
     'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
@@ -4551,8 +4593,9 @@ const TR = {
     's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +15€ per person.',
     's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd, 3rd & 4th exclusion',
     's6.note':'Escapii tip: don\'t exclude too many destinations.',
-    'excl.ini.blocked.title':'Exclusions not available',
-    'excl.ini.blocked.msg':'Due to flight availability from Niš, excluding destinations isn\'t possible right now.',
+    'excl.blocked.title':'Exclusions not available',
+    'excl.blocked.msg':'Due to flight availability from the selected airport, excluding destinations isn\'t possible right now.',
+    's1.loading':'Loading airports...',
     's7.h':'Passenger details', 's7.hint':'Enter details for each traveler',
     'price.title':'Price breakdown', 'price.total':'Total',
     's8.h':'Contact details', 's8.hint':'We\'ll get back to you within 24 hours',
@@ -4578,7 +4621,6 @@ const TR = {
     'pax.passport':'Passport country', 'pax.passport.ph':'e.g. Serbia', 'pax.passport.err':'Please enter passport country.',
     'pax.valid.passport':'Traveler has a valid passport (valid for at least 6 months after return)',
     'pax.valid.passport.err':'Traveler must have a valid passport to proceed.',
-    's1.beg.name':'Nikola Tesla Airport', 's1.ini.name':'Constantine the Great Airport',
     's1.soon':'Departures from neighboring countries coming soon', 's1.soon.title':'Planned departures',
     's1.soon.hr':'· Croatia', 's1.soon.hu':'· Hungary', 's1.soon.ro':'· Romania',
     'footer.social':'Follow us', 'footer.contact':'Contact',
@@ -4595,8 +4637,8 @@ const TR = {
     'faq.6.a':'Unfortunately, trips cannot be canceled - we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
     'faq.cta.t':'Got more questions?',
     'faq.cta.s':'See all answers - destinations, gifts, payment, traveling with kids, and much more.',
-    'swal.excl.title':'Maximum 4 exclusions',
-    'swal.excl.html':'You\'ve used all 4 exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us - that\'s where the real surprise begins! 🌍</strong>',
+    'swal.excl.title': n=>`Maximum ${n} exclusions`,
+    'swal.excl.html':  n=>`You've used all ${n} exclusions.<br><br><strong style="color:#CA8A71">Leave the rest to us - that's where the real surprise begins! 🌍</strong>`,
     'swal.excl.btn':'OK, let\'s do it! 🚀',
     'pr.base':'Base price', 'pr.accom':'Accommodation upgrade', 'pr.suit':'Cabin luggage',
     'pr.ins':'Travel insurance', 'pr.bfst':'Breakfast', 'pr.seats':'Seats together', 'pr.excl':'Exclusions', 'pr.solo':'Solo traveler surcharge',
@@ -4607,6 +4649,10 @@ const TR = {
     'err.terms':'You must accept the Terms & Conditions.',
     'err.privacy':'You must accept the Privacy Policy.',
     'err.gdpr':'You must consent to data processing.',
+    'err.transfer':'Please confirm you\'ll arrange your own transport to the airport.',
+    // city = departure airport city (dynamic, from /api/airports)
+    'transfer.check': city=>`You arrange your own transport to the airport in ${city}, and we take care of the rest of your adventure. 🌍`,
+    'transfer.check.generic':'You arrange your own transport to the departure airport, and we take care of the rest of your adventure. 🌍',
     'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
     'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
@@ -4807,7 +4853,7 @@ async function checkStatus() {
       departed:     'Currently travelling ✈',
     };
 
-    const airportNames = { BEG:'Beograd (BEG)', INI:'Niš (INI)', ZAG:'Zagreb (ZAG)', BUD:'Budimpešta (BUD)', TIM:'Timișoara (TIM)' };
+    // Naziv se izvlači iz učitanih aerodroma (airportLabel); nepoznat kod pada na sam kod.
     const dep = new Date(d.departureDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
     const ret = new Date(d.returnDate).toLocaleDateString(isSr ? 'sr-Latn-RS' : 'en-GB', {day:'numeric',month:'short',year:'numeric'});
 
@@ -4835,7 +4881,7 @@ async function checkStatus() {
       <div class="sr-info">
         <div class="sr-row">
           <span class="sr-row-label">${lbl.depAirport}</span>
-          <span class="sr-row-val">${airportNames[d.departureAirport] || escHtml(d.departureAirport)}</span>
+          <span class="sr-row-val">${escHtml(airportLabel(d.departureAirport) || d.departureAirport)}</span>
         </div>
         <div class="sr-row">
           <span class="sr-row-label">${lbl.travelDates}</span>
@@ -4886,6 +4932,8 @@ function setLang(l) {
   renderSteps(); updateProgress();
   if(S.dates.length) renderDatesFromCache();          // lista termina u koraku 3
   if(S.destinations.length) { buildCarousel(); renderExclGrid(); }
+  if(S.airports.length) { renderAirportCards(); renderGiftAirports(); }
+  updateTransferNotice();                              // naziv grada zavisi od jezika
   // Re-renderuj formu putnika sačuvavši unesene vrednosti
   if(document.querySelectorAll('.pax-item').length > 0) {
     const savedPax = Array.from({length:S.travelers},(_,i)=>({
@@ -4989,9 +5037,90 @@ function destDisplayName(d) {
   return lang === 'en' ? (d.nameEn || CITY_EN[d.name] || d.name) : d.name;
 }
 
+// ══════════ AERODROMI POLASKA
+// Jedina definicija je DepartureAirport na backendu; ovde se samo crta ono što
+// stigne sa /api/airports. Dodavanje aerodroma NE zahteva izmenu ovog fajla
+// (osim slike u images/destinations/{imageSlug}.jpg).
 function airportImgUrl(code) {
-  const map = { BEG:'beograd', INI:'nis', ZAG:'zagreb', BUD:'budimpesta', TIM:'timisoara' };
-  return `${IMG_BASE}/${map[code] || 'beograd'}${IMG_EXT}`;
+  const a = (S.airports || []).find(x => x.code === code);
+  return `${IMG_BASE}/${a ? a.imageSlug : 'beograd'}${IMG_EXT}`;
+}
+function airportByCode(code) {
+  return (S.airports || []).find(a => a.code === code) || null;
+}
+/** Prvi aerodrom iz definicije - koristi se samo kao fallback kad izbor još ne postoji. */
+function defaultAirportCode() {
+  return (S.airports[0] || {}).code || '';
+}
+
+/**
+ * Tekst napomene o prevozu do aerodroma (korak 8). Naziv grada je dinamičan,
+ * pa nov aerodrom ne traži izmenu teksta; ako grad iz nekog razloga nije poznat,
+ * koristi se opšta formulacija bez imena.
+ */
+function updateTransferNotice() {
+  const el = document.getElementById('transferNoteText');
+  if (!el) return;
+  const city = airportCityName(S.airport);
+  el.textContent = city ? t('transfer.check', city) : t('transfer.check.generic');
+}
+function airportCityName(code) {
+  const a = airportByCode(code);
+  if (!a) return code || '';
+  return lang === 'en' ? a.cityEn : a.citySr;
+}
+/** Naziv samog aerodroma (npr. "Aerodrom Nikola Tesla" / "Nikola Tesla Airport"). */
+function airportFullName(a) {
+  if (!a) return '';
+  return (lang === 'en' && a.airportNameEn) ? a.airportNameEn : a.airportName;
+}
+function airportLabel(code) {
+  const a = airportByCode(code);
+  return a ? `${airportCityName(code)} (${a.code})` : (code || '');
+}
+
+async function loadAirports() {
+  try {
+    const r = await fetch(`${API}/api/airports`);
+    if (!r.ok) throw new Error();
+    S.airports = await r.json();
+  } catch(e) {
+    S.airports = [];
+  }
+  renderAirportCards();
+  renderGiftAirports();
+}
+
+function renderAirportCards() {
+  const wrap = document.getElementById('airportCards');
+  if (!wrap) return;
+  if (!S.airports.length) {
+    wrap.innerHTML = `<div class="hint" style="grid-column:1/-1;text-align:center;padding:24px 0;">
+      ${lang==='en' ? 'Could not load airports. Please refresh the page.' : 'Aerodromi trenutno nisu dostupni. Osveži stranicu.'}
+    </div>`;
+    return;
+  }
+  wrap.innerHTML = S.airports.map(a => `
+    <div class="airport-card${S.airport === a.code ? ' on' : ''}" id="ap-${a.code}" onclick="pickAirport(this,'${a.code}')">
+      <img src="${IMG_BASE}/${a.imageSlug}${IMG_EXT}" alt="${airportCityName(a.code)}" loading="lazy">
+      <div class="airport-overlay">
+        <div class="airport-iata">${a.code}</div>
+        <div class="airport-city">${airportCityName(a.code)}</div>
+        <div class="airport-name">${airportFullName(a)}</div>
+      </div>
+      <div class="airport-check">✓</div>
+    </div>`).join('');
+}
+
+function renderGiftAirports() {
+  const row = document.getElementById('giftAirportRow');
+  if (!row) return;
+  if (!_giftAirport && S.airports.length) _giftAirport = S.airports[0].code;
+  row.innerHTML = S.airports.map(a => `
+    <button class="gift-airport-btn${_giftAirport === a.code ? ' on' : ''}" id="giftBtn${a.code}"
+            onclick="selectGiftAirport('${a.code}')" type="button">
+      <span>${a.code}</span><small>${airportFullName(a)}</small>
+    </button>`).join('');
 }
 
 // ══════════ STATE
@@ -5008,6 +5137,7 @@ const S = {
   cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
   hasRevealBox:false, deliveryAddress:'', deliveryApartment:'', deliveryCity:'', deliveryPhone:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
+  airports:[],   // iz /api/airports - vidi loadAirports()
   lastPrice:null
 };
 
@@ -5158,12 +5288,9 @@ function initCarouselDrag(track) {
 }
 
 // ══════════ AIRPORT NAME LOOKUP
-const AIRPORT_NAMES = {
-  sr: { BEG: 'Beograd (BEG)', INI: 'Niš (INI)', ZAG: 'Zagreb (ZAG)', BUD: 'Budimpešta (BUD)', TIM: 'Temišvar (TIM)' },
-  en: { BEG: 'Belgrade (BEG)', INI: 'Niš (INI)', ZAG: 'Zagreb (ZAG)', BUD: 'Budapest (BUD)', TIM: 'Timișoara (TIM)' }
-};
+// Naziv u formatu "Beograd (BEG)" - iz učitanih aerodroma, vidi airportLabel().
 function airportName(code) {
-  return (AIRPORT_NAMES[lang] || AIRPORT_NAMES.sr)[code] || code;
+  return airportLabel(code) || code;
 }
 
 // ══════════ WAITLIST
@@ -5176,7 +5303,7 @@ async function submitWaitlist() {
     return;
   }
 
-  const airportCode = S.airport || 'BEG';
+  const airportCode = S.airport || defaultAirportCode();
   const aName = airportName(airportCode);
 
   function waitlistHtml(key) {
@@ -5380,6 +5507,7 @@ function onEnter() {
   }
   if(S.step===8) {
     updateSummaryCard();
+    updateTransferNotice();
     // Auto-fill ime/prezime nosioca rezervacije iz prvog putnika (samo ako prazno)
     const fn = document.getElementById('fFirstName');
     const ln = document.getElementById('fLastName');
@@ -5623,7 +5751,7 @@ async function loadDates() {
     clearTimeout(loaderTimer);
     S.dates = await r.json();
     if(!S.dates.length) {
-      const aName = airportName(S.airport || 'BEG');
+      const aName = airportName(S.airport || defaultAirportCode());
       el.innerHTML=`
         <div class="no-dates-wrap">
           <div class="no-dates-icon">✈️</div>
@@ -5797,35 +5925,54 @@ function updateSuitUI() {
 }
 
 // ══════════ STEP 6
+// Pravila isključivanja dolaze iz definicije aerodroma (/api/airports):
+// maxExclusions = koliko ih je dozvoljeno (0 = nije dostupno),
+// firstExclusionFree = da li se prvo ne naplaćuje.
+function exclusionRules() {
+  const a = airportByCode(S.airport);
+  return {
+    max:       a ? a.maxExclusions : 0,
+    firstFree: a ? a.firstExclusionFree : false,
+    allowed:   !!a && a.maxExclusions > 0
+  };
+}
+
 function updateExclStep() {
-  const isINI = S.airport === 'INI';
+  const rules = exclusionRules();
 
   // Prikaži trenutne destinacije odmah, pa tiho osvježi s backenda
   renderExclGrid();
   if (S.selectedDateId) loadDestinationsForDate(S.selectedDateId);
 
-  // Isključivanja su potpuno ukinuta za INI - obriši sve prethodno izabrano
-  // (npr. korisnik je promenio aerodrom nazad na INI posle BEG izbora).
-  if (isINI && S.excludedIds.length > 0) {
-    S.excludedIds = [];
-    document.querySelectorAll('.excl-tile.on').forEach(t => t.classList.remove('on'));
+  // Ako aerodrom ne dozvoljava isključivanja (ili ih dozvoljava manje nego što je
+  // već izabrano), obreži izbor - npr. korisnik se vratio i promenio aerodrom.
+  if (S.excludedIds.length > rules.max) {
+    S.excludedIds = S.excludedIds.slice(0, rules.max);
+    document.querySelectorAll('.excl-tile.on').forEach(tile => {
+      const id = parseInt(tile.id.replace('ex-', ''));
+      if (!S.excludedIds.includes(id)) tile.classList.remove('on');
+    });
   }
 
-  // Ažuriraj tier prikaz i hint tekst za INI vs BEG
   const infoBlock  = document.getElementById('exclInfoBlock');
   const tier2Label = document.getElementById('exclTier2Label');
   const tier2Price = document.getElementById('exclTier2Price');
   const hint       = document.querySelector('#step6 .hint');
   const note       = document.getElementById('exclNote');
 
-  if (isINI) {
+  if (!rules.allowed) {
     if (infoBlock)  infoBlock.style.display = 'none';
-    if (hint)       hint.textContent = t('excl.ini.blocked.msg');
+    if (hint)       hint.textContent = t('excl.blocked.msg');
   } else {
     if (infoBlock)  infoBlock.style.display = '';
-    if (tier2Label) tier2Label.textContent = lang === 'en' ? '2nd, 3rd & 4th exclusion' : '2., 3. i 4. isključivanje';
+    const paidFrom = rules.firstFree ? 2 : 1;
+    if (tier2Label) tier2Label.textContent = lang === 'en'
+      ? `Exclusions ${paidFrom}-${rules.max}`
+      : `${paidFrom}. do ${rules.max}. isključivanje`;
     if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
-    if (hint)       hint.textContent = lang === 'en' ? 'Destinations you want to exclude (optional, max 4)' : 'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.';
+    if (hint)       hint.textContent = lang === 'en'
+      ? `Destinations you want to exclude (optional, max ${rules.max})${rules.firstFree ? ' - the first one is free, each additional is +15€ per person.' : ' - 15€ per person each.'}`
+      : `Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do ${rules.max} destinacije.${rules.firstFree ? ' Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.' : ' Svaka se doplaćuje 15€ po osobi.'}`;
     if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions - fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja - manje isključivanja znači više iznenađenja!';
   }
 
@@ -5851,9 +5998,10 @@ function renderExclGrid() {
   ).join('');
 }
 function togExcl(id, event) {
-  if (S.airport === 'INI') {
-    // Isključivanja potpuno ukinuta za polaske iz Niša - friendly inline poruka, ne swal.
-    showFormAlert(t('excl.ini.blocked.msg'), t('excl.ini.blocked.title'));
+  const rules = exclusionRules();
+  if (!rules.allowed) {
+    // Aerodrom ne dozvoljava isključivanja - friendly inline poruka, ne swal.
+    showFormAlert(t('excl.blocked.msg'), t('excl.blocked.title'));
     return;
   }
   const i = S.excludedIds.indexOf(id);
@@ -5862,17 +6010,15 @@ function togExcl(id, event) {
     S.excludedIds.splice(i, 1);
     document.getElementById('ex-'+id)?.classList.remove('on');
   } else {
-    const maxExcl = 4;
+    const maxExcl = rules.max;
     if (S.excludedIds.length >= maxExcl) {
-      const exclTitleKey = 'swal.excl.title';
-      const exclHtmlKey  = 'swal.excl.html';
       Swal.fire({
         background: '#2D5F6B',
         color: '#fff',
         icon: 'info',
         iconColor: '#CA8A71',
-        title: `<span style="color:#CA8A71;font-size:20px">${t(exclTitleKey)}</span>`,
-        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t(exclHtmlKey)}</p>`,
+        title: `<span style="color:#CA8A71;font-size:20px">${t('swal.excl.title', maxExcl)}</span>`,
+        html: `<p style="color:rgba(255,255,255,.8);font-size:15px;line-height:1.6">${t('swal.excl.html', maxExcl)}</p>`,
         confirmButtonText: 'OK',
         confirmButtonColor: '#CA8A71',
         showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
@@ -6410,6 +6556,19 @@ function validateContact() {
   });
   window._contactErrors = errors;
 
+  // Prevoz do aerodroma - obavezna potvrda pre slanja upita
+  const chkTransfer  = document.getElementById('chkTransfer');
+  const transferRow  = document.getElementById('transfer-row');
+  const transferErr  = document.getElementById('transfer-err');
+  if (chkTransfer && !chkTransfer.checked) {
+    transferRow?.classList.add('terms-invalid');
+    transferErr?.classList.add('visible');
+    ok = false;
+  } else {
+    transferRow?.classList.remove('terms-invalid');
+    transferErr?.classList.remove('visible');
+  }
+
   // Terms checkbox
   const chkTerms = document.getElementById('chkTerms');
   const termsRow  = document.getElementById('terms-row');
@@ -6597,6 +6756,7 @@ renderSteps();
 updateProgress();
 loadCountries();
 loadDestinations();
+loadAirports();
 
 // ══════════ SECONDARY NAV - show after hero, highlight active section
 (function() {
@@ -6994,7 +7154,7 @@ async function submitInquiry() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        airport:              S.airport || 'BEG',
+        airport:              S.airport || defaultAirportCode(),
         travelers:            S.travelers || 1,
         desiredDepartureDate: dateStr,
         nights:               nights,
@@ -7029,7 +7189,7 @@ let _giftDep      = null;
 let _giftRet      = null;
 let _giftCurMonth = null;
 let _giftHover    = null;
-let _giftAirport  = 'BEG';
+let _giftAirport  = null; // postavlja se na prvi aerodrom pri renderGiftAirports()
 let _giftTravelers = 2;
 
 /* ── Nav gift dropdown ── */
@@ -7197,11 +7357,12 @@ function openGiftPanel() {
   const now = new Date();
   _giftCurMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   _giftDep = null; _giftRet = null; _giftHover = null;
-  _giftAirport = 'BEG'; _giftTravelers = 2;
+  // Podrazumevani aerodrom = prvi iz definicije (nema hardkodovanog BEG)
+  _giftAirport = (S.airports[0] || {}).code || null; _giftTravelers = 2;
   renderGiftCalendar();
   updateGiftRangeStatus();
   renderGiftTravelers();
-  selectGiftAirport('BEG');
+  renderGiftAirports();
   // Pre-fill giver email if already entered in main booking form
   const ce = document.getElementById('contactEmail');
   if (ce && ce.value) document.getElementById('giftGiverEmail').value = ce.value;
@@ -7216,8 +7377,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGiftPan
 
 function selectGiftAirport(code) {
   _giftAirport = code;
-  document.getElementById('giftBtnBEG').classList.toggle('on', code === 'BEG');
-  document.getElementById('giftBtnINI').classList.toggle('on', code === 'INI');
+  (S.airports || []).forEach(a => {
+    document.getElementById('giftBtn' + a.code)?.classList.toggle('on', code === a.code);
+  });
 }
 
 function renderGiftTravelers() {
