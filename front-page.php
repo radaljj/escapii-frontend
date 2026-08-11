@@ -3416,6 +3416,7 @@
           <div class="ap-soon-tooltip" role="tooltip">
             <div class="ap-soon-title" data-i18n="s1.soon.title">Planirana polazišta</div>
             <div class="ap-soon-list">
+              <span>✈ Budimpešta (BUD) <em data-i18n="s1.soon.hu">· Mađarska</em></span>
               <span>✈ Zagreb (ZAG) <em data-i18n="s1.soon.hr">· Hrvatska</em></span>
               <span>✈ Temišvar (TSR) <em data-i18n="s1.soon.ro">· Rumunija</em></span>
             </div>
@@ -5091,16 +5092,22 @@ async function loadAirports() {
   renderGiftAirports();
 }
 
+/** Aerodromi koje kupac sme da izabere - backend šalje i one koji još nisu u ponudi. */
+function selectableAirports() {
+  return S.airports.filter(a => a.publiclySelectable !== false);
+}
+
 function renderAirportCards() {
   const wrap = document.getElementById('airportCards');
   if (!wrap) return;
-  if (!S.airports.length) {
+  const list = selectableAirports();
+  if (!list.length) {
     wrap.innerHTML = `<div class="hint" style="grid-column:1/-1;text-align:center;padding:24px 0;">
       ${lang==='en' ? 'Could not load airports. Please refresh the page.' : 'Aerodromi trenutno nisu dostupni. Osveži stranicu.'}
     </div>`;
     return;
   }
-  wrap.innerHTML = S.airports.map(a => `
+  wrap.innerHTML = list.map(a => `
     <div class="airport-card${S.airport === a.code ? ' on' : ''}" id="ap-${a.code}" onclick="pickAirport(this,'${a.code}')">
       <img src="${IMG_BASE}/${a.imageSlug}${IMG_EXT}" alt="${airportCityName(a.code)}" loading="lazy">
       <div class="airport-overlay">
@@ -5115,8 +5122,9 @@ function renderAirportCards() {
 function renderGiftAirports() {
   const row = document.getElementById('giftAirportRow');
   if (!row) return;
-  if (!_giftAirport && S.airports.length) _giftAirport = S.airports[0].code;
-  row.innerHTML = S.airports.map(a => `
+  const list = selectableAirports();
+  if (!_giftAirport && list.length) _giftAirport = list[0].code;
+  row.innerHTML = list.map(a => `
     <button class="gift-airport-btn${_giftAirport === a.code ? ' on' : ''}" id="giftBtn${a.code}"
             onclick="selectGiftAirport('${a.code}')" type="button">
       <span>${a.code}</span><small>${airportFullName(a)}</small>
@@ -5804,6 +5812,18 @@ function pickAccom(el, type) {
 function togExtra(el, key) {
   S[key] = !S[key];
   el.classList.toggle('on', S[key]);
+  // Kad se presedanje isključi, ukloni iz isključenih sve destinacije koje zahtevaju presedanje
+  // (sada su skrivene iz grida - nema smisla držati ih u selekciji ni u ceni).
+  if (key === 'hasConnectingFlights') {
+    if (!S[key]) {
+      S.excludedIds = S.excludedIds.filter(id => {
+        const dest = S.destinations.find(d => d.id === id);
+        return !dest || !dest.connecting;
+      });
+    }
+    renderExclGrid();
+    loadPrice();
+  }
 }
 
 // ── Reveal Box ────────────────────────────────────────────────────────────────
@@ -5981,13 +6001,16 @@ function updateExclStep() {
 
 function renderExclGrid() {
   const grid = document.getElementById('exclGrid');
-  if (!S.destinations.length) {
+  // Destinacije označene kao presedanje se prikazuju SAMO kad je korisnik prihvatio presedanje.
+  // Bez toga ostaju skrivene - kupac ih ionako ne može dobiti bez presedanja pa nema smisla nudi mu ih.
+  const visible = S.destinations.filter(d => !d.connecting || S.hasConnectingFlights);
+  if (!visible.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:32px 0;color:rgba(255,255,255,.45);font-size:14px;">
       ${lang === 'en' ? 'No destinations available for this term.' : 'Nema dostupnih destinacija za izabrani termin.'}
     </div>`;
     return;
   }
-  grid.innerHTML = S.destinations.map(d => `
+  grid.innerHTML = visible.map(d => `
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${d.imageUrl || destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
       <div class="excl-overlay">

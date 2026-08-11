@@ -1709,15 +1709,20 @@ async function refreshTermDestList() {
     <div class="td-item" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07);${td.active ? '' : 'opacity:.55;'}">
       <div style="display:flex;align-items:center;gap:12px;min-width:0;">
         ${td.imageUrl
-          ? `<img src="${td.imageUrl}" style="width:44px;height:32px;object-fit:cover;border-radius:6px;flex-shrink:0;" alt="${td.name}">`
+          ? `<img src="${escHtml(td.imageUrl)}" style="width:44px;height:32px;object-fit:cover;border-radius:6px;flex-shrink:0;" alt="${escHtml(td.name)}">`
           : `<div style="width:44px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">✈️</div>`}
         <div style="min-width:0;">
-          <div style="font-weight:700;font-size:14px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${td.name}</div>
-          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${td.country} · <span style="color:var(--accent);">${td.airportCode}</span></div>
+          <div style="font-weight:700;font-size:14px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(td.name)}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${escHtml(td.country)} · <span style="color:var(--accent);">${escHtml(td.airportCode)}</span>${td.connecting ? ' · <span style="color:#fb923c;font-weight:700;">↔ Presedanje</span>' : ''}</div>
         </div>
       </div>
       <div class="td-item-right" style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
         <span style="font-size:11px;padding:2px 8px;border-radius:6px;${td.active ? 'background:rgba(34,197,94,.12);color:#4ade80;' : 'background:rgba(239,68,68,.1);color:#f87171;'}">${td.active ? '● Aktivan' : '● Neaktivan'}</span>
+        <button onclick="toggleConnectingDest(${td.destinationId}, ${td.connecting})"
+          title="${td.connecting ? 'Ukloni oznaku presedanja' : 'Označi kao presedanje'}"
+          style="background:${td.connecting ? 'rgba(251,146,60,.12)' : 'rgba(255,255,255,.06)'};border:none;color:${td.connecting ? '#fb923c' : 'var(--gray)'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
+          ${td.connecting ? '↔ Presedanje' : '↔'}
+        </button>
         <button onclick="toggleTermDest(${td.destinationId}, ${td.active})"
           style="background:${td.active ? 'rgba(239,68,68,.1)' : 'rgba(34,197,94,.1)'};border:none;color:${td.active ? '#f87171' : '#4ade80'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
           ${td.active ? 'Deaktiviraj' : 'Aktiviraj'}
@@ -1761,6 +1766,22 @@ async function toggleTermDest(destId, currentActive) {
     }
     await refreshTermDestList();
     await loadDates();
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
+  }
+}
+
+async function toggleConnectingDest(destId, currentConnecting) {
+  const newVal = !currentConnecting;
+  try {
+    const r = await fetch(`${API}/api/admin/dates/${_termDestDateId}/destinations/${destId}/connecting?value=${newVal}`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error(err.error || err.message || `Greška ${r.status}`);
+    }
+    await refreshTermDestList();
   } catch(e) {
     Swal.fire({ icon: 'error', title: 'Greška', text: e.message, background: '#0d1b38', color: '#fff' });
   }
