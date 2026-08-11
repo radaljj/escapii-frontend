@@ -2561,11 +2561,20 @@ function buildBookingDetail(b) {
     : `<select class="bc-dest-input" id="dest-${b.id}" onchange="saveDestination(${b.id})" style="cursor:pointer;">
          <option value="">-- izaberi destinaciju --</option>
          ${termDests.map(td => {
-           const isExc = excludedIds.has(td.destinationId);
-           const isCur = td.name === b.assignedDestination;
-           return `<option value="${td.name}" ${isCur?'selected':''} ${isExc?'disabled':''}
-             style="${isExc?'text-decoration:line-through;color:#64748b;':''}${!td.active?'opacity:.45;':''}">
-             ${td.name}${isExc?' 🚫':''}${!td.active?' (neaktivna)':''}
+           const isExc        = excludedIds.has(td.destinationId);
+           const isConnOnly   = td.connecting && !b.hasConnectingFlights;
+           const isCur        = td.name === b.assignedDestination;
+           const isDisabled   = isExc || isConnOnly;
+           let style = '';
+           if (isExc)      style = 'text-decoration:line-through;color:#64748b;';
+           else if (isConnOnly) style = 'color:#f59e0b;font-style:italic;';
+           if (!td.active) style += 'opacity:.45;';
+           let suffix = '';
+           if (isExc)      suffix = ' 🚫';
+           else if (isConnOnly) suffix = ' 🔀 (nije odabrao presedanje)';
+           else if (!td.active) suffix = ' (neaktivna)';
+           return `<option value="${td.name}" ${isCur?'selected':''} ${isDisabled?'disabled':''} style="${style}">
+             ${td.name}${suffix}
            </option>`;
          }).join('')}
        </select>`;
