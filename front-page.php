@@ -3889,7 +3889,7 @@
           <div class="terms-err-msg" id="privacy-err" data-i18n="err.privacy">Morate prihvatiti politiku privatnosti.</div>
           <div class="terms-check-row" id="gdpr-row">
             <input type="checkbox" id="chkGdpr">
-            <label for="chkGdpr" data-i18n-html="gdpr.check">Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span></label>
+            <label for="chkGdpr" data-i18n-html="gdpr.check">Saglasan/na sam sa obradom ličnih podataka za potrebe moje rezervacije. <span class="req">*</span></label>
           </div>
           <div class="terms-err-msg" id="gdpr-err" data-i18n="err.gdpr">Morate dati saglasnost za obradu podataka.</div>
         </div>
@@ -4405,7 +4405,7 @@ const TR = {
     'transfer.check.generic':'Prevoz do aerodroma polaska organizuješ sam, a mi se dalje brinemo za tvoju avanturu. 🌍',
     'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
     'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
-    'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka u svrhu organizacije putovanja. <span class="req">*</span>',
+    'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka za potrebe moje rezervacije. <span class="req">*</span>',
     'err.srv':'Nešto nije u redu. Pokušajte ponovo, a ako se problem ponovi kontaktirajte nas na info@escapii.rs.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na info@escapii.rs.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
     's3.nodates.title':'Nema dostupnih termina',
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email - javljamo ti čim se otvore novi.',
@@ -4656,7 +4656,7 @@ const TR = {
     'transfer.check.generic':'You arrange your own transport to the departure airport, and we take care of the rest of your adventure. 🌍',
     'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
     'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
-    'gdpr.check':'I consent to the processing of my personal data for trip organization purposes. <span class="req">*</span>',
+    'gdpr.check':'I consent to the processing of my personal data for the purposes of my booking. <span class="req">*</span>',
     'err.srv':'Something went wrong. Please try again - if the problem persists, contact us at info@escapii.rs.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at info@escapii.rs.', 'success.ref': id=>`Booking reference: ${id}`,
     's3.nodates.title':'No available dates',
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email - we\'ll notify you when new ones open.',
