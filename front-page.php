@@ -5060,10 +5060,19 @@ function defaultAirportCode() {
  * koristi se opšta formulacija bez imena.
  */
 function updateTransferNotice() {
-  const el = document.getElementById('transferNoteText');
-  if (!el) return;
-  const city = airportCityName(S.airport);
-  el.textContent = city ? t('transfer.check', city) : t('transfer.check.generic');
+  const el  = document.getElementById('transferNoteText');
+  const row = document.getElementById('transfer-row');
+  const err = document.getElementById('transfer-err');
+  if (!el || !row) return;
+  const a = airportByCode(S.airport);
+  // Kartica za prevoz se prikazuje samo za aerodrome van Srbije (domestic === false)
+  const show = a ? a.domestic === false : false;
+  row.style.display = show ? '' : 'none';
+  if (!show && err) err.classList.remove('visible');
+  if (show) {
+    const city = airportCityName(S.airport);
+    el.textContent = city ? t('transfer.check', city) : t('transfer.check.generic');
+  }
 }
 function airportCityName(code) {
   const a = airportByCode(code);
@@ -6579,12 +6588,13 @@ function validateContact() {
   });
   window._contactErrors = errors;
 
-  // Prevoz do aerodroma - obavezna potvrda pre slanja upita
+  // Prevoz do aerodroma - obavezna potvrda, ali samo kad je row vidljiv (inostrani aerodrom)
   const chkTransfer  = document.getElementById('chkTransfer');
   const transferRow  = document.getElementById('transfer-row');
   const transferErr  = document.getElementById('transfer-err');
-  if (chkTransfer && !chkTransfer.checked) {
-    transferRow?.classList.add('terms-invalid');
+  const transferVisible = transferRow && transferRow.style.display !== 'none';
+  if (transferVisible && chkTransfer && !chkTransfer.checked) {
+    transferRow.classList.add('terms-invalid');
     transferErr?.classList.add('visible');
     ok = false;
   } else {
