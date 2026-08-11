@@ -1713,15 +1713,15 @@ async function refreshTermDestList() {
           : `<div style="width:44px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">✈️</div>`}
         <div style="min-width:0;">
           <div style="font-weight:700;font-size:14px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(td.name)}</div>
-          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${escHtml(td.country)} · <span style="color:var(--accent);">${escHtml(td.airportCode)}</span>${td.connecting ? ' · <span style="color:#fb923c;font-weight:700;">↔ Presedanje</span>' : ''}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">${escHtml(td.country)} · <span style="color:var(--accent);">${escHtml(td.airportCode)}</span>${td.connecting ? ' · <span style="color:#fb923c;font-weight:700;">🔀 Presedanje</span>' : ''}</div>
         </div>
       </div>
       <div class="td-item-right" style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
         <span style="font-size:11px;padding:2px 8px;border-radius:6px;${td.active ? 'background:rgba(34,197,94,.12);color:#4ade80;' : 'background:rgba(239,68,68,.1);color:#f87171;'}">${td.active ? '● Aktivan' : '● Neaktivan'}</span>
         <button onclick="toggleConnectingDest(${td.destinationId}, ${td.connecting})"
           title="${td.connecting ? 'Ukloni oznaku presedanja' : 'Označi kao presedanje'}"
-          style="background:${td.connecting ? 'rgba(251,146,60,.12)' : 'rgba(255,255,255,.06)'};border:none;color:${td.connecting ? '#fb923c' : 'var(--gray)'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
-          ${td.connecting ? '↔ Presedanje' : '↔'}
+          style="background:${td.connecting ? 'rgba(251,146,60,.15)' : 'rgba(255,255,255,.06)'};border:1px solid ${td.connecting ? 'rgba(251,146,60,.4)' : 'rgba(255,255,255,.1)'};color:${td.connecting ? '#fb923c' : 'rgba(255,255,255,.4)'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
+          ${td.connecting ? '🔀 Presedanje' : '🔀'}
         </button>
         <button onclick="toggleTermDest(${td.destinationId}, ${td.active})"
           style="background:${td.active ? 'rgba(239,68,68,.1)' : 'rgba(34,197,94,.1)'};border:none;color:${td.active ? '#f87171' : '#4ade80'};border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">
