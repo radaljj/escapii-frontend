@@ -2570,8 +2570,9 @@ function buildBookingDetail(b) {
            else if (isConnOnly) style = 'color:#f59e0b;font-style:italic;';
            if (!td.active) style += 'opacity:.45;';
            let suffix = '';
-           if (isExc)      suffix = ' 🚫';
+           if (isExc)           suffix = ' 🚫';
            else if (isConnOnly) suffix = ' 🔀 (nije odabrao presedanje)';
+           else if (td.connecting) suffix = ' 🔀';
            else if (!td.active) suffix = ' (neaktivna)';
            return `<option value="${td.name}" ${isCur?'selected':''} ${isDisabled?'disabled':''} style="${style}">
              ${td.name}${suffix}
