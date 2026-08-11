@@ -461,6 +461,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <?php
 }
 
+/** HubSpot tracking - učitava se async/defer, ne blokira render. */
+add_action('wp_footer', 'esc_hubspot_tracking', 5);
+function esc_hubspot_tracking() { ?>
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/148950343.js"></script>
+<!-- End of HubSpot Embed Code -->
+<?php }
+
 /** Banner za saglasnost - na svakoj javnoj strani, ista logika svuda. */
 add_action('wp_footer', 'esc_cookie_banner');
 function esc_cookie_banner() {
