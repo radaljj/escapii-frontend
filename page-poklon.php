@@ -16,6 +16,7 @@ $site_url  = get_site_url();
   <title>Neko ti je poklonio iznenađenje - Escapii</title>
   <?php wp_head(); ?>
   <style>
+    :root { --gold: #CA8A71; --gold2: #B57560; --gray: #7A9FA8; --accent: #CA8A71; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     * { -webkit-tap-highlight-color: transparent; }
 
@@ -531,6 +532,22 @@ const I18N = {
     failLoad:      'Greška pri učitavanju',
     failLoadSub:   'Pokušaj ponovo za nekoliko sekundi.',
     dateLocale:    'sr-RS',
+    'nav.status':         'Moja rezervacija',
+    'snav.how':           'Kako funkcioniše',
+    'snav.about':         'O nama',
+    'snav.dest':          'Destinacije',
+    'snav.who':           'Za koga',
+    'snav.faq':           'FAQ',
+    'snav.blog':          'Blog',
+    'snav.book.cta':      'Rezerviši →',
+    'snav.book':          'Rezerviši',
+    'snav.call':          '✉ Kontaktiraj nas',
+    'snav.call.hours':    'info@escapii.rs',
+    'nav.gift.label':     'Pokloni putovanje iznenađenja',
+    'nav.gift.offer':     'Pokloni putovanje iznenađenja',
+    'nav.gift.offer.sub': 'Pokloni savršen poklon nekome ko voli da putuje',
+    'nav.gift.redeem':    'Iskoristi poklon',
+    'nav.gift.redeem.sub':'Imaš poklon kod? Aktiviraj ga ovde',
     stubInfoFn: function(amount, expiresAt) {
       return 'Unesi kod pri rezervaciji - cena se automatski umanjuje za <strong>' + amount + '€</strong>.<br><br>Važi do: <strong>' + _fmtDate(expiresAt) + '</strong>';
     },
@@ -583,6 +600,22 @@ const I18N = {
     failLoad:      'Loading error',
     failLoadSub:   'Please try again in a few seconds.',
     dateLocale:    'en-GB',
+    'nav.status':         'My booking',
+    'snav.how':           'How it works',
+    'snav.about':         'About us',
+    'snav.dest':          'Destinations',
+    'snav.who':           'Who is it for',
+    'snav.faq':           'FAQ',
+    'snav.blog':          'Blog',
+    'snav.book.cta':      'Book →',
+    'snav.book':          'Book',
+    'snav.call':          '✉ Contact us',
+    'snav.call.hours':    'info@escapii.rs',
+    'nav.gift.label':     'Gift a Surprise Trip',
+    'nav.gift.offer':     'Gift a Surprise Trip',
+    'nav.gift.offer.sub': 'The perfect gift for someone who loves to travel',
+    'nav.gift.redeem':    'Redeem a gift',
+    'nav.gift.redeem.sub':'Have a gift code? Activate it here',
     stubInfoFn: function(amount, expiresAt) {
       return 'Enter code at checkout — price is automatically reduced by <strong>' + amount + '€</strong>.<br><br>Valid until: <strong>' + _fmtDate(expiresAt) + '</strong>';
     },
@@ -611,6 +644,12 @@ function setLang(l) {
 }
 
 function applyTranslations() {
+  // data-i18n elements (nav + everything with a key in T)
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (T[key] !== undefined) el.textContent = T[key];
+  });
+  // page-specific elements
   var el;
   el = document.querySelector('.loading-txt');
   if (el) el.textContent = T.loading;
