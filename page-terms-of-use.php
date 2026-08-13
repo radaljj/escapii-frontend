@@ -733,7 +733,7 @@ body {
   </main>
 </div>
 
-<?php include get_template_directory() . '/inc/footer.php'; ?>
+<?php $_COOKIE['esc-lang'] = 'en'; include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>
