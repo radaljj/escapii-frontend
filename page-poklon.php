@@ -487,19 +487,158 @@ $site_url  = get_site_url();
 </div>
 
 <script>
+// ── Translations ──────────────────────────────────────────────────────────
+const I18N = {
+  sr: {
+    loading:       'Proveravamo tvoj poklon...',
+    errTitle:      'Vaučer nije pronađen',
+    errSub:        'Kod nije validan, nije aktivan ili je već iskorišćen.',
+    errBtn:        'Pogledaj poklon opcije',
+    entryTitle:    'Iskoristi poklon',
+    entrySub:      'Unesi kod sa vaučera pa ti pokažemo koliko iznosi.',
+    entryPh:       'ESC-XXXX-XXXX-XXXX',
+    entryBtn:      'Proveri kod',
+    entryBtnWait:  'Proveravamo...',
+    entryReq:      'Unesi kod sa vaučera.',
+    badgeActive:   '✓ VAUČER AKTIVAN',
+    cardTag:       '🎟️ Poklon vaučer',
+    cardEyebrow:   '- Iskoristi vaučer za Escapii putovanje -',
+    cardH1:        'Tvoja sledeća<br><em>avantura te čeka.</em>',
+    routeFrom:     'Polazak',
+    routeFromSub:  'Aerodrom po tvom izboru',
+    routeTo:       'Iznenađenje',
+    routeToSub:    'otkriva se 48h pre polaska',
+    metaIssued:    'Izdato',
+    metaExpires:   'Važi do',
+    metaValue:     'Vrednost',
+    personalMsg:   'Lična poruka',
+    stubHead:      'BOARDING PASS · <b>GIFT</b>',
+    stubKValue:    'Vrednost',
+    stubKCode:     'Vaučer kod',
+    stubScan:      'escapii.rs · unesi kod pri rezervaciji',
+    howH:          'Kako iskoristiti vaučer?',
+    how1Title:     'Escapii putovanje',
+    how2Title:     'Prilagođeni termin',
+    how2Sub:       'Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara - iznenađenje i dalje ostaje tajna.',
+    how1Btn:       'Pogledaj termine →',
+    how2Btn:       'Zatraži termin koji ti odgovara →',
+    info2:         '✓ Unosi se u booking formi pri rezervaciji putovanja',
+    info3:         '✓ Važi za bilo koji termin i bilo koji aerodrom polaska',
+    info4:         '✓ Pitanja? <a href="mailto:info@escapii.rs">info@escapii.rs</a>',
+    failNotActive: 'Vaučer nije aktivan',
+    failNotFound:  'Vaučer nije pronađen',
+    failDefault:   'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.',
+    failLoad:      'Greška pri učitavanju',
+    failLoadSub:   'Pokušaj ponovo za nekoliko sekundi.',
+    dateLocale:    'sr-RS',
+    stubInfoFn: function(amount, expiresAt) {
+      return 'Unesi kod pri rezervaciji - cena se automatski umanjuje za <strong>' + amount + '€</strong>.<br><br>Važi do: <strong>' + _fmtDate(expiresAt) + '</strong>';
+    },
+    how1SubFn: function(code, amount) {
+      return 'Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>' + _esc(code) + '</strong> - cena se automatski umanjuje za ' + amount + '€.';
+    },
+    info1Fn: function(expiresAt) {
+      return '✓ Važi <strong>godinu dana od aktivacije</strong> - do ' + _fmtDate(expiresAt);
+    },
+  },
+  en: {
+    loading:       'Checking your gift...',
+    errTitle:      'Voucher not found',
+    errSub:        'The code is invalid, not yet active, or has already been used.',
+    errBtn:        'View gift options',
+    entryTitle:    'Redeem your gift',
+    entrySub:      "Enter the code from your voucher and we'll show you the value.",
+    entryPh:       'ESC-XXXX-XXXX-XXXX',
+    entryBtn:      'Check code',
+    entryBtnWait:  'Checking...',
+    entryReq:      'Please enter your voucher code.',
+    badgeActive:   '✓ VOUCHER ACTIVE',
+    cardTag:       '🎟️ Gift voucher',
+    cardEyebrow:   '- Redeem your voucher for an Escapii trip -',
+    cardH1:        'Your next<br><em>adventure awaits.</em>',
+    routeFrom:     'Departure',
+    routeFromSub:  'Airport of your choice',
+    routeTo:       'Surprise',
+    routeToSub:    'revealed 48h before departure',
+    metaIssued:    'Issued',
+    metaExpires:   'Valid until',
+    metaValue:     'Value',
+    personalMsg:   'Personal message',
+    stubHead:      'BOARDING PASS · <b>GIFT</b>',
+    stubKValue:    'Value',
+    stubKCode:     'Voucher code',
+    stubScan:      'escapii.rs · enter code at checkout',
+    howH:          'How to use your voucher?',
+    how1Title:     'Escapii trip',
+    how2Title:     'Custom date',
+    how2Sub:       "No suitable date? We'll organise a trip for a time that suits you — the surprise destination stays secret.",
+    how1Btn:       'Browse departures →',
+    how2Btn:       'Request a custom date →',
+    info2:         '✓ Enter it in the booking form when reserving your trip',
+    info3:         '✓ Valid for any departure date and any airport',
+    info4:         '✓ Questions? <a href="mailto:info@escapii.rs">info@escapii.rs</a>',
+    failNotActive: 'Voucher not active',
+    failNotFound:  'Voucher not found',
+    failDefault:   'The voucher code is invalid, not yet activated, or has already been used.',
+    failLoad:      'Loading error',
+    failLoadSub:   'Please try again in a few seconds.',
+    dateLocale:    'en-GB',
+    stubInfoFn: function(amount, expiresAt) {
+      return 'Enter code at checkout — price is automatically reduced by <strong>' + amount + '€</strong>.<br><br>Valid until: <strong>' + _fmtDate(expiresAt) + '</strong>';
+    },
+    how1SubFn: function(code, amount) {
+      return 'Choose a departure and enter code <strong>' + _esc(code) + '</strong> at checkout — price is automatically reduced by ' + amount + '€.';
+    },
+    info1Fn: function(expiresAt) {
+      return '✓ Valid <strong>one year from activation</strong> — until ' + _fmtDate(expiresAt);
+    },
+  }
+};
+
+let LANG = 'sr';
+let T = I18N.sr;
+
 // ── Nav ───────────────────────────────────────────────────────────────────
-// Stranica je samo na srpskom, pa izbor jezika samo pamti odluku i osveži
-// dugmad - prevod se primenjuje kad korisnik ode na neku drugu stranicu.
 function setLang(l) {
+  LANG = l;
+  T = I18N[l] || I18N.sr;
   try { localStorage.setItem('esc-lang', l); } catch (e) {}
+  document.cookie = 'esc-lang=' + l + '; path=/; max-age=31536000';
   document.querySelectorAll('.lang-btn').forEach(function(b) {
     b.classList.toggle('on', b.textContent.trim().toLowerCase() === l);
   });
+  applyTranslations();
 }
+
+function applyTranslations() {
+  var el;
+  el = document.querySelector('.loading-txt');
+  if (el) el.textContent = T.loading;
+  el = document.getElementById('errTitle');
+  if (el && !el._custom) el.textContent = T.errTitle;
+  el = document.getElementById('errSub');
+  if (el && !el._custom) el.textContent = T.errSub;
+  el = document.querySelector('#stateError .err-btn');
+  if (el) el.textContent = T.errBtn;
+  el = document.querySelector('#stateEntry .err-title');
+  if (el) el.textContent = T.entryTitle;
+  el = document.querySelector('#stateEntry .err-sub');
+  if (el) el.textContent = T.entrySub;
+  el = document.getElementById('entryCode');
+  if (el) el.placeholder = T.entryPh;
+  el = document.getElementById('entryBtn');
+  if (el && !el.disabled) el.textContent = T.entryBtn;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   var saved = null;
   try { saved = localStorage.getItem('esc-lang'); } catch (e) {}
-  if (saved) setLang(saved);
+  if (!saved) {
+    var m = document.cookie.match(/esc-lang=([^;]+)/);
+    if (m) saved = m[1];
+  }
+  if (saved === 'en' || saved === 'sr') setLang(saved);
+  else applyTranslations();
 });
 
 
@@ -598,7 +737,7 @@ const _AMOUNT_WORDS = {
 
 function _fmtDate(iso) {
   if (!iso) return '-';
-  return new Date(iso).toLocaleDateString('sr-RS', { day:'2-digit', month:'2-digit', year:'numeric' });
+  return new Date(iso).toLocaleDateString(T.dateLocale, { day:'2-digit', month:'2-digit', year:'numeric' });
 }
 
 // ── Boarding pass render ───────────────────────────────────────────────────────
@@ -612,9 +751,16 @@ function _renderRevealCard(container, code, d) {
       ${d.buyerName ? `<div class="bp-msg-sig">- <strong>${_esc(d.buyerName)}</strong></div>` : ''}
     </div>` : '';
 
+  const msgHtml2 = d.giftMessage ? `
+    <div class="bp-msg" style="margin-top:13px;">
+      <div class="bp-msg-k">${T.personalMsg}</div>
+      <div class="bp-msg-text">${_esc(d.giftMessage)}</div>
+      ${d.buyerName ? `<div class="bp-msg-sig">- <strong>${_esc(d.buyerName)}</strong></div>` : ''}
+    </div>` : '';
+
   container.innerHTML = `
     <div class="bp-status-wrap">
-      <div class="bp-badge-active">✓ VAUČER AKTIVAN</div>
+      <div class="bp-badge-active">${T.badgeActive}</div>
     </div>
 
     <div class="bp-card" id="bpCardEl">
@@ -624,17 +770,17 @@ function _renderRevealCard(container, code, d) {
         <div class="bp-main">
           <div class="bp-hdr">
             <img src="${THEME_URI}/images/logo-black.svg" alt="escapii" class="bp-logo">
-            <div class="bp-tag">🎟️ Poklon vaučer</div>
+            <div class="bp-tag">${T.cardTag}</div>
           </div>
           <div class="bp-title-area">
-            <div class="bp-eyebrow">- Iskoristi vaučer za Escapii putovanje -</div>
-            <h2 class="bp-h1">Tvoja sledeća<br><em>avantura te čeka.</em></h2>
+            <div class="bp-eyebrow">${T.cardEyebrow}</div>
+            <h2 class="bp-h1">${T.cardH1}</h2>
           </div>
           <div class="bp-route">
             <div class="bp-route-from">
               <div class="bp-iata">???</div>
-              <div class="bp-city">Polazak</div>
-              <div class="bp-cap">Aerodrom po tvom izboru</div>
+              <div class="bp-city">${T.routeFrom}</div>
+              <div class="bp-cap">${T.routeFromSub}</div>
             </div>
             <div class="bp-route-mid">
               <span class="bp-plane-icon">✈</span>
@@ -642,67 +788,64 @@ function _renderRevealCard(container, code, d) {
             </div>
             <div class="bp-route-to">
               <div class="bp-iata bp-iata-dest">???</div>
-              <div class="bp-city bp-city-r">Iznenađenje</div>
-              <div class="bp-cap bp-cap-r">otkriva se 48h pre polaska</div>
+              <div class="bp-city bp-city-r">${T.routeTo}</div>
+              <div class="bp-cap bp-cap-r">${T.routeToSub}</div>
             </div>
           </div>
           <div class="bp-meta">
             <div class="bp-meta-cell">
-              <div class="bp-mk">Izdato</div>
+              <div class="bp-mk">${T.metaIssued}</div>
               <div class="bp-mv">${_fmtDate(d.activatedAt)}</div>
             </div>
             <div class="bp-meta-cell">
-              <div class="bp-mk">Važi do</div>
+              <div class="bp-mk">${T.metaExpires}</div>
               <div class="bp-mv bp-mv-terra">${_fmtDate(d.expiresAt)}</div>
             </div>
             <div class="bp-meta-cell">
-              <div class="bp-mk">Vrednost</div>
+              <div class="bp-mk">${T.metaValue}</div>
               <div class="bp-mv">${amount} €</div>
             </div>
           </div>
-          ${msgHtml}
+          ${msgHtml2}
         </div>
 
         <div class="bp-perf"></div>
 
         <div class="bp-stub">
-          <div class="bp-stub-head">BOARDING PASS · <b>GIFT</b></div>
-          <div class="bp-stub-k">Vrednost</div>
+          <div class="bp-stub-head">${T.stubHead}</div>
+          <div class="bp-stub-k">${T.stubKValue}</div>
           <div class="bp-stub-amount">${amount}<span class="bp-cur"> €</span></div>
-          <div class="bp-stub-k">Vaučer kod</div>
+          <div class="bp-stub-k">${T.stubKCode}</div>
           <div class="bp-code-wrap">
             <span class="bp-code-text">${_esc(code)}</span>
           </div>
-          <div class="bp-stub-info">
-            Unesi kod pri rezervaciji - cena se automatski umanjuje za <strong>${amount}€</strong>.<br><br>
-            Važi do: <strong>${_fmtDate(d.expiresAt)}</strong>
-          </div>
-          <div class="bp-stub-scan">escapii.rs · unesi kod pri rezervaciji</div>
+          <div class="bp-stub-info">${T.stubInfoFn(amount, d.expiresAt)}</div>
+          <div class="bp-stub-scan">${T.stubScan}</div>
         </div>
       </div>
     </div>
 
     <div class="bp-how">
-      <h3 class="bp-how-h">Kako iskoristiti vaučer?</h3>
+      <h3 class="bp-how-h">${T.howH}</h3>
       <div class="bp-how-cards">
         <div class="bp-how-card">
           <div class="bp-how-icon">✈️</div>
-          <div class="bp-how-title">Escapii putovanje</div>
-          <div class="bp-how-sub">Odaberi neki od naših termina, pri rezervaciji unesi kod <strong>${_esc(code)}</strong> - cena se automatski umanjuje za ${amount}€.</div>
-          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Pogledaj termine →</a>
+          <div class="bp-how-title">${T.how1Title}</div>
+          <div class="bp-how-sub">${T.how1SubFn(code, amount)}</div>
+          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">${T.how1Btn}</a>
         </div>
         <div class="bp-how-card">
           <div class="bp-how-icon">🌍</div>
-          <div class="bp-how-title">Prilagođeni termin</div>
-          <div class="bp-how-sub">Ne odgovara ti nijedan datum? Organizujemo putovanje za termin koji tebi odgovara - iznenađenje i dalje ostaje tajna.</div>
-          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">Zatraži termin koji ti odgovara →</a>
+          <div class="bp-how-title">${T.how2Title}</div>
+          <div class="bp-how-sub">${T.how2Sub}</div>
+          <a href="${SITE_URL}/#esc-booking" class="bp-how-btn">${T.how2Btn}</a>
         </div>
       </div>
       <div class="bp-how-info">
-        <div class="bp-info-item">✓ Važi <strong>godinu dana od aktivacije</strong> - do ${_fmtDate(d.expiresAt)}</div>
-        <div class="bp-info-item">✓ Unosi se u booking formi pri rezervaciji putovanja</div>
-        <div class="bp-info-item">✓ Važi za bilo koji termin i bilo koji aerodrom polaska</div>
-        <div class="bp-info-item">✓ Pitanja? <a href="mailto:info@escapii.rs">info@escapii.rs</a></div>
+        <div class="bp-info-item">${T.info1Fn(d.expiresAt)}</div>
+        <div class="bp-info-item">${T.info2}</div>
+        <div class="bp-info-item">${T.info3}</div>
+        <div class="bp-info-item">${T.info4}</div>
       </div>
     </div>`;
 
@@ -714,8 +857,10 @@ function _renderRevealCard(container, code, d) {
 
 function _renderRevealError(container, msg) {
   document.getElementById('stateReveal').style.display = 'none';
-  document.getElementById('errTitle').textContent = 'Vaučer nije pronađen';
-  document.getElementById('errSub').textContent   = msg || 'Kod nije validan, nije aktivan ili je već iskorišćen.';
+  var t = document.getElementById('errTitle');
+  var s = document.getElementById('errSub');
+  t.textContent = T.failNotFound; t._custom = true;
+  s.textContent = msg || T.errSub;  s._custom = true;
   document.getElementById('stateError').style.display = 'flex';
 }
 
@@ -757,8 +902,7 @@ async function revealCode(code, { inline = false } = {}) {
     const data = await res.json();
 
     if (!data.valid) {
-      fail('Vaučer nije aktivan',
-           data.message || 'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.');
+      fail(T.failNotActive, data.message || T.failDefault);
       return;
     }
 
@@ -767,7 +911,7 @@ async function revealCode(code, { inline = false } = {}) {
     setTimeout(launchConfetti, 600);
 
   } catch (e) {
-    fail('Greška pri učitavanju', 'Pokušaj ponovo za nekoliko sekundi.');
+    fail(T.failLoad, T.failLoadSub);
   }
 }
 
@@ -795,13 +939,13 @@ function onEntrySubmit(e) {
 
   msg.textContent = '';
   if (!code) {
-    msg.textContent = 'Unesi kod sa vaučera.';
+    msg.textContent = T.entryReq;
     input.focus();
     return;
   }
 
   btn.disabled = true;
-  btn.textContent = 'Proveravamo...';
+  btn.textContent = T.entryBtnWait;
   revealCode(code, { inline: true });
 }
 
