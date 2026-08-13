@@ -367,7 +367,7 @@ body {
   <p>Please read these terms before submitting an enquiry - by using the platform you accept these rules.</p>
   <div class="pp-updated">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Last updated: May 2026 · v2 (gift vouchers, private trips)
+    Last updated: April 2026 · v2 (gift vouchers, private trips)
   </div>
 </div>
 
@@ -378,7 +378,8 @@ body {
   <nav class="pp-toc">
     <div class="pp-toc-title">Contents</div>
     <ul>
-      <li><a href="#who-we-are">Who we are</a></li>
+      <li><a href="#who-we-are">About the service</a></li>
+      <li><a href="#acceptance-of-terms">Acceptance of Terms</a></li>
       <li><a href="#how-it-works">How Escapii works</a></li>
       <li><a href="#booking-process">Booking process</a></li>
       <li><a href="#prices-payment">Prices &amp; payment</a></li>
@@ -397,17 +398,31 @@ body {
   <!-- Content -->
   <main class="pp-content">
 
-    <!-- Who we are -->
+    <!-- About the service -->
     <section class="pp-section" id="who-we-are">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
-        <h2>Who we are and what we do</h2>
+        <h2>About the service</h2>
       </div>
 
-      <p><strong>Escapii</strong> is a digital platform for organising surprise trips. The user selects an airport, dates, number of travellers, and preferences - we find and organise the trip.</p>
-      <p>Escapii <strong>is not a travel agency</strong> and does not act as a licensed travel organiser. We act as a <strong>sub-agent</strong> of a partner travel agency that is fully responsible for executing the travel package.</p>
+      <p><strong>Escapii</strong> is a service for organizing <strong>surprise trips</strong> — you select an airport, travel dates, and preferences, and we choose your destination, which remains secret until departure.</p>
+      <p>The service is provided by <strong>Escapii</strong> based in Serbia.</p>
+      <p>📧 escapii.team@gmail.com<br>🌐 escapii.rs</p>
+    </section>
+
+    <!-- Acceptance of Terms -->
+    <section class="pp-section" id="acceptance-of-terms">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h2>Acceptance of Terms</h2>
+      </div>
+
+      <p>By submitting an enquiry for a trip, you confirm that you have read and accepted these Terms of Use and our Privacy Policy. If you do not agree with these terms, please do not submit an enquiry.</p>
+      <p>The service is only available to persons aged <strong>18 and above</strong>. Minors may only travel with the accompaniment and written consent of a parent or legal guardian who accepts these terms.</p>
     </section>
 
     <!-- How it works -->
@@ -421,12 +436,12 @@ body {
 
       <p>Escapii is a platform for <strong>surprise trips</strong> - the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>48 hours before departure</strong>.</p>
 
-      <h3>The surprise concept</h3>
+      <h3>How it works</h3>
       <ul class="pp-list">
-        <li><strong>The traveller chooses:</strong> airport, dates, number of passengers, accommodation type, add-ons (insurance, breakfast, seats together, cabin bag) and up to 5 destinations to exclude</li>
-        <li><strong>Escapii and BTA select the destination</strong> from available flights that are not excluded - every trip is tailored to the best available options at that moment, so the final destination may be one not currently featured on the website</li>
-        <li><strong>The destination is revealed</strong> to the traveller via email 48 hours before departure</li>
-        <li>By submitting an enquiry, the traveller <strong>accepts the surprise as an inherent part of the service</strong> and may not request a change of destination after the booking is confirmed</li>
+        <li><strong>You choose:</strong> departure airport, travel dates, number of travellers, accommodation type, add-ons (travel insurance, breakfast, seats together, cabin bag) and any destinations to exclude</li>
+        <li><strong>We select the destination</strong> from available flights that are not excluded - the destination is based on availability, season, and your preferences</li>
+        <li><strong>The destination is revealed</strong> via email 48 hours before departure with all flight and accommodation details</li>
+        <li>By submitting an enquiry, you <strong>accept the surprise concept as the core of the service</strong> and cannot request a destination change after booking confirmation</li>
       </ul>
 
       <div class="pp-notice">
@@ -454,10 +469,10 @@ body {
             <tr><th>Step</th><th>Description</th></tr>
           </thead>
           <tbody>
-            <tr><td>1. Enquiry</td><td>The traveller fills in the form on the website and submits an enquiry. An automatic confirmation is sent to their email.</td></tr>
-            <tr><td>2. Review</td><td>The Escapii team and agency BTA check availability and pricing. The enquiry is not binding on the traveller until a confirmation and payment have been received.</td></tr>
-            <tr><td>3. Confirmation &amp; payment</td><td>The traveller receives an email with booking details and payment instructions. The booking is considered finalised only upon receipt of payment.</td></tr>
-            <tr><td>4. Reveal</td><td>48 hours before departure, the traveller receives an email with the destination, a weather forecast link, and all relevant information.</td></tr>
+            <tr><td>1. Enquiry</td><td>You complete the form on the website and submit your enquiry. An automatic confirmation is sent to your email.</td></tr>
+            <tr><td>2. Review</td><td>Our team checks availability and pricing. Your enquiry is not binding until we send a confirmation and you have made payment.</td></tr>
+            <tr><td>3. Confirmation &amp; payment</td><td>You receive an email with booking details and payment instructions. Your booking is final only when payment is received and verified.</td></tr>
+            <tr><td>4. Reveal</td><td>48 hours before departure, you receive an email with the destination, weather forecast, flight details, and all relevant information.</td></tr>
           </tbody>
         </table>
       </div>
@@ -615,18 +630,18 @@ body {
         <h2>Cancellation &amp; changes</h2>
       </div>
 
-      <p>Cancellations and changes to bookings are governed by the conditions of the partner travel agency. The table below is a general overview - exact conditions are available from the Escapii team at <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
+      <p>Cancellations are subject to the conditions below. For exact details, contact the Escapii team at <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
 
       <div class="pp-table-wrap">
         <table class="pp-table">
           <thead>
-            <tr><th>Period before departure</th><th>Cancellation fee</th></tr>
+            <tr><th>Time before departure</th><th>Refund</th></tr>
           </thead>
           <tbody>
-            <tr><td>Before payment of deposit</td><td>No charge - the enquiry is non-binding</td></tr>
-            <tr><td>After deposit payment, more than 30 days before departure</td><td>Deposit retained (per BTA terms)</td></tr>
-            <tr><td>15–30 days before departure</td><td>Portion of total price (per BTA terms)</td></tr>
-            <tr><td>Fewer than 15 days before departure</td><td>Full amount may be retained</td></tr>
+            <tr><td>More than 30 days</td><td>80% of paid amount</td></tr>
+            <tr><td>15–30 days</td><td>50% of paid amount</td></tr>
+            <tr><td>7–14 days</td><td>30% of paid amount</td></tr>
+            <tr><td>Less than 7 days</td><td>No refund</td></tr>
           </tbody>
         </table>
       </div>
@@ -641,10 +656,10 @@ body {
       </div>
 
       <h3>Changes to a confirmed booking</h3>
-      <p><strong>No changes are possible after a booking has been confirmed.</strong> By confirming the booking, the traveller accepts all travel conditions (destination, dates, number of travellers, accommodation type, and add-ons) as final. The only option after confirmation is cancellation, subject to the applicable fees shown in the table above.</p>
+      <p><strong>No changes are possible after a booking has been confirmed.</strong> By confirming the booking, you accept all travel conditions (destination, dates, number of travellers, accommodation type, and add-ons) as final. The only option after confirmation is cancellation, subject to the applicable fees in the table above.</p>
 
-      <h3>Cancellation by the organiser</h3>
-      <p>If the travel organiser cancels the trip for reasons not attributable to the traveller, the traveller will receive a full refund of all amounts paid, or an alternative package of equivalent value.</p>
+      <h3>Cancellation by Escapii</h3>
+      <p>In exceptional circumstances (natural disasters, political instability, border closures, or insufficient bookings), Escapii reserves the right to cancel the trip. In such cases, you will receive a full refund of all amounts paid, or the option to transfer your booking to another date by mutual agreement.</p>
     </section>
 
     <!-- Liability -->
