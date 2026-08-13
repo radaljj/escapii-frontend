@@ -431,7 +431,7 @@ a { color: inherit; }
 
     <details class="faq">
       <summary class="faq-q"><h3 data-i18n="q6">Mogu li da otkažem ili promenim rezervaciju?</h3><span class="faq-ic"></span></summary>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a6">Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati <strong>fleksibilne karte</strong>, koje ti daju mogućnost promene datuma.<br>- Ako razmišljas o poklonu, opcija "Poklon putovanje iznenadjenja" omogucava da primalac iskoristi vaučer kod za bilo koje nase putovanje ukljucujuci i prilagodjena putovanja.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina.</div></div>
+      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a6">Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati <strong>fleksibilne karte</strong>, koje ti daju mogućnost promene datuma.<br>- Ako razmišljaš o poklonu, opcija "Poklon putovanje iznenađenja" omogućava da primalac iskoristi vaučer kod za bilo koje naše putovanje uključujući i prilagođena putovanja.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina.</div></div>
     </details>
 
     <details class="faq">
@@ -441,7 +441,7 @@ a { color: inherit; }
 
     <details class="faq">
       <summary class="faq-q"><h3 data-i18n="q9">Da li mogu da putujem sam/sama?</h3><span class="faq-ic"></span></summary>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a9">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje <strong>jednokratna doplata od 60€</strong> na cenu putovanja, jer se hotelske sobe standardno rezervisu za dve osobe. Sve ostalo funkcionise potpuno isto kao i za grupe.</div></div>
+      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a9">Apsolutno - imamo puno solo Escapera! Jedina napomena je da se za jednokrevetnu sobu primenjuje <strong>jednokratna doplata od 60€</strong> na cenu putovanja, jer se hotelske sobe standardno rezervišu za dve osobe. Sve ostalo funkcioniše potpuno isto kao i za grupe.</div></div>
     </details>
 
     <details class="faq">
