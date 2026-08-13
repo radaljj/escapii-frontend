@@ -1,6 +1,7 @@
 <?php
 $_f_uri  = get_template_directory_uri();
 $_f_home = rtrim(home_url('/'), '/');
+$_f_lang = esc_lang();
 ?>
 <style>
 /* ── SHARED FOOTER ─────────────────────────────────────────────────────────── */
@@ -35,9 +36,9 @@ $_f_home = rtrim(home_url('/'), '/');
       <a href="<?php echo esc_url($_f_home); ?>/">
         <img src="<?php echo esc_url($_f_uri); ?>/images/logo-black.svg" alt="Escapii" style="height:36px;display:block;">
       </a>
-      <p>Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.</p>
+      <p><?php echo $_f_lang === 'en' ? 'Surprise trips for people ready to let go of control and try something different.' : 'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.'; ?></p>
       <div class="footer-social">
-        <h4>Pratite nas</h4>
+        <h4><?php echo $_f_lang === 'en' ? 'Follow us' : 'Pratite nas'; ?></h4>
         <div class="social-icons">
           <a href="https://www.instagram.com/escapii.rs?igsh=NmMwY3djcHFncjg2&utm_source=qr" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
             <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -52,33 +53,33 @@ $_f_home = rtrim(home_url('/'), '/');
       </div>
     </div>
     <div class="footer-col">
-      <h4>Navigacija</h4>
-      <a href="<?php echo esc_url($_f_home); ?>/#esc-about">O nama</a>
-      <a href="<?php echo esc_url($_f_home); ?>/#esc-dest">Destinacije</a>
-      <a href="<?php echo esc_url($_f_home); ?>/#esc-how">Kako funkcioniše</a>
-      <a href="<?php echo esc_url($_f_home); ?>/#esc-who">Za koga</a>
+      <h4><?php echo $_f_lang === 'en' ? 'Navigation' : 'Navigacija'; ?></h4>
+      <a href="<?php echo esc_url($_f_home); ?>/#esc-about"><?php echo $_f_lang === 'en' ? 'About us' : 'O nama'; ?></a>
+      <a href="<?php echo esc_url($_f_home); ?>/#esc-dest"><?php echo $_f_lang === 'en' ? 'Destinations' : 'Destinacije'; ?></a>
+      <a href="<?php echo esc_url($_f_home); ?>/#esc-how"><?php echo $_f_lang === 'en' ? 'How it works' : 'Kako funkcioniše'; ?></a>
+      <a href="<?php echo esc_url($_f_home); ?>/#esc-who"><?php echo $_f_lang === 'en' ? 'Who\'s it for' : 'Za koga'; ?></a>
       <a href="<?php echo esc_url($_f_home); ?>/faq/">FAQ</a>
       <a href="<?php echo esc_url($_f_home); ?>/blog/">Blog</a>
-      <a href="<?php echo esc_url($_f_home); ?>/pokloni-putovanje-iznenadjenja/" style="color:#CA8A71;font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
+      <a href="<?php echo esc_url($_f_home); ?>/pokloni-putovanje-iznenadjenja/" style="color:#CA8A71;font-weight:600;">🎁 <?php echo $_f_lang === 'en' ? 'Gift a Surprise Trip' : 'Pokloni putovanje iznenađenja'; ?></a>
     </div>
     <div class="footer-col">
-      <h4>Polasci</h4>
+      <h4><?php echo $_f_lang === 'en' ? 'Departures' : 'Polasci'; ?></h4>
       <a href="<?php echo esc_url($_f_home); ?>/#esc-booking">✈ Beograd (BEG)</a>
       <a href="<?php echo esc_url($_f_home); ?>/#esc-booking">✈ Niš (INI)</a>
     </div>
     <div class="footer-col">
-      <h4>Kontakt</h4>
+      <h4><?php echo $_f_lang === 'en' ? 'Contact' : 'Kontakt'; ?></h4>
       <a href="mailto:info@escapii.rs">✉ info@escapii.rs</a>
-      <a href="javascript:void(0)" onclick="openStatusModal()">🔍 Proveri status rezervacije</a>
+      <a href="javascript:void(0)" onclick="openStatusModal()">🔍 <?php echo $_f_lang === 'en' ? 'Check booking status' : 'Proveri status rezervacije'; ?></a>
     </div>
   </div>
   <div class="footer-divider"></div>
   <div class="footer-bottom">
-    <span>© 2026 Escapii - Sva prava zadržana</span>
+    <span><?php echo $_f_lang === 'en' ? '© 2026 Escapii - All rights reserved' : '© 2026 Escapii - Sva prava zadržana'; ?></span>
     <div class="footer-bottom-links">
-      <a href="<?php echo esc_url($_f_home); ?>/uslovi-koriscenja/">Uslovi korišćenja</a>
-      <a href="<?php echo esc_url($_f_home); ?>/politika-privatnosti/">Politika privatnosti</a>
-      <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Podešavanja kolačića</a>
+      <a href="<?php echo esc_url($_f_home); ?>/<?php echo $_f_lang === 'en' ? 'terms-of-use/' : 'uslovi-koriscenja/'; ?>"><?php echo $_f_lang === 'en' ? 'Terms of use' : 'Uslovi korišćenja'; ?></a>
+      <a href="<?php echo esc_url($_f_home); ?>/<?php echo $_f_lang === 'en' ? 'privacy-policy/' : 'politika-privatnosti/'; ?>"><?php echo $_f_lang === 'en' ? 'Privacy policy' : 'Politika privatnosti'; ?></a>
+      <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()"><?php echo $_f_lang === 'en' ? 'Cookie settings' : 'Podešavanja kolačića'; ?></a>
     </div>
   </div>
 </footer>
