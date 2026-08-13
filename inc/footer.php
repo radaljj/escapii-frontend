@@ -79,7 +79,7 @@ $_f_lang = esc_lang();
     <div class="footer-bottom-links">
       <a href="<?php echo esc_url($_f_home); ?>/<?php echo $_f_lang === 'en' ? 'terms-of-use/' : 'uslovi-koriscenja/'; ?>" data-i18n="ft.terms"><?php echo $_f_lang === 'en' ? 'Terms of use' : 'Uslovi korišćenja'; ?></a>
       <a href="<?php echo esc_url($_f_home); ?>/<?php echo $_f_lang === 'en' ? 'privacy-policy/' : 'politika-privatnosti/'; ?>" data-i18n="ft.privacy"><?php echo $_f_lang === 'en' ? 'Privacy policy' : 'Politika privatnosti'; ?></a>
-      <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()" data-i18n="ft.cookies"><?php echo $_f_lang === 'en' ? 'Cookie settings' : 'Podešavanja kolačića'; ?></a>
+      <button type="button" onclick="window.escOpenCookieSettings && window.escOpenCookieSettings()" style="background:none;border:none;padding:0;cursor:pointer;color:inherit;text-decoration:none;font:inherit;" data-i18n="ft.cookies"><?php echo $_f_lang === 'en' ? 'Cookie settings' : 'Podešavanja kolačića'; ?></button>
     </div>
   </div>
 </footer>
