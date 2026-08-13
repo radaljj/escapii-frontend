@@ -577,7 +577,13 @@ const NAV_I18N_EN = {
   'snav.book':'Book now', 'snav.book.cta':'Book now →',
   'nav.gift.label':'Gift a Surprise Trip', 'nav.gift.offer':'Gift a Surprise Trip',
   'nav.gift.offer.sub':'Gift the perfect present for a travel lover',
-  'nav.gift.redeem':'Redeem gift', 'nav.gift.redeem.sub':'Have a gift code? Activate it here'
+  'nav.gift.redeem':'Redeem gift', 'nav.gift.redeem.sub':'Have a gift code? Activate it here',
+  'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
+  'ft.follow':'Follow us',
+  'ft.nav':'Navigation', 'ft.about':'About us', 'ft.dest':'Destinations',
+  'ft.how':'How it works', 'ft.who':'Who\'s it for', 'ft.faq':'FAQ', 'ft.gift':'🎁 Gift a Surprise Trip',
+  'ft.dep':'Departures', 'ft.contact':'Contact', 'ft.status':'🔍 Check booking status',
+  'ft.rights':'© 2026 Escapii - All rights reserved', 'ft.terms':'Terms of use', 'ft.privacy':'Privacy policy', 'ft.cookies':'Cookie settings'
 };
 const NAV_I18N_SR = {};
 document.querySelectorAll('[data-i18n]').forEach(function(el) {

@@ -518,10 +518,11 @@ const I18N_EN = {
   'q13':'What is a custom trip and how do I book one?',
   'a13':'A custom trip is designed for travellers who don\'t find the available dates suitable, or who wish to travel in a period of their own choosing.<br><br>To submit a request:<br><ol><li>Select the <strong>Custom Trip</strong> option in the booking form.</li><li>Enter your preferred travel period and number of travellers.</li><li>Submit the request.</li></ol>After receiving your inquiry, our team checks availability, prepares a quote, and sends you all the necessary information. Pricing is determined individually.',
   'ft.desc':'Surprise trips for people ready to let go of control and try something different.',
-  'ft.nav':'Navigation', 'ft.book':'Book a trip', 'ft.dest':'Destinations',
-  'ft.how':'How it works', 'ft.who':'Who it\'s for', 'ft.faq':'FAQ',
-  'ft.gift':'🎁 Gift a trip', 'ft.dep':'Departures', 'ft.contact':'Contact',
-  'ft.rights':'All rights reserved', 'ft.terms':'Terms of Use', 'ft.privacy':'Privacy Policy',
+  'ft.follow':'Follow us',
+  'ft.nav':'Navigation', 'ft.about':'About us', 'ft.dest':'Destinations',
+  'ft.how':'How it works', 'ft.who':'Who\'s it for', 'ft.faq':'FAQ', 'ft.gift':'🎁 Gift a Surprise Trip',
+  'ft.dep':'Departures', 'ft.contact':'Contact', 'ft.status':'🔍 Check booking status',
+  'ft.rights':'© 2026 Escapii - All rights reserved', 'ft.terms':'Terms of use', 'ft.privacy':'Privacy policy', 'ft.cookies':'Cookie settings',
   'nav.status':'My reservation',
   'snav.how':'How it works', 'snav.about':'About us', 'snav.dest':'Destinations',
   'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog',
@@ -559,7 +560,10 @@ function applyLang() {
 }
 
 function setLang(l) {
-  lang = l; localStorage.setItem('esc-lang', l); applyLang();
+  lang = l;
+  localStorage.setItem('esc-lang', l);
+  document.cookie = `esc-lang=${l}; path=/; max-age=31536000`;
+  applyLang();
 }
 
 // ── Accordion ─────────────────────────────────────────────────────────────
