@@ -378,260 +378,131 @@ body {
   <nav class="pp-toc">
     <div class="pp-toc-title">Contents</div>
     <ul>
-      <li><a href="#who-we-are">About the service</a></li>
-      <li><a href="#acceptance-of-terms">Acceptance of Terms</a></li>
-      <li><a href="#how-it-works">How Escapii works</a></li>
-      <li><a href="#booking-process">Booking process</a></li>
-      <li><a href="#prices-payment">Prices &amp; payment</a></li>
-      <li><a href="#gift-vouchers">Gift vouchers</a></li>
-      <li><a href="#private-trips">Private trips</a></li>
-      <li><a href="#traveller-obligations">Traveller obligations</a></li>
-      <li><a href="#cancellation">Cancellation &amp; changes</a></li>
-      <li><a href="#liability">Limitation of liability</a></li>
-      <li><a href="#visa-documents">Visa &amp; documents</a></li>
-      <li><a href="#disputes">Dispute resolution</a></li>
-      <li><a href="#changes-to-terms">Changes to terms</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#section-1">1. About the service</a></li>
+      <li><a href="#section-2">2. Acceptance of Terms</a></li>
+      <li><a href="#section-3">3. How the service works</a></li>
+      <li><a href="#section-4">4. Pricing and payment</a></li>
+      <li><a href="#section-5">5. Cancellation and refunds</a></li>
+      <li><a href="#section-6">6. Traveller responsibilities</a></li>
+      <li><a href="#section-7">7. The surprise destination — special terms</a></li>
+      <li><a href="#section-8">8. Limitation of liability</a></li>
+      <li><a href="#section-9">9. Complaints</a></li>
+      <li><a href="#section-10">10. Changes to terms</a></li>
+      <li><a href="#section-11">11. Governing law</a></li>
+      <li><a href="#section-12">12. Contact</a></li>
     </ul>
   </nav>
 
   <!-- Content -->
   <main class="pp-content">
-
-    <!-- About the service -->
-    <section class="pp-section" id="who-we-are">
+    <!-- 1. About the service -->
+    <section class="pp-section" id="section-1">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </div>
-        <h2>About the service</h2>
+        <h2>1. About the service</h2>
       </div>
 
-      <p><strong>Escapii</strong> is a service for organizing <strong>surprise trips</strong> — you select an airport, travel dates, and preferences, and we choose your destination, which remains secret until departure.</p>
+      <p>Escapii is a service for organizing <strong>surprise trips</strong> — you select an airport, travel dates, and preferences, and we choose your destination, which remains secret until departure.</p>
       <p>The service is provided by <strong>Escapii</strong> based in Serbia.</p>
       <p>📧 escapii.team@gmail.com<br>🌐 escapii.rs</p>
     </section>
 
-    <!-- Acceptance of Terms -->
-    <section class="pp-section" id="acceptance-of-terms">
+    <!-- 2. Acceptance of Terms -->
+    <section class="pp-section" id="section-2">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <h2>Acceptance of Terms</h2>
+        <h2>2. Acceptance of Terms</h2>
       </div>
 
       <p>By submitting an enquiry for a trip, you confirm that you have read and accepted these Terms of Use and our Privacy Policy. If you do not agree with these terms, please do not submit an enquiry.</p>
       <p>The service is only available to persons aged <strong>18 and above</strong>. Minors may only travel with the accompaniment and written consent of a parent or legal guardian who accepts these terms.</p>
     </section>
 
-    <!-- How it works -->
-    <section class="pp-section" id="how-it-works">
+    <!-- 3. How the service works -->
+    <section class="pp-section" id="section-3">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-        <h2>How Escapii works</h2>
+        <h2>3. How the service works</h2>
       </div>
 
-      <p>Escapii is a platform for <strong>surprise trips</strong> - the traveller does not choose the destination, but instead selects a departure airport, travel period, and personal preferences. The destination is kept secret until the reveal email is sent <strong>48 hours before departure</strong>.</p>
+      <h3>Step 1 — Enquiry</h3>
+      <p>You complete the form on the website: select your travel dates, departure airport, number of travellers, accommodation type, and any preferences (excluded destinations, breakfast, seat selection, travel insurance).</p>
 
-      <h3>How it works</h3>
+      <h3>Step 2 — Enquiry confirmation</h3>
+      <p>After submitting the form:</p>
       <ul class="pp-list">
-        <li><strong>You choose:</strong> departure airport, travel dates, number of travellers, accommodation type, add-ons (travel insurance, breakfast, seats together, cabin bag) and any destinations to exclude</li>
-        <li><strong>We select the destination</strong> from available flights that are not excluded - the destination is based on availability, season, and your preferences</li>
-        <li><strong>The destination is revealed</strong> via email 48 hours before departure with all flight and accommodation details</li>
-        <li>By submitting an enquiry, you <strong>accept the surprise concept as the core of the service</strong> and cannot request a destination change after booking confirmation</li>
+        <li>You receive a <strong>booking reference number</strong> (e.g., <code>ESC-a1b2c3d4</code>)</li>
+        <li>An email confirmation with your enquiry details is sent to you</li>
+        <li>Our team checks availability and within <strong>24 hours</strong> sends payment details</li>
       </ul>
 
-      <div class="pp-notice">
-        <div class="pp-notice-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div class="pp-notice-text">
-          By excluding destinations via the platform, the traveller can narrow the pool of possible destinations, but Escapii does not guarantee travel to any specific destination, nor does it exclude every location the traveller might not prefer.
-        </div>
-      </div>
+      <h3>Step 3 — Payment</h3>
+      <p>Payment is made by <strong>bank transfer</strong> according to the details sent by email. Your booking is not confirmed until payment is received and verified.</p>
+
+      <h3>Step 4 — Confirmed booking</h3>
+      <p>Once payment is verified, your booking is official. The destination remains <strong>secret</strong> and is revealed at the airport on departure day.</p>
     </section>
 
-    <!-- Booking process -->
-    <section class="pp-section" id="booking-process">
-      <div class="pp-section-header">
-        <div class="pp-section-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        </div>
-        <h2>Booking process</h2>
-      </div>
-
-      <div class="pp-table-wrap">
-        <table class="pp-table">
-          <thead>
-            <tr><th>Step</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1. Enquiry</td><td>You complete the form on the website and submit your enquiry. An automatic confirmation is sent to your email.</td></tr>
-            <tr><td>2. Review</td><td>Our team checks availability and pricing. Your enquiry is not binding until we send a confirmation and you have made payment.</td></tr>
-            <tr><td>3. Confirmation &amp; payment</td><td>You receive an email with booking details and payment instructions. Your booking is final only when payment is received and verified.</td></tr>
-            <tr><td>4. Reveal</td><td>48 hours before departure, you receive an email with the destination, weather forecast, flight details, and all relevant information.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p>Submitting an enquiry does <strong>not constitute a contract</strong> or create any financial obligation. The contractual relationship arises <strong>only upon payment of the deposit</strong> following a written booking confirmation.</p>
-    </section>
-
-    <!-- Prices & payment -->
-    <section class="pp-section" id="prices-payment">
+    <!-- 4. Pricing and payment -->
+    <section class="pp-section" id="section-4">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         </div>
-        <h2>Prices &amp; payment</h2>
+        <h2>4. Pricing and payment</h2>
       </div>
 
-      <p>Prices shown on the platform during the enquiry process are <strong>indicative and for information purposes only</strong>. The exact price is determined at the time of availability check and is sent to the traveller in the booking confirmation, before any payment is made.</p>
-
-      <h3>Price structure</h3>
+      <h3>Base price</h3>
+      <p>The base price includes:</p>
       <ul class="pp-list">
-        <li>Base package price per person (flight + accommodation)</li>
-        <li>Accommodation upgrade supplement (Superior or Premium, where applicable)</li>
-        <li>Traveller-selected add-ons: travel insurance, breakfast, seats together, cabin bag</li>
-        <li>Destination exclusion fee (1st exclusion is free - each subsequent exclusion +15€ per person)</li>
+        <li>Return flight from your selected airport</li>
+        <li>Accommodation for all nights (type of your choice)</li>
+        <li>Trip organization and destination selection</li>
       </ul>
 
-      <h3>Payment method</h3>
-      <p>Payment is made exclusively by <strong>bank transfer</strong> as per the instructions provided in the booking confirmation. Escapii does not collect payment card details.</p>
-
-      <h3>Price adjustment</h3>
-      <p>In exceptional circumstances (significant changes in fuel costs, exchange rates, or taxes), the package price may be revised before payment is finalised. In such a case, the traveller will be notified in writing and may withdraw without any penalty.</p>
-    </section>
-
-    <!-- Gift Vouchers -->
-    <section class="pp-section" id="gift-vouchers">
-      <div class="pp-section-header">
-        <div class="pp-section-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-        </div>
-        <h2>Gift Vouchers</h2>
-      </div>
-
-      <p>Escapii offers <strong>gift vouchers</strong> that the recipient can redeem when booking an Escapii trip. By purchasing a voucher, you agree to the terms set out in this section.</p>
-
-      <h3>How gift vouchers work</h3>
-      <ul class="pp-list">
-        <li>Vouchers are purchased on the <strong>Gift</strong> page at escapii.rs by selecting an amount and entering the recipient's details</li>
-        <li>Once payment is confirmed, the buyer receives a <strong>PDF voucher</strong> (boarding pass design) by email with a unique code - ready to forward or print</li>
-        <li>The voucher is activated when the Escapii team confirms payment - the validity period starts from that date</li>
-        <li>The recipient enters the voucher code when submitting an inquiry; the amount corresponding to the trip price is <strong>deducted from the voucher balance</strong> - any remaining balance stays available for future trips</li>
-        <li>Vouchers can be used on both <strong>group and custom trips</strong></li>
-      </ul>
-
-      <h3>Validity and conditions</h3>
-      <ul class="pp-list">
-        <li>Vouchers are valid for <strong>one year from the date of activation</strong> (not from the date of purchase)</li>
-        <li>Once the validity period expires, the voucher becomes invalid and cannot be used regardless of remaining balance</li>
-        <li><strong>One voucher</strong> may be applied per booking</li>
-        <li>A voucher can be used <strong>multiple times</strong> across different bookings until the balance is fully consumed</li>
-        <li>If the trip price is lower than the remaining voucher balance, the <strong>difference stays on the voucher</strong> and can be used for a future Escapii booking within the remaining validity period</li>
-        <li>If the trip price exceeds the remaining voucher balance, the difference is paid through the standard payment process</li>
-      </ul>
-
-      <div class="pp-notice">
-        <div class="pp-notice-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div class="pp-notice-text">
-          <strong>Booking cancellation:</strong> If a booking to which a voucher was applied is cancelled, the voucher is automatically <strong>returned to active status with its full remaining balance</strong> (with its original validity period intact). Any payment amount exceeding the voucher value is subject to the standard cancellation policy.
-        </div>
-      </div>
-
-      <div class="pp-warning">
-        <div class="pp-warning-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div class="pp-warning-text">
-          <strong>Vouchers cannot be exchanged for cash</strong> - any unused balance is not refunded but remains on the voucher until the validity period expires. Once activated, a voucher is non-transferable.
-        </div>
-      </div>
-    </section>
-
-    <!-- Private Trips -->
-    <section class="pp-section" id="private-trips">
-      <div class="pp-section-header">
-        <div class="pp-section-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h2>Private Trips</h2>
-      </div>
-
-      <p>In addition to regular group departures, Escapii offers the option to arrange a <strong>private trip</strong> for groups who cannot find a suitable date in the standard schedule or who prefer an exclusive arrangement.</p>
-
-      <h3>Private trip process</h3>
+      <h3>Additional charges</h3>
       <div class="pp-table-wrap">
         <table class="pp-table">
-          <thead><tr><th>Step</th><th>Description</th></tr></thead>
+          <thead>
+            <tr><th>Add-on</th><th>Price</th></tr>
+          </thead>
           <tbody>
-            <tr><td>1. Inquiry</td><td>The traveller selects the <strong>Private trip</strong> option in the booking form, enters their preferred period and number of travellers, and submits the inquiry.</td></tr>
-            <tr><td>2. Offer</td><td>The Escapii team checks availability and sends an individualised price offer within 24–48 hours.</td></tr>
-            <tr><td>3. Confirmation</td><td>The traveller accepts the offer and makes payment by the agreed deadline. The booking is binding only upon receipt of payment.</td></tr>
-            <tr><td>4. Reveal</td><td>The destination is revealed 48 hours before departure, exactly as with group trips.</td></tr>
+            <tr><td>1st destination exclusion</td><td>Free</td></tr>
+            <tr><td>2nd and 3rd destination exclusion</td><td>+10€ per exclusion</td></tr>
+            <tr><td>4th and 5th destination exclusion</td><td>+15€ per exclusion</td></tr>
+            <tr><td>Cabin bag (up to 10kg)</td><td>Per price list</td></tr>
+            <tr><td>Travel insurance</td><td>Per price list</td></tr>
+            <tr><td>Breakfast included</td><td>Per price list</td></tr>
+            <tr><td>Guaranteed seats together</td><td>Per price list</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div class="pp-notice">
-        <div class="pp-notice-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div class="pp-notice-text">
-          The same cancellation and amendment conditions apply to private trips as to group arrangements (see <a href="#cancellation">Cancellation &amp; changes</a>). Private trip pricing is calculated individually and may differ from prices in the standard package offer.
-        </div>
-      </div>
+      <p>The final price is shown in step 7 of the form before you submit your enquiry.</p>
+
+      <h3>Payment deadline</h3>
+      <p>Payment must be made within the timeframe specified in the payment details email (usually <strong>48 hours</strong>). If payment is not received within this deadline, your enquiry is automatically cancelled and seats are released.</p>
+
+      <h3>Currency</h3>
+      <p>All prices are in <strong>euros (€)</strong>. Payment can be made in the Serbian dinar equivalent at the exchange rate on the day of payment, or directly in euros.</p>
     </section>
 
-    <!-- Traveller obligations -->
-    <section class="pp-section" id="traveller-obligations">
-      <div class="pp-section-header">
-        <div class="pp-section-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <h2>Traveller obligations</h2>
-      </div>
-
-      <p>The traveller is responsible for the accuracy and completeness of all information provided. Incorrect information may result in the inability to execute the trip or additional costs borne solely by the traveller.</p>
-
-      <h3>The traveller is required to:</h3>
-      <ul class="pp-list">
-        <li>Provide the <strong>exact full name of each traveller</strong> as it appears on the travel document to be used for the trip</li>
-        <li>Provide the <strong>correct date of birth</strong> of each traveller</li>
-        <li>Check the <strong>expiry date of the travel document</strong> - the passport must be valid for at least 6 months after the return date</li>
-        <li>State in the <strong>Notes field</strong> when submitting the enquiry which countries the travellers hold an active visa for, and whether any traveller may require a visa for certain destinations - this allows us to adapt the destination selection accordingly</li>
-        <li>Pay the deposit and remaining balance by the agreed deadlines</li>
-        <li>Arrive at the airport within the time required by the airline (at least 2 hours before departure for European flights)</li>
-        <li><strong>Complete check-in independently</strong> with the airline after receiving the destination notification (48 hours before departure) - Escapii provides the airline booking code via the reveal link, and each traveller is responsible for checking in on time and in accordance with the carrier's conditions</li>
-      </ul>
-
-      <div class="pp-warning">
-        <div class="pp-warning-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div class="pp-warning-text">
-          <strong>Visas and documents:</strong> As the destination remains secret until 48 hours before departure, the traveller is required to state in the <strong>Notes field</strong> when submitting the enquiry: (1) which countries the travellers hold an active visa for, and (2) whether any traveller may require a visa for certain destinations. Based on this information, Escapii adapts the destination selection. The traveller bears sole responsibility for the travel documents of all travellers on the booking.
-        </div>
-      </div>
-    </section>
-
-    <!-- Cancellation -->
-    <section class="pp-section" id="cancellation">
+    <!-- 5. Cancellation and refunds -->
+    <section class="pp-section" id="section-5">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         </div>
-        <h2>Cancellation &amp; changes</h2>
+        <h2>5. Cancellation and refunds</h2>
       </div>
 
-      <p>Cancellations are subject to the conditions below. For exact details, contact the Escapii team at <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
-
+      <h3>Cancellation by the traveller</h3>
       <div class="pp-table-wrap">
         <table class="pp-table">
           <thead>
@@ -646,132 +517,133 @@ body {
         </table>
       </div>
 
-      <div class="pp-notice">
-        <div class="pp-notice-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div class="pp-notice-text">
-          <strong>Recommendation:</strong> If there is a chance you may need to cancel, we strongly recommend purchasing <strong>travel insurance with cancellation cover</strong>, which is available as an add-on during the booking process.
-        </div>
-      </div>
-
-      <h3>Changes to a confirmed booking</h3>
-      <p><strong>No changes are possible after a booking has been confirmed.</strong> By confirming the booking, you accept all travel conditions (destination, dates, number of travellers, accommodation type, and add-ons) as final. The only option after confirmation is cancellation, subject to the applicable fees in the table above.</p>
+      <p>To request cancellation, email escapii.team@gmail.com with your booking reference number.</p>
 
       <h3>Cancellation by Escapii</h3>
-      <p>In exceptional circumstances (natural disasters, political instability, border closures, or insufficient bookings), Escapii reserves the right to cancel the trip. In such cases, you will receive a full refund of all amounts paid, or the option to transfer your booking to another date by mutual agreement.</p>
+      <p>In exceptional circumstances (natural disasters, political instability, border closures, insufficient bookings), Escapii reserves the right to cancel the trip. In such cases:</p>
+      <ul class="pp-list">
+        <li>You receive a <strong>full refund</strong> of all amounts paid, or</li>
+        <li>The option to <strong>transfer</strong> your booking to another date by mutual agreement</li>
+      </ul>
+
+      <p>Escapii is not responsible for additional costs you may have incurred (visa fees, time off work, etc.).</p>
     </section>
 
-    <!-- Liability -->
-    <section class="pp-section" id="liability">
+    <!-- 6. Traveller responsibilities -->
+    <section class="pp-section" id="section-6">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h2>6. Traveller responsibilities</h2>
+      </div>
+
+      <p>By accepting these terms, you confirm that:</p>
+
+      <ul class="pp-list">
+        <li><strong>Travel documents are your responsibility</strong> — you must have a valid passport or ID card as required by your destination. Escapii is not responsible if you are denied entry due to invalid documentation.</li>
+        <li><strong>Visas</strong> — some destinations may require a visa. Escapii provides general information, but you are solely responsible for obtaining your visa.</li>
+        <li><strong>Health requirements</strong> — vaccinations, health certificates, and similar matters are your responsibility.</li>
+        <li><strong>Travel insurance</strong> — we recommend it for all travellers. Escapii is not responsible for costs arising from illness, injury, or lost baggage.</li>
+        <li><strong>Conduct</strong> — you are responsible for your behaviour during the trip and bear all consequences of any incidents.</li>
+      </ul>
+    </section>
+
+    <!-- 7. The surprise destination — special terms -->
+    <section class="pp-section" id="section-7">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h2>Limitation of liability</h2>
+        <h2>7. The surprise destination — special terms</h2>
       </div>
 
-      <h3>Escapii's liability</h3>
-      <p>Escapii is liable solely for the proper functioning of the digital platform - collecting enquiries and communicating with the traveller. Escapii is not liable for:</p>
+      <p>By purchasing an Escapii trip, you <strong>accept the surprise concept</strong> as the core of the service. This means:</p>
+
       <ul class="pp-list">
-        <li>Execution of the travel package - this is the responsibility of the partner travel agency</li>
-        <li>The quality of flights, accommodation, or ancillary services</li>
-        <li>Flight delays, cancellations, or changes by airlines</li>
-        <li>Force majeure events (natural disasters, epidemics, armed conflicts, strikes)</li>
-        <li>Consequences of incorrect information provided by the traveller</li>
-        <li>Denial of entry due to missing documents or a visa</li>
+        <li>The destination is not revealed until departure day</li>
+        <li>Any destinations you exclude are guaranteed to <strong>not be</strong> your destination</li>
+        <li>Escapii chooses the destination based on availability, season, and your preferences — we <strong>do not guarantee</strong> any specific region or continent unless explicitly agreed</li>
+        <li>Refunds are <strong>not possible</strong> solely because you do not like the revealed destination</li>
       </ul>
-
-      <h3>Traveller's liability</h3>
-      <p>The traveller is financially responsible for all costs arising from inaccurate or incomplete information provided when submitting the enquiry, and for the consequences of missing payment deadlines.</p>
-
-      <h3>Force majeure</h3>
-      <p>Escapii is not liable for failure to fulfil obligations caused by circumstances beyond its reasonable control (force majeure), including but not limited to: natural disasters, epidemics, armed conflicts, and government travel bans.</p>
     </section>
 
-    <!-- Visa & documents -->
-    <section class="pp-section" id="visa-documents">
+    <!-- 8. Limitation of liability -->
+    <section class="pp-section" id="section-8">
       <div class="pp-section-header">
         <div class="pp-section-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h2>Visa &amp; travel documents</h2>
+        <h2>8. Limitation of liability</h2>
       </div>
 
-      <p>The traveller is <strong>solely responsible</strong> for obtaining all required travel documents, visas, and health certificates for the destination. Final responsibility lies with the traveller.</p>
+      <p>Escapii acts as an intermediary between you and service providers (airlines, hotels). Accordingly:</p>
 
-      <h3>Minimum requirements</h3>
       <ul class="pp-list">
-        <li>The <strong>passport</strong> must be valid for at least 6 months after the return date</li>
-        <li>Travellers holding a Serbian passport should check visa requirements for all potential destinations within the available programme</li>
-        <li>Children must hold their own travel document</li>
+        <li>We are not responsible for flight delays, cancellations, or changes by airlines</li>
+        <li>We are not responsible for hotel quality that does not match the stated category (we handle complaints on your behalf)</li>
+        <li>We are not responsible for events beyond our control (force majeure, natural disasters, pandemics, strikes)</li>
+        <li>Our total liability cannot exceed the amount you paid for the trip</li>
       </ul>
-
-      <div class="pp-notice">
-        <div class="pp-notice-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div class="pp-notice-text">
-          Up-to-date information on visa requirements for Serbian passport holders is available from the <a href="https://www.mfa.gov.rs" target="_blank" rel="noopener">Ministry of Foreign Affairs of the Republic of Serbia</a>.
-        </div>
-      </div>
     </section>
 
-    <!-- Disputes -->
-    <section class="pp-section" id="disputes">
+    <!-- 9. Complaints -->
+    <section class="pp-section" id="section-9">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
         </div>
-        <h2>Dispute resolution</h2>
+        <h2>9. Complaints</h2>
       </div>
 
-      <p>Contracts concluded through the Escapii platform are governed by the law of the <strong>Republic of Serbia</strong>. The courts of Belgrade have exclusive jurisdiction over any disputes.</p>
+      <p>If you are dissatisfied with any aspect of the service:</p>
 
-      <h3>Complaints</h3>
-      <p>A traveller who is dissatisfied with the execution of a trip may submit a written complaint to <a href="mailto:info@escapii.rs" style="color:var(--accent);text-decoration:none;">info@escapii.rs</a>.</p>
-      <p>Complaints must be submitted within <strong>8 days of returning</strong> from the trip. The organiser is required to respond within 8 working days of receiving the complaint.</p>
-
-      <h3>Consumer protection</h3>
-      <p>For consumer rights protection you may contact the <strong>National Organisation of Consumers of Serbia (NOPS)</strong> or the relevant inspection authorities.</p>
+      <ol style="list-style: decimal; padding-left: 20px; color: rgba(45,95,107,.85); font-size: 14.5px;">
+        <li>Contact escapii.team@gmail.com within <strong>14 days</strong> of your return</li>
+        <li>Include your booking reference number and describe the problem</li>
+        <li>We will respond within 7 working days</li>
+      </ol>
     </section>
 
-    <!-- Changes to terms -->
-    <section class="pp-section" id="changes-to-terms">
+    <!-- 10. Changes to terms -->
+    <section class="pp-section" id="section-10">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </div>
-        <h2>Changes to these Terms</h2>
+        <h2>10. Changes to terms</h2>
       </div>
-      <p>Escapii reserves the right to amend these Terms of Use. The date of the last amendment is always indicated at the top of this document. Continued use of the platform after an amendment constitutes acceptance of the revised terms.</p>
-      <p>For material changes that affect users' rights, we will endeavour to notify registered users by email.</p>
+
+      <p>Escapii reserves the right to modify these terms. Changes take effect on the date of publication on the website. For bookings already confirmed, the terms in effect at the time of confirmation apply.</p>
     </section>
 
-    <!-- Contact -->
-    <section class="pp-section" id="contact">
+    <!-- 11. Governing law -->
+    <section class="pp-section" id="section-11">
+      <div class="pp-section-header">
+        <div class="pp-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h2>11. Governing law</h2>
+      </div>
+
+      <p>These terms are governed by the <strong>law of the Republic of Serbia</strong>. Any disputes are subject to the jurisdiction of Serbian courts.</p>
+    </section>
+
+    <!-- 12. Contact -->
+    <section class="pp-section" id="section-12">
       <div class="pp-section-header">
         <div class="pp-section-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <h2>Contact</h2>
+        <h2>12. Contact</h2>
       </div>
-      <div class="pp-contact">
-        <h3>Have a question?</h3>
-        <p>The Escapii team is here for you - we respond within 24 hours.</p>
-        <div class="pp-contact-links">
-          <a href="mailto:info@escapii.rs" class="pp-contact-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            info@escapii.rs
-          </a>
-          <a href="<?php echo home_url('/'); ?>" class="pp-contact-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            escapii.rs
-          </a>
-        </div>
-      </div>
-    </section>
 
+      <p>If you have any questions about these terms, please contact us before submitting your enquiry.</p>
+
+      <p>📧 <strong>escapii.team@gmail.com</strong><br>
+      🌐 <strong>escapii.rs</strong><br>
+      📍 Serbia</p>
+    </section>
   </main>
 </div>
 
