@@ -2051,6 +2051,27 @@
     .passport-check.field-error { border-color: var(--red) !important; background: rgba(239,68,68,.08) !important; }
     .pax-chk-err { color: #f87171; font-size: 12px; margin-top: 6px; display: none; }
     .passport-check.field-error + .pax-chk-err { display: block; }
+    /* Country dropdown */
+    .cd-wrap { position: relative; }
+    .cd-search { cursor: text; }
+    .cd-list {
+      display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 9999;
+      background: #1c1e2e; border: 1px solid rgba(246,241,230,.14); border-radius: 12px;
+      max-height: 224px; overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,.55);
+    }
+    .cd-list.open { display: block; }
+    .cd-item {
+      padding: 9px 14px; font-size: 14px; color: rgba(246,241,230,.82);
+      cursor: pointer; transition: background .12s, color .12s;
+    }
+    .cd-item:first-child { border-radius: 12px 12px 0 0; }
+    .cd-item:last-child  { border-radius: 0 0 12px 12px; }
+    .cd-item:hover, .cd-item.cd-active { background: rgba(202,138,113,.2); color: var(--gold); }
+    .cd-list::-webkit-scrollbar { width: 4px; }
+    .cd-list::-webkit-scrollbar-track { background: transparent; }
+    .cd-list::-webkit-scrollbar-thumb { background: rgba(246,241,230,.14); border-radius: 2px; }
+    .traveler-field.field-error .cd-search { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     /* Error states */
     .req { color: var(--gold); margin-left: 3px; }
     .field-error-msg { color: #f87171; font-size: 12px; margin-top: 2px; display: none; }
@@ -6210,6 +6231,77 @@ function getVisaValue(i) {
   return [...chips, ...(inp ? [inp] : [])].join(', ');
 }
 
+const COUNTRIES = [
+  {en:'Afghanistan',sr:'Avganistan'},{en:'Albania',sr:'Albanija'},{en:'Algeria',sr:'Alžir'},
+  {en:'Andorra',sr:'Andora'},{en:'Angola',sr:'Angola'},{en:'Antigua and Barbuda',sr:'Antigva i Barbuda'},
+  {en:'Argentina',sr:'Argentina'},{en:'Armenia',sr:'Armenija'},{en:'Australia',sr:'Australija'},
+  {en:'Austria',sr:'Austrija'},{en:'Azerbaijan',sr:'Azerbejdžan'},{en:'Bahamas',sr:'Bahami'},
+  {en:'Bahrain',sr:'Bahrein'},{en:'Bangladesh',sr:'Bangladeš'},{en:'Barbados',sr:'Barbados'},
+  {en:'Belarus',sr:'Belorusija'},{en:'Belgium',sr:'Belgija'},{en:'Belize',sr:'Belize'},
+  {en:'Benin',sr:'Benin'},{en:'Bhutan',sr:'Butan'},{en:'Bolivia',sr:'Bolivija'},
+  {en:'Bosnia and Herzegovina',sr:'Bosna i Hercegovina'},{en:'Botswana',sr:'Bocvana'},
+  {en:'Brazil',sr:'Brazil'},{en:'Brunei',sr:'Brunej'},{en:'Bulgaria',sr:'Bugarska'},
+  {en:'Burkina Faso',sr:'Burkina Faso'},{en:'Burundi',sr:'Burundi'},{en:'Cabo Verde',sr:'Zelenortska Ostrva'},
+  {en:'Cambodia',sr:'Kambodža'},{en:'Cameroon',sr:'Kamerun'},{en:'Canada',sr:'Kanada'},
+  {en:'Central African Republic',sr:'Centralnoafrička Republika'},{en:'Chad',sr:'Čad'},
+  {en:'Chile',sr:'Čile'},{en:'China',sr:'Kina'},{en:'Colombia',sr:'Kolumbija'},
+  {en:'Comoros',sr:'Komori'},{en:'Congo',sr:'Kongo'},{en:'Costa Rica',sr:'Kostarika'},
+  {en:'Croatia',sr:'Hrvatska'},{en:'Cuba',sr:'Kuba'},{en:'Cyprus',sr:'Kipar'},
+  {en:'Czech Republic',sr:'Češka'},{en:'Denmark',sr:'Danska'},{en:'Djibouti',sr:'Džibuti'},
+  {en:'Dominica',sr:'Dominika'},{en:'Dominican Republic',sr:'Dominikanska Republika'},
+  {en:'Ecuador',sr:'Ekvador'},{en:'Egypt',sr:'Egipat'},{en:'El Salvador',sr:'Salvador'},
+  {en:'Equatorial Guinea',sr:'Ekvatorijalna Gvineja'},{en:'Eritrea',sr:'Eritreja'},
+  {en:'Estonia',sr:'Estonija'},{en:'Eswatini',sr:'Svazilend'},{en:'Ethiopia',sr:'Etiopija'},
+  {en:'Fiji',sr:'Fidži'},{en:'Finland',sr:'Finska'},{en:'France',sr:'Francuska'},
+  {en:'Gabon',sr:'Gabon'},{en:'Gambia',sr:'Gambija'},{en:'Georgia',sr:'Gruzija'},
+  {en:'Germany',sr:'Nemačka'},{en:'Ghana',sr:'Gana'},{en:'Greece',sr:'Grčka'},
+  {en:'Grenada',sr:'Grenada'},{en:'Guatemala',sr:'Gvatemala'},{en:'Guinea',sr:'Gvineja'},
+  {en:'Guinea-Bissau',sr:'Gvineja Bisao'},{en:'Guyana',sr:'Gvajana'},{en:'Haiti',sr:'Haiti'},
+  {en:'Honduras',sr:'Honduras'},{en:'Hungary',sr:'Mađarska'},{en:'Iceland',sr:'Island'},
+  {en:'India',sr:'Indija'},{en:'Indonesia',sr:'Indonezija'},{en:'Iran',sr:'Iran'},
+  {en:'Iraq',sr:'Irak'},{en:'Ireland',sr:'Irska'},{en:'Israel',sr:'Izrael'},
+  {en:'Italy',sr:'Italija'},{en:'Jamaica',sr:'Jamajka'},{en:'Japan',sr:'Japan'},
+  {en:'Jordan',sr:'Jordan'},{en:'Kazakhstan',sr:'Kazahstan'},{en:'Kenya',sr:'Kenija'},
+  {en:'Kiribati',sr:'Kiribati'},{en:'Kosovo',sr:'Kosovo'},{en:'Kuwait',sr:'Kuvajt'},
+  {en:'Kyrgyzstan',sr:'Kirgizstan'},{en:'Laos',sr:'Laos'},{en:'Latvia',sr:'Latvija'},
+  {en:'Lebanon',sr:'Liban'},{en:'Lesotho',sr:'Lesoto'},{en:'Liberia',sr:'Liberija'},
+  {en:'Libya',sr:'Libija'},{en:'Liechtenstein',sr:'Lihtenštajn'},{en:'Lithuania',sr:'Litvanija'},
+  {en:'Luxembourg',sr:'Luksemburg'},{en:'Madagascar',sr:'Madagaskar'},{en:'Malawi',sr:'Malavi'},
+  {en:'Malaysia',sr:'Malezija'},{en:'Maldives',sr:'Maldivi'},{en:'Mali',sr:'Mali'},
+  {en:'Malta',sr:'Malta'},{en:'Marshall Islands',sr:'Maršalska Ostrva'},{en:'Mauritania',sr:'Mauritanija'},
+  {en:'Mauritius',sr:'Mauricijus'},{en:'Mexico',sr:'Meksiko'},{en:'Micronesia',sr:'Mikronezija'},
+  {en:'Moldova',sr:'Moldavija'},{en:'Monaco',sr:'Monako'},{en:'Mongolia',sr:'Mongolija'},
+  {en:'Montenegro',sr:'Crna Gora'},{en:'Morocco',sr:'Maroko'},{en:'Mozambique',sr:'Mozambik'},
+  {en:'Myanmar',sr:'Mjanmar'},{en:'Namibia',sr:'Namibija'},{en:'Nauru',sr:'Nauru'},
+  {en:'Nepal',sr:'Nepal'},{en:'Netherlands',sr:'Holandija'},{en:'New Zealand',sr:'Novi Zeland'},
+  {en:'Nicaragua',sr:'Nikaragva'},{en:'Niger',sr:'Niger'},{en:'Nigeria',sr:'Nigerija'},
+  {en:'North Korea',sr:'Severna Koreja'},{en:'North Macedonia',sr:'Severna Makedonija'},
+  {en:'Norway',sr:'Norveška'},{en:'Oman',sr:'Oman'},{en:'Pakistan',sr:'Pakistan'},
+  {en:'Palau',sr:'Palau'},{en:'Palestine',sr:'Palestina'},{en:'Panama',sr:'Panama'},
+  {en:'Papua New Guinea',sr:'Papua Nova Gvineja'},{en:'Paraguay',sr:'Paragvaj'},
+  {en:'Peru',sr:'Peru'},{en:'Philippines',sr:'Filipini'},{en:'Poland',sr:'Poljska'},
+  {en:'Portugal',sr:'Portugalija'},{en:'Qatar',sr:'Katar'},{en:'Romania',sr:'Rumunija'},
+  {en:'Russia',sr:'Rusija'},{en:'Rwanda',sr:'Ruanda'},{en:'Saint Kitts and Nevis',sr:'Sent Kits i Nevis'},
+  {en:'Saint Lucia',sr:'Sveta Lucija'},{en:'Saint Vincent and the Grenadines',sr:'Sent Vinsent i Grenadini'},
+  {en:'Samoa',sr:'Samoa'},{en:'San Marino',sr:'San Marino'},{en:'Sao Tome and Principe',sr:'Sao Tome i Princip'},
+  {en:'Saudi Arabia',sr:'Saudijska Arabija'},{en:'Senegal',sr:'Senegal'},{en:'Serbia',sr:'Srbija'},
+  {en:'Seychelles',sr:'Sejšeli'},{en:'Sierra Leone',sr:'Sijera Leone'},{en:'Singapore',sr:'Singapur'},
+  {en:'Slovakia',sr:'Slovačka'},{en:'Slovenia',sr:'Slovenija'},{en:'Solomon Islands',sr:'Solomonska Ostrva'},
+  {en:'Somalia',sr:'Somalija'},{en:'South Africa',sr:'Južnoafrička Republika'},{en:'South Korea',sr:'Južna Koreja'},
+  {en:'South Sudan',sr:'Južni Sudan'},{en:'Spain',sr:'Španija'},{en:'Sri Lanka',sr:'Šri Lanka'},
+  {en:'Sudan',sr:'Sudan'},{en:'Suriname',sr:'Surinam'},{en:'Sweden',sr:'Švedska'},
+  {en:'Switzerland',sr:'Švajcarska'},{en:'Syria',sr:'Sirija'},{en:'Taiwan',sr:'Tajvan'},
+  {en:'Tajikistan',sr:'Tadžikistan'},{en:'Tanzania',sr:'Tanzanija'},{en:'Thailand',sr:'Tajland'},
+  {en:'Timor-Leste',sr:'Istočni Timor'},{en:'Togo',sr:'Togo'},{en:'Tonga',sr:'Tonga'},
+  {en:'Trinidad and Tobago',sr:'Trinidad i Tobago'},{en:'Tunisia',sr:'Tunis'},
+  {en:'Turkey',sr:'Turska'},{en:'Turkmenistan',sr:'Turkmenistan'},{en:'Tuvalu',sr:'Tuvalu'},
+  {en:'Uganda',sr:'Uganda'},{en:'Ukraine',sr:'Ukrajina'},{en:'United Arab Emirates',sr:'Ujedinjeni Arapski Emirati'},
+  {en:'United Kingdom',sr:'Ujedinjeno Kraljevstvo'},{en:'United States',sr:'Sjedinjene Države'},
+  {en:'Uruguay',sr:'Urugvaj'},{en:'Uzbekistan',sr:'Uzbekistan'},{en:'Vanuatu',sr:'Vanuatu'},
+  {en:'Vatican City',sr:'Vatikan'},{en:'Venezuela',sr:'Venecuela'},{en:'Vietnam',sr:'Vijetnam'},
+  {en:'Yemen',sr:'Jemen'},{en:'Zambia',sr:'Zambija'},{en:'Zimbabwe',sr:'Zimbabve'}
+];
+
 function renderPax() {
   // Format return date for passport validity hint
   let retHint = '';
@@ -6283,7 +6375,12 @@ function renderPax() {
 
         <div class="traveler-field full" id="pf-passport-${i}">
           <label>${t('pax.passport')} <span class="req">*</span></label>
-          <input class="t-control" id="pp${i}" type="text" placeholder="${t('pax.passport.ph')}" maxlength="100" autocomplete="off">
+          <div class="cd-wrap">
+            <input class="t-control cd-search" id="cd-search-${i}" type="text"
+              placeholder="${t('pax.passport.ph')}" autocomplete="off">
+            <input type="hidden" id="pp${i}">
+            <div class="cd-list" id="cd-list-${i}"></div>
+          </div>
           <div class="field-error-msg">${t('pax.passport.err')}</div>
         </div>
 
@@ -6305,8 +6402,93 @@ function renderPax() {
     </div>`
   ).join('');
   initTagInputs();
-  setTimeout(() => { initChoices(); restorePaxDraft(); }, 0);
+  setTimeout(() => { initChoices(); restorePaxDraft(); initCountryDrops(); }, 0);
 }
+
+// ── Country dropdown ────────────────────────────────────────────────────────
+function initCountryDrops() {
+  for (let i = 0; i < S.travelers; i++) setupCountryDrop(i);
+}
+
+function setupCountryDrop(idx) {
+  const search = document.getElementById('cd-search-' + idx);
+  const hidden = document.getElementById('pp' + idx);
+  const list   = document.getElementById('cd-list-' + idx);
+  if (!search || !hidden || !list) return;
+
+  // Sync visible input if draft already restored a value
+  if (hidden.value) {
+    const found = COUNTRIES.find(c => c.en === hidden.value);
+    if (found) search.value = lang === 'en' ? found.en : found.sr;
+    else search.value = hidden.value;
+  }
+
+  function renderList(q) {
+    const lq = q.toLowerCase();
+    const matches = lq
+      ? COUNTRIES.filter(c => c.en.toLowerCase().includes(lq) || c.sr.toLowerCase().includes(lq))
+      : COUNTRIES;
+    list.innerHTML = matches.slice(0, 100).map(c =>
+      `<div class="cd-item" data-en="${c.en}">${lang === 'en' ? c.en : c.sr}</div>`
+    ).join('');
+    list.querySelectorAll('.cd-item').forEach(el => {
+      el.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        search.value = this.textContent;
+        hidden.value = this.dataset.en;
+        list.classList.remove('open');
+        const wrap = document.getElementById('pf-passport-' + idx);
+        if (wrap) wrap.classList.remove('field-error');
+      });
+    });
+  }
+
+  search.addEventListener('focus', function() {
+    renderList(this.value);
+    list.classList.add('open');
+  });
+
+  search.addEventListener('input', function() {
+    hidden.value = '';
+    renderList(this.value);
+    list.classList.add('open');
+  });
+
+  search.addEventListener('blur', function() {
+    setTimeout(() => {
+      list.classList.remove('open');
+      if (!hidden.value) search.value = '';
+    }, 200);
+  });
+
+  search.addEventListener('keydown', function(e) {
+    const items = list.querySelectorAll('.cd-item');
+    const active = list.querySelector('.cd-item.cd-active');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = active ? active.nextElementSibling : items[0];
+      if (active) active.classList.remove('cd-active');
+      if (next) { next.classList.add('cd-active'); next.scrollIntoView({block:'nearest'}); }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = active ? active.previousElementSibling : null;
+      if (active) active.classList.remove('cd-active');
+      if (prev) { prev.classList.add('cd-active'); prev.scrollIntoView({block:'nearest'}); }
+    } else if (e.key === 'Enter') {
+      if (active) {
+        e.preventDefault();
+        search.value = active.textContent;
+        hidden.value = active.dataset.en;
+        list.classList.remove('open');
+        const wrap = document.getElementById('pf-passport-' + idx);
+        if (wrap) wrap.classList.remove('field-error');
+      }
+    } else if (e.key === 'Escape') {
+      list.classList.remove('open');
+    }
+  });
+}
+// ────────────────────────────────────────────────────────────────────────────
 
 // ── Booking draft (preživljava page refresh) ────────────────────────────────
 const DRAFT_KEY = 'esc_booking_draft';
