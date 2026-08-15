@@ -6389,7 +6389,7 @@ function setupCountryDrop(idx) {
 
   // Sync visible input if draft already restored a value
   if (hidden.value) {
-    const found = COUNTRIES.find(c => c.en === hidden.value);
+    const found = COUNTRIES.find(c => c.sr === hidden.value || c.en === hidden.value);
     if (found) search.value = lang === 'en' ? found.en : found.sr;
     else search.value = hidden.value;
   }
@@ -6400,13 +6400,13 @@ function setupCountryDrop(idx) {
       ? COUNTRIES.filter(c => c.en.toLowerCase().includes(lq) || c.sr.toLowerCase().includes(lq))
       : COUNTRIES;
     list.innerHTML = matches.slice(0, 100).map(c =>
-      `<div class="cd-item" data-en="${c.en}">${lang === 'en' ? c.en : c.sr}</div>`
+      `<div class="cd-item" data-en="${c.en}" data-sr="${c.sr}">${lang === 'en' ? c.en : c.sr}</div>`
     ).join('');
     list.querySelectorAll('.cd-item').forEach(el => {
       el.addEventListener('mousedown', function(e) {
         e.preventDefault();
         search.value = this.textContent;
-        hidden.value = this.dataset.en;
+        hidden.value = this.dataset.sr;
         list.classList.remove('open');
         const wrap = document.getElementById('pf-passport-' + idx);
         if (wrap) wrap.classList.remove('field-error');
@@ -6449,7 +6449,7 @@ function setupCountryDrop(idx) {
       if (active) {
         e.preventDefault();
         search.value = active.textContent;
-        hidden.value = active.dataset.en;
+        hidden.value = active.dataset.sr;
         list.classList.remove('open');
         const wrap = document.getElementById('pf-passport-' + idx);
         if (wrap) wrap.classList.remove('field-error');
