@@ -5530,7 +5530,7 @@ function prevStep() {
   const isPrivate = document.getElementById('esc-booking')?.classList.contains('private-mode');
   if (isPrivate && S.step <= 4) return;
   S.step--; onEnter();
-  showStep(S.step, !(from === 7 && S.step === 6));
+  showStep(S.step);
 }
 
 function onEnter() {
