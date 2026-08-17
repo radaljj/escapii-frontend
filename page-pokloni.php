@@ -839,7 +839,7 @@ $site_url  = get_site_url();
       </div>
       <div class="amount-custom-wrap">
         <input class="amount-custom-input" id="vCustomAmount" type="number" min="50" step="1"
-               placeholder="ili unesi iznos po izboru (min. 50€)"
+               data-i18n-ph="gift.amount.custom.ph" placeholder="ili unesi iznos po izboru (min. 50€)"
                oninput="onCustomAmount(this.value)">
       </div>
       <div class="amount-hint">
@@ -911,6 +911,7 @@ const TR = {
     'gift.sec.voucher.h':    'Odaberi iznos i pokloni nekome putovanje koje će pamtiti',
     'gift.sec.voucher.desc': 'Odaberi iznos vaučera, upiši ime i poruku - mi generišemo vaučer sa unikatnim kodom. Primalac ga koristi pri rezervaciji bilo kog Escapii putovanja iznenađenja, a vrednost se automatski odbija od cene putovanja. Vaučer važi godinu dana.',
     'gift.amount.label':     'Iznos vaučera (EUR)',
+    'gift.amount.custom.ph': 'ili unesi iznos po izboru (min. 50€)',
     'gift.amount.hint':      'Naša putovanja počinju od <strong>279€ po osobi</strong> - vaučer umanjuje tu cenu.',
     'gift.buyer.email.label':'Email za dostavu vaučera',
     'gift.buyer.email.ph':   'tvoj@email.com',
@@ -960,6 +961,7 @@ const TR = {
     'gift.sec.voucher.h':    'Choose an amount and gift someone a trip they\'ll never forget',
     'gift.sec.voucher.desc': 'Choose a voucher amount, add a name and message - we generate a voucher with a unique code. The recipient uses it when booking any Escapii surprise trip, and the value is automatically deducted from the trip price. Valid for one year.',
     'gift.amount.label':     'Voucher amount (EUR)',
+    'gift.amount.custom.ph': 'or enter a custom amount (min. €50)',
     'gift.amount.hint':      'Our trips start from <strong>€279 per person</strong> - the voucher reduces that price.',
     'gift.buyer.email.label':'Email for voucher delivery',
     'gift.buyer.email.ph':   'your@email.com',
@@ -990,9 +992,9 @@ function setLang(l) {
   lang = l;
   localStorage.setItem('esc-lang', l);
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent.trim() === l.toUpperCase()));
-  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = TR[l][el.dataset.i18n]; if (v) el.textContent = v; });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { const v = TR[l][el.dataset.i18nHtml]; if (v) el.innerHTML = v; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { const v = TR[l][el.dataset.i18nPh]; if (v) el.placeholder = v; });
 }
 
 // ── Nav helpers ──────────────────────────────────────────────────────────────
