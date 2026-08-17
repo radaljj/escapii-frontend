@@ -5824,6 +5824,7 @@ function pickDate(el,id,d) {
   el.classList.add('on');
   if (S.selectedDateId !== id) {
     S.excludedIds = [];
+    S.destinations = [];
   }
   S.selectedDateId = id;
   S.selectedDate = d;
