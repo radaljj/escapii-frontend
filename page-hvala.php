@@ -194,11 +194,7 @@
     }
     .bp-brand-row { display: flex; align-items: center; gap: 12px; }
     .bp-logo { height: 28px; width: auto; display: block; }
-    .bp-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.4); flex-shrink: 0; }
-    .bp-flight-no {
-      font-family: 'JetBrains Mono', monospace; font-size: 10px;
-      letter-spacing: 0.18em; font-weight: 500; color: rgba(255,255,255,0.8);
-    }
+    .bp-divider { display: none; }
     .bp-pill {
       display: inline-flex; align-items: center; gap: 7px;
       font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
@@ -345,8 +341,6 @@
         <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-white.svg"
              alt="escapii" class="bp-logo"
              onerror="this.outerHTML='<span style=\'font-family:Georgia,serif;font-style:italic;font-size:20px;color:#fff;\'>escapii</span>'">
-        <span class="bp-divider"></span>
-        <span class="bp-flight-no" id="bp-flight-no">FLIGHT · ESC0001</span>
       </div>
       <span class="bp-pill">
         <span class="bp-pill-dot"></span>
@@ -542,9 +536,6 @@ function fillBoardingPass() {
     if (el) typeIn(el, airport || 'BEG', 80);
     const cn = document.getElementById('bp-city-name');
     if (cn) cn.textContent = airportCity(airport);
-    // Flight no
-    const fn = document.getElementById('bp-flight-no');
-    if (fn) fn.textContent = 'FLIGHT · ' + (ref || 'ESC0001').replace('ESC-','ESC').toUpperCase();
   }, 400);
 
   // Datumi
