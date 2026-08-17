@@ -60,19 +60,14 @@ body {
 .pp-logo img { height: 42px; width: auto; display: block; }
 .pp-back {
   font-size: 13px;
-  color: rgba(255,255,255,.75);
+  color: var(--gray);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 6px;
   transition: color .2s;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
 }
-.pp-back:hover { color: #fff; background: rgba(255,255,255,.12); }
+.pp-back:hover { color: var(--white); }
 
 /* ── Hero ── */
 .pp-hero {
@@ -714,7 +709,7 @@ body {
   </main>
 </div>
 
-<?php include get_template_directory() . '/inc/footer.php'; ?>
+<?php $_COOKIE['esc-lang'] = 'en'; include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>
