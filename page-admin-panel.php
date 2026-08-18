@@ -1361,7 +1361,7 @@ function showPriceBreakdown(b) {
   if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€`));
   if (n === 1)            rows.push(tr('Doplata za solo putnika', '+60€'));
   if (b.hasRevealBox)     rows.push(tr('📦 Reveal Box', '+25€'));
-  if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${b.appliedVoucherCode || ''})`, `−${b.voucherDiscount}€`));
+  if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${escHtml(b.appliedVoucherCode || '')})`, `−${b.voucherDiscount}€`));
   rows.push(`<tr class="total"><td><strong>UKUPNO</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
   document.getElementById('pricePopupTable').innerHTML = rows.join('');
   document.getElementById('pricePopupOverlay').classList.add('open');
@@ -1912,7 +1912,7 @@ function renderDatesTable(dates) {
             onclick="copyPrivateLink('${privateUrl}', this)">📋 Kopiraj link</button>
           ${d.clientEmail
             ? `<div style="margin-top:6px;font-size:11px;color:var(--gray);">
-                 <a href="mailto:${d.clientEmail}" style="color:#a5b4fc;text-decoration:none;">✉ ${d.clientEmail}</a>
+                 <a href="mailto:${escHtml(d.clientEmail)}" style="color:#a5b4fc;text-decoration:none;">✉ ${escHtml(d.clientEmail)}</a>
                </div>`
             : ''}
         </td>
@@ -2371,8 +2371,8 @@ async function loadWaitlist() {
     }
     tbody.innerHTML = data.entries.map(e => `
       <tr>
-        <td>${e.email}</td>
-        <td>${e.airport}</td>
+        <td>${escHtml(e.email)}</td>
+        <td>${escHtml(e.airport)}</td>
         <td>${new Date(e.createdAt).toLocaleString('sr-RS')}</td>
       </tr>
     `).join('');
@@ -3503,7 +3503,7 @@ function renderInquiries() {
     return `
       <tr>
         <td style="white-space:nowrap;font-size:12px;color:var(--gray);">${createdShort}</td>
-        <td><strong>${i.airport}</strong></td>
+        <td><strong>${escHtml(i.airport)}</strong></td>
         <td style="text-align:center;">${i.travelers}</td>
         <td style="white-space:nowrap;">${period} <span style="color:var(--gray);font-size:11px;">${i.nights}🌙</span>
           <button onclick="promptEditInquiryDate(${i.id}, '${rawDepISO}', ${i.nights})" title="Izmeni datum" style="
@@ -3511,10 +3511,10 @@ function renderInquiries() {
             border:1px solid rgba(255,255,255,.15);color:var(--gray);cursor:pointer;
           ">✏️</button>
         </td>
-        <td><a href="mailto:${i.email}" style="color:#60a5fa;word-break:break-all;">${i.email}</a></td>
+        <td><a href="mailto:${escHtml(i.email)}" style="color:#60a5fa;word-break:break-all;">${escHtml(i.email)}</a></td>
         <td style="max-width:160px;font-size:12px;color:#aaa;">${i.notes ? escHtml(i.notes) : '-'}</td>
         <td>
-          <span class="iq-pill iq-${i.status}">${INQ_STATUS_ICONS[i.status] || '●'} ${INQ_STATUS_LABELS[i.status] || i.status}</span>
+          <span class="iq-pill iq-${escHtml(i.status)}">${INQ_STATUS_ICONS[i.status] || '●'} ${INQ_STATUS_LABELS[i.status] || escHtml(i.status)}</span>
           <select class="iq-status-sel" onchange="updateInquiryStatus(${i.id}, this.value)">
             ${Object.keys(INQ_STATUS_LABELS).map(s =>
               `<option value="${s}" ${i.status === s ? 'selected' : ''}>${INQ_STATUS_LABELS[s]}</option>`
@@ -3522,7 +3522,7 @@ function renderInquiries() {
           </select>
         </td>
         <td>
-          <button onclick="promptMakePrivate(${i.id}, '${i.airport}', ${i.travelers}, '${period}', ${i.price != null ? i.price : 'null'})" style="
+          <button onclick="promptMakePrivate(${i.id}, '${jsStr(i.airport)}', ${i.travelers}, '${period}', ${i.price != null ? i.price : 'null'})" style="
             padding:5px 10px;border-radius:6px;font-size:12px;background:#1a4a5a;
             border:1px solid #2a6a7a;color:#fff;cursor:pointer;white-space:nowrap;
           ">🔒 Privatni termin</button>
@@ -3802,7 +3802,13 @@ async function promptEditInquiryDate(inquiryId, currentDepISO, currentNights) {
 }
 
 function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  if (str == null) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// Za vrednosti koje idu u single-quoted JS onclick atribute (ne HTML kontekst)
+function jsStr(s) {
+  if (s == null) return '';
+  return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'\\r');
 }
 
 // ══ POKLONI ══════════════════════════════════════════════════════════════════
