@@ -2892,6 +2892,94 @@
       .sn-dot { width: 26px; height: 26px; font-size: 11px; }
     }
   </style>
+  <style>
+  /* ── Escapii inquiry success popup ──────────────────────────── */
+  .esc-popup{
+    background:#1d3b44 !important; border:1px solid rgba(255,255,255,.12) !important;
+    border-radius:24px !important; padding:44px 40px 36px !important;
+    box-shadow:0 50px 90px -30px rgba(0,0,0,.6) !important;
+    color:#f3efe6 !important; max-width:460px !important;
+  }
+  .esc-title{
+    font-family:"Playfair Display",Georgia,serif !important; font-weight:700 !important;
+    font-size:26px !important; color:#fff !important;
+    letter-spacing:-.3px !important; padding:0 !important; margin:0 0 10px !important;
+  }
+  .esc-icon-wrap{ width:72px; height:72px; margin:0 auto 20px; }
+  .esc-icon-wrap svg{ width:100%; height:100%; display:block; }
+  .esc-icon-ring{
+    fill:none; stroke:rgba(127,184,158,.35); stroke-width:2;
+    stroke-dasharray:220; stroke-dashoffset:220;
+    animation:escRingDraw .6s ease-out forwards;
+  }
+  .esc-icon-check{
+    fill:none; stroke:#7fb89e; stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:40; stroke-dashoffset:40;
+    animation:escCheckDraw .4s ease-out .5s forwards;
+  }
+  @keyframes escRingDraw{ to{ stroke-dashoffset:0; } }
+  @keyframes escCheckDraw{ to{ stroke-dashoffset:0; } }
+  @media(prefers-reduced-motion:reduce){
+    .esc-icon-ring,.esc-icon-check{ animation:none; stroke-dashoffset:0; }
+  }
+  .esc-sub{
+    font-size:14.5px; line-height:1.6; color:rgba(255,255,255,.65);
+    margin:0 0 22px; max-width:36ch; margin-left:auto; margin-right:auto;
+  }
+  .esc-sub b{ color:#e0a183; font-weight:600; }
+  .esc-trip{
+    position:relative; background:#22424a; border:1px solid rgba(255,255,255,.07);
+    border-radius:16px; padding:4px 20px; margin-bottom:20px; text-align:left; overflow:hidden;
+  }
+  .esc-trip::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(90% 130% at 0% 0%,rgba(224,161,131,.12),transparent 65%);
+    pointer-events:none;
+  }
+  .esc-row{
+    position:relative; display:flex; align-items:center; gap:13px; padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+  }
+  .esc-row:last-child{ border-bottom:none; }
+  .esc-row-ic{
+    width:34px; height:34px; flex:none; border-radius:9px;
+    background:rgba(224,161,131,.12); border:1px solid rgba(224,161,131,.25);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .esc-row-ic svg{ width:16px; height:16px; color:#e0a183; }
+  .esc-row-body{ flex:1; }
+  .esc-row-k{
+    font-size:10px; font-weight:700; letter-spacing:1.3px;
+    text-transform:uppercase; color:rgba(255,255,255,.42);
+  }
+  .esc-row-v{ font-size:14px; font-weight:600; color:#fff; margin-top:2px; }
+  .esc-row-v small{ font-weight:500; color:rgba(255,255,255,.55); font-size:12.5px; }
+  .esc-mystery{
+    font-size:12.5px; color:rgba(255,255,255,.42); margin:0 0 22px; letter-spacing:.01em;
+  }
+  .esc-confirm{
+    font-size:15px !important; font-weight:600 !important;
+    background:#c8775a !important; color:#fff !important;
+    border-radius:100px !important; padding:15px 44px !important;
+    box-shadow:0 14px 30px -14px rgba(200,119,90,.9) !important;
+    width:100% !important; transition:background .2s !important;
+  }
+  .esc-confirm:hover{ background:#e0a183 !important; }
+  .swal2-actions{ margin-top:4px !important; width:100% !important; }
+  .esc-backdrop{ background:rgba(11,22,26,.72) !important; backdrop-filter:blur(3px); }
+  @media(max-width:480px){
+    .esc-popup{ padding:32px 20px 26px !important; border-radius:20px !important; max-width:92vw !important; }
+    .esc-icon-wrap{ width:60px; height:60px; margin-bottom:16px; }
+    .esc-title{ font-size:22px !important; }
+    .esc-sub{ font-size:13.5px; }
+    .esc-trip{ padding:2px 14px; }
+    .esc-row{ gap:10px; padding:12px 0; }
+    .esc-row-ic{ width:30px; height:30px; border-radius:8px; }
+    .esc-row-ic svg{ width:14px; height:14px; }
+    .esc-row-v{ font-size:13px; }
+    .esc-confirm{ padding:14px 32px !important; font-size:14px !important; }
+  }
+  </style>
 </head>
 <body>
 <?php wp_body_open(); ?>
@@ -4327,7 +4415,7 @@ const TR = {
     'inq.notes.ph':'Npr. preferišem vikend…',
     'inq.summary':'Javićemo ti se u roku od <strong>24 sata</strong> sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.submit':'Pošalji upit',
-    'inq.ok.t':'Upit primljen!',
+    'inq.ok.t':'Upit je primljen! ✈️',
     'inq.ok.m':'Javićemo ti se u roku od 24 sata sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.err.date':'Izaberi datum polaska.',
     'inq.err.nights':'Izaberi broj noćenja (2 ili 3 noći).',
@@ -7356,22 +7444,43 @@ async function submitInquiry() {
 
     if (r.ok) {
       hideInquiryView();
-      const depLabel = _inqDep.toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
-      const retLabel = _inqRet.toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
-      const nightsLabel = lang === 'sr' ? `${nights} ${nights === 1 ? 'noć' : nights < 5 ? 'noći' : 'noći'}` : `${nights} ${nights === 1 ? 'night' : 'nights'}`;
-      const travelersLabel = lang === 'sr' ? `${S.travelers || 1} ${(S.travelers || 1) === 1 ? 'putnik' : (S.travelers || 1) < 5 ? 'putnika' : 'putnika'}` : `${S.travelers || 1} ${(S.travelers || 1) === 1 ? 'traveler' : 'travelers'}`;
-      const summaryHtml = `
-        <p style="margin:0 0 14px;font-size:14px;opacity:.85;">${t('inq.ok.m')}</p>
-        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:12px 16px;font-size:13px;text-align:left;line-height:2;">
-          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Polazak':'Departure'}</span> <strong>${depLabel}</strong></div>
-          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Povratak':'Return'}</span> <strong>${retLabel}</strong></div>
-          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Trajanje':'Duration'}</span> <strong>${nightsLabel}</strong></div>
-          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Putnici':'Travelers'}</span> <strong>${travelersLabel}</strong></div>
-        </div>`;
+      const locale    = lang === 'sr' ? 'sr-Latn-RS' : 'en-GB';
+      const depLabel  = _inqDep.toLocaleDateString(locale, { day:'numeric', month:'long' });
+      const retLabel  = _inqRet.toLocaleDateString(locale, { day:'numeric', month:'long' });
+      const trv       = S.travelers || 1;
+      const nightsLabel    = lang === 'sr' ? `${nights} ${nights === 1 ? 'noć' : 'noći'}` : `${nights} ${nights === 1 ? 'night' : 'nights'}`;
+      const travelersLabel = lang === 'sr' ? `${trv} ${trv === 1 ? 'putnik' : 'putnika'}` : `${trv} ${trv === 1 ? 'traveler' : 'travelers'}`;
+      const isSr = lang === 'sr';
+      const summaryHtml =
+        '<div class="esc-icon-wrap">' +
+          '<svg viewBox="0 0 80 80">' +
+            '<circle class="esc-icon-ring" cx="40" cy="40" r="35"></circle>' +
+            '<path class="esc-icon-check" d="M25 41 L35 51 L56 29"></path>' +
+          '</svg>' +
+        '</div>' +
+        `<p class="esc-sub">${isSr
+          ? 'Tvoja sledeća avantura je na putu. Javljamo ti se u naredna <b>24 sata</b> sa ponudom za tvoj termin.'
+          : 'Your next adventure is on its way. We\'ll get back to you within <b>24 hours</b> with an offer for your dates.'
+        }</p>` +
+        '<div class="esc-trip">' +
+          '<div class="esc-row">' +
+            '<span class="esc-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg></span>' +
+            `<div class="esc-row-body"><div class="esc-row-k">${isSr ? 'Polazak → Povratak' : 'Departure → Return'}</div><div class="esc-row-v">${depLabel} <small>→</small> ${retLabel}</div></div>` +
+          '</div>' +
+          '<div class="esc-row">' +
+            '<span class="esc-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>' +
+            `<div class="esc-row-body"><div class="esc-row-k">${isSr ? 'Trajanje' : 'Duration'}</div><div class="esc-row-v">${nightsLabel}</div></div>` +
+          '</div>' +
+          '<div class="esc-row">' +
+            '<span class="esc-row-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></span>' +
+            `<div class="esc-row-body"><div class="esc-row-k">${isSr ? 'Putnici' : 'Travelers'}</div><div class="esc-row-v">${travelersLabel}</div></div>` +
+          '</div>' +
+        '</div>' +
+        `<p class="esc-mystery">${isSr ? '🤫 Destinacija? Neka još malo ostane misterija.' : '🤫 The destination? Let it stay a mystery for now.'}</p>`;
       await Swal.fire({
-        title: t('inq.ok.t'), html: summaryHtml, icon: 'success',
-        confirmButtonColor: 'var(--accent)',
-        background: '#1a3a42', color: '#f6f1e6',
+        title: t('inq.ok.t'), html: summaryHtml,
+        buttonsStyling: false, confirmButtonText: isSr ? 'U redu' : 'Got it',
+        customClass: { popup:'esc-popup', title:'esc-title', confirmButton:'esc-confirm', backdrop:'esc-backdrop' },
       });
     } else {
       const err = await r.json().catch(() => ({}));
