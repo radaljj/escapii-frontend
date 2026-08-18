@@ -119,7 +119,23 @@
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   };
 
+  function _applyStatusModalLang() {
+    var isSr = _lang() === 'sr';
+    var modal = document.getElementById('statusModal');
+    if (!modal) return;
+    var title = modal.querySelector('.status-modal-title');
+    var sub   = modal.querySelector('.status-modal-sub');
+    var labels = modal.querySelectorAll('.status-field label');
+    var btnSpan = modal.querySelector('#statusBtn span');
+    if (title)    title.textContent    = isSr ? 'Proveri status rezervacije' : 'Check reservation status';
+    if (sub)      sub.textContent      = isSr ? 'Unesite broj rezervacije i prezime nosioca rezervacije.' : 'Enter your booking reference and the last name of the lead traveler.';
+    if (labels[0]) labels[0].textContent = isSr ? 'Broj rezervacije' : 'Booking reference';
+    if (labels[1]) labels[1].textContent = isSr ? 'Prezime' : 'Last name';
+    if (btnSpan)  btnSpan.textContent  = isSr ? 'Proveri →' : 'Check →';
+  }
+
   window.openStatusModal = function() {
+    _applyStatusModalLang();
     document.getElementById('statusModal').classList.add('open');
     setTimeout(function(){ document.getElementById('statusRef').focus(); }, 50);
   };

@@ -4489,7 +4489,8 @@ const TR = {
     'gift.submit':'🎁 Pošalji upit za poklon putovanje',
     'gift.err.name':'Unesi svoje ime.',
     'gift.ok.t':'Upit primljen!',
-    'gift.ok.m':'Javiće ti se u roku od 24h sa svim detaljima o poklon putovanju.'
+    'gift.ok.m':'Javiće ti se u roku od 24h sa svim detaljima o poklon putovanju.',
+    'ft.gift':'🎁 Pokloni putovanje iznenađenja'
   },
   en: {
     'nav.status':'My reservation',
@@ -4740,7 +4741,8 @@ const TR = {
     'gift.submit':'🎁 Send gift inquiry',
     'gift.err.name':'Please enter your name.',
     'gift.ok.t':'Inquiry received!',
-    'gift.ok.m':'We\'ll get back to you within 24h with all the details about the gift surprise.'
+    'gift.ok.m':'We\'ll get back to you within 24h with all the details about the gift surprise.',
+    'ft.gift':'🎁 Gift a Surprise Trip'
   }
 };
 
