@@ -7356,8 +7356,20 @@ async function submitInquiry() {
 
     if (r.ok) {
       hideInquiryView();
+      const depLabel = _inqDep.toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
+      const retLabel = _inqRet.toLocaleDateString(lang === 'sr' ? 'sr-Latn-RS' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
+      const nightsLabel = lang === 'sr' ? `${nights} ${nights === 1 ? 'noć' : nights < 5 ? 'noći' : 'noći'}` : `${nights} ${nights === 1 ? 'night' : 'nights'}`;
+      const travelersLabel = lang === 'sr' ? `${S.travelers || 1} ${(S.travelers || 1) === 1 ? 'putnik' : (S.travelers || 1) < 5 ? 'putnika' : 'putnika'}` : `${S.travelers || 1} ${(S.travelers || 1) === 1 ? 'traveler' : 'travelers'}`;
+      const summaryHtml = `
+        <p style="margin:0 0 14px;font-size:14px;opacity:.85;">${t('inq.ok.m')}</p>
+        <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:12px 16px;font-size:13px;text-align:left;line-height:2;">
+          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Polazak':'Departure'}</span> <strong>${depLabel}</strong></div>
+          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Povratak':'Return'}</span> <strong>${retLabel}</strong></div>
+          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Trajanje':'Duration'}</span> <strong>${nightsLabel}</strong></div>
+          <div><span style="opacity:.6;min-width:110px;display:inline-block;">${lang==='sr'?'Putnici':'Travelers'}</span> <strong>${travelersLabel}</strong></div>
+        </div>`;
       await Swal.fire({
-        title: t('inq.ok.t'), text: t('inq.ok.m'), icon: 'success',
+        title: t('inq.ok.t'), html: summaryHtml, icon: 'success',
         confirmButtonColor: 'var(--accent)',
         background: '#1a3a42', color: '#f6f1e6',
       });
