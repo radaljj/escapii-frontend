@@ -4086,7 +4086,7 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-how')"     data-i18n="footer.how">Kako funkcioniše</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="/faq"     data-i18n="footer.faq">FAQ</a>
-      <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;">🎁 Pokloni putovanje iznenađenja</a>
+      <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;" data-i18n="footer.gift">🎁 Pokloni putovanje iznenađenja</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.departure">Polasci</h4>
@@ -4396,6 +4396,7 @@ const TR = {
     's1.soon.hr':'· Hrvatska', 's1.soon.hu':'· Mađarska', 's1.soon.ro':'· Rumunija',
     'footer.social':'Pratite nas', 'footer.contact':'Kontakt',
     'footer.status':'🔍 Proveri status rezervacije',
+    'footer.gift':'🎁 Pokloni putovanje iznenađenja',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.booking':'Rezervacija', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
     'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
@@ -4648,6 +4649,7 @@ const TR = {
     's1.soon.hr':'· Croatia', 's1.soon.hu':'· Hungary', 's1.soon.ro':'· Romania',
     'footer.social':'Follow us', 'footer.contact':'Contact',
     'footer.status':'🔍 Check reservation status',
+    'footer.gift':'🎁 Gift a Surprise Trip',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About us', 'snav.booking':'Book', 'snav.dest':'Destinations', 'snav.how':'How it works',
     'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
