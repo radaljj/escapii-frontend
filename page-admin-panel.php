@@ -2583,7 +2583,7 @@ function buildBookingDetail(b) {
   return `
     <div class="bc-header">
       <div>
-        <div class="bc-ref">${b.bookingRef}</div>
+        <div class="bc-ref">${escHtml(b.bookingRef)}</div>
         <div class="bc-date">Primljeno: ${created}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -2613,11 +2613,11 @@ function buildBookingDetail(b) {
           <input class="bc-dest-input" id="weather-city-${b.id}" type="text"
             style="width:100%;font-size:11px;opacity:.8;"
             placeholder="🌤 Grad za prognozu (opcionalno) - npr. Santa Cruz de Tenerife, Spain"
-            value="${b.weatherCity || ''}"
+            value="${escHtml(b.weatherCity || '')}"
             onkeydown="if(event.key==='Enter')saveWeatherCity(${b.id})"
             onblur="saveWeatherCity(${b.id})" />
           <div id="weather-city-status-${b.id}" style="font-size:10px;color:var(--gray);margin-top:2px;">
-            ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${b.weatherCity}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
+            ${b.weatherCity ? `🌤 Prognoza koristi: <strong>${escHtml(b.weatherCity)}</strong>` : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>'}
           </div>
         </div>
         <div class="bc-note-status" id="dest-status-${b.id}" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
@@ -2691,13 +2691,13 @@ function buildBookingDetail(b) {
       <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
       <div class="bc-note-row">
         <input class="bc-note-input" id="airline-name-${b.id}" type="text"
-          placeholder="npr. Wizz Air, Ryanair..." value="${b.airlineName || ''}"
+          placeholder="npr. Wizz Air, Ryanair..." value="${escHtml(b.airlineName || '')}"
           onkeydown="if(event.key==='Enter')saveAirlineName(${b.id})"
           onblur="saveAirlineName(${b.id})" />
         <button class="bc-note-save" onclick="saveAirlineName(${b.id})" title="Sačuvaj (Enter)">✓</button>
       </div>
       <div class="bc-note-status" id="airline-name-status-${b.id}">
-        ${b.airlineName ? `<span style="color:#22c55e;font-size:11px;">✓ ${b.airlineName}</span>` : '<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>'}
+        ${b.airlineName ? `<span style="color:#22c55e;font-size:11px;">✓ ${escHtml(b.airlineName)}</span>` : '<span style="opacity:.45;font-size:11px;">Unesi naziv avio kompanije</span>'}
       </div>
     </div>
 
@@ -2722,7 +2722,7 @@ function buildBookingDetail(b) {
         <textarea class="bc-note-input" id="note-${b.id}"
           placeholder="npr. Uplata primljena, kontaktiran, čeka potvrdu..."
           onkeydown="if(event.ctrlKey&&event.key==='Enter')saveNote(${b.id})"
-        >${b.adminNotes || ''}</textarea>
+        >${escHtml(b.adminNotes || '')}</textarea>
         <button class="bc-note-save" id="note-btn-${b.id}" onclick="saveNote(${b.id})" title="Sačuvaj napomenu (Ctrl+Enter)">✓</button>
       </div>
       <div class="bc-note-status" id="note-status-${b.id}"></div>
@@ -2780,7 +2780,7 @@ function renderBookings() {
     return `
       <tr class="bt-summary s-${b.status}" id="btrow-${b.id}" onclick="toggleDetail(${b.id})">
         <td>
-          <span style="font-size:12px;font-weight:700;color:var(--gray);">${b.bookingRef}</span>
+          <span style="font-size:12px;font-weight:700;color:var(--gray);">${escHtml(b.bookingRef)}</span>
           ${b.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}</div>` : ''}
         </td>
         <td>
@@ -2792,7 +2792,7 @@ function renderBookings() {
         <td><span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span></td>
         <td><strong style="color:var(--accent);">${b.totalPriceAll}€</strong></td>
         <td>${b.assignedDestination
-          ? `<span style="color:#4ade80;font-size:12px;font-weight:600;">✓ ${b.assignedDestination}</span>`
+          ? `<span style="color:#4ade80;font-size:12px;font-weight:600;">✓ ${escHtml(b.assignedDestination)}</span>`
           : '<span style="opacity:.35;font-size:12px;">—</span>'}</td>
         <td><span class="bt-chevron" id="chev-${b.id}">▼</span></td>
       </tr>
