@@ -400,9 +400,23 @@ function esc_save_category_name_en(int $term_id) {
 
 const ESC_GTM_ID = 'GTM-N84K66L6';
 
-/** Ne pratimo sebe: WP admin, prijavljene korisnike ni preglede iz uređivača. */
+/**
+ * Ne pratimo sebe: WP admin, prijavljene korisnike ni preglede iz uređivača.
+ * Token stranice (reveal, hvala, poklon) se eksplicitno isključuju - token
+ * u URL-u ne sme procureti u GTM/HubSpot/Referrer log.
+ */
 function esc_gtm_enabled(): bool {
-    return !is_admin() && !is_user_logged_in() && !is_preview();
+    static $token_templates = ['page-otkrivanje.php', 'page-hvala.php', 'page-poklon.php'];
+    return !is_admin() && !is_user_logged_in() && !is_preview()
+           && !is_page_template($token_templates);
+}
+
+/** Referrer-Policy i Cache-Control: no-store na token stranama. */
+add_action('send_headers', 'esc_token_page_security_headers');
+function esc_token_page_security_headers(): void {
+    if (!is_page_template(['page-otkrivanje.php', 'page-hvala.php', 'page-poklon.php'])) return;
+    header('Referrer-Policy: no-referrer');
+    header('Cache-Control: no-store, no-cache, must-revalidate, private');
 }
 
 /**
@@ -463,7 +477,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 /** HubSpot tracking - učitava se async/defer, ne blokira render. */
 add_action('wp_footer', 'esc_hubspot_tracking', 5);
-function esc_hubspot_tracking() { ?>
+function esc_hubspot_tracking() {
+    if (!esc_gtm_enabled()) return;
+    ?>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/148950343.js"></script>
 <!-- End of HubSpot Embed Code -->
