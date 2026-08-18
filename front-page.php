@@ -3565,7 +3565,7 @@
               <div class="sum-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
-              <div data-i18n-html="inq.summary">Naš tim odgovara <strong>u roku od 24h</strong>. Ako termin bude dostupan, dobićeš link za rezervaciju.</div>
+              <div data-i18n-html="inq.summary">Javićemo ti se u roku od <strong>24 sata</strong> sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.</div>
             </div>
 
             <!-- Submit -->
@@ -4325,10 +4325,10 @@ const TR = {
     'inq.notes':'Napomena',
     'inq.notes.opt':'OPCIONO',
     'inq.notes.ph':'Npr. preferišem vikend…',
-    'inq.summary':'Naš tim odgovara <strong>u roku od 24h</strong>. Ako termin bude dostupan, dobićeš link za rezervaciju.',
+    'inq.summary':'Javićemo ti se u roku od <strong>24 sata</strong> sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.submit':'Pošalji upit',
     'inq.ok.t':'Upit primljen!',
-    'inq.ok.m':'Naš tim će proveriti dostupnost i u roku od 24h se javiti na tvoju email adresu.',
+    'inq.ok.m':'Javićemo ti se u roku od 24 sata sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.err.date':'Izaberi datum polaska.',
     'inq.err.nights':'Izaberi broj noćenja (2 ili 3 noći).',
     'inq.err.email':'Unesi validnu email adresu.',
@@ -4577,10 +4577,10 @@ const TR = {
     'inq.notes':'Note',
     'inq.notes.opt':'OPTIONAL',
     'inq.notes.ph':'E.g. I prefer weekends…',
-    'inq.summary':'Our team replies <strong>within 24h</strong>. If the date is available, you\'ll get a booking link by email.',
+    'inq.summary':'We\'ll get back to you <strong>within 24 hours</strong> with details if we find a suitable offer for your dates.',
     'inq.submit':'Send inquiry',
     'inq.ok.t':'Inquiry received!',
-    'inq.ok.m':'Our team will check availability and reach out to you within 24 hours.',
+    'inq.ok.m':'We\'ll get back to you within 24 hours with details if we find a suitable offer for your dates.',
     'inq.err.date':'Please select a departure date.',
     'inq.err.nights':'Please select 2 or 3 nights.',
     'inq.err.email':'Please enter a valid email address.',
