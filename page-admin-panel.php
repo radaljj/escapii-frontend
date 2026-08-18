@@ -308,6 +308,8 @@ select.bc-dest-input option:disabled { color: #64748b; }
 .booking-card.status-CONFIRMED  { border-left: 3px solid var(--green); }
 .booking-card.status-CANCELLED  { border-left: 3px solid var(--red); opacity: .65; }
 .booking-card.status-PENDING    { border-left: 3px solid var(--accent); }
+.bc-pending-info { font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 6px; margin-bottom: 12px; background: rgba(202,138,113,.08); color: var(--accent); border: 1px solid rgba(202,138,113,.18); }
+.bc-pending-info.bc-pending-warn { background: rgba(251,191,36,.1); color: #fbbf24; border-color: rgba(251,191,36,.28); }
 .booking-card.status-COMPLETED  { border-left: 3px solid #818cf8; }
 .bc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
 .bc-ref { font-size: 15px; font-weight: 800; color: var(--white); }
@@ -2552,6 +2554,23 @@ function buildBookingDetail(b) {
   const isCompleted = b.status === 'COMPLETED';
   const statusLabels = { PENDING: '⏳ Na čekanju', CONFIRMED: '✅ Potvrđena', CANCELLED: '❌ Otkazana', COMPLETED: '🏁 Završena' };
 
+  let pendingInfoHtml = '';
+  if (isPending) {
+    const msDay   = 864e5;
+    const dayName = n => `${n} ${(n % 10 === 1 && n % 100 !== 11) ? 'dan' : 'dana'}`;
+    const daysOld = Math.floor((Date.now() - new Date(b.createdAt)) / msDay);
+    if (b.invoiceSentAt) {
+      const daysSinceInvoice = Math.floor((Date.now() - new Date(b.invoiceSentAt)) / msDay);
+      if (daysSinceInvoice >= 3) {
+        pendingInfoHtml = `<div class="bc-pending-info bc-pending-warn">⚠ Faktura poslata pre ${dayName(daysSinceInvoice)} — još bez potvrde uplate</div>`;
+      } else {
+        pendingInfoHtml = `<div class="bc-pending-info">⏳ Čeka uplatu ${dayName(daysOld)}</div>`;
+      }
+    } else {
+      pendingInfoHtml = `<div class="bc-pending-info">⏳ Na čekanju ${dayName(daysOld)}</div>`;
+    }
+  }
+
   const termDests  = b.termDestinations || [];
   const excludedIds = new Set(b.excludedDestinationIds || []);
   const destInput  = !termDests.length
@@ -2592,6 +2611,7 @@ function buildBookingDetail(b) {
       </div>
     </div>
 
+    ${pendingInfoHtml}
     <div class="bc-body">
       <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')}</div></div>
       <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${escHtml(b.email || '')}</div></div>
