@@ -726,6 +726,19 @@ body {
       <p>Ne koristimo kolačiće za oglašavanje, remarketing ni profilisanje. U Consent Mode podešavanjima su <code>ad_storage</code>, <code>ad_user_data</code> i <code>ad_personalization</code> trajno isključeni.</p>
       <p>Podaci se obrađuju od strane Google Ireland Limited. Više informacija: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google politika privatnosti</a>.</p>
 
+      <h3>HubSpot - samo uz saglasnost</h3>
+      <p>Koristimo <strong>HubSpot</strong> za praćenje ponašanja posetilaca i upravljanje upitima. <strong>HubSpot se ne učitava dok ne daš saglasnost</strong> - ni skripta ni kolačići se ne postavljaju pre toga.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Naziv</th><th>Svrha</th><th>Trajanje</th></tr>
+        <tr><td><code>__hstc</code></td><td>Glavni kolačić za praćenje posetilaca</td><td>2 godine</td></tr>
+        <tr><td><code>hubspotutk</code></td><td>Identifikacija posetilaca pri slanju formi</td><td>2 godine</td></tr>
+        <tr><td><code>__hssc</code></td><td>Praćenje sesije</td><td>30 minuta</td></tr>
+        <tr><td><code>__hssrc</code></td><td>Detekcija nove sesije</td><td>Sesija</td></tr>
+      </table>
+      </div>
+      <p>Podaci se obrađuju od strane HubSpot Inc. Više informacija: <a href="https://legal.hubspot.com/privacy-policy" target="_blank" rel="noopener">HubSpot politika privatnosti</a>.</p>
+
       <h3>Kako da promeniš odluku</h3>
       <p>Odluku možeš promeniti u bilo kom trenutku - klikni na <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Podešavanja kolačića</a> (link postoji i u podnožju svake stranice). Kolačiće možeš obrisati i kroz podešavanja svog pregledača.</p>
       <p>Povlačenje saglasnosti je jednako jednostavno kao i davanje, i ne utiče na zakonitost obrade pre povlačenja.</p>

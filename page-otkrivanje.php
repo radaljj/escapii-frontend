@@ -1562,6 +1562,7 @@ document.addEventListener('DOMContentLoaded', () => {
 (async function init(){
   const token = new URLSearchParams(location.search).get('token');
   if (!token) { showError(404); return; }
+  history.replaceState(null, '', location.pathname);
   try {
     const res = await fetch(`${API}/api/reveal?token=${encodeURIComponent(token)}`);
     if (!res.ok) { showError(res.status); return; }

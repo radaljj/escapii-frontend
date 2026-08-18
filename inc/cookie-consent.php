@@ -121,10 +121,22 @@ $_cc_mini = defined('ESC_IS_COMING_SOON') ? ' esc-cc--mini' : '';
     }
   }
 
+  function loadHubSpot() {
+    if (document.getElementById('hs-script-loader')) return;
+    var hs = document.createElement('script');
+    hs.type = 'text/javascript';
+    hs.id   = 'hs-script-loader';
+    hs.async = true;
+    hs.defer = true;
+    hs.src  = '//js-eu1.hs-scripts.com/148950343.js';
+    document.head.appendChild(hs);
+  }
+
   function decide(value) {
     save(value);
     apply(value);
     banner.classList.remove('show');
+    if (value === 'granted') loadHubSpot();
   }
 
   document.getElementById('escCcAccept').addEventListener('click', function() { decide('granted'); });

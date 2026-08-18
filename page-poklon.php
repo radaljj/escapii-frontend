@@ -959,6 +959,8 @@ function init() {
   const params = new URLSearchParams(window.location.search);
   const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
 
+  if (code) history.replaceState(null, '', location.pathname);
+
   // Bez koda u adresi - ponudi unos umesto poruke o grešci
   if (!code) {
     show('entry');

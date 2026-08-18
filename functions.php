@@ -475,10 +475,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <?php
 }
 
-/** HubSpot tracking - učitava se async/defer, ne blokira render. */
+/**
+ * HubSpot tracking - učitava se SAMO ako je korisnik već dao saglasnost.
+ * Novi posetioci: skripta se ubacuje dinamički iz cookie-consent.php kad kliknu "Prihvatam".
+ */
 add_action('wp_footer', 'esc_hubspot_tracking', 5);
 function esc_hubspot_tracking() {
     if (!esc_gtm_enabled()) return;
+    if (($_COOKIE['esc_consent'] ?? '') !== 'granted') return;
     ?>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/148950343.js"></script>

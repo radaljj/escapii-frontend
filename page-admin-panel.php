@@ -2742,7 +2742,7 @@ function buildBookingDetail(b) {
         📄 Pošalji fakturu
       </button>` : ''}
       ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
-      <button class="bc-btn" onclick="deleteBooking(${b.id},'${b.bookingRef}')"
+      <button class="bc-btn" onclick="deleteBooking(${b.id},'${jsStr(b.bookingRef)}')"
         style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
         🗑 Obriši
       </button>` : ''}
@@ -2920,7 +2920,7 @@ async function saveWeatherCity(id) {
     const updated = await r.json();
     if (idx > -1) ALL_BOOKINGS[idx].weatherCity = updated.weatherCity;
     msg.innerHTML = updated.weatherCity
-      ? `🌤 Prognoza koristi: <strong>${updated.weatherCity}</strong>`
+      ? `🌤 Prognoza koristi: <strong>${escHtml(updated.weatherCity)}</strong>`
       : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>';
   } catch {
     msg.innerHTML = '<span style="color:var(--red);">✗ Greška pri čuvanju</span>';
