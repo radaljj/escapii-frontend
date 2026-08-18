@@ -537,6 +537,25 @@ const I18N_EN = {
 const I18N_SR = {};
 document.querySelectorAll('[data-i18n]').forEach(el => { I18N_SR[el.getAttribute('data-i18n')] = el.textContent; });
 document.querySelectorAll('[data-i18n-html]').forEach(el => { I18N_SR[el.getAttribute('data-i18n-html')] = el.innerHTML; });
+// Srpski footer stringovi su hardkovani da se spreci korupcija DOM capture-om
+// kada je stranica ucitana sa EN cookie-jem (footer bi bio na engleskom u DOM-u)
+Object.assign(I18N_SR, {
+  'ft.desc':    'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.',
+  'ft.follow':  'Pratite nas',
+  'ft.nav':     'Navigacija',
+  'ft.about':   'O nama',
+  'ft.dest':    'Destinacije',
+  'ft.how':     'Kako funkcioniše',
+  'ft.who':     'Za koga',
+  'ft.gift':    '🎁 Pokloni putovanje iznenađenja',
+  'ft.dep':     'Polasci',
+  'ft.contact': 'Kontakt',
+  'ft.status':  '🔍 Proveri status rezervacije',
+  'ft.rights':  '© 2026 Escapii - Sva prava zadržana',
+  'ft.terms':   'Uslovi korišćenja',
+  'ft.privacy': 'Politika privatnosti',
+  'ft.cookies': 'Podešavanja kolačića',
+});
 
 let lang = localStorage.getItem('esc-lang') || 'sr';
 
