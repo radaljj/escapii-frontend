@@ -732,7 +732,8 @@ body {
   </main>
 </div>
 
-<?php include get_template_directory() . '/inc/footer.php'; ?>
+<script>var lang = 'sr';</script>
+<?php $_COOKIE['esc-lang'] = 'sr'; include get_template_directory() . '/inc/footer.php'; ?>
 
 <?php wp_footer(); ?>
 </body>
