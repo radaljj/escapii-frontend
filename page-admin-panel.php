@@ -2556,7 +2556,7 @@ function buildBookingDetail(b) {
   const excludedIds = new Set(b.excludedDestinationIds || []);
   const destInput  = !termDests.length
     ? `<input class="bc-dest-input" id="dest-${b.id}" type="text"
-         placeholder="npr. Barcelona" value="${b.assignedDestination || ''}"
+         placeholder="npr. Barcelona" value="${escHtml(b.assignedDestination || '')}"
          onkeydown="if(event.key==='Enter')saveDestination(${b.id})" />`
     : `<select class="bc-dest-input" id="dest-${b.id}" onchange="saveDestination(${b.id})" style="cursor:pointer;">
          <option value="">-- izaberi destinaciju --</option>
@@ -3805,10 +3805,10 @@ function escHtml(str) {
   if (str == null) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-// Za vrednosti koje idu u single-quoted JS onclick atribute (ne HTML kontekst)
+// Za vrednosti koje idu u single-quoted JS onclick atribute unutar double-quoted HTML atributa
 function jsStr(s) {
   if (s == null) return '';
-  return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'\\r');
+  return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;').replace(/\n/g,'\\n').replace(/\r/g,'\\r');
 }
 
 // ══ POKLONI ══════════════════════════════════════════════════════════════════
