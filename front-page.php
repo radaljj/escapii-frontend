@@ -5268,7 +5268,8 @@ const S = {
   hasRevealBox:false, deliveryAddress:'', deliveryApartment:'', deliveryCity:'', deliveryPhone:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   airports:[],   // iz /api/airports - vidi loadAirports()
-  lastPrice:null
+  lastPrice:null,
+  privateToken:null  // token privatnog termina - šalje se pri rezervaciji da backend potvrdi
 };
 
 // ══════════ COUNTRIES (from backend - no external API dependency)
@@ -6949,6 +6950,7 @@ async function submitBooking() {
     firstName:firstName, lastName:lastName, email:email, phone:phone,
     notes:document.getElementById('fNotes').value,
     voucherCode: _appliedVoucher?.code || null,
+    privateToken: S.privateToken || null,
     // Anti-bot polja
     website: document.getElementById('hp_website')?.value || '',
     formDuration: Math.round((Date.now() - _FORM_START) / 1000)
@@ -7907,6 +7909,10 @@ async function checkPrivateDateToken() {
     }
 
     const date = await r.json();
+
+    // Sačuvaj token pre nego što ga replaceState ukloni iz URL-a —
+    // backend mora ponovo proveriti token pri slanju rezervacije
+    S.privateToken = token;
 
     // Pre-popuni S state
     S.airport        = date.departureAirport;
