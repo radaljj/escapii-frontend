@@ -2499,8 +2499,12 @@ function buildPassengersSection(passengers) {
       ? `<span class="bc-passport-warn" title="Pasoš nije validan">⚠</span>`
       : `<span class="bc-passport-ok" title="Pasoš validan">✓</span>`;
 
+    const passportCountryInfo = p.passportCountry
+      ? `<span>🌍 Zemlja pasoša: <strong>${escHtml(p.passportCountry)}</strong></span>`
+      : '';
+
     const passportInfo = p.passportNumber
-      ? `<span>${passportIcon} Pasoš: <strong>${escHtml(p.passportNumber)}</strong></span>`
+      ? `<span>${passportIcon} Br. pasoša: <strong>${escHtml(p.passportNumber)}</strong></span>`
       : `<span style="opacity:.45;">Broj pasoša nije unesen</span>`;
 
     const dobInfo = dob
@@ -2520,6 +2524,7 @@ function buildPassengersSection(passengers) {
         </div>
         <div class="bc-passenger-meta">
           ${dobInfo}
+          ${passportCountryInfo}
           ${passportInfo}
           ${visaInfo}
         </div>
