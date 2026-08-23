@@ -6578,18 +6578,28 @@ function setupCountryDrop(idx) {
 // ────────────────────────────────────────────────────────────────────────────
 
 // ── Booking draft (preživljava page refresh) ────────────────────────────────
-const DRAFT_KEY = 'esc_booking_draft';
+// Verzija uslova/politike privatnosti koja se šalje uz rezervaciju kao dokaz
+// prihvatanja. Promeniti pri svakoj izmeni pravnih dokumenata.
+const CONSENT_VERSION = '2026-08-24';
+
+// v2: prethodna verzija je čuvala i broj pasoša - stari ključ se briše
+// da podaci iz već otvorenih tabova ne ostanu u sessionStorage-u.
+const DRAFT_KEY = 'esc_booking_draft_v2';
 const DRAFT_TTL = 4 * 60 * 60 * 1000; // 4h
+let _draftLocked = false;             // true posle uspešnog slanja rezervacije
+try { sessionStorage.removeItem('esc_booking_draft'); } catch(e) {}
 
 function saveDraft() {
+  if (_draftLocked) return;                                  // posle uspešnog slanja draft se više ne upisuje
   if (!document.querySelector('.pax-item')) return;
+  // NAPOMENA: broj pasoša se namerno NE čuva u draft-u - to je osetljiv
+  // dokument koji ne treba da ostane u sessionStorage-u posle napuštanja forme.
   const pax = Array.from({length: S.travelers}, (_, i) => ({
     fname:           (document.getElementById('pnf'+i) || {}).value  || '',
     lname:           (document.getElementById('pnl'+i) || {}).value  || '',
     gender:          (document.getElementById('pg'+i)  || {}).value  || 'M',
     dob:             getPaxDob(i),
     passport:        (document.getElementById('pp'+i)  || {}).value  || '',
-    passportNum:     (document.getElementById('ppn'+i) || {}).value  || '',
     hasValidPassport:(document.getElementById('phv'+i) || {checked:false}).checked,
     visa:            getVisaValue(i),
   }));
@@ -6616,7 +6626,6 @@ function restorePaxDraft() {
       const nl = document.getElementById('pnl'+i); if (nl) nl.value = p.lname || '';
       const g = document.getElementById('pg'+i);   if (g)  g.value = p.gender || 'M';
       const pp = document.getElementById('pp'+i);   if (pp) pp.value = p.passport || '';
-      const ppn = document.getElementById('ppn'+i); if (ppn) ppn.value = p.passportNum || '';
       const phv = document.getElementById('phv'+i); if (phv) phv.checked = !!p.hasValidPassport;
       if (p.visa) { const vi = document.getElementById('pv'+i); if (vi) vi.value = p.visa; }
       if (p.dob) {
@@ -6637,6 +6646,9 @@ function restorePaxDraft() {
 }
 
 function clearDraft() {
+  // Zaključava dalje upise - inače beforeunload (koji opali pri redirect-u
+  // na /hvala) ponovo snimi draft odmah posle brisanja.
+  _draftLocked = true;
   try { sessionStorage.removeItem(DRAFT_KEY); } catch(e) {}
 }
 
@@ -6976,6 +6988,12 @@ async function submitBooking() {
     notes:document.getElementById('fNotes').value,
     voucherCode: _appliedVoucher?.code || null,
     privateToken: S.privateToken || null,
+    // Saglasnosti - backend ih validira (@AssertTrue) i beleži kao dokaz
+    acceptedTerms:   !!document.getElementById('chkTerms')?.checked,
+    acceptedPrivacy: !!document.getElementById('chkPrivacy')?.checked,
+    acceptedGdpr:    !!document.getElementById('chkGdpr')?.checked,
+    consentVersion:  CONSENT_VERSION,
+    consentLang:     lang,
     // Anti-bot polja
     website: document.getElementById('hp_website')?.value || '',
     formDuration: Math.round((Date.now() - _FORM_START) / 1000)

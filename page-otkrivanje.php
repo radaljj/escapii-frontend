@@ -1009,6 +1009,9 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
 let opened = false, errorShown = false, revealData = null;
+// Token se čita samo jednom iz URL-a i pamti ovde - URL se odmah čisti
+// (history.replaceState u init), pa kasnije čitanje sa URL-a više ne radi.
+let revealToken = null;
 
 /* ── Global error handlers ── */
 window.onerror = function() { showError(0); return true; };
@@ -1408,8 +1411,7 @@ function addScratchCard() {
       const cta = document.getElementById('revealCTA');
       if (cta) cta.classList.add('show');
       // Obavesti backend da je korisnik ogrebaо (fire-and-forget)
-      const _tok = new URLSearchParams(location.search).get('token');
-      if (_tok) fetch(`${API}/api/reveal/confirm?token=${encodeURIComponent(_tok)}`, { method: 'POST' }).catch(() => {});
+      if (revealToken) fetch(`${API}/api/reveal/confirm?token=${encodeURIComponent(revealToken)}`, { method: 'POST' }).catch(() => {});
     }, 550);
 
     // Sparkle burst
@@ -1562,6 +1564,7 @@ document.addEventListener('DOMContentLoaded', () => {
 (async function init(){
   const token = new URLSearchParams(location.search).get('token');
   if (!token) { showError(404); return; }
+  revealToken = token;   // zapamti pre nego što se URL očisti
   history.replaceState(null, '', location.pathname);
   try {
     const res = await fetch(`${API}/api/reveal?token=${encodeURIComponent(token)}`);
