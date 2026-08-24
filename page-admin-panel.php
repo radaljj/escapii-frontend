@@ -1441,7 +1441,7 @@ async function initAdmin() {
   renderAirportSelects();
   renderAirportCheckboxes('dAirportBoxes', 'd', AIRPORTS.length ? [AIRPORTS[0].code] : []);
 
-  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge(), loadAgencyDropdown()]);
+  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
 
   airportTs = new TomSelect('#fAirport', {
     create: false, allowEmptyOption: false, controlInput: null,
@@ -1456,6 +1456,7 @@ async function initAdmin() {
   initDestSelect();
   initFlatpickr();
   initAgencySelect();
+  loadAgencyDropdown();
 }
 
 function getAdminAirport() {
