@@ -729,6 +729,12 @@ tbody td  { padding: 11px 12px; }
 }
 @media (max-width: 768px) { .booking-stats { grid-template-columns: 1fr 1fr; } }
 
+/* ── Agencije forma ── */
+.ag-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ag-form-grid label { font-size: 12px; display: block; margin-bottom: 4px; }
+@media (max-width: 600px) { .ag-form-grid { grid-template-columns: 1fr; } }
+.ag-form-grid .ag-full { grid-column: 1 / -1; }
+
 /* ── Waitlist cards ──────────────────────────────────────────────────────── */
 .wl-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
 @media (max-width: 560px) { .wl-cards { grid-template-columns: 1fr; } }
@@ -1131,30 +1137,30 @@ tbody td  { padding: 11px 12px; }
       <div class="panel-subtitle">Agencije koje organizuju termine (kupuju karte i smeštaj)</div>
 
       <div class="card" style="margin-bottom:20px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="ag-form-grid">
           <div>
-            <label style="font-size:12px;display:block;margin-bottom:4px;">Naziv agencije *</label>
+            <label>Naziv agencije *</label>
             <input class="form-input" id="agName" placeholder="npr. Filip Travel" maxlength="100">
           </div>
           <div>
-            <label style="font-size:12px;display:block;margin-bottom:4px;">Kontakt osoba</label>
+            <label>Kontakt osoba</label>
             <input class="form-input" id="agContact" placeholder="npr. Marko Marković" maxlength="100">
           </div>
           <div>
-            <label style="font-size:12px;display:block;margin-bottom:4px;">Email</label>
+            <label>Email</label>
             <input class="form-input" id="agEmail" placeholder="npr. info@filiptravel.rs" maxlength="200" type="email">
           </div>
           <div>
-            <label style="font-size:12px;display:block;margin-bottom:4px;">Telefon</label>
+            <label>Telefon</label>
             <input class="form-input" id="agPhone" placeholder="npr. +381601234567" maxlength="50">
           </div>
-          <div style="grid-column:1/-1;">
-            <label style="font-size:12px;display:block;margin-bottom:4px;">Napomene</label>
+          <div class="ag-full">
+            <label>Napomene</label>
             <textarea class="form-input" id="agNotes" rows="2" placeholder="Uslovi plaćanja, napomene..." maxlength="1000" style="resize:vertical;"></textarea>
           </div>
         </div>
-        <div style="text-align:right;margin-top:10px;">
-          <button class="btn-cancel" id="agCancelBtn" style="display:none;" onclick="cancelEditAgency()">Otkaži</button>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
+          <button class="btn-action btn-delete" id="agCancelBtn" style="display:none;" onclick="cancelEditAgency()">✕ Otkaži</button>
           <button class="btn-add" id="agSaveBtn" onclick="saveAgency()">+ Dodaj agenciju</button>
         </div>
       </div>
@@ -1449,6 +1455,7 @@ async function initAdmin() {
 
   initDestSelect();
   initFlatpickr();
+  initAgencySelect();
 }
 
 function getAdminAirport() {
@@ -2048,7 +2055,7 @@ async function addDate() {
     return;
   }
 
-  const agencyVal = document.getElementById('fAgency').value;
+  const agencyVal = agencyTs ? agencyTs.getValue() : document.getElementById('fAgency').value;
   const body = {
     departureAirport: airport,
     departureDate: fmtIso(depDate),
@@ -2092,7 +2099,7 @@ function resetForm() {
   window._fReturnDate = null;
   document.getElementById('fSlots').value = 50;
   document.getElementById('fPrice').value = 279;
-  document.getElementById('fAgency').value = '';
+  if (agencyTs) agencyTs.setValue('', true);
   if (destTomSelect) destTomSelect.clear();
 }
 
@@ -4059,14 +4066,28 @@ async function reactivateGiftVoucher(id) {
 let _agencies = [];
 let _editingAgencyId = null;
 
+let agencyTs = null;
+
+function initAgencySelect() {
+  agencyTs = new TomSelect('#fAgency', {
+    create: false, allowEmptyOption: true, controlInput: null,
+    placeholder: '— bez agencije —'
+  });
+}
+
 async function loadAgencyDropdown() {
   try {
     const r = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
     if (!r.ok) return;
     const list = await r.json();
-    const sel = document.getElementById('fAgency');
-    sel.innerHTML = '<option value="">— bez agencije —</option>' + list.map(a => `<option value="${a.id}">${esc(a.name)}</option>`).join('');
-  } catch(e) { /* tiho - dropdown ostaje prazan */ }
+    if (agencyTs) {
+      agencyTs.clear(true);
+      agencyTs.clearOptions();
+      agencyTs.addOption({ value: '', text: '— bez agencije —' });
+      list.forEach(a => agencyTs.addOption({ value: String(a.id), text: a.name }));
+      agencyTs.setValue('', true);
+    }
+  } catch(e) { /* tiho */ }
 }
 
 async function loadAgencies() {
@@ -4093,8 +4114,8 @@ function renderAgencies() {
           ${a.notes ? `<div style="font-size:12px;color:#64748b;margin-top:4px;font-style:italic;">${esc(a.notes)}</div>` : ''}
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0;">
-          <button class="btn-add" style="font-size:12px;padding:4px 10px;" onclick="editAgency(${a.id})">✏️</button>
-          <button class="${a.active ? 'btn-cancel' : 'btn-add'}" style="font-size:12px;padding:4px 10px;" onclick="toggleAgency(${a.id})">${a.active ? '⏸️' : '▶️'}</button>
+          <button class="btn-action btn-edit" onclick="editAgency(${a.id})">✏️ Izmeni</button>
+          <button class="btn-action ${a.active ? 'btn-toggle-off' : 'btn-toggle-on'}" onclick="toggleAgency(${a.id})">${a.active ? '⏸️ Deaktiviraj' : '▶️ Aktiviraj'}</button>
         </div>
       </div>
     </div>
