@@ -858,6 +858,7 @@ tbody td  { padding: 11px 12px; }
       <button class="tab-btn" onclick="switchTab('waitlist')">🔔 Lista čekanja <span class="tab-badge" id="waitlistBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('gifts')">🎁 Pokloni <span class="tab-badge" id="giftsBadge"></span></button>
       <button class="tab-btn" onclick="switchTab('errors')">🚨 Greške <span class="tab-badge" id="errorsBadge"></span></button>
+      <button class="tab-btn" onclick="switchTab('agencies')">🏢 Agencije</button>
     </div>
 
     <!-- ══ TERMINI ══ -->
@@ -904,6 +905,10 @@ tbody td  { padding: 11px 12px; }
             <label class="field-label">Destinacije za ovaj termin <span style="color:var(--gray);font-weight:500;">(filtrirane po aerodromu polaska)</span></label>
             <select id="fDestinations" multiple placeholder="Pretraži i izaberi destinacije..."></select>
           </div>
+          <div>
+            <label class="field-label">Agencija</label>
+            <select class="form-input" id="fAgency"><option value="">— bez agencije —</option></select>
+          </div>
         </div>
         <button class="btn-add" onclick="addDate()">Dodaj termin</button>
       </div>
@@ -929,6 +934,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Mesta</th>
                 <th>Cena</th>
                 <th>Pot. destinacije</th>
+                <th>Agencija</th>
                 <th>Akcije</th>
               </tr>
             </thead>
@@ -1117,6 +1123,43 @@ tbody td  { padding: 11px 12px; }
           <div class="empty-state">Učitavanje...</div>
         </div>
       </div>
+    </div>
+
+    <!-- ══ AGENCIJE ══ -->
+    <div class="panel" id="panel-agencies">
+      <div class="panel-title">Turističke agencije</div>
+      <div class="panel-subtitle">Agencije koje organizuju termine (kupuju karte i smeštaj)</div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label style="font-size:12px;display:block;margin-bottom:4px;">Naziv agencije *</label>
+            <input class="form-input" id="agName" placeholder="npr. Filip Travel" maxlength="100">
+          </div>
+          <div>
+            <label style="font-size:12px;display:block;margin-bottom:4px;">Kontakt osoba</label>
+            <input class="form-input" id="agContact" placeholder="npr. Marko Marković" maxlength="100">
+          </div>
+          <div>
+            <label style="font-size:12px;display:block;margin-bottom:4px;">Email</label>
+            <input class="form-input" id="agEmail" placeholder="npr. info@filiptravel.rs" maxlength="200" type="email">
+          </div>
+          <div>
+            <label style="font-size:12px;display:block;margin-bottom:4px;">Telefon</label>
+            <input class="form-input" id="agPhone" placeholder="npr. +381601234567" maxlength="50">
+          </div>
+          <div style="grid-column:1/-1;">
+            <label style="font-size:12px;display:block;margin-bottom:4px;">Napomene</label>
+            <textarea class="form-input" id="agNotes" rows="2" placeholder="Uslovi plaćanja, napomene..." maxlength="1000" style="resize:vertical;"></textarea>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:10px;">
+          <button class="btn-cancel" id="agCancelBtn" style="display:none;" onclick="cancelEditAgency()">Otkaži</button>
+          <button class="btn-add" id="agSaveBtn" onclick="saveAgency()">+ Dodaj agenciju</button>
+        </div>
+      </div>
+
+      <div id="agenciesList"><div class="empty-state">Učitavanje...</div></div>
     </div>
 
     <!-- ══ DESTINACIJE ══ -->
@@ -1392,7 +1435,7 @@ async function initAdmin() {
   renderAirportSelects();
   renderAirportCheckboxes('dAirportBoxes', 'd', AIRPORTS.length ? [AIRPORTS[0].code] : []);
 
-  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge()]);
+  await Promise.all([loadDestinations(), loadDates(), loadBookings(), loadWaitlist(), loadErrorsBadge(), loadAgencyDropdown()]);
 
   airportTs = new TomSelect('#fAirport', {
     create: false, allowEmptyOption: false, controlInput: null,
@@ -1851,7 +1894,7 @@ function renderDatesTable(dates) {
   // ── Javni termini ──────────────────────────────────────────────────────────
   const tbody = document.getElementById('datesBody');
   if (!javni.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
   } else {
     tbody.innerHTML = javni.map(d => {
       const dests = d.destinations || [];
@@ -1869,6 +1912,7 @@ function renderDatesTable(dates) {
         <td>${d.availableSlots}</td>
         <td><strong>${d.basePrice}€</strong></td>
         <td>${destHtml}</td>
+        <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${d.agency.name}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td style="white-space:nowrap;">
           <button class="btn-action btn-toggle-off"
             onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
@@ -2004,6 +2048,7 @@ async function addDate() {
     return;
   }
 
+  const agencyVal = document.getElementById('fAgency').value;
   const body = {
     departureAirport: airport,
     departureDate: fmtIso(depDate),
@@ -2011,7 +2056,8 @@ async function addDate() {
     numberOfNights: nights,
     availableSlots: slots,
     basePrice: price,
-    destinationIds: destIds
+    destinationIds: destIds,
+    agencyId: agencyVal ? parseInt(agencyVal) : null
   };
 
   try {
@@ -2046,6 +2092,7 @@ function resetForm() {
   window._fReturnDate = null;
   document.getElementById('fSlots').value = 50;
   document.getElementById('fPrice').value = 279;
+  document.getElementById('fAgency').value = '';
   if (destTomSelect) destTomSelect.clear();
 }
 
@@ -2217,6 +2264,7 @@ function switchTab(tab) {
   if (tab === 'errors')    loadErrors();
   if (tab === 'inquiries') loadInquiries();
   if (tab === 'gifts')     loadGifts();
+  if (tab === 'agencies')  loadAgencies();
 }
 
 // ══ GREŠKE ═══════════════════════════════════════════════════════════════════
@@ -4007,6 +4055,124 @@ async function reactivateGiftVoucher(id) {
   }
 }
 
+// ══ AGENCIJE ══════════════════════════════════════════════════════════════════
+let _agencies = [];
+let _editingAgencyId = null;
+
+async function loadAgencyDropdown() {
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) return;
+    const list = await r.json();
+    const sel = document.getElementById('fAgency');
+    sel.innerHTML = '<option value="">— bez agencije —</option>' + list.map(a => `<option value="${a.id}">${esc(a.name)}</option>`).join('');
+  } catch(e) { /* tiho - dropdown ostaje prazan */ }
+}
+
+async function loadAgencies() {
+  try {
+    const r = await fetch(`${API}/api/admin/agencies`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju agencija');
+    _agencies = await r.json();
+    renderAgencies();
+  } catch(e) { apiErr(e.message); }
+}
+
+function renderAgencies() {
+  const el = document.getElementById('agenciesList');
+  if (!_agencies.length) { el.innerHTML = '<div class="empty-state">Nema agencija.</div>'; return; }
+  el.innerHTML = _agencies.map(a => `
+    <div class="card" style="margin-bottom:10px;opacity:${a.active ? 1 : 0.5};">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <strong style="font-size:15px;">${esc(a.name)}</strong>
+          ${!a.active ? '<span style="color:#f87171;font-size:12px;margin-left:8px;">NEAKTIVNA</span>' : ''}
+          ${a.contactName ? `<div style="font-size:13px;color:#94a3b8;margin-top:4px;">👤 ${esc(a.contactName)}</div>` : ''}
+          ${a.contactEmail ? `<div style="font-size:13px;color:#94a3b8;">📧 ${esc(a.contactEmail)}</div>` : ''}
+          ${a.contactPhone ? `<div style="font-size:13px;color:#94a3b8;">📞 ${esc(a.contactPhone)}</div>` : ''}
+          ${a.notes ? `<div style="font-size:12px;color:#64748b;margin-top:4px;font-style:italic;">${esc(a.notes)}</div>` : ''}
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn-add" style="font-size:12px;padding:4px 10px;" onclick="editAgency(${a.id})">✏️</button>
+          <button class="${a.active ? 'btn-cancel' : 'btn-add'}" style="font-size:12px;padding:4px 10px;" onclick="toggleAgency(${a.id})">${a.active ? '⏸️' : '▶️'}</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function editAgency(id) {
+  const a = _agencies.find(x => x.id === id);
+  if (!a) return;
+  _editingAgencyId = id;
+  document.getElementById('agName').value = a.name || '';
+  document.getElementById('agContact').value = a.contactName || '';
+  document.getElementById('agEmail').value = a.contactEmail || '';
+  document.getElementById('agPhone').value = a.contactPhone || '';
+  document.getElementById('agNotes').value = a.notes || '';
+  document.getElementById('agSaveBtn').textContent = '💾 Sačuvaj';
+  document.getElementById('agCancelBtn').style.display = 'inline-block';
+}
+
+function cancelEditAgency() {
+  _editingAgencyId = null;
+  document.getElementById('agName').value = '';
+  document.getElementById('agContact').value = '';
+  document.getElementById('agEmail').value = '';
+  document.getElementById('agPhone').value = '';
+  document.getElementById('agNotes').value = '';
+  document.getElementById('agSaveBtn').textContent = '+ Dodaj agenciju';
+  document.getElementById('agCancelBtn').style.display = 'none';
+}
+
+async function saveAgency() {
+  const name = document.getElementById('agName').value.trim();
+  if (!name) { Swal.fire({ icon:'warning', title:'Unesite naziv agencije', background:'#0b1929', color:'#fff' }); return; }
+  const body = {
+    name,
+    contactName: document.getElementById('agContact').value.trim() || null,
+    contactEmail: document.getElementById('agEmail').value.trim() || null,
+    contactPhone: document.getElementById('agPhone').value.trim() || null,
+    notes: document.getElementById('agNotes').value.trim() || null
+  };
+  try {
+    const url = _editingAgencyId ? `${API}/api/admin/agencies/${_editingAgencyId}` : `${API}/api/admin/agencies`;
+    const method = _editingAgencyId ? 'PUT' : 'POST';
+    const r = await fetch(url, { method, headers: { 'Content-Type':'application/json', 'X-Admin-Key': ADMIN_KEY }, body: JSON.stringify(body) });
+    if (!r.ok) throw await apiError(r, 'Greška pri čuvanju agencije');
+    const saved = await r.json();
+    if (_editingAgencyId) {
+      const idx = _agencies.findIndex(x => x.id === _editingAgencyId);
+      if (idx !== -1) _agencies[idx] = saved;
+    } else {
+      _agencies.push(saved);
+    }
+    const wasEdit = !!_editingAgencyId;
+    cancelEditAgency();
+    renderAgencies();
+    loadAgencyDropdown();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title: wasEdit ? 'Agencija ažurirana' : 'Agencija dodana', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function toggleAgency(id) {
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/${id}/toggle`, { method:'POST', headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri promeni statusa');
+    const updated = await r.json();
+    const idx = _agencies.findIndex(x => x.id === id);
+    if (idx !== -1) _agencies[idx] = updated;
+    renderAgencies();
+    loadAgencyDropdown();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title: updated.active ? 'Agencija aktivirana' : 'Agencija deaktivirana', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  } catch(e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
 
 </script>
 
