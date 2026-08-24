@@ -402,19 +402,21 @@ const ESC_GTM_ID = 'GTM-N84K66L6';
 
 /**
  * Ne pratimo sebe: WP admin, prijavljene korisnike ni preglede iz uređivača.
- * Token stranice (reveal, hvala, poklon) se eksplicitno isključuju - token
- * u URL-u ne sme procureti u GTM/HubSpot/Referrer log.
+ * Token stranice (reveal, hvala, poklon) i početna sa privateDate se isključuju -
+ * token u URL-u ne sme procureti u GTM/HubSpot/Referrer log.
  */
 function esc_gtm_enabled(): bool {
     static $token_templates = ['page-otkrivanje.php', 'page-hvala.php', 'page-poklon.php'];
+    if (!empty($_GET['privateDate'])) return false;
     return !is_admin() && !is_user_logged_in() && !is_preview()
            && !is_page_template($token_templates);
 }
 
-/** Referrer-Policy i Cache-Control: no-store na token stranama. */
+/** Referrer-Policy i Cache-Control: no-store na token stranama i privatnim terminima. */
 add_action('send_headers', 'esc_token_page_security_headers');
 function esc_token_page_security_headers(): void {
-    if (!is_page_template(['page-otkrivanje.php', 'page-hvala.php', 'page-poklon.php'])) return;
+    $is_private_date = !empty($_GET['privateDate']);
+    if (!$is_private_date && !is_page_template(['page-otkrivanje.php', 'page-hvala.php', 'page-poklon.php'])) return;
     header('Referrer-Policy: no-referrer');
     header('Cache-Control: no-store, no-cache, must-revalidate, private');
 }
