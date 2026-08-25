@@ -915,6 +915,10 @@ tbody td  { padding: 11px 12px; }
             <label class="field-label">Agencija</label>
             <select class="form-input" id="fAgency"><option value="">— bez agencije —</option></select>
           </div>
+          <div>
+            <label class="field-label">Nabavna cena (EUR)</label>
+            <input type="number" class="form-input" id="fCostPrice" placeholder="npr. 200" min="0">
+          </div>
         </div>
         <button class="btn-add" onclick="addDate()">Dodaj termin</button>
       </div>
@@ -939,6 +943,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Noći</th>
                 <th>Mesta</th>
                 <th>Cena</th>
+                <th>Nabavna</th>
                 <th>Pot. destinacije</th>
                 <th>Agencija</th>
                 <th>Akcije</th>
@@ -1166,6 +1171,12 @@ tbody td  { padding: 11px 12px; }
       </div>
 
       <div id="agenciesList"><div class="empty-state">Učitavanje...</div></div>
+
+      <div style="margin-top:28px;">
+        <div class="panel-title" style="font-size:18px;">Pregled zarade po agenciji</div>
+        <div class="panel-subtitle">Razlika prodajne i nabavne cene × broj putnika (CONFIRMED + COMPLETED)</div>
+        <div id="earningsDashboard"><div class="empty-state">Učitavanje...</div></div>
+      </div>
     </div>
 
     <!-- ══ DESTINACIJE ══ -->
@@ -1902,7 +1913,7 @@ function renderDatesTable(dates) {
   // ── Javni termini ──────────────────────────────────────────────────────────
   const tbody = document.getElementById('datesBody');
   if (!javni.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
   } else {
     tbody.innerHTML = javni.map(d => {
       const dests = d.destinations || [];
@@ -1919,6 +1930,7 @@ function renderDatesTable(dates) {
         <td>${d.numberOfNights}n</td>
         <td>${d.availableSlots}</td>
         <td><strong>${d.basePrice}€</strong></td>
+        <td>${d.agencyCostPrice != null ? `<span style="color:#94a3b8;">${d.agencyCostPrice}€</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td>${destHtml}</td>
         <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${d.agency.name}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td style="white-space:nowrap;">
@@ -2057,6 +2069,7 @@ async function addDate() {
   }
 
   const agencyVal = agencyTs ? agencyTs.getValue() : document.getElementById('fAgency').value;
+  const costPriceVal = document.getElementById('fCostPrice').value;
   const body = {
     departureAirport: airport,
     departureDate: fmtIso(depDate),
@@ -2065,7 +2078,8 @@ async function addDate() {
     availableSlots: slots,
     basePrice: price,
     destinationIds: destIds,
-    agencyId: agencyVal ? parseInt(agencyVal) : null
+    agencyId: agencyVal ? parseInt(agencyVal) : null,
+    agencyCostPrice: costPriceVal ? parseInt(costPriceVal) : null
   };
 
   try {
@@ -2101,6 +2115,7 @@ function resetForm() {
   document.getElementById('fSlots').value = 50;
   document.getElementById('fPrice').value = 279;
   if (agencyTs) agencyTs.setValue('', true);
+  document.getElementById('fCostPrice').value = '';
   if (destTomSelect) destTomSelect.clear();
 }
 
@@ -4097,6 +4112,7 @@ async function loadAgencies() {
     if (!r.ok) throw await apiError(r, 'Greška pri učitavanju agencija');
     _agencies = await r.json();
     renderAgencies();
+    loadEarnings();
   } catch(e) { apiErr(e.message); }
 }
 
@@ -4124,6 +4140,68 @@ function renderAgencies() {
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+async function loadEarnings() {
+  const el = document.getElementById('earningsDashboard');
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/earnings`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju zarade');
+    const data = await r.json();
+    renderEarnings(data);
+  } catch(e) { el.innerHTML = '<div class="empty-state">Greška pri učitavanju zarade.</div>'; }
+}
+
+function renderEarnings(data) {
+  const el = document.getElementById('earningsDashboard');
+  if (!data.length) { el.innerHTML = '<div class="empty-state">Nema podataka — dodelite agencije terminima i unesite nabavnu cenu.</div>'; return; }
+
+  const grandTotal = data.reduce((s, a) => ({ rev: s.rev + a.totalRevenue, cost: s.cost + a.totalCost, profit: s.profit + a.totalProfit, travelers: s.travelers + a.totalTravelers }), { rev:0, cost:0, profit:0, travelers:0 });
+
+  let html = `
+    <div class="booking-stats" style="margin-bottom:20px;">
+      <div class="bs-card bs-confirmed"><div class="bs-num">${grandTotal.profit}€</div><div class="bs-lbl">Ukupna zarada</div></div>
+      <div class="bs-card bs-pending"><div class="bs-num">${grandTotal.rev}€</div><div class="bs-lbl">Ukupan prihod</div></div>
+      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#94a3b8;">${grandTotal.cost}€</div><div class="bs-lbl">Ukupan trošak</div></div>
+      <div class="bs-card" style="border-left-color:#a5b4fc;"><div class="bs-num" style="color:#a5b4fc;">${grandTotal.travelers}</div><div class="bs-lbl">Putnika ukupno</div></div>
+    </div>`;
+
+  data.forEach(a => {
+    html += `
+    <div class="card" style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div>
+          <strong style="font-size:15px;">${esc(a.agencyName)}</strong>
+          <span style="color:#94a3b8;font-size:13px;margin-left:8px;">${a.totalTerms} ${a.totalTerms === 1 ? 'termin' : 'termina'} · ${a.totalTravelers} putnika</span>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:18px;font-weight:800;color:${a.totalProfit >= 0 ? '#22c55e' : '#ef4444'};">${a.totalProfit}€</div>
+          <div style="font-size:11px;color:#94a3b8;">zarada</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table style="font-size:13px;">
+          <thead><tr>
+            <th>Termin</th><th>Aerodrom</th><th>Prodajna</th><th>Nabavna</th><th>Putnika</th><th>Prihod</th><th>Trošak</th><th>Zarada</th>
+          </tr></thead>
+          <tbody>${a.terms.map(t => `
+            <tr>
+              <td>${formatDate(t.departureDate)} → ${formatDate(t.returnDate)}</td>
+              <td><span class="badge badge-accent">${t.departureAirport}</span></td>
+              <td>${t.basePrice}€</td>
+              <td>${t.costPrice}€</td>
+              <td>${t.travelers}</td>
+              <td>${t.revenue}€</td>
+              <td style="color:#94a3b8;">${t.cost}€</td>
+              <td style="font-weight:700;color:${t.profit >= 0 ? '#22c55e' : '#ef4444'};">${t.profit}€</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+}
 
 function editAgency(id) {
   const a = _agencies.find(x => x.id === id);
