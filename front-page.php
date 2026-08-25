@@ -4839,7 +4839,7 @@ const TR = {
 };
 
 let lang = localStorage.getItem('esc-lang') || 'sr';
-function t(k,...a){ const v=TR[lang][k]; return typeof v==='function'?v(...a):v||k; }
+function t(k,...a){ const v=TR[lang][k]; return typeof v==='function'?v(...a):(v!=null?v:k); }
 
 // ══════════ PREVENT href="#" SCROLL-TO-TOP
 document.addEventListener('click', e => {
