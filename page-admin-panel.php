@@ -904,12 +904,8 @@ tbody td  { padding: 11px 12px; }
             <input type="number" class="form-input" id="fPrice" value="279" min="1">
           </div>
           <div>
-            <label class="field-label">Nabavna cena (EUR)</label>
-            <input type="number" class="form-input" id="fCostPrice" placeholder="npr. 200" min="0">
-          </div>
-          <div>
-            <label class="field-label">Agencija</label>
-            <select class="form-input" id="fAgency"><option value="">— bez agencije —</option></select>
+            <label class="field-label">Agencija <span class="req">*</span></label>
+            <select class="form-input" id="fAgency"><option value="">— izaberi agenciju —</option></select>
           </div>
           <div>
             <label class="field-label">Dostupna mesta <span class="req">*</span></label>
@@ -943,14 +939,13 @@ tbody td  { padding: 11px 12px; }
                 <th>Noći</th>
                 <th>Mesta</th>
                 <th>Escapii</th>
-                <th>Nabavna</th>
                 <th>Pot. destinacije</th>
                 <th>Agencija</th>
                 <th>Akcije</th>
               </tr>
             </thead>
             <tbody id="datesBody">
-              <tr><td colspan="9" class="empty-state">Učitavanje...</td></tr>
+              <tr><td colspan="10" class="empty-state">Učitavanje...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1913,7 +1908,7 @@ function renderDatesTable(dates) {
   // ── Javni termini ──────────────────────────────────────────────────────────
   const tbody = document.getElementById('datesBody');
   if (!javni.length) {
-    tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Nema aktivnih javnih termina. Dodajte prvi termin iznad.</td></tr>';
   } else {
     tbody.innerHTML = javni.map(d => {
       const dests = d.destinations || [];
@@ -1930,7 +1925,6 @@ function renderDatesTable(dates) {
         <td>${d.numberOfNights}n</td>
         <td>${d.availableSlots}</td>
         <td><strong>${d.basePrice}€</strong></td>
-        <td>${d.agencyCostPrice != null ? `<span style="color:#94a3b8;">${d.agencyCostPrice}€</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td>${destHtml}</td>
         <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${d.agency.name}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td style="white-space:nowrap;">
@@ -2069,7 +2063,10 @@ async function addDate() {
   }
 
   const agencyVal = agencyTs ? agencyTs.getValue() : document.getElementById('fAgency').value;
-  const costPriceVal = document.getElementById('fCostPrice').value;
+  if (!agencyVal) {
+    Swal.fire({ icon: 'warning', title: 'Agencija obavezna', text: 'Izaberite agenciju za termin.', confirmButtonText: 'OK' });
+    return;
+  }
   const body = {
     departureAirport: airport,
     departureDate: fmtIso(depDate),
@@ -2078,8 +2075,7 @@ async function addDate() {
     availableSlots: slots,
     basePrice: price,
     destinationIds: destIds,
-    agencyId: agencyVal ? parseInt(agencyVal) : null,
-    agencyCostPrice: costPriceVal ? parseInt(costPriceVal) : null
+    agencyId: parseInt(agencyVal)
   };
 
   try {
@@ -2115,7 +2111,6 @@ function resetForm() {
   document.getElementById('fSlots').value = 50;
   document.getElementById('fPrice').value = 279;
   if (agencyTs) agencyTs.setValue('', true);
-  document.getElementById('fCostPrice').value = '';
   if (destTomSelect) destTomSelect.clear();
 }
 
@@ -2698,6 +2693,19 @@ function buildBookingDetail(b) {
       ${buildPassengersSection(b.passengers)}
       <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
       <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
+      <div class="bc-field">
+        <div class="bc-label">Trošak agencije (EUR)</div>
+        <div class="bc-value" style="display:flex;align-items:center;gap:6px;">
+          <input type="number" class="bc-dest-input" id="agency-cost-${b.id}" min="0"
+            style="width:100px;text-align:center;" placeholder="—"
+            value="${b.agencyCost != null ? b.agencyCost : ''}"
+            onkeydown="if(event.key==='Enter')saveAgencyCost(${b.id})" />
+          <button class="bc-note-save" onclick="saveAgencyCost(${b.id})" title="Sačuvaj">✓</button>
+          <span id="agency-cost-status-${b.id}" style="font-size:11px;color:var(--gray);">
+            ${b.agencyCost != null ? `<span style="color:#22c55e;">naknada: ${b.totalPriceAll - b.agencyCost}€</span>` : ''}
+          </span>
+        </div>
+      </div>
       <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
       <div class="bc-field bc-field--full">
         <div class="bc-label">✈ Dodeljena destinacija</div>
@@ -3020,6 +3028,31 @@ async function saveWeatherCity(id) {
       : '<span style="opacity:.5;">ako ostaviš prazno, koristi se ime destinacije</span>';
   } catch {
     msg.innerHTML = '<span style="color:var(--red);">✗ Greška pri čuvanju</span>';
+    setTimeout(() => { msg.innerHTML = ''; }, 2000);
+  }
+}
+
+async function saveAgencyCost(id) {
+  const el  = document.getElementById(`agency-cost-${id}`);
+  const msg = document.getElementById(`agency-cost-status-${id}`);
+  if (!el) return;
+  const val = el.value.trim();
+  const cost = val ? parseInt(val) : null;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/agency-cost`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ agencyCost: cost })
+    });
+    if (!r.ok) throw await apiError(r);
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx].agencyCost = updated.agencyCost;
+    msg.innerHTML = updated.agencyCost != null
+      ? `<span style="color:#22c55e;">naknada: ${updated.totalPriceAll - updated.agencyCost}€</span>`
+      : '';
+  } catch {
+    msg.innerHTML = '<span style="color:var(--red);">✗ Greška</span>';
     setTimeout(() => { msg.innerHTML = ''; }, 2000);
   }
 }
@@ -4153,7 +4186,7 @@ async function loadEarnings() {
 
 function renderEarnings(data) {
   const el = document.getElementById('earningsDashboard');
-  if (!data.length) { el.innerHTML = '<div class="empty-state">Nema podataka — dodelite agencije terminima i unesite nabavnu cenu.</div>'; return; }
+  if (!data.length) { el.innerHTML = '<div class="empty-state">Nema podataka — potvrdite rezervacije i unesite trošak agencije u detalju rezervacije.</div>'; return; }
 
   const grandTotal = data.reduce((s, a) => ({ rev: s.rev + a.totalRevenue, cost: s.cost + a.totalCost, profit: s.profit + a.totalProfit, travelers: s.travelers + a.totalTravelers }), { rev:0, cost:0, profit:0, travelers:0 });
 
@@ -4181,14 +4214,12 @@ function renderEarnings(data) {
       <div class="table-wrap">
         <table style="font-size:13px;">
           <thead><tr>
-            <th>Termin</th><th>Aerodrom</th><th>Prodajna</th><th>Nabavna</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th>
+            <th>Termin</th><th>Aerodrom</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th>
           </tr></thead>
           <tbody>${a.terms.map(t => `
             <tr>
               <td>${formatDate(t.departureDate)} → ${formatDate(t.returnDate)}</td>
               <td><span class="badge badge-accent">${t.departureAirport}</span></td>
-              <td>${t.basePrice}€</td>
-              <td>${t.costPrice}€</td>
               <td>${t.travelers}</td>
               <td>${t.revenue}€</td>
               <td style="color:#94a3b8;">${t.cost}€</td>
