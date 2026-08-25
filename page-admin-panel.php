@@ -900,24 +900,24 @@ tbody td  { padding: 11px 12px; }
                    readonly style="opacity:.55;cursor:default;">
           </div>
           <div>
-            <label class="field-label">Dostupna mesta <span class="req">*</span></label>
-            <input type="number" class="form-input" id="fSlots" value="50" min="1" max="500">
-          </div>
-          <div>
-            <label class="field-label">Osnovna cena (EUR) <span class="req">*</span></label>
+            <label class="field-label">Escapii cena (EUR) <span class="req">*</span></label>
             <input type="number" class="form-input" id="fPrice" value="279" min="1">
           </div>
-          <div class="form-span">
-            <label class="field-label">Destinacije za ovaj termin <span style="color:var(--gray);font-weight:500;">(filtrirane po aerodromu polaska)</span></label>
-            <select id="fDestinations" multiple placeholder="Pretraži i izaberi destinacije..."></select>
+          <div>
+            <label class="field-label">Nabavna cena (EUR)</label>
+            <input type="number" class="form-input" id="fCostPrice" placeholder="npr. 200" min="0">
           </div>
           <div>
             <label class="field-label">Agencija</label>
             <select class="form-input" id="fAgency"><option value="">— bez agencije —</option></select>
           </div>
           <div>
-            <label class="field-label">Nabavna cena (EUR)</label>
-            <input type="number" class="form-input" id="fCostPrice" placeholder="npr. 200" min="0">
+            <label class="field-label">Dostupna mesta <span class="req">*</span></label>
+            <input type="number" class="form-input" id="fSlots" value="50" min="1" max="500">
+          </div>
+          <div class="form-span">
+            <label class="field-label">Destinacije za ovaj termin <span style="color:var(--gray);font-weight:500;">(filtrirane po aerodromu polaska)</span></label>
+            <select id="fDestinations" multiple placeholder="Pretraži i izaberi destinacije..."></select>
           </div>
         </div>
         <button class="btn-add" onclick="addDate()">Dodaj termin</button>
@@ -942,7 +942,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Povratak</th>
                 <th>Noći</th>
                 <th>Mesta</th>
-                <th>Cena</th>
+                <th>Escapii</th>
                 <th>Nabavna</th>
                 <th>Pot. destinacije</th>
                 <th>Agencija</th>
