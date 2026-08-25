@@ -4159,9 +4159,9 @@ function renderEarnings(data) {
 
   let html = `
     <div class="booking-stats" style="margin-bottom:20px;">
-      <div class="bs-card bs-confirmed"><div class="bs-num">${grandTotal.profit}€</div><div class="bs-lbl">Ukupna zarada</div></div>
-      <div class="bs-card bs-pending"><div class="bs-num">${grandTotal.rev}€</div><div class="bs-lbl">Ukupan prihod</div></div>
-      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#94a3b8;">${grandTotal.cost}€</div><div class="bs-lbl">Ukupan trošak</div></div>
+      <div class="bs-card bs-confirmed"><div class="bs-num">${grandTotal.profit}€</div><div class="bs-lbl">Escapii naknada</div></div>
+      <div class="bs-card bs-pending"><div class="bs-num">${grandTotal.rev}€</div><div class="bs-lbl">Promet putovanja</div></div>
+      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#94a3b8;">${grandTotal.cost}€</div><div class="bs-lbl">Iznos agencije</div></div>
       <div class="bs-card" style="border-left-color:#a5b4fc;"><div class="bs-num" style="color:#a5b4fc;">${grandTotal.travelers}</div><div class="bs-lbl">Putnika ukupno</div></div>
     </div>`;
 
@@ -4175,13 +4175,13 @@ function renderEarnings(data) {
         </div>
         <div style="text-align:right;">
           <div style="font-size:18px;font-weight:800;color:${a.totalProfit >= 0 ? '#22c55e' : '#ef4444'};">${a.totalProfit}€</div>
-          <div style="font-size:11px;color:#94a3b8;">zarada</div>
+          <div style="font-size:11px;color:#94a3b8;">Escapii naknada</div>
         </div>
       </div>
       <div class="table-wrap">
         <table style="font-size:13px;">
           <thead><tr>
-            <th>Termin</th><th>Aerodrom</th><th>Prodajna</th><th>Nabavna</th><th>Putnika</th><th>Prihod</th><th>Trošak</th><th>Zarada</th>
+            <th>Termin</th><th>Aerodrom</th><th>Prodajna</th><th>Nabavna</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th>
           </tr></thead>
           <tbody>${a.terms.map(t => `
             <tr>
