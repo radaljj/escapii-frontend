@@ -1470,7 +1470,12 @@ document.getElementById('keyInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
-function showPriceBreakdown(b) {
+function showPriceBreakdown(id) {
+  // Booking se traži iz ALL_BOOKINGS po id-u da se ceo objekat NE serijalizuje u
+  // inline onclick atribut - inače su korisnički podaci (ime, napomena, vaučer kod)
+  // dostupni za HTML/JS injection preko atribut-dekodovanja u browseru.
+  const b = ALL_BOOKINGS.find(x => x.id === id);
+  if (!b) return;
   document.getElementById('pricePopupTitle').textContent = `Cenovnik - ${b.bookingRef}`;
   const rows = [];
   const tr = (label, val) => `<tr><td>${label}</td><td>${val}</td></tr>`;
@@ -2901,7 +2906,7 @@ function buildBookingDetail(b) {
       <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
       <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
       ${buildPassengersSection(b.passengers)}
-      <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick='showPriceBreakdown(${JSON.stringify(b).replace(/'/g,"&#39;")})'>💰 detalji</button></div></div>
+      <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick="showPriceBreakdown(${b.id})">💰 detalji</button></div></div>
       <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
       <div class="bc-field">
         <div class="bc-label">Trošak agencije (EUR)</div>
