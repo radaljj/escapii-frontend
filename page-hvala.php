@@ -475,7 +475,8 @@
 
 // Pročitaj iz sessionStorage (setuje se iz front-page.php prije redirecta)
 const bpRaw = sessionStorage.getItem('esc_bp');
-const bp    = bpRaw ? JSON.parse(bpRaw) : null;
+let bp = null;
+try { bp = bpRaw ? JSON.parse(bpRaw) : null; } catch(e) { bp = null; }
 
 // Fallback: ref iz URL-a ako nema sessionStorage podataka
 const urlRef = new URLSearchParams(window.location.search).get('ref') || '';

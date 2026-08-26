@@ -1990,7 +1990,7 @@ function renderDatesTable(dates) {
       const dests = d.destinations || [];
       const activeCount = dests.filter(x => x.active).length;
       const destHtml = dests.length
-        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${x.name}</span>`).join('')}</div>`
+        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${esc(x.name)}</span>`).join('')}</div>`
         : `<span style="color:var(--gray);font-size:12px;">-</span>`;
       return `
       <tr>
@@ -2002,7 +2002,7 @@ function renderDatesTable(dates) {
         <td>${d.availableSlots}</td>
         <td><strong>${d.basePrice}€</strong></td>
         <td>${destHtml}</td>
-        <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${d.agency.name}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
+        <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${esc(d.agency.name)}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
         <td>
           <button class="btn-action btn-edit" onclick="openTermEdit(${d.id})">Izmeni</button>
         </td>
@@ -2024,7 +2024,7 @@ function renderDatesTable(dates) {
       const dests       = d.destinations || [];
       const activeCount = dests.filter(x => x.active).length;
       const destHtml    = dests.length
-        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${x.name}</span>`).join('')}</div>`
+        ? `<div class="dest-chips">${dests.map(x => `<span class="dest-chip" style="${x.active ? '' : 'opacity:.4;text-decoration:line-through;'}">${esc(x.name)}</span>`).join('')}</div>`
         : `<span style="color:var(--gray);font-size:12px;">-</span>`;
       return `
       <tr>
@@ -2201,7 +2201,7 @@ function openTermEdit(id) {
     { label: 'Mesta',    val: d.availableSlots },
     { label: 'Cena',     val: `${d.basePrice}€` },
   ];
-  if (d.agency) infoItems.push({ label: 'Agencija', val: d.agency.name });
+  if (d.agency) infoItems.push({ label: 'Agencija', val: esc(d.agency.name) });
   if (dests.length) infoItems.push({ label: 'Destinacije', val: `${activeCount}/${dests.length}` });
 
   document.getElementById('teInfo').innerHTML = infoItems.map(i =>
@@ -2229,7 +2229,7 @@ function openTermEdit(id) {
     </button>
     <button class="te-action-btn" onclick="closeTermEdit();changeAgency(${d.id}, ${d.agency ? d.agency.id : 'null'})">
       <span class="te-action-icon" style="background:rgba(99,102,241,.15);color:#a5b4fc;">🏢</span>
-      <span class="te-action-label">Promeni agenciju<span class="te-action-sub">${d.agency ? d.agency.name : 'Nije dodeljeno'}</span></span>
+      <span class="te-action-label">Promeni agenciju<span class="te-action-sub">${d.agency ? esc(d.agency.name) : 'Nije dodeljeno'}</span></span>
     </button>`;
 
   if (isPriv) {
@@ -2288,7 +2288,7 @@ async function changeAgency(dateId, currentAgencyId) {
       const list = await r.json();
       list.forEach(a => {
         const sel = a.id === currentAgencyId ? 'selected' : '';
-        options += `<option value="${a.id}" ${sel}>${a.name}</option>`;
+        options += `<option value="${a.id}" ${sel}>${esc(a.name)}</option>`;
       });
     }
   } catch(e) {}
@@ -3985,7 +3985,7 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
     const ar = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
     if (ar.ok) {
       const list = await ar.json();
-      list.forEach(a => { agencyOptions += `<option value="${a.id}">${a.name}</option>`; });
+      list.forEach(a => { agencyOptions += `<option value="${a.id}">${esc(a.name)}</option>`; });
     }
   } catch(e) {}
 
