@@ -2917,7 +2917,7 @@ function buildBookingDetail(b) {
             onkeydown="if(event.key==='Enter')saveAgencyCost(${b.id})" />
           <button class="bc-note-save" onclick="saveAgencyCost(${b.id})" title="Sačuvaj">✓</button>
           <span id="agency-cost-status-${b.id}" style="font-size:11px;color:var(--gray);">
-            ${b.agencyCost != null ? `<span style="color:#22c55e;">naknada: ${b.totalPriceAll - b.agencyCost}€</span>` : ''}
+            ${b.agencyCost != null ? `<span style="color:#22c55e;">naknada: ${b.totalPriceAll + (b.voucherDiscount || 0) - b.agencyCost}€</span>` : ''}
           </span>
         </div>
       </div>
@@ -3279,7 +3279,7 @@ async function saveAgencyCost(id) {
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
     if (idx > -1) ALL_BOOKINGS[idx].agencyCost = updated.agencyCost;
     msg.innerHTML = updated.agencyCost != null
-      ? `<span style="color:#22c55e;">naknada: ${updated.totalPriceAll - updated.agencyCost}€</span>`
+      ? `<span style="color:#22c55e;">naknada: ${updated.totalPriceAll + (updated.voucherDiscount || 0) - updated.agencyCost}€</span>`
       : '';
   } catch {
     msg.innerHTML = '<span style="color:var(--red);">✗ Greška</span>';
