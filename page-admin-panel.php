@@ -3184,7 +3184,7 @@ async function saveNote(id) {
 }
 
 // ══ DESTINATION (API) ═════════════════════════════════════════════════════════
-async function saveDestination(id) {
+async function saveDestination(id, force = false) {
   const el  = document.getElementById(`dest-${id}`);
   const btn = document.getElementById(`dest-btn-${id}`);
   const msg = document.getElementById(`dest-status-${id}`);
@@ -3197,8 +3197,23 @@ async function saveDestination(id) {
     const r = await fetch(`${API}/api/admin/bookings/${id}/destination`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify({ destination: el.value.trim() })
+      body: JSON.stringify({ destination: el.value.trim(), force })
     });
+    if (r.status === 409) {
+      btn.classList.remove('saving');
+      const { isConfirmed } = await Swal.fire({
+        title: 'Reveal je već poslat',
+        text: 'Korisnik je već dobio reveal link sa prethodnom destinacijom. Sigurno menjaš?',
+        icon: 'warning',
+        confirmButtonText: 'Da, promeni',
+        confirmButtonColor: '#ef4444',
+        cancelButtonText: 'Otkaži',
+        showCancelButton: true,
+        background: '#0b1929', color: '#fff'
+      });
+      if (isConfirmed) return saveDestination(id, true);
+      return;
+    }
     if (!r.ok) throw await apiError(r);
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
