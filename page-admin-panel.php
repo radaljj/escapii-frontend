@@ -26,6 +26,7 @@ if (!current_user_can('administrator')) {
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/sr.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.swal2-container { z-index: 10100 !important; }
 
 :root {
   --navy:   #07102a;
