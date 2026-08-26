@@ -2226,6 +2226,10 @@ function openTermEdit(id) {
     <button class="te-action-btn" onclick="closeTermEdit();openTermDestPopup(${d.id}, '${d.departureAirport}')">
       <span class="te-action-icon" style="background:rgba(202,138,113,.12);color:var(--accent);">✈️</span>
       <span class="te-action-label">Destinacije<span class="te-action-sub">${dests.length ? `${activeCount} aktivnih od ${dests.length}` : 'Nije dodato'}</span></span>
+    </button>
+    <button class="te-action-btn" onclick="closeTermEdit();changeAgency(${d.id}, ${d.agency ? d.agency.id : 'null'})">
+      <span class="te-action-icon" style="background:rgba(99,102,241,.15);color:#a5b4fc;">🏢</span>
+      <span class="te-action-label">Promeni agenciju<span class="te-action-sub">${d.agency ? d.agency.name : 'Nije dodeljeno'}</span></span>
     </button>`;
 
   if (isPriv) {
@@ -2273,6 +2277,52 @@ function copyPrivateLinkById(id, btn) {
   if (!d) return;
   const url = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
   copyPrivateLink(url, btn);
+}
+
+// ══ CHANGE AGENCY ══
+async function changeAgency(dateId, currentAgencyId) {
+  let options = '<option value="">— bez agencije —</option>';
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (r.ok) {
+      const list = await r.json();
+      list.forEach(a => {
+        const sel = a.id === currentAgencyId ? 'selected' : '';
+        options += `<option value="${a.id}" ${sel}>${a.name}</option>`;
+      });
+    }
+  } catch(e) {}
+
+  const { value: agencyId, isConfirmed } = await Swal.fire({
+    title: 'Promeni agenciju',
+    html: `
+      <select id="swal-agency" style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;font-size:15px;">
+        ${options}
+      </select>
+    `,
+    confirmButtonText: 'Sačuvaj',
+    confirmButtonColor: '#CA8A71',
+    cancelButtonText: 'Otkaži',
+    showCancelButton: true,
+    background: '#0b1929', color: '#fff',
+    preConfirm: () => document.getElementById('swal-agency').value || null
+  });
+  if (!isConfirmed) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/dates/${dateId}/agency`, {
+      method: 'PUT',
+      headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agencyId: agencyId ? parseInt(agencyId) : null })
+    });
+    if (!r.ok) throw new Error();
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Agencija ažurirana',
+      showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+    loadDates();
+  } catch(e) {
+    Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri promeni agencije',
+      showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+  }
 }
 
 // ══ EDIT SLOTS ══
@@ -3915,6 +3965,15 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
   const suggestedPrice = (inquiryPrice != null && travelers > 0)
     ? Math.round(inquiryPrice / travelers) : '';
 
+  let agencyOptions = '<option value="">— bez agencije —</option>';
+  try {
+    const ar = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (ar.ok) {
+      const list = await ar.json();
+      list.forEach(a => { agencyOptions += `<option value="${a.id}">${a.name}</option>`; });
+    }
+  } catch(e) {}
+
   const { value: formValues } = await Swal.fire({
     title: '🔒 Kreiraj privatni termin',
     html: `
@@ -3935,7 +3994,11 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
         style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
       <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Link važi (sati):</label>
       <input id="swal-expiry" type="number" value="48" min="1" max="720"
-        style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+        style="width:100%;padding:8px;border-radius:6px;margin-bottom:12px;background:#0d2035;border:1px solid #1e3a55;color:#fff;">
+      <label style="font-size:12px;display:block;text-align:left;margin-bottom:4px;">Agencija:</label>
+      <select id="swal-agency-priv" style="width:100%;padding:8px;border-radius:6px;background:#0d2035;border:1px solid #1e3a55;color:#fff;font-size:14px;">
+        ${agencyOptions}
+      </select>
     `,
     showCancelButton: true,
     confirmButtonText: '🔒 Generiši privatni link',
@@ -3948,10 +4011,12 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
         Swal.showValidationMessage('Cena po osobi je obavezna.');
         return false;
       }
+      const agVal = document.getElementById('swal-agency-priv').value;
       return {
         travelers:      parseInt(document.getElementById('swal-travelers').value),
         expiresInHours: parseInt(document.getElementById('swal-expiry').value),
-        pricePerPerson: parseInt(priceVal)
+        pricePerPerson: parseInt(priceVal),
+        agencyId:       agVal ? parseInt(agVal) : null
       };
     }
   });
@@ -3966,7 +4031,8 @@ async function promptMakePrivate(inquiryId, airport, travelers, desiredPeriod, i
       body: JSON.stringify({
         pricePerPerson: formValues.pricePerPerson,
         travelers:      formValues.travelers,
-        expiresInHours: formValues.expiresInHours
+        expiresInHours: formValues.expiresInHours,
+        agencyId:       formValues.agencyId
       })
     });
 
