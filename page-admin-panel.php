@@ -581,6 +581,66 @@ tbody tr:last-child td { border-bottom: none; }
 .btn-delete     { background: rgba(239,68,68,.15); color: var(--red); }
 .btn-edit       { background: rgba(148,163,184,.1); color: var(--gray); }
 
+/* ── Term edit modal ── */
+.term-edit-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9998;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+.term-edit-popup {
+  background: #0d1b38;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  width: 440px; max-width: 95vw; max-height: 88vh;
+  overflow-y: auto; padding: 28px 28px 24px;
+}
+.te-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.te-header h3 { font-size: 17px; font-weight: 800; margin: 0; }
+.te-close {
+  background: none; border: none; color: var(--gray);
+  font-size: 20px; cursor: pointer; padding: 4px 8px;
+}
+.te-info {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px;
+  margin-bottom: 22px; padding: 16px;
+  background: rgba(255,255,255,.04); border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.te-info-item { display: flex; flex-direction: column; gap: 2px; }
+.te-info-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; }
+.te-info-val { font-size: 14px; font-weight: 700; }
+.te-actions {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.te-action-btn {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 14px 16px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px; cursor: pointer;
+  color: var(--white); font-family: inherit; font-size: 14px; font-weight: 600;
+  transition: background .15s, border-color .15s;
+  text-align: left;
+}
+.te-action-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); }
+.te-action-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  font-size: 16px;
+}
+.te-action-label { flex: 1; }
+.te-action-sub { font-size: 12px; color: var(--gray); font-weight: 400; margin-top: 1px; }
+.te-action-btn.te-danger { border-color: rgba(239,68,68,.2); }
+.te-action-btn.te-danger:hover { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.3); }
+
+@media (max-width: 600px) {
+  .term-edit-popup { padding: 20px 16px 18px; border-radius: 14px; }
+  .te-info { grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 12px; }
+  .te-action-btn { padding: 12px 14px; }
+}
+
 .empty-state {
   text-align: center;
   padding: 48px;
@@ -941,7 +1001,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Escapii</th>
                 <th>Pot. destinacije</th>
                 <th>Agencija</th>
-                <th>Akcije</th>
+                <th></th>
               </tr>
             </thead>
             <tbody id="datesBody">
@@ -963,7 +1023,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Destinacije</th>
                 <th>Privatni link</th>
                 <th>Ističe</th>
-                <th>Akcije</th>
+                <th></th>
               </tr>
             </thead>
             <tbody id="privateDatesBody">
@@ -985,7 +1045,7 @@ tbody td  { padding: 11px 12px; }
                 <th>Noći</th>
                 <th>Mesta / Cena</th>
                 <th>Razlog</th>
-                <th>Akcije</th>
+                <th></th>
               </tr>
             </thead>
             <tbody id="deactivatedBody">
@@ -1278,6 +1338,18 @@ tbody td  { padding: 11px 12px; }
       <button onclick="closeEditDest()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--gray);border-radius:10px;padding:10px 20px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">Otkaži</button>
       <button onclick="saveEditDest()" style="background:var(--accent);border:none;color:white;border-radius:10px;padding:10px 24px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;">Sačuvaj promene</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ TERM EDIT MODAL ══ -->
+<div id="termEditOverlay" class="term-edit-overlay" onclick="if(event.target===this)closeTermEdit()">
+  <div class="term-edit-popup">
+    <div class="te-header">
+      <h3>Termin <span id="teTitle" style="color:var(--accent);"></span></h3>
+      <button class="te-close" onclick="closeTermEdit()">✕</button>
+    </div>
+    <div id="teInfo" class="te-info"></div>
+    <div id="teActions" class="te-actions"></div>
   </div>
 </div>
 
@@ -1891,7 +1963,9 @@ async function loadDates() {
   }
 }
 
+const _dateMap = {};
 function renderDatesTable(dates) {
+  dates.forEach(d => _dateMap[d.id] = d);
   const now = new Date();
 
   const javni       = dates.filter(d => !d.isPrivate && d.active);
@@ -1927,13 +2001,8 @@ function renderDatesTable(dates) {
         <td><strong>${d.basePrice}€</strong></td>
         <td>${destHtml}</td>
         <td>${d.agency ? `<span class="badge" style="background:rgba(99,102,241,.15);color:#a5b4fc;font-size:11px;">${d.agency.name}</span>` : `<span style="color:var(--gray);font-size:12px;">-</span>`}</td>
-        <td style="white-space:nowrap;">
-          <button class="btn-action btn-toggle-off"
-            onclick="toggleDate(${d.id}, false)">Deaktiviraj</button>
-          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id}, '${d.departureAirport}')" style="margin-left:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
-          <button class="btn-action" onclick="editSlots(${d.id}, ${d.availableSlots})" style="margin-left:4px;background:rgba(99,102,241,.15);color:#a5b4fc;">📋 Mesta (${d.availableSlots})</button>
-          <button class="btn-action" onclick="editPrice(${d.id}, ${d.basePrice})" style="margin-left:4px;background:rgba(34,197,94,.1);color:#86efac;">💶 Cena (${d.basePrice}€)</button>
-          <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>
+        <td>
+          <button class="btn-action btn-edit" onclick="openTermEdit(${d.id})">Izmeni</button>
         </td>
       </tr>`;
     }).join('');
@@ -1977,9 +2046,8 @@ function renderDatesTable(dates) {
             : ''}
         </td>
         <td><span style="color:#22c55e;font-size:12px;">✓ Aktivan<br><span style="opacity:.65;">${expiryStr}</span></span></td>
-        <td style="white-space:nowrap;">
-          <button class="btn-action btn-edit" onclick="openTermDestPopup(${d.id}, '${d.departureAirport}')" style="margin-right:4px;">✈️ Destinacije (${activeCount}/${dests.length})</button>
-          <button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>
+        <td>
+          <button class="btn-action btn-edit" onclick="openTermEdit(${d.id})">Izmeni</button>
         </td>
       </tr>`;
     }).join('');
@@ -1998,10 +2066,7 @@ function renderDatesTable(dates) {
       const razlog  = isPriv
         ? `<span style="color:#ef4444;font-size:12px;">⛔ Istekao link</span>`
         : `<span style="color:var(--gray);font-size:12px;">● Deaktiviran</span>`;
-      const akcije  = isPriv
-        ? `<button class="btn-action btn-delete" onclick="deleteDate(${d.id})">Obriši</button>`
-        : `<button class="btn-action btn-toggle-on" onclick="toggleDate(${d.id}, true)">Aktiviraj</button>
-           <button class="btn-action btn-delete" onclick="deleteDate(${d.id})" style="margin-left:4px;">Obriši</button>`;
+      const akcije = `<button class="btn-action btn-edit" onclick="openTermEdit(${d.id})">Izmeni</button>`;
       return `
       <tr style="opacity:.7;">
         <td>${tipHtml}</td>
@@ -2114,6 +2179,99 @@ function resetForm() {
   if (destTomSelect) destTomSelect.clear();
 }
 
+
+// ══ TERM EDIT MODAL ══
+function openTermEdit(id) {
+  const d = _dateMap[id];
+  if (!d) return;
+  const dests = d.destinations || [];
+  const activeCount = dests.filter(x => x.active).length;
+  const isPriv = !!d.isPrivate;
+  const isDeactivated = !d.active || (isPriv && d.expiresAt && new Date(d.expiresAt) < new Date());
+
+  document.getElementById('teTitle').textContent = `#${d.id}`;
+
+  const infoItems = [
+    { label: 'Aerodrom', val: d.departureAirport },
+    { label: 'Noći',     val: `${d.numberOfNights}n` },
+    { label: 'Polazak',  val: formatDate(d.departureDate) },
+    { label: 'Povratak', val: formatDate(d.returnDate) },
+    { label: 'Mesta',    val: d.availableSlots },
+    { label: 'Cena',     val: `${d.basePrice}€` },
+  ];
+  if (d.agency) infoItems.push({ label: 'Agencija', val: d.agency.name });
+  if (dests.length) infoItems.push({ label: 'Destinacije', val: `${activeCount}/${dests.length}` });
+
+  document.getElementById('teInfo').innerHTML = infoItems.map(i =>
+    `<div class="te-info-item"><span class="te-info-label">${i.label}</span><span class="te-info-val">${i.val}</span></div>`
+  ).join('');
+
+  let actions = '';
+
+  if (!isDeactivated && !isPriv) {
+    actions += `
+      <button class="te-action-btn" onclick="closeTermEdit();editSlots(${d.id}, ${d.availableSlots})">
+        <span class="te-action-icon" style="background:rgba(99,102,241,.15);color:#a5b4fc;">📋</span>
+        <span class="te-action-label">Izmeni mesta<span class="te-action-sub">Trenutno: ${d.availableSlots}</span></span>
+      </button>
+      <button class="te-action-btn" onclick="closeTermEdit();editPrice(${d.id}, ${d.basePrice})">
+        <span class="te-action-icon" style="background:rgba(34,197,94,.12);color:#86efac;">💶</span>
+        <span class="te-action-label">Izmeni cenu<span class="te-action-sub">Trenutno: ${d.basePrice}€</span></span>
+      </button>`;
+  }
+
+  actions += `
+    <button class="te-action-btn" onclick="closeTermEdit();openTermDestPopup(${d.id}, '${d.departureAirport}')">
+      <span class="te-action-icon" style="background:rgba(202,138,113,.12);color:var(--accent);">✈️</span>
+      <span class="te-action-label">Destinacije<span class="te-action-sub">${dests.length ? `${activeCount} aktivnih od ${dests.length}` : 'Nije dodato'}</span></span>
+    </button>`;
+
+  if (isPriv) {
+    actions += `
+      <button class="te-action-btn" onclick="copyPrivateLinkById(${d.id}, this)">
+        <span class="te-action-icon" style="background:rgba(99,102,241,.15);color:#a5b4fc;">📋</span>
+        <span class="te-action-label">Kopiraj privatni link</span>
+      </button>`;
+  }
+
+  if (isDeactivated && !isPriv) {
+    actions += `
+      <button class="te-action-btn" onclick="closeTermEdit();toggleDate(${d.id}, true)">
+        <span class="te-action-icon" style="background:rgba(34,197,94,.12);color:var(--green);">▶️</span>
+        <span class="te-action-label">Aktiviraj termin</span>
+      </button>`;
+  }
+  if (!isDeactivated && !isPriv) {
+    actions += `
+      <button class="te-action-btn" onclick="closeTermEdit();toggleDate(${d.id}, false)">
+        <span class="te-action-icon" style="background:rgba(202,138,113,.12);color:var(--accent);">⏸️</span>
+        <span class="te-action-label">Deaktiviraj termin</span>
+      </button>`;
+  }
+
+  actions += `
+    <button class="te-action-btn te-danger" onclick="closeTermEdit();deleteDate(${d.id})">
+      <span class="te-action-icon" style="background:rgba(239,68,68,.12);color:var(--red);">🗑</span>
+      <span class="te-action-label" style="color:var(--red);">Obriši termin</span>
+    </button>`;
+
+  document.getElementById('teActions').innerHTML = actions;
+  document.getElementById('termEditOverlay').style.display = 'flex';
+}
+
+function closeTermEdit() {
+  document.getElementById('termEditOverlay').style.display = 'none';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('termEditOverlay').style.display === 'flex') closeTermEdit();
+});
+
+function copyPrivateLinkById(id, btn) {
+  const d = _dateMap[id];
+  if (!d) return;
+  const url = `${window.location.origin}/?privateDate=${encodeURIComponent(d.privateToken)}`;
+  copyPrivateLink(url, btn);
+}
 
 // ══ EDIT SLOTS ══
 async function editSlots(id, currentSlots) {
