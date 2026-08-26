@@ -4414,7 +4414,7 @@ function renderEarnings(data) {
   const el = document.getElementById('earningsDashboard');
   if (!data.length) { el.innerHTML = '<div class="empty-state">Nema podataka — potvrdite rezervacije i unesite trošak agencije u detalju rezervacije.</div>'; return; }
 
-  const grandTotal = data.reduce((s, a) => ({ rev: s.rev + a.totalRevenue, cost: s.cost + a.totalCost, profit: s.profit + a.totalProfit, travelers: s.travelers + a.totalTravelers }), { rev:0, cost:0, profit:0, travelers:0 });
+  const grandTotal = data.reduce((s, a) => ({ rev: s.rev + a.totalRevenue, cost: s.cost + a.totalCost, profit: s.profit + a.totalProfit, travelers: s.travelers + a.totalTravelers, voucher: s.voucher + (a.totalVoucher || 0) }), { rev:0, cost:0, profit:0, travelers:0, voucher:0 });
 
   let html = `
     <div class="booking-stats" style="margin-bottom:20px;">
@@ -4422,6 +4422,7 @@ function renderEarnings(data) {
       <div class="bs-card bs-pending"><div class="bs-num">${grandTotal.rev}€</div><div class="bs-lbl">Promet putovanja</div></div>
       <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#94a3b8;">${grandTotal.cost}€</div><div class="bs-lbl">Iznos agencije</div></div>
       <div class="bs-card" style="border-left-color:#a5b4fc;"><div class="bs-num" style="color:#a5b4fc;">${grandTotal.travelers}</div><div class="bs-lbl">Putnika ukupno</div></div>
+      ${grandTotal.voucher > 0 ? `<div class="bs-card" style="border-left-color:#f59e0b;"><div class="bs-num" style="color:#fbbf24;">${grandTotal.voucher}€</div><div class="bs-lbl">Vaučeri (u prometu)</div></div>` : ''}
     </div>`;
 
   data.forEach(a => {
@@ -4440,7 +4441,7 @@ function renderEarnings(data) {
       <div class="table-wrap">
         <table style="font-size:13px;">
           <thead><tr>
-            <th>Termin</th><th>Aerodrom</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th>
+            <th>Termin</th><th>Aerodrom</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th><th>Vaučer</th>
           </tr></thead>
           <tbody>${a.terms.map(t => `
             <tr>
@@ -4450,6 +4451,7 @@ function renderEarnings(data) {
               <td>${t.revenue}€</td>
               <td style="color:#94a3b8;">${t.cost}€</td>
               <td style="font-weight:700;color:${t.profit >= 0 ? '#22c55e' : '#ef4444'};">${t.profit}€</td>
+              <td style="color:#fbbf24;">${t.voucher ? t.voucher + '€' : '—'}</td>
             </tr>`).join('')}
           </tbody>
         </table>
