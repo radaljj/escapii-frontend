@@ -3741,8 +3741,16 @@ async function changeStatus(id, status) {
       showConfirmButton: false, timer: 2000,
       background: '#0b1929', color: '#fff'
     });
-  } catch {
-    Swal.fire({ icon: 'error', title: 'Greška', text: 'Status nije promenjen.', background: '#0b1929', color: '#fff' });
+  } catch (e) {
+    // Backend vraća konkretnu poruku (npr. "Termin nema dodeljenu agenciju...") - prikazujemo je
+    // adminu, inače pada na generički fallback ako je mreža pukla.
+    Swal.fire({
+      icon: 'error',
+      title: 'Greška',
+      text: (e && e.message) || 'Status nije promenjen.',
+      background: '#0b1929',
+      color: '#fff'
+    });
   }
 }
 
