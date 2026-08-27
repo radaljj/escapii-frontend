@@ -734,26 +734,35 @@
     .who-inner { max-width: 900px; margin: 0 auto; }
     .who-header { text-align: center; margin-bottom: 64px; }
     .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    /* "Za koga je Escapii?" - bele kartice sa tankom bez bordurom (kao brend mockup),
+       ✓/✕ oznake u obojenim kruzicima, coral za YES, prigusena crvena (--who-no) za NO. */
     .who-card {
-      background: rgba(0,0,0,.25); border-radius: 20px; padding: 36px 32px;
-      border: 1px solid rgba(255,255,255,.08);
+      background: #ffffff; border-radius: 24px; padding: 34px 36px 38px;
+      border: 1px solid #EADFC9;
+      box-shadow: 0 10px 30px rgba(30,45,47,.06);
     }
-    .who-card.yes { border-color: rgba(202,138,113,.25); background: rgba(202,138,113,.04); }
-    .who-card.no  { border-color: rgba(239,68,68,.18); background: rgba(239,68,68,.04); }
+    .who-card.yes, .who-card.no { background: #ffffff; }
     .who-card-title {
-      font-size: 16px; font-weight: 800; margin-bottom: 20px;
+      font-size: 17px; font-weight: 700; margin-bottom: 22px;
       display: flex; align-items: center; gap: 10px;
     }
-    .who-card.yes .who-card-title { color: var(--accent3); }
-    .who-card.no  .who-card-title { color: #f87171; }
+    .who-card.yes .who-card-title { color: #C57B57; }
+    .who-card.no  .who-card-title { color: #C4635A; }
+    .who-mark {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      font-size: 13px; color: #fff; flex-shrink: 0;
+    }
+    .who-card.yes .who-mark { background: #C57B57; }
+    .who-card.no  .who-mark { background: #C4635A; }
     .who-item {
       display: flex; align-items: flex-start; gap: 12px;
-      font-size: 14px; color: var(--gray); line-height: 1.55; margin-bottom: 12px;
+      font-size: 14.5px; color: #5A6B6A; line-height: 1.6; margin-bottom: 16px;
     }
     .who-item:last-child { margin-bottom: 0; }
-    .who-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
-    .yes .who-dot { background: var(--accent3); }
-    .no  .who-dot { background: #f87171; }
+    .who-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
+    .yes .who-dot { background: #C57B57; }
+    .no  .who-dot { background: #C4635A; }
 
     /* ══════════════════════ FAQ */
     .esc-faq { padding: 100px 24px; background: var(--navy2); }
@@ -2755,9 +2764,10 @@
     .feat-card:hover { border-color: rgba(202,138,113,.5); box-shadow: 0 14px 36px rgba(30,45,47,.10); background: #ffffff; }
 
     /* --- For Who (light bg) ------------------------------------- */
-    .who-card { background: rgba(15,45,53,.04); border-color: rgba(15,45,53,.1); }
-    .who-card.yes { background: rgba(202,138,113,.05); border-color: rgba(202,138,113,.18); }
-    .who-card.no  { background: rgba(239,68,68,.04); border-color: rgba(239,68,68,.14); }
+    /* Cista bela za oba stanja, kao u brend mockup-u. */
+    .who-card, .who-card.yes, .who-card.no {
+      background: #ffffff; border-color: #EADFC9;
+    }
 
     /* --- Stats (parchment bg) ----------------------------------- */
     .esc-stats { border-top-color: rgba(15,45,53,.08); border-bottom-color: rgba(15,45,53,.08); }
@@ -4111,20 +4121,21 @@
     </div>
     <div class="who-grid">
       <div class="who-card yes">
-        <div class="who-card-title">✓ <span data-i18n="who.yes.title">Escapii je za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti je dosadilo da ti uvek sve organizuješ</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Spreman/na si da otkriješ destinaciju o kojoj nisi ni razmišljao/la</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.3">Voliš spontanost, ali uz dobru organizaciju</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.4">Kažeš "a što da ne" češće nego "a šta ako"</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Tvoje najdraže uspomene su uvek ona putovanja koja nisu išla 100% po planu</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.6">Hoćeš da nekome pokloniš avanturu i iskustvo koje se pamti ceo život</span></div>
+        <div class="who-card-title"><span class="who-mark">✓</span> <span data-i18n="who.yes.title">Escapii je za tebe ako...</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.1">Voliš da putuješ, ali ti se baš i ne planira sve.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.2">Ideja da ne znaš destinaciju ti je više uzbudljiva nego stresna.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.3">Voliš da imaš slobodu da istražuješ, ali da je put već organizovan.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.4">Pre ćeš reći „ajde da vidimo šta će biti“ nego „daj mi prvo ceo plan“.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.5">Najbolje priče su ti uglavnom one koje nisu bile 100% po planu.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.yes.6">Hoćeš da nekome pokloniš putovanje koje neće tako lako zaboraviti.</span></div>
       </div>
       <div class="who-card no">
-        <div class="who-card-title">✕ <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja - ili u suprotnom, ne ideš</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Uvek želiš da ideš na iste destinacije i biraš iste hotele - i to ti odgovara</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Ideš samo na destinacije koje ti je neko od poznanika već preporučio</span></div>
-        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Hoćeš klasičnu turističku agenciju i unapred poznat aranžman</span></div>
+        <div class="who-card-title"><span class="who-mark">✕</span> <span data-i18n="who.no.title">Escapii nije za tebe ako...</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.1">Želiš da znaš baš sve detalje pre nego što kreneš.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.2">Već imaš destinaciju na koju želiš da putuješ, i ne dolazi u obzir ništa drugo.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.3">Hvata te panika na pomisao da ne znaš gde putuješ, i nisi siguran kako ćeš reagovati ako ti se destinacija ne svidi.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.4">Voliš da sam/a biraš let, hotel i svaki detalj putovanja.</span></div>
+        <div class="who-item"><div class="who-dot"></div><span data-i18n="who.no.5">Ne voliš iznenađenja, čak ni ona uzbudljiva.</span></div>
       </div>
     </div>
   </div>
@@ -4421,17 +4432,18 @@ const TR = {
     'how.c4.t':'Stvori priču za prepričavanje.', 'how.c4.p':'Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.',
     'who.tag':'Budimo iskreni - Escapii nije za svakoga', 'who.heading':'I to je sasvim okej. Evo kako da znaš da li si na pravom mestu.',
     'who.yes.title':'Escapii je za tebe ako...',
-    'who.yes.1':'Voliš da putuješ, ali ti je dosadilo da ti uvek sve organizuješ',
-    'who.yes.2':'Spreman/na si da otkriješ destinaciju o kojoj nisi ni razmišljao/la',
-    'who.yes.3':'Voliš spontanost, ali uz dobru organizaciju',
-    'who.yes.4':'Kažeš "a što da ne" češće nego "a šta ako"',
-    'who.yes.5':'Tvoje najdraže uspomene su uvek ona putovanja koja nisu išla 100% po planu',
-    'who.yes.6':'Hoćeš da nekome pokloniš avanturu i iskustvo koje se pamti ceo život',
+    'who.yes.1':'Voliš da putuješ, ali ti se baš i ne planira sve.',
+    'who.yes.2':'Ideja da ne znaš destinaciju ti je više uzbudljiva nego stresna.',
+    'who.yes.3':'Voliš da imaš slobodu da istražuješ, ali da je put već organizovan.',
+    'who.yes.4':'Pre ćeš reći „ajde da vidimo šta će biti“ nego „daj mi prvo ceo plan“.',
+    'who.yes.5':'Najbolje priče su ti uglavnom one koje nisu bile 100% po planu.',
+    'who.yes.6':'Hoćeš da nekome pokloniš putovanje koje neće tako lako zaboraviti.',
     'who.no.title':'Escapii nije za tebe ako...',
-    'who.no.1':'Voliš da isplaniraš svaki dan putovanja do najsitnijeg detalja - ili u suprotnom, ne ideš',
-    'who.no.2':'Uvek želiš da ideš na iste destinacije i biraš iste hotele - i to ti odgovara',
-    'who.no.3':'Ideš samo na destinacije koje ti je neko od poznanika već preporučio',
-    'who.no.4':'Hoćeš klasičnu turističku agenciju i unapred poznat aranžman',
+    'who.no.1':'Želiš da znaš baš sve detalje pre nego što kreneš.',
+    'who.no.2':'Već imaš destinaciju na koju želiš da putuješ, i ne dolazi u obzir ništa drugo.',
+    'who.no.3':'Hvata te panika na pomisao da ne znaš gde putuješ, i nisi siguran kako ćeš reagovati ako ti se destinacija ne svidi.',
+    'who.no.4':'Voliš da sam/a biraš let, hotel i svaki detalj putovanja.',
+    'who.no.5':'Ne voliš iznenađenja, čak ni ona uzbudljiva.',
     'stats.dest':'Destinacija', 'stats.travelers':'Godina iskustva', 'stats.support':'Podrška', 'stats.surprise':'Iznenađenje',
     'book.tag':'Rezervacija', 'book.heading':'Kreiraj svoje putovanje iznenađenja',
     'loading':'Učitavanje...', 'btn.next':'Nastavi →', 'btn.back':'← Nazad', 'free':'Besplatno',
@@ -4673,17 +4685,18 @@ const TR = {
     'how.c4.t':'Create a story worth telling.', 'how.c4.p':'Enjoy your surprise, discover the destination in a new way, and come back with memories you\'ll be talking about for a long time.',
     'who.tag':'Let\'s be honest - Escapii isn\'t for everyone', 'who.heading':'And that\'s completely okay. Here\'s how to know if you\'re in the right place.',
     'who.yes.title':'Escapii is for you if...',
-    'who.yes.1':'You love traveling, but you\'re tired of always organizing everything yourself',
-    'who.yes.2':'You\'re ready to discover a destination you\'ve never even thought about',
-    'who.yes.3':'You love spontaneity, but with good organization',
-    'who.yes.4':'You say "why not" more often than "what if"',
-    'who.yes.5':'Your favorite memories are always the trips that didn\'t go 100% according to plan',
-    'who.yes.6':'You want to give someone an adventure and an experience they\'ll remember for life',
+    'who.yes.1':'You love to travel, but you don\'t feel like planning it all.',
+    'who.yes.2':'Not knowing the destination excites you more than it stresses you.',
+    'who.yes.3':'You love the freedom to explore, but with the trip already organized.',
+    'who.yes.4':'You\'d rather say "let\'s see what happens" than "give me the full plan first".',
+    'who.yes.5':'Your best stories are usually the ones that didn\'t go 100% to plan.',
+    'who.yes.6':'You want to gift someone a trip they won\'t forget any time soon.',
     'who.no.title':'Escapii is not for you if...',
-    'who.no.1':'You like to plan every day of your trip down to the smallest detail - or you won\'t go at all',
-    'who.no.2':'You always want to go to the same destinations and choose the same hotels - and that works for you',
-    'who.no.3':'You only go to destinations that someone you know has already recommended',
-    'who.no.4':'You want a classic travel agency and a predetermined package',
+    'who.no.1':'You want to know every single detail before you set off.',
+    'who.no.2':'You already have a destination in mind, and nothing else will do.',
+    'who.no.3':'The thought of not knowing where you\'re going makes you panic, and you\'re not sure how you\'d react if you don\'t like the destination.',
+    'who.no.4':'You love picking the flight, hotel and every detail of the trip yourself.',
+    'who.no.5':'You don\'t like surprises, not even exciting ones.',
     'stats.dest':'Destinations', 'stats.travelers':'Years of experience', 'stats.support':'Support', 'stats.surprise':'Surprise',
     'book.tag':'Booking', 'book.heading':'Create your surprise trip',
     'loading':'Loading...', 'btn.next':'Continue →', 'btn.back':'← Back', 'free':'Free',
