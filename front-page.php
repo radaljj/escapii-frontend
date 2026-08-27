@@ -2288,6 +2288,30 @@
     textarea.f-input { min-height: 90px; }
     .field-error .f-input { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .err-msg { color: #f87171; font-size: 13px; margin-top: 12px; display: none; }
+    /* Reveal Box - adresa dostave, sekcija u kontakt koraku (prikazuje se samo kad je S.hasRevealBox=true) */
+    .rb-delivery {
+      grid-column: 1 / -1;
+      margin-top: 6px;
+      padding: 22px 22px 20px;
+      background: linear-gradient(135deg, rgba(202,138,113,.09), rgba(202,138,113,.02));
+      border: 1px solid rgba(202,138,113,.28);
+      border-radius: 16px;
+      display: none;
+      animation: rb-fade-in .35s ease-out;
+    }
+    .rb-delivery.on { display: block; }
+    @keyframes rb-fade-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+    .rb-delivery-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .rb-delivery-icon { font-size: 22px; }
+    .rb-delivery-title { font-size: 14px; font-weight: 800; color: var(--accent); letter-spacing: .3px; text-transform: uppercase; }
+    .rb-delivery-sub { font-size: 12.5px; color: rgba(246,241,230,.55); margin-bottom: 16px; line-height: 1.55; }
+    .rb-delivery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .rb-delivery-grid .form-field { min-width: 0; }
+    .rb-delivery-grid .form-field.full { grid-column: 1 / -1; }
+    @media (max-width: 640px) {
+      .rb-delivery-grid { grid-template-columns: 1fr; }
+      .rb-delivery { padding: 18px 16px 16px; }
+    }
     /* Success */
     .success-wrap { display: none; text-align: center; padding: 48px 32px; }
     .success-wrap.on { display: block; }
@@ -3965,6 +3989,39 @@
             <div class="f-input-wrap"><input class="f-input" type="tel" inputmode="tel" id="fPhone" placeholder="+381641234567" oninput="this.value=this.value.replace(/[^0-9+\-\s]/g,'');document.getElementById('ff-phone')?.classList.remove('field-error');"></div>
             <div class="field-error-msg" data-i18n="err.required"></div>
           </div>
+
+          <!-- Reveal Box - adresa dostave (vidljivo samo kad je korisnik uključio Reveal Box u koraku Dodaci) -->
+          <div class="rb-delivery" id="rb-delivery-section">
+            <div class="rb-delivery-head">
+              <span class="rb-delivery-icon">📦</span>
+              <span class="rb-delivery-title" data-i18n="revealbox.delivery.title">Adresa dostave Reveal Box-a</span>
+            </div>
+            <div class="rb-delivery-sub" data-i18n="revealbox.delivery.sub">
+              Pošalji nam adresu na koju stiže tvoja kutija iznenađenja. Isporuka 2-5 dana pre polaska.
+            </div>
+            <div class="rb-delivery-grid">
+              <div class="form-field full" id="ff-rb-address">
+                <div class="f-label"><span data-i18n="revealbox.address">Ulica i broj</span> <span class="req">*</span></div>
+                <div class="f-input-wrap"><input class="f-input" type="text" id="fRbAddress" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200" oninput="document.getElementById('ff-rb-address')?.classList.remove('field-error');"></div>
+                <div class="field-error-msg" data-i18n="err.required"></div>
+              </div>
+              <div class="form-field" id="ff-rb-city">
+                <div class="f-label"><span data-i18n="revealbox.city">Grad i poštanski broj</span> <span class="req">*</span></div>
+                <div class="f-input-wrap"><input class="f-input" type="text" id="fRbCity" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100" oninput="document.getElementById('ff-rb-city')?.classList.remove('field-error');"></div>
+                <div class="field-error-msg" data-i18n="err.required"></div>
+              </div>
+              <div class="form-field" id="ff-rb-phone">
+                <div class="f-label"><span data-i18n="revealbox.phone">Telefon za dostavu</span> <span class="req">*</span></div>
+                <div class="f-input-wrap"><input class="f-input" type="tel" inputmode="tel" id="fRbPhone" placeholder="+381641234567" autocomplete="tel" maxlength="20" oninput="this.value=this.value.replace(/[^0-9+\-\s]/g,'');document.getElementById('ff-rb-phone')?.classList.remove('field-error');"></div>
+                <div class="field-error-msg" data-i18n="err.required"></div>
+              </div>
+              <div class="form-field full" id="ff-rb-apartment">
+                <div class="f-label" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</div>
+                <div class="f-input-wrap"><input class="f-input" type="text" id="fRbApartment" placeholder="npr. stan 5, 2. sprat" maxlength="150"></div>
+              </div>
+            </div>
+          </div>
+
           <div class="form-field full">
             <div class="f-label" data-i18n="s8.notes">Napomene (opciono)</div>
             <div class="f-input-wrap"><textarea class="f-input" id="fNotes" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea></div>
@@ -4209,39 +4266,6 @@
   </div>
 </footer>
 
-<!-- REVEAL BOX DELIVERY MODAL -->
-<div class="rdm-overlay" id="revealBoxOverlay" onclick="if(event.target===this)closeRevealBoxModal(false)">
-  <div class="rdm-card" style="max-width:440px;">
-    <button class="rdm-close" onclick="closeRevealBoxModal(false)" type="button" aria-label="Close">✕</button>
-    <div style="text-align:center;margin-bottom:22px;">
-      <div style="font-size:40px;margin-bottom:10px;">📦</div>
-      <h3 class="rdm-title" data-i18n="revealbox.modal.title">Adresa za dostavu Reveal Box-a</h3>
-      <p class="rdm-sub" data-i18n="revealbox.modal.sub">Unesite adresu na koju da vam pošaljemo iznenađenje.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.address">Ulica i broj <span style="color:#f87171;">*</span></label>
-        <input id="rbAddress" class="rdm-input" type="text" placeholder="Knez Mihailova 1" autocomplete="street-address" maxlength="200">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.city">Grad i poštanski broj <span style="color:#f87171;">*</span></label>
-        <input id="rbCity" class="rdm-input" type="text" placeholder="Beograd, 11000" autocomplete="address-level2" maxlength="100">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n-html="revealbox.phone">Telefon za dostavu <span style="color:#f87171;">*</span></label>
-        <input id="rbPhone" class="rdm-input" type="tel" placeholder="+381641234567" autocomplete="tel" maxlength="20">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(246,241,230,.55);display:block;margin-bottom:6px;" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</label>
-        <input id="rbApartment" class="rdm-input" type="text" placeholder="npr. stan 5, 2. sprat" maxlength="150">
-      </div>
-    </div>
-    <div id="rbError" style="display:none;color:#f87171;font-size:12px;margin-top:10px;text-align:center;"></div>
-    <button class="rdm-btn" onclick="confirmRevealBoxAddress()" type="button" style="margin-top:20px;" data-i18n="revealbox.confirm">Potvrdi adresu →</button>
-    <button onclick="closeRevealBoxModal(false)" type="button" style="display:block;width:100%;margin-top:10px;background:none;border:none;color:rgba(246,241,230,.4);font-size:13px;cursor:pointer;font-family:inherit;" data-i18n="revealbox.skip">Odustani</button>
-  </div>
-</div>
-
 <!-- REDEEM VOUCHER MODAL -->
 
 <!-- GIFT OVERLAY -->
@@ -4448,10 +4472,9 @@ const TR = {
     'ext.revealbox':'Reveal Box - destinacija skrivena do poslednjeg trenutka', 'ext.revealbox.d':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
-    'revealbox.modal.title':'Adresa za dostavu Reveal Box-a',
-    'revealbox.modal.sub':'Unesite adresu na koju da vam pošaljemo iznenađenje.',
-    'revealbox.address':'Ulica i broj <span style="color:#f87171;">*</span>', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj <span style="color:#f87171;">*</span>', 'revealbox.phone':'Telefon za dostavu <span style="color:#f87171;">*</span>',
-    'revealbox.confirm':'Potvrdi adresu →', 'revealbox.skip':'Odustani',
+    'revealbox.delivery.title':'Adresa dostave Reveal Box-a',
+    'revealbox.delivery.sub':'Pošalji nam adresu na koju stiže tvoja kutija iznenađenja. Isporuka 2-5 dana pre polaska.',
+    'revealbox.address':'Ulica i broj', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
@@ -4701,10 +4724,9 @@ const TR = {
     'ext.revealbox':'Reveal Box - destination hidden until the last moment', 'ext.revealbox.d':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
-    'revealbox.modal.title':'Reveal Box Delivery Address',
-    'revealbox.modal.sub':'Enter the address where we should send your surprise.',
-    'revealbox.address':'Street address <span style="color:#f87171;">*</span>', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code <span style="color:#f87171;">*</span>', 'revealbox.phone':'Phone for delivery <span style="color:#f87171;">*</span>',
-    'revealbox.confirm':'Confirm address →', 'revealbox.skip':'Cancel',
+    'revealbox.delivery.title':'Reveal Box delivery address',
+    'revealbox.delivery.sub':'Send us the address where your surprise box should arrive. Delivery 2-5 days before departure.',
+    'revealbox.address':'Street address', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
@@ -5662,6 +5684,8 @@ function onEnter() {
   if(S.step===8) {
     updateSummaryCard();
     updateTransferNotice();
+    // Reveal Box delivery sekcija se vidi samo ako je korisnik u koraku Dodaci uključio kutiju.
+    syncRbDeliveryVisibility();
     // Auto-fill ime/prezime nosioca rezervacije iz prvog putnika (samo ako prazno)
     const fn = document.getElementById('fFirstName');
     const ln = document.getElementById('fLastName');
@@ -5974,52 +5998,33 @@ function togExtra(el, key) {
 }
 
 // ── Reveal Box ────────────────────────────────────────────────────────────────
+// Card u koraku "Dodaci" samo toggluje flag i cenu (loadPrice) - podaci o adresi
+// se unose kasnije, u samoj kontakt formi (sekcija rb-delivery-section) tek kada
+// je flag uključen. Ovaj korak namerno nema popup da se ne prekida flow.
 function togRevealBox(el) {
+  S.hasRevealBox = !S.hasRevealBox;
+  el.classList.toggle('on', S.hasRevealBox);
+  syncRbDeliveryVisibility();
   if (!S.hasRevealBox) {
-    // Otvori modal za adresu
-    document.getElementById('revealBoxOverlay').classList.add('open');
-    document.getElementById('rbAddress').focus();
-  } else {
-    // Isključi - resetuj
-    S.hasRevealBox = false;
+    // Isključivanje čisti stanje da booking ne nosi nekorišćene delivery podatke.
     S.deliveryAddress = '';
     S.deliveryApartment = '';
     S.deliveryCity = '';
     S.deliveryPhone = '';
-    el.classList.remove('on');
-    loadPrice();
+    ['fRbAddress','fRbApartment','fRbCity','fRbPhone'].forEach(id => {
+      const inp = document.getElementById(id); if (inp) inp.value = '';
+    });
+    ['ff-rb-address','ff-rb-city','ff-rb-phone'].forEach(id => {
+      document.getElementById(id)?.classList.remove('field-error');
+    });
   }
-}
-function closeRevealBoxModal(confirm) {
-  document.getElementById('revealBoxOverlay').classList.remove('open');
-  if (!confirm) {
-    // Korisnik odustao - ne uključuj
-    const el = document.getElementById('ec-hasRevealBox');
-    S.hasRevealBox = false;
-    el.classList.remove('on');
-    loadPrice();
-  }
-}
-function confirmRevealBoxAddress() {
-  const addr  = document.getElementById('rbAddress').value.trim();
-  const apt   = document.getElementById('rbApartment').value.trim();
-  const city  = document.getElementById('rbCity').value.trim();
-  const phone = document.getElementById('rbPhone').value.trim();
-  const errEl = document.getElementById('rbError');
-  if (!addr || !city || !phone) {
-    errEl.style.display = 'block';
-    errEl.textContent = lang === 'sr' ? 'Popunite sva obavezna polja.' : 'Please fill in all required fields.';
-    return;
-  }
-  errEl.style.display = 'none';
-  S.hasRevealBox = true;
-  S.deliveryAddress = addr;
-  S.deliveryApartment = apt;
-  S.deliveryCity = city;
-  S.deliveryPhone = phone;
-  document.getElementById('ec-hasRevealBox').classList.add('on');
-  closeRevealBoxModal(true);
   loadPrice();
+}
+
+/** Prikazuje/skriva rb-delivery-section u kontakt koraku prema S.hasRevealBox. */
+function syncRbDeliveryVisibility() {
+  const section = document.getElementById('rb-delivery-section');
+  if (section) section.classList.toggle('on', !!S.hasRevealBox);
 }
 
 function updateSeatsVisibility() {
@@ -6874,6 +6879,18 @@ function validateContact() {
      msg:isSr?'Broj telefona sme da sadrži samo cifre, +, - i razmak.'
              :'Phone may contain only digits, +, - and spaces.'},
   ];
+  // Reveal Box - dodatna adresa dostave (obavezna samo kad je flag on)
+  if (S.hasRevealBox) {
+    fields.push(
+      {id:'fRbAddress', wrap:'ff-rb-address', check:v=>v.trim().length>0,
+       msg:isSr?'Unesite adresu za dostavu Reveal Box-a.':'Enter the Reveal Box delivery address.'},
+      {id:'fRbCity', wrap:'ff-rb-city', check:v=>v.trim().length>0,
+       msg:isSr?'Unesite grad za dostavu Reveal Box-a.':'Enter the Reveal Box delivery city.'},
+      {id:'fRbPhone', wrap:'ff-rb-phone', check:v=>PHONE_RE.test(v.trim()),
+       msg:isSr?'Telefon za dostavu Reveal Box-a - samo cifre, +, - i razmak.'
+               :'Reveal Box delivery phone may contain only digits, +, - and spaces.'}
+    );
+  }
   fields.forEach(f=>{
     const el=document.getElementById(f.id);
     const wrap=document.getElementById(f.wrap);
@@ -6970,6 +6987,16 @@ async function submitBooking() {
   const lastName=document.getElementById('fLastName').value.trim();
   const email=document.getElementById('fEmail').value.trim();
   const phone=document.getElementById('fPhone').value.trim();
+
+  // Reveal Box - adresa dostave se sada unosi direktno u kontakt formi (rb-delivery-section);
+  // sinhronizujemo S state pre slanja da payload pravilno reflektuje inputa iz DOM-a.
+  if (S.hasRevealBox) {
+    S.deliveryAddress   = (document.getElementById('fRbAddress')?.value || '').trim();
+    S.deliveryApartment = (document.getElementById('fRbApartment')?.value || '').trim();
+    S.deliveryCity      = (document.getElementById('fRbCity')?.value || '').trim();
+    S.deliveryPhone     = (document.getElementById('fRbPhone')?.value || '').trim();
+  }
+
   const passengers=Array.from({length:S.travelers},(_,i)=>({
     passportCountry:(document.getElementById('pp'+i)||{}).value?.trim()||'',
     passportNumber:(document.getElementById('ppn'+i)||{}).value?.trim().toUpperCase()||'',
