@@ -418,7 +418,8 @@
     .ab-step-chip { width:54px; height:54px; border-radius:15px; margin:0 auto 12px;
                     background:#fff; border:1px solid rgba(15,45,53,.1);
                     box-shadow:0 6px 18px -10px rgba(15,45,53,.25);
-                    display:flex; align-items:center; justify-content:center; color:var(--accent); }
+                    display:flex; align-items:center; justify-content:center; color:var(--accent); overflow:hidden; }
+    .ab-step-chip img { width:66%; height:66%; object-fit:contain; display:block; }
     .ab-step-num { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
                    color:var(--gray); margin-bottom:4px; font-variant-numeric:tabular-nums; }
     .ab-step-lbl { font-size:14px; font-weight:700; color:var(--white); line-height:1.2; margin-bottom:3px; }
@@ -3196,30 +3197,29 @@
       <p class="ab-body-text" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.</p>
       <div class="ab-steps">
         <div class="ab-step">
-          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg></div>
+          <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-1-kalendar.png" alt="" loading="lazy" width="54" height="54"></div>
           <div class="ab-step-num">01</div>
-          <div class="ab-step-lbl" data-i18n="ab.s1">Izabereš termin</div>
+          <div class="ab-step-lbl" data-i18n="ab.s1">Ti biraš</div>
           <div class="ab-step-sub" data-i18n="ab.s1s">Datum, broj putnika i budžet.</div>
         </div>
         <div class="ab-step">
-          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l-2 1 1.5 3 2.5-1M19 4l1 1-7.5 8.5-5 1.5 1.5-5L17 3.5z"/><path d="M14.5 6.5l3 3"/></svg></div>
+          <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-2-kompas.png" alt="" loading="lazy" width="54" height="54"></div>
           <div class="ab-step-num">02</div>
-          <div class="ab-step-lbl" data-i18n="ab.s2">Mi sve sredimo</div>
-          <div class="ab-step-sub" data-i18n="ab.s2s">Destinacija, let i hotel - na nama.</div>
+          <div class="ab-step-lbl" data-i18n="ab.s2">Mi organizujemo</div>
+          <div class="ab-step-sub" data-i18n="ab.s2s">Destinaciju, let i hotel, i dodatke.</div>
         </div>
         <div class="ab-step">
-          <div class="ab-step-chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+          <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-3-sijalica.png" alt="" loading="lazy" width="54" height="54"></div>
           <div class="ab-step-num">03</div>
-          <div class="ab-step-lbl" data-i18n="ab.s3">Otkrivamo 48h pre</div>
-          <div class="ab-step-sub" data-i18n="ab.s3s">Do tada - samo nagoveštaji.</div>
+          <div class="ab-step-lbl" data-i18n="ab.s3">Destinaciju saznaješ</div>
+          <div class="ab-step-sub" data-i18n="ab.s3s">48h pre polaska ili na aerodromu.</div>
         </div>
       </div>
       <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
       <div class="ab-trust">
         <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l8-2 7-7 1.5 1.5-4 6 5 2-2 2-5-1-3 5L9 19l1-5-8-2z"/></svg><span data-i18n="ab.f1">Let + hotel uključeni</span></span>
-        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span data-i18n="ab.f2">Otkrivamo 48h pre polaska</span></span>
         <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-i18n="ab.f3">Bez skrivenih troškova</span></span>
-        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l3 3 4-7"/><circle cx="12" cy="12" r="9.5"/></svg><span data-i18n="ab.f4">Licencirana agencija</span></span>
+        <span class="ab-trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l3 3 4-7"/><circle cx="12" cy="12" r="9.5"/></svg><span data-i18n="ab.f4">Saradnja sa licenciranom turističkom agencijom</span></span>
       </div>
     </div>
 
@@ -3283,16 +3283,16 @@
     <p class="ab-ov-body" data-i18n="ab.body">Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.</p>
     <div class="ab-steps">
       <div class="ab-step">
-        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg></div>
-        <div><div class="ab-step-num">01</div><div class="ab-step-lbl" data-i18n="ab.s1">Izabereš termin</div><div class="ab-step-sub" data-i18n="ab.s1s">Datum, broj putnika i budžet.</div></div>
+        <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-1-kalendar.png" alt="" loading="lazy" width="44" height="44"></div>
+        <div><div class="ab-step-num">01</div><div class="ab-step-lbl" data-i18n="ab.s1">Ti biraš</div><div class="ab-step-sub" data-i18n="ab.s1s">Datum, broj putnika i budžet.</div></div>
       </div>
       <div class="ab-step">
-        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l-2 1 1.5 3 2.5-1M19 4l1 1-7.5 8.5-5 1.5 1.5-5L17 3.5z"/><path d="M14.5 6.5l3 3"/></svg></div>
-        <div><div class="ab-step-num">02</div><div class="ab-step-lbl" data-i18n="ab.s2">Mi sve sredimo</div><div class="ab-step-sub" data-i18n="ab.s2s">Destinacija, let i hotel - na nama.</div></div>
+        <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-2-kompas.png" alt="" loading="lazy" width="44" height="44"></div>
+        <div><div class="ab-step-num">02</div><div class="ab-step-lbl" data-i18n="ab.s2">Mi organizujemo</div><div class="ab-step-sub" data-i18n="ab.s2s">Destinaciju, let i hotel, i dodatke.</div></div>
       </div>
       <div class="ab-step">
-        <div class="ab-step-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
-        <div><div class="ab-step-num">03</div><div class="ab-step-lbl" data-i18n="ab.s3">Otkrivamo 48h pre</div><div class="ab-step-sub" data-i18n="ab.s3s">Do tada - samo nagoveštaji.</div></div>
+        <div class="ab-step-chip"><img src="<?php echo get_template_directory_uri(); ?>/images/sta-je-icons/step-3-sijalica.png" alt="" loading="lazy" width="44" height="44"></div>
+        <div><div class="ab-step-num">03</div><div class="ab-step-lbl" data-i18n="ab.s3">Destinaciju saznaješ</div><div class="ab-step-sub" data-i18n="ab.s3s">48h pre polaska ili na aerodromu.</div></div>
       </div>
     </div>
     <button class="ab-btn-primary" onclick="escScrollTo('esc-booking')" data-i18n="ab.btn1">Rezerviši svoje iznenađenje →</button>
@@ -4393,13 +4393,13 @@ const TR = {
     'ab.pbody':'Ti izabereš datum - mi organizujemo sve. Nema dogovaranja, nema letova koji poskupljuju, nema Novog Sada kao backup plana.',
     'ab.heading':'Prva platforma u regionu za putovanja <span class="ab-accent">iznenađenja</span> po Evropi.',
     'ab.body':'Ti biraš datum, broj putnika i budžet. Mi biramo destinaciju i organizujemo sve - let, hotel i iznenađenje za tebe i tvoje društvo. Destinaciju ćeš saznati tek 48h pre polaska.',
-    'ab.s1':'Izabereš termin', 'ab.s1s':'Datum, broj putnika i budžet.',
-    'ab.s2':'Mi sve sredimo', 'ab.s2s':'Destinacija, let i hotel - na nama.',
-    'ab.s3':'Otkrivamo 48h pre', 'ab.s3s':'Do tada - samo nagoveštaji.',
+    'ab.s1':'Ti biraš', 'ab.s1s':'Datum, broj putnika i budžet.',
+    'ab.s2':'Mi organizujemo', 'ab.s2s':'Destinaciju, let i hotel, i dodatke.',
+    'ab.s3':'Destinaciju saznaješ', 'ab.s3s':'48h pre polaska ili na aerodromu.',
     'ab.f1':'Let + hotel uključeni',
     'ab.f2':'Otkrivamo 48h pre polaska',
     'ab.f3':'Bez skrivenih troškova',
-    'ab.f4':'Licencirana agencija',
+    'ab.f4':'Saradnja sa licenciranom turističkom agencijom',
     'ab.clead':'Veruj nam kad ti kažemo - Escapii nije putovanje koje ćeš zaboraviti.',
     'ab.cbold':'To je avantura koju ćeš prepričavati zauvek.',
     'ab.btn1':'Rezerviši svoje iznenađenje →',
@@ -4645,13 +4645,13 @@ const TR = {
     'ab.pbody':'You pick a date - we organise everything. No negotiations, no flights getting expensive, no Novi Sad as a backup plan.',
     'ab.heading':'The first platform in the region for <span class="ab-accent">surprise</span> trips across Europe.',
     'ab.body':'You choose the date, number of travelers and budget. We take care of everything - flights, hotel, and the surprise. You\'ll find out where you\'re going just 48h before departure.',
-    'ab.s1':'Pick a date', 'ab.s1s':'Date, travelers and budget.',
-    'ab.s2':'We handle it all', 'ab.s2s':'Destination, flight and hotel - on us.',
-    'ab.s3':'Reveal 48h before', 'ab.s3s':'Until then - only hints.',
+    'ab.s1':'You pick', 'ab.s1s':'Date, travelers and budget.',
+    'ab.s2':'We organize', 'ab.s2s':'Destination, flight, hotel and extras.',
+    'ab.s3':'You find out', 'ab.s3s':'48h before departure or at the airport.',
     'ab.f1':'Flight + hotel included',
     'ab.f2':'Destination revealed 48h before',
     'ab.f3':'No hidden costs',
-    'ab.f4':'Licensed travel agency',
+    'ab.f4':'Partnered with a licensed travel agency',
     'ab.clead':'Trust us when we say - Escapii isn\'t a trip you\'ll forget.',
     'ab.cbold':'It\'s an adventure you\'ll be talking about forever.',
     'ab.btn1':'Book your surprise →',
