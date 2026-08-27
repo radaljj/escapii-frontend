@@ -2983,7 +2983,6 @@ function buildBookingDetail(b) {
       </div>
     </div>` : ''}
 
-    ${!b.hasRevealBox ? `
     <div class="bc-reveal-box-section" id="cds-${b.id}">
       <div class="bc-reveal-box-header">📎 Dokument rezervacije (od agencije)</div>
       <div class="bc-reveal-box-body">
@@ -3004,7 +3003,7 @@ function buildBookingDetail(b) {
           <button class="btn-action" style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);" onclick="uploadConfirmationDocument(${b.id})">📎 Uploaduj PDF</button>
         `}
       </div>
-    </div>` : ''}
+    </div>
 
     <div class="bc-note-wrap">
       <div class="bc-label" style="margin-bottom:6px;">🛫 Avio kompanija</div>
