@@ -3841,7 +3841,7 @@
               <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box - destinacija skrivena do poslednjeg trenutka</div>
               <div class="extra-card-sub" data-i18n="ext.revealbox.d">Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦</div>
             </div>
-            <div class="extra-card-price">+25€</div>
+            <div class="extra-card-price">+35€</div>
             <div class="extra-toggle"></div>
           </div>
           <div class="connecting-tooltip">
@@ -6689,7 +6689,7 @@ async function loadPrice() {
       hasSeatsTogether: S.hasSeatsTogether
     });
     // Reveal Box se ne šalje u price-preview (backend ne čita ga tamo),
-    // ali dodajemo 25€ ručno na frontendu za prikaz u cenovniku
+    // ali dodajemo 35€ ručno na frontendu za prikaz u cenovniku
     const r = await fetch(`${API}/api/booking/price-preview?${params}`);
     const p = await r.json();
     S.lastPrice = p;
