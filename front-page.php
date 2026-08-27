@@ -215,18 +215,19 @@
     .sec-nav::-webkit-scrollbar { display: none; }
     .sec-nav.visible { transform: translateY(0); opacity: 1; }
     @media (max-width: 768px) { .sec-nav { display: none !important; } }
-    /* sec-nav gift dropdown */
-    .sec-gift-wrap { position: relative; flex-shrink: 0; margin-left: 16px; }
+    /* sec-nav gift dropdown - coral tekst link (isti stil kao ostali .sec-nav-link,
+       ali coral boja da se ipak malo izdvoji kao "sekundarna" akcija). */
+    .sec-gift-wrap { position: relative; flex-shrink: 0; }
     .sec-gift-btn {
       white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 14px; border-radius: 20px;
-      font-size: 11px; font-weight: 700; letter-spacing: .4px;
+      font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
       cursor: pointer; font-family: inherit;
-      color: #d4a83c; background: rgba(200,149,58,.14);
-      border: 1px solid rgba(200,149,58,.3); transition: all .2s;
+      color: var(--accent); background: none;
+      border: none; transition: color .2s, background .2s;
     }
     .sec-gift-btn:hover,
-    .sec-gift-btn.open { background: rgba(200,149,58,.26); border-color: rgba(200,149,58,.55); }
+    .sec-gift-btn.open { color: #d99270; background: rgba(202,138,113,.08); }
     .sec-gift-caret { font-size: 9px; transition: transform .2s; display: inline-block; }
     .sec-gift-btn.open .sec-gift-caret { transform: rotate(180deg); }
     .sec-gift-drop {
@@ -262,18 +263,20 @@
       transition: all .2s;
     }
     .sec-nav-cta:hover { background: #b87a62; box-shadow: 0 4px 16px rgba(202,138,113,.45); transform: translateY(-1px); }
-    /* "Kontaktiraj nas" pill u secondary navu */
+    /* "Kontaktiraj nas" u secondary navu - obican tekst link (kao .sec-nav-link),
+       hover se dogadja i pri skrolovanju do sekcije preko postojece .active klase. */
     .sec-nav-call {
       white-space: nowrap; flex-shrink: 0;
       display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 14px; border-radius: 20px;
-      font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-      color: var(--gold);
-      background: rgba(202,138,113,.12);
-      border: 1px solid rgba(202,138,113,.3);
-      transition: all .2s;
+      font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
+      cursor: pointer; font-family: inherit;
+      color: rgba(255,255,255,.4);
+      background: none; border: none;
+      transition: color .2s, background .2s;
     }
-    .sec-nav-call:hover { background: rgba(202,138,113,.22); border-color: rgba(202,138,113,.55); }
+    .sec-nav-call:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
+    .sec-nav-call.active { color: #ffffff; background: var(--gold); }
     @media (max-width: 768px) {
       .sec-nav { display: none !important; }
     }
@@ -3094,13 +3097,13 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="location.href='/faq'"         data-i18n="snav.faq">FAQ</button>
   <button class="sec-nav-link" onclick="window.location.href='/blog'"   data-i18n="snav.blog">Blog</button>
-  <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
-  <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
   <div class="sec-gift-wrap" id="secGiftWrap">
     <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
       🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span> <span class="sec-gift-caret">▾</span>
     </button>
   </div>
+  <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
+  <button class="sec-nav-call"  onclick="escScrollTo('esc-contact-cta')" data-i18n="snav.call">✉ Kontaktiraj nas</button>
 </nav>
 <!-- Gift dropdown van sec-nav (backdrop-filter kreira containing block za fixed) -->
 <div class="sec-gift-drop" id="secGiftDrop">
@@ -7152,6 +7155,7 @@ loadAirports();
     'esc-dest',
     'esc-who',
     'esc-faq',
+    'esc-contact-cta',
   ];
 
   const heroH = () => document.querySelector('.esc-hero')?.offsetHeight || 500;
@@ -7173,8 +7177,9 @@ loadAirports();
       if (el && el.getBoundingClientRect().top <= threshold) activeId = id;
     });
 
-    // Aktiviraj link čiji onclick sadrži activeId
-    secNav.querySelectorAll('.sec-nav-link').forEach(link => {
+    // Aktiviraj link čiji onclick sadrži activeId - ukljucen i .sec-nav-call
+    // (Kontaktiraj nas) sada kad je pretvoren u tekst link, da se ponasa kao ostali.
+    secNav.querySelectorAll('.sec-nav-link, .sec-nav-call').forEach(link => {
       const on = link.getAttribute('onclick') || '';
       link.classList.toggle('active', !!activeId && on.includes(activeId));
     });

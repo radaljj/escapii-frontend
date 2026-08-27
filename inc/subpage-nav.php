@@ -28,13 +28,13 @@ $_nav_uri  = get_template_directory_uri();
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-dest'"         data-i18n="snav.dest">Destinacije</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/faq/'"              data-i18n="snav.faq">FAQ</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/blog/'"             data-i18n="snav.blog">Blog</button>
-  <button class="sec-nav-cta"  onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-booking'"      data-i18n="snav.book.cta">Rezerviši →</button>
-  <button class="sec-nav-call" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-contact-cta'"  data-i18n="snav.call">✉ Kontaktiraj nas</button>
   <div class="sec-gift-wrap" id="secGiftWrap">
     <button class="sec-gift-btn" id="secGiftBtn" onclick="toggleSecGift()" type="button">
       🎁 <span data-i18n="nav.gift.label">Pokloni putovanje iznenađenja</span> <span class="sec-gift-caret">▾</span>
     </button>
   </div>
+  <button class="sec-nav-cta"  onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-booking'"      data-i18n="snav.book.cta">Rezerviši →</button>
+  <button class="sec-nav-call" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-contact-cta'"  data-i18n="snav.call">✉ Kontaktiraj nas</button>
 </nav>
 <div class="sec-gift-drop" id="secGiftDrop">
   <button class="nav-gift-item primary" onclick="closeSecGift();window.location.href='<?php echo esc_url($_nav_site); ?>/pokloni-putovanje-iznenadjenja/';" type="button">
