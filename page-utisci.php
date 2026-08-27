@@ -156,21 +156,24 @@ a { color: inherit; }
   white-space: nowrap; flex-shrink: 0;
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-  color: var(--gold); background: rgba(202,138,113,.12);
-  border: 1px solid rgba(202,138,113,.3); transition: all .2s;
+  font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
+  cursor: pointer; font-family: inherit;
+  color: rgba(255,255,255,.4);
+  background: none; border: none;
+  transition: color .2s, background .2s;
 }
-.sec-nav-call:hover { background: rgba(202,138,113,.22); border-color: rgba(202,138,113,.55); }
+.sec-nav-call:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
+.sec-nav-call.active { color: #ffffff; background: var(--gold); }
 .sec-gift-wrap { position: relative; flex-shrink: 0; margin-left: 16px; }
 .sec-gift-btn {
   white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 14px; border-radius: 20px;
-  font-size: 11px; font-weight: 700; letter-spacing: .4px;
+  font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
   cursor: pointer; font-family: inherit;
-  color: #d4a83c; background: rgba(200,149,58,.14);
-  border: 1px solid rgba(200,149,58,.3); transition: all .2s;
+  color: var(--accent); background: none;
+  border: none; transition: color .2s, background .2s;
 }
-.sec-gift-btn:hover, .sec-gift-btn.open { background: rgba(200,149,58,.26); border-color: rgba(200,149,58,.55); }
+.sec-gift-btn:hover, .sec-gift-btn.open { color: #d99270; background: rgba(202,138,113,.08); }
 .sec-gift-caret { font-size: 9px; transition: transform .2s; display: inline-block; }
 .sec-gift-btn.open .sec-gift-caret { transform: rotate(180deg); }
 .sec-gift-drop {
