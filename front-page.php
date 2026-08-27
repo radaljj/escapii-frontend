@@ -717,11 +717,13 @@
       letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
     }
     .feat-icon {
-      width: 52px; height: 52px; border-radius: 16px;
-      background: rgba(202,138,113,.12);
+      width: 56px; height: 56px; border-radius: 16px;
+      background: #1A3A4A;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 18px;
+      overflow: hidden; margin-bottom: 18px;
+      box-shadow: 0 6px 16px rgba(26,58,74,.25);
     }
+    .feat-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .feat-content h3 { font-size: 15px; font-weight: 800; color: #2D5F6B; margin-bottom: 8px; line-height: 1.35; }
     .feat-content p { font-size: 13px; color: #6B7C80; line-height: 1.65; }
 
@@ -3138,7 +3140,7 @@
     <div class="features-grid">
       <div class="feat-card">
         <div class="feat-icon-wrap">01</div>
-        <span class="feat-icon">📅</span>
+        <span class="feat-icon"><img src="<?php echo get_template_directory_uri(); ?>/images/how-icons/step-1-avion.png" alt="" loading="lazy" width="56" height="56"></span>
         <div class="feat-content">
           <h3 data-i18n="how.c1.t">Kreiraj svoje putovanje iznenađenja.</h3>
           <p data-i18n="how.c1.p">Izaberi polazni aerodrom, datum, broj putnika, budžet i dodatke. Isključi destinacije koje ne želiš.</p>
@@ -3146,7 +3148,7 @@
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">02</div>
-        <span class="feat-icon">✈️</span>
+        <span class="feat-icon"><img src="<?php echo get_template_directory_uri(); ?>/images/how-icons/step-2-kompas.png" alt="" loading="lazy" width="56" height="56"></span>
         <div class="feat-content">
           <h3 data-i18n="how.c2.t">Mi organizujemo sve.</h3>
           <p data-i18n="how.c2.p">Naša Escapii ekipa će skrojiti iznenađenje baš za tebe - let, hotel i sve ostalo. Na tebi je samo da spakuješ kofer.</p>
@@ -3154,7 +3156,7 @@
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">03</div>
-        <span class="feat-icon">📍</span>
+        <span class="feat-icon"><img src="<?php echo get_template_directory_uri(); ?>/images/how-icons/step-3-pin-pitanje.png" alt="" loading="lazy" width="56" height="56"></span>
         <div class="feat-content">
           <h3 data-i18n="how.c3.t">Otkrij svoje iznenađenje.</h3>
           <p data-i18n="how.c3.p">Destinaciju na koju putuješ ćeš saznati 48h pre polaska. Ne brini, 7 dana pred put ćemo ti poslati vremensku prognozu, bez otkrivanja destinacije.</p>
@@ -3162,7 +3164,7 @@
       </div>
       <div class="feat-card">
         <div class="feat-icon-wrap">04</div>
-        <span class="feat-icon">💬</span>
+        <span class="feat-icon"><img src="<?php echo get_template_directory_uri(); ?>/images/how-icons/step-4-srce.png" alt="" loading="lazy" width="56" height="56"></span>
         <div class="feat-content">
           <h3 data-i18n="how.c4.t">Stvori priču za prepričavanje.</h3>
           <p data-i18n="how.c4.p">Uživaj u svom iznenađenju, doživi destinaciju na nov način i vrati se sa uspomenama koje ćeš prepričavati još dugo.</p>
