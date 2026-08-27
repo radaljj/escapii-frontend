@@ -708,8 +708,9 @@
       position: relative; overflow: hidden; box-sizing: border-box;
     }
     .feat-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--accent); border-radius: 20px 20px 0 0;
+      /* Akcentna traka na vrhu je iz starog dizajna - u novom brend mockup-u
+         kartica je cista bela sa tankom bordurom, bez trake. */
+      content: none;
     }
     .feat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(45,95,107,.13); }
     .feat-icon-wrap {
@@ -2746,8 +2747,11 @@
     .faq-a { color: #5a4f6a; }
 
     /* --- Features (white bg) ------------------------------------ */
-    .feat-card { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1); }
-    .feat-card:hover { border-color: rgba(202,138,113,.35); background: rgba(202,138,113,.04); }
+    /* Kartice u sekciji "Kako funkcionise" - bela ploca sa tankom bez bordurom
+       i mekom senkom (kao u brend mockup-u); ranije su bile poluprozirne pa su
+       se sivile na krem pozadini sekcije. */
+    .feat-card { background: #ffffff; border: 1px solid #EADFC9; box-shadow: 0 10px 30px rgba(30,45,47,.06); }
+    .feat-card:hover { border-color: rgba(202,138,113,.5); box-shadow: 0 14px 36px rgba(30,45,47,.10); background: #ffffff; }
 
     /* --- For Who (light bg) ------------------------------------- */
     .who-card { background: rgba(15,45,53,.04); border-color: rgba(15,45,53,.1); }
