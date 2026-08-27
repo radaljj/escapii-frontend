@@ -3060,7 +3060,6 @@
     <button class="mob-menu-link" onclick="mobNav('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
     <button class="mob-menu-link" onclick="mobNav('esc-about')"   data-i18n="snav.about">O nama</button>
     <button class="mob-menu-link" onclick="mobNav('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
-    <button class="mob-menu-link" onclick="mobNav('esc-who')"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="location.href='/faq'"     data-i18n="snav.faq">FAQ</button>
     <button class="mob-menu-link" onclick="closeMobMenu();window.location.href='/blog';" data-i18n="snav.blog">Blog</button>
     <button class="mob-menu-link mob-menu-call" onclick="mobNav('esc-contact-cta')">
@@ -3093,7 +3092,6 @@
   <button class="sec-nav-link" onclick="escScrollTo('esc-how')"     data-i18n="snav.how">Kako funkcioniše</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-about')"   data-i18n="snav.about">O nama</button>
   <button class="sec-nav-link" onclick="escScrollTo('esc-dest')"    data-i18n="snav.dest">Destinacije</button>
-  <button class="sec-nav-link" onclick="escScrollTo('esc-who')"     data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="location.href='/faq'"         data-i18n="snav.faq">FAQ</button>
   <button class="sec-nav-link" onclick="window.location.href='/blog'"   data-i18n="snav.blog">Blog</button>
   <button class="sec-nav-cta"  onclick="escScrollTo('esc-booking')"     data-i18n="snav.book.cta">Rezerviši →</button>
@@ -4257,7 +4255,6 @@
       <a href="javascript:void(0)" onclick="escScrollTo('esc-booking')" data-i18n="footer.book">Rezervacija</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-dest')"    data-i18n="footer.dest">Destinacije</a>
       <a href="javascript:void(0)" onclick="escScrollTo('esc-how')"     data-i18n="footer.how">Kako funkcioniše</a>
-      <a href="javascript:void(0)" onclick="escScrollTo('esc-who')"     data-i18n="footer.who">Za koga</a>
       <a href="/faq"     data-i18n="footer.faq">FAQ</a>
       <a href="/pokloni-putovanje-iznenadjenja" style="color:var(--accent);font-weight:600;" data-i18n="footer.gift">🎁 Pokloni putovanje iznenađenja</a>
     </div>
@@ -4520,7 +4517,7 @@ const TR = {
     'callus.note':'Odgovaramo u roku od 24h',
     'footer.desc':'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu.',
     'footer.nav':'Navigacija', 'footer.about':'O nama', 'footer.dest':'Destinacije',
-    'footer.how':'Kako funkcioniše', 'footer.who':'Za koga', 'footer.faq':'FAQ',
+    'footer.how':'Kako funkcioniše', 'footer.faq':'FAQ',
     'footer.book':'Rezervacija', 'footer.departure':'Polasci', 'footer.rights':'Sva prava zadržana',
     'steps':['Aerodrom','Putnici','Datum','Smeštaj','Dodaci','Isključi','Putnici','Kontakt'],
     'nights': n=>n===1?'1 noć':`${n} noći`, 'slots': n=>n===1?'1 mesto':`${n} mesta`,
@@ -4540,7 +4537,7 @@ const TR = {
     'footer.gift':'🎁 Pokloni putovanje iznenađenja',
     'footer.terms':'Uslovi korišćenja', 'footer.privacy':'Politika privatnosti', 'footer.cookies':'Kolačići',
     'snav.about':'O nama', 'snav.booking':'Rezervacija', 'snav.dest':'Destinacije', 'snav.how':'Kako funkcioniše',
-    'snav.who':'Za koga', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
+    'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Kontaktiraj nas', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Rezerviši', 'snav.book.cta':'Rezerviši →',
     'faq.tag':'Česta pitanja', 'faq.heading':'Imaš pitanje?',
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
     'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
@@ -4774,7 +4771,7 @@ const TR = {
     'callus.note':'We respond within 24 hours',
     'footer.desc':'Surprise trips for people ready to let go and try something different.',
     'footer.nav':'Navigation', 'footer.about':'About us', 'footer.dest':'Destinations',
-    'footer.how':'How it works', 'footer.who':'Who\'s it for', 'footer.faq':'FAQ',
+    'footer.how':'How it works', 'footer.faq':'FAQ',
     'footer.book':'Book', 'footer.departure':'Departures', 'footer.rights':'All rights reserved',
     'steps':['Airport','Travelers','Date','Stay','Add-ons','Exclude','Passengers','Contact'],
     'nights': n=>n===1?'1 night':`${n} nights`, 'slots': n=>`${n} seats`,
@@ -4794,7 +4791,7 @@ const TR = {
     'footer.gift':'🎁 Gift a Surprise Trip',
     'footer.terms':'Terms & Conditions', 'footer.privacy':'Privacy Policy', 'footer.cookies':'Cookies',
     'snav.about':'About us', 'snav.booking':'Book', 'snav.dest':'Destinations', 'snav.how':'How it works',
-    'snav.who':'Who\'s it for', 'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
+    'snav.faq':'FAQ', 'snav.blog':'Blog', 'snav.call':'✉ Contact us', 'snav.call.hours':'info@escapii.rs', 'snav.book':'Book now', 'snav.book.cta':'Book now →',
     'faq.tag':'FAQ', 'faq.heading':'Got a question?',
     'faq.1.q':'What\'s included in the trip price?',
     'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag - typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',

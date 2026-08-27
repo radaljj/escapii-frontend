@@ -26,7 +26,6 @@ $_nav_uri  = get_template_directory_uri();
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-how'"          data-i18n="snav.how">Kako funkcioniše</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-about'"        data-i18n="snav.about">O nama</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-dest'"         data-i18n="snav.dest">Destinacije</button>
-  <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-who'"          data-i18n="snav.who">Za koga</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/faq/'"              data-i18n="snav.faq">FAQ</button>
   <button class="sec-nav-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/blog/'"             data-i18n="snav.blog">Blog</button>
   <button class="sec-nav-cta"  onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-booking'"      data-i18n="snav.book.cta">Rezerviši →</button>
@@ -60,7 +59,6 @@ $_nav_uri  = get_template_directory_uri();
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-how'"     data-i18n="snav.how">Kako funkcioniše</button>
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-about'"   data-i18n="snav.about">O nama</button>
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-dest'"    data-i18n="snav.dest">Destinacije</button>
-    <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-who'"     data-i18n="snav.who">Za koga</button>
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/faq/'"         data-i18n="snav.faq">FAQ</button>
     <button class="mob-menu-link" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/blog/'"        data-i18n="snav.blog">Blog</button>
     <button class="mob-menu-link mob-menu-call" onclick="window.location.href='<?php echo esc_url($_nav_site); ?>/#esc-contact-cta'">

@@ -57,7 +57,6 @@ $_f_lang = esc_lang();
       <a href="<?php echo esc_url($_f_home); ?>/#esc-about" data-i18n="ft.about"><?php echo $_f_lang === 'en' ? 'About us' : 'O nama'; ?></a>
       <a href="<?php echo esc_url($_f_home); ?>/#esc-dest" data-i18n="ft.dest"><?php echo $_f_lang === 'en' ? 'Destinations' : 'Destinacije'; ?></a>
       <a href="<?php echo esc_url($_f_home); ?>/#esc-how" data-i18n="ft.how"><?php echo $_f_lang === 'en' ? 'How it works' : 'Kako funkcioniše'; ?></a>
-      <a href="<?php echo esc_url($_f_home); ?>/#esc-who" data-i18n="ft.who"><?php echo $_f_lang === 'en' ? 'Who\'s it for' : 'Za koga'; ?></a>
       <a href="<?php echo esc_url($_f_home); ?>/faq/">FAQ</a>
       <a href="<?php echo esc_url($_f_home); ?>/blog/">Blog</a>
       <a href="<?php echo esc_url($_f_home); ?>/pokloni-putovanje-iznenadjenja/" style="color:#CA8A71;font-weight:600;" data-i18n="ft.gift">🎁 <?php echo $_f_lang === 'en' ? 'Gift a Surprise Trip' : 'Pokloni putovanje iznenađenja'; ?></a>
