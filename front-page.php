@@ -1839,6 +1839,17 @@
     }
     .excl-tile.on .excl-overlay { opacity: .4; }
     .excl-x { display: none; } /* handled via ::after pseudo-element */
+    /* IATA badge - prikazuje se samo kad je basePrice termina >= 450€ */
+    .excl-iata {
+      position: absolute; top: 8px; left: 8px;
+      padding: 3px 8px; border-radius: 100px;
+      background: rgba(15,45,53,.85); color: var(--accent);
+      font-family: 'IBM Plex Mono','Courier New',monospace;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      border: 1px solid rgba(202,138,113,.45);
+      pointer-events: none; z-index: 2;
+    }
+    .excl-tile.on .excl-iata { opacity: .55; }
     /* Step 7 - Traveler cards */
     .pax-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .pax-item {
@@ -6146,9 +6157,13 @@ function renderExclGrid() {
     </div>`;
     return;
   }
+  // IATA kod destinacije prikazujemo samo za skuplje termine (>= 450€ po osobi) -
+  // tada je putniku bitnije da vidi kuda tačno leti pre nego što isključi opciju.
+  const showIata = (S.selectedDate?.basePrice || 0) >= 450;
   grid.innerHTML = visible.map(d => `
     <div class="excl-tile${S.excludedIds.includes(d.id) ? ' on' : ''}" id="ex-${d.id}" onclick="togExcl(${d.id})">
       <img src="${d.imageUrl || destImgUrl(d.name)}" alt="${d.name}" loading="lazy" decoding="async" width="600" height="900">
+      ${showIata && d.airportCode ? `<div class="excl-iata">${d.airportCode}</div>` : ''}
       <div class="excl-overlay">
         <div class="excl-name">${destDisplayName(d)}</div>
       </div>
@@ -6685,11 +6700,11 @@ async function loadPrice() {
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
-    // Reveal Box - flat 25€, dodajemo na frontendu
-    if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'iznenađenje na tvojoj adresi':'surprise at your address')}</span><span>+25€</span></div>`;
+    // Reveal Box - flat 35€, dodajemo na frontendu
+    if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'iznenađenje na tvojoj adresi':'surprise at your address')}</span><span>+35€</span></div>`;
     rows.innerHTML = html;
     // Osnovna cena (bez vaučera) + reveal box
-    const revealBoxExtra = S.hasRevealBox ? 25 : 0;
+    const revealBoxExtra = S.hasRevealBox ? 35 : 0;
     const baseTotal = p.totalEurAll + revealBoxExtra;
     const vDisc = _appliedVoucher ? Math.min(_appliedVoucher.amount, baseTotal) : 0;
     const finalTotal = Math.max(0, baseTotal - vDisc);
@@ -6791,10 +6806,10 @@ function updateSummaryCard() {
     if (S.hasRevealBox)
       addons += line('🎁', 'Reveal Box ✨',
         isSr?'paket iznenađenja':'surprise package',
-        `+ 25 €`, 'add');
+        `+ 35 €`, 'add');
 
     // Vaučer popust
-    const revealBoxExtra8 = S.hasRevealBox ? 25 : 0;
+    const revealBoxExtra8 = S.hasRevealBox ? 35 : 0;
     const vDisc8 = _appliedVoucher ? Math.min(_appliedVoucher.amount, p.totalEurAll + revealBoxExtra8) : 0;
     if (vDisc8 > 0)
       addons += line('🎟️', isSr?'Poklon vaučer':'Gift voucher',
@@ -7694,7 +7709,7 @@ function removeVoucher() {
 
 function updatePriceTotalWithVoucher() {
   if (!S.lastPrice) return;
-  const base  = S.lastPrice.totalEurAll + (S.hasRevealBox ? 25 : 0);
+  const base  = S.lastPrice.totalEurAll + (S.hasRevealBox ? 35 : 0);
   const disc  = _appliedVoucher ? Math.min(_appliedVoucher.amount, base) : 0;
   const total = Math.max(0, base - disc);
   const el    = document.getElementById('priceTotal');

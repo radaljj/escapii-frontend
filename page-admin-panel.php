@@ -1496,7 +1496,7 @@ function showPriceBreakdown(id) {
   if (b.cabinSuitcaseCount > 0) rows.push(tr(`Ručni kofer × ${b.cabinSuitcaseCount}`, `+${100 * b.cabinSuitcaseCount}€`));
   if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€`));
   if (n === 1)            rows.push(tr('Doplata za solo putnika', '+60€'));
-  if (b.hasRevealBox)     rows.push(tr('📦 Reveal Box', '+25€'));
+  if (b.hasRevealBox)     rows.push(tr('📦 Reveal Box', '+35€'));
   if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${escHtml(b.appliedVoucherCode || '')})`, `−${b.voucherDiscount}€`));
   rows.push(`<tr class="total"><td><strong>UKUPNO</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
   document.getElementById('pricePopupTable').innerHTML = rows.join('');
