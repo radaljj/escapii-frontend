@@ -1685,6 +1685,10 @@
     }
 
     /* Modern Extra Toggle Cards */
+    /* Privremeno onemogucen dodatak (npr. putno osiguranje).
+       CSS + JS + backend body cine trostruku branu - kartica se ne vidi,
+       togExtra ne moze da je aktivira, i finalni payload ipak salje false. */
+    .feature-disabled { display: none !important; }
     .extras-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
     .extra-card {
       display: flex; align-items: center; gap: 16px;
@@ -3800,7 +3804,7 @@
           </div>
         </div>
         <div class="extras-grid">
-          <div class="connecting-tooltip-wrap">
+          <div class="connecting-tooltip-wrap feature-disabled" aria-hidden="true">
             <div class="extra-card" id="ec-hasInsurance" onclick="togExtra(this,'hasInsurance')">
               <div class="extra-card-icon">🛡️</div>
               <div class="extra-card-body">
@@ -3896,7 +3900,7 @@
     <div class="step-wrap" id="step6">
       <div class="card">
         <h2 data-i18n="s6.h">Isključi destinacije na koje ne želiš da te odvedemo</h2>
-        <p class="hint" data-i18n="s6.hint">Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.</p>
+        <p class="hint" data-i18n="s6.hint">Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva je besplatna, svaka sledeća se doplaćuje 10€ po osobi.</p>
 
         <div class="excl-info" id="exclInfoBlock">
           <div class="excl-info-tiers">
@@ -3906,7 +3910,7 @@
             </div>
             <div class="excl-tier" id="exclTier2">
               <div class="excl-tier-label" id="exclTier2Label" data-i18n="s6.t2.lbl">2., 3. i 4. isključivanje</div>
-              <div class="excl-tier-price high" id="exclTier2Price">+15€/os.</div>
+              <div class="excl-tier-price high" id="exclTier2Price">+10€/os.</div>
             </div>
           </div>
           <div class="excl-info-note" id="exclSavetNote" style="cursor:default;">
@@ -4501,7 +4505,7 @@ const TR = {
     'ext.seats.tip.body':'Garantujemo da cela vaša grupa sedi <strong>zajedno</strong>, u oba smera leta. Idealno za parove i grupe koji ne žele da putuju razdvojeni.',
     'ext.connecting.tip.title':'✈️ Više destinacija, više iznenađenja',
     'ext.connecting.tip.body':'Saglasnost na presedanje ti otvara više mogućnosti - destinacije do kojih nema direktnih letova postaju dostupne. <strong>Tvoje iznenađenje može biti još posebnije.</strong>',
-    's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 15€ po osobi.',
+    's6.h':'Isključi destinacije na koje ne želiš da te odvedemo', 's6.hint':'Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do 4 destinacije. Prva destinacija je besplatna, svaka sledeća se doplaćuje 10€ po osobi.',
     's6.t1.lbl':'1. isključivanje', 's6.t2.lbl':'2., 3. i 4. isključivanje',
     's6.note':'Escapii savet: ne isključuj previše destinacija.',
     'excl.blocked.title':'Isključivanja nisu dostupna',
@@ -4755,7 +4759,7 @@ const TR = {
     'ext.connecting.tip.title':'✈️ More destinations, more surprises',
     'ext.connecting.tip.body':'Accepting a connecting flight opens up more possibilities - destinations without a direct flight become available. <strong>Your surprise could be even more special.</strong>',
     's6.h':'Exclude destinations you don\'t want us to take you to',
-    's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +15€ per person.',
+    's6.hint':'Already been to Rome? Don\'t want to spend a weekend in Berlin? You can exclude up to 4 destinations. The first one is free, each additional costs +10€ per person.',
     's6.t1.lbl':'1st exclusion', 's6.t2.lbl':'2nd, 3rd & 4th exclusion',
     's6.note':'Escapii tip: don\'t exclude too many destinations.',
     'excl.blocked.title':'Exclusions not available',
@@ -5309,6 +5313,11 @@ function renderGiftAirports() {
 
 // ══════════ STATE
 // Countries loaded from backend - see loadCountries()
+
+// Privremeno onemogucen dodatak. Kartica je sakrivena preko .feature-disabled,
+// ovaj flag postavlja i togExtra kao gard i finalni payload (booking + preview)
+// - da stara sesija ili poziv iz konzole ne moze da ga aktivira.
+const INSURANCE_ENABLED = false;
 
 const FLAGS = {RS:'🇷🇸',DE:'🇩🇪',FR:'🇫🇷',ES:'🇪🇸',IT:'🇮🇹',GB:'🇬🇧',NL:'🇳🇱',SE:'🇸🇪',
                PT:'🇵🇹',AT:'🇦🇹',MT:'🇲🇹',CY:'🇨🇾',GR:'🇬🇷',HR:'🇭🇷',BA:'🇧🇦',SK:'🇸🇰',
@@ -6000,6 +6009,12 @@ function pickAccom(el, type) {
 
 // ══════════ STEP 5
 function togExtra(el, key) {
+  // Osiguranje je privremeno onemoguceno - stara sesija ili poziv iz konzole
+  // ne sme moci da ga upali. Kartica je vec sakrivena preko .feature-disabled.
+  if (key === 'hasInsurance' && !INSURANCE_ENABLED) {
+    S.hasInsurance = false;
+    return;
+  }
   S[key] = !S[key];
   el.classList.toggle('on', S[key]);
   // Kad se presedanje isključi, ukloni iz isključenih sve destinacije koje zahtevaju presedanje
@@ -6160,10 +6175,10 @@ function updateExclStep() {
     if (tier2Label) tier2Label.textContent = lang === 'en'
       ? `Exclusions ${paidFrom}-${rules.max}`
       : `${paidFrom}. do ${rules.max}. isključivanje`;
-    if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€15/person' : '+15€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
+    if (tier2Price) { tier2Price.textContent = lang==='en' ? '+€10/person' : '+10€ po osobi'; tier2Price.className = 'excl-tier-price high'; }
     if (hint)       hint.textContent = lang === 'en'
-      ? `Destinations you want to exclude (optional, max ${rules.max})${rules.firstFree ? ' - the first one is free, each additional is +15€ per person.' : ' - 15€ per person each.'}`
-      : `Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do ${rules.max} destinacije.${rules.firstFree ? ' Prva je besplatna, svaka sledeća se doplaćuje 15€ po osobi.' : ' Svaka se doplaćuje 15€ po osobi.'}`;
+      ? `Destinations you want to exclude (optional, max ${rules.max})${rules.firstFree ? ' - the first one is free, each additional is +10€ per person.' : ' - 10€ per person each.'}`
+      : `Već bio/bila u Rimu? Ne želiš vikend da provedeš u Berlinu? Imaš mogućnost da izbaciš do ${rules.max} destinacije.${rules.firstFree ? ' Prva je besplatna, svaka sledeća se doplaćuje 10€ po osobi.' : ' Svaka se doplaćuje 10€ po osobi.'}`;
     if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions - fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja - manje isključivanja znači više iznenađenja!';
   }
 
@@ -6234,7 +6249,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!') : (lang==='en' ? '+€15/person' : '+15€ po osobi');
+      const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!') : (lang==='en' ? '+€10/person' : '+10€ po osobi');
       const color = n === 1 ? '#22c55e' : '#CA8A71';
       const el = document.createElement('div');
       el.className = 'price-float';
@@ -6703,7 +6718,7 @@ async function loadPrice() {
       accommodationType: S.accommodationType,
       exclusionCount: S.excludedIds.length,
       cabinSuitcaseCount: S.cabinSuitcaseCount,
-      hasInsurance: S.hasInsurance,
+      hasInsurance: INSURANCE_ENABLED && S.hasInsurance,
       hasBreakfast: S.hasBreakfast,
       hasSeatsTogether: S.hasSeatsTogether
     });
@@ -6766,7 +6781,7 @@ function updateSummaryCard() {
     `🏨 ${accom}`,
   ];
   if (S.cabinSuitcaseCount > 0) tags.push(`🧳 ${S.cabinSuitcaseCount}× ${lang==='sr'?'kofer':'bag'}`);
-  if (S.hasInsurance) tags.push(`🛡️ ${lang==='sr'?'Osiguranje':'Insurance'}`);
+  if (INSURANCE_ENABLED && S.hasInsurance) tags.push(`🛡️ ${lang==='sr'?'Osiguranje':'Insurance'}`);
   if (S.hasBreakfast) tags.push(`🍳 ${lang==='sr'?'Doručak':'Breakfast'}`);
   if (S.hasSeatsTogether) tags.push(`💺 ${lang==='sr'?'Sedišta':'Seats'}`);
   if (S.hasConnectingFlights) tags.push(`🔄 ${lang==='sr'?'Presedanje OK':'Connecting OK'}`);
@@ -7031,7 +7046,7 @@ async function submitBooking() {
     numberOfTravelers:S.travelers,
     accommodationType:S.accommodationType,
     cabinSuitcaseCount:S.cabinSuitcaseCount,
-    hasInsurance:S.hasInsurance,
+    hasInsurance: INSURANCE_ENABLED && S.hasInsurance,
     hasBreakfast:S.hasBreakfast,
     hasSeatsTogether:S.hasSeatsTogether,
     hasConnectingFlights:S.hasConnectingFlights,
