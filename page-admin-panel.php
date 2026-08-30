@@ -2908,17 +2908,13 @@ function buildBookingDetail(b) {
       ${buildPassengersSection(b.passengers)}
       <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick="showPriceBreakdown(${b.id})">💰 detalji</button></div></div>
       <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
-      <div class="bc-field">
-        <div class="bc-label">Trošak agencije (EUR)</div>
-        <div class="bc-value" style="display:flex;align-items:center;gap:6px;">
-          <input type="number" class="bc-dest-input" id="agency-cost-${b.id}" min="0"
-            style="width:100px;text-align:center;" placeholder="—"
-            value="${b.agencyCost != null ? b.agencyCost : ''}"
-            onkeydown="if(event.key==='Enter')saveAgencyCost(${b.id})" />
-          <button class="bc-note-save" onclick="saveAgencyCost(${b.id})" title="Sačuvaj">✓</button>
-          <span id="agency-cost-status-${b.id}" style="font-size:11px;color:var(--gray);">
-            ${b.agencyCost != null ? `<span style="color:#22c55e;">naknada: ${b.totalPriceAll + (b.voucherDiscount || 0) - b.agencyCost}€</span>` : ''}
-          </span>
+      <div class="bc-field bc-field--full">
+        <div class="bc-label">Obračun sa agencijom</div>
+        <div class="bc-value" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          ${settlementBadge(b.settlementStatus)}
+          ${b.agencyInvoiceNumber ? `<span style="font-size:12px;color:#94a3b8;">Faktura: <strong>${b.agencyInvoiceNumber}</strong></span>` : ''}
+          <button class="bc-note-save" style="background:#0ea5e9;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;"
+                  onclick="openSettlementModal(${b.id})">💼 Uredi obračun</button>
         </div>
       </div>
       <div class="bc-field"><div class="bc-label">Dodaci</div><div class="bc-value">${extras}</div></div>
@@ -3261,6 +3257,9 @@ async function saveWeatherCity(id) {
   }
 }
 
+// Legacy: stari jedinstveni agencyCost endpoint. Nije vise dostupan iz UI (zamenjen
+// obračun modalom), ali funkcija ostaje za slučaj potrebe za brzim rucnim testom.
+// @deprecated
 async function saveAgencyCost(id) {
   const el  = document.getElementById(`agency-cost-${id}`);
   const msg = document.getElementById(`agency-cost-status-${id}`);
@@ -3277,12 +3276,263 @@ async function saveAgencyCost(id) {
     const updated = await r.json();
     const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
     if (idx > -1) ALL_BOOKINGS[idx].agencyCost = updated.agencyCost;
-    msg.innerHTML = updated.agencyCost != null
+    if (msg) msg.innerHTML = updated.agencyCost != null
       ? `<span style="color:#22c55e;">naknada: ${updated.totalPriceAll + (updated.voucherDiscount || 0) - updated.agencyCost}€</span>`
       : '';
   } catch {
-    msg.innerHTML = '<span style="color:var(--red);">✗ Greška</span>';
-    setTimeout(() => { msg.innerHTML = ''; }, 2000);
+    if (msg) msg.innerHTML = '<span style="color:var(--red);">✗ Greška</span>';
+  }
+}
+
+// ══ Obračun sa agencijom (Faza 2) ═════════════════════════════════════════
+
+function settlementBadge(status) {
+  const map = {
+    NEEDS_COSTS:       { txt: '⏳ Nedostaju troškovi',   bg: '#78350f', fg: '#fed7aa' },
+    READY_FOR_INVOICE: { txt: '✓ Spremno za fakturu',    bg: '#065f46', fg: '#a7f3d0' },
+    INVOICED:          { txt: '📤 Fakturisano',           bg: '#1e40af', fg: '#bfdbfe' },
+    PAID:              { txt: '💰 Plaćeno',               bg: '#166534', fg: '#bbf7d0' }
+  };
+  const s = map[status] || { txt: status || '—', bg: '#374151', fg: '#e5e7eb' };
+  return `<span style="background:${s.bg};color:${s.fg};padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;">${s.txt}</span>`;
+}
+
+// Mapiranje ItemType → labela + koje sub-kolone imaju cost inputa. Backend je
+// jedini izvor logike (calculator) - ovde samo grupisanje polja iz preview-a.
+const ITEM_LABELS = {
+  BASE_PACKAGE:           'Osnovni paket (let + hotel)',
+  ACCOMMODATION_UPGRADE:  'Superior/Premium',
+  BREAKFAST:              'Doručak',
+  SEATS_TOGETHER:         'Sedišta zajedno',
+  CABIN_SUITCASE:         'Kabinski kofer',
+  INSURANCE:              'Putno osiguranje',
+  SOLO_SURCHARGE:         'Doplata za solo putnika',
+  DESTINATION_EXCLUSIONS: 'Isključivanja destinacija',
+  REVEAL_BOX:             'Reveal Box'
+};
+
+async function openSettlementModal(bookingId) {
+  // 1. Ucitaj preview
+  let preview;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-settlement-preview`, {
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju obračuna');
+    preview = await r.json();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+    return;
+  }
+
+  const isLocked = preview.settlementStatus === 'INVOICED' || preview.settlementStatus === 'PAID';
+  const html = renderSettlementModal(preview, isLocked);
+
+  const buttons = {};
+  if (!isLocked) {
+    buttons.confirmButtonText = '💾 Sačuvaj troškove';
+    buttons.showConfirmButton = true;
+  }
+  if (preview.readyForInvoice && !isLocked) {
+    buttons.showDenyButton = true;
+    buttons.denyButtonText = '📤 Generiši fakturu';
+    buttons.denyButtonColor = '#059669';
+  }
+  if (preview.settlementStatus === 'INVOICED') {
+    buttons.showDenyButton = true;
+    buttons.denyButtonText = '💰 Označi kao plaćeno';
+    buttons.denyButtonColor = '#16a34a';
+  }
+  if (preview.settlementStatus === 'PAID') {
+    buttons.showDenyButton = true;
+    buttons.denyButtonText = '↩ Rollback (nije plaćeno)';
+    buttons.denyButtonColor = '#dc2626';
+  }
+
+  const result = await Swal.fire({
+    title: `Obračun agencije — ${preview.bookingRef}`,
+    html,
+    background: '#0b1929',
+    color: '#fff',
+    width: 900,
+    showCancelButton: true,
+    cancelButtonText: 'Zatvori',
+    focusConfirm: false,
+    ...buttons
+  });
+
+  if (result.isConfirmed && !isLocked) {
+    await saveSettlementCosts(bookingId, preview);
+  } else if (result.isDenied) {
+    if (preview.readyForInvoice && !isLocked) {
+      await finalizeSettlement(bookingId);
+    } else if (preview.settlementStatus === 'INVOICED') {
+      await patchSettlementStatus(bookingId, 'PAID');
+    } else if (preview.settlementStatus === 'PAID') {
+      await patchSettlementStatus(bookingId, 'INVOICED');
+    }
+  }
+}
+
+function renderSettlementModal(p, isLocked) {
+  const money = v => (v == null ? '—' : `${Number(v).toFixed(2)} €`);
+  const rows = p.lineItems.map(li => {
+    const label = ITEM_LABELS[li.itemType] || li.itemType;
+    const isShared = li.allocationType === 'MARGIN_50_50';
+    let costCell;
+    if (!isShared) {
+      costCell = `<span style="color:#94a3b8;font-size:11px;">100% Escapii</span>`;
+    } else if (isLocked) {
+      costCell = `<span style="color:#e5e7eb;">${money(li.agencyCost)}</span>`;
+    } else if (li.itemType === 'BASE_PACKAGE') {
+      // BASE_PACKAGE ima dva podunosa (flight + hotel)
+      costCell = `
+        <div style="display:flex;gap:4px;flex-direction:column;">
+          <input type="number" step="0.01" min="0" id="cost-flight" placeholder="Avion €"
+                 style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
+          <input type="number" step="0.01" min="0" id="cost-hotel" placeholder="Hotel €"
+                 style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
+        </div>`;
+    } else {
+      const inputId = `cost-${li.itemType}`;
+      const current = li.agencyCost != null ? li.agencyCost : '';
+      costCell = `<input type="number" step="0.01" min="0" id="${inputId}" value="${current}" placeholder="—"
+                    style="width:100px;padding:4px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />`;
+    }
+    const statusIcon = li.status === 'MISSING_COST' ? '⚠️'
+                     : li.status === 'NEGATIVE_MARGIN' ? '❌'
+                     : '';
+    return `
+      <tr>
+        <td style="padding:6px;">${label} ${statusIcon}</td>
+        <td style="padding:6px;text-align:right;color:#a7f3d0;">${money(li.customerTotal)}</td>
+        <td style="padding:6px;text-align:right;">${costCell}</td>
+        <td style="padding:6px;text-align:right;color:${li.margin != null && Number(li.margin) < 0 ? '#f87171' : '#e5e7eb'};">${money(li.margin)}</td>
+        <td style="padding:6px;text-align:right;color:#0ea5e9;font-weight:700;">${money(li.escapiiShare)}</td>
+        <td style="padding:6px;text-align:right;color:#94a3b8;">${money(li.agencyShare)}</td>
+      </tr>`;
+  }).join('');
+
+  const warnings = (p.validationErrors && p.validationErrors.length)
+    ? `<div style="background:#7f1d1d;color:#fecaca;padding:8px 10px;border-radius:6px;margin-top:10px;font-size:12px;text-align:left;">
+         ${p.validationErrors.map(w => `⚠️ ${w}`).join('<br>')}
+       </div>` : '';
+
+  const whoPaysIcon = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? '→'
+                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? '←' : '·';
+  const whoPaysText = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? 'Agencija plaća Escapii-ju'
+                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? 'Escapii plaća agenciji'
+                    : 'Nema transfera';
+
+  return `
+    <div style="text-align:left;font-size:13px;color:#e5e7eb;">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+        ${settlementBadge(p.settlementStatus)}
+        <span style="color:#94a3b8;font-size:12px;">${p.agencyName || '—'}</span>
+        ${p.agencyInvoiceNumber ? `<span style="color:#94a3b8;font-size:12px;">| ${p.agencyInvoiceNumber}</span>` : ''}
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="background:#1e293b;color:#94a3b8;">
+            <th style="padding:6px;text-align:left;">Stavka</th>
+            <th style="padding:6px;text-align:right;">Kupac platio</th>
+            <th style="padding:6px;text-align:right;">Trošak agencije</th>
+            <th style="padding:6px;text-align:right;">Marža</th>
+            <th style="padding:6px;text-align:right;">Escapii</th>
+            <th style="padding:6px;text-align:right;">Agencija</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div style="margin-top:12px;padding:10px;background:#0f172a;border-radius:6px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
+          <div>Bruto vrednost rezervacije:</div>       <div style="text-align:right;font-weight:700;">${money(p.grossBookingValue)}</div>
+          <div>· plaćeno kešom:</div>                   <div style="text-align:right;color:#94a3b8;">${money(p.customerCashAmount)}</div>
+          <div>· plaćeno vaučerom:</div>                <div style="text-align:right;color:#fbbf24;">${money(p.voucherAmount)}</div>
+          <div style="margin-top:6px;">Escapii zarada (marža + Escapii-only):</div>
+          <div style="text-align:right;color:#0ea5e9;font-weight:700;margin-top:6px;">${money(p.escapiiEarnings)}</div>
+          <div>Agencija zadržava:</div>                 <div style="text-align:right;color:#a7f3d0;font-weight:700;">${money(p.agencyRetainedAmount)}</div>
+          <div style="margin-top:6px;border-top:1px solid #334155;padding-top:6px;">Neto transfer:</div>
+          <div style="text-align:right;margin-top:6px;border-top:1px solid #334155;padding-top:6px;color:#fbbf24;font-weight:800;font-size:14px;">
+            ${money(p.netSettlement.replace ? p.netSettlement : Math.abs(Number(p.netSettlement)))} ${whoPaysIcon}
+          </div>
+          <div style="grid-column:1/-1;text-align:center;color:#94a3b8;font-size:11px;margin-top:2px;">${whoPaysText}</div>
+        </div>
+      </div>
+      ${warnings}
+    </div>
+  `;
+}
+
+async function saveSettlementCosts(bookingId, preview) {
+  // Popuni body iz inputa modala (jos uvek u DOM-u dok Swal ne zatvori)
+  const body = {};
+  const flight = document.getElementById('cost-flight');
+  const hotel  = document.getElementById('cost-hotel');
+  if (flight && hotel && (flight.value || hotel.value)) {
+    body.flightAgencyCost = flight.value ? parseFloat(flight.value) : null;
+    body.hotelAgencyCost  = hotel.value ? parseFloat(hotel.value) : null;
+  }
+  const map = {
+    ACCOMMODATION_UPGRADE:  'accommodationUpgradeAgencyCost',
+    BREAKFAST:              'breakfastAgencyCost',
+    SEATS_TOGETHER:         'seatsTogetherAgencyCost',
+    CABIN_SUITCASE:         'cabinSuitcaseAgencyCost',
+    INSURANCE:              'insuranceAgencyCost'
+  };
+  for (const [type, field] of Object.entries(map)) {
+    const el = document.getElementById(`cost-${type}`);
+    if (el && el.value !== '') body[field] = parseFloat(el.value);
+  }
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-costs`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri čuvanju troškova');
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Troškovi sačuvani', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+    await loadBookings();
+    // Reopen modal sa svezim podacima
+    openSettlementModal(bookingId);
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function finalizeSettlement(bookingId) {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Generisati fakturu?',
+    text: 'Faktura zaključava troškove i dobija broj ESC-AG-YYYY-NNNN. Storno zahteva rucnu korekciju.',
+    icon: 'question', showCancelButton: true, confirmButtonText: 'Da, finalizuj',
+    background:'#0b1929', color:'#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-invoice`, {
+      method: 'POST', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri finalizaciji');
+    const upd = await r.json();
+    Swal.fire({ icon:'success', title:'Faktura generisana', text: upd.lineItems ? '' : '',
+      html: `Broj fakture: <strong>${upd.settlementStatus === 'INVOICED' ? 'INVOICED' : upd.settlementStatus}</strong>`,
+      background:'#0b1929', color:'#fff' });
+    await loadBookings();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function patchSettlementStatus(bookingId, newStatus) {
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/settlement-status?value=${newStatus}`, {
+      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri promeni statusa');
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:`Status → ${newStatus}`, showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+    await loadBookings();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }
 }
 
@@ -4427,66 +4677,141 @@ function renderAgencies() {
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
+// Faza 2: novi dashboard - jedan red = jedna rezervacija (per-booking faktura).
+// Grupise po agenciji za pregled, ali svaka rezervacija ima svoj settlement
+// status i po potrebi svoj broj fakture (ESC-AG-YYYY-NNNN).
+let _earnFilter = { agencyId: '', from: '', to: '', status: '' };
+
 async function loadEarnings() {
   const el = document.getElementById('earningsDashboard');
   try {
-    const r = await fetch(`${API}/api/admin/agencies/earnings`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
-    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju zarade');
+    const qs = new URLSearchParams();
+    if (_earnFilter.agencyId) qs.set('agencyId', _earnFilter.agencyId);
+    if (_earnFilter.from)     qs.set('from', _earnFilter.from);
+    if (_earnFilter.to)       qs.set('to', _earnFilter.to);
+    if (_earnFilter.status)   qs.set('status', _earnFilter.status);
+    const r = await fetch(`${API}/api/admin/agencies/settlements/dashboard?${qs}`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju obračuna');
     const data = await r.json();
     renderEarnings(data);
-  } catch(e) { el.innerHTML = '<div class="empty-state">Greška pri učitavanju zarade.</div>'; }
+  } catch(e) { el.innerHTML = '<div class="empty-state">Greška pri učitavanju obračuna.</div>'; }
 }
 
-function renderEarnings(data) {
+function renderEarnings(rows) {
   const el = document.getElementById('earningsDashboard');
-  if (!data.length) { el.innerHTML = '<div class="empty-state">Nema podataka — potvrdite rezervacije i unesite trošak agencije u detalju rezervacije.</div>'; return; }
+  const money = v => (v == null ? '—' : `${Number(v).toFixed(2)} €`);
 
-  const grandTotal = data.reduce((s, a) => ({ rev: s.rev + a.totalRevenue, cost: s.cost + a.totalCost, profit: s.profit + a.totalProfit, travelers: s.travelers + a.totalTravelers, voucher: s.voucher + (a.totalVoucher || 0) }), { rev:0, cost:0, profit:0, travelers:0, voucher:0 });
+  // Agregati preko svih rezervacija (posle filtera)
+  const totals = rows.reduce((s, r) => ({
+    gross: s.gross + Number(r.grossBookingValue || 0),
+    voucher: s.voucher + Number(r.voucherAmount || 0),
+    escapii: s.escapii + Number(r.escapiiEarnings || 0),
+    agency: s.agency + Number(r.agencyRetainedAmount || 0),
+    net: s.net + Number(r.netSettlement || 0),
+    needsCosts: s.needsCosts + (r.settlementStatus === 'NEEDS_COSTS' ? 1 : 0),
+    invoiced: s.invoiced + (r.settlementStatus === 'INVOICED' ? 1 : 0),
+    paid: s.paid + (r.settlementStatus === 'PAID' ? 1 : 0)
+  }), { gross:0, voucher:0, escapii:0, agency:0, net:0, needsCosts:0, invoiced:0, paid:0 });
+
+  const agenciesOptions = (_agencies || []).map(a => `<option value="${a.id}" ${String(_earnFilter.agencyId) === String(a.id) ? 'selected' : ''}>${esc(a.name)}</option>`).join('');
 
   let html = `
+    <div class="card" style="margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;font-size:12px;">
+        <label>Agencija<br><select id="ef-agency" style="width:100%;padding:6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;">
+          <option value="">— sve —</option>${agenciesOptions}
+        </select></label>
+        <label>Datum polaska od<br><input type="date" id="ef-from" value="${_earnFilter.from || ''}" style="width:100%;padding:6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;"></label>
+        <label>Datum polaska do<br><input type="date" id="ef-to" value="${_earnFilter.to || ''}" style="width:100%;padding:6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;"></label>
+        <label>Status<br><select id="ef-status" style="width:100%;padding:6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;">
+          <option value="">— svi —</option>
+          <option value="NEEDS_COSTS" ${_earnFilter.status === 'NEEDS_COSTS' ? 'selected' : ''}>Nedostaju troškovi</option>
+          <option value="READY_FOR_INVOICE" ${_earnFilter.status === 'READY_FOR_INVOICE' ? 'selected' : ''}>Spremno za fakturu</option>
+          <option value="INVOICED" ${_earnFilter.status === 'INVOICED' ? 'selected' : ''}>Fakturisano</option>
+          <option value="PAID" ${_earnFilter.status === 'PAID' ? 'selected' : ''}>Plaćeno</option>
+        </select></label>
+        <div style="display:flex;align-items:flex-end;gap:6px;">
+          <button onclick="applyEarnFilter()" style="padding:6px 12px;background:#0ea5e9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Filtriraj</button>
+          <button onclick="clearEarnFilter()" style="padding:6px 12px;background:#374151;color:#e5e7eb;border:none;border-radius:4px;cursor:pointer;">Reset</button>
+        </div>
+      </div>
+    </div>
     <div class="booking-stats" style="margin-bottom:20px;">
-      <div class="bs-card bs-confirmed"><div class="bs-num">${grandTotal.profit}€</div><div class="bs-lbl">Escapii naknada</div></div>
-      <div class="bs-card bs-pending"><div class="bs-num">${grandTotal.rev}€</div><div class="bs-lbl">Promet putovanja</div></div>
-      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#94a3b8;">${grandTotal.cost}€</div><div class="bs-lbl">Iznos agencije</div></div>
-      <div class="bs-card" style="border-left-color:#a5b4fc;"><div class="bs-num" style="color:#a5b4fc;">${grandTotal.travelers}</div><div class="bs-lbl">Putnika ukupno</div></div>
-      ${grandTotal.voucher > 0 ? `<div class="bs-card" style="border-left-color:#f59e0b;"><div class="bs-num" style="color:#fbbf24;">${grandTotal.voucher}€</div><div class="bs-lbl">Vaučeri (u prometu)</div></div>` : ''}
+      <div class="bs-card bs-confirmed"><div class="bs-num">${money(totals.escapii)}</div><div class="bs-lbl">Escapii ukupno zaradio</div></div>
+      <div class="bs-card bs-pending"><div class="bs-num">${money(totals.gross)}</div><div class="bs-lbl">Bruto promet</div></div>
+      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#a7f3d0;">${money(totals.agency)}</div><div class="bs-lbl">Agencije ukupno</div></div>
+      ${totals.voucher > 0 ? `<div class="bs-card" style="border-left-color:#f59e0b;"><div class="bs-num" style="color:#fbbf24;">${money(totals.voucher)}</div><div class="bs-lbl">Vaučeri (držimo mi)</div></div>` : ''}
+      <div class="bs-card" style="border-left-color:#3b82f6;"><div class="bs-num" style="color:#93c5fd;">${totals.invoiced}</div><div class="bs-lbl">Fakturisano</div></div>
+      <div class="bs-card" style="border-left-color:#22c55e;"><div class="bs-num" style="color:#86efac;">${totals.paid}</div><div class="bs-lbl">Plaćeno</div></div>
+      ${totals.needsCosts > 0 ? `<div class="bs-card" style="border-left-color:#f97316;"><div class="bs-num" style="color:#fdba74;">${totals.needsCosts}</div><div class="bs-lbl">Čeka troškove</div></div>` : ''}
     </div>`;
 
-  data.forEach(a => {
+  if (!rows.length) {
+    html += `<div class="empty-state">Nema rezervacija u odabranom filteru.</div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  // Grupisi po agenciji radi preglednosti
+  const byAgency = {};
+  rows.forEach(r => {
+    const key = r.agencyName || '(bez agencije)';
+    (byAgency[key] = byAgency[key] || []).push(r);
+  });
+
+  Object.entries(byAgency).forEach(([name, agencyRows]) => {
+    const escapiiSum = agencyRows.reduce((s, r) => s + Number(r.escapiiEarnings || 0), 0);
+    const netSum = agencyRows.reduce((s, r) => s + Number(r.netSettlement || 0), 0);
     html += `
-    <div class="card" style="margin-bottom:14px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <div>
-          <strong style="font-size:15px;">${esc(a.agencyName)}</strong>
-          <span style="color:#94a3b8;font-size:13px;margin-left:8px;">${a.totalTerms} ${a.totalTerms === 1 ? 'termin' : 'termina'} · ${a.totalTravelers} putnika</span>
+      <div class="card" style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div>
+            <strong style="font-size:15px;">${esc(name)}</strong>
+            <span style="color:#94a3b8;font-size:13px;margin-left:8px;">${agencyRows.length} ${agencyRows.length === 1 ? 'rezervacija' : 'rezervacija'}</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:16px;font-weight:800;color:#0ea5e9;">${money(escapiiSum)}</div>
+            <div style="font-size:11px;color:#94a3b8;">Escapii zaradio · net ${money(netSum)}</div>
+          </div>
         </div>
-        <div style="text-align:right;">
-          <div style="font-size:18px;font-weight:800;color:${a.totalProfit >= 0 ? '#22c55e' : '#ef4444'};">${a.totalProfit}€</div>
-          <div style="font-size:11px;color:#94a3b8;">Escapii naknada</div>
+        <div class="table-wrap">
+          <table style="font-size:12px;">
+            <thead><tr>
+              <th>Rezervacija</th><th>Datum polaska</th><th>Bruto</th><th>Vaučer</th><th>Escapii</th><th>Agencija</th><th>Net transfer</th><th>Status</th><th>Faktura</th><th></th>
+            </tr></thead>
+            <tbody>${agencyRows.map(r => `
+              <tr>
+                <td><strong>${r.bookingRef}</strong><br><span style="color:#94a3b8;font-size:10px;">${esc(r.customerName || '')} · ${r.numberOfTravelers || 0} put.</span></td>
+                <td>${formatDate(r.departureDate)}</td>
+                <td>${money(r.grossBookingValue)}</td>
+                <td style="color:#fbbf24;">${r.voucherAmount > 0 ? money(r.voucherAmount) : '—'}</td>
+                <td style="color:#0ea5e9;font-weight:700;">${money(r.escapiiEarnings)}</td>
+                <td style="color:#94a3b8;">${money(r.agencyRetainedAmount)}</td>
+                <td style="color:${Number(r.netSettlement) >= 0 ? '#22c55e' : '#f87171'};font-weight:700;">${money(r.netSettlement)}</td>
+                <td>${settlementBadge(r.settlementStatus)}</td>
+                <td style="font-size:11px;color:#94a3b8;">${r.agencyInvoiceNumber || '—'}</td>
+                <td><button onclick="openSettlementModal(${r.bookingId})" style="padding:4px 8px;background:#0ea5e9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Uredi</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
         </div>
-      </div>
-      <div class="table-wrap">
-        <table style="font-size:13px;">
-          <thead><tr>
-            <th>Termin</th><th>Aerodrom</th><th>Putnika</th><th>Promet</th><th>Agenciji</th><th>Naknada</th><th>Vaučer</th>
-          </tr></thead>
-          <tbody>${a.terms.map(t => `
-            <tr>
-              <td>${formatDate(t.departureDate)} → ${formatDate(t.returnDate)}</td>
-              <td><span class="badge badge-accent">${t.departureAirport}</span></td>
-              <td>${t.travelers}</td>
-              <td>${t.revenue}€</td>
-              <td style="color:#94a3b8;">${t.cost}€</td>
-              <td style="font-weight:700;color:${t.profit >= 0 ? '#22c55e' : '#ef4444'};">${t.profit}€</td>
-              <td style="color:#fbbf24;">${t.voucher ? t.voucher + '€' : '—'}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>`;
+      </div>`;
   });
 
   el.innerHTML = html;
+}
+
+function applyEarnFilter() {
+  _earnFilter.agencyId = document.getElementById('ef-agency').value;
+  _earnFilter.from     = document.getElementById('ef-from').value;
+  _earnFilter.to       = document.getElementById('ef-to').value;
+  _earnFilter.status   = document.getElementById('ef-status').value;
+  loadEarnings();
+}
+
+function clearEarnFilter() {
+  _earnFilter = { agencyId: '', from: '', to: '', status: '' };
+  loadEarnings();
 }
 
 function editAgency(id) {
