@@ -881,6 +881,57 @@ tbody td  { padding: 11px 12px; }
   .bt-detail-card { margin: 4px; padding: 12px; }
 }
 
+/* ── Settlement dashboard responsive ──────────────────────────────────── */
+.earn-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  font-size: 12px;
+}
+.earn-filters label,
+.earn-filters select,
+.earn-filters input { min-width: 0; }
+.earn-filter-btns {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+@media (max-width: 768px) {
+  .earn-filters { grid-template-columns: 1fr 1fr; }
+  .earn-filter-btns { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .earn-filters { grid-template-columns: 1fr; }
+}
+
+/* Settlement agencija header */
+.earn-agency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+@media (max-width: 560px) {
+  .earn-agency-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .earn-agency-header > div:last-child { text-align: left; }
+}
+
+/* Settlement tabela — sakrij manje bitne kolone na mobilnom */
+@media (max-width: 768px) {
+  .earn-table th:nth-child(4),
+  .earn-table td:nth-child(4),
+  .earn-table th:nth-child(9),
+  .earn-table td:nth-child(9) { display: none; }
+}
+@media (max-width: 560px) {
+  .earn-table th:nth-child(6),
+  .earn-table td:nth-child(6),
+  .earn-table th:nth-child(7),
+  .earn-table td:nth-child(7) { display: none; }
+  .earn-table { font-size: 11px; }
+  .earn-table th, .earn-table td { padding: 8px 6px; }
+}
+
 </style>
 </head>
 <body>
@@ -4815,7 +4866,7 @@ function renderEarnings(rows, summary) {
 
   let html = `
     <div class="card" style="margin-bottom:14px;">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;font-size:12px;">
+      <div class="earn-filters">
         <label>Agencija<br><select id="ef-agency" style="width:100%;padding:6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;">
           <option value="">— sve —</option>${agenciesOptions}
         </select></label>
@@ -4829,7 +4880,7 @@ function renderEarnings(rows, summary) {
           <option value="PAID" ${_earnFilter.status === 'PAID' ? 'selected' : ''}>Plaćeno</option>
           <option value="VOIDED" ${_earnFilter.status === 'VOIDED' ? 'selected' : ''}>Poništeno</option>
         </select></label>
-        <div style="display:flex;align-items:flex-end;gap:6px;">
+        <div class="earn-filter-btns">
           <button onclick="applyEarnFilter()" style="padding:6px 12px;background:#0ea5e9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Filtriraj</button>
           <button onclick="clearEarnFilter()" style="padding:6px 12px;background:#374151;color:#e5e7eb;border:none;border-radius:4px;cursor:pointer;">Reset</button>
         </div>
@@ -4873,7 +4924,7 @@ function renderEarnings(rows, summary) {
     const netSum = agencyRows.reduce((s, r) => s + Number(r.netSettlement || 0), 0);
     html += `
       <div class="card" style="margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="earn-agency-header">
           <div>
             <strong style="font-size:15px;">${esc(name)}</strong>
             <span style="color:#94a3b8;font-size:13px;margin-left:8px;">${agencyRows.length} ${agencyRows.length === 1 ? 'rezervacija' : 'rezervacija'}</span>
@@ -4884,7 +4935,7 @@ function renderEarnings(rows, summary) {
           </div>
         </div>
         <div class="table-wrap">
-          <table style="font-size:12px;">
+          <table class="earn-table" style="font-size:12px;">
             <thead><tr>
               <th>Rezervacija</th><th>Datum polaska</th><th>Bruto</th><th>Vaučer</th><th>Escapii</th><th>Agencija</th><th>Net transfer</th><th>Status</th><th>Faktura</th><th></th>
             </tr></thead>
