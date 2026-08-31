@@ -3826,7 +3826,7 @@
                 <div class="extra-card-title" data-i18n="ext.bfst">Doručak u hotelu</div>
                 <div class="extra-card-sub" data-i18n="ext.bfst.d">Doručak u hotelu uključen za svaki dan boravka.</div>
               </div>
-              <div class="extra-card-price" data-i18n="bfst.price">+20€ po osobi, po noći</div>
+              <div class="extra-card-price" data-i18n="bfst.price">+12€ po osobi, po noći</div>
               <div class="extra-toggle"></div>
             </div>
             <div class="connecting-tooltip">
@@ -4579,7 +4579,7 @@ const TR = {
     's3.nodates.btn':'Obavesti me',
     'per.p':' po osobi',
     'accom.sup.badge':'+100€ po osobi',
-    'ins.price':'+12€ po osobi', 'bfst.price':'+20€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
+    'ins.price':'+12€ po osobi', 'bfst.price':'+12€ po osobi, po noći', 'seats.price':'+12€ po osobi, po smeru',
     'waitlist.ph':'tvoj@email.com',
     'waitlist.already':'📬 Već si na listi - javiće ti se čim se otvore termini.',
     'waitlist.ok':'✓ Dodali smo te! Dobićeš email čim se otvore novi termini.',
@@ -4833,7 +4833,7 @@ const TR = {
     's3.nodates.btn':'Notify me',
     'per.p':' per person',
     'accom.sup.badge':'+100€ per person',
-    'ins.price':'+12€ per person', 'bfst.price':'+20€ per person, per night', 'seats.price':'+12€ per person, per way',
+    'ins.price':'+12€ per person', 'bfst.price':'+12€ per person, per night', 'seats.price':'+12€ per person, per way',
     'waitlist.ph':'your@email.com',
     'waitlist.already':'📬 You\'re already on the list - we\'ll notify you when dates open up.',
     'waitlist.ok':'✓ Done! You\'ll get an email as soon as new dates open up.',
@@ -6735,7 +6735,7 @@ async function loadPrice() {
     if(p.accommodationExtraPerPerson>0) html+=`<div class="pr-row"><span><span>${t('pr.accom')}</span>${ppSub(p.accommodationExtraPerPerson)}</span><span>+${p.accommodationExtraPerPerson * p.numberOfTravelers}€</span></div>`;
     if(p.cabinSuitcaseTotal>0) html+=`<div class="pr-row"><span><span>${t('pr.suit')} (${p.cabinSuitcaseCount}×)</span>${sub(isSr?'100€ po koferu':'100€ per bag')}</span><span>+${p.cabinSuitcaseTotal}€</span></div>`;
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span><span>${t('pr.ins')}</span>${ppSub(p.insurancePerPerson)}</span><span>+${p.insurancePerPerson * p.numberOfTravelers}€</span></div>`;
-    if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstSub=isSr?`20€ po osobi/noći`:`20€/pp/night`; const bfstPers=isSr?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span>${sub(bfstSub)}</span><span>+${bfstTotal}€</span></div>`; }
+    if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstUnit=Math.round(p.breakfastPerPerson/p.numberOfNights); const bfstSub=isSr?`${bfstUnit}€ po osobi/noći`:`${bfstUnit}€/pp/night`; const bfstPers=isSr?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span>${sub(bfstSub)}</span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;

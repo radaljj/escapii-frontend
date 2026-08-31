@@ -1488,7 +1488,7 @@ function showPriceBreakdown(id) {
   // ── Po osobi (množi se brojem putnika) ──
   rows.push(tr('Osnovna cena', `${b.basePricePerPerson}€/os`));
   if (b.accommodationType === 'SUPERIOR') rows.push(tr('Superior hotel', '+100€/os'));
-  if (b.hasBreakfast)     rows.push(tr(`Doručak${nights ? ' ('+nights+' noći)' : ''}`, `+${20 * (nights || 0)}€/os`));
+  if (b.hasBreakfast)     rows.push(tr(`Doručak${nights ? ' ('+nights+' noći)' : ''}`, `+${12 * (nights || 0)}€/os`));
   if (b.hasInsurance)     rows.push(tr('Osiguranje', '+12€/os'));
   if (b.hasSeatsTogether) rows.push(tr('Sedišta zajedno', '+24€/os'));
   rows.push(`<tr class="subtotal"><td>Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}</td><td>${b.totalPricePerPerson * n}€</td></tr>`);
