@@ -3385,13 +3385,28 @@ async function openSettlementModal(bookingId) {
   }
 }
 
-/** Pokupi troskove iz modal inputa DOK JOS POSTOJE. Poziva se iz preConfirm/preDeny. */
+/** Pokupi troskove iz modal inputa DOK JOS POSTOJE. Poziva se iz preConfirm/preDeny.
+ *  Input koji je bio popunjen (data-had-value="1") a admin ga je ispraznio salje se
+ *  kao clear[ItemType] - inace backend tretira null kao "ne diraj postojeci trosak"
+ *  i brisanje sa fronta ne bi imalo efekta. */
 function collectCostsFromModal() {
   const body = {};
+  const clear = [];
+
+  // BASE_PACKAGE: dva podunosa (flight + hotel). Ako je bar jedan bio popunjen a
+  // sad su oba prazna, saljemo clear BASE_PACKAGE (brise oba na backendu).
   const flight = document.getElementById('cost-flight');
   const hotel  = document.getElementById('cost-hotel');
-  if (flight && (flight.value !== '')) body.flightAgencyCost = parseFloat(flight.value);
-  if (hotel  && (hotel.value  !== '')) body.hotelAgencyCost  = parseFloat(hotel.value);
+  const flightHad = flight && flight.dataset.hadValue === '1';
+  const hotelHad  = hotel  && hotel.dataset.hadValue  === '1';
+  const flightEmpty = !flight || flight.value === '';
+  const hotelEmpty  = !hotel  || hotel.value  === '';
+  if (flight && !flightEmpty) body.flightAgencyCost = parseFloat(flight.value);
+  if (hotel  && !hotelEmpty)  body.hotelAgencyCost  = parseFloat(hotel.value);
+  if ((flightHad || hotelHad) && flightEmpty && hotelEmpty) {
+    clear.push('BASE_PACKAGE');
+  }
+
   const map = {
     ACCOMMODATION_UPGRADE:  'accommodationUpgradeAgencyCost',
     BREAKFAST:              'breakfastAgencyCost',
@@ -3401,8 +3416,15 @@ function collectCostsFromModal() {
   };
   for (const [type, field] of Object.entries(map)) {
     const el = document.getElementById(`cost-${type}`);
-    if (el && el.value !== '') body[field] = parseFloat(el.value);
+    if (!el) continue;
+    if (el.value !== '') {
+      body[field] = parseFloat(el.value);
+    } else if (el.dataset.hadValue === '1') {
+      clear.push(type);
+    }
   }
+
+  if (clear.length) body.clear = clear;
   return body;
 }
 
@@ -3421,17 +3443,23 @@ function renderSettlementModal(p, isLocked) {
       // da admin vidi vec unete vrednosti pri drugom otvaranju.
       const fVal = li.flightAgencyCost != null ? li.flightAgencyCost : '';
       const hVal = li.hotelAgencyCost  != null ? li.hotelAgencyCost  : '';
+      // data-had-value hvata "bilo je popunjeno na render-u" da bi collect
+      // mogao razlikovati "admin nikad nije unosio" (nema clear) od "admin je
+      // obrisao" (salje clear na backend).
+      const fHad = li.flightAgencyCost != null ? '1' : '0';
+      const hHad = li.hotelAgencyCost  != null ? '1' : '0';
       costCell = `
         <div style="display:flex;gap:4px;flex-direction:column;">
-          <input type="number" step="0.01" min="0" id="cost-flight" value="${fVal}" placeholder="Avion €"
+          <input type="number" step="0.01" min="0" id="cost-flight" value="${fVal}" placeholder="Avion €" data-had-value="${fHad}"
                  style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
-          <input type="number" step="0.01" min="0" id="cost-hotel" value="${hVal}" placeholder="Hotel €"
+          <input type="number" step="0.01" min="0" id="cost-hotel" value="${hVal}" placeholder="Hotel €" data-had-value="${hHad}"
                  style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
         </div>`;
     } else {
       const inputId = `cost-${li.itemType}`;
       const current = li.agencyCost != null ? li.agencyCost : '';
-      costCell = `<input type="number" step="0.01" min="0" id="${inputId}" value="${current}" placeholder="—"
+      const had = li.agencyCost != null ? '1' : '0';
+      costCell = `<input type="number" step="0.01" min="0" id="${inputId}" value="${current}" placeholder="—" data-had-value="${had}"
                     style="width:100px;padding:4px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />`;
     }
     const statusIcon = li.status === 'MISSING_COST' ? '⚠️'
