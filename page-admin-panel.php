@@ -3257,33 +3257,6 @@ async function saveWeatherCity(id) {
   }
 }
 
-// Legacy: stari jedinstveni agencyCost endpoint. Nije vise dostupan iz UI (zamenjen
-// obračun modalom), ali funkcija ostaje za slučaj potrebe za brzim rucnim testom.
-// @deprecated
-async function saveAgencyCost(id) {
-  const el  = document.getElementById(`agency-cost-${id}`);
-  const msg = document.getElementById(`agency-cost-status-${id}`);
-  if (!el) return;
-  const val = el.value.trim();
-  const cost = val ? parseInt(val) : null;
-  try {
-    const r = await fetch(`${API}/api/admin/bookings/${id}/agency-cost`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify({ agencyCost: cost })
-    });
-    if (!r.ok) throw await apiError(r);
-    const updated = await r.json();
-    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
-    if (idx > -1) ALL_BOOKINGS[idx].agencyCost = updated.agencyCost;
-    if (msg) msg.innerHTML = updated.agencyCost != null
-      ? `<span style="color:#22c55e;">naknada: ${updated.totalPriceAll + (updated.voucherDiscount || 0) - updated.agencyCost}€</span>`
-      : '';
-  } catch {
-    if (msg) msg.innerHTML = '<span style="color:var(--red);">✗ Greška</span>';
-  }
-}
-
 // ══ Obračun sa agencijom (Faza 2) ═════════════════════════════════════════
 
 function settlementBadge(status) {
