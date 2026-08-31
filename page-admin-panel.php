@@ -3291,7 +3291,8 @@ function settlementBadge(status) {
     NEEDS_COSTS:       { txt: '⏳ Nedostaju troškovi',   bg: '#78350f', fg: '#fed7aa' },
     READY_FOR_INVOICE: { txt: '✓ Spremno za fakturu',    bg: '#065f46', fg: '#a7f3d0' },
     INVOICED:          { txt: '📤 Fakturisano',           bg: '#1e40af', fg: '#bfdbfe' },
-    PAID:              { txt: '💰 Plaćeno',               bg: '#166534', fg: '#bbf7d0' }
+    PAID:              { txt: '💰 Plaćeno',               bg: '#166534', fg: '#bbf7d0' },
+    VOIDED:            { txt: '🗑 Ponisteno',             bg: '#7f1d1d', fg: '#fecaca' }
   };
   const s = map[status] || { txt: status || '—', bg: '#374151', fg: '#e5e7eb' };
   return `<span style="background:${s.bg};color:${s.fg};padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;">${s.txt}</span>`;
@@ -3325,7 +3326,10 @@ async function openSettlementModal(bookingId) {
     return;
   }
 
-  const isLocked = preview.settlementStatus === 'INVOICED' || preview.settlementStatus === 'PAID';
+  const isInvoiced = preview.settlementStatus === 'INVOICED';
+  const isPaid     = preview.settlementStatus === 'PAID';
+  const isVoided   = preview.settlementStatus === 'VOIDED';
+  const isLocked   = isInvoiced || isPaid || isVoided;
   const html = renderSettlementModal(preview, isLocked);
 
   const buttons = {};
@@ -3335,15 +3339,15 @@ async function openSettlementModal(bookingId) {
   }
   if (preview.readyForInvoice && !isLocked) {
     buttons.showDenyButton = true;
-    buttons.denyButtonText = '📤 Generiši fakturu';
+    buttons.denyButtonText = '📤 Sačuvaj i generiši fakturu';
     buttons.denyButtonColor = '#059669';
   }
-  if (preview.settlementStatus === 'INVOICED') {
+  if (isInvoiced) {
     buttons.showDenyButton = true;
     buttons.denyButtonText = '💰 Označi kao plaćeno';
     buttons.denyButtonColor = '#16a34a';
   }
-  if (preview.settlementStatus === 'PAID') {
+  if (isPaid) {
     buttons.showDenyButton = true;
     buttons.denyButtonText = '↩ Rollback (nije plaćeno)';
     buttons.denyButtonColor = '#dc2626';
@@ -3358,20 +3362,48 @@ async function openSettlementModal(bookingId) {
     showCancelButton: true,
     cancelButtonText: 'Zatvori',
     focusConfirm: false,
+    // preConfirm/preDeny: citamo inpute DOK JOS POSTOJE (Swal ih brise po zatvaranju).
+    // Bez ovoga vrednosti odlaze u prazan objekat pa se save salje bez podataka.
+    preConfirm: () => isLocked ? {} : collectCostsFromModal(),
+    preDeny:    () => isLocked ? {} : collectCostsFromModal(),
     ...buttons
   });
 
   if (result.isConfirmed && !isLocked) {
-    await saveSettlementCosts(bookingId, preview);
+    await saveSettlementCosts(bookingId, result.value);
   } else if (result.isDenied) {
     if (preview.readyForInvoice && !isLocked) {
-      await finalizeSettlement(bookingId);
-    } else if (preview.settlementStatus === 'INVOICED') {
+      // Save pa Finalize u jednoj sekvenci - ako admin menja input i klikne
+      // direktno "Sačuvaj i generiši fakturu", trebamo poslati aktuelne vrednosti,
+      // ne stare iz preview-a.
+      await saveSettlementCosts(bookingId, result.value, { thenFinalize: true });
+    } else if (isInvoiced) {
       await patchSettlementStatus(bookingId, 'PAID');
-    } else if (preview.settlementStatus === 'PAID') {
+    } else if (isPaid) {
       await patchSettlementStatus(bookingId, 'INVOICED');
     }
   }
+}
+
+/** Pokupi troskove iz modal inputa DOK JOS POSTOJE. Poziva se iz preConfirm/preDeny. */
+function collectCostsFromModal() {
+  const body = {};
+  const flight = document.getElementById('cost-flight');
+  const hotel  = document.getElementById('cost-hotel');
+  if (flight && (flight.value !== '')) body.flightAgencyCost = parseFloat(flight.value);
+  if (hotel  && (hotel.value  !== '')) body.hotelAgencyCost  = parseFloat(hotel.value);
+  const map = {
+    ACCOMMODATION_UPGRADE:  'accommodationUpgradeAgencyCost',
+    BREAKFAST:              'breakfastAgencyCost',
+    SEATS_TOGETHER:         'seatsTogetherAgencyCost',
+    CABIN_SUITCASE:         'cabinSuitcaseAgencyCost',
+    INSURANCE:              'insuranceAgencyCost'
+  };
+  for (const [type, field] of Object.entries(map)) {
+    const el = document.getElementById(`cost-${type}`);
+    if (el && el.value !== '') body[field] = parseFloat(el.value);
+  }
+  return body;
 }
 
 function renderSettlementModal(p, isLocked) {
@@ -3385,12 +3417,15 @@ function renderSettlementModal(p, isLocked) {
     } else if (isLocked) {
       costCell = `<span style="color:#e5e7eb;">${money(li.agencyCost)}</span>`;
     } else if (li.itemType === 'BASE_PACKAGE') {
-      // BASE_PACKAGE ima dva podunosa (flight + hotel)
+      // BASE_PACKAGE ima dva podunosa (flight + hotel). Prepopuli iz preview-a
+      // da admin vidi vec unete vrednosti pri drugom otvaranju.
+      const fVal = li.flightAgencyCost != null ? li.flightAgencyCost : '';
+      const hVal = li.hotelAgencyCost  != null ? li.hotelAgencyCost  : '';
       costCell = `
         <div style="display:flex;gap:4px;flex-direction:column;">
-          <input type="number" step="0.01" min="0" id="cost-flight" placeholder="Avion €"
+          <input type="number" step="0.01" min="0" id="cost-flight" value="${fVal}" placeholder="Avion €"
                  style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
-          <input type="number" step="0.01" min="0" id="cost-hotel" placeholder="Hotel €"
+          <input type="number" step="0.01" min="0" id="cost-hotel" value="${hVal}" placeholder="Hotel €"
                  style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
         </div>`;
     } else {
@@ -3421,8 +3456,21 @@ function renderSettlementModal(p, isLocked) {
   const whoPaysIcon = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? '→'
                     : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? '←' : '·';
   const whoPaysText = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? 'Agencija plaća Escapii-ju'
-                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? 'Escapii plaća agenciji'
+                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? 'Escapii plaća agenciji (klasicna faktura nije moguca)'
                     : 'Nema transfera';
+
+  // Void link za INVOICED (INVOICED→VOIDED cuva broj u audit tragu)
+  const voidLink = p.settlementStatus === 'INVOICED'
+    ? `<div style="margin-top:10px;text-align:right;">
+         <a href="#" onclick="event.preventDefault();Swal.close();voidSettlement(${p.bookingId}, '${p.agencyInvoiceNumber}');"
+            style="color:#f87171;font-size:12px;text-decoration:underline;">🗑 Poništi fakturu (VOID)</a>
+       </div>` : '';
+
+  // Void meta prikaz za VOIDED bookinge (audit trag)
+  const voidedMeta = p.settlementStatus === 'VOIDED'
+    ? `<div style="margin-top:10px;padding:10px;background:#7f1d1d;border-radius:6px;font-size:12px;color:#fecaca;">
+         Faktura <strong>${p.agencyInvoiceNumber}</strong> je poniStena. Broj ostaje u audit tragu.
+       </div>` : '';
 
   return `
     <div style="text-align:left;font-size:13px;color:#e5e7eb;">
@@ -3460,37 +3508,40 @@ function renderSettlementModal(p, isLocked) {
         </div>
       </div>
       ${warnings}
+      ${voidedMeta}
+      ${voidLink}
     </div>
   `;
 }
 
-async function saveSettlementCosts(bookingId, preview) {
-  // Popuni body iz inputa modala (jos uvek u DOM-u dok Swal ne zatvori)
-  const body = {};
-  const flight = document.getElementById('cost-flight');
-  const hotel  = document.getElementById('cost-hotel');
-  if (flight && hotel && (flight.value || hotel.value)) {
-    body.flightAgencyCost = flight.value ? parseFloat(flight.value) : null;
-    body.hotelAgencyCost  = hotel.value ? parseFloat(hotel.value) : null;
-  }
-  const map = {
-    ACCOMMODATION_UPGRADE:  'accommodationUpgradeAgencyCost',
-    BREAKFAST:              'breakfastAgencyCost',
-    SEATS_TOGETHER:         'seatsTogetherAgencyCost',
-    CABIN_SUITCASE:         'cabinSuitcaseAgencyCost',
-    INSURANCE:              'insuranceAgencyCost'
-  };
-  for (const [type, field] of Object.entries(map)) {
-    const el = document.getElementById(`cost-${type}`);
-    if (el && el.value !== '') body[field] = parseFloat(el.value);
-  }
+async function saveSettlementCosts(bookingId, body, opts) {
+  opts = opts || {};
   try {
     const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-costs`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body || {})
     });
     if (!r.ok) throw await apiError(r, 'Greška pri čuvanju troškova');
+    const saved = await r.json();
+
+    if (opts.thenFinalize) {
+      // Save-pa-Finalize u istoj sekvenci - koristimo AKTUELNI status iz save response-a
+      // da ne pravimo drugi API poziv koji bi vratio istu vrednost.
+      if (saved.readyForInvoice) {
+        await finalizeSettlement(bookingId);
+        return;
+      } else {
+        Swal.fire({
+          icon:'warning', title:'Nije spremno za fakturu',
+          text: (saved.validationErrors || []).join(' | ') || 'Provera je pukla nakon save-a.',
+          background:'#0b1929', color:'#fff'
+        });
+        await loadBookings();
+        openSettlementModal(bookingId);
+        return;
+      }
+    }
     Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Troškovi sačuvani', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
     await loadBookings();
     // Reopen modal sa svezim podacima
@@ -3503,7 +3554,7 @@ async function saveSettlementCosts(bookingId, preview) {
 async function finalizeSettlement(bookingId) {
   const { isConfirmed } = await Swal.fire({
     title: 'Generisati fakturu?',
-    text: 'Faktura zaključava troškove i dobija broj ESC-AG-YYYY-NNNN. Storno zahteva rucnu korekciju.',
+    text: 'Faktura zakljucava troskove i dobija broj ESC-AG-YYYY-NNNN. Storno se radi kroz VOID koji cuva broj u audit tragu.',
     icon: 'question', showCancelButton: true, confirmButtonText: 'Da, finalizuj',
     background:'#0b1929', color:'#fff'
   });
@@ -3514,9 +3565,41 @@ async function finalizeSettlement(bookingId) {
     });
     if (!r.ok) throw await apiError(r, 'Greška pri finalizaciji');
     const upd = await r.json();
-    Swal.fire({ icon:'success', title:'Faktura generisana', text: upd.lineItems ? '' : '',
-      html: `Broj fakture: <strong>${upd.settlementStatus === 'INVOICED' ? 'INVOICED' : upd.settlementStatus}</strong>`,
-      background:'#0b1929', color:'#fff' });
+    Swal.fire({
+      icon:'success', title:'Faktura generisana',
+      html: `Broj fakture: <strong>${upd.agencyInvoiceNumber || '(nedostaje)'}</strong>`,
+      background:'#0b1929', color:'#fff'
+    });
+    await loadBookings();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function voidSettlement(bookingId, invoiceNumber) {
+  const { isConfirmed, value: reason } = await Swal.fire({
+    title: `Ponistiti fakturu ${invoiceNumber}?`,
+    html: `<div style="text-align:left;font-size:13px;color:#e5e7eb;">Broj fakture i datum ostaju na bookingu (audit trag). Booking prelazi u status VOIDED.</div>`,
+    input: 'text',
+    inputLabel: 'Razlog storna (obavezno)',
+    inputPlaceholder: 'npr. duplirana faktura, agencija otkazala saradnju...',
+    inputValidator: (v) => !v || v.trim().length < 3 ? 'Razlog je obavezan' : null,
+    showCancelButton: true, confirmButtonText: 'Ponisti fakturu', confirmButtonColor: '#dc2626',
+    background:'#0b1929', color:'#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-invoice/void`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ reason: reason.trim() })
+    });
+    if (!r.ok) throw await apiError(r, 'Greska pri VOID-u');
+    Swal.fire({
+      icon:'success', title:'Faktura ponistena',
+      html: `Broj <strong>${invoiceNumber}</strong> ostaje u audit tragu; booking je sada VOIDED.`,
+      background:'#0b1929', color:'#fff'
+    });
     await loadBookings();
   } catch (e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
@@ -4685,33 +4768,43 @@ let _earnFilter = { agencyId: '', from: '', to: '', status: '' };
 async function loadEarnings() {
   const el = document.getElementById('earningsDashboard');
   try {
-    const qs = new URLSearchParams();
-    if (_earnFilter.agencyId) qs.set('agencyId', _earnFilter.agencyId);
-    if (_earnFilter.from)     qs.set('from', _earnFilter.from);
-    if (_earnFilter.to)       qs.set('to', _earnFilter.to);
+    // Summary ignorise status filter (uvek gleda sve) - inace bi kartice pokazale
+    // samo "invoiced ukupno" ako je admin filtrirao INVOICED, sto je pogresno.
+    const qsSum = new URLSearchParams();
+    if (_earnFilter.agencyId) qsSum.set('agencyId', _earnFilter.agencyId);
+    if (_earnFilter.from)     qsSum.set('from', _earnFilter.from);
+    if (_earnFilter.to)       qsSum.set('to', _earnFilter.to);
+
+    const qs = new URLSearchParams(qsSum);
     if (_earnFilter.status)   qs.set('status', _earnFilter.status);
-    const r = await fetch(`${API}/api/admin/agencies/settlements/dashboard?${qs}`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
-    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju obračuna');
-    const data = await r.json();
-    renderEarnings(data);
+
+    const [rowsRes, sumRes] = await Promise.all([
+      fetch(`${API}/api/admin/agencies/settlements/dashboard?${qs}`, { headers: { 'X-Admin-Key': ADMIN_KEY } }),
+      fetch(`${API}/api/admin/agencies/settlements/summary?${qsSum}`, { headers: { 'X-Admin-Key': ADMIN_KEY } })
+    ]);
+    if (!rowsRes.ok) throw await apiError(rowsRes, 'Greška pri učitavanju obračuna');
+    if (!sumRes.ok)  throw await apiError(sumRes,  'Greška pri učitavanju agregata');
+    const rows = await rowsRes.json();
+    const summary = await sumRes.json();
+    renderEarnings(rows, summary);
   } catch(e) { el.innerHTML = '<div class="empty-state">Greška pri učitavanju obračuna.</div>'; }
 }
 
-function renderEarnings(rows) {
+function renderEarnings(rows, summary) {
   const el = document.getElementById('earningsDashboard');
   const money = v => (v == null ? '—' : `${Number(v).toFixed(2)} €`);
 
-  // Agregati preko svih rezervacija (posle filtera)
+  // Grubi agregati iz row-ova (za bruto, agencija, vaucer - to nije razdvojeno u summary-ju)
   const totals = rows.reduce((s, r) => ({
     gross: s.gross + Number(r.grossBookingValue || 0),
     voucher: s.voucher + Number(r.voucherAmount || 0),
-    escapii: s.escapii + Number(r.escapiiEarnings || 0),
-    agency: s.agency + Number(r.agencyRetainedAmount || 0),
-    net: s.net + Number(r.netSettlement || 0),
-    needsCosts: s.needsCosts + (r.settlementStatus === 'NEEDS_COSTS' ? 1 : 0),
-    invoiced: s.invoiced + (r.settlementStatus === 'INVOICED' ? 1 : 0),
-    paid: s.paid + (r.settlementStatus === 'PAID' ? 1 : 0)
-  }), { gross:0, voucher:0, escapii:0, agency:0, net:0, needsCosts:0, invoiced:0, paid:0 });
+    agency: s.agency + Number(r.agencyRetainedAmount || 0)
+  }), { gross:0, voucher:0, agency:0 });
+
+  // Escapii deo: razdvojen iz summary-ja (projekcija / fakturisano / naplaceno).
+  // Bez ovoga bi jedna suma mesala PENDING/NEEDS_COSTS sa stvarno naplacenim.
+  summary = summary || { projectedEscapiiTotal:0, invoicedEscapiiTotal:0, paidEscapiiTotal:0,
+    projectedCount:0, invoicedCount:0, paidCount:0, needsCostsCount:0, readyForInvoiceCount:0, voidedCount:0 };
 
   const agenciesOptions = (_agencies || []).map(a => `<option value="${a.id}" ${String(_earnFilter.agencyId) === String(a.id) ? 'selected' : ''}>${esc(a.name)}</option>`).join('');
 
@@ -4729,6 +4822,7 @@ function renderEarnings(rows) {
           <option value="READY_FOR_INVOICE" ${_earnFilter.status === 'READY_FOR_INVOICE' ? 'selected' : ''}>Spremno za fakturu</option>
           <option value="INVOICED" ${_earnFilter.status === 'INVOICED' ? 'selected' : ''}>Fakturisano</option>
           <option value="PAID" ${_earnFilter.status === 'PAID' ? 'selected' : ''}>Plaćeno</option>
+          <option value="VOIDED" ${_earnFilter.status === 'VOIDED' ? 'selected' : ''}>Poništeno</option>
         </select></label>
         <div style="display:flex;align-items:flex-end;gap:6px;">
           <button onclick="applyEarnFilter()" style="padding:6px 12px;background:#0ea5e9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Filtriraj</button>
@@ -4737,13 +4831,23 @@ function renderEarnings(rows) {
       </div>
     </div>
     <div class="booking-stats" style="margin-bottom:20px;">
-      <div class="bs-card bs-confirmed"><div class="bs-num">${money(totals.escapii)}</div><div class="bs-lbl">Escapii ukupno zaradio</div></div>
-      <div class="bs-card bs-pending"><div class="bs-num">${money(totals.gross)}</div><div class="bs-lbl">Bruto promet</div></div>
-      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#a7f3d0;">${money(totals.agency)}</div><div class="bs-lbl">Agencije ukupno</div></div>
+      <div class="bs-card bs-confirmed">
+        <div class="bs-num">${money(summary.projectedEscapiiTotal)}</div>
+        <div class="bs-lbl">Escapii projekcija · ${summary.projectedCount} rez.</div>
+      </div>
+      <div class="bs-card" style="border-left-color:#3b82f6;">
+        <div class="bs-num" style="color:#93c5fd;">${money(summary.invoicedEscapiiTotal)}</div>
+        <div class="bs-lbl">Fakturisano · ${summary.invoicedCount} rez.</div>
+      </div>
+      <div class="bs-card" style="border-left-color:#22c55e;">
+        <div class="bs-num" style="color:#86efac;">${money(summary.paidEscapiiTotal)}</div>
+        <div class="bs-lbl">Naplaceno · ${summary.paidCount} rez.</div>
+      </div>
+      <div class="bs-card bs-pending"><div class="bs-num">${money(totals.gross)}</div><div class="bs-lbl">Bruto promet (u filteru)</div></div>
+      <div class="bs-card" style="border-left-color:#64748b;"><div class="bs-num" style="color:#a7f3d0;">${money(totals.agency)}</div><div class="bs-lbl">Agencije zadrzavaju</div></div>
       ${totals.voucher > 0 ? `<div class="bs-card" style="border-left-color:#f59e0b;"><div class="bs-num" style="color:#fbbf24;">${money(totals.voucher)}</div><div class="bs-lbl">Vaučeri (držimo mi)</div></div>` : ''}
-      <div class="bs-card" style="border-left-color:#3b82f6;"><div class="bs-num" style="color:#93c5fd;">${totals.invoiced}</div><div class="bs-lbl">Fakturisano</div></div>
-      <div class="bs-card" style="border-left-color:#22c55e;"><div class="bs-num" style="color:#86efac;">${totals.paid}</div><div class="bs-lbl">Plaćeno</div></div>
-      ${totals.needsCosts > 0 ? `<div class="bs-card" style="border-left-color:#f97316;"><div class="bs-num" style="color:#fdba74;">${totals.needsCosts}</div><div class="bs-lbl">Čeka troškove</div></div>` : ''}
+      ${summary.needsCostsCount > 0 ? `<div class="bs-card" style="border-left-color:#f97316;"><div class="bs-num" style="color:#fdba74;">${summary.needsCostsCount}</div><div class="bs-lbl">Čeka troškove</div></div>` : ''}
+      ${summary.voidedCount > 0 ? `<div class="bs-card" style="border-left-color:#7f1d1d;"><div class="bs-num" style="color:#fecaca;">${summary.voidedCount}</div><div class="bs-lbl">Ponisteno</div></div>` : ''}
     </div>`;
 
   if (!rows.length) {
