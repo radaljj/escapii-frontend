@@ -3380,8 +3380,8 @@ function collectCostsFromModal() {
     clear.push('BASE_PACKAGE');
   }
 
+  // ACCOMMODATION_UPGRADE nema unos - fiksan fee, snapshot ga postavi na 0.
   const map = {
-    ACCOMMODATION_UPGRADE:  'accommodationUpgradeAgencyCost',
     BREAKFAST:              'breakfastAgencyCost',
     SEATS_TOGETHER:         'seatsTogetherAgencyCost',
     CABIN_SUITCASE:         'cabinSuitcaseAgencyCost',
@@ -3409,6 +3409,10 @@ function renderSettlementModal(p, isLocked) {
     let costCell;
     if (!isShared) {
       costCell = `<span style="color:#94a3b8;font-size:11px;">100% Escapii</span>`;
+    } else if (li.itemType === 'ACCOMMODATION_UPGRADE') {
+      // Upgrade je fiksan fee/osoba - cista 50/50 zarada bez troska agencije.
+      // Snapshot ga postavi na 0 vec pri kreiranju bookinga, admin ne unosi.
+      costCell = `<span style="color:#94a3b8;font-size:11px;">0€ (fiksni fee)</span>`;
     } else if (isLocked) {
       costCell = `<span style="color:#e5e7eb;">${money(li.agencyCost)}</span>`;
     } else if (li.itemType === 'BASE_PACKAGE') {
