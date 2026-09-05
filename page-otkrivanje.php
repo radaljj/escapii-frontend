@@ -443,8 +443,42 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     #revealCTA.show .rv-cta-btn {
       animation: ctaReveal 0.85s cubic-bezier(.22,1,.36,1) 0.28s both;
     }
+    #revealCTA.show .rv-cta-btn2 {
+      animation: ctaReveal 0.85s cubic-bezier(.22,1,.36,1) 0.42s both;
+    }
     #revealCTA.show .rv-cta-home {
       animation: ctaHomeReveal 0.6s ease 0.7s both;
+    }
+
+    /* Dva dugmeta jedno pored drugog; na uskom ekranu jedno ispod drugog. */
+    .rv-cta-row {
+      display: flex; gap: 12px; align-items: center;
+      flex-wrap: wrap; justify-content: center;
+    }
+    /* Sekundarno dugme - isti oblik kao primarno, ghost varijanta da ne otima
+       paznju od "Vidi detalje putovanja". */
+    .rv-cta-btn2 {
+      background: rgba(202,138,113,0.09);
+      color: var(--pop-accent2);
+      border: 1px solid rgba(202,138,113,0.45);
+      border-radius: 100px;
+      padding: 15px 30px;
+      font-size: 14.5px; font-weight: 650;
+      cursor: pointer; letter-spacing: 0.3px;
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: inherit;
+      transition: transform 0.35s, background 0.3s, border-color 0.3s, box-shadow 0.35s;
+    }
+    .rv-cta-btn2:hover {
+      transform: translateY(-3px);
+      background: rgba(202,138,113,0.16);
+      border-color: rgba(202,138,113,0.7);
+      box-shadow: 0 16px 38px -14px rgba(202,138,113,0.5);
+    }
+    .rv-cta-btn2 svg { width: 17px; height: 17px; flex: none; }
+    @media (max-width: 560px) {
+      .rv-cta-row { flex-direction: column; width: 100%; }
+      .rv-cta-btn, .rv-cta-btn2 { width: 100%; justify-content: center; }
     }
 
     .rv-cta-label {
@@ -787,6 +821,178 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       .teaser-big  { font-size: 24px; }
       .envelope-wrap.shifted { transform: translateY(80px); }
     }
+
+    /* ══ Popup sa partnerskim dodacima (ture / eSIM / prtljag) ══════════════
+       Otvara se dugmetom "Dodaci za put" posle grebanja. Namerno koristi istu
+       mehaniku i istu krivu animacije kao .tp-backdrop/.tp-modal iznad - dva
+       razlicita ponasanja modala na istoj stranici deluju kao dva sajta. */
+    .ao-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(8,12,22,0);
+      backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
+      z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; pointer-events: none;
+      transition: background 0.6s, backdrop-filter 0.6s;
+      overflow: hidden;
+    }
+    .ao-backdrop.open {
+      background: rgba(8,12,22,0.82);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      pointer-events: auto;
+    }
+    .ao-modal {
+      width: min(560px, 100%); max-height: calc(100vh - 32px);
+      overflow-y: auto; overflow-x: hidden;
+      background: linear-gradient(180deg, #14202f 0%, #0d1726 100%);
+      border-radius: 22px; position: relative; color: var(--ink);
+      font-family: system-ui, 'Segoe UI', sans-serif;
+      box-shadow: 0 32px 80px -16px rgba(0,0,0,0.85), 0 0 0 1px rgba(246,241,230,0.06);
+      transform: translateY(32px) scale(0.95); opacity: 0;
+      transition: transform 0.65s cubic-bezier(0.2,0.85,0.25,1), opacity 0.45s;
+      scrollbar-width: none; padding: 34px 28px 24px;
+    }
+    .ao-modal::-webkit-scrollbar { display: none; }
+    .ao-backdrop.open .ao-modal { transform: translateY(0) scale(1); opacity: 1; }
+    .ao-modal::before {
+      content: ""; position: absolute; top: 0; left: 14%; right: 14%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,184,154,0.55), transparent);
+    }
+    .ao-close {
+      position: absolute; top: 15px; right: 16px;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--line); background: rgba(246,241,230,0.04);
+      color: var(--ink-dim); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; transition: 0.25s; line-height: 1; font-family: inherit;
+    }
+    .ao-close:hover { color: #fff; transform: rotate(90deg); border-color: rgba(246,241,230,0.25); }
+
+    .ao-head { text-align: center; margin-bottom: 22px; padding: 0 8px; }
+    .ao-kicker {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--pop-accent2); background: rgba(217,152,119,0.12);
+      border: 1px solid rgba(217,152,119,0.3);
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 14px;
+    }
+    .ao-kicker svg { width: 14px; height: 14px; }
+    .ao-head h2 {
+      font-family: Georgia, serif; font-weight: 500; font-size: 26px;
+      line-height: 1.22; letter-spacing: -0.3px; margin: 0 0 8px; color: #fff;
+    }
+    .ao-head h2 em { font-style: italic; color: var(--pop-accent2); }
+    .ao-head p {
+      font-size: 13.5px; line-height: 1.55; color: var(--ink-dim);
+      margin: 0; max-width: 40ch; margin-inline: auto;
+    }
+
+    .ao-offers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .ao-offer {
+      position: relative; display: flex; align-items: center; gap: 15px;
+      text-decoration: none; color: inherit;
+      background: rgba(246,241,230,0.035); border: 1px solid var(--line);
+      border-radius: 16px; padding: 15px 17px; overflow: hidden;
+      opacity: 0; transform: translateY(14px);
+      transition: border-color 0.24s, transform 0.24s, box-shadow 0.24s;
+    }
+    .ao-backdrop.open .ao-offer {
+      opacity: 1; transform: translateY(0);
+      transition: border-color 0.24s, transform 0.5s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.24s, opacity 0.5s;
+    }
+    /* Kaskada ulaska do sest kartica; preko toga sve kasni isto, da poslednja
+       ne bi cekala sekundu i po ako se jednog dana doda cetvrti partner. */
+    .ao-backdrop.open .ao-offer { transition-delay: 0.53s; }
+    .ao-backdrop.open .ao-offer:nth-child(1) { transition-delay: 0.18s; }
+    .ao-backdrop.open .ao-offer:nth-child(2) { transition-delay: 0.25s; }
+    .ao-backdrop.open .ao-offer:nth-child(3) { transition-delay: 0.32s; }
+    .ao-backdrop.open .ao-offer:nth-child(4) { transition-delay: 0.39s; }
+    .ao-backdrop.open .ao-offer:nth-child(5) { transition-delay: 0.46s; }
+    .ao-offer::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      background: radial-gradient(70% 120% at 12% 0%, rgba(217,152,119,0.14), transparent 62%);
+      transition: opacity 0.24s;
+    }
+    .ao-offer:hover {
+      border-color: rgba(217,152,119,0.5); transform: translateY(-3px);
+      box-shadow: 0 16px 34px -18px rgba(217,152,119,0.55);
+    }
+    .ao-offer:hover::after { opacity: 1; }
+
+    .ao-ic {
+      position: relative; width: 48px; height: 48px; flex: none; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, rgba(217,152,119,0.28), rgba(217,152,119,0.08));
+      border: 1px solid rgba(217,152,119,0.32);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
+      color: var(--pop-accent2); transition: transform 0.24s;
+    }
+    .ao-offer:hover .ao-ic { transform: scale(1.06) rotate(-3deg); }
+    .ao-ic svg { width: 24px; height: 24px; }
+
+    .ao-body { flex: 1; min-width: 0; }
+    .ao-name {
+      font-size: 14.5px; font-weight: 700; color: #fff; line-height: 1.25;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .ao-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: #7fb89e; background: rgba(127,184,158,0.14);
+      border: 1px solid rgba(127,184,158,0.35);
+      padding: 3px 8px; border-radius: 100px;
+    }
+    .ao-badge svg { width: 11px; height: 11px; }
+    .ao-desc {
+      font-size: 12.5px; line-height: 1.45; color: var(--ink-dim);
+      margin-top: 3px; display: block;
+    }
+    .ao-right { flex: none; display: flex; align-items: center; gap: 11px; }
+    .ao-arrow {
+      width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pop-accent); transition: 0.24s;
+    }
+    .ao-offer:hover .ao-arrow {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+      transform: translateX(2px);
+    }
+    .ao-arrow svg { width: 16px; height: 16px; }
+
+    .ao-foot { text-align: center; border-top: 1px solid var(--line); padding-top: 16px; }
+    /* Obavezno otkrivanje partnerske veze - trazi ga i ugovor affiliate programa
+       i Zakon o oglasavanju. Bez ikonice namerno: ikonica je pretvara u upozorenje,
+       a ovo treba samo tiho da stoji. */
+    .ao-note {
+      font-size: 11px; line-height: 1.5; color: var(--ink-faint);
+      margin: 0 0 12px; letter-spacing: 0.2px;
+    }
+    .ao-later {
+      font-size: 13.5px; font-weight: 600; color: var(--ink-dim); cursor: pointer;
+      background: transparent; border: none; padding: 6px 10px;
+      transition: 0.2s; font-family: inherit;
+    }
+    .ao-later:hover { color: #fff; }
+
+    @media (max-width: 560px) {
+      .ao-modal { padding: 30px 16px 20px; border-radius: 18px; }
+      .ao-head h2 { font-size: 22px; }
+      .ao-ic { width: 44px; height: 44px; border-radius: 12px; }
+      .ao-ic svg { width: 22px; height: 22px; }
+      .ao-offer { padding: 13px; gap: 12px; }
+    }
+    @media (max-height: 760px) {
+      .ao-modal { padding: 26px 24px 16px; }
+      .ao-head { margin-bottom: 15px; }
+      .ao-head h2 { font-size: 21px; margin-bottom: 5px; }
+      .ao-kicker { margin-bottom: 10px; }
+      .ao-head p { display: none; }
+      .ao-offers { gap: 8px; margin-bottom: 13px; }
+      .ao-offer { padding: 11px 14px; }
+      .ao-desc { display: none; }
+      .ao-foot { padding-top: 12px; }
+      .ao-note { margin-bottom: 9px; }
+    }
   </style>
 </head>
 <body>
@@ -922,7 +1128,15 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   <!-- CTA dugme - pojavljuje se posle grebalice, na mestu hinta -->
   <div id="revealCTA">
     <div class="rv-cta-label">✦ destinacija otkrivena</div>
-    <button class="rv-cta-btn" onclick="openTripPopup()">Vidi detalje putovanja</button>
+    <div class="rv-cta-row">
+      <button class="rv-cta-btn" onclick="openTripPopup()">Vidi detalje putovanja</button>
+      <!-- Skriveno dok setupAddons() ne potvrdi da za ovu destinaciju postoji bar
+           jedan partnerski link. Dugme koje otvara prazan popup je gore nego da ga nema. -->
+      <button class="rv-cta-btn2" id="addonsBtn" style="display:none;" onclick="openAddonsPopup()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M9 20v2M15 20v2"/></svg>
+        Dodaci za put
+      </button>
+    </div>
     <a class="rv-cta-home" href="/">← Nazad na početnu</a>
   </div>
 
@@ -1006,6 +1220,76 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   </div>
 </div>
 
+
+<!-- Popup sa partnerskim dodacima. Svaka kartica ima data-ao-slot koji odgovara
+     kljucu iz partnerLinks u odgovoru /api/reveal. Kartica bez linka se sakriva
+     u setupAddons(), a ako nema nijednog linka ne prikazuje se ni dugme. -->
+<div class="ao-backdrop" id="addonsModal" style="display:none;">
+  <div class="ao-modal" role="dialog" aria-modal="true" aria-labelledby="aoTitle">
+    <button class="ao-close" onclick="closeAddonsPopup()" aria-label="Zatvori">✕</button>
+
+    <div class="ao-head">
+      <span class="ao-kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        Sad kad znaš kuda ideš
+      </span>
+      <h2 id="aoTitle">Još <em>par</em> sitnica pre puta</h2>
+      <p>Ne moraš ništa od ovoga. Većina ipak sredi bar jednu stvar unapred.</p>
+    </div>
+
+    <div class="ao-offers">
+      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="tours">
+        <span class="ao-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><circle cx="8" cy="12" r="1.6"/><path d="M8 6v1.6M8 16.4V18"/><path d="M12.5 10h5.5M12.5 14h3.5"/></svg>
+        </span>
+        <span class="ao-body">
+          <span class="ao-name"><span>Ture i ulaznice</span>
+            <span class="ao-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z"/></svg> Preskoči red</span>
+          </span>
+          <span class="ao-desc">Ulaznice za popularne stvari se rasprodaju danima ranije nego što čovek očekuje.</span>
+        </span>
+        <span class="ao-right">
+          <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+
+      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="esim">
+        <span class="ao-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a1 1 0 0 1 1-1h8l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Z"/><rect x="8.5" y="11" width="7" height="6" rx="1"/><path d="M8.5 14h7"/></svg>
+        </span>
+        <span class="ao-body">
+          <span class="ao-name"><span>eSIM za internet</span>
+            <span class="ao-badge">Bez rominga</span>
+          </span>
+          <span class="ao-desc">Uzmeš ga pre puta i telefon radi čim sletiš.</span>
+        </span>
+        <span class="ao-right">
+          <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+
+      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="luggage">
+        <span class="ao-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/><circle cx="12" cy="15.5" r="1.3"/></svg>
+        </span>
+        <span class="ao-body">
+          <span class="ao-name"><span>Čuvanje prtljaga</span>
+            <span class="ao-badge">U centru</span>
+          </span>
+          <span class="ao-desc">Odjava iz smeštaja je ujutru, a let često tek uveče. Kofer ostaviš dok ti ne zatreba.</span>
+        </span>
+        <span class="ao-right">
+          <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+    </div>
+
+    <div class="ao-foot">
+      <p class="ao-note">Partnerski linkovi. Cena ti je ista.</p>
+      <button class="ao-later" onclick="closeAddonsPopup()">Kasnije ću</button>
+    </div>
+  </div>
+</div>
 <script>
 const API = '<?php echo esc_js(escapii_api_url()); ?>';
 let opened = false, errorShown = false, revealData = null;
@@ -1143,6 +1427,11 @@ function showError(status) {
 function showEnvelope(data) {
   revealData = data;
   document.getElementById('rvLoading').style.display = 'none';
+
+  // Partnerski dodaci se pripremaju odmah, a dugme se pojavljuje tek sa CTA
+  // blokom posle grebanja - ne otkriva ništa ranije jer su linkovi vezani za
+  // grad, a grad je u ovom odgovoru ionako već tu.
+  setupAddons(data.partnerLinks);
 
   const iata = (data.departureAirport || '').toUpperCase();
   document.getElementById('ticketFromIata').textContent = iata || 'BEG';
@@ -1561,6 +1850,64 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ── API fetch ── */
+
+/* ── Popup sa partnerskim dodacima ──────────────────────────────────────────
+   Linkove pravi backend (TravelAddonsService) i vraća ih u partnerLinks, jer
+   partnerski ID-evi stoje u .env-u na serveru, a slugovi po destinaciji u bazi.
+   Frontend samo prikazuje ono što je stiglo i NIKAD ne izmišlja zamenski link -
+   klik koji završi na početnoj stranici partnera ili na praznoj stranici je gori
+   nego kartica koje nema. */
+
+/** Postavlja linkove i sakriva kartice za koje ih nema. Zove se iz showEnvelope. */
+function setupAddons(links) {
+  const modal = document.getElementById('addonsModal');
+  const btn   = document.getElementById('addonsBtn');
+  if (!modal || !btn) return;
+
+  const mapa = links && typeof links === 'object' ? links : {};
+  let vidljivih = 0;
+
+  modal.querySelectorAll('[data-ao-slot]').forEach(el => {
+    const url = mapa[el.dataset.aoSlot];
+    if (url) {
+      el.href = url;
+      el.style.display = '';
+      vidljivih++;
+    } else {
+      // Bez linka kartica se sklanja iz DOM toka, da ne pravi rupu u kaskadi
+      // animacije i da nth-child odbrojavanje ostane tačno.
+      el.remove();
+    }
+  });
+
+  // Nijedan partner nema link za ovu destinaciju - dugme se uopšte ne pojavljuje.
+  btn.style.display = vidljivih > 0 ? '' : 'none';
+}
+
+function openAddonsPopup() {
+  const m = document.getElementById('addonsModal');
+  if (!m) return;
+  m.style.display = 'flex';
+  // Dupli rAF je isti obrazac kao openTripPopup: display mora da se primeni pre
+  // nego što klasa okine tranziciju, inače modal upadne bez animacije.
+  requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+}
+
+function closeAddonsPopup() {
+  const m = document.getElementById('addonsModal');
+  if (!m) return;
+  m.classList.remove('open');
+  setTimeout(() => { m.style.display = 'none'; }, 650);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const m = document.getElementById('addonsModal');
+  if (!m) return;
+  m.addEventListener('click', e => { if (e.target === m) closeAddonsPopup(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && m.classList.contains('open')) closeAddonsPopup();
+  });
+});
 (async function init(){
   const token = new URLSearchParams(location.search).get('token');
   if (!token) { showError(404); return; }
