@@ -4041,7 +4041,15 @@ function exportCSV() {
     'Osnovna cena/os','Ukupno/os','Ukupno EUR',
     'Isključene destinacije','Dodaci','Napomena klijenta','Interna napomena','Primljeno'
   ];
-  const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  // Excel i Sheets izvrsavaju celiju koja pocinje sa = + - @ kao formulu. Napomena,
+  // ime i adresa dolaze od kupca, pa bi bez ovoga tudji tekst mogao da se izvrsi
+  // kada tim otvori export. Brojeve ne diramo - negativan iznos je broj, ne formula.
+  const csvSafe = v => {
+    const s = String(v ?? '');
+    const isNumber = s !== '' && Number.isFinite(Number(s));
+    return (!isNumber && /^[=+\-@\t\r]/.test(s)) ? "'" + s : s;
+  };
+  const esc = v => `"${csvSafe(v).replace(/"/g, '""')}"`;
   const rows = filtered.map(b => [
     b.bookingRef,
     b.status,
@@ -4061,7 +4069,7 @@ function exportCSV() {
     [
       b.hasInsurance         ? 'Osiguranje'       : '',
       b.hasBreakfast         ? 'Doručak'           : '',
-      b.hasSeatsTogther      ? 'Sedišta zajedno'   : '',
+      b.hasSeatsTogether     ? 'Sedišta zajedno'   : '',
       b.hasConnectingFlights ? 'Presedanje'        : '',
       b.cabinSuitcaseCount > 0 ? `Kofer×${b.cabinSuitcaseCount}` : '',
     ].filter(Boolean).join('; '),
