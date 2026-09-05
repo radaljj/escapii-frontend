@@ -88,6 +88,34 @@ function escapii_head_meta() {
 }
 add_action('wp_head', 'escapii_head_meta', 1);
 
+// ── Verifikacija vlasništva sajta kod partnerskih mreža ──────────────────────
+// Partnerske mreže traže meta tag u <head>-u da potvrde da sajt zaista pripada
+// nama pre nego što odobre program. Tag mora ostati i posle odobrenja - mreže
+// povremeno ponavljaju proveru i gase nalog ako ga ne nađu.
+//
+// Ide preko wp_head hooka, ne zalepljeno u pojedinačne šablone, jer bi inače
+// falilo tamo gde se najviše traži: coming-soon.php je trenutno jedino što
+// neadmin uopšte vidi na escapii.rs, a mreža verifikuje baš koren domena.
+// (coming-soon.php zove wp_head(), pa ovo tamo radi.)
+//
+// Dodavanje nove mreže = jedan red u nizu ispod.
+//
+// PAŽNJA na atribut: Impact traži "value", a ne standardni "content". Njihov
+// crawler traži doslovno taj oblik, pa "ispravka" u validan HTML obara
+// verifikaciju. Zato je atribut deo podatka, ne zakucan.
+function escapii_partner_verification() {
+    $tags = [
+        // Impact - mreža preko koje ide Airalo affiliate program
+        ['name' => 'impact-site-verification', 'attr' => 'value', 'content' => '5d2326cb-6b36-45bf-9d16-793565519a94'],
+    ];
+    foreach ($tags as $tag) {
+        if ($tag['content'] === '') continue;
+        printf('<meta name="%s" %s="%s">' . "\n",
+            esc_attr($tag['name']), esc_attr($tag['attr']), esc_attr($tag['content']));
+    }
+}
+add_action('wp_head', 'escapii_partner_verification', 2);
+
 // Ukloni WordPress-ov wp_site_icon() - mi sami outputujemo favicon tagove u escapii_head_meta()
 remove_action('wp_head', 'wp_site_icon', 99);
 
