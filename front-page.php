@@ -4045,7 +4045,11 @@
 
           <div class="form-field full">
             <div class="f-label" data-i18n="s8.notes">Napomene (opciono)</div>
-            <div class="f-input-wrap"><textarea class="f-input" id="fNotes" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea></div>
+            <!-- maxlength mora da prati @Size(max=1000) na BookingRequest.notes.
+                 Bez njega kupac napiše dužu napomenu, prođe celu proveru na sajtu,
+                 a backend odbije rezervaciju uz generičku poruku iz koje se ne vidi
+                 koje je polje krivo. Placeholder poziva na duži tekst pa se dešavalo. -->
+            <div class="f-input-wrap"><textarea class="f-input" id="fNotes" maxlength="1000" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea></div>
           </div>
         </div>
         <div class="payment-info">
@@ -5113,7 +5117,15 @@ function setLang(l) {
       lname:  (document.getElementById('pnl'+i)||{}).value||'',
       gender: (document.getElementById('pg'+i)||{}).value||'M',
       dob:    getPaxDob(i),
-      visa:   getVisaValue(i)
+      visa:   getVisaValue(i),
+      // Pasoš MORA da se sačuva zajedno sa ostalim poljima: renderPax() prepiše ceo
+      // #paxList praznim HTML-om, pa sve što se ovde ne pokupi nestaje. Ranije su
+      // ostajala samo prva četiri polja, pa je klik na EN/SR u koraku 7 tiho brisao
+      // broj pasoša svim putnicima. Kupac to ne primeti, pošalje rezervaciju i dobije
+      // genericku grešku jer je broj pasoša na backendu obavezan.
+      ppc:    (document.getElementById('pp'+i)||{}).value||'',   // natpis se izvodi iz ovoga, ne čuva se
+      ppn:    (document.getElementById('ppn'+i)||{}).value||'',
+      phv:    !!(document.getElementById('phv'+i)||{}).checked
     }));
     renderPax();
     savedPax.forEach((p,i)=>{
@@ -5133,6 +5145,21 @@ function setLang(l) {
       if(pvTags && p.visa) {
         p.visa.split(',').map(s=>s.trim()).filter(Boolean).forEach(v=>addChip(pvTags,v));
       }
+      // Vrati pasoš. Zemlja ima dva polja: skriveno pp{i} nosi vrednost koja se šalje
+      // (uvek SRPSKO ime - tako je dropdown upisuje), a vidljivo cd-search-{i} nosi
+      // natpis. Natpis se NE vraća kao sirov tekst nego se IZVODI iz vrednosti na
+      // tekućem jeziku, isto kako to radi setupCountryDrop - inače bi posle SR→EN
+      // pisalo "Italija" tamo gde treba "Italy". setupCountryDrop to sam ne uradi jer
+      // se izvršava u renderPax(), dok je polje još prazno.
+      const ppc=document.getElementById('pp'+i);
+      const cds=document.getElementById('cd-search-'+i);
+      if(ppc) ppc.value=p.ppc;
+      if(cds && p.ppc){
+        const c=COUNTRIES.find(c=>c.sr===p.ppc || c.en===p.ppc);
+        cds.value = c ? (lang==='en' ? c.en : c.sr) : p.ppc;
+      }
+      const ppn=document.getElementById('ppn'+i);       if(ppn) ppn.value=p.ppn;
+      const hv=document.getElementById('phv'+i);        if(hv)  hv.checked=p.phv;
     });
   }
   if(S.selectedDateId) loadPrice();
@@ -6709,6 +6736,20 @@ function clearDraft() {
 window.addEventListener('beforeunload', saveDraft);
 // ────────────────────────────────────────────────────────────────────────────
 
+/**
+ * Cena nije dostupna: prikaži razlog i OBRIŠI staru cenu.
+ * Brisanje je bitno koliko i poruka - dok je S.lastPrice prazan, pregled i dugme
+ * za slanje se ne popunjavaju, pa kupac ne može da pošalje rezervaciju sa cenom
+ * koju ne vidi ili koja je zastarela.
+ */
+function priceUnavailable(poruka) {
+  S.lastPrice = null;
+  const el = document.getElementById('priceRows');
+  if (el) el.innerHTML =
+    `<div style="color:#f87171;font-size:13px;text-align:center;padding:10px;">`
+    + `${poruka || t('err.price')}</div>`;
+}
+
 async function loadPrice() {
   if(!S.selectedDateId) return;
   try {
@@ -6725,6 +6766,17 @@ async function loadPrice() {
     // Reveal Box se ne šalje u price-preview (backend ne čita ga tamo),
     // ali dodajemo 35€ ručno na frontendu za prikaz u cenovniku
     const r = await fetch(`${API}/api/booking/price-preview?${params}`);
+    // Status se MORA proveriti. Bez ovoga se telo greške ({"error":"..."}) parsiralo
+    // kao da je cenovnik, pa su sva polja bila undefined i kupcu se u ceni prikazivalo
+    // "NaN€" - a mogao je tako i da pošalje rezervaciju. Najčešći okidač je limit od
+    // 30 poziva na sat: neodlučan kupac koji šeta između koraka 6 i 7 ga potroši sam.
+    if (!r.ok) {
+      // Backend greske stizu kao {"error":"..."} - citamo taj kljuc, ne message.
+      let poruka = '';
+      try { poruka = (await r.json()).error || ''; } catch(e) {}
+      priceUnavailable(poruka);
+      return;
+    }
     const p = await r.json();
     S.lastPrice = p;
     const rows = document.getElementById('priceRows');
@@ -7014,6 +7066,20 @@ async function submitBooking() {
           : 'Please fill in all required fields and accept the terms.');
     showFormAlert(specific);
     return;
+  }
+  // Cena mora biti učitana i prikazana pre slanja. Ako je loadPrice() pao (najčešće
+  // prolazan 429 kad neodlučan kupac potroši limit šetajući između koraka), S.lastPrice
+  // je null i kupac gleda poruku umesto iznosa. Backend jeste merodavan za iznos, ali
+  // kupac pristaje na ono što VIDI - rezervacija bez prikazane cene se ne šalje.
+  // Jedan ponovni pokušaj pre odbijanja: prolazna greška se tako sama sredi.
+  if (!S.lastPrice) {
+    await loadPrice();
+    if (!S.lastPrice) {
+      showFormAlert(lang === 'sr'
+        ? 'Cena trenutno nije dostupna, pa rezervaciju ne možemo poslati. Sačekajte minut i pokušajte ponovo.'
+        : 'The price is currently unavailable, so we cannot send your booking. Please wait a minute and try again.');
+      return;
+    }
   }
   _bookingSubmitting = true;
   const btn=document.getElementById('btnSubmit');
