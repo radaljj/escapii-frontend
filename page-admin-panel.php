@@ -3021,11 +3021,14 @@ function buildBookingDetail(b) {
       <div class="bc-reveal-box-body">
         <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Plaća</span><span>${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')} · ${escHtml(b.email || '-')}</span></div>
         <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Putuje</span><span>${escHtml(b.giftRecipientName || '-')} · <strong>${escHtml(b.giftRecipientEmail || '-')}</strong></span></div>
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Vaučer</span><span>kod <strong>${escHtml((b.bookingRef || '').toUpperCase())}</strong> · ${(b.status === 'CONFIRMED' || b.status === 'COMPLETED') ? 'PDF je otišao kupcu u prilogu potvrde rezervacije' : 'PDF ide kupcu u prilogu potvrde, kad uplata legne'}</span></div>
         <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.6;">
           Faktura i potvrde idu na adresu koja plaća. Prognoza, reveal destinacije i
           putni dokumenti idu na adresu koja putuje. Bez izuzetka - poklanjaocu ne ide
-          nijedan mejl o samom putu.
+          nijedan mejl o samom putu. Vaučer za putovanje (PDF bez cene, sa QR kodom za
+          escapii.rs/poklon) kupac dobija u prilogu potvrde - da ga odštampa ili prosledi.
         </div>
+        ${(b.status === 'CONFIRMED' || b.status === 'COMPLETED') ? `<div style="margin-top:10px;"><button class="btn-action" style="background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3);" onclick="resendGiftVoucher(${b.id})">🎁 Pošalji potvrdu sa vaučerom ponovo</button></div>` : ''}
       </div>
     </div>` : ''}
 
@@ -3872,6 +3875,40 @@ async function uploadConfirmationDocument(id) {
   } catch (e) {
     Swal.fire({ toast: true, position: 'top-end', icon: 'error',
       title: e.message || 'Greška pri upload-u', showConfirmButton: false, timer: 3000,
+      background: '#0b1929', color: '#fff' });
+  }
+}
+
+async function resendGiftVoucher(id) {
+  const confirm = await Swal.fire({
+    title: '🎁 Pošalji potvrdu sa vaučerom ponovo?',
+    text: 'Kupac (onaj ko plaća) ponovo dobija mejl "Rezervacija potvrđena" sa PDF vaučerom za poklonjeno putovanje u prilogu. Obdareni ne dobija ništa.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Da, pošalji',
+    cancelButtonText: 'Odustani',
+    background: '#0b1929', color: '#fff',
+    confirmButtonColor: '#a85e44'
+  });
+  if (!confirm.isConfirmed) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/bookings/${id}/gift-voucher/resend`, {
+      method: 'POST',
+      headers: { 'X-Admin-Key': ADMIN_KEY }
+    });
+    if (!r.ok) throw new Error(await apiError(r, 'Greška pri slanju'));
+    const updated = await r.json();
+    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
+    if (idx > -1) ALL_BOOKINGS[idx] = updated;
+    renderBookings();
+
+    Swal.fire({ toast: true, position: 'top-end', icon: 'success',
+      title: 'Potvrda sa vaučerom poslata!', showConfirmButton: false, timer: 2500,
+      background: '#0b1929', color: '#fff' });
+  } catch (e) {
+    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
+      title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3500,
       background: '#0b1929', color: '#fff' });
   }
 }

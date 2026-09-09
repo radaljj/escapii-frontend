@@ -18,7 +18,7 @@ Push na `main` = live za par minuta, automatski. Nema ručnog koraka, nema PR to
 |---|---|---|
 | `front-page.php` | `/` | Naslovna + ceo booking wizard (8 koraka) + upit za privatni termin |
 | `page-admin-panel.php` | `/admin-panel/` | Kompletan admin panel (X-Admin-Key header, ~4000 linija) |
-| `page-poklon.php` | `/poklon/` | Aktivacija/pregled poklon vaučera — radi i sa `?code=` (link iz mejla) i bez (forma za ručni unos) |
+| `page-poklon.php` | `/poklon/` | Aktivacija/pregled poklon vaučera — radi i sa `?code=` (link iz mejla) i bez (forma za ručni unos). Isti ulaz prima i kod **poklonjenog putovanja** (kod = šifra rezervacije, `ESC-XXXXXXXX`): backend vraća `kind: VOUCHER` ili `kind: TRIP`, stranica crta karticu sa terminom/aerodromom/putnicima, bez cene |
 | `page-pokloni.php` | `/pokloni-putovanje-iznenadjenja/` | Kupovina poklon vaučera |
 | `page-hvala.php` | `/hvala` | Zahvalnica posle rezervacije, boarding-pass prikaz |
 | `page-otkrivanje.php` | (magic link) | Reveal stranica — "grebalica" za destinaciju |

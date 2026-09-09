@@ -3,6 +3,8 @@
  * Template Name: Poklon Reveal
  * Stranica na kojoj primalac aktivira/vidi gift vaučer.
  * URL: /poklon?code=ESC-XXXX-XXXX-XXXX  (staro: ?k=, podrzano za kompatibilnost)
+ * Isti ulaz prima i kod POKLONJENOG PUTOVANJA (sifra rezervacije, ESC-XXXXXXXX):
+ * backend u odgovoru vraca kind=VOUCHER ili kind=TRIP, stranica crta odgovarajucu karticu.
  */
 $theme_uri = get_template_directory_uri();
 $site_url  = get_site_url();
@@ -184,6 +186,14 @@ $site_url  = get_site_url();
     .bp-mv { font-size: 12px; font-weight: 700; color: #1a1410; padding-top: 5px; }
     .bp-mv-terra { color: #a85e44; }
 
+    /* ── Poklonjeno putovanje (kind=TRIP): 4 meta polja, putnici, datum u stubu ── */
+    .bp-meta-4 .bp-meta-cell { padding: 11px 12px; }
+    .bp-pax-cols { display: flex; gap: 18px; }
+    .bp-pax-cols > div { flex: 1; min-width: 0; }
+    .bp-pax-from { border-left: 1px solid #ebe1cf; padding-left: 18px; flex: 0 0 42% !important; }
+    .bp-pax-name { font-size: 14px; font-weight: 700; color: #1a1410; line-height: 1.5; word-break: break-word; }
+    .bp-stub-date { font-size: 52px; letter-spacing: -1px; }
+
     .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; overflow: hidden; }
     .bp-msg-k { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; margin-bottom: 6px; }
     .bp-msg-text { font-family: Georgia, serif; font-style: italic; font-size: 14px; color: #2b231b; line-height: 1.5; word-break: break-word; overflow-wrap: break-word; white-space: normal; }
@@ -284,6 +294,13 @@ $site_url  = get_site_url();
       .bp-stub-amount { font-size: 50px; }
       .bp-how-cards { grid-template-columns: 1fr; }
       .bp-how-info  { grid-template-columns: 1fr; }
+      .bp-meta-4 { flex-wrap: wrap; }
+      .bp-meta-4 .bp-meta-cell { flex: 1 1 50%; min-width: 50%; }
+      .bp-meta-4 .bp-meta-cell:nth-child(2) { border-right: none; }
+      .bp-meta-4 .bp-meta-cell:nth-child(-n+2) { border-bottom: 1px solid #ebe1cf; }
+      .bp-pax-cols { flex-direction: column; gap: 12px; }
+      .bp-pax-from { border-left: none; padding-left: 0; border-top: 1px solid #ebe1cf; padding-top: 12px; flex-basis: auto !important; }
+      .bp-stub-date { font-size: 46px; }
     }
 
     /* ── Nav i mobilni meni (isti obrazac kao ostale podstranice) ── */
@@ -475,7 +492,7 @@ $site_url  = get_site_url();
 <div id="stateEntry">
   <div class="err-icon">🎁</div>
   <div class="err-title">Iskoristi poklon</div>
-  <div class="err-sub">Unesi kod sa vaučera pa ti pokažemo koliko iznosi.</div>
+  <div class="err-sub">Unesi kod sa vaučera - poklon vaučera ili poklonjenog putovanja.</div>
   <form class="entry-form" id="entryForm" novalidate>
     <input class="entry-input" id="entryCode" type="text"
            placeholder="ESC-XXXX-XXXX-XXXX" autocomplete="off"
@@ -499,7 +516,7 @@ const I18N = {
     errSub:        'Kod nije validan, nije aktivan ili je već iskorišćen.',
     errBtn:        'Pogledaj poklon opcije',
     entryTitle:    'Iskoristi poklon',
-    entrySub:      'Unesi kod sa vaučera pa ti pokažemo koliko iznosi.',
+    entrySub:      'Unesi kod sa vaučera - poklon vaučera ili poklonjenog putovanja.',
     entryPh:       'ESC-XXXX-XXXX-XXXX',
     entryBtn:      'Proveri kod',
     entryBtnWait:  'Proveravamo...',
@@ -535,6 +552,36 @@ const I18N = {
     failLoad:      'Greška pri učitavanju',
     failLoadSub:   'Pokušaj ponovo za nekoliko sekundi.',
     dateLocale:    'sr-RS',
+    dateLocaleLong:'sr-Latn-RS',
+    // Poklonjeno putovanje (kind=TRIP) - isti kod, ista stranica, bez cene
+    trip: {
+      badge:      '✓ PUTOVANJE REZERVISANO',
+      tag:        '✈ Poklon putovanje',
+      eyebrow:    '- Neko ti je poklonio putovanje iznenađenja -',
+      h1:         'Tvoja avantura<br><em>je rezervisana.</em>',
+      routeFrom:  'Polazak',
+      routeTo:    'Iznenađenje',
+      routeToSub: 'otkriva se 48h pre polaska',
+      metaDep:    'Polazak',
+      metaRet:    'Povratak',
+      metaNights: 'Noći',
+      metaPax:    'Putnici',
+      paxK:       'Putnici',
+      fromK:      'Poklon od',
+      stubKDep:   'Polazak',
+      stubKCode:  'Vaučer kod',
+      stubInfo:   'Letovi, smeštaj i transfer su rezervisani. Destinacija stiže na mejl <strong>48h pre polaska</strong>.',
+      stubScan:   'escapii.rs/poklon · bez roka važenja',
+      howH:       'Šta te čeka?',
+      how1Title:  'Vremenska prognoza',
+      how1Sub:    '7 dana pre polaska stiže prognoza za destinaciju - koja i dalje ostaje tajna - da znaš šta da spakuješ.',
+      how2Title:  'Reveal destinacije',
+      how2Sub:    '48h pre polaska stiže mejl u kom saznaješ gde putuješ, a odmah zatim i putni dokumenti.',
+      info1:      '✓ Letovi, smeštaj i transfer su rezervisani',
+      info2:      '✓ Dođi na aerodrom 3h pre leta',
+      info3:      '✓ Vaučer nema rok važenja - putovanje je rezervisano',
+      info4:      '✓ Pitanja? <a href="mailto:info@escapii.rs">info@escapii.rs</a>',
+    },
     'nav.status':         'Moja rezervacija',
     'snav.how':           'Kako funkcioniše',
     'snav.about':         'O nama',
@@ -566,7 +613,7 @@ const I18N = {
     errSub:        'The code is invalid, not yet active, or has already been used.',
     errBtn:        'View gift options',
     entryTitle:    'Redeem your gift',
-    entrySub:      "Enter the code from your voucher and we'll show you the value.",
+    entrySub:      'Enter the code from your voucher - a gift voucher or a gifted trip.',
     entryPh:       'ESC-XXXX-XXXX-XXXX',
     entryBtn:      'Check code',
     entryBtnWait:  'Checking...',
@@ -602,6 +649,35 @@ const I18N = {
     failLoad:      'Loading error',
     failLoadSub:   'Please try again in a few seconds.',
     dateLocale:    'en-GB',
+    dateLocaleLong:'en-GB',
+    trip: {
+      badge:      '✓ TRIP BOOKED',
+      tag:        '✈ Gifted trip',
+      eyebrow:    '- Someone gifted you a surprise trip -',
+      h1:         'Your adventure<br><em>is booked.</em>',
+      routeFrom:  'Departure',
+      routeTo:    'Surprise',
+      routeToSub: 'revealed 48h before departure',
+      metaDep:    'Departure',
+      metaRet:    'Return',
+      metaNights: 'Nights',
+      metaPax:    'Travellers',
+      paxK:       'Travellers',
+      fromK:      'Gift from',
+      stubKDep:   'Departure',
+      stubKCode:  'Voucher code',
+      stubInfo:   'Flights, hotel and transfer are booked. The destination arrives by email <strong>48h before departure</strong>.',
+      stubScan:   'escapii.rs/poklon · no expiry',
+      howH:       "What's next?",
+      how1Title:  'Weather forecast',
+      how1Sub:    '7 days before departure you get the forecast for your destination - which stays secret - so you know what to pack.',
+      how2Title:  'Destination reveal',
+      how2Sub:    '48h before departure an email reveals where you are going, followed by your travel documents.',
+      info1:      '✓ Flights, hotel and transfer are booked',
+      info2:      '✓ Be at the airport 3h before the flight',
+      info3:      '✓ The voucher never expires - the trip is booked',
+      info4:      '✓ Questions? <a href="mailto:info@escapii.rs">info@escapii.rs</a>',
+    },
     'nav.status':         'My booking',
     'snav.how':           'How it works',
     'snav.about':         'About us',
@@ -780,6 +856,31 @@ function _fmtDate(iso) {
   return new Date(iso).toLocaleDateString(T.dateLocale, { day:'2-digit', month:'2-digit', year:'numeric' });
 }
 
+// Datumi puta stižu kao "2026-06-12" bez vremena. new Date('2026-06-12') je UTC ponoć,
+// pa bi zapadno od Griniča prikazao dan RANIJE - zato se parsira ručno i formatira u UTC.
+function _isoParts(iso) {
+  const p = String(iso || '').split('-');
+  return p.length === 3 && p.every(x => /^\d+$/.test(x)) ? { y: +p[0], m: +p[1], d: +p[2] } : null;
+}
+function _fmtDay(iso) {
+  const p = _isoParts(iso);
+  if (!p) return '-';
+  return new Date(Date.UTC(p.y, p.m - 1, p.d)).toLocaleDateString(T.dateLocale, { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+function _fmtDayShort(iso) {
+  const p = _isoParts(iso);
+  if (!p) return '';
+  return String(p.d).padStart(2, '0') + '.' + String(p.m).padStart(2, '0') + '.';
+}
+function _fmtDayLong(iso) {
+  const p = _isoParts(iso);
+  if (!p) return '';
+  try {
+    return new Date(Date.UTC(p.y, p.m - 1, p.d)).toLocaleDateString(T.dateLocaleLong || T.dateLocale,
+      { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  } catch (e) { return _fmtDay(iso); }
+}
+
 // ── Boarding pass render ───────────────────────────────────────────────────────
 function _renderRevealCard(container, code, d) {
   const amount = Math.round(d.amount);
@@ -895,6 +996,122 @@ function _renderRevealCard(container, code, d) {
   }, 950);
 }
 
+// ── Poklonjeno putovanje (kind=TRIP) ───────────────────────────────────────────
+// Ista kartica kao za novčani vaučer, ali umesto iznosa: termin, aerodrom polaska,
+// putnici i ko poklanja. Cene nema jer je backend i ne šalje - ovde nema šta da se sakrije.
+function _renderTripCard(container, code, d) {
+  const t  = T.trip;
+  const tr = d.trip || {};
+  const pax = (tr.passengers || []).map(n => `<div class="bp-pax-name">${_esc(n)}</div>`).join('');
+
+  container.innerHTML = `
+    <div class="bp-status-wrap">
+      <div class="bp-badge-active">${t.badge}</div>
+    </div>
+
+    <div class="bp-card" id="bpCardEl">
+      <div class="bp-bar"></div>
+      <div class="bp-inner">
+
+        <div class="bp-main">
+          <div class="bp-hdr">
+            <img src="${THEME_URI}/images/logo-black.svg" alt="escapii" class="bp-logo">
+            <div class="bp-tag">${t.tag}</div>
+          </div>
+          <div class="bp-title-area">
+            <div class="bp-eyebrow">${t.eyebrow}</div>
+            <h2 class="bp-h1">${t.h1}</h2>
+          </div>
+          <div class="bp-route">
+            <div class="bp-route-from">
+              <div class="bp-iata">${_esc(tr.airportCode || '???')}</div>
+              <div class="bp-city">${_esc(tr.airportCity || t.routeFrom)}</div>
+              <div class="bp-cap">${_esc(tr.airportName || '')}</div>
+            </div>
+            <div class="bp-route-mid">
+              <span class="bp-plane-icon">✈</span>
+              <div class="bp-plane-line"></div>
+            </div>
+            <div class="bp-route-to">
+              <div class="bp-iata bp-iata-dest">???</div>
+              <div class="bp-city bp-city-r">${t.routeTo}</div>
+              <div class="bp-cap bp-cap-r">${t.routeToSub}</div>
+            </div>
+          </div>
+          <div class="bp-meta bp-meta-4">
+            <div class="bp-meta-cell">
+              <div class="bp-mk">${t.metaDep}</div>
+              <div class="bp-mv bp-mv-terra">${_fmtDay(tr.departureDate)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">${t.metaRet}</div>
+              <div class="bp-mv">${_fmtDay(tr.returnDate)}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">${t.metaNights}</div>
+              <div class="bp-mv">${tr.nights != null ? _esc(tr.nights) : '-'}</div>
+            </div>
+            <div class="bp-meta-cell">
+              <div class="bp-mk">${t.metaPax}</div>
+              <div class="bp-mv">${tr.travelers != null ? _esc(tr.travelers) : '-'}</div>
+            </div>
+          </div>
+          <div class="bp-msg" style="margin-top:13px;">
+            <div class="bp-pax-cols">
+              <div>
+                <div class="bp-msg-k">${t.paxK}</div>
+                ${pax || '<div class="bp-pax-name">-</div>'}
+              </div>
+              ${d.buyerName ? `<div class="bp-pax-from"><div class="bp-msg-k">${t.fromK}</div><div class="bp-msg-text">${_esc(d.buyerName)}</div></div>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="bp-perf"></div>
+
+        <div class="bp-stub">
+          <div class="bp-stub-head">${T.stubHead}</div>
+          <div class="bp-stub-k">${t.stubKDep}</div>
+          <div class="bp-stub-amount bp-stub-date">${_esc(_fmtDayShort(tr.departureDate))}</div>
+          <div class="bp-stub-sub">${_esc(_fmtDayLong(tr.departureDate))}</div>
+          <div class="bp-stub-k">${t.stubKCode}</div>
+          <div class="bp-code-wrap">
+            <span class="bp-code-text">${_esc(code)}</span>
+          </div>
+          <div class="bp-stub-info">${t.stubInfo}</div>
+          <div class="bp-stub-scan">${t.stubScan}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bp-how">
+      <h3 class="bp-how-h">${t.howH}</h3>
+      <div class="bp-how-cards">
+        <div class="bp-how-card">
+          <div class="bp-how-icon">🌤️</div>
+          <div class="bp-how-title">${t.how1Title}</div>
+          <div class="bp-how-sub" style="margin-bottom:0;">${t.how1Sub}</div>
+        </div>
+        <div class="bp-how-card">
+          <div class="bp-how-icon">✉️</div>
+          <div class="bp-how-title">${t.how2Title}</div>
+          <div class="bp-how-sub" style="margin-bottom:0;">${t.how2Sub}</div>
+        </div>
+      </div>
+      <div class="bp-how-info">
+        <div class="bp-info-item">${t.info1}</div>
+        <div class="bp-info-item">${t.info2}</div>
+        <div class="bp-info-item">${t.info3}</div>
+        <div class="bp-info-item">${t.info4}</div>
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    const card = document.getElementById('bpCardEl');
+    if (card) card.classList.add('bp-float');
+  }, 950);
+}
+
 function _renderRevealError(container, msg) {
   document.getElementById('stateReveal').style.display = 'none';
   var t = document.getElementById('errTitle');
@@ -947,7 +1164,12 @@ async function revealCode(code, { inline = false } = {}) {
     }
 
     show('reveal');
-    _renderRevealCard(document.getElementById('bpRevealContent'), code, data);
+    if (data.kind === 'TRIP') {
+      // Poklonjeno putovanje: isti kod, ista stranica - termin, aerodrom, putnici, bez cene
+      _renderTripCard(document.getElementById('bpRevealContent'), code, data);
+    } else {
+      _renderRevealCard(document.getElementById('bpRevealContent'), code, data);
+    }
     setTimeout(launchConfetti, 600);
 
   } catch (e) {
