@@ -2306,10 +2306,39 @@
       box-shadow: none;
     }
     textarea.f-input { min-height: 90px; }
+    /* Select u .f-input mrezi (padajuca lista putnika kod poklona).
+       Bez ovoga se iscrtava nativno: druga visina, sistemska strelica, a meni
+       belom na tamnoj formi - jer OS ne nasledjuje boju sa kontrole. */
+    select.f-input {
+      --sel-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ca8a71' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      appearance: none; -webkit-appearance: none; -moz-appearance: none;
+      padding-right: 40px; cursor: pointer;
+    }
+    /* Strelica se navodi i za hover i za focus, jer .f-input:hover postavlja
+       `background` SKRACENICOM - a ona brise background-image. Bez ovoga strelica
+       nestaje cim se predje misem. Specificnost select.f-input:hover (0,2,1) je
+       visa od .f-input:hover (0,2,0), pa vraca sliku; vrednost stoji u promenljivoj
+       da data URI ne bude prepisan tri puta. */
+    select.f-input,
+    select.f-input:hover,
+    select.f-input:focus {
+      background-image: var(--sel-arrow);
+      background-repeat: no-repeat;
+      background-position: calc(100% - 14px) 50%;
+    }
+    select.f-input option { background: #0d1f29; color: rgba(246,241,230,.95); }
     .field-error .f-input { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .err-msg { color: #f87171; font-size: 13px; margin-top: 12px; display: none; }
-    /* Reveal Box - adresa dostave, sekcija u kontakt koraku (prikazuje se samo kad je S.hasRevealBox=true) */
-    .rb-delivery {
+    /* Uslovne sekcije u kontakt koraku: okvir koji se pojavljuje tek kad je
+       odgovarajuca opcija ukljucena ranije u formi. Dele isti izgled namerno -
+       korisnik ih dozivljava kao istu vrstu "otvorilo se jos jedno polje".
+         .rb-delivery     - adresa dostave, kad je S.hasRevealBox
+         .gift-recipient  - podaci obdarenog, kad je S.isGift
+       Unutrasnji elementi (head/icon/title/sub/grid) su zajednicki i zadrzavaju
+       rb- prefiks jer su prvo napisani ovde; preimenovanje bi diralo markup koji
+       radi, a dobitak bi bio samo u imenu. */
+    .rb-delivery,
+    .gift-recipient {
       grid-column: 1 / -1;
       margin-top: 6px;
       padding: 22px 22px 20px;
@@ -2319,8 +2348,17 @@
       display: none;
       animation: rb-fade-in .35s ease-out;
     }
-    .rb-delivery.on { display: block; }
+    .rb-delivery.on,
+    .gift-recipient.on { display: block; }
     @keyframes rb-fade-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+    /* Kad je putovanje poklon, dva mejla stoje jedan ispod drugog i moraju se
+       razlikovati na prvi pogled - ovaj red kaze sta stize na gornji. */
+    .gift-payer-note {
+      display: none;
+      margin-top: 7px; font-size: 12px; line-height: 1.5;
+      color: rgba(202,138,113,.95);
+    }
+    .gift-payer-note.on { display: block; }
     .rb-delivery-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
     .rb-delivery-icon { font-size: 22px; }
     .rb-delivery-title { font-size: 14px; font-weight: 800; color: var(--accent); letter-spacing: .3px; text-transform: uppercase; }
@@ -2330,7 +2368,8 @@
     .rb-delivery-grid .form-field.full { grid-column: 1 / -1; }
     @media (max-width: 640px) {
       .rb-delivery-grid { grid-template-columns: 1fr; }
-      .rb-delivery { padding: 18px 16px 16px; }
+      .rb-delivery,
+      .gift-recipient { padding: 18px 16px 16px; }
     }
     /* Success */
     .success-wrap { display: none; text-align: center; padding: 48px 32px; }
@@ -3614,6 +3653,17 @@
           <span style="font-size:15px;flex-shrink:0;">✉</span>
           <span data-i18n-html="s2.max.msg">Za putovanje sa više od 6 osoba, pišite nam na <a href="mailto:info@escapii.rs">info@escapii.rs</a></span>
         </div>
+        <!-- Poklon. Ovde samo zastavica - podaci obdarenog se unose u koraku 8,
+             jer se ime bira iz liste putnika koja u ovom trenutku jos ne postoji.
+             Isti obrazac kao Reveal Box: opcija se pali ranije, polja se otvaraju
+             na kontaktu. -->
+        <div class="transfer-note-row gift-row" id="gift-row">
+          <input type="checkbox" id="chkGift" onchange="togGift(this)">
+          <label for="chkGift">
+            <span class="transfer-note-ic">🎁</span>
+            <span data-i18n="gift.check">Pokloni ovo putovanje</span>
+          </label>
+        </div>
         <div class="step-btns">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
           <button class="btn-next" onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
@@ -4004,6 +4054,7 @@
             <div class="f-label">Email <span class="req">*</span></div>
             <div class="f-input-wrap"><input class="f-input" type="email" id="fEmail" placeholder="youremail@gmail.com"></div>
             <div class="field-error-msg" data-i18n="err.email"></div>
+            <div class="gift-payer-note" id="gift-payer-note" data-i18n="gift.payer.note">💳 Na ovu adresu stižu podaci za uplatu i faktura.</div>
           </div>
           <div class="form-field" id="ff-phone">
             <div class="f-label"><span data-i18n="s8.phone">Telefon</span> <span class="req">*</span></div>
@@ -4039,6 +4090,30 @@
               <div class="form-field full" id="ff-rb-apartment">
                 <div class="f-label" data-i18n="revealbox.apartment">Stan / sprat / interfon (opciono)</div>
                 <div class="f-input-wrap"><input class="f-input" type="text" id="fRbApartment" placeholder="npr. stan 5, 2. sprat" maxlength="150"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Poklon - podaci osobe koja putuje. Vidi se samo kad je u koraku 2
+               ukljucen poklon; ista mehanika kao rb-delivery-section iznad. -->
+          <div class="gift-recipient" id="gift-recipient-section">
+            <div class="rb-delivery-head">
+              <span class="rb-delivery-icon">🎁</span>
+              <span class="rb-delivery-title" data-i18n="gift.sec.title">Kome poklanjaš</span>
+            </div>
+            <div class="rb-delivery-sub" data-i18n="gift.sec.sub">
+              Na ovu adresu šaljemo prognozu, reveal destinacije i putne dokumente. Uplata i faktura ostaju na tvom emailu iznad.
+            </div>
+            <div class="rb-delivery-grid">
+              <div class="form-field" id="ff-gift-name">
+                <div class="f-label"><span data-i18n="gift.sec.who">Koji putnik dobija poklon</span> <span class="req">*</span></div>
+                <div class="f-input-wrap"><select class="f-input" id="fGiftName" onchange="onGiftNameChange()"></select></div>
+                <div class="field-error-msg" data-i18n="err.required"></div>
+              </div>
+              <div class="form-field" id="ff-gift-email">
+                <div class="f-label"><span data-i18n="gift.sec.email">Email te osobe</span> <span class="req">*</span></div>
+                <div class="f-input-wrap"><input class="f-input" type="email" id="fGiftEmail" placeholder="ime@gmail.com" maxlength="180" autocomplete="off" oninput="document.getElementById('ff-gift-email')?.classList.remove('field-error');"></div>
+                <div class="field-error-msg" data-i18n="err.gift.email"></div>
               </div>
             </div>
           </div>
@@ -4501,6 +4576,12 @@ const TR = {
     'revealbox.delivery.title':'Adresa dostave Reveal Box-a',
     'revealbox.delivery.sub':'Pošalji nam adresu na koju stiže tvoja kutija iznenađenja. Isporuka 2-5 dana pre polaska.',
     'revealbox.address':'Ulica i broj', 'revealbox.apartment':'Stan / sprat / interfon (opciono)', 'revealbox.city':'Grad i poštanski broj', 'revealbox.phone':'Telefon za dostavu',
+    'gift.check':'Pokloni ovo putovanje',
+    'gift.sec.title':'Kome poklanjaš',
+    'gift.sec.sub':'Na ovu adresu šaljemo prognozu, reveal destinacije i putne dokumente. Uplata i faktura ostaju na tvom emailu iznad.',
+    'gift.sec.who':'Koji putnik dobija poklon', 'gift.sec.email':'Email te osobe',
+    'gift.payer.note':'💳 Na ovu adresu stižu podaci za uplatu i faktura.',
+    'err.gift.email':'Unesite ispravnu email adresu.',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
@@ -4754,6 +4835,12 @@ const TR = {
     'revealbox.delivery.title':'Reveal Box delivery address',
     'revealbox.delivery.sub':'Send us the address where your surprise box should arrive. Delivery 2-5 days before departure.',
     'revealbox.address':'Street address', 'revealbox.apartment':'Apartment / floor / intercom (optional)', 'revealbox.city':'City & postal code', 'revealbox.phone':'Phone for delivery',
+    'gift.check':'Gift this trip',
+    'gift.sec.title':'Who it is for',
+    'gift.sec.sub':'We send the forecast, the destination reveal and the travel documents to this address. Payment details and the invoice stay on your email above.',
+    'gift.sec.who':'Which traveller receives it', 'gift.sec.email':'Their email',
+    'gift.payer.note':'💳 Payment details and the invoice come to this address.',
+    'err.gift.email':'Enter a valid email address.',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
@@ -5356,6 +5443,7 @@ const S = {
   selectedDateId:null, selectedDate:null, accommodationType:'STANDARD',
   cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
   hasRevealBox:false, deliveryAddress:'', deliveryApartment:'', deliveryCity:'', deliveryPhone:'',
+  isGift:false, giftRecipientName:'', giftRecipientEmail:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   airports:[],   // iz /api/airports - vidi loadAirports()
   lastPrice:null,
@@ -5741,6 +5829,9 @@ function onEnter() {
     updateTransferNotice();
     // Reveal Box delivery sekcija se vidi samo ako je korisnik u koraku Dodaci uključio kutiju.
     syncRbDeliveryVisibility();
+    // Poklon: lista putnika se gradi tek ovde, jer su imena uneta u prethodnom koraku.
+    populateGiftPassengers();
+    syncGiftVisibility();
     // Auto-fill ime/prezime nosioca rezervacije iz prvog putnika (samo ako prazno)
     const fn = document.getElementById('fFirstName');
     const ln = document.getElementById('fLastName');
@@ -6086,6 +6177,57 @@ function togRevealBox(el) {
 function syncRbDeliveryVisibility() {
   const section = document.getElementById('rb-delivery-section');
   if (section) section.classList.toggle('on', !!S.hasRevealBox);
+}
+
+/** Kucica u koraku 2. Samo zastavica - polja se otvaraju na kontaktu. */
+function togGift(el) {
+  S.isGift = !!(el && el.checked);
+  if (!S.isGift) { S.giftRecipientName = ''; S.giftRecipientEmail = ''; }
+  syncGiftVisibility();
+}
+
+/** Prikazuje/skriva sekciju obdarenog i napomenu ispod glavnog mejla. */
+function syncGiftVisibility() {
+  document.getElementById('gift-recipient-section')?.classList.toggle('on', !!S.isGift);
+  document.getElementById('gift-payer-note')?.classList.toggle('on', !!S.isGift);
+}
+
+/**
+ * Puni padajucu listu imenima putnika unetim u koraku 7.
+ *
+ * Gradi se pri svakom ulasku u korak 8, ne jednom: kupac se vraca nazad, menja
+ * broj putnika i prepravlja imena, pa lista napravljena ranije nudi nekog ko
+ * vise ne postoji. Prethodni izbor se cuva ako je to ime i dalje na listi.
+ */
+function populateGiftPassengers() {
+  const sel = document.getElementById('fGiftName');
+  if (!sel) return;
+  const prev = S.giftRecipientName || sel.value || '';
+  const names = [];
+  for (let i = 0; i < S.travelers; i++) {
+    const f = (document.getElementById('pnf'+i)?.value || '').trim();
+    const l = (document.getElementById('pnl'+i)?.value || '').trim();
+    const full = (f + ' ' + l).trim();
+    if (full) names.push(full);
+  }
+  const ph = lang === 'sr' ? 'Izaberi putnika...' : 'Choose a traveler...';
+  sel.innerHTML = '<option value="">' + ph + '</option>' +
+    names.map(n => '<option value="' + escAttr(n) + '">' + escAttr(n) + '</option>').join('');
+  sel.value = names.includes(prev) ? prev : '';
+  S.giftRecipientName = sel.value;
+}
+
+function onGiftNameChange() {
+  const sel = document.getElementById('fGiftName');
+  S.giftRecipientName = sel ? sel.value : '';
+  document.getElementById('ff-gift-name')?.classList.remove('field-error');
+}
+
+/** Minimalno escapovanje za vrednosti koje ulaze u atribut/tekst option-a. */
+function escAttr(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function updateSeatsVisibility() {
@@ -6977,6 +7119,17 @@ function validateContact() {
                :'Reveal Box delivery phone may contain only digits, +, - and spaces.'}
     );
   }
+  // Poklon - obdareni se bira iz liste putnika, mejl se kuca. Oba obavezna
+  // samo kad je zastavica upaljena, isto kao adresa Reveal Box-a iznad.
+  if (S.isGift) {
+    fields.push(
+      {id:'fGiftName', wrap:'ff-gift-name', check:v=>v.trim().length>0,
+       msg:isSr?'Izaberite kome poklanjate putovanje.':'Choose who the trip is for.'},
+      {id:'fGiftEmail', wrap:'ff-gift-email', check:v=>EMAIL_RE.test(v.trim()),
+       msg:isSr?'Unesite ispravnu email adresu osobe kojoj poklanjate.'
+               :'Enter a valid email address for the person receiving the trip.'}
+    );
+  }
   fields.forEach(f=>{
     const el=document.getElementById(f.id);
     const wrap=document.getElementById(f.wrap);
@@ -7096,6 +7249,11 @@ async function submitBooking() {
     S.deliveryCity      = (document.getElementById('fRbCity')?.value || '').trim();
     S.deliveryPhone     = (document.getElementById('fRbPhone')?.value || '').trim();
   }
+  // Isto za poklon: ime je vec u S kroz onGiftNameChange, mejl se cita ovde.
+  if (S.isGift) {
+    S.giftRecipientName  = (document.getElementById('fGiftName')?.value || '').trim();
+    S.giftRecipientEmail = (document.getElementById('fGiftEmail')?.value || '').trim();
+  }
 
   const passengers=Array.from({length:S.travelers},(_,i)=>({
     passportCountry:(document.getElementById('pp'+i)||{}).value?.trim()||'',
@@ -7121,6 +7279,9 @@ async function submitBooking() {
     deliveryApartment:S.hasRevealBox ? (S.deliveryApartment || null) : null,
     deliveryCity:S.hasRevealBox ? S.deliveryCity : null,
     deliveryPhone:S.hasRevealBox ? S.deliveryPhone : null,
+    isGift:S.isGift,
+    giftRecipientName:S.isGift ? S.giftRecipientName : null,
+    giftRecipientEmail:S.isGift ? S.giftRecipientEmail : null,
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
     excludedDestination3Id:S.excludedIds[2]||null,

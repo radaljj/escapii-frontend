@@ -1201,7 +1201,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
         <div class="tp-det-row" id="tpAirlineRow" style="display:none;"><span class="l">✈ Check-in kod</span><span class="v" id="tpAirlineCode" style="color:var(--pop-accent2);font-weight:700;letter-spacing:1px;">-</span></div>
         <div class="tp-det-row" id="tpAddonsRow"><span class="l">Dodaci</span><span class="v" id="tpAddons">-</span></div>
         <div class="tp-det-row"><span class="l">Putnici</span><span class="v" id="tpPassengerList">-</span></div>
-        <div class="tp-det-row"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">-</span></div>
+        <div class="tp-det-row" id="tpTotalRow"><span class="l">Ukupno plaćeno</span><span class="v" id="tpTotal" style="color:var(--pop-accent2)">-</span></div>
       </div>
 
       <div class="tp-inbox">
@@ -1820,7 +1820,13 @@ function openTripPopup() {
     paxEl.textContent = paxNames.length ? paxNames.join(', ') : '-';
   }
 
-  document.getElementById('tpTotal').textContent = fmtMoney(d.totalPriceAll);
+  // Kod poklona backend NE salje totalPriceAll - obdareni ne treba da vidi sta je
+  // neko drugi platio za njega. Ceo red se sakriva; prikazan red sa crticom bi
+  // rekao "cena postoji ali ti je ne damo", sto je gore od toga da ga nema.
+  const imaCenu = d.totalPriceAll !== undefined && d.totalPriceAll !== null;
+  const redCena = document.getElementById('tpTotalRow');
+  if (redCena) redCena.style.display = imaCenu ? '' : 'none';
+  if (imaCenu) document.getElementById('tpTotal').textContent = fmtMoney(d.totalPriceAll);
 
   setupModalConfetti();
 

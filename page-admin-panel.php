@@ -2883,6 +2883,7 @@ function buildBookingDetail(b) {
     b.hasConnectingFlights && '✈✈ Presedanje',
     b.cabinSuitcaseCount > 0 && `🧳 ${b.cabinSuitcaseCount}× kofer`,
     b.hasRevealBox && '📦 Reveal Box',
+    b.isGift && '🎁 Poklon',
     b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
   ].filter(Boolean).join(' · ') || '-';
   const isConfirmed = b.status === 'CONFIRMED';
@@ -2951,7 +2952,7 @@ function buildBookingDetail(b) {
     ${pendingInfoHtml}
     <div class="bc-body">
       <div class="bc-field"><div class="bc-label">Ime i prezime</div><div class="bc-value">${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')}</div></div>
-      <div class="bc-field"><div class="bc-label">Email</div><div class="bc-value">${escHtml(b.email || '')}</div></div>
+      <div class="bc-field"><div class="bc-label">${b.isGift ? 'Email <span style="color:#fbbf24;">(uplata i faktura)</span>' : 'Email'}</div><div class="bc-value">${escHtml(b.email || '')}</div></div>
       <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${escHtml(b.phone || '')}</div></div>
       <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
       <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
@@ -3013,6 +3014,20 @@ function buildBookingDetail(b) {
     </div>
 
     ${b.notes ? `<div class="bc-notes">💬 Napomena klijenta: <em>${escHtml(b.notes)}</em></div>` : ''}
+
+    ${b.isGift ? `
+    <div class="bc-reveal-box-section" style="border-color:rgba(251,191,36,.35);">
+      <div class="bc-reveal-box-header" style="color:#fbbf24;">🎁 Poklon - dve adrese na ovoj rezervaciji</div>
+      <div class="bc-reveal-box-body">
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Plaća</span><span>${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')} · ${escHtml(b.email || '-')}</span></div>
+        <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Putuje</span><span>${escHtml(b.giftRecipientName || '-')} · <strong>${escHtml(b.giftRecipientEmail || '-')}</strong></span></div>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.6;">
+          Faktura i potvrde idu na adresu koja plaća. Prognoza, reveal destinacije i
+          putni dokumenti idu na adresu koja putuje. Bez izuzetka - poklanjaocu ne ide
+          nijedan mejl o samom putu.
+        </div>
+      </div>
+    </div>` : ''}
 
     ${b.hasRevealBox ? `
     <div class="bc-reveal-box-section" id="rbs-${b.id}">
