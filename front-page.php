@@ -2306,27 +2306,24 @@
       box-shadow: none;
     }
     textarea.f-input { min-height: 90px; }
-    /* Select u .f-input mrezi (padajuca lista putnika kod poklona).
-       Bez ovoga se iscrtava nativno: druga visina, sistemska strelica, a meni
-       belom na tamnoj formi - jer OS ne nasledjuje boju sa kontrole. */
-    select.f-input {
+    /* Izbor obdarenog. NIJE <select>: Windows crta otvoreni nativni meni
+       belo-plavo bez obzira na `option` stilove, pa se ne moze uklopiti u tamnu
+       formu. Ista komponenta kao izbor zemlje pasosa - vidljivi input, skriveni
+       nosi vrednost, .cd-list je meni. */
+    .gift-pick {
       --sel-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ca8a71' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      appearance: none; -webkit-appearance: none; -moz-appearance: none;
-      padding-right: 40px; cursor: pointer;
+      cursor: pointer; caret-color: transparent; padding-right: 40px;
     }
-    /* Strelica se navodi i za hover i za focus, jer .f-input:hover postavlja
-       `background` SKRACENICOM - a ona brise background-image. Bez ovoga strelica
-       nestaje cim se predje misem. Specificnost select.f-input:hover (0,2,1) je
-       visa od .f-input:hover (0,2,0), pa vraca sliku; vrednost stoji u promenljivoj
-       da data URI ne bude prepisan tri puta. */
-    select.f-input,
-    select.f-input:hover,
-    select.f-input:focus {
+    /* Strelica se navodi i za :hover i za :focus jer .f-input:hover postavlja
+       `background` SKRACENICOM, koja brise background-image - bez ovoga strelica
+       nestane cim se predje misem. */
+    .gift-pick,
+    .gift-pick:hover,
+    .gift-pick:focus {
       background-image: var(--sel-arrow);
       background-repeat: no-repeat;
       background-position: calc(100% - 14px) 50%;
     }
-    select.f-input option { background: #0d1f29; color: rgba(246,241,230,.95); }
     .field-error .f-input { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.08) !important; }
     .err-msg { color: #f87171; font-size: 13px; margin-top: 12px; display: none; }
     /* Uslovne sekcije u kontakt koraku: okvir koji se pojavljuje tek kad je
@@ -4107,7 +4104,12 @@
             <div class="rb-delivery-grid">
               <div class="form-field" id="ff-gift-name">
                 <div class="f-label"><span data-i18n="gift.sec.who">Koji putnik dobija poklon</span> <span class="req">*</span></div>
-                <div class="f-input-wrap"><select class="f-input" id="fGiftName" onchange="onGiftNameChange()"></select></div>
+                <div class="cd-wrap">
+                  <input class="f-input gift-pick" id="fGiftPick" type="text" readonly
+                         autocomplete="off" data-i18n-ph="gift.sec.pick">
+                  <input type="hidden" id="fGiftName">
+                  <div class="cd-list" id="fGiftList"></div>
+                </div>
                 <div class="field-error-msg" data-i18n="err.required"></div>
               </div>
               <div class="form-field" id="ff-gift-email">
@@ -4580,6 +4582,7 @@ const TR = {
     'gift.sec.title':'Kome poklanjaš',
     'gift.sec.sub':'Na ovu adresu šaljemo prognozu, reveal destinacije i putne dokumente. Uplata i faktura ostaju na tvom emailu iznad.',
     'gift.sec.who':'Koji putnik dobija poklon', 'gift.sec.email':'Email te osobe',
+    'gift.sec.pick':'Izaberi putnika...',
     'gift.payer.note':'💳 Na ovu adresu stižu podaci za uplatu i faktura.',
     'err.gift.email':'Unesite ispravnu email adresu.',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
@@ -4839,6 +4842,7 @@ const TR = {
     'gift.sec.title':'Who it is for',
     'gift.sec.sub':'We send the forecast, the destination reveal and the travel documents to this address. Payment details and the invoice stay on your email above.',
     'gift.sec.who':'Which traveller receives it', 'gift.sec.email':'Their email',
+    'gift.sec.pick':'Choose a traveller...',
     'gift.payer.note':'💳 Payment details and the invoice come to this address.',
     'err.gift.email':'Enter a valid email address.',
     'ext.ins.tip.title':'🛡️ Travel insurance',
@@ -6200,9 +6204,11 @@ function syncGiftVisibility() {
  * vise ne postoji. Prethodni izbor se cuva ako je to ime i dalje na listi.
  */
 function populateGiftPassengers() {
-  const sel = document.getElementById('fGiftName');
-  if (!sel) return;
-  const prev = S.giftRecipientName || sel.value || '';
+  const pick   = document.getElementById('fGiftPick');
+  const hidden = document.getElementById('fGiftName');
+  const list   = document.getElementById('fGiftList');
+  if (!pick || !hidden || !list) return;
+
   const names = [];
   for (let i = 0; i < S.travelers; i++) {
     const f = (document.getElementById('pnf'+i)?.value || '').trim();
@@ -6210,17 +6216,42 @@ function populateGiftPassengers() {
     const full = (f + ' ' + l).trim();
     if (full) names.push(full);
   }
-  const ph = lang === 'sr' ? 'Izaberi putnika...' : 'Choose a traveler...';
-  sel.innerHTML = '<option value="">' + ph + '</option>' +
-    names.map(n => '<option value="' + escAttr(n) + '">' + escAttr(n) + '</option>').join('');
-  sel.value = names.includes(prev) ? prev : '';
-  S.giftRecipientName = sel.value;
-}
 
-function onGiftNameChange() {
-  const sel = document.getElementById('fGiftName');
-  S.giftRecipientName = sel ? sel.value : '';
-  document.getElementById('ff-gift-name')?.classList.remove('field-error');
+  // Raniji izbor prezivi samo ako to ime i dalje postoji na listi.
+  const prev = S.giftRecipientName || hidden.value || '';
+  const vazi = names.includes(prev);
+  hidden.value = vazi ? prev : '';
+  pick.value   = vazi ? prev : '';
+  S.giftRecipientName = hidden.value;
+  pick.placeholder = t('gift.sec.pick');
+
+  list.innerHTML = names.map(nm =>
+    `<div class="cd-item" data-name="${escAttr(nm)}">${escAttr(nm)}</div>`).join('');
+
+  list.querySelectorAll('.cd-item').forEach(el => {
+    // mousedown, ne click: blur na inputu zatvara listu pre nego sto click stigne.
+    el.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      const nm = this.dataset.name || '';
+      hidden.value = nm;
+      pick.value   = nm;
+      S.giftRecipientName = nm;
+      list.classList.remove('open');
+      document.getElementById('ff-gift-name')?.classList.remove('field-error');
+    });
+  });
+
+  if (!pick.dataset.bound) {
+    pick.dataset.bound = '1';
+    const otvori = () => { if (list.children.length) list.classList.add('open'); };
+    pick.addEventListener('focus', otvori);
+    pick.addEventListener('click', otvori);
+    pick.addEventListener('blur', () => setTimeout(() => list.classList.remove('open'), 180));
+    pick.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { list.classList.remove('open'); pick.blur(); }
+      if (e.key === 'Enter')  { e.preventDefault(); otvori(); }
+    });
+  }
 }
 
 /** Minimalno escapovanje za vrednosti koje ulaze u atribut/tekst option-a. */
@@ -7249,7 +7280,7 @@ async function submitBooking() {
     S.deliveryCity      = (document.getElementById('fRbCity')?.value || '').trim();
     S.deliveryPhone     = (document.getElementById('fRbPhone')?.value || '').trim();
   }
-  // Isto za poklon: ime je vec u S kroz onGiftNameChange, mejl se cita ovde.
+  // Isto za poklon: ime je vec u S kroz izbor iz liste, mejl se cita ovde.
   if (S.isGift) {
     S.giftRecipientName  = (document.getElementById('fGiftName')?.value || '').trim();
     S.giftRecipientEmail = (document.getElementById('fGiftEmail')?.value || '').trim();
