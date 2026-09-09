@@ -192,7 +192,7 @@ $site_url  = get_site_url();
     .bp-pax-cols > div { flex: 1; min-width: 0; }
     .bp-pax-from { border-left: 1px solid #ebe1cf; padding-left: 18px; flex: 0 0 42% !important; }
     .bp-pax-name { font-size: 14px; font-weight: 700; color: #1a1410; line-height: 1.5; word-break: break-word; }
-    .bp-stub-date { font-size: 52px; letter-spacing: -1px; }
+    .bp-stub-date { font-size: 52px; letter-spacing: -1px; margin-bottom: 22px; }
 
     .bp-msg { background: #fff; border: 1px solid #ebe1cf; border-left: 3px solid #a85e44; border-radius: 10px; padding: 12px 16px; overflow: hidden; }
     .bp-msg-k { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #a89888; font-weight: 700; margin-bottom: 6px; }
@@ -552,7 +552,6 @@ const I18N = {
     failLoad:      'Greška pri učitavanju',
     failLoadSub:   'Pokušaj ponovo za nekoliko sekundi.',
     dateLocale:    'sr-RS',
-    dateLocaleLong:'sr-Latn-RS',
     // Poklonjeno putovanje (kind=TRIP) - isti kod, ista stranica, bez cene
     trip: {
       badge:      '✓ PUTOVANJE REZERVISANO',
@@ -649,7 +648,6 @@ const I18N = {
     failLoad:      'Loading error',
     failLoadSub:   'Please try again in a few seconds.',
     dateLocale:    'en-GB',
-    dateLocaleLong:'en-GB',
     trip: {
       badge:      '✓ TRIP BOOKED',
       tag:        '✈ Gifted trip',
@@ -872,14 +870,6 @@ function _fmtDayShort(iso) {
   if (!p) return '';
   return String(p.d).padStart(2, '0') + '.' + String(p.m).padStart(2, '0') + '.';
 }
-function _fmtDayLong(iso) {
-  const p = _isoParts(iso);
-  if (!p) return '';
-  try {
-    return new Date(Date.UTC(p.y, p.m - 1, p.d)).toLocaleDateString(T.dateLocaleLong || T.dateLocale,
-      { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  } catch (e) { return _fmtDay(iso); }
-}
 
 // ── Boarding pass render ───────────────────────────────────────────────────────
 function _renderRevealCard(container, code, d) {
@@ -1073,7 +1063,6 @@ function _renderTripCard(container, code, d) {
           <div class="bp-stub-head">${T.stubHead}</div>
           <div class="bp-stub-k">${t.stubKDep}</div>
           <div class="bp-stub-amount bp-stub-date">${_esc(_fmtDayShort(tr.departureDate))}</div>
-          <div class="bp-stub-sub">${_esc(_fmtDayLong(tr.departureDate))}</div>
           <div class="bp-stub-k">${t.stubKCode}</div>
           <div class="bp-code-wrap">
             <span class="bp-code-text">${_esc(code)}</span>
