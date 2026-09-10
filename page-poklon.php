@@ -188,9 +188,6 @@ $site_url  = get_site_url();
 
     /* ── Poklonjeno putovanje (kind=TRIP): 4 meta polja, putnici, datum u stubu ── */
     .bp-meta-4 .bp-meta-cell { padding: 11px 12px; }
-    .bp-pax-cols { display: flex; gap: 18px; }
-    .bp-pax-cols > div { flex: 1; min-width: 0; }
-    .bp-pax-from { border-left: 1px solid #ebe1cf; padding-left: 18px; flex: 0 0 42% !important; }
     .bp-pax-name { font-size: 14px; font-weight: 700; color: #1a1410; line-height: 1.5; word-break: break-word; }
     .bp-stub-date { font-size: 52px; letter-spacing: -1px; margin-bottom: 22px; }
 
@@ -298,8 +295,6 @@ $site_url  = get_site_url();
       .bp-meta-4 .bp-meta-cell { flex: 1 1 50%; min-width: 50%; }
       .bp-meta-4 .bp-meta-cell:nth-child(2) { border-right: none; }
       .bp-meta-4 .bp-meta-cell:nth-child(-n+2) { border-bottom: 1px solid #ebe1cf; }
-      .bp-pax-cols { flex-direction: column; gap: 12px; }
-      .bp-pax-from { border-left: none; padding-left: 0; border-top: 1px solid #ebe1cf; padding-top: 12px; flex-basis: auto !important; }
       .bp-stub-date { font-size: 46px; }
     }
 
@@ -566,7 +561,6 @@ const I18N = {
       metaNights: 'Noći',
       metaPax:    'Putnici',
       paxK:       'Putnici',
-      fromK:      'Poklon od',
       stubKDep:   'Polazak',
       stubKCode:  'Vaučer kod',
       stubInfo:   'Letovi, smeštaj i transfer su rezervisani. Destinacija stiže na mejl <strong>48h pre polaska</strong>.',
@@ -661,7 +655,6 @@ const I18N = {
       metaNights: 'Nights',
       metaPax:    'Travellers',
       paxK:       'Travellers',
-      fromK:      'Gift from',
       stubKDep:   'Departure',
       stubKCode:  'Voucher code',
       stubInfo:   'Flights, hotel and transfer are booked. The destination arrives by email <strong>48h before departure</strong>.',
@@ -1047,14 +1040,10 @@ function _renderTripCard(container, code, d) {
             </div>
           </div>
           <div class="bp-msg" style="margin-top:13px;">
-            <div class="bp-pax-cols">
-              <div>
-                <div class="bp-msg-k">${t.paxK}</div>
-                ${pax || '<div class="bp-pax-name">-</div>'}
-              </div>
-              ${d.buyerName ? `<div class="bp-pax-from"><div class="bp-msg-k">${t.fromK}</div><div class="bp-msg-text">${_esc(d.buyerName)}</div></div>` : ''}
-            </div>
+            <div class="bp-msg-k">${t.paxK}</div>
+            ${pax || '<div class="bp-pax-name">-</div>'}
           </div>
+          ${d.giftMessage ? `<div class="bp-msg" style="margin-top:13px;"><div class="bp-msg-k">${T.personalMsg}</div><div class="bp-msg-text">${_esc(d.giftMessage)}</div></div>` : ''}
         </div>
 
         <div class="bp-perf"></div>

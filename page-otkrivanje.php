@@ -24,17 +24,31 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
+    /* Stranica SME da se skroluje. Posle grebanja ispod koverte stoje dva dugmeta,
+       pa je scena na telefonu visa od ekrana; ranije je body bio fiksne visine sa
+       overflow:hidden i justify-content:center, sto sece VRH karte (i do njega se
+       ne moze ni skrolom). Centriranje sad radi .scene preko margin:auto - centrira
+       dok ima mesta, a kad nema, scena krene od vrha i stranica se skroluje. */
+    html {
       height: 100%;
-      font-family: system-ui, 'Segoe UI', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
     body {
+      min-height: 100%;
+      font-family: system-ui, 'Segoe UI', sans-serif;
       background: var(--page-bg);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .scene {
+      width: 100%;
+      margin: auto 0;
+      display: flex; flex-direction: column; align-items: center;
       position: relative;
     }
 
@@ -65,7 +79,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     .logo-sub      { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
 
     /* ── Loading ── */
-    #rvLoading { position: relative; z-index: 10; }
+    #rvLoading { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; }
     .rv-spinner {
       width: 40px; height: 40px;
       border: 2px solid rgba(202,138,113,0.15);
@@ -135,11 +149,20 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       position: relative;
       cursor: pointer;
       perspective: 1200px;        /* 3D context so flap backface-visibility works */
-      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 30px rgba(202,138,113,0.10));
-      transition: filter 0.3s ease;
     }
-    .envelope:hover:not(.opened) {
-      filter: drop-shadow(0 24px 64px rgba(0,0,0,0.65)) drop-shadow(0 0 50px rgba(202,138,113,0.20));
+    /* Senka je na pseudo-elementu ISPOD koverte, ne kao filter:drop-shadow na samoj
+       koverti: filter na roditelju tera browser da SVAKI FREJM iznova rasterizuje celu
+       kovertu dok se preklop okrece i karta izlazi (dve animacije po 1,2 s), i to je
+       ono sto je seklo na telefonu - i kartu i avion koji krece odmah posle.
+       box-shadow na statickom elementu se nacrta jednom i ide na kompozitor. */
+    .envelope::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      border-radius: 6px 6px 10px 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 0 30px rgba(202,138,113,0.10);
+      transition: box-shadow 0.3s ease;
+    }
+    .envelope:hover:not(.opened)::before {
+      box-shadow: 0 24px 64px rgba(0,0,0,0.65), 0 0 50px rgba(202,138,113,0.20);
     }
 
     /* Cream base */
@@ -414,10 +437,12 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     }
 
     /* ── Reveal CTA (ispod karte, posle grebalice) ── */
+    /* Bez filter:blur u animaciji - blur se rasterizuje svaki frejm; opacity i
+       transform idu na kompozitoru i ne trzaju ni na slabijem telefonu. */
     @keyframes ctaReveal {
-      0%   { opacity: 0; transform: translateY(22px) scale(0.93); filter: blur(4px); }
-      60%  { opacity: 1; filter: blur(0px); }
-      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+      0%   { opacity: 0; transform: translateY(22px) scale(0.93); }
+      60%  { opacity: 1; }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes ctaLabelReveal {
       0%   { opacity: 0; transform: translateY(10px); letter-spacing: 4px; }
@@ -1020,6 +1045,9 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 <!-- Loading -->
 <div id="rvLoading"><div class="rv-spinner"></div></div>
 
+<!-- Scena: sve sto se centrira/skroluje zajedno (teaser, koverta sa kartom i CTA, hint) -->
+<div class="scene" id="rvScene">
+
 <!-- Teaser -->
 <div class="teaser" id="rvTeaser" style="display:none;">
   <div class="teaser-label" id="teaserName">✦ Tvoje putovanje</div>
@@ -1148,6 +1176,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
   Klikni da otvoriš
   <div class="hint-pulse"></div>
 </div>
+
+</div><!-- /scene -->
 
 <!-- success-city hidden span - koristi se samo za JS -->
 <span id="success-city" style="display:none;"></span>
@@ -1664,7 +1694,11 @@ function addScratchCard() {
 
   /* Scratch logic */
   let drawing = false, revealed = false;
-  const total = W * H;
+  // getImageData preko celog platna je skup (na 3x ekranu ~pola miliona piksela); ranije
+  // je isao na SVAKI pokret prsta i to je grebanje cinilo trzavim. Sad najvise ~8x u
+  // sekundi + jednom kad se prst podigne, i broji svaki cetvrti piksel - za prag od 50%
+  // to je isto tacno.
+  let lastCheck = 0;
 
   function getXY(e) {
     const r = canvas.getBoundingClientRect();
@@ -1676,13 +1710,15 @@ function addScratchCard() {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath(); ctx.arc(x, y, 26*dpr, 0, Math.PI*2); ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
-    if (!revealed) checkReveal();
+    const now = performance.now();
+    if (!revealed && now - lastCheck > 120) { lastCheck = now; checkReveal(); }
   }
   function checkReveal() {
+    if (revealed) return;
     const px = ctx.getImageData(0,0,W,H).data;
-    let cleared = 0;
-    for (let i=3; i<px.length; i+=4) if(px[i]<128) cleared++;
-    if (cleared/total > 0.50) { revealed = true; fullyReveal(); }
+    let cleared = 0, sampled = 0;
+    for (let i=3; i<px.length; i+=16) { sampled++; if(px[i]<128) cleared++; }
+    if (sampled && cleared/sampled > 0.50) { revealed = true; fullyReveal(); }
   }
   function fullyReveal() {
     // Show real destination name in IATA slot
@@ -1699,6 +1735,24 @@ function addScratchCard() {
       // Prikaži CTA dugme ispod karte
       const cta = document.getElementById('revealCTA');
       if (cta) cta.classList.add('show');
+      // Na telefonu je scena sad visa od ekrana (karta + koverta + dva dugmeta) i
+      // stranica se skroluje. Karta izlazi IZNAD koverte, pa na malom ekranu ume da
+      // izleti iznad vrha dokumenta - tamo se ne moze doskrolovati. Scena zato dobije
+      // padding koliko fali, a onda se vrh karte dovuce pod logo.
+      requestAnimationFrame(() => {
+        const tk    = document.querySelector('.env-ticket');
+        const scene = document.getElementById('rvScene');
+        if (!tk) return;
+        const MIN_TOP = 72;   // ispod fiksnog logoa na vrhu
+        let top = tk.getBoundingClientRect().top + window.scrollY;
+        if (scene && top < MIN_TOP) {
+          scene.style.paddingTop = (MIN_TOP - top) + 'px';
+          top = MIN_TOP;
+        }
+        if (document.documentElement.scrollHeight > window.innerHeight + 4) {
+          window.scrollTo({ top: Math.max(0, top - MIN_TOP), behavior: 'smooth' });
+        }
+      });
       // Obavesti backend da je korisnik ogrebaо (fire-and-forget)
       if (revealToken) fetch(`${API}/api/reveal/confirm?token=${encodeURIComponent(revealToken)}`, { method: 'POST' }).catch(() => {});
     }, 550);
@@ -1728,11 +1782,11 @@ function addScratchCard() {
   }
 
   canvas.addEventListener('mousedown',  e=>{drawing=true;const[x,y]=getXY(e);scratchAt(x,y);});
-  window.addEventListener('mouseup',    ()=>drawing=false);
+  window.addEventListener('mouseup',    ()=>{drawing=false; checkReveal();});
   canvas.addEventListener('mousemove',  e=>{if(drawing){const[x,y]=getXY(e);scratchAt(x,y);}});
   canvas.addEventListener('touchstart', e=>{e.preventDefault();drawing=true;const[x,y]=getXY(e);scratchAt(x,y);},{passive:false});
   canvas.addEventListener('touchmove',  e=>{e.preventDefault();if(drawing){const[x,y]=getXY(e);scratchAt(x,y);}},{passive:false});
-  canvas.addEventListener('touchend',   ()=>drawing=false);
+  canvas.addEventListener('touchend',   ()=>{drawing=false; checkReveal();});
 }
 
 /* ── Trip popup helpers ── */

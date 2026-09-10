@@ -2356,6 +2356,7 @@
       color: rgba(202,138,113,.95);
     }
     .gift-payer-note.on { display: block; }
+    .gift-msg-count { font-size: 11px; color: rgba(246,241,230,.4); text-align: right; margin-top: 4px; }
     .rb-delivery-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
     .rb-delivery-icon { font-size: 22px; }
     .rb-delivery-title { font-size: 14px; font-weight: 800; color: var(--accent); letter-spacing: .3px; text-transform: uppercase; }
@@ -4117,6 +4118,13 @@
                 <div class="f-input-wrap"><input class="f-input" type="email" id="fGiftEmail" placeholder="ime@gmail.com" maxlength="180" autocomplete="off" oninput="document.getElementById('ff-gift-email')?.classList.remove('field-error');"></div>
                 <div class="field-error-msg" data-i18n="err.gift.email"></div>
               </div>
+              <!-- Poruka ide na PDF vaučer i na /poklon stranicu. Kratka namerno (200):
+                   duža ne staje na list. Prazna se nigde ne prikazuje. -->
+              <div class="form-field full" id="ff-gift-message">
+                <div class="f-label" data-i18n="gift.sec.msg">Poruka na vaučeru (opciono)</div>
+                <div class="f-input-wrap"><textarea class="f-input" id="fGiftMessage" rows="2" maxlength="200" placeholder="Npr. Srećan rođendan! Spakuj kofer, idemo na put..." data-i18n-ph="gift.sec.msg.ph" oninput="giftMsgCount(this)"></textarea></div>
+                <div class="gift-msg-count" id="fGiftMsgCount">0/200</div>
+              </div>
             </div>
           </div>
 
@@ -4583,6 +4591,7 @@ const TR = {
     'gift.sec.sub':'Na ovu adresu šaljemo prognozu, reveal destinacije i putne dokumente. Uplata i faktura ostaju na tvom emailu iznad.',
     'gift.sec.who':'Koji putnik dobija poklon', 'gift.sec.email':'Email te osobe',
     'gift.sec.pick':'Izaberi putnika...',
+    'gift.sec.msg':'Poruka na vaučeru (opciono)', 'gift.sec.msg.ph':'Npr. Srećan rođendan! Spakuj kofer, idemo na put...',
     'gift.payer.note':'💳 Na ovu adresu stižu podaci za uplatu i faktura.',
     'err.gift.email':'Unesite ispravnu email adresu.',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
@@ -4843,6 +4852,7 @@ const TR = {
     'gift.sec.sub':'We send the forecast, the destination reveal and the travel documents to this address. Payment details and the invoice stay on your email above.',
     'gift.sec.who':'Which traveller receives it', 'gift.sec.email':'Their email',
     'gift.sec.pick':'Choose a traveller...',
+    'gift.sec.msg':'Message on the voucher (optional)', 'gift.sec.msg.ph':'E.g. Happy birthday! Pack your bag, we are going on a trip...',
     'gift.payer.note':'💳 Payment details and the invoice come to this address.',
     'err.gift.email':'Enter a valid email address.',
     'ext.ins.tip.title':'🛡️ Travel insurance',
@@ -5447,7 +5457,7 @@ const S = {
   selectedDateId:null, selectedDate:null, accommodationType:'STANDARD',
   cabinSuitcaseCount:0, hasInsurance:false, hasBreakfast:false, hasSeatsTogether:false, hasConnectingFlights:false,
   hasRevealBox:false, deliveryAddress:'', deliveryApartment:'', deliveryCity:'', deliveryPhone:'',
-  isGift:false, giftRecipientName:'', giftRecipientEmail:'',
+  isGift:false, giftRecipientName:'', giftRecipientEmail:'', giftMessage:'',
   excludedIds:[], passengers:[], destinations:[], allDestinations:[], dates:[], countries:[],
   airports:[],   // iz /api/airports - vidi loadAirports()
   lastPrice:null,
@@ -6186,7 +6196,7 @@ function syncRbDeliveryVisibility() {
 /** Kucica u koraku 2. Samo zastavica - polja se otvaraju na kontaktu. */
 function togGift(el) {
   S.isGift = !!(el && el.checked);
-  if (!S.isGift) { S.giftRecipientName = ''; S.giftRecipientEmail = ''; }
+  if (!S.isGift) { S.giftRecipientName = ''; S.giftRecipientEmail = ''; S.giftMessage = ''; }
   syncGiftVisibility();
 }
 
@@ -6194,6 +6204,12 @@ function togGift(el) {
 function syncGiftVisibility() {
   document.getElementById('gift-recipient-section')?.classList.toggle('on', !!S.isGift);
   document.getElementById('gift-payer-note')?.classList.toggle('on', !!S.isGift);
+}
+
+/** Brojač ispod poruke na vaučeru - poruka je kratka namerno, da stane na PDF. */
+function giftMsgCount(el) {
+  const c = document.getElementById('fGiftMsgCount');
+  if (c && el) c.textContent = el.value.length + '/' + (el.maxLength > 0 ? el.maxLength : 200);
 }
 
 /**
@@ -6863,6 +6879,7 @@ function saveDraft() {
     email:     document.getElementById('fEmail')?.value     || '',
     phone:     document.getElementById('fPhone')?.value     || '',
     notes:     document.getElementById('fNotes')?.value     || '',
+    giftMessage: document.getElementById('fGiftMessage')?.value || '',
   };
   try {
     sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ expires: Date.now() + DRAFT_TTL, pax, contact }));
@@ -6891,11 +6908,13 @@ function restorePaxDraft() {
       }
     });
     const c = draft.contact || {};
-    ['fFirstName','fLastName','fEmail','fPhone','fNotes'].forEach(id => {
+    ['fFirstName','fLastName','fEmail','fPhone','fNotes','fGiftMessage'].forEach(id => {
       const el = document.getElementById(id);
       const key = id.replace('f','').replace(/^./, s => s.toLowerCase());
       if (el && c[key]) el.value = c[key];
     });
+    const gm = document.getElementById('fGiftMessage');
+    if (gm) giftMsgCount(gm);
   } catch(e) {}
 }
 
@@ -7284,6 +7303,7 @@ async function submitBooking() {
   if (S.isGift) {
     S.giftRecipientName  = (document.getElementById('fGiftName')?.value || '').trim();
     S.giftRecipientEmail = (document.getElementById('fGiftEmail')?.value || '').trim();
+    S.giftMessage        = (document.getElementById('fGiftMessage')?.value || '').trim().slice(0, 200);
   }
 
   const passengers=Array.from({length:S.travelers},(_,i)=>({
@@ -7313,6 +7333,7 @@ async function submitBooking() {
     isGift:S.isGift,
     giftRecipientName:S.isGift ? S.giftRecipientName : null,
     giftRecipientEmail:S.isGift ? S.giftRecipientEmail : null,
+    giftMessage:(S.isGift && S.giftMessage) ? S.giftMessage : null,
     excludedDestination1Id:S.excludedIds[0]||null,
     excludedDestination2Id:S.excludedIds[1]||null,
     excludedDestination3Id:S.excludedIds[2]||null,

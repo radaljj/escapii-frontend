@@ -3022,6 +3022,7 @@ function buildBookingDetail(b) {
         <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Plaća</span><span>${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')} · ${escHtml(b.email || '-')}</span></div>
         <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Putuje</span><span>${escHtml(b.giftRecipientName || '-')} · <strong>${escHtml(b.giftRecipientEmail || '-')}</strong></span></div>
         <div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Vaučer</span><span>kod <strong>${escHtml((b.bookingRef || '').toUpperCase())}</strong> · ${(b.status === 'CONFIRMED' || b.status === 'COMPLETED') ? 'PDF je otišao kupcu u prilogu potvrde rezervacije' : 'PDF ide kupcu u prilogu potvrde, kad uplata legne'}</span></div>
+        ${b.giftMessage ? `<div class="bc-reveal-box-row"><span class="bc-reveal-box-label">Poruka</span><span>„${escHtml(b.giftMessage)}" <span style="color:var(--gray);">(na vaučeru)</span></span></div>` : ''}
         <div style="margin-top:10px;font-size:12px;color:var(--gray);line-height:1.6;">
           Faktura i potvrde idu na adresu koja plaća. Prognoza, reveal destinacije i
           putni dokumenti idu na adresu koja putuje. Bez izuzetka - poklanjaocu ne ide
