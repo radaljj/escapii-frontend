@@ -2819,8 +2819,25 @@ function getFilteredBookings() {
     });
 }
 
-function buildPassengersSection(passengers) {
+// Ogledalo backend pravila (PassportRetentionService): broj pasoša se briše
+// PASSPORT_RETENTION_DAYS dana posle povratka, a kod otkazanih čim prođe polazak.
+const PASSPORT_RETENTION_DAYS = 30;
+function _dateOnly(iso) {
+  if (!iso) return null;
+  const [y, m, d] = String(iso).slice(0, 10).split('-').map(Number);
+  return (y && m && d) ? new Date(y, m - 1, d) : null;
+}
+function passportPurged(b) {
+  if (!b) return false;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const ret = _dateOnly(b.returnDate);
+  const dep = _dateOnly(b.departureDate);
+  if (ret && Math.round((today - ret) / 86400000) >= PASSPORT_RETENTION_DAYS) return true;
+  return b.status === 'CANCELLED' && !!dep && dep < today;
+}
+function buildPassengersSection(passengers, booking) {
   if (!passengers || !passengers.length) return '';
+  const purged = passportPurged(booking);
 
   const rows = passengers.map((p, i) => {
     const dob = p.dateOfBirth
@@ -2837,7 +2854,9 @@ function buildPassengersSection(passengers) {
 
     const passportInfo = p.passportNumber
       ? `<span>${passportIcon} Br. pasoša: <strong>${escHtml(p.passportNumber)}</strong></span>`
-      : `<span style="opacity:.45;">Broj pasoša nije unesen</span>`;
+      : (purged
+          ? `<span style="opacity:.6;" title="Broj pasoša se automatski briše ${PASSPORT_RETENTION_DAYS} dana posle povratka (otkazane: čim prođe polazak)">🔒 Br. pasoša: obrisan po isteku</span>`
+          : `<span style="opacity:.45;">Broj pasoša nije unesen</span>`);
 
     const dobInfo = dob
       ? `<span>📅 Datum rođenja: <strong>${dob}</strong></span>`
@@ -2957,7 +2976,7 @@ function buildBookingDetail(b) {
       <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
       <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
       <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
-      ${buildPassengersSection(b.passengers)}
+      ${buildPassengersSection(b.passengers, b)}
       <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick="showPriceBreakdown(${b.id})">💰 detalji</button></div></div>
       <div class="bc-field"><div class="bc-label">Ukupno</div><div class="bc-value" style="color:var(--accent);font-size:16px;">${b.totalPriceAll}€</div></div>
       <div class="bc-field bc-field--full">
