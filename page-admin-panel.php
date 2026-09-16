@@ -1282,7 +1282,7 @@ tbody td  { padding: 11px 12px; }
 
       <div style="margin-top:28px;">
         <div class="panel-title" style="font-size:18px;">Pregled zarade po agenciji</div>
-        <div class="panel-subtitle">Razlika prodajne i nabavne cene × broj putnika (CONFIRMED + COMPLETED)</div>
+        <div class="panel-subtitle">Escapii zarada po rezervaciji (potvrđene i završene). Fakturiše se zbirno, dugmetom „Fakturiši“ kod agencije, posle završetka putovanja.</div>
         <div id="earningsDashboard"><div class="empty-state">Učitavanje...</div></div>
       </div>
     </div>
@@ -2916,16 +2916,8 @@ function buildBookingDetail(b) {
     const msDay   = 864e5;
     const dayName = n => `${n} ${(n % 10 === 1 && n % 100 !== 11) ? 'dan' : 'dana'}`;
     const daysOld = Math.floor((Date.now() - new Date(b.createdAt)) / msDay);
-    if (b.invoiceSentAt) {
-      const daysSinceInvoice = Math.floor((Date.now() - new Date(b.invoiceSentAt)) / msDay);
-      if (daysSinceInvoice >= 3) {
-        pendingInfoHtml = `<div class="bc-pending-info bc-pending-warn">⚠ Faktura poslata pre ${dayName(daysSinceInvoice)} — još bez potvrde uplate</div>`;
-      } else {
-        pendingInfoHtml = `<div class="bc-pending-info">⏳ Čeka uplatu ${dayName(daysOld)}</div>`;
-      }
-    } else {
-      pendingInfoHtml = `<div class="bc-pending-info">⏳ Na čekanju ${dayName(daysOld)}</div>`;
-    }
+    // Uplata ide agenciji (od 2026-09), profaktura kupcu se više ne šalje odavde.
+    pendingInfoHtml = `<div class="bc-pending-info">⏳ Na čekanju ${dayName(daysOld)}</div>`;
   }
 
   const termDests  = b.termDestinations || [];
@@ -2963,7 +2955,6 @@ function buildBookingDetail(b) {
         <div class="bc-date">Primljeno: ${created}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        ${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}
         <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
       </div>
     </div>
@@ -3139,28 +3130,12 @@ function buildBookingDetail(b) {
       <button class="bc-btn bc-btn-confirm" onclick="changeStatus(${b.id},'CONFIRMED')" ${isConfirmed?'disabled':''}>✅ Potvrdi</button>
       <button class="bc-btn bc-btn-cancel"  onclick="changeStatus(${b.id},'CANCELLED')" ${isCancelled?'disabled':''}>❌ Otkaži</button>
       ${!isPending ? `<button class="bc-btn bc-btn-pending" onclick="changeStatus(${b.id},'PENDING')">⏳ Vrati na čekanje</button>` : ''}
-      ${isPending ? `<button class="bc-btn" id="btn-invoice-${b.id}" onclick="sendInvoice(${b.id})"
-        style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);"
-        ${b.invoiceSentAt ? `disabled title="Već poslato: ${escHtml(b.invoiceNumber||'')}"` : ''}>
-        📄 Pošalji fakturu
-      </button>` : ''}
       ${(b.status !== 'CONFIRMED' && b.oldStatus !== 'CONFIRMED') ? `
       <button class="bc-btn" onclick="deleteBooking(${b.id},'${jsStr(b.bookingRef)}')"
         style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);margin-left:auto;">
         🗑 Obriši
       </button>` : ''}
     </div>`}`;
-}
-
-// Kompaktan bedž "faktura poslata" - koristi se i za rezervacije i za vaučere.
-// Hover (title) pokazuje broj fakture i tačan datum/vreme slanja.
-function invoiceBadgeHtml(invoiceNumber, invoiceSentAt) {
-  if (!invoiceSentAt) return '';
-  const when = new Date(invoiceSentAt).toLocaleString('sr-RS', {
-    day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'
-  });
-  const num = invoiceNumber || '-';
-  return `<span class="invoice-badge" title="Faktura ${escHtml(num)} poslata ${when}">📄 ${escHtml(num)}</span>`;
 }
 
 function renderBookings() {
@@ -3184,7 +3159,6 @@ function renderBookings() {
       <tr class="bt-summary s-${b.status}" id="btrow-${b.id}" onclick="toggleDetail(${b.id})">
         <td>
           <span style="font-size:12px;font-weight:700;color:var(--gray);">${escHtml(b.bookingRef)}</span>
-          ${b.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(b.invoiceNumber, b.invoiceSentAt)}</div>` : ''}
         </td>
         <td>
           <strong>${escHtml(b.firstName || '')} ${escHtml(b.lastName || '')}</strong>
@@ -3388,31 +3362,14 @@ async function openSettlementModal(bookingId) {
     return;
   }
 
-  const isInvoiced = preview.settlementStatus === 'INVOICED';
-  const isPaid     = preview.settlementStatus === 'PAID';
-  const isVoided   = preview.settlementStatus === 'VOIDED';
-  const isLocked   = isInvoiced || isPaid || isVoided;
+  // Zaključano čim je rezervacija u zbirnoj fakturi (INVOICED/PAID) - troškovi se tada ne menjaju.
+  const isLocked   = ['INVOICED', 'PAID', 'VOIDED'].includes(preview.settlementStatus);
   const html = renderSettlementModal(preview, isLocked);
 
   const buttons = {};
   if (!isLocked) {
     buttons.confirmButtonText = '💾 Sačuvaj troškove';
     buttons.showConfirmButton = true;
-  }
-  if (preview.readyForInvoice && !isLocked) {
-    buttons.showDenyButton = true;
-    buttons.denyButtonText = '📤 Sačuvaj i generiši fakturu';
-    buttons.denyButtonColor = '#059669';
-  }
-  if (isInvoiced) {
-    buttons.showDenyButton = true;
-    buttons.denyButtonText = '💰 Označi kao plaćeno';
-    buttons.denyButtonColor = '#16a34a';
-  }
-  if (isPaid) {
-    buttons.showDenyButton = true;
-    buttons.denyButtonText = '↩ Rollback (nije plaćeno)';
-    buttons.denyButtonColor = '#dc2626';
   }
 
   const result = await Swal.fire({
@@ -3433,17 +3390,6 @@ async function openSettlementModal(bookingId) {
 
   if (result.isConfirmed && !isLocked) {
     await saveSettlementCosts(bookingId, result.value);
-  } else if (result.isDenied) {
-    if (preview.readyForInvoice && !isLocked) {
-      // Save pa Finalize u jednoj sekvenci - ako admin menja input i klikne
-      // direktno "Sačuvaj i generiši fakturu", trebamo poslati aktuelne vrednosti,
-      // ne stare iz preview-a.
-      await saveSettlementCosts(bookingId, result.value, { thenFinalize: true });
-    } else if (isInvoiced) {
-      await patchSettlementStatus(bookingId, 'PAID');
-    } else if (isPaid) {
-      await patchSettlementStatus(bookingId, 'INVOICED');
-    }
   }
 }
 
@@ -3547,24 +3493,14 @@ function renderSettlementModal(p, isLocked) {
          ${p.validationErrors.map(w => `⚠️ ${w}`).join('<br>')}
        </div>` : '';
 
-  const whoPaysIcon = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? '→'
-                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? '←' : '·';
-  const whoPaysText = p.whoPaysWhom === 'AGENCY_PAYS_ESCAPII' ? 'Agencija plaća Escapii-ju'
-                    : p.whoPaysWhom === 'ESCAPII_PAYS_AGENCY' ? 'Escapii plaća agenciji (klasicna faktura nije moguca)'
-                    : 'Nema transfera';
-
-  // Void link za INVOICED (INVOICED→VOIDED cuva broj u audit tragu)
-  const voidLink = p.settlementStatus === 'INVOICED'
-    ? `<div style="margin-top:10px;text-align:right;">
-         <a href="#" onclick="event.preventDefault();Swal.close();voidSettlement(${p.bookingId}, '${p.agencyInvoiceNumber}');"
-            style="color:#f87171;font-size:12px;text-decoration:underline;">🗑 Poništi fakturu (VOID)</a>
-       </div>` : '';
-
-  // Void meta prikaz za VOIDED bookinge (audit trag)
-  const voidedMeta = p.settlementStatus === 'VOIDED'
-    ? `<div style="margin-top:10px;padding:10px;background:#7f1d1d;border-radius:6px;font-size:12px;color:#fecaca;">
-         Faktura <strong>${p.agencyInvoiceNumber}</strong> je poniStena. Broj ostaje u audit tragu.
-       </div>` : '';
+  // Fakturisanje ide zbirno po agenciji (tab Agencije), tek posle završetka putovanja.
+  const fakturaInfo = p.agencyInvoiceNumber
+    ? `<div style="margin-top:10px;padding:10px;background:#1e3a8a;border-radius:6px;font-size:12px;color:#bfdbfe;">
+         📄 Ova rezervacija je u zbirnoj fakturi <strong>${esc(p.agencyInvoiceNumber)}</strong> (tab Agencije). Troškovi su zaključani; storno fakture ih otključava.
+       </div>`
+    : `<div style="margin-top:10px;padding:10px;background:#0f172a;border-radius:6px;font-size:12px;color:#94a3b8;">
+         Fakturiše se zbirno po agenciji, iz taba <strong>Agencije</strong>, posle završetka putovanja. Ovde samo unesi troškove.
+       </div>`;
 
   return `
     <div style="text-align:left;font-size:13px;color:#e5e7eb;">
@@ -3591,19 +3527,13 @@ function renderSettlementModal(p, isLocked) {
           <div>Bruto vrednost rezervacije:</div>       <div style="text-align:right;font-weight:700;">${money(p.grossBookingValue)}</div>
           <div>· plaćeno kešom:</div>                   <div style="text-align:right;color:#94a3b8;">${money(p.customerCashAmount)}</div>
           <div>· plaćeno vaučerom:</div>                <div style="text-align:right;color:#fbbf24;">${money(p.voucherAmount)}</div>
-          <div style="margin-top:6px;">Escapii zarada (marža + Escapii-only):</div>
+          <div style="margin-top:6px;">Escapii zarada (ide na zbirnu fakturu):</div>
           <div style="text-align:right;color:#0ea5e9;font-weight:700;margin-top:6px;">${money(p.escapiiEarnings)}</div>
           <div>Agencija zadržava:</div>                 <div style="text-align:right;color:#a7f3d0;font-weight:700;">${money(p.agencyRetainedAmount)}</div>
-          <div style="margin-top:6px;border-top:1px solid #334155;padding-top:6px;">Neto transfer:</div>
-          <div style="text-align:right;margin-top:6px;border-top:1px solid #334155;padding-top:6px;color:#fbbf24;font-weight:800;font-size:14px;">
-            ${money(p.netSettlement.replace ? p.netSettlement : Math.abs(Number(p.netSettlement)))} ${whoPaysIcon}
-          </div>
-          <div style="grid-column:1/-1;text-align:center;color:#94a3b8;font-size:11px;margin-top:2px;">${whoPaysText}</div>
         </div>
       </div>
       ${warnings}
-      ${voidedMeta}
-      ${voidLink}
+      ${fakturaInfo}
     </div>
   `;
 }
@@ -3619,23 +3549,6 @@ async function saveSettlementCosts(bookingId, body, opts) {
     if (!r.ok) throw await apiError(r, 'Greška pri čuvanju troškova');
     const saved = await r.json();
 
-    if (opts.thenFinalize) {
-      // Save-pa-Finalize u istoj sekvenci - koristimo AKTUELNI status iz save response-a
-      // da ne pravimo drugi API poziv koji bi vratio istu vrednost.
-      if (saved.readyForInvoice) {
-        await finalizeSettlement(bookingId);
-        return;
-      } else {
-        Swal.fire({
-          icon:'warning', title:'Nije spremno za fakturu',
-          text: (saved.validationErrors || []).join(' | ') || 'Provera je pukla nakon save-a.',
-          background:'#0b1929', color:'#fff'
-        });
-        await loadBookings();
-        openSettlementModal(bookingId);
-        return;
-      }
-    }
     Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Troškovi sačuvani', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
     await loadBookings();
     // Reopen modal sa svezim podacima
@@ -3645,73 +3558,8 @@ async function saveSettlementCosts(bookingId, body, opts) {
   }
 }
 
-async function finalizeSettlement(bookingId) {
-  const { isConfirmed } = await Swal.fire({
-    title: 'Generisati fakturu?',
-    text: 'Faktura zakljucava troskove i dobija broj ESC-AG-YYYY-NNNN. Storno se radi kroz VOID koji cuva broj u audit tragu.',
-    icon: 'question', showCancelButton: true, confirmButtonText: 'Da, finalizuj',
-    background:'#0b1929', color:'#fff'
-  });
-  if (!isConfirmed) return;
-  try {
-    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-invoice`, {
-      method: 'POST', headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) throw await apiError(r, 'Greška pri finalizaciji');
-    const upd = await r.json();
-    Swal.fire({
-      icon:'success', title:'Faktura generisana',
-      html: `Broj fakture: <strong>${upd.agencyInvoiceNumber || '(nedostaje)'}</strong>`,
-      background:'#0b1929', color:'#fff'
-    });
-    await loadBookings();
-  } catch (e) {
-    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
-  }
-}
 
-async function voidSettlement(bookingId, invoiceNumber) {
-  const { isConfirmed, value: reason } = await Swal.fire({
-    title: `Ponistiti fakturu ${invoiceNumber}?`,
-    html: `<div style="text-align:left;font-size:13px;color:#e5e7eb;">Broj fakture i datum ostaju na bookingu (audit trag). Booking prelazi u status VOIDED.</div>`,
-    input: 'text',
-    inputLabel: 'Razlog storna (obavezno)',
-    inputPlaceholder: 'npr. duplirana faktura, agencija otkazala saradnju...',
-    inputValidator: (v) => !v || v.trim().length < 3 ? 'Razlog je obavezan' : null,
-    showCancelButton: true, confirmButtonText: 'Ponisti fakturu', confirmButtonColor: '#dc2626',
-    background:'#0b1929', color:'#fff'
-  });
-  if (!isConfirmed) return;
-  try {
-    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/agency-invoice/void`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
-      body: JSON.stringify({ reason: reason.trim() })
-    });
-    if (!r.ok) throw await apiError(r, 'Greska pri VOID-u');
-    Swal.fire({
-      icon:'success', title:'Faktura ponistena',
-      html: `Broj <strong>${invoiceNumber}</strong> ostaje u audit tragu; booking je sada VOIDED.`,
-      background:'#0b1929', color:'#fff'
-    });
-    await loadBookings();
-  } catch (e) {
-    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
-  }
-}
 
-async function patchSettlementStatus(bookingId, newStatus) {
-  try {
-    const r = await fetch(`${API}/api/admin/bookings/${bookingId}/settlement-status?value=${newStatus}`, {
-      method: 'PATCH', headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) throw await apiError(r, 'Greška pri promeni statusa');
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:`Status → ${newStatus}`, showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
-    await loadBookings();
-  } catch (e) {
-    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
-  }
-}
 
 async function saveAirlineName(id) {
   const el = document.getElementById(`airline-name-${id}`);
@@ -3801,51 +3649,6 @@ async function markRevealBoxSent(id) {
   }
 }
 
-// ══ FAKTURA (PROFAKTURA) ═════════════════════════════════════════════════════
-
-async function sendInvoice(id) {
-  const btn = document.getElementById(`btn-invoice-${id}`);
-  const booking = ALL_BOOKINGS.find(b => b.id === id);
-  const ref = booking ? booking.bookingRef : `#${id}`;
-
-  const confirm = await Swal.fire({
-    title: '📄 Poslati profakturu?',
-    html: `Profaktura u PDF formatu biće poslata klijentu na email.<br><small style="color:#94a3b8;">Rezervacija: <strong>${ref}</strong></small>`,
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Da, pošalji',
-    cancelButtonText: 'Odustani',
-    background: '#0b1929', color: '#fff',
-    confirmButtonColor: '#a85e44'
-  });
-  if (!confirm.isConfirmed) return;
-
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ Generišem...'; }
-
-  try {
-    const r = await fetch(`${API}/api/admin/bookings/${id}/send-invoice`, {
-      method: 'POST',
-      headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) {
-      const err = await r.json().catch(() => ({}));
-      throw new Error(err.error || err.message || 'Greška');
-    }
-    const updated = await r.json();
-    const idx = ALL_BOOKINGS.findIndex(b => b.id === id);
-    if (idx > -1) ALL_BOOKINGS[idx] = updated;
-    renderBookings();
-
-    Swal.fire({ toast: true, position: 'top-end', icon: 'success',
-      title: 'Profaktura poslata!', showConfirmButton: false, timer: 2500,
-      background: '#0b1929', color: '#fff' });
-  } catch (e) {
-    Swal.fire({ toast: true, position: 'top-end', icon: 'error',
-      title: e.message || 'Greška pri slanju', showConfirmButton: false, timer: 3000,
-      background: '#0b1929', color: '#fff' });
-    if (btn) { btn.disabled = false; btn.textContent = '📄 Pošalji fakturu'; }
-  }
-}
 
 // ══ DOKUMENT REZERVACIJE (od agencije) ═══════════════════════════════════════
 
@@ -4705,7 +4508,6 @@ function renderGiftVouchers() {
     const actions  = v.status === 'PENDING'
       ? `<div style="display:flex;gap:5px;flex-wrap:wrap;">
            <button class="btn-action btn-toggle-on" onclick="activateGiftVoucher(${v.id})">✅ Aktiviraj</button>
-           <button class="btn-action" style="background:rgba(168,94,68,.12);color:#ca8a71;border:1px solid rgba(168,94,68,.3);" onclick="sendVoucherInvoice(${v.id})"${v.invoiceNumber ? ` title="Već poslato: ${escHtml(v.invoiceNumber)}" disabled` : ''}>📄 Faktura</button>
          </div>`
       : v.status === 'ACTIVE'
       ? `<button class="btn-action btn-edit" onclick="markGiftVoucherUsed(${v.id})">🏁 Iskorišćen</button>`
@@ -4728,7 +4530,6 @@ function renderGiftVouchers() {
       <td>
         <span class="badge ${statusClass[v.status] || 'badge-gray'}">${statusLabel[v.status] || v.status}</span>
         ${codePill}${reservedNote}
-        ${v.invoiceSentAt ? `<div style="margin-top:3px;">${invoiceBadgeHtml(v.invoiceNumber, v.invoiceSentAt)}</div>` : ''}
       </td>
       <td style="text-align:center;">${msg}</td>
       <td style="font-size:12px;color:#64748b;">${created}</td>
@@ -4762,28 +4563,6 @@ async function activateGiftVoucher(id) {
   }
 }
 
-async function sendVoucherInvoice(id) {
-  const v = _gVouchers.find(x => x.id === id);
-  const { isConfirmed } = await Swal.fire({
-    title: '📄 Pošalji profakturu?',
-    html: `<p style="color:#94a3b8;font-size:14px;">Kupac <strong style="color:#CA8A71;">${escHtml(v?.buyerEmail||'')}</strong> dobija profakturu (${v?.amount}€) na email sa detaljima za uplatu.</p>`,
-    showCancelButton: true, confirmButtonText: 'Da, pošalji', cancelButtonText: 'Odustani',
-    background: '#0b1929', color: '#fff', confirmButtonColor: '#CA8A71',
-  });
-  if (!isConfirmed) return;
-  try {
-    const r = await fetch(`${API}/api/admin/gifts/vouchers/${id}/send-invoice`, {
-      method: 'POST', headers: { 'X-Admin-Key': ADMIN_KEY }
-    });
-    if (!r.ok) { const e = await r.json().catch(()=>({})); throw new Error(e.message || r.status); }
-    const updated = await r.json().catch(()=>null);
-    if (updated) { const idx = _gVouchers.findIndex(x => x.id === id); if (idx !== -1) _gVouchers[idx] = updated; }
-    await loadGiftVouchers();
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Profaktura poslata!', showConfirmButton:false, timer:2500, background:'#0b1929', color:'#fff' });
-  } catch(e) {
-    Swal.fire({ toast:true, position:'top-end', icon:'error', title: e.message || 'Greška pri slanju', showConfirmButton:false, timer:3000, background:'#0b1929', color:'#fff' });
-  }
-}
 
 async function markGiftVoucherUsed(id) {
   const { isConfirmed } = await Swal.fire({
@@ -4885,13 +4664,224 @@ function renderAgencies() {
           ${a.contactPhone ? `<div style="font-size:13px;color:#94a3b8;">📞 ${esc(a.contactPhone)}</div>` : ''}
           ${a.notes ? `<div style="font-size:12px;color:#64748b;margin-top:4px;font-style:italic;">${esc(a.notes)}</div>` : ''}
         </div>
-        <div style="display:flex;gap:6px;flex-shrink:0;">
+        <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
+          <button class="btn-action" style="background:rgba(168,94,68,.15);color:#ca8a71;border:1px solid rgba(168,94,68,.35);font-weight:700;" onclick="openAgencyInvoice(${a.id})">📄 Fakturiši</button>
           <button class="btn-action btn-edit" onclick="editAgency(${a.id})">✏️ Izmeni</button>
           <button class="btn-action ${a.active ? 'btn-toggle-off' : 'btn-toggle-on'}" onclick="toggleAgency(${a.id})">${a.active ? '⏸️ Deaktiviraj' : '▶️ Aktiviraj'}</button>
         </div>
       </div>
+      <div id="agInv-${a.id}" style="margin-top:12px;"><div style="font-size:12px;color:#64748b;">Učitavanje faktura...</div></div>
     </div>
   `).join('');
+  loadAgencyInvoices();
+}
+
+// ══ Zbirne fakture agencijama ═══════════════════════════════════════════════
+// Faktura se pravi po agenciji: zbir Escapii zarade po ZAVRŠENIM putovanjima koja još
+// nisu fakturisana (vaučer se ne odbija - plaća ga agencija). Backend: AgencyInvoiceService.
+let _agInvoices = [];
+
+const AG_INV_STATUS = {
+  SENT:   { txt: '📤 Poslata',    bg: '#1e40af', fg: '#bfdbfe' },
+  PAID:   { txt: '💰 Plaćena',    bg: '#166534', fg: '#bbf7d0' },
+  VOIDED: { txt: '🗑 Stornirana', bg: '#7f1d1d', fg: '#fecaca' }
+};
+function agInvBadge(status) {
+  const s = AG_INV_STATUS[status] || { txt: status || '—', bg: '#374151', fg: '#e5e7eb' };
+  return `<span style="background:${s.bg};color:${s.fg};padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap;">${s.txt}</span>`;
+}
+function eur(v) {
+  return v == null ? '—' : Number(v).toLocaleString('sr-RS', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+// formatDate očekuje "YYYY-MM-DD"; datumi sa vremenom (paidAt) se seku na datum.
+function fmtD(iso) { return iso ? formatDate(String(iso).slice(0, 10)) : '—'; }
+
+async function loadAgencyInvoices() {
+  try {
+    const r = await fetch(`${API}/api/admin/agency-invoices`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri učitavanju faktura');
+    _agInvoices = await r.json();
+  } catch (e) {
+    _agInvoices = [];
+    console.error(e);
+  }
+  renderAgencyInvoices();
+}
+
+function renderAgencyInvoices() {
+  _agencies.forEach(a => {
+    const el = document.getElementById(`agInv-${a.id}`);
+    if (!el) return;
+    const list = _agInvoices.filter(i => i.agencyId === a.id);
+    if (!list.length) {
+      el.innerHTML = `<div style="font-size:12px;color:#64748b;">Još nema faktura ovoj agenciji.</div>`;
+      return;
+    }
+    el.innerHTML = `<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">Fakture</div>` +
+      list.map(i => `
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.03);${i.status === 'VOIDED' ? 'opacity:.6;' : ''}">
+        <strong style="font-family:monospace;">${esc(i.invoiceNumber)}</strong>
+        <span style="color:#94a3b8;font-size:12px;">${fmtD(i.issuedAt)}</span>
+        <span style="font-weight:800;color:#0ea5e9;">${eur(i.amount)}</span>
+        <span style="color:#94a3b8;font-size:12px;" title="${esc(i.description || '')}">${i.bookingCount} rez. · ${fmtD(i.periodFrom)} – ${fmtD(i.periodTo)}</span>
+        ${agInvBadge(i.status)}
+        ${i.status === 'PAID' && i.paidAt ? `<span style="color:#86efac;font-size:11px;">plaćeno ${fmtD(i.paidAt)}</span>` : ''}
+        ${i.status === 'VOIDED' && i.voidReason ? `<span style="color:#fca5a5;font-size:11px;">${esc(i.voidReason)}</span>` : ''}
+        <span style="margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;">
+          <button class="btn-action" onclick="downloadAgencyInvoicePdf(${i.id}, '${esc(i.invoiceNumber)}')">📄 PDF</button>
+          ${i.status !== 'VOIDED' ? `<button class="btn-action" onclick="agencyInvoiceAction(${i.id}, 'resend')">✉️ Pošalji ponovo</button>` : ''}
+          ${i.status === 'SENT' ? `<button class="btn-action btn-toggle-on" onclick="agencyInvoiceAction(${i.id}, 'paid')">💰 Plaćena</button>` : ''}
+          ${i.status === 'PAID' ? `<button class="btn-action" onclick="agencyInvoiceAction(${i.id}, 'unpaid')">↩ Nije plaćena</button>` : ''}
+          ${i.status === 'SENT' ? `<button class="btn-action btn-delete" onclick="voidAgencyInvoice(${i.id}, '${esc(i.invoiceNumber)}')">🗑 Storniraj</button>` : ''}
+        </span>
+      </div>`).join('');
+  });
+}
+
+async function openAgencyInvoice(agencyId) {
+  const a = _agencies.find(x => x.id === agencyId);
+  let p;
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/${agencyId}/invoices/preview`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška pri pripremi fakture');
+    p = await r.json();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+    return;
+  }
+
+  const rows = (p.included || []).map(l => `
+    <tr>
+      <td style="padding:3px 6px;"><strong>${esc(l.bookingRef)}</strong></td>
+      <td style="padding:3px 6px;color:#94a3b8;">${fmtD(l.departureDate)} – ${fmtD(l.returnDate)}</td>
+      <td style="padding:3px 6px;text-align:center;">${l.travelers == null ? '—' : l.travelers}</td>
+      <td style="padding:3px 6px;text-align:right;font-weight:700;">${eur(l.escapiiEarnings)}</td>
+    </tr>`).join('');
+  const skipped = (p.needsCosts || []).length
+    ? `<div style="margin-top:10px;padding:8px 10px;background:#78350f;border-radius:6px;font-size:12px;color:#fed7aa;">
+         ⏳ Ne ulaze u ovu fakturu jer nemaju unete troškove (unesi ih u obračunu rezervacije, pa ulaze u sledeću):
+         ${p.needsCosts.map(x => `<strong>${esc(x.bookingRef)}</strong>`).join(', ')}
+       </div>` : '';
+  const inProgress = p.inProgress
+    ? `<div style="margin-top:6px;font-size:12px;color:#94a3b8;">✈ Potvrđena putovanja u toku (ulaze posle povratka): ${p.inProgress}</div>` : '';
+
+  const html = `
+    <div style="text-align:left;font-size:13px;color:#e5e7eb;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;">Za fakturu</div>
+          <div style="font-size:28px;font-weight:800;color:#0ea5e9;">${eur(p.amount)}</div>
+        </div>
+        <div style="text-align:right;color:#94a3b8;font-size:12px;">
+          ${p.bookingCount} završenih putovanja${p.periodFrom ? `<br>period ${fmtD(p.periodFrom)} – ${fmtD(p.periodTo)}` : ''}
+        </div>
+      </div>
+      ${rows ? `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;">
+        <thead><tr style="color:#94a3b8;"><th style="text-align:left;padding:3px 6px;">Rezervacija</th><th style="text-align:left;padding:3px 6px;">Putovanje</th><th style="padding:3px 6px;">Put.</th><th style="text-align:right;padding:3px 6px;">Escapii</th></tr></thead>
+        <tbody>${rows}</tbody></table>` : ''}
+      ${skipped}${inProgress}
+      <label style="display:block;margin-top:14px;font-size:12px;color:#94a3b8;">Stavka na fakturi (tekst koji agencija vidi)</label>
+      <textarea id="agInvDesc" rows="2" maxlength="500" style="width:100%;box-sizing:border-box;margin-top:4px;padding:8px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:inherit;font-size:13px;">${esc(p.suggestedDescription || '')}</textarea>
+      <div style="margin-top:8px;font-size:12px;color:#94a3b8;">PDF ide na: <strong style="color:#e5e7eb;">${esc(p.agencyEmail || '— nema mejla —')}</strong></div>
+      ${!p.canInvoice ? `<div style="margin-top:10px;padding:8px 10px;background:#7f1d1d;border-radius:6px;font-size:12px;color:#fecaca;">${esc(p.blocker || 'Faktura sada ne može da se napravi.')}</div>` : ''}
+    </div>`;
+
+  const { isConfirmed, value } = await Swal.fire({
+    title: `Faktura za ${esc(a ? a.name : '')}`,
+    html, width: 720, background:'#0b1929', color:'#fff',
+    showCancelButton: true, cancelButtonText: 'Zatvori',
+    showConfirmButton: !!p.canInvoice, confirmButtonText: '📤 Pošalji fakturu', confirmButtonColor: '#a85e44',
+    focusConfirm: false,
+    preConfirm: () => {
+      const v = (document.getElementById('agInvDesc')?.value || '').trim();
+      if (!v) { Swal.showValidationMessage('Stavka na fakturi je obavezna'); return false; }
+      return v;
+    }
+  });
+  if (!isConfirmed || !value) return;
+
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/${agencyId}/invoices`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ description: value })
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri slanju fakture');
+    const inv = await r.json();
+    Swal.fire({
+      icon:'success', title:'Faktura poslata',
+      html: `<strong>${esc(inv.invoiceNumber)}</strong> · ${eur(inv.amount)}<br><span style="color:#94a3b8;font-size:12px;">poslato na ${esc(inv.agencyEmail || '')}</span>`,
+      background:'#0b1929', color:'#fff'
+    });
+    await loadAgencies();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function agencyInvoiceAction(id, action) {
+  const labels = {
+    paid:   'Označiti fakturu kao plaćenu?',
+    unpaid: 'Vratiti fakturu na „nije plaćena“?',
+    resend: 'Poslati fakturu ponovo na mejl agencije?'
+  };
+  const { isConfirmed } = await Swal.fire({
+    title: labels[action] || action, icon:'question',
+    showCancelButton:true, confirmButtonText:'Da', cancelButtonText:'Odustani',
+    background:'#0b1929', color:'#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/agency-invoices/${id}/${action}`, { method:'POST', headers:{ 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Greška');
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title: action === 'resend' ? 'Faktura poslata ponovo' : 'Sačuvano', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+    await loadAgencies();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+async function voidAgencyInvoice(id, number) {
+  const { isConfirmed, value: reason } = await Swal.fire({
+    title: `Stornirati fakturu ${number}?`,
+    html: `<div style="text-align:left;font-size:13px;color:#e5e7eb;">Broj ostaje u istoriji kao stornirana. Rezervacije iz nje se vraćaju u red i ulaze u sledeću fakturu.</div>`,
+    input: 'text', inputLabel: 'Razlog storna (obavezno)', inputPlaceholder: 'npr. pogrešan iznos, duplirana faktura...',
+    inputValidator: v => !v || v.trim().length < 3 ? 'Razlog je obavezan' : null,
+    showCancelButton: true, confirmButtonText: 'Storniraj', confirmButtonColor: '#dc2626',
+    background:'#0b1929', color:'#fff'
+  });
+  if (!isConfirmed) return;
+  try {
+    const r = await fetch(`${API}/api/admin/agency-invoices/${id}/void`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ reason: reason.trim() })
+    });
+    if (!r.ok) throw await apiError(r, 'Greška pri stornu');
+    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Faktura stornirana', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
+    await loadAgencies();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+// Preuzimanje ide kroz fetch (treba X-Admin-Key), pa se PDF spušta kao blob.
+async function downloadAgencyInvoicePdf(id, number) {
+  try {
+    const r = await fetch(`${API}/api/admin/agency-invoices/${id}/pdf`, { headers:{ 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'PDF nije dostupan');
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `escapii-faktura-${number}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
@@ -5001,7 +4991,6 @@ function renderEarnings(rows, summary) {
 
   Object.entries(byAgency).forEach(([name, agencyRows]) => {
     const escapiiSum = agencyRows.reduce((s, r) => s + Number(r.escapiiEarnings || 0), 0);
-    const netSum = agencyRows.reduce((s, r) => s + Number(r.netSettlement || 0), 0);
     html += `
       <div class="card" style="margin-bottom:14px;">
         <div class="earn-agency-header">
@@ -5011,13 +5000,13 @@ function renderEarnings(rows, summary) {
           </div>
           <div style="text-align:right;">
             <div style="font-size:16px;font-weight:800;color:#0ea5e9;">${money(escapiiSum)}</div>
-            <div style="font-size:11px;color:#94a3b8;">Escapii zaradio · net ${money(netSum)}</div>
+            <div style="font-size:11px;color:#94a3b8;">Escapii zarada (za fakturu)</div>
           </div>
         </div>
         <div class="table-wrap">
           <table class="earn-table" style="font-size:12px;">
             <thead><tr>
-              <th>Rezervacija</th><th>Datum polaska</th><th>Bruto</th><th>Vaučer</th><th>Escapii</th><th>Agencija</th><th>Net transfer</th><th>Status</th><th>Faktura</th><th></th>
+              <th>Rezervacija</th><th>Datum polaska</th><th>Bruto</th><th>Vaučer</th><th>Escapii</th><th>Agencija</th><th>Status</th><th>Faktura</th><th></th>
             </tr></thead>
             <tbody>${agencyRows.map(r => `
               <tr>
@@ -5027,7 +5016,6 @@ function renderEarnings(rows, summary) {
                 <td style="color:#fbbf24;">${r.voucherAmount > 0 ? money(r.voucherAmount) : '—'}</td>
                 <td style="color:#0ea5e9;font-weight:700;">${money(r.escapiiEarnings)}</td>
                 <td style="color:#94a3b8;">${money(r.agencyRetainedAmount)}</td>
-                <td style="color:${Number(r.netSettlement) >= 0 ? '#22c55e' : '#f87171'};font-weight:700;">${money(r.netSettlement)}</td>
                 <td>${settlementBadge(r.settlementStatus)}</td>
                 <td style="font-size:11px;color:#94a3b8;">${r.agencyInvoiceNumber || '—'}</td>
                 <td><button onclick="openSettlementModal(${r.bookingId})" style="padding:4px 8px;background:#0ea5e9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Uredi</button></td>
