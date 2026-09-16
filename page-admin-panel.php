@@ -3551,8 +3551,7 @@ async function saveSettlementCosts(bookingId, body, opts) {
 
     Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Troškovi sačuvani', showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
     await loadBookings();
-    // Reopen modal sa svezim podacima
-    openSettlementModal(bookingId);
+    // Modal ostaje zatvoren: toast i osvezena lista potvrdjuju upis, fakturise se iz taba Agencije.
   } catch (e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }
