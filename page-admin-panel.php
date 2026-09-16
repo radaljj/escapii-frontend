@@ -4723,6 +4723,7 @@ function renderAgencyInvoices() {
         <span style="color:#94a3b8;font-size:12px;">${fmtD(i.issuedAt)}</span>
         <span style="font-weight:800;color:#0ea5e9;">${eur(i.amount)}</span>
         <span style="color:#94a3b8;font-size:12px;" title="${esc(i.description || '')}">${i.bookingCount} rez. · ${fmtD(i.periodFrom)} – ${fmtD(i.periodTo)}</span>
+        ${(i.bookingRefs || []).length ? `<span style="color:#cbd5e1;font-size:11px;font-family:monospace;" title="Rezervacije obuhvaćene ovom fakturom">${i.bookingRefs.map(esc).join(', ')}</span>` : ''}
         ${agInvBadge(i.status)}
         ${i.status === 'PAID' && i.paidAt ? `<span style="color:#86efac;font-size:11px;">plaćeno ${fmtD(i.paidAt)}</span>` : ''}
         ${i.status === 'VOIDED' && i.voidReason ? `<span style="color:#fca5a5;font-size:11px;">${esc(i.voidReason)}</span>` : ''}
@@ -4772,7 +4773,7 @@ async function openAgencyInvoice(agencyId) {
           <div style="font-size:28px;font-weight:800;color:#0ea5e9;">${eur(p.amount)}</div>
         </div>
         <div style="text-align:right;color:#94a3b8;font-size:12px;">
-          ${p.bookingCount} završenih putovanja${p.periodFrom ? `<br>period ${fmtD(p.periodFrom)} – ${fmtD(p.periodTo)}` : ''}
+          ${p.bookingCount} završenih putovanja${p.periodFrom ? `<br>period ${fmtD(p.periodFrom)} – ${fmtD(p.periodTo)}<br><span style="font-size:11px;color:#64748b;">(najraniji polazak – najkasniji povratak)</span>` : ''}
         </div>
       </div>
       ${rows ? `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;">
