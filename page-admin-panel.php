@@ -2372,9 +2372,14 @@ async function changeAgency(dateId, currentAgencyId) {
       body: JSON.stringify({ agencyId: agencyId ? parseInt(agencyId) : null })
     });
     if (!r.ok) throw new Error();
-    Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Agencija ažurirana',
-      showConfirmButton:false, timer:1500, background:'#0b1929', color:'#fff' });
+    // Nefakturisane rezervacije sa termina prelaze na novu agenciju - backend javlja koliko.
+    const j = await r.json().catch(() => ({}));
+    const n = j && j.movedBookings ? j.movedBookings : 0;
+    Swal.fire({ toast:true, position:'top-end', icon:'success',
+      title: n ? `Agencija ažurirana · ${n} ${n === 1 ? 'rezervacija prebačena' : 'rezervacije prebačene'} na nju` : 'Agencija ažurirana',
+      showConfirmButton:false, timer: n ? 3500 : 1500, background:'#0b1929', color:'#fff' });
     loadDates();
+    if (n && typeof loadBookings === 'function') loadBookings();
   } catch(e) {
     Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Greška pri promeni agencije',
       showConfirmButton:false, timer:2000, background:'#0b1929', color:'#fff' });
@@ -2966,6 +2971,7 @@ function buildBookingDetail(b) {
       <div class="bc-field"><div class="bc-label">Telefon</div><div class="bc-value">${escHtml(b.phone || '')}</div></div>
       <div class="bc-field"><div class="bc-label">Aerodrom</div><div class="bc-value">✈ ${b.departureAirport}</div></div>
       <div class="bc-field"><div class="bc-label">Termin</div><div class="bc-value">${depDate} → ${retDate}</div></div>
+      <div class="bc-field"><div class="bc-label">Agencija</div><div class="bc-value">${escHtml(b.agencyName || '—')}</div></div>
       <div class="bc-field"><div class="bc-label">Putnici / Smeštaj</div><div class="bc-value">${b.numberOfTravelers}× · ${b.accommodationType}</div></div>
       ${buildPassengersSection(b.passengers, b)}
       <div class="bc-field"><div class="bc-label">Cena po osobi</div><div class="bc-value">${b.totalPricePerPerson}€/os <button class="bc-btn-price" onclick="showPriceBreakdown(${b.id})">💰 detalji</button></div></div>
