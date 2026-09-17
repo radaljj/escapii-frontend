@@ -1590,37 +1590,185 @@ document.getElementById('keyInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
-function showPriceBreakdown(id) {
-  // Booking se traži iz ALL_BOOKINGS po id-u da se ceo objekat NE serijalizuje u
-  // inline onclick atribut - inače su korisnički podaci (ime, napomena, vaučer kod)
-  // dostupni za HTML/JS injection preko atribut-dekodovanja u browseru.
-  const b = ALL_BOOKINGS.find(x => x.id === id);
-  if (!b) return;
-  document.getElementById('pricePopupTitle').textContent = `Cenovnik - ${b.bookingRef}`;
-  const rows = [];
-  const tr = (label, val) => `<tr><td>${label}</td><td>${val}</td></tr>`;
+/** Stavke cenovnika kako ih je klijent video - koristi ih popup "Cenovnik" i mejl za agenciju.
+ *  Iznosi su isti kao u PriceCalculatorImpl (doručak 12€/noć, osiguranje 12, sedišta 24,
+ *  superior 100, kofer 100, solo 60, Reveal Box 35). */
+function priceBreakdownLines(b) {
   const n = b.numberOfTravelers || 1;
-  // Broj noći (za doručak) - iz polja ili izračunato iz datuma
   let nights = b.numberOfNights;
   if (!nights && b.departureDate && b.returnDate) {
     nights = Math.round((new Date(b.returnDate) - new Date(b.departureDate)) / 86400000);
   }
-  // ── Po osobi (množi se brojem putnika) ──
-  rows.push(tr('Osnovna cena', `${b.basePricePerPerson}€/os`));
-  if (b.accommodationType === 'SUPERIOR') rows.push(tr('Superior hotel', '+100€/os'));
-  if (b.hasBreakfast)     rows.push(tr(`Doručak${nights ? ' ('+nights+' noći)' : ''}`, `+${12 * (nights || 0)}€/os`));
-  if (b.hasInsurance)     rows.push(tr('Osiguranje', '+12€/os'));
-  if (b.hasSeatsTogether) rows.push(tr('Sedišta zajedno', '+24€/os'));
-  rows.push(`<tr class="subtotal"><td>Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}</td><td>${b.totalPricePerPerson * n}€</td></tr>`);
-  // ── Flat doplate (NE množe se brojem putnika) ──
-  if (b.cabinSuitcaseCount > 0) rows.push(tr(`Ručni kofer × ${b.cabinSuitcaseCount}`, `+${100 * b.cabinSuitcaseCount}€`));
-  if (b.exclusionCostEur > 0)   rows.push(tr(`Isključivanja (${b.exclusionCount}×)`, `+${b.exclusionCostEur}€`));
-  if (n === 1)            rows.push(tr('Doplata za solo putnika', '+60€'));
-  if (b.hasRevealBox)     rows.push(tr('📦 Reveal Box', '+35€'));
-  if (b.voucherDiscount > 0) rows.push(tr(`🎟️ Vaučer (${escHtml(b.appliedVoucherCode || '')})`, `−${b.voucherDiscount}€`));
-  rows.push(`<tr class="total"><td><strong>UKUPNO</strong></td><td><strong>${b.totalPriceAll}€</strong></td></tr>`);
-  document.getElementById('pricePopupTable').innerHTML = rows.join('');
+  const rows = [];
+  rows.push({ label: 'Osnovna cena', value: `${b.basePricePerPerson}€/os` });
+  if (b.accommodationType === 'SUPERIOR') rows.push({ label: 'Superior hotel', value: '+100€/os' });
+  if (b.hasBreakfast)     rows.push({ label: `Doručak${nights ? ' (' + nights + ' noći)' : ''}`, value: `+${12 * (nights || 0)}€/os` });
+  if (b.hasInsurance)     rows.push({ label: 'Osiguranje', value: '+12€/os' });
+  if (b.hasSeatsTogether) rows.push({ label: 'Sedišta zajedno', value: '+24€/os' });
+  rows.push({ kind: 'subtotal', label: `Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}`, value: `${b.totalPricePerPerson * n}€` });
+  if (b.cabinSuitcaseCount > 0) rows.push({ label: `Ručni (kabinski) kofer × ${b.cabinSuitcaseCount}`, value: `+${100 * b.cabinSuitcaseCount}€` });
+  if (b.exclusionCostEur > 0)   rows.push({ label: `Isključivanja (${b.exclusionCount}×)`, value: `+${b.exclusionCostEur}€` });
+  if (n === 1)                  rows.push({ label: 'Doplata za solo putnika', value: '+60€' });
+  if (b.hasRevealBox)           rows.push({ label: 'Reveal Box', value: '+35€' });
+  if (b.voucherDiscount > 0)    rows.push({ label: `Vaučer (${b.appliedVoucherCode || ''})`, value: `−${b.voucherDiscount}€` });
+  rows.push({ kind: 'total', label: 'UKUPNO', value: `${b.totalPriceAll}€` });
+  return rows;
+}
+
+function showPriceBreakdown(id) {
+  // Booking se traži iz ALL_BOOKINGS po id-u da se ceo objekat NE serijalizuje u
+  // inline onclick atribut (korisnički podaci ne smeju u HTML atribute).
+  const b = ALL_BOOKINGS.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('pricePopupTitle').textContent = `Cenovnik - ${b.bookingRef}`;
+  document.getElementById('pricePopupTable').innerHTML = priceBreakdownLines(b).map(r =>
+      r.kind === 'total'    ? `<tr class="total"><td><strong>${escHtml(r.label)}</strong></td><td><strong>${escHtml(r.value)}</strong></td></tr>`
+    : r.kind === 'subtotal' ? `<tr class="subtotal"><td>${escHtml(r.label)}</td><td>${escHtml(r.value)}</td></tr>`
+    :                         `<tr><td>${escHtml(r.label)}</td><td>${escHtml(r.value)}</td></tr>`
+  ).join('');
   document.getElementById('pricePopupOverlay').classList.add('open');
+}
+
+// ══ MEJL ZA AGENCIJU (sastavlja tekst, šalje ga Marko iz svog mejla - ne troši Resend) ══
+function dmy(iso) {
+  if (!iso) return '-';
+  const [y, m, d] = String(iso).slice(0, 10).split('-');
+  return `${d}.${m}.${y}.`;
+}
+function daNe(v) { return v ? 'da' : 'ne'; }
+
+/** Sve što je klijent izabrao na sajtu - agencija po ovome pravi ponudu. */
+function agencyMailForBooking(b) {
+  const n = b.numberOfTravelers || 1;
+  let nights = b.numberOfNights;
+  if (!nights && b.departureDate && b.returnDate) {
+    nights = Math.round((new Date(b.returnDate) - new Date(b.departureDate)) / 86400000);
+  }
+  const L = [];
+  L.push('Poštovani,', '');
+  L.push('molimo vas za ponudu za rezervaciju sa platforme Escapii, prema izboru klijenta.', '');
+  L.push(`REZERVACIJA ${b.bookingRef} (primljena ${dmy(b.createdAt)})`);
+  L.push(`• Aerodrom polaska: ${airportLabel(b.departureAirport)}`);
+  L.push(`• Termin: ${dmy(b.departureDate)} – ${dmy(b.returnDate)}${nights ? ` (${nights} ${nights === 1 ? 'noć' : 'noći'})` : ''}`);
+  L.push(`• Broj putnika: ${n}`);
+  L.push(`• Smeštaj: ${b.accommodationType === 'SUPERIOR' ? 'Superior hotel' : 'Standard hotel'}`);
+  L.push(`• Doručak: ${daNe(b.hasBreakfast)}`);
+  L.push(`• Sedišta zajedno: ${daNe(b.hasSeatsTogether)}`);
+  L.push(`• Putno osiguranje: ${daNe(b.hasInsurance)}`);
+  L.push(`• Presedanje dozvoljeno: ${daNe(b.hasConnectingFlights)}`);
+  L.push(`• Ručni (kabinski) koferi: ${b.cabinSuitcaseCount || 0}`);
+  if (b.hasRevealBox) {
+    L.push(`• Reveal Box: da (dostava: ${[b.deliveryAddress, b.deliveryApartment, b.deliveryCity, b.deliveryPhone].filter(Boolean).join(', ') || '-'})`);
+  }
+  if (b.isGift) L.push(`• Poklon: da – putuje ${b.giftRecipientName || '-'} (${b.giftRecipientEmail || '-'})`);
+  L.push('', 'PUTNICI');
+  const putnici = b.passengers || [];
+  putnici.forEach((p, i) => {
+    const pol = p.gender === 'M' ? 'muško' : p.gender === 'F' ? 'žensko' : '-';
+    const delovi = [pol];
+    if (p.dateOfBirth) delovi.push(`rođ. ${dmy(p.dateOfBirth)}`);
+    delovi.push(`pasoš: ${p.passportCountry || '-'}${p.passportNumber ? ', br. ' + p.passportNumber : ''}`);
+    if (p.hasValidPassport != null) delovi.push(`važeći pasoš: ${daNe(p.hasValidPassport)}`);
+    if (p.visaInfo) delovi.push(`viza: ${p.visaInfo}`);
+    L.push(`${i + 1}. ${p.name || '-'} – ${delovi.join(', ')}`);
+  });
+  if (!putnici.length) L.push('(nema unetih putnika)');
+  L.push('', 'DESTINACIJE');
+  const excludedIds = new Set(b.excludedDestinationIds || []);
+  const td = b.termDestinations || [];
+  const moguce = td.filter(t => !excludedIds.has(t.destinationId) && t.active !== false && !(t.connecting && !b.hasConnectingFlights))
+                   .map(t => t.name + (t.connecting ? ' (uz presedanje)' : ''));
+  const samoPresedanje = td.filter(t => !excludedIds.has(t.destinationId) && t.connecting && !b.hasConnectingFlights).map(t => t.name);
+  if (td.length) L.push(`• Moguće (nisu isključene): ${moguce.length ? moguce.join(', ') : '-'}`);
+  if (samoPresedanje.length) L.push(`• Samo uz presedanje, a klijent ga nije izabrao: ${samoPresedanje.join(', ')}`);
+  L.push(`• Isključene po izboru klijenta: ${(b.excludedDestinations || []).length ? b.excludedDestinations.join(', ') : 'nema'}`);
+  L.push(`• Dodeljena destinacija: ${b.assignedDestination || 'još nije dodeljena'}`);
+  L.push('', 'CENA KOJU JE KLIJENT VIDEO');
+  priceBreakdownLines(b).forEach(r => L.push(r.kind === 'total' ? `UKUPNO: ${r.value}` : `• ${r.label}: ${r.value}`));
+  L.push('', 'KONTAKT KLIJENTA (za predračun i uplatu)');
+  L.push(`${[b.firstName, b.lastName].filter(Boolean).join(' ') || '-'}, ${b.email || '-'}${b.phone ? ', ' + b.phone : ''}`);
+  if (b.notes) L.push('', `Napomena klijenta: ${b.notes}`);
+  L.push('', 'Hvala unapred,', 'Escapii');
+  const subject = `Zahtev za ponudu – ${b.bookingRef} – ${dmy(b.departureDate)} – ${dmy(b.returnDate)}, ${n} ${n === 1 ? 'putnik' : 'putnika'}, ${b.departureAirport}`;
+  return { subject, body: L.join('\n') };
+}
+
+/** Vaučer je jednostavan: iznos i kome agencija šalje predračun. */
+function agencyMailForVoucher(v) {
+  const iznos = Number(v.amount);
+  const L = ['Poštovani,', '',
+    'klijent je preko platforme Escapii zainteresovan za kupovinu poklon vaučera.', '',
+    `• Iznos vaučera: ${iznos} €`,
+    `• Kupac: ${v.buyerName || '-'} (${v.buyerEmail || '-'})`,
+    `• Zahtev primljen: ${dmy(v.createdAt)}`];
+  if (v.giftMessage) L.push(`• Poruka na vaučeru: "${v.giftMessage}"`);
+  L.push('', 'Molimo vas da klijentu pošaljete predračun na navedeni email. Po uplati mi aktiviramo vaučer (važi 12 meseci od aktivacije).');
+  L.push('', 'Hvala unapred,', 'Escapii');
+  return { subject: `Poklon vaučer ${iznos} € – ${v.buyerName || v.buyerEmail || ''}`.trim(), body: L.join('\n') };
+}
+
+let _mailAgencies = null;
+/** Mejl agencije za "Otvori u mejlu": po imenu sa rezervacije, ili jedina aktivna agencija. */
+async function agencyEmailFor(agencyName) {
+  if (_mailAgencies === null) {
+    try {
+      const r = await fetch(`${API}/api/admin/agencies/active`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+      _mailAgencies = r.ok ? await r.json() : [];
+    } catch (_) { _mailAgencies = []; }
+  }
+  const list = _mailAgencies || [];
+  const a = agencyName ? list.find(x => x.name === agencyName) : (list.length === 1 ? list[0] : null);
+  return a && a.contactEmail ? a.contactEmail : '';
+}
+
+async function copyText(text, el) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+  } catch (_) {}
+  try { el.focus(); el.select(); return document.execCommand('copy'); } catch (_) { return false; }
+}
+
+async function openMailPopup(title, subject, body, to) {
+  const mailto = `mailto:${encodeURIComponent(to || '')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const html = `
+    <div style="text-align:left;font-size:13px;color:#e5e7eb;">
+      <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;">Naslov</div>
+      <input id="mailSubj" readonly value="${esc(subject)}" onclick="this.select()"
+             style="width:100%;box-sizing:border-box;margin:4px 0 10px;padding:8px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:inherit;font-size:13px;">
+      <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;">Tekst mejla</div>
+      <textarea id="mailBody" readonly
+                style="width:100%;box-sizing:border-box;margin-top:4px;height:min(50vh,440px);padding:10px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;resize:vertical;">${esc(body)}</textarea>
+      <div id="mailStatus" style="margin-top:8px;min-height:16px;font-size:12px;color:#86efac;"></div>
+      <div style="margin-top:4px;font-size:11px;color:#64748b;">Ovaj mejl šalješ ti iz svog mejla${to ? ` (agencija: ${esc(to)})` : ''}. Aplikacija ne šalje ništa i ne troši Resend limit.</div>
+    </div>`;
+  await Swal.fire({
+    title, html, width: 'min(760px, 96vw)', background: '#0b1929', color: '#fff',
+    showCancelButton: true, cancelButtonText: 'Zatvori',
+    confirmButtonText: '📋 Kopiraj tekst', confirmButtonColor: '#0ea5e9',
+    showDenyButton: true, denyButtonText: '✉️ Otvori u mejlu', denyButtonColor: '#a85e44',
+    focusConfirm: false,
+    preConfirm: async () => {
+      const ok = await copyText(body, document.getElementById('mailBody'));
+      const st = document.getElementById('mailStatus');
+      if (st) { st.style.color = ok ? '#86efac' : '#fca5a5'; st.textContent = ok ? '✅ Tekst je kopiran - nalepi ga u svoj mejl (naslov iskopiraj iz polja iznad).' : '⚠️ Kopiranje nije uspelo - selektuj tekst ručno.'; }
+      return false; // popup ostaje otvoren
+    },
+    preDeny: () => { window.location.href = mailto; return false; }
+  });
+}
+
+async function openAgencyMail(bookingId) {
+  const b = ALL_BOOKINGS.find(x => x.id === bookingId);
+  if (!b) return;
+  const { subject, body } = agencyMailForBooking(b);
+  openMailPopup(`Mejl za agenciju – ${b.bookingRef}`, subject, body, await agencyEmailFor(b.agencyName));
+}
+
+async function openVoucherMail(voucherId) {
+  const v = _gVouchers.find(x => x.id === voucherId);
+  if (!v) return;
+  const { subject, body } = agencyMailForVoucher(v);
+  openMailPopup(`Mejl za agenciju – vaučer #${v.id}`, subject, body, await agencyEmailFor(null));
 }
 function closePricePopup() {
   document.getElementById('pricePopupOverlay').classList.remove('open');
@@ -3028,7 +3176,8 @@ function buildBookingDetail(b) {
         <div class="bc-ref">${escHtml(b.bookingRef)}</div>
         <div class="bc-date">Primljeno: ${created}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <button class="bc-btn-price" style="margin-left:0;" onclick="openAgencyMail(${b.id})" title="Sastavi mejl za agenciju sa svim podacima rezervacije (šalješ ga ti, iz svog mejla)">✉️ Mejl za agenciju</button>
         <span class="bc-status ${b.status}">${statusLabels[b.status]||b.status}</span>
       </div>
     </div>
@@ -4608,7 +4757,7 @@ function renderGiftVouchers() {
       <td style="text-align:center;">${msg}</td>
       <td style="font-size:12px;color:#64748b;">${created}</td>
       <td style="font-size:12px;color:#64748b;">${expires}</td>
-      <td>${actions}</td>
+      <td><div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">${actions === '-' ? '' : actions}<button class="btn-action btn-edit" onclick="openVoucherMail(${v.id})" title="Sastavi mejl za agenciju (šalješ ga ti, iz svog mejla)">✉️ Mejl</button></div></td>
     </tr>`;
   }).join('');
 }
