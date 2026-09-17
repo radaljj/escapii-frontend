@@ -932,6 +932,75 @@ tbody td  { padding: 11px 12px; }
   .earn-table th, .earn-table td { padding: 8px 6px; }
 }
 
+/* ── Responsive v2 (2026-09-17): sve mora da stane u 400px ───────────────── */
+/* Agencije: kartica, dugmad, lista faktura */
+.ag-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px 14px; flex-wrap: wrap; }
+.ag-card-info { min-width: 0; flex: 1 1 220px; }
+.ag-card-info div, .ag-card-info strong { overflow-wrap: anywhere; }
+.ag-card-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; flex: 0 1 auto; }
+.ag-inv-row {
+  display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap;
+  padding: 8px 10px; border: 1px solid rgba(255,255,255,.07); border-radius: 8px;
+  margin-bottom: 6px; background: rgba(255,255,255,.03); min-width: 0;
+}
+.ag-inv-row > * { min-width: 0; }
+.ag-inv-refs { flex-basis: 100%; color: #cbd5e1; font-size: 11px; font-family: monospace; overflow-wrap: anywhere; }
+.ag-inv-btns { margin-left: auto; display: flex; gap: 5px; flex-wrap: wrap; }
+@media (max-width: 560px) {
+  .ag-card-actions { width: 100%; justify-content: flex-start; }
+  .ag-inv-btns { margin-left: 0; width: 100%; }
+  .ag-inv-btns .btn-action { flex: 1 1 auto; text-align: center; }
+}
+/* Sub-tabovi termina skroluju kao glavni tabovi */
+@media (max-width: 600px) {
+  .dates-sub-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .dates-sub-tabs::-webkit-scrollbar { display: none; }
+}
+/* Tabele: manje bitne kolone nestaju na uskom ekranu, ostatak skroluje u .table-wrap
+   (:not([colspan]) da se ne sakrije red "Ucitavanje..."/"Nema ...") */
+@media (max-width: 768px) {
+  #datesTable th:nth-child(1), #datesTable td:nth-child(1):not([colspan]),
+  #datesTable th:nth-child(5), #datesTable td:nth-child(5):not([colspan]),
+  #panel-destinations .table-wrap th:nth-child(1), #panel-destinations .table-wrap td:nth-child(1):not([colspan]),
+  #panel-gifts th:nth-child(5), #panel-gifts td:nth-child(5):not([colspan]),
+  #panel-gifts th:nth-child(6), #panel-gifts td:nth-child(6):not([colspan]),
+  #errorsContent th:nth-child(4), #errorsContent td:nth-child(4):not([colspan]),
+  #errorsContent th:nth-child(5), #errorsContent td:nth-child(5):not([colspan]),
+  #inquiriesTable th:nth-child(6), #inquiriesTable td:nth-child(6):not([colspan]) { display: none; }
+  #errorsContent .err-msg { max-width: 220px; }
+}
+@media (max-width: 560px) {
+  #datesTable th:nth-child(8), #datesTable td:nth-child(8):not([colspan]),
+  #panel-destinations .table-wrap th:nth-child(2), #panel-destinations .table-wrap td:nth-child(2):not([colspan]),
+  #panel-destinations .table-wrap th:nth-child(4), #panel-destinations .table-wrap td:nth-child(4):not([colspan]),
+  #panel-gifts th:nth-child(1), #panel-gifts td:nth-child(1):not([colspan]),
+  #panel-gifts th:nth-child(7), #panel-gifts td:nth-child(7):not([colspan]),
+  #inquiriesTable th:nth-child(3), #inquiriesTable td:nth-child(3):not([colspan]) { display: none; }
+  #errorsContent .err-msg { max-width: 160px; }
+  .admin-main { padding: 14px 10px; }
+  .card { padding: 14px; border-radius: 14px; }
+}
+/* SweetAlert na mobilnom: manji paddinzi, dugmad se prelamaju, siroke tabele skroluju */
+.swal-scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 600px) {
+  .swal2-popup { padding: 1.2em .9em !important; }
+  .swal2-html-container { margin: .8em .2em !important; }
+  .swal2-actions { flex-wrap: wrap; gap: 6px; }
+}
+/* Sigurnosna mreza: stranica nikad ne dobija horizontalni skrol (siroki elementi skroluju u svom okviru) */
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+  .admin-main { min-width: 0; }
+}
+/* Popupi na uskom ekranu: kolone ne lome reci; obracun krije Marzu/Agenciju i suzava inpute */
+.aginv-table th, .aginv-table td { white-space: nowrap; }
+@media (max-width: 600px) {
+  .stl-table { min-width: 0 !important; }
+  .stl-table th:nth-child(4), .stl-table td:nth-child(4),
+  .stl-table th:nth-child(6), .stl-table td:nth-child(6) { display: none; }
+  .stl-table th, .stl-table td { padding: 5px 4px !important; }
+  .stl-table input[type="number"] { width: 74px !important; }
+}
 </style>
 </head>
 <body>
@@ -3383,7 +3452,7 @@ async function openSettlementModal(bookingId) {
     html,
     background: '#0b1929',
     color: '#fff',
-    width: 900,
+    width: 'min(900px, 96vw)',
     showCancelButton: true,
     cancelButtonText: 'Zatvori',
     focusConfirm: false,
@@ -3469,16 +3538,16 @@ function renderSettlementModal(p, isLocked) {
       costCell = `
         <div style="display:flex;gap:4px;flex-direction:column;">
           <input type="number" step="0.01" min="0" id="cost-flight" value="${fVal}" placeholder="Avion €" data-had-value="${fHad}"
-                 style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
+                 style="width:90px;max-width:100%;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
           <input type="number" step="0.01" min="0" id="cost-hotel" value="${hVal}" placeholder="Hotel €" data-had-value="${hHad}"
-                 style="width:100px;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
+                 style="width:90px;max-width:100%;padding:3px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />
         </div>`;
     } else {
       const inputId = `cost-${li.itemType}`;
       const current = li.agencyCost != null ? li.agencyCost : '';
       const had = li.agencyCost != null ? '1' : '0';
       costCell = `<input type="number" step="0.01" min="0" id="${inputId}" value="${current}" placeholder="—" data-had-value="${had}"
-                    style="width:100px;padding:4px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />`;
+                    style="width:90px;max-width:100%;padding:4px 6px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:4px;font-size:12px;" />`;
     }
     const statusIcon = li.status === 'MISSING_COST' ? '⚠️'
                      : li.status === 'NEGATIVE_MARGIN' ? '❌'
@@ -3515,7 +3584,7 @@ function renderSettlementModal(p, isLocked) {
         <span style="color:#94a3b8;font-size:12px;">${p.agencyName || '—'}</span>
         ${p.agencyInvoiceNumber ? `<span style="color:#94a3b8;font-size:12px;">| ${p.agencyInvoiceNumber}</span>` : ''}
       </div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <div class="swal-scroll-x"><table class="stl-table" style="width:100%;border-collapse:collapse;font-size:12px;min-width:520px;">
         <thead>
           <tr style="background:#1e293b;color:#94a3b8;">
             <th style="padding:6px;text-align:left;">Stavka</th>
@@ -3527,7 +3596,7 @@ function renderSettlementModal(p, isLocked) {
           </tr>
         </thead>
         <tbody>${rows}</tbody>
-      </table>
+      </table></div>
       <div style="margin-top:12px;padding:10px;background:#0f172a;border-radius:6px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
           <div>Bruto vrednost rezervacije:</div>       <div style="text-align:right;font-weight:700;">${money(p.grossBookingValue)}</div>
@@ -4660,8 +4729,8 @@ function renderAgencies() {
   if (!_agencies.length) { el.innerHTML = '<div class="empty-state">Nema agencija.</div>'; return; }
   el.innerHTML = _agencies.map(a => `
     <div class="card" style="margin-bottom:10px;opacity:${a.active ? 1 : 0.5};">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
+      <div class="ag-card-head">
+        <div class="ag-card-info">
           <strong style="font-size:15px;">${esc(a.name)}</strong>
           ${!a.active ? '<span style="color:#f87171;font-size:12px;margin-left:8px;">NEAKTIVNA</span>' : ''}
           ${a.contactName ? `<div style="font-size:13px;color:#94a3b8;margin-top:4px;">👤 ${esc(a.contactName)}</div>` : ''}
@@ -4669,7 +4738,7 @@ function renderAgencies() {
           ${a.contactPhone ? `<div style="font-size:13px;color:#94a3b8;">📞 ${esc(a.contactPhone)}</div>` : ''}
           ${a.notes ? `<div style="font-size:12px;color:#64748b;margin-top:4px;font-style:italic;">${esc(a.notes)}</div>` : ''}
         </div>
-        <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
+        <div class="ag-card-actions">
           <button class="btn-action" style="background:rgba(168,94,68,.15);color:#ca8a71;border:1px solid rgba(168,94,68,.35);font-weight:700;" onclick="openAgencyInvoice(${a.id})">📄 Fakturiši</button>
           <button class="btn-action btn-edit" onclick="editAgency(${a.id})">✏️ Izmeni</button>
           <button class="btn-action ${a.active ? 'btn-toggle-off' : 'btn-toggle-on'}" onclick="toggleAgency(${a.id})">${a.active ? '⏸️ Deaktiviraj' : '▶️ Aktiviraj'}</button>
@@ -4724,16 +4793,16 @@ function renderAgencyInvoices() {
     }
     el.innerHTML = `<div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#94a3b8;margin-bottom:6px;">Fakture</div>` +
       list.map(i => `
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.03);${i.status === 'VOIDED' ? 'opacity:.6;' : ''}">
+      <div class="ag-inv-row" style="${i.status === 'VOIDED' ? 'opacity:.6;' : ''}">
         <strong style="font-family:monospace;">${esc(i.invoiceNumber)}</strong>
         <span style="color:#94a3b8;font-size:12px;">${fmtD(i.issuedAt)}</span>
         <span style="font-weight:800;color:#0ea5e9;">${eur(i.amount)}</span>
         <span style="color:#94a3b8;font-size:12px;" title="${esc(i.description || '')}">${i.bookingCount} rez. · ${fmtD(i.periodFrom)} – ${fmtD(i.periodTo)}</span>
-        ${(i.bookingRefs || []).length ? `<span style="color:#cbd5e1;font-size:11px;font-family:monospace;" title="Rezervacije obuhvaćene ovom fakturom">${i.bookingRefs.map(esc).join(', ')}</span>` : ''}
+        ${(i.bookingRefs || []).length ? `<span class="ag-inv-refs" title="Rezervacije obuhvaćene ovom fakturom">${i.bookingRefs.map(esc).join(', ')}</span>` : ''}
         ${agInvBadge(i.status)}
         ${i.status === 'PAID' && i.paidAt ? `<span style="color:#86efac;font-size:11px;">plaćeno ${fmtD(i.paidAt)}</span>` : ''}
         ${i.status === 'VOIDED' && i.voidReason ? `<span style="color:#fca5a5;font-size:11px;">${esc(i.voidReason)}</span>` : ''}
-        <span style="margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;">
+        <span class="ag-inv-btns">
           <button class="btn-action" onclick="downloadAgencyInvoicePdf(${i.id}, '${esc(i.invoiceNumber)}')">📄 PDF</button>
           ${i.status !== 'VOIDED' ? `<button class="btn-action" onclick="agencyInvoiceAction(${i.id}, 'resend')">✉️ Pošalji ponovo</button>` : ''}
           ${i.status === 'SENT' ? `<button class="btn-action btn-toggle-on" onclick="agencyInvoiceAction(${i.id}, 'paid')">💰 Plaćena</button>` : ''}
@@ -4782,9 +4851,9 @@ async function openAgencyInvoice(agencyId) {
           ${p.bookingCount} završenih putovanja${p.periodFrom ? `<br>period ${fmtD(p.periodFrom)} – ${fmtD(p.periodTo)}<br><span style="font-size:11px;color:#64748b;">(najraniji polazak – najkasniji povratak)</span>` : ''}
         </div>
       </div>
-      ${rows ? `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;">
+      ${rows ? `<div class="swal-scroll-x"><table class="aginv-table" style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;min-width:360px;">
         <thead><tr style="color:#94a3b8;"><th style="text-align:left;padding:3px 6px;">Rezervacija</th><th style="text-align:left;padding:3px 6px;">Putovanje</th><th style="padding:3px 6px;">Put.</th><th style="text-align:right;padding:3px 6px;">Escapii</th></tr></thead>
-        <tbody>${rows}</tbody></table>` : ''}
+        <tbody>${rows}</tbody></table></div>` : ''}
       ${skipped}${inProgress}
       <label style="display:block;margin-top:14px;font-size:12px;color:#94a3b8;">Stavka na fakturi (tekst koji agencija vidi)</label>
       <textarea id="agInvDesc" rows="2" maxlength="500" style="width:100%;box-sizing:border-box;margin-top:4px;padding:8px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:inherit;font-size:13px;">${esc(p.suggestedDescription || '')}</textarea>
@@ -4794,7 +4863,7 @@ async function openAgencyInvoice(agencyId) {
 
   const { isConfirmed, value } = await Swal.fire({
     title: `Faktura za ${esc(a ? a.name : '')}`,
-    html, width: 720, background:'#0b1929', color:'#fff',
+    html, width: 'min(720px, 96vw)', background:'#0b1929', color:'#fff',
     showCancelButton: true, cancelButtonText: 'Zatvori',
     showConfirmButton: !!p.canInvoice, confirmButtonText: '📤 Pošalji fakturu', confirmButtonColor: '#a85e44',
     focusConfirm: false,
