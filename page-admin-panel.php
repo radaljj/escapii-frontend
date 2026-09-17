@@ -1657,9 +1657,7 @@ function agencyMailForBooking(b) {
   L.push(`• Putno osiguranje: ${daNe(b.hasInsurance)}`);
   L.push(`• Presedanje dozvoljeno: ${daNe(b.hasConnectingFlights)}`);
   L.push(`• Ručni (kabinski) koferi: ${b.cabinSuitcaseCount || 0}`);
-  if (b.hasRevealBox) {
-    L.push(`• Reveal Box: da (dostava: ${[b.deliveryAddress, b.deliveryApartment, b.deliveryCity, b.deliveryPhone].filter(Boolean).join(', ') || '-'})`);
-  }
+  // Reveal Box se agenciji ne pominje (Markova odluka) - ni adresa dostave ni stavka.
   if (b.isGift) L.push(`• Poklon: da – putuje ${b.giftRecipientName || '-'} (${b.giftRecipientEmail || '-'})`);
   L.push('', 'PUTNICI');
   const putnici = b.passengers || [];
@@ -1684,7 +1682,8 @@ function agencyMailForBooking(b) {
   L.push(`• Isključene po izboru klijenta: ${(b.excludedDestinations || []).length ? b.excludedDestinations.join(', ') : 'nema'}`);
   L.push(`• Dodeljena destinacija: ${b.assignedDestination || 'još nije dodeljena'}`);
   L.push('', 'CENA KOJU JE KLIJENT VIDEO');
-  priceBreakdownLines(b).forEach(r => L.push(r.kind === 'total' ? `UKUPNO: ${r.value}` : `• ${r.label}: ${r.value}`));
+  priceBreakdownLines(b).filter(r => r.label !== 'Reveal Box')
+    .forEach(r => L.push(r.kind === 'total' ? `UKUPNO: ${r.value}` : `• ${r.label}: ${r.value}`));
   L.push('', 'KONTAKT KLIJENTA (za predračun i uplatu)');
   L.push(`${[b.firstName, b.lastName].filter(Boolean).join(' ') || '-'}, ${b.email || '-'}${b.phone ? ', ' + b.phone : ''}`);
   if (b.notes) L.push('', `Napomena klijenta: ${b.notes}`);
@@ -3199,7 +3198,7 @@ function buildBookingDetail(b) {
         <div class="bc-value" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           ${settlementBadge(b.settlementStatus)}
           ${b.agencyInvoiceNumber ? `<span style="font-size:12px;color:#94a3b8;">Faktura: <strong>${b.agencyInvoiceNumber}</strong></span>` : ''}
-          <button class="bc-note-save" style="background:#0ea5e9;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;"
+          <button class="bc-note-save" style="width:auto;height:auto;background:#0ea5e9;color:#fff;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;"
                   onclick="openSettlementModal(${b.id})">💼 Uredi obračun</button>
         </div>
       </div>
