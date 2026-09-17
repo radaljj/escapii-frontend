@@ -1657,7 +1657,9 @@ function agencyMailForBooking(b) {
   L.push(`• Smeštaj: ${b.accommodationType === 'SUPERIOR' ? 'Superior hotel' : 'Standard hotel'}`);
   L.push(`• Doručak: ${daNe(b.hasBreakfast)}`);
   L.push(`• Sedišta zajedno: ${daNe(b.hasSeatsTogether)}`);
-  L.push(`• Presedanje dozvoljeno: ${daNe(b.hasConnectingFlights)}`);
+  L.push(b.hasConnectingFlights
+    ? '• Presedanje: klijent je odobrio i letove sa presedanjem, ukoliko postoji dobra karta'
+    : '• Presedanje: samo direktni letovi, klijent nije odobrio presedanje');
   L.push(`• Ručni (kabinski) koferi: ${b.cabinSuitcaseCount || 0}`);
   L.push('', 'PUTNICI');
   const putnici = b.passengers || [];
