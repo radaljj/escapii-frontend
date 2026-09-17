@@ -1637,28 +1637,28 @@ function dmy(iso) {
 }
 function daNe(v) { return v ? 'da' : 'ne'; }
 
-/** Sve što je klijent izabrao na sajtu - agencija po ovome pravi ponudu. */
+/** Poziv agenciji da potraži ponudu: šta je klijent izabrao, za koje destinacije i u koju cenu
+ *  treba da se uklopi. Bez kontakta klijenta, osiguranja, Reveal Box-a, isključenih i dodeljene
+ *  destinacije (Markova odluka 2026-09-17). */
 function agencyMailForBooking(b) {
   const n = b.numberOfTravelers || 1;
+  const putnikRec = n === 1 ? 'putnik' : 'putnika';
   let nights = b.numberOfNights;
   if (!nights && b.departureDate && b.returnDate) {
     nights = Math.round((new Date(b.returnDate) - new Date(b.departureDate)) / 86400000);
   }
   const L = [];
   L.push('Poštovani,', '');
-  L.push('molimo vas za ponudu za rezervaciju sa platforme Escapii, prema izboru klijenta.', '');
-  L.push(`REZERVACIJA ${b.bookingRef} (primljena ${dmy(b.createdAt)})`);
+  L.push('dobili smo upit klijenta preko platforme Escapii. Molimo vas da nam potražite i pošaljete ponudu koja se uklapa u cenu navedenu ispod.', '');
+  L.push(`UPIT ${b.bookingRef} (primljen ${dmy(b.createdAt)})`);
   L.push(`• Aerodrom polaska: ${airportLabel(b.departureAirport)}`);
   L.push(`• Termin: ${dmy(b.departureDate)} – ${dmy(b.returnDate)}${nights ? ` (${nights} ${nights === 1 ? 'noć' : 'noći'})` : ''}`);
   L.push(`• Broj putnika: ${n}`);
   L.push(`• Smeštaj: ${b.accommodationType === 'SUPERIOR' ? 'Superior hotel' : 'Standard hotel'}`);
   L.push(`• Doručak: ${daNe(b.hasBreakfast)}`);
   L.push(`• Sedišta zajedno: ${daNe(b.hasSeatsTogether)}`);
-  L.push(`• Putno osiguranje: ${daNe(b.hasInsurance)}`);
   L.push(`• Presedanje dozvoljeno: ${daNe(b.hasConnectingFlights)}`);
   L.push(`• Ručni (kabinski) koferi: ${b.cabinSuitcaseCount || 0}`);
-  // Reveal Box se agenciji ne pominje (Markova odluka) - ni adresa dostave ni stavka.
-  if (b.isGift) L.push(`• Poklon: da – putuje ${b.giftRecipientName || '-'} (${b.giftRecipientEmail || '-'})`);
   L.push('', 'PUTNICI');
   const putnici = b.passengers || [];
   putnici.forEach((p, i) => {
@@ -1671,24 +1671,19 @@ function agencyMailForBooking(b) {
     L.push(`${i + 1}. ${p.name || '-'} – ${delovi.join(', ')}`);
   });
   if (!putnici.length) L.push('(nema unetih putnika)');
-  L.push('', 'DESTINACIJE');
+  // Destinacije za koje se traži ponuda: sa termina, bez onih koje je klijent isključio i bez
+  // onih koje traže presedanje ako ga klijent nije izabrao. Isključene se ne navode.
   const excludedIds = new Set(b.excludedDestinationIds || []);
   const td = b.termDestinations || [];
-  const moguce = td.filter(t => !excludedIds.has(t.destinationId) && t.active !== false && !(t.connecting && !b.hasConnectingFlights))
-                   .map(t => t.name + (t.connecting ? ' (uz presedanje)' : ''));
-  const samoPresedanje = td.filter(t => !excludedIds.has(t.destinationId) && t.connecting && !b.hasConnectingFlights).map(t => t.name);
-  if (td.length) L.push(`• Moguće (nisu isključene): ${moguce.length ? moguce.join(', ') : '-'}`);
-  if (samoPresedanje.length) L.push(`• Samo uz presedanje, a klijent ga nije izabrao: ${samoPresedanje.join(', ')}`);
-  L.push(`• Isključene po izboru klijenta: ${(b.excludedDestinations || []).length ? b.excludedDestinations.join(', ') : 'nema'}`);
-  L.push(`• Dodeljena destinacija: ${b.assignedDestination || 'još nije dodeljena'}`);
-  L.push('', 'CENA KOJU JE KLIJENT VIDEO');
-  priceBreakdownLines(b).filter(r => r.label !== 'Reveal Box')
-    .forEach(r => L.push(r.kind === 'total' ? `UKUPNO: ${r.value}` : `• ${r.label}: ${r.value}`));
-  L.push('', 'KONTAKT KLIJENTA (za predračun i uplatu)');
-  L.push(`${[b.firstName, b.lastName].filter(Boolean).join(' ') || '-'}, ${b.email || '-'}${b.phone ? ', ' + b.phone : ''}`);
+  const zaPonudu = td.filter(t => !excludedIds.has(t.destinationId) && t.active !== false && !(t.connecting && !b.hasConnectingFlights))
+                     .map(t => t.name + (t.connecting ? ' (uz presedanje)' : ''));
+  L.push('', 'PONUDA');
+  L.push(`• Molimo ponudu za destinacije: ${zaPonudu.length ? zaPonudu.join(', ') : '(termin nema definisane destinacije)'}`);
+  L.push(`• Ponuda treba da se uklopi u cenu rezervacije: ${b.totalPriceAll} € ukupno (${n} ${putnikRec}, ${b.totalPricePerPerson} €/os)`);
+  L.push('• Sve navedene opcije treba da budu uključene u ponudu. Što je ponuda povoljnija od navedene cene, to bolje.');
   if (b.notes) L.push('', `Napomena klijenta: ${b.notes}`);
   L.push('', 'Hvala unapred,', 'Escapii');
-  const subject = `Zahtev za ponudu – ${b.bookingRef} – ${dmy(b.departureDate)} – ${dmy(b.returnDate)}, ${n} ${n === 1 ? 'putnik' : 'putnika'}, ${b.departureAirport}`;
+  const subject = `Zahtev za ponudu – ${b.bookingRef} – ${dmy(b.departureDate)} – ${dmy(b.returnDate)}, ${n} ${putnikRec}, ${b.departureAirport}`;
   return { subject, body: L.join('\n') };
 }
 
