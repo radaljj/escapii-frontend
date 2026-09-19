@@ -520,9 +520,17 @@ function esc_hubspot_tracking() {
 <!-- End of HubSpot Embed Code -->
 <?php }
 
-/** Banner za saglasnost - na svakoj javnoj strani, ista logika svuda. */
+/**
+ * Banner za saglasnost - na svakoj javnoj strani, ista logika svuda.
+ *
+ * Uključuje se i tamo gde praćenje ne radi (token strane, prijavljeni korisnici): link
+ * „Kolačići" u futeru zove window.escOpenCookieSettings, koji postoji samo kad je baner na
+ * strani. Bez ovoga je link tamo bio mrtav, a politika privatnosti obećava da se odluka može
+ * promeniti sa svake strane. Na tim stranama se baner samo ne nudi sam od sebe i ne učitava
+ * HubSpot (vidi $_cc_tracking u inc/cookie-consent.php).
+ */
 add_action('wp_footer', 'esc_cookie_banner');
 function esc_cookie_banner() {
-    if (!esc_gtm_enabled()) return;
+    $_cc_tracking = esc_gtm_enabled();
     include get_template_directory() . '/inc/cookie-consent.php';
 }

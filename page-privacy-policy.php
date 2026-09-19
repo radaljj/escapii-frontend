@@ -665,6 +665,19 @@ body {
       <p>We do not use cookies for advertising, remarketing or profiling. In our Consent Mode configuration, <code>ad_storage</code>, <code>ad_user_data</code> and <code>ad_personalization</code> are permanently denied.</p>
       <p>Data is processed by Google Ireland Limited. For more information see the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
 
+      <h3>HubSpot - with consent only</h3>
+      <p>We use <strong>HubSpot</strong> to understand how visitors use the site and to manage inquiries. <strong>HubSpot is not loaded until you consent</strong> - neither the script nor its cookies are set before that.</p>
+      <div class="pp-cookie-wrap">
+      <table class="pp-cookie-table">
+        <tr><th>Name</th><th>Purpose</th><th>Duration</th></tr>
+        <tr><td><code>__hstc</code></td><td>Main visitor tracking cookie</td><td>6 months</td></tr>
+        <tr><td><code>hubspotutk</code></td><td>Identifies a visitor when a form is submitted</td><td>6 months</td></tr>
+        <tr><td><code>__hssc</code></td><td>Session tracking</td><td>30 minutes</td></tr>
+        <tr><td><code>__hssrc</code></td><td>Detects a new session</td><td>Session</td></tr>
+      </table>
+      </div>
+      <p>Data is processed by HubSpot Inc. For more information see the <a href="https://legal.hubspot.com/privacy-policy" target="_blank" rel="noopener">HubSpot Privacy Policy</a>.</p>
+
       <h3>Changing your choice</h3>
       <p>You can change your decision at any time - use <a href="javascript:void(0)" onclick="if(window.escOpenCookieSettings)escOpenCookieSettings()">Cookie settings</a> (the link is also in the footer of every page). You can also delete cookies through your browser settings.</p>
       <p>Withdrawing consent is as easy as giving it, and does not affect the lawfulness of processing carried out before withdrawal.</p>

@@ -85,11 +85,11 @@ $_cc_mini = defined('ESC_IS_COMING_SOON') ? ' esc-cc--mini' : '';
 
 <div class="esc-cc<?php echo $_cc_mini; ?>" id="escCookieBanner" role="dialog" aria-live="polite"
      aria-label="Saglasnost za kolačiće">
-  <p class="esc-cc-title">Kolačići</p>
+  <p class="esc-cc-title" id="escCcTitle">Kolačići</p>
   <p class="esc-cc-text">
-    Koristimo kolačiće kako bismo poboljšali vaše iskustvo na sajtu.
-    Analitičke postavljamo samo uz vašu saglasnost.<span class="esc-cc-full">
-    <a href="<?php echo esc_url($_cc_home); ?>/politika-privatnosti/#kolacici">Detaljnije</a></span>
+    <span id="escCcMsg">Koristimo kolačiće kako bismo poboljšali vaše iskustvo na sajtu.
+    Analitičke postavljamo samo uz vašu saglasnost.</span><span class="esc-cc-full">
+    <a id="escCcMore" href="<?php echo esc_url($_cc_home); ?>/politika-privatnosti/#kolacici">Detaljnije</a></span>
   </p>
   <div class="esc-cc-actions">
     <button type="button" class="esc-cc-btn esc-cc-accept" id="escCcAccept">Prihvatam</button>
@@ -101,7 +101,37 @@ $_cc_mini = defined('ESC_IS_COMING_SOON') ? ' esc-cc--mini' : '';
 (function() {
   var NAME = 'esc_consent';
   var YEAR = 60 * 60 * 24 * 365;
+  // Na stranama gde praćenje ne radi (token strane, prijavljeni korisnici) baner se ne nudi
+  // sam i HubSpot se ne učitava - ali link „Kolačići" u futeru i tamo mora da otvori izbor.
+  var TRACKING = <?php echo !empty($_cc_tracking) ? 'true' : 'false'; ?>;
+  var HOME = <?php echo wp_json_encode(esc_url_raw($_cc_home)); ?>;
   var banner = document.getElementById('escCookieBanner');
+
+  // Tekst prati jezik sajta (esc-lang): saglasnost važi samo ako je posetilac razume.
+  var TXT = {
+    sr: { title: 'Kolačići', aria: 'Saglasnost za kolačiće', more: 'Detaljnije',
+          msg: 'Koristimo kolačiće kako bismo poboljšali vaše iskustvo na sajtu. Analitičke postavljamo samo uz vašu saglasnost.',
+          accept: 'Prihvatam', reject: 'Samo neophodni', url: '/politika-privatnosti/#kolacici' },
+    en: { title: 'Cookies', aria: 'Cookie consent', more: 'Learn more',
+          msg: 'We use cookies to improve your experience on the site. Analytics cookies are set only with your consent.',
+          accept: 'Accept', reject: 'Essential only', url: '/privacy-policy/#cookies' }
+  };
+  function jezik() {
+    try { var l = localStorage.getItem('esc-lang'); if (l) return l === 'en' ? 'en' : 'sr'; } catch (e) {}
+    var m = document.cookie.match(/(?:^|;\s*)esc-lang=(\w+)/);
+    return m && m[1] === 'en' ? 'en' : 'sr';
+  }
+  function prevedi() {
+    var t = TXT[jezik()];
+    document.getElementById('escCcTitle').textContent  = t.title;
+    document.getElementById('escCcMsg').textContent    = t.msg;
+    document.getElementById('escCcAccept').textContent = t.accept;
+    document.getElementById('escCcReject').textContent = t.reject;
+    var more = document.getElementById('escCcMore');
+    more.textContent = t.more;
+    more.href = HOME + t.url;
+    banner.setAttribute('aria-label', t.aria);
+  }
 
   function read() {
     var m = document.cookie.match(/(?:^|;\s*)esc_consent=(granted|denied)/);
@@ -132,22 +162,49 @@ $_cc_mini = defined('ESC_IS_COMING_SOON') ? ' esc-cc--mini' : '';
     document.head.appendChild(hs);
   }
 
+  // _ga i HubSpot kolačići se postavljaju na registrovani domen (.escapii.rs), ne na host,
+  // pa se brišu za sve varijante domena - brisanje bez tačnog domena ne radi ništa.
+  function obrisiKolacic(name) {
+    var delovi = location.hostname.split('.');
+    var domeni = ['', location.hostname];
+    for (var i = 0; i < delovi.length - 1; i++) domeni.push('.' + delovi.slice(i).join('.'));
+    domeni.forEach(function(d) {
+      document.cookie = name + '=;path=/;max-age=0;expires=Thu, 01 Jan 1970 00:00:00 GMT' + (d ? ';domain=' + d : '');
+    });
+  }
+
+  // Povlačenje saglasnosti mora stvarno da skloni analitičke kolačiće, ne samo da zabrani
+  // nove. Zove se i pri svakom učitavanju dok saglasnosti nema, pa se stanje samo popravlja
+  // ako je neka skripta u međuvremenu nešto upisala.
+  function ocistiPracenje() {
+    try { window._hsp = window._hsp || []; window._hsp.push(['revokeCookieConsent']); } catch (e) {}
+    document.cookie.split(';').forEach(function(c) {
+      var n = c.split('=')[0].trim();
+      if (/^(_ga|_gid|_gat|__hstc$|hubspotutk$|__hssc$|__hssrc$)/.test(n)) obrisiKolacic(n);
+    });
+  }
+
   function decide(value) {
     save(value);
     apply(value);
     banner.classList.remove('show');
-    if (value === 'granted') loadHubSpot();
+    if (value === 'granted') { if (TRACKING) loadHubSpot(); }
+    else ocistiPracenje();
   }
 
   document.getElementById('escCcAccept').addEventListener('click', function() { decide('granted'); });
   document.getElementById('escCcReject').addEventListener('click', function() { decide('denied'); });
 
-  // Banner se prikazuje samo ako korisnik još nije odlučio.
-  if (!read()) banner.classList.add('show');
+  prevedi();
+  if (read() !== 'granted') ocistiPracenje();
+
+  // Banner se sam nudi samo ako korisnik još nije odlučio, i samo tamo gde praćenje postoji.
+  if (!read() && TRACKING) banner.classList.add('show');
 
   // Poziva ga link "Podešavanja kolačića" u futeru - vraća banner da se
   // odluka može promeniti, što GDPR traži (povlačenje saglasnosti).
   window.escOpenCookieSettings = function() {
+    prevedi();   // jezik je mogao da se promeni bez učitavanja strane
     banner.classList.add('show');
     banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };

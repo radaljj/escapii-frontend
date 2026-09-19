@@ -731,8 +731,8 @@ body {
       <div class="pp-cookie-wrap">
       <table class="pp-cookie-table">
         <tr><th>Naziv</th><th>Svrha</th><th>Trajanje</th></tr>
-        <tr><td><code>__hstc</code></td><td>Glavni kolačić za praćenje posetilaca</td><td>2 godine</td></tr>
-        <tr><td><code>hubspotutk</code></td><td>Identifikacija posetilaca pri slanju formi</td><td>2 godine</td></tr>
+        <tr><td><code>__hstc</code></td><td>Glavni kolačić za praćenje posetilaca</td><td>6 meseci</td></tr>
+        <tr><td><code>hubspotutk</code></td><td>Identifikacija posetilaca pri slanju formi</td><td>6 meseci</td></tr>
         <tr><td><code>__hssc</code></td><td>Praćenje sesije</td><td>30 minuta</td></tr>
         <tr><td><code>__hssrc</code></td><td>Detekcija nove sesije</td><td>Sesija</td></tr>
       </table>
