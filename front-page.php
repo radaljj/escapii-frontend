@@ -2356,6 +2356,21 @@
       color: rgba(202,138,113,.95);
     }
     .gift-payer-note.on { display: block; }
+    /* Predlog ispravke domena u mejlu (gmial.com -> gmail.com), vidi predlogMejla() */
+    .email-hint {
+      margin-top: 7px; padding-left: 2px; font-size: 12.5px; line-height: 1.5;
+      color: rgba(246,241,230,.72); text-align: left;
+      animation: emailHintIn .22s ease;
+    }
+    .email-hint-btn {
+      background: none; border: 0; padding: 0; margin: 0; cursor: pointer;
+      font: inherit; color: var(--gold); font-weight: 600;
+      text-decoration: underline; text-underline-offset: 3px; word-break: break-all;
+    }
+    .email-hint-btn strong { font-weight: 800; }
+    .email-hint-btn:hover, .email-hint-btn:focus-visible { color: #e6b09b; outline: none; }
+    @keyframes emailHintIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .email-hint { animation: none; } }
     .gift-msg-count { font-size: 11px; color: rgba(246,241,230,.4); text-align: right; margin-top: 4px; }
     .rb-delivery-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
     .rb-delivery-icon { font-size: 22px; }
@@ -5618,6 +5633,7 @@ function airportName(code) {
 
 // ══════════ WAITLIST
 async function submitWaitlist() {
+  if (!(await potvrdiMejlPreSlanja('waitlistEmail'))) return;
   const emailEl = document.getElementById('waitlistEmail');
   const email   = emailEl ? emailEl.value.trim() : '';
 
@@ -7140,6 +7156,174 @@ function updateSummaryCard() {
 const PHONE_RE = /^[+]?[0-9\-\s]{6,20}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// ── Predlog ispravke domena u mejlu ─────────────────────────────────────────
+// Ko ukuca „gmial.com" ne dobije nijedan naš mejl, a nama se poruka vrati kao neisporučena,
+// što kvari reputaciju domena. Zato: blag predlog ispod polja (nikad ne blokira kucanje) i
+// jedno pitanje pre slanja forme. Važi za svako input[type=email] na stranici (rezervacija,
+// poklon, upit, lista čekanja) - hvata se delegirano, pa i polja koja se iscrtaju kasnije.
+//
+// EMAIL_CILJEVI  - domeni KA kojima predlažemo ispravku, po učestalosti kod nas (redosled
+//                  rešava nerešeno). Kratke labele (live, mts, sbb, ptt) se predlažu samo kad
+//                  je labela tačna a greška u nastavku - inače bi „life.com" postajao „live.com".
+// EMAIL_POZNATI  - ispravni domeni koje nikad ne diramo (ymail.com i email.com su na jedno
+//                  slovo od gmail.com, a postoje).
+const EMAIL_CILJEVI = ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','live.com',
+  'mts.rs','eunet.rs','sbb.rs','ptt.rs','beotel.net','proton.me','protonmail.com','yandex.com'];
+const EMAIL_POZNATI = new Set(EMAIL_CILJEVI.concat([
+  'googlemail.com','ymail.com','rocketmail.com','email.com','mail.com','msn.com','me.com','mac.com','aol.com',
+  'gmx.com','gmx.net','gmx.de','gmx.at','web.de','t-online.de','pm.me','zoho.com','yandex.ru','mail.ru',
+  'hotmail.rs','beotel.rs','orion.rs','verat.net','open.telekom.rs','telekom.rs','yahoo.co.uk','hotmail.co.uk',
+  'live.co.uk','outlook.fr','hotmail.fr','yahoo.fr','hotmail.it','yahoo.it','libero.it','hotmail.de','yahoo.de',
+  'outlook.de','live.de','live.fr','live.it','live.nl','hotmail.nl','hotmail.es','yahoo.es','outlook.es',
+  'yahoo.ca','hotmail.ca','live.ca','yahoo.com.au','bigpond.com','yahoo.co.in','rediffmail.com','seznam.cz',
+  'centrum.cz','wp.pl','o2.pl','interia.pl','abv.bg','t-com.hr','net.hr','inet.hr','siol.net','bih.net.ba',
+  't-com.me','t.me','freemail.hu','citromail.hu','mts.ru','sbb.ch']));
+
+// Rastojanje sa zamenom susednih slova (gmial -> gmail je 1, ne 2). Preko 2 nas ne zanima.
+function _mejlRastojanje(a, b) {
+  const m = a.length, n = b.length;
+  if (Math.abs(m - n) > 2) return 3;
+  const d = [];
+  for (let i = 0; i <= m; i++) { d.push(new Array(n + 1).fill(0)); d[i][0] = i; }
+  for (let j = 1; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cena = a[i - 1] === b[j - 1] ? 0 : 1;
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cena);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+      }
+    }
+  }
+  return d[m][n];
+}
+
+// Vraća ispravljenu adresu ili null kad nema šta da se predloži.
+function predlogMejla(vrednost) {
+  const v = (vrednost || '').trim();
+  const at = v.lastIndexOf('@');
+  if (at < 1 || at === v.length - 1 || /\s/.test(v)) return null;
+  const lokalni = v.slice(0, at);
+  const uneto   = v.slice(at + 1).toLowerCase();
+  // zarez umesto tačke, dupla tačka, tačka na kraju - najčešće omaške na telefonu
+  const domen   = uneto.replace(/,/g, '.').replace(/\.{2,}/g, '.').replace(/^\.+|\.+$/g, '');
+  if (!domen) return null;
+  if (EMAIL_POZNATI.has(domen)) return domen !== uneto ? lokalni + '@' + domen : null;
+
+  // gmail i icloud postoje samo na .com - „gmail.rs" i „gmail.co" su sigurno greška
+  if (/^gmail\./.test(domen))  return lokalni + '@gmail.com';
+  if (/^icloud\./.test(domen)) return lokalni + '@icloud.com';
+
+  // bez tačke: „gmailcom"
+  if (domen.indexOf('.') < 0) {
+    const spojeno = EMAIL_CILJEVI.find(c => c.replace(/\./g, '') === domen);
+    return spojeno ? lokalni + '@' + spojeno : null;
+  }
+
+  const tacka   = domen.lastIndexOf('.');
+  const labela  = domen.slice(0, tacka), nastavak = domen.slice(tacka + 1);
+  let najbolji = null, najmanje = 3;
+  for (const cilj of EMAIL_CILJEVI) {
+    const ct = cilj.lastIndexOf('.');
+    const cLabela = cilj.slice(0, ct), cNastavak = cilj.slice(ct + 1);
+    const r = _mejlRastojanje(domen, cilj);
+    if (r === 0 || r > 2) continue;
+    const prihvati = cLabela.length <= 4
+      ? (labela === cLabela && r === 1)             // kratka labela: samo jedna greška, i to u nastavku
+      : (r === 1 || nastavak === cNastavak);        // dve greške samo kad je nastavak tačan
+    if (prihvati && r < najmanje) { najmanje = r; najbolji = cilj; }
+  }
+  return najbolji ? lokalni + '@' + najbolji : null;
+}
+
+// Adrese za koje je kupac rekao „tačno je" - ne pitamo ponovo, ni ispod polja ni pre slanja.
+const _mejlOdbijeni = new Set();
+
+function _mejlHint(input, napravi) {
+  const mesto = input.closest('.f-input-wrap, .inq-field-ic, .waitlist-form') || input;
+  let el = mesto.nextElementSibling;
+  if (el && el.classList.contains('email-hint')) return el;
+  if (!napravi) return null;
+  el = document.createElement('div');
+  el.className = 'email-hint';
+  el.setAttribute('role', 'status');
+  mesto.insertAdjacentElement('afterend', el);
+  return el;
+}
+
+function primeniPredlogMejla(input, predlog) {
+  input.value = predlog;
+  // postojeći oninput handleri čiste grešku polja i čuvaju nacrt forme
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+  _mejlHint(input, false)?.remove();
+}
+
+function osveziPredlogMejla(input) {
+  const predlog = predlogMejla(input.value);
+  if (!predlog || _mejlOdbijeni.has(input.value.trim().toLowerCase())) {
+    _mejlHint(input, false)?.remove();
+    return;
+  }
+  // DOM, ne innerHTML: deo adrese pre @ kuca korisnik
+  const el = _mejlHint(input, true);
+  const at = predlog.lastIndexOf('@');
+  const dugme = document.createElement('button');
+  dugme.type = 'button';
+  dugme.className = 'email-hint-btn';
+  const domen = document.createElement('strong');
+  domen.textContent = predlog.slice(at + 1);
+  dugme.append(predlog.slice(0, at + 1), domen);
+  dugme.addEventListener('click', () => primeniPredlogMejla(input, predlog));
+  el.replaceChildren(lang === 'sr' ? 'Da li si mislio/la ' : 'Did you mean ', dugme, '?');
+}
+
+document.addEventListener('focusout', e => {
+  if (e.target && e.target.matches && e.target.matches('input[type="email"]')) osveziPredlogMejla(e.target);
+});
+document.addEventListener('input', e => {
+  // dok kuca ne namećemo predlog - samo osvežavamo ili sklanjamo onaj koji je već prikazan
+  if (e.target && e.target.matches && e.target.matches('input[type="email"]') && _mejlHint(e.target, false)) {
+    osveziPredlogMejla(e.target);
+  }
+});
+
+/**
+ * Pre slanja forme: ako adresa liči na grešku u kucanju, pitaj jednom. Vraća false samo kad
+ * kupac zatvori pitanje bez odluke (ostajemo na formi). Pogrešan mejl znači da kupcu ne stiže
+ * nijedna poruka, pa je jedno pitanje više jeftinije od izgubljene rezervacije.
+ */
+async function potvrdiMejlPreSlanja(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return true;
+  const uneto = input.value.trim();
+  const predlog = predlogMejla(uneto);
+  if (!predlog || _mejlOdbijeni.has(uneto.toLowerCase())) return true;
+  const sr = lang === 'sr';
+  const r = await Swal.fire({
+    icon: 'question',
+    iconColor: '#CA8A71',
+    title: sr ? 'Proveri mejl adresu' : 'Check your email address',
+    html: `<p style="color:rgba(255,255,255,.85);font-size:15px;line-height:1.7;margin:0">`
+        + (sr ? 'Upisano je ' : 'You entered ') + `<strong>${escHtml(uneto)}</strong>.<br>`
+        + (sr ? 'Da li si mislio/la ' : 'Did you mean ') + `<strong style="color:#f0c4b2">${escHtml(predlog)}</strong>?</p>`
+        + `<p style="color:rgba(255,255,255,.55);font-size:13px;line-height:1.6;margin:12px 0 0">`
+        + (sr ? 'Na ovu adresu šaljemo potvrdu i sve detalje putovanja.' : 'We send the confirmation and all trip details to this address.')
+        + `</p>`,
+    showDenyButton: true,
+    confirmButtonText: sr ? 'Ispravi i nastavi' : 'Fix it and continue',
+    denyButtonText: sr ? 'Tačno je, nastavi' : "It's correct, continue",
+    confirmButtonColor: '#CA8A71',
+    denyButtonColor: 'rgba(255,255,255,.16)',
+    background: '#2D5F6B',
+    color: '#fff',
+    backdrop: 'rgba(0,0,0,0.55)',
+    customClass: { popup: 'swal-escapii' }
+  });
+  if (r.isConfirmed) { primeniPredlogMejla(input, predlog); return true; }
+  if (r.isDenied)    { _mejlOdbijeni.add(uneto.toLowerCase()); _mejlHint(input, false)?.remove(); return true; }
+  return false;
+}
+
 // Poruka po polju - korisnik odmah zna šta da ispravi, greška ni ne ode backendu.
 window._contactErrors = [];
 function validateContact() {
@@ -7284,6 +7468,9 @@ async function submitBooking() {
       return;
     }
   }
+  // Verovatna greška u kucanju domena (gmial.com): jedno pitanje pre slanja, vidi potvrdiMejlPreSlanja.
+  if (!(await potvrdiMejlPreSlanja('fEmail'))) return;
+  if (S.isGift && !(await potvrdiMejlPreSlanja('fGiftEmail'))) return;
   _bookingSubmitting = true;
   const btn=document.getElementById('btnSubmit');
   const firstName=document.getElementById('fFirstName').value.trim();
@@ -7812,6 +7999,7 @@ async function submitInquiry() {
     }
     return;
   }
+  if (!(await potvrdiMejlPreSlanja('inqEmail'))) return;
   const emailVal = document.getElementById('inqEmail').value.trim();
   if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
     const errEl = document.getElementById('inqEmailErr');
@@ -8226,6 +8414,8 @@ async function submitGiftInquiry() {
     if (err) { err.textContent = t('gift.err.name'); err.style.display = 'block'; }
     document.getElementById('giftGiverName').focus(); return;
   }
+  if (!(await potvrdiMejlPreSlanja('giftGiverEmail'))) return;
+  if (!(await potvrdiMejlPreSlanja('giftRecipEmail'))) return;
   const giverEmail = document.getElementById('giftGiverEmail').value.trim();
   if (!giverEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(giverEmail)) {
     const err = document.getElementById('giftGiverEmailErr');
