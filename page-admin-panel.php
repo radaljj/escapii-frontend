@@ -3628,7 +3628,7 @@ const ITEM_LABELS = {
   SEATS_TOGETHER:         'Sedišta zajedno',
   CABIN_SUITCASE:         'Kabinski kofer',
   INSURANCE:              'Putno osiguranje',
-  SOLO_SURCHARGE:         'Doplata za solo putnika',
+  SOLO_SURCHARGE:         'Doplata za solo putnika',   // samo stare rezervacije - sada ulazi u osnovni paket
   DESTINATION_EXCLUSIONS: 'Isključivanja destinacija',
   REVEAL_BOX:             'Reveal Box'
 };
@@ -3724,7 +3724,11 @@ function collectCostsFromModal() {
 function renderSettlementModal(p, isLocked) {
   const money = v => (v == null ? '—' : `${Number(v).toFixed(2)} €`);
   const rows = p.lineItems.map(li => {
-    const label = ITEM_LABELS[li.itemType] || li.itemType;
+    // Osnovni paket solo putnika u sebi nosi i 60 € doplate za jednokrevetnu sobu - opis sa
+    // backenda to kaže, pa se za tu stavku uzima on. Ostale stavke idu po fiksnoj labeli.
+    const label = (li.itemType === 'BASE_PACKAGE' && li.description)
+      ? li.description
+      : (ITEM_LABELS[li.itemType] || li.itemType);
     const isShared = li.allocationType === 'MARGIN_50_50';
     let costCell;
     if (!isShared) {
