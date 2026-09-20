@@ -1327,6 +1327,57 @@ let opened = false, errorShown = false, revealData = null;
 // (history.replaceState u init), pa kasnije čitanje sa URL-a više ne radi.
 let revealToken = null;
 
+// ── Javljanje „ogrebano" backendu ───────────────────────────────────────────
+// Od ovog poziva zavisi da li kupcu automatski ode dokument sa kartama i smeštajem. Zato nije
+// „pošalji i zaboravi": kreće ODMAH kad se pređe prag (ne posle animacije), preživljava
+// zatvaranje strane (keepalive), ponavlja se dok server ne potvrdi (oko 12 minuta ukupno), odmah
+// pokušava ponovo kad se vrati mreža ili kupac vrati stranu u fokus, a ako kupac ode pre
+// potvrde, poslednji pokušaj šalje pregledač sam (sendBeacon). Poziv je idempotentan na
+// backendu, pa višak ne smeta.
+const OGREBANO_RAZMACI = [2000, 4000, 9000, 25000, 50000, 90000, 180000, 360000];
+let ogrebanoStanje = 'nije';      // nije | ceka | potvrdjeno | odustao
+let ogrebanoLeti = false, ogrebanoPokusaj = 0, ogrebanoTimer = null, ogrebanoBeacona = 0;
+
+function ogrebanoUrl() {
+  return `${API}/api/reveal/confirm?token=${encodeURIComponent(revealToken)}`;
+}
+function ogrebanoGotovo() {
+  return ogrebanoStanje === 'potvrdjeno' || ogrebanoStanje === 'odustao';
+}
+function javiOgrebano() {
+  if (!revealToken || ogrebanoGotovo() || ogrebanoLeti) return;
+  ogrebanoStanje = 'ceka';
+  ogrebanoLeti = true;
+  clearTimeout(ogrebanoTimer);
+  fetch(ogrebanoUrl(), { method: 'POST', keepalive: true })
+    .then(r => {
+      ogrebanoLeti = false;
+      if (r.ok) { ogrebanoStanje = 'potvrdjeno'; return; }
+      // 4xx osim 429: token nije dobar, ponavljanje ne pomaže. 429 i 5xx prolaze sami od sebe.
+      if (r.status >= 400 && r.status < 500 && r.status !== 429) { ogrebanoStanje = 'odustao'; return; }
+      zakaziOgrebano();
+    })
+    .catch(() => { ogrebanoLeti = false; zakaziOgrebano(); });
+}
+function zakaziOgrebano() {
+  if (ogrebanoGotovo()) return;
+  const cekaj = OGREBANO_RAZMACI[ogrebanoPokusaj++];
+  if (cekaj === undefined) { ogrebanoStanje = 'odustao'; return; }
+  clearTimeout(ogrebanoTimer);
+  ogrebanoTimer = setTimeout(javiOgrebano, cekaj);
+}
+// Kupac zatvara ili sklanja stranu pre potvrde: ovo pregledač šalje i kad se strana ugasi.
+function javiOgrebanoNaOdlasku() {
+  if (ogrebanoStanje !== 'ceka' || ogrebanoBeacona >= 3) return;
+  try { if (navigator.sendBeacon && navigator.sendBeacon(ogrebanoUrl())) ogrebanoBeacona++; } catch (e) {}
+}
+window.addEventListener('pagehide', javiOgrebanoNaOdlasku);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') javiOgrebanoNaOdlasku();
+  else if (ogrebanoStanje === 'ceka') javiOgrebano();   // tajmeri u pozadini kasne - probaj odmah
+});
+window.addEventListener('online', () => { if (ogrebanoStanje === 'ceka') javiOgrebano(); });
+
 /* ── Global error handlers ── */
 window.onerror = function() { showError(0); return true; };
 window.addEventListener('unhandledrejection', function() { showError(0); });
@@ -1721,6 +1772,10 @@ function addScratchCard() {
     if (sampled && cleared/sampled > 0.50) { revealed = true; fullyReveal(); }
   }
   function fullyReveal() {
+    // Backend saznaje odmah, ne posle animacije: ko zatvori stranu u prvih pola sekunde je
+    // ranije ostajao nezabeležen, pa mu dokument nikad nije otišao sam.
+    javiOgrebano();
+
     // Show real destination name in IATA slot
     const destEl = document.getElementById('ticketDestIata');
     if (destEl) destEl.textContent = destEl.dataset.dest || '-';
@@ -1753,8 +1808,7 @@ function addScratchCard() {
           window.scrollTo({ top: Math.max(0, top - MIN_TOP), behavior: 'smooth' });
         }
       });
-      // Obavesti backend da je korisnik ogrebaо (fire-and-forget)
-      if (revealToken) fetch(`${API}/api/reveal/confirm?token=${encodeURIComponent(revealToken)}`, { method: 'POST' }).catch(() => {});
+      // Javljanje backendu je otišlo na početku fullyReveal() - vidi javiOgrebano().
     }, 550);
 
     // Sparkle burst
