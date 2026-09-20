@@ -100,6 +100,29 @@ body {
   transition: border .2s;
 }
 .form-input:focus { border-color: var(--accent); }
+
+/* ── Promo kartica (tab Pokloni) ── */
+.promo-card { padding: 22px 24px; margin-bottom: 16px; }
+.promo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.promo-help { font-size: 13px; line-height: 1.6; color: rgba(246,241,230,.6); max-width: 720px; }
+.promo-badge { flex: 0 0 auto; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: .6px; white-space: nowrap; background: rgba(255,255,255,.08); color: rgba(246,241,230,.6); }
+.promo-badge.on  { background: rgba(34,197,94,.16);  color: #86efac; }
+.promo-badge.off { background: rgba(255,255,255,.08); color: rgba(246,241,230,.6); }
+.promo-badge.exp { background: rgba(239,68,68,.15);  color: #fca5a5; }
+.promo-fields { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.promo-field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px; min-width: 0; font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: rgba(246,241,230,.55); }
+.promo-field .form-input { text-transform: none; letter-spacing: normal; font-weight: 500; }
+.promo-field input[type="date"] { color-scheme: dark; }
+.promo-switch { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; padding: 12px 4px; font-size: 14px; font-weight: 600; color: var(--white); cursor: pointer; }
+.promo-switch input { width: 18px; height: 18px; accent-color: #22c55e; cursor: pointer; }
+.promo-save { flex: 0 0 auto; width: auto; padding: 12px 26px; }
+.promo-stats { margin-top: 14px; font-size: 13px; color: rgba(246,241,230,.6); }
+.promo-stats strong { color: var(--white); }
+@media (max-width: 640px) {
+  .promo-card { padding: 16px; }
+  .promo-field, .promo-save { flex: 1 1 100%; }
+  .promo-save { width: 100%; }
+}
 .btn-primary {
   width: 100%;
   background: var(--accent);
@@ -1262,6 +1285,34 @@ tbody td  { padding: 11px 12px; }
       <div class="panel-title">Pokloni iznenađenje</div>
       <div class="panel-subtitle">Upravljanje gift vaučerima i putovanjima iznenađenja</div>
 
+      <!-- ✨ Promo kod: besplatno isključivanje destinacija (ExclusionPromo na backendu) -->
+      <div class="card promo-card" id="promoCard">
+        <div class="promo-head">
+          <div>
+            <div class="card-title" style="margin-bottom:4px;">✨ Promo kod · besplatno isključivanje destinacija</div>
+            <div class="promo-help">Kupac kuca kod u isto polje kao poklon vaučer, na koraku sa cenom. Dok je promo aktivan, doplata za 2, 3. i 4. isključivanje je 0 €. Svaka izmena ovde važi odmah, bez deploya.</div>
+          </div>
+          <span class="promo-badge" id="promoBadge">…</span>
+        </div>
+        <div class="promo-fields">
+          <label class="promo-field">
+            <span>Kod</span>
+            <input class="form-input" id="promoCode" type="text" maxlength="40" autocomplete="off" spellcheck="false"
+                   oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_-]/g,'')" placeholder="SKIP3">
+          </label>
+          <label class="promo-field">
+            <span>Važi do (uključivo)</span>
+            <input class="form-input" id="promoUntil" type="date">
+          </label>
+          <label class="promo-switch">
+            <input type="checkbox" id="promoEnabled">
+            <span>Promo je uključen</span>
+          </label>
+          <button class="btn-primary promo-save" id="promoSaveBtn" type="button" onclick="savePromo()">Sačuvaj</button>
+        </div>
+        <div class="promo-stats" id="promoStats"></div>
+      </div>
+
 
       <!-- ⚠️ Podsetnik: vaučer lifecycle -->
       <div style="background:rgba(202,138,113,.1);border:1px solid rgba(202,138,113,.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;color:rgba(246,241,230,.8);">
@@ -1608,6 +1659,7 @@ function priceBreakdownLines(b) {
   rows.push({ kind: 'subtotal', label: `Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}`, value: `${b.totalPricePerPerson * n}€` });
   if (b.cabinSuitcaseCount > 0) rows.push({ label: `Ručni (kabinski) kofer × ${b.cabinSuitcaseCount}`, value: `+${100 * b.cabinSuitcaseCount}€` });
   if (b.exclusionCostEur > 0)   rows.push({ label: `Isključivanja (${b.exclusionCount}×)`, value: `+${b.exclusionCostEur}€` });
+  else if (b.promoCode && b.promoSavedEur > 0) rows.push({ label: `Isključivanja (${b.exclusionCount}×) · promo ${b.promoCode}`, value: `0€ (ušteda ${b.promoSavedEur}€)` });
   if (n === 1)                  rows.push({ label: 'Doplata za solo putnika', value: '+60€' });
   if (b.hasRevealBox)           rows.push({ label: 'Reveal Box', value: '+35€' });
   if (b.voucherDiscount > 0)    rows.push({ label: `Vaučer (${b.appliedVoucherCode || ''})`, value: `−${b.voucherDiscount}€` });
@@ -3122,6 +3174,7 @@ function buildBookingDetail(b) {
     b.hasRevealBox && '📦 Reveal Box',
     b.isGift && '🎁 Poklon',
     b.excludedDestinations && b.excludedDestinations.length > 0 && `🚫 ${b.excludedDestinations.join(', ')}`,
+    b.promoCode && `✨ Promo ${b.promoCode}${b.promoSavedEur > 0 ? ' (−' + b.promoSavedEur + '€)' : ''}`,
   ].filter(Boolean).join(' · ') || '-';
   const isConfirmed = b.status === 'CONFIRMED';
   const isCancelled = b.status === 'CANCELLED';
@@ -4689,7 +4742,66 @@ function jsStr(s) {
 let _gVouchers = [];
 
 async function loadGifts() {
+  loadPromo();
   await loadGiftVouchers();
+}
+
+// ── Promo kod (besplatno isključivanje destinacija) ──────────────────────────
+function renderPromo(p) {
+  document.getElementById('promoCode').value      = p.code || '';
+  document.getElementById('promoUntil').value     = p.validUntil || '';
+  document.getElementById('promoEnabled').checked = !!p.enabled;
+  const badge = document.getElementById('promoBadge');
+  const istekao = p.enabled && !p.active;
+  badge.className = 'promo-badge ' + (p.active ? 'on' : istekao ? 'exp' : 'off');
+  badge.textContent = p.active ? 'AKTIVAN' : istekao ? (p.validUntil ? 'ISTEKAO' : 'NEMA DATUM') : 'UGAŠEN';
+  const datum = p.validUntil ? p.validUntil.split('-').reverse().join('.') : null;   // 2026-11-04 -> 04.11.2026
+  // u 1 rezervaciji, u 2-4 rezervacije, u 5+ (i 11-14) rezervacija
+  const rez = k => { const j = k % 10, d = k % 100;
+    return (j === 1 && d !== 11) ? 'rezervaciji' : (j >= 2 && j <= 4 && (d < 12 || d > 14)) ? 'rezervacije' : 'rezervacija'; };
+  const stanje = p.active ? `Kod <strong>${escHtml(p.code)}</strong> važi do <strong>${datum}</strong>.`
+               : istekao  ? `Promo je uključen, ali je datum prošao - kod trenutno NE radi.`
+               :            `Promo je ugašen - kod trenutno NE radi.`;
+  document.getElementById('promoStats').innerHTML =
+    `${stanje} Iskorišćen u <strong>${p.usedCount}</strong> ${rez(p.usedCount)}`
+    + (p.savedTotalEur > 0 ? `, kupci su uštedeli ukupno <strong>${p.savedTotalEur} €</strong>.` : '.');
+}
+
+async function loadPromo() {
+  try {
+    const r = await fetch(`${API}/api/admin/promo`, { headers: { 'X-Admin-Key': ADMIN_KEY }, cache: 'no-store' });
+    if (!r.ok) throw await apiError(r);
+    renderPromo(await r.json());
+  } catch (e) {
+    document.getElementById('promoBadge').textContent = 'GREŠKA';
+    document.getElementById('promoStats').textContent = 'Podešavanja promo koda se ne mogu učitati: ' + (e.message || '');
+  }
+}
+
+async function savePromo() {
+  const btn = document.getElementById('promoSaveBtn');
+  const telo = {
+    code:       document.getElementById('promoCode').value.trim(),
+    validUntil: document.getElementById('promoUntil').value || null,
+    enabled:    document.getElementById('promoEnabled').checked
+  };
+  if (telo.enabled && !telo.validUntil) { apiErr('Da bi promo bio uključen, izaberi datum do kog važi.'); return; }
+  btn.disabled = true; btn.textContent = 'Čuvam...';
+  try {
+    const r = await fetch(`${API}/api/admin/promo`, {
+      method: 'PUT', headers: { 'X-Admin-Key': ADMIN_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(telo)
+    });
+    if (!r.ok) throw await apiError(r);
+    const p = await r.json();
+    renderPromo(p);
+    Swal.fire({ toast: true, position: 'top-end', icon: 'success', showConfirmButton: false, timer: 2600, timerProgressBar: true,
+      background: '#0f1e14', color: '#bbf7d0',
+      title: p.active ? `Promo ${p.code} je aktivan` : 'Sačuvano - promo trenutno ne radi' });
+  } catch (e) {
+    apiErr(e.message || 'Čuvanje nije uspelo.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sačuvaj';
+  }
 }
 
 async function loadGiftVouchers() {

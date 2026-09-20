@@ -2272,6 +2272,26 @@
     .voucher-discount-label { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #86efac; font-weight: 600; }
     .voucher-discount-code { font-family: monospace; font-size: 11px; opacity: .65; }
     .voucher-discount-val { font-size: 15px; font-weight: 800; color: #86efac; }
+    /* Promo kod (besplatno isključivanje): red sa kodom, precrtana stara cena, podsetnik na koraku 6 */
+    .promo-row .voucher-discount-label { color: #f0c4b2; }
+    .promo-row .voucher-discount-val   { color: #f0c4b2; font-size: 13px; font-weight: 700; }
+    .pr-old  { text-decoration: line-through; opacity: .45; margin-right: 8px; font-weight: 500; }
+    .pr-free { color: #86efac; font-weight: 800; }
+    .pr-promo-tag {
+      display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 100px;
+      font-size: 10px; font-weight: 800; letter-spacing: .5px; vertical-align: middle;
+      background: rgba(134,239,172,.14); color: #86efac;
+    }
+    .pr-row.promo-just-applied { animation: promoRowIn .9s ease; border-radius: 8px; }
+    @keyframes promoRowIn { 0% { background: rgba(134,239,172,.24); } 100% { background: transparent; } }
+    .excl-promo-note {
+      margin: 10px 0 0; padding: 9px 13px; border-radius: 10px; font-size: 13px; line-height: 1.5;
+      background: rgba(202,138,113,.10); border: 1px dashed rgba(202,138,113,.4); color: rgba(246,241,230,.85);
+    }
+    .excl-promo-note.on { background: rgba(134,239,172,.10); border: 1px solid rgba(134,239,172,.35); color: #bbf7d0; }
+    .voucher-toggle-btn.done { cursor: default; }
+    .voucher-toggle-btn.done .voucher-toggle-caret { display: none; }
+    @media (prefers-reduced-motion: reduce) { .pr-row.promo-just-applied { animation: none; } }
     .voucher-remove-btn { background: none; border: none; color: rgba(239,68,68,.5); font-size: 12px; cursor: pointer; padding: 2px 6px; border-radius: 5px; transition: color .15s; font-family: inherit; }
     .voucher-remove-btn:hover { color: #ef4444; }
     @keyframes voucherIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
@@ -4009,6 +4029,17 @@
               <button class="voucher-remove-btn" onclick="removeVoucher()" type="button">✕ ukloni</button>
             </div>
           </div>
+          <!-- Promo kod - isti izgled kao red vaučera; iznos uštede stiže sa backenda -->
+          <div id="promoRow" class="voucher-discount-row promo-row" style="display:none;">
+            <div class="voucher-discount-label">
+              ✨ <span id="promoRowLbl">Promo kod</span>
+              <span class="voucher-discount-code" id="promoRowCode"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="voucher-discount-val" id="promoRowVal"></span>
+              <button class="voucher-remove-btn" id="promoRemoveBtn" onclick="removePromo()" type="button">✕ ukloni</button>
+            </div>
+          </div>
 
           <div class="pr-total">
             <div class="ptl" data-i18n="price.total">Ukupno</div>
@@ -4030,8 +4061,8 @@
             <div class="voucher-input-body" id="voucherInputBody">
               <div class="voucher-input-row">
                 <input class="voucher-code-inp" id="voucherCodeInp" type="text"
-                       placeholder="ESC-XXXX-XXXX-XXXX" maxlength="20"
-                       oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'').replace(/0/g,'O').replace(/1/g,'I')"
+                       placeholder="ESC-XXXX-XXXX-XXXX" maxlength="40" autocomplete="off" autocapitalize="characters"
+                       oninput="ocistiKodUnos(this)"
                        onkeydown="if(event.key==='Enter'){event.preventDefault();applyVoucher();}">
                 <button class="voucher-apply-btn" id="voucherApplyBtn" type="button" onclick="applyVoucher()">Primeni</button>
               </div>
@@ -4484,6 +4515,7 @@ const API = '<?php echo esc_js(escapii_api_url()); ?>';
 // Anti-bot: beleži vreme učitavanja stranice
 const _FORM_START = Date.now();
 let _appliedVoucher   = null; // { code, amount } ili null
+let _appliedPromo     = null; // { code, validUntil } ili null - vidi blok „Promo kod"
 let _voucherApplying  = false;
 let _bookingSubmitting = false;
 
@@ -6414,6 +6446,7 @@ function updateExclStep() {
     if (note)       note.textContent = lang === 'en' ? 'We recommend up to 3 exclusions - fewer exclusions means more of a surprise!' : 'Preporučujemo do 3 isključivanja - manje isključivanja znači više iznenađenja!';
   }
 
+  osveziPromoNaKoraku6();
   loadPrice();
 }
 
@@ -6481,8 +6514,11 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!') : (lang==='en' ? '+€10/person' : '+10€ po osobi');
-      const color = n === 1 ? '#22c55e' : '#CA8A71';
+      const promoOn = !!_appliedPromo;
+      const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!')
+                  : promoOn ? (lang==='en' ? '✨ free with promo' : '✨ besplatno uz promo')
+                  : (lang==='en' ? '+€10/person' : '+10€ po osobi');
+      const color = (n === 1 || promoOn) ? '#22c55e' : '#CA8A71';
       const el = document.createElement('div');
       el.className = 'price-float';
       el.textContent = label;
@@ -6971,6 +7007,7 @@ async function loadPrice() {
       hasBreakfast: S.hasBreakfast,
       hasSeatsTogether: S.hasSeatsTogether
     });
+    if (_appliedPromo) params.set('promoCode', _appliedPromo.code);
     // Reveal Box se ne šalje u price-preview (backend ne čita ga tamo),
     // ali dodajemo 35€ ručno na frontendu za prikaz u cenovniku
     const r = await fetch(`${API}/api/booking/price-preview?${params}`);
@@ -6987,6 +7024,17 @@ async function loadPrice() {
     }
     const p = await r.json();
     S.lastPrice = p;
+    S.promoActive = !!p.exclusionPromoActive;
+    // Promo je u međuvremenu istekao ili je ugašen: backend je vratio punu cenu, pa se kod skida i sa forme.
+    if (_appliedPromo && p.exclusionPromoApplied !== true) {
+      removePromo(true);
+      const vm = document.getElementById('voucherMsg');
+      if (vm) {
+        vm.className = 'voucher-msg err';
+        vm.textContent = lang === 'sr' ? 'Promo kod više ne važi - cena je osvežena bez njega.'
+                                       : 'The promo code is no longer valid - the price was refreshed without it.';
+      }
+    }
     const rows = document.getElementById('priceRows');
     const isSr = lang === 'sr';
     const sub = (txt) => `<br><span style="font-size:11px;opacity:.55;">${txt}</span>`;
@@ -6997,7 +7045,10 @@ async function loadPrice() {
     if(p.insurancePerPerson>0) html+=`<div class="pr-row"><span><span>${t('pr.ins')}</span>${ppSub(p.insurancePerPerson)}</span><span>+${p.insurancePerPerson * p.numberOfTravelers}€</span></div>`;
     if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstUnit=Math.round(p.breakfastPerPerson/p.numberOfNights); const bfstSub=isSr?`${bfstUnit}€ po osobi/noći`:`${bfstUnit}€/pp/night`; const bfstPers=isSr?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span>${sub(bfstSub)}</span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
-    if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
+    if (p.exclusionPromoApplied && p.exclusionPromoSavedEur > 0) {
+      // Promo: red ostaje, stara cena precrtana, nova je 0 - kupac vidi šta je dobio.
+      html+=`<div class="pr-row${S._promoSvez ? ' promo-just-applied' : ''}"><span><span>${t('pr.excl')}</span><span class="pr-promo-tag">PROMO</span>${sub(isSr?'besplatno uz promo kod':'free with promo code')}</span><span><span class="pr-old">+${p.exclusionPromoSavedEur}€</span><span class="pr-free">0€</span></span></div>`;
+    } else if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
     // Reveal Box - flat 35€, dodajemo na frontendu
     if(S.hasRevealBox) html+=`<div class="pr-row"><span><span>📦 ${isSr?'Reveal Box':'Reveal Box'}</span>${sub(isSr?'iznenađenje na tvojoj adresi':'surprise at your address')}</span><span>+35€</span></div>`;
@@ -7007,9 +7058,15 @@ async function loadPrice() {
     const baseTotal = p.totalEurAll + revealBoxExtra;
     const vDisc = _appliedVoucher ? Math.min(_appliedVoucher.amount, baseTotal) : 0;
     const finalTotal = Math.max(0, baseTotal - vDisc);
-    document.getElementById('priceTotal').textContent = finalTotal+'€';
+    const totalEl = document.getElementById('priceTotal');
+    if (S._cenaPreAnimacije != null) { animirajCenu(totalEl, S._cenaPreAnimacije, finalTotal); S._cenaPreAnimacije = null; }
+    else totalEl.textContent = finalTotal+'€';
+    S._promoSvez = false;
     const perPerson = p.numberOfTravelers > 1 ? Math.round(finalTotal / p.numberOfTravelers) : 0;
     document.getElementById('pricePer').textContent = p.numberOfTravelers > 1 ? t('pr.pp', perPerson) : '';
+    osveziPromoRed();
+    osveziVoucherToggle();
+    osveziPromoNaKoraku6();
   } catch(e) {
     document.getElementById('priceRows').innerHTML=`<div style="color:#f87171;font-size:13px;text-align:center;padding:10px;">${t('err.price')}</div>`;
   }
@@ -7092,7 +7149,12 @@ function updateSummaryCard() {
       addons += line('💺', t('pr.seats'),
         `+${p.seatsTogether} € × ${n} ${pax}`,
         `+ ${fmt(p.seatsTogether * n)} €`, 'add');
-    if (p.exclusionCostFlat > 0) {
+    if (p.exclusionPromoApplied && p.exclusionPromoSavedEur > 0) {
+      addons += line('🚫', `${t('pr.excl')} <span class="pr-promo-tag">PROMO ${escHtml(_appliedPromo ? _appliedPromo.code : '')}</span>`,
+        isSr ? `besplatno uz promo kod · ušteda ${fmt(p.exclusionPromoSavedEur)} €`
+             : `free with promo code · you save ${fmt(p.exclusionPromoSavedEur)} €`,
+        `0 €`, 'disc');
+    } else if (p.exclusionCostFlat > 0) {
       const exclPP = Math.round(p.exclusionCostFlat / n);
       addons += line('🚫', t('pr.excl'),
         `+${exclPP} € × ${n} ${pax}`,
@@ -7529,6 +7591,7 @@ async function submitBooking() {
     firstName:firstName, lastName:lastName, email:email, phone:phone,
     notes:document.getElementById('fNotes').value,
     voucherCode: _appliedVoucher?.code || null,
+    promoCode: _appliedPromo?.code || null,
     privateToken: S.privateToken || null,
     // Saglasnosti - backend ih validira (@AssertTrue) i beleži kao dokaz
     acceptedTerms:   !!document.getElementById('chkTerms')?.checked,
@@ -7582,6 +7645,23 @@ async function submitBooking() {
         S.selectedDate = null;
         showStep(3);
         loadDates();
+        _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
+      } else if (/promo kod/i.test(errMsg409)) {
+        // Promo je istekao ili je ugašen između pregleda cene i slanja: kod se skida, cena osvežava,
+        // a kupac vidi novi iznos pre nego što ponovo pošalje (nije pristao na tu cenu).
+        removePromo(true);
+        await loadPrice();
+        if (typeof updateSummaryCard === 'function') updateSummaryCard();
+        await Swal.fire({
+          icon: 'info',
+          iconColor: '#CA8A71',
+          title: lang==='sr' ? 'Promo kod više ne važi' : 'The promo code is no longer valid',
+          text: lang==='sr' ? 'Cena je osvežena bez promo koda. Pogledaj novi iznos, pa pošalji ponovo.'
+                            : 'The price was refreshed without the promo code. Check the new total, then send again.',
+          confirmButtonColor: '#CA8A71',
+          background: '#2D5F6B',
+          color: '#fff'
+        });
         _bookingSubmitting=false; btn.disabled=false; btn.textContent=t('s8.submit');
       } else {
         // Duplikat rezervacije ili drugi 409 - prikaži konkretnu poruku
@@ -8145,6 +8225,184 @@ document.addEventListener('click', function(e) {
 /* ── Redeem modal ── */
 
 
+// ── Promo kod „besplatno isključivanje destinacija" ─────────────────────────
+// Kuca se u isto polje kao poklon vaučer (korak 7). Vaučeri su oblika ESC-XXXX-XXXX-XXXX, sve
+// ostalo se proverava kao promo kod. Sajt NIŠTA ne računa sam: kod se samo prosledi uz pregled
+// cene i uz rezervaciju, a backend vrati isključivanja 0 € i koliko je ušteđeno - ovde je samo
+// prikaz (precrtana stara cena, odbrojavanje ukupnog iznosa, red sa kodom). Kod, datum isteka i
+// prekidač menja admin iz panela; kad promo prestane da važi, sledeći pregled cene to pokaže i
+// kod se sam skida sa forme.
+
+function ocistiKodUnos(el) {
+  let v = el.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+  // Azbuka vaučera nema 0 i 1 (liče na O i I), pa se kod vaučera ispravljaju. Promo kod sme da ih ima.
+  if (v.startsWith('ESC-')) v = v.replace(/0/g, 'O').replace(/1/g, 'I');
+  el.value = v;
+}
+
+function resetKodPolje() {
+  const input = document.getElementById('voucherCodeInp');
+  const btn   = document.getElementById('voucherApplyBtn');
+  if (input) { input.value = ''; input.classList.remove('valid', 'invalid'); }
+  if (btn)   { btn.disabled = false; btn.textContent = lang === 'sr' ? 'Primeni' : 'Apply'; }
+}
+
+// Natpis na dugmetu za unos koda zavisi od toga šta je već primenjeno i da li promo uopšte traje.
+function osveziVoucherToggle() {
+  const btn = document.getElementById('voucherToggleBtn');
+  const lbl = document.getElementById('voucherToggleLbl');
+  const sub = document.getElementById('voucherToggleSub');
+  if (!btn || !lbl || !sub) return;
+  const sr = lang === 'sr', v = !!_appliedVoucher, p = !!_appliedPromo, traje = !!S.promoActive;
+  const nemaSta = v && (p || !traje);          // sve što može da se unese je već uneto
+  if (nemaSta) document.getElementById('voucherInputBody')?.classList.remove('open');
+  btn.classList.toggle('done', nemaSta);
+  btn.disabled = nemaSta;
+  if (v) {
+    lbl.textContent = sr ? `🎟️ Vaučer primenjen (${_appliedVoucher.amount}€)` : `🎟️ Voucher applied (${_appliedVoucher.amount}€)`;
+    sub.textContent = (!p && traje) ? (sr ? 'Imaš i promo kod? Unesi ga ovde' : 'Have a promo code too? Enter it here') : '';
+  } else if (p) {
+    lbl.textContent = sr ? 'Imam i poklon vaučer' : 'I also have a gift voucher';
+    sub.textContent = sr ? 'Unesi kod i oduzmi iznos od cene' : 'Enter code to deduct from total';
+  } else {
+    lbl.textContent = traje ? (sr ? 'Imam poklon vaučer ili promo kod' : 'I have a gift voucher or promo code')
+                            : (sr ? 'Imam poklon vaučer' : 'I have a gift voucher');
+    sub.textContent = traje ? (sr ? 'Vaučer se oduzima od cene, promo kod donosi pogodnost' : 'A voucher is deducted from the total, a promo code unlocks a perk')
+                            : (sr ? 'Unesi kod i oduzmi iznos od cene' : 'Enter code to deduct from total');
+  }
+}
+
+// Red „Promo kod" iznad ukupne cene; iznos uštede stiže sa backenda uz svaki pregled cene.
+function osveziPromoRed() {
+  const row = document.getElementById('promoRow');
+  if (!row) return;
+  if (!_appliedPromo) { row.style.display = 'none'; return; }
+  const sr = lang === 'sr';
+  const usteda = (S.lastPrice && S.lastPrice.exclusionPromoApplied) ? (S.lastPrice.exclusionPromoSavedEur || 0) : 0;
+  document.getElementById('promoRowLbl').textContent  = sr ? 'Promo kod' : 'Promo code';
+  document.getElementById('promoRowCode').textContent = _appliedPromo.code;
+  document.getElementById('promoRowVal').textContent  = usteda > 0
+    ? `−${usteda}€`
+    : (sr ? 'isključivanja 0€' : 'exclusions €0');
+  document.getElementById('promoRemoveBtn').textContent = sr ? '✕ ukloni' : '✕ remove';
+  row.style.display = 'flex';
+}
+
+// Korak 6: dok promo traje podseti na kod; kad je kod primenjen, cene isključivanja su 0.
+function osveziPromoNaKoraku6() {
+  const hint = document.querySelector('#step6 .hint');
+  const tier2Price = document.getElementById('exclTier2Price');
+  let note = document.getElementById('exclPromoNote');
+  const dozvoljeno = exclusionRules().allowed;
+  if (!dozvoljeno || !(_appliedPromo || S.promoActive)) { note?.remove(); return; }
+  const sr = lang === 'sr';
+  if (!note && hint) {
+    note = document.createElement('div');
+    note.id = 'exclPromoNote';
+    hint.insertAdjacentElement('afterend', note);
+  }
+  if (!note) return;
+  if (_appliedPromo) {
+    note.className = 'excl-promo-note on';
+    note.textContent = sr
+      ? `✨ Promo kod ${_appliedPromo.code} je primenjen: isključivanje destinacija je besplatno.`
+      : `✨ Promo code ${_appliedPromo.code} is applied: excluding destinations is free.`;
+    if (tier2Price) { tier2Price.textContent = sr ? 'Besplatno uz promo' : 'Free with promo'; tier2Price.className = 'excl-tier-price free'; }
+  } else {
+    note.className = 'excl-promo-note';
+    note.textContent = sr
+      ? 'Imaš promo kod? Unesi ga na sledećem koraku, uz pregled cene, i isključivanje destinacija je besplatno.'
+      : 'Have a promo code? Enter it on the next step, next to the price summary, and excluding destinations is free.';
+  }
+}
+
+// Odbrojavanje iznosa od stare ka novoj ceni - samo prikaz, iznos je već stigao sa backenda.
+function animirajCenu(el, od, doIznosa) {
+  const mirno = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // U pozadinskom tabu requestAnimationFrame ne radi - tamo se iznos upisuje odmah.
+  if (mirno || document.hidden || od === doIznosa || !isFinite(od)) { el.textContent = doIznosa + '€'; return; }
+  const t0 = performance.now(), traje = 750;
+  let gotovo = false;
+  const kraj = () => { if (!gotovo) { gotovo = true; el.textContent = doIznosa + '€'; } };
+  el.classList.remove('price-flash'); void el.offsetWidth; el.classList.add('price-flash');
+  (function korak(sad) {
+    if (gotovo) return;
+    const k = Math.min(1, (sad - t0) / traje), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = Math.round(od + (doIznosa - od) * e) + '€';
+    if (k < 1) requestAnimationFrame(korak); else gotovo = true;
+  })(t0);
+  // Osigurač: šta god da se desi sa animacijom, na ekranu mora da ostane tačan iznos.
+  setTimeout(kraj, traje + 250);
+}
+
+// Trenutno prikazan ukupni iznos - polazna tačka odbrojavanja kad se promo primeni ili skine.
+function zapamtiCenuZaAnimaciju() {
+  const n = parseInt((document.getElementById('priceTotal')?.textContent || '').replace(/[^0-9]/g, ''), 10);
+  S._cenaPreAnimacije = isFinite(n) ? n : null;
+}
+
+async function applyPromoCode(code) {
+  const input = document.getElementById('voucherCodeInp');
+  const btn   = document.getElementById('voucherApplyBtn');
+  const msg   = document.getElementById('voucherMsg');
+  const sr    = lang === 'sr';
+  if (_appliedPromo) {
+    msg.className = 'voucher-msg err';
+    msg.textContent = sr ? 'Promo kod je već primenjen.' : 'A promo code is already applied.';
+    return;
+  }
+  _voucherApplying = true;
+  btn.disabled = true; btn.textContent = '...';
+  msg.textContent = ''; input.classList.remove('valid', 'invalid');
+  try {
+    const res  = await fetch(`${API}/api/promo/validate`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.valid) {
+      _appliedPromo = { code, validUntil: data.validUntil || null };
+      zapamtiCenuZaAnimaciju();
+      S._promoSvez = true;                       // red isključivanja jednom zasvetli
+      msg.className = 'voucher-msg ok';
+      msg.textContent = sr ? '✅ Promo kod je primenjen: isključivanje destinacija je besplatno!'
+                           : '✅ Promo code applied: excluding destinations is free!';
+      document.getElementById('voucherInputBody').classList.remove('open');
+      document.getElementById('voucherToggleBtn').classList.remove('open');
+      await loadPrice();                         // backend vraća novu cenu; ovde se samo prikazuje
+      if (typeof updateSummaryCard === 'function') updateSummaryCard();
+    } else {
+      input.classList.add('invalid');
+      msg.className = 'voucher-msg err';
+      msg.textContent = res.status === 429
+        ? (sr ? 'Previše pokušaja. Pokušaj ponovo za 15 minuta.' : 'Too many attempts. Try again in 15 minutes.')
+        : (sr ? 'Kod nije važeći.' : 'This code is not valid.');
+    }
+  } catch {
+    msg.className = 'voucher-msg err';
+    msg.textContent = sr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Try again.';
+  } finally {
+    _voucherApplying = false;
+    btn.disabled = false; btn.textContent = sr ? 'Primeni' : 'Apply';
+    if (_appliedPromo) { input.value = ''; input.classList.remove('valid', 'invalid'); }
+    osveziVoucherToggle();
+    osveziPromoNaKoraku6();
+  }
+}
+
+// tiho = promo je prestao da važi (javlja loadPrice ili odbijena rezervacija), ne klik kupca.
+function removePromo(tiho) {
+  if (!_appliedPromo) return;
+  _appliedPromo = null;
+  S._promoSvez = false;
+  osveziPromoRed();
+  osveziVoucherToggle();
+  osveziPromoNaKoraku6();
+  if (tiho) return;
+  document.getElementById('voucherMsg').textContent = '';
+  zapamtiCenuZaAnimaciju();
+  loadPrice().then(() => { if (typeof updateSummaryCard === 'function') updateSummaryCard(); });
+}
+
 // ── Voucher u booking formi (korak 7) ────────────────────────────────────────
 
 function toggleVoucherInput() {
@@ -8165,8 +8423,15 @@ async function applyVoucher() {
 
   if (!code) {
     msg.className = 'voucher-msg err';
-    msg.textContent = isSr ? 'Unesite vaučer kod.' : 'Enter your voucher code.';
+    msg.textContent = isSr ? 'Unesite kod.' : 'Enter your code.';
     input.classList.add('invalid');
+    return;
+  }
+  // Vaučeri su ESC-XXXX-XXXX-XXXX; sve ostalo se proverava kao promo kod.
+  if (!code.startsWith('ESC-')) { applyPromoCode(code); return; }
+  if (_appliedVoucher) {
+    msg.className = 'voucher-msg err';
+    msg.textContent = isSr ? 'Vaučer je već primenjen.' : 'A voucher is already applied.';
     return;
   }
 
@@ -8193,7 +8458,6 @@ async function applyVoucher() {
       // Sakrij input sekciju
       document.getElementById('voucherInputBody').classList.remove('open');
       document.getElementById('voucherToggleBtn').classList.remove('open');
-      document.getElementById('voucherToggleLbl').textContent = isSr ? `🎟️ Vaučer primenjen (${data.amount}€)` : `🎟️ Voucher applied (${data.amount}€)`;
     } else {
       input.classList.add('invalid');
       msg.className = 'voucher-msg err';
@@ -8204,10 +8468,11 @@ async function applyVoucher() {
     msg.textContent = isSr ? 'Greška pri proveri. Pokušajte ponovo.' : 'Check failed. Try again.';
   } finally {
     _voucherApplying = false;
-    if (!_appliedVoucher) {
-      btn.disabled = false;
-      btn.textContent = isSr ? 'Primeni' : 'Apply';
-    }
+    // Polje ostaje upotrebljivo i posle vaučera: kupac može da ima i promo kod.
+    btn.disabled = false;
+    btn.textContent = isSr ? 'Primeni' : 'Apply';
+    if (_appliedVoucher) { input.value = ''; input.classList.remove('valid', 'invalid'); }
+    osveziVoucherToggle();
   }
 }
 
@@ -8226,8 +8491,7 @@ function removeVoucher() {
   document.getElementById('voucherCodeInp').value = '';
   document.getElementById('voucherCodeInp').classList.remove('valid', 'invalid');
   document.getElementById('voucherMsg').textContent = '';
-  document.getElementById('voucherToggleLbl').textContent = lang === 'sr' ? 'Imam poklon vaučer' : 'I have a gift voucher';
-  document.getElementById('voucherToggleSub').textContent = lang === 'sr' ? 'Unesi kod i oduzmi iznos od cene' : 'Enter code to deduct from total';
+  osveziVoucherToggle();
   // applyVoucher() ostavlja dugme disabled + '...' posle uspešne primene (sekcija se
   // tada sakrije, pa nije vidljivo) - bez ovoga bi ostalo zaglavljeno na "..." ako
   // korisnik ukloni vaučer pa pokuša da primeni novi.
