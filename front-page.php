@@ -6514,7 +6514,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const promoOn = !!_appliedPromo;
+      const promoOn = !!_appliedPromo && n <= _appliedPromo.free;   // SKIP3: četvrto se i dalje doplaćuje
       const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!')
                   : promoOn ? (lang==='en' ? '✨ free with promo' : '✨ besplatno uz promo')
                   : (lang==='en' ? '+€10/person' : '+10€ po osobi');
@@ -7025,6 +7025,8 @@ async function loadPrice() {
     const p = await r.json();
     S.lastPrice = p;
     S.promoActive = !!p.exclusionPromoActive;
+    S.promoFree   = p.exclusionPromoFreeCount || 0;
+    if (_appliedPromo && p.exclusionPromoApplied === true && S.promoFree) _appliedPromo.free = S.promoFree;   // admin je mogao da promeni broj
     // Promo je u međuvremenu istekao ili je ugašen: backend je vratio punu cenu, pa se kod skida i sa forme.
     if (_appliedPromo && p.exclusionPromoApplied !== true) {
       removePromo(true);
@@ -7046,8 +7048,12 @@ async function loadPrice() {
     if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstUnit=Math.round(p.breakfastPerPerson/p.numberOfNights); const bfstSub=isSr?`${bfstUnit}€ po osobi/noći`:`${bfstUnit}€/pp/night`; const bfstPers=isSr?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span>${sub(bfstSub)}</span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if (p.exclusionPromoApplied && p.exclusionPromoSavedEur > 0) {
-      // Promo: red ostaje, stara cena precrtana, nova je 0 - kupac vidi šta je dobio.
-      html+=`<div class="pr-row${S._promoSvez ? ' promo-just-applied' : ''}"><span><span>${t('pr.excl')}</span><span class="pr-promo-tag">PROMO</span>${sub(isSr?'besplatno uz promo kod':'free with promo code')}</span><span><span class="pr-old">+${p.exclusionPromoSavedEur}€</span><span class="pr-free">0€</span></span></div>`;
+      // Promo: red ostaje, stara cena precrtana, pored nje ono što se stvarno plaća (SKIP3 sa četiri
+      // isključivanja: četvrto se i dalje naplaćuje) - kupac vidi šta je dobio.
+      const exclStaro = p.exclusionCostFlat + p.exclusionPromoSavedEur;
+      const exclNovo  = p.exclusionCostFlat > 0 ? `<span>+${p.exclusionCostFlat}€</span>` : `<span class="pr-free">0€</span>`;
+      const exclOpis  = promoOpis(p.exclusionPromoFreeCount || (_appliedPromo ? _appliedPromo.free : 3), isSr).replace(/ (su besplatna|are free)$/, '');
+      html+=`<div class="pr-row${S._promoSvez ? ' promo-just-applied' : ''}"><span><span>${t('pr.excl')}</span><span class="pr-promo-tag">PROMO</span>${sub(isSr ? exclOpis + ' besplatno uz promo kod' : exclOpis + ' free with promo code')}</span><span><span class="pr-old">+${exclStaro}€</span>${exclNovo}</span></div>`;
     } else if(p.exclusionCostFlat>0) { const exclPP=Math.round(p.exclusionCostFlat/p.numberOfTravelers); html+=`<div class="pr-row"><span><span>${t('pr.excl')}</span>${ppSub(exclPP)}</span><span>+${p.exclusionCostFlat}€</span></div>`; }
     if(p.soloSurcharge>0) html+=`<div class="pr-row"><span><span>${t('pr.solo')}</span>${sub(isSr?'jednokratna doplata':'one-time surcharge')}</span><span>+${p.soloSurcharge}€</span></div>`;
     // Reveal Box - flat 35€, dodajemo na frontendu
@@ -7151,9 +7157,9 @@ function updateSummaryCard() {
         `+ ${fmt(p.seatsTogether * n)} €`, 'add');
     if (p.exclusionPromoApplied && p.exclusionPromoSavedEur > 0) {
       addons += line('🚫', `${t('pr.excl')} <span class="pr-promo-tag">PROMO ${escHtml(_appliedPromo ? _appliedPromo.code : '')}</span>`,
-        isSr ? `besplatno uz promo kod · ušteda ${fmt(p.exclusionPromoSavedEur)} €`
-             : `free with promo code · you save ${fmt(p.exclusionPromoSavedEur)} €`,
-        `0 €`, 'disc');
+        (isSr ? `${promoOpis(p.exclusionPromoFreeCount || 3, true)} uz promo kod · ušteda ${fmt(p.exclusionPromoSavedEur)} €`
+              : `${promoOpis(p.exclusionPromoFreeCount || 3, false)} with promo code · you save ${fmt(p.exclusionPromoSavedEur)} €`),
+        p.exclusionCostFlat > 0 ? `+ ${fmt(p.exclusionCostFlat)} €` : `0 €`, p.exclusionCostFlat > 0 ? 'add' : 'disc');
     } else if (p.exclusionCostFlat > 0) {
       const exclPP = Math.round(p.exclusionCostFlat / n);
       addons += line('🚫', t('pr.excl'),
@@ -8225,7 +8231,10 @@ document.addEventListener('click', function(e) {
 /* ── Redeem modal ── */
 
 
-// ── Promo kod „besplatno isključivanje destinacija" ─────────────────────────
+// ── Promo kod „besplatna isključivanja destinacija" ─────────────────────────
+// Kod kaže koliko isključivanja UKUPNO ne košta ništa: SKIP3 = prva tri (prvo je besplatno i bez
+// koda), a četvrto se doplaćuje kao i inače. Broj stiže sa backenda (freeExclusions /
+// exclusionPromoFreeCount) - ovde se nigde ne podrazumeva.
 // Kuca se u isto polje kao poklon vaučer (korak 7). Vaučeri su oblika ESC-XXXX-XXXX-XXXX, sve
 // ostalo se proverava kao promo kod. Sajt NIŠTA ne računa sam: kod se samo prosledi uz pregled
 // cene i uz rezervaciju, a backend vrati isključivanja 0 € i koliko je ušteđeno - ovde je samo
@@ -8238,6 +8247,20 @@ function ocistiKodUnos(el) {
   // Azbuka vaučera nema 0 i 1 (liče na O i I), pa se kod vaučera ispravljaju. Promo kod sme da ih ima.
   if (v.startsWith('ESC-')) v = v.replace(/0/g, 'O').replace(/1/g, 'I');
   el.value = v;
+}
+
+// „prva 3 isključivanja su besplatna" / „sva isključivanja su besplatna" - jedan izvor za sve poruke.
+function promoOpis(free, sr) {
+  const max = exclusionRules().max || 4;
+  if (free >= max) return sr ? 'sva isključivanja su besplatna' : 'all exclusions are free';
+  return sr ? `prva ${free} isključivanja su besplatna` : `your first ${free} exclusions are free`;
+}
+// Koje se isključivanje i dalje doplaćuje uz promo: „4." ili „3. i 4."; prazno kad su sva besplatna.
+function promoPlaceno(free, sr) {
+  const max = exclusionRules().max || 4;
+  if (free >= max) return '';
+  const koja = free + 1 === max ? `${max}.` : (sr ? `${free + 1}. do ${max}.` : `${free + 1}-${max}`);
+  return sr ? `${koja} se doplaćuje 10€ po osobi` : `exclusion ${koja} is +€10 per person`;
 }
 
 function resetKodPolje() {
@@ -8283,7 +8306,7 @@ function osveziPromoRed() {
   document.getElementById('promoRowCode').textContent = _appliedPromo.code;
   document.getElementById('promoRowVal').textContent  = usteda > 0
     ? `−${usteda}€`
-    : (sr ? 'isključivanja 0€' : 'exclusions €0');
+    : (sr ? `prva ${_appliedPromo.free} isključivanja 0€` : `first ${_appliedPromo.free} exclusions €0`);
   document.getElementById('promoRemoveBtn').textContent = sr ? '✕ ukloni' : '✕ remove';
   row.style.display = 'flex';
 }
@@ -8294,8 +8317,40 @@ function osveziPromoNaKoraku6() {
   const tier2Price = document.getElementById('exclTier2Price');
   let note = document.getElementById('exclPromoNote');
   const dozvoljeno = exclusionRules().allowed;
-  if (!dozvoljeno || !(_appliedPromo || S.promoActive)) { note?.remove(); return; }
   const sr = lang === 'sr';
+  // Nivoi cena: bez promo koda „2. do 4. isključivanje +10€"; uz SKIP3 „2. i 3. besplatno" i
+  // poseban red za ono što se i dalje doplaćuje.
+  const rules = exclusionRules();
+  const tier2Label = document.getElementById('exclTier2Label');
+  let tier3 = document.getElementById('exclTier3');
+  const odKog = rules.firstFree ? 2 : 1;
+  const free = _appliedPromo ? _appliedPromo.free : 0;
+  if (dozvoljeno && _appliedPromo && free >= odKog) {
+    const doKog = Math.min(free, rules.max);
+    if (tier2Label) tier2Label.textContent = doKog === odKog
+      ? (sr ? `${odKog}. isključivanje` : `Exclusion ${odKog}`)
+      : (sr ? `${odKog}. ${doKog - odKog === 1 ? 'i' : 'do'} ${doKog}. isključivanje` : `Exclusions ${odKog}-${doKog}`);
+    if (tier2Price) { tier2Price.textContent = sr ? 'Besplatno uz promo' : 'Free with promo'; tier2Price.className = 'excl-tier-price free'; }
+    if (doKog < rules.max) {
+      if (!tier3) {
+        tier3 = document.createElement('div');
+        tier3.className = 'excl-tier'; tier3.id = 'exclTier3';
+        tier3.innerHTML = '<div class="excl-tier-label"></div><div class="excl-tier-price high"></div>';
+        document.getElementById('exclTier2')?.insertAdjacentElement('afterend', tier3);
+      }
+      tier3.children[0].textContent = doKog + 1 === rules.max
+        ? (sr ? `${rules.max}. isključivanje` : `Exclusion ${rules.max}`)
+        : (sr ? `${doKog + 1}. do ${rules.max}. isključivanje` : `Exclusions ${doKog + 1}-${rules.max}`);
+      tier3.children[1].textContent = sr ? '+10€ po osobi' : '+€10/person';
+    } else tier3?.remove();
+  } else {
+    tier3?.remove();
+    if (dozvoljeno) {
+      if (tier2Label) tier2Label.textContent = sr ? `${odKog}. do ${rules.max}. isključivanje` : `Exclusions ${odKog}-${rules.max}`;
+      if (tier2Price) { tier2Price.textContent = sr ? '+10€ po osobi' : '+€10/person'; tier2Price.className = 'excl-tier-price high'; }
+    }
+  }
+  if (!dozvoljeno || !(_appliedPromo || S.promoActive)) { note?.remove(); return; }
   if (!note && hint) {
     note = document.createElement('div');
     note.id = 'exclPromoNote';
@@ -8303,16 +8358,16 @@ function osveziPromoNaKoraku6() {
   }
   if (!note) return;
   if (_appliedPromo) {
+    const placeno = promoPlaceno(free, sr);
     note.className = 'excl-promo-note on';
-    note.textContent = sr
-      ? `✨ Promo kod ${_appliedPromo.code} je primenjen: isključivanje destinacija je besplatno.`
-      : `✨ Promo code ${_appliedPromo.code} is applied: excluding destinations is free.`;
-    if (tier2Price) { tier2Price.textContent = sr ? 'Besplatno uz promo' : 'Free with promo'; tier2Price.className = 'excl-tier-price free'; }
+    note.textContent = (sr ? `✨ Promo kod ${_appliedPromo.code} je primenjen: ` : `✨ Promo code ${_appliedPromo.code} is applied: `)
+      + promoOpis(free, sr) + (placeno ? ', ' + placeno : '') + '.';
   } else {
+    const uzKod = S.promoFree || 3;
     note.className = 'excl-promo-note';
-    note.textContent = sr
-      ? 'Imaš promo kod? Unesi ga na sledećem koraku, uz pregled cene, i isključivanje destinacija je besplatno.'
-      : 'Have a promo code? Enter it on the next step, next to the price summary, and excluding destinations is free.';
+    note.textContent = (sr ? 'Imaš promo kod? Unesi ga na sledećem koraku, uz pregled cene: '
+                           : 'Have a promo code? Enter it on the next step, next to the price summary: ')
+      + promoOpis(uzKod, sr) + '.';
   }
 }
 
@@ -8360,12 +8415,11 @@ async function applyPromoCode(code) {
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data.valid) {
-      _appliedPromo = { code, validUntil: data.validUntil || null };
+      _appliedPromo = { code, validUntil: data.validUntil || null, free: data.freeExclusions || 3 };
       zapamtiCenuZaAnimaciju();
       S._promoSvez = true;                       // red isključivanja jednom zasvetli
       msg.className = 'voucher-msg ok';
-      msg.textContent = sr ? '✅ Promo kod je primenjen: isključivanje destinacija je besplatno!'
-                           : '✅ Promo code applied: excluding destinations is free!';
+      msg.textContent = (sr ? '✅ Promo kod je primenjen: ' : '✅ Promo code applied: ') + promoOpis(_appliedPromo.free, sr) + '!';
       document.getElementById('voucherInputBody').classList.remove('open');
       document.getElementById('voucherToggleBtn').classList.remove('open');
       await loadPrice();                         // backend vraća novu cenu; ovde se samo prikazuje

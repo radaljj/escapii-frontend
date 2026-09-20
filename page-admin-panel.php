@@ -1290,7 +1290,7 @@ tbody td  { padding: 11px 12px; }
         <div class="promo-head">
           <div>
             <div class="card-title" style="margin-bottom:4px;">✨ Promo kod · besplatno isključivanje destinacija</div>
-            <div class="promo-help">Kupac kuca kod u isto polje kao poklon vaučer, na koraku sa cenom. Dok je promo aktivan, doplata za 2, 3. i 4. isključivanje je 0 €. Svaka izmena ovde važi odmah, bez deploya.</div>
+            <div class="promo-help">Kupac kuca kod u isto polje kao poklon vaučer, na koraku sa cenom. Dok je promo aktivan, onoliko isključivanja koliko ovde izabereš je besplatno, a ostala se doplaćuju 10 € po osobi kao i inače. Svaka izmena ovde važi odmah, bez deploya.</div>
           </div>
           <span class="promo-badge" id="promoBadge">…</span>
         </div>
@@ -1303,6 +1303,14 @@ tbody td  { padding: 11px 12px; }
           <label class="promo-field">
             <span>Važi do (uključivo)</span>
             <input class="form-input" id="promoUntil" type="date">
+          </label>
+          <label class="promo-field">
+            <span>Besplatnih isključivanja</span>
+            <select class="form-input" id="promoFree">
+              <option value="2">2 · prvo i drugo</option>
+              <option value="3">3 · prva tri, četvrto se plaća</option>
+              <option value="4">4 · sva četiri</option>
+            </select>
           </label>
           <label class="promo-switch">
             <input type="checkbox" id="promoEnabled">
@@ -1658,8 +1666,12 @@ function priceBreakdownLines(b) {
   if (b.hasSeatsTogether) rows.push({ label: 'Sedišta zajedno', value: '+24€/os' });
   rows.push({ kind: 'subtotal', label: `Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}`, value: `${b.totalPricePerPerson * n}€` });
   if (b.cabinSuitcaseCount > 0) rows.push({ label: `Ručni (kabinski) kofer × ${b.cabinSuitcaseCount}`, value: `+${100 * b.cabinSuitcaseCount}€` });
-  if (b.exclusionCostEur > 0)   rows.push({ label: `Isključivanja (${b.exclusionCount}×)`, value: `+${b.exclusionCostEur}€` });
-  else if (b.promoCode && b.promoSavedEur > 0) rows.push({ label: `Isključivanja (${b.exclusionCount}×) · promo ${b.promoCode}`, value: `0€ (ušteda ${b.promoSavedEur}€)` });
+  // Uz promo kod deo isključivanja je besplatan (SKIP3: prva tri), pa naplata i ušteda mogu da stoje zajedno.
+  const promoUsteda = b.promoCode && b.promoSavedEur > 0 ? b.promoSavedEur : 0;
+  if (b.exclusionCostEur > 0 || promoUsteda > 0) rows.push({
+    label: `Isključivanja (${b.exclusionCount}×)` + (promoUsteda ? ` · promo ${b.promoCode}` : ''),
+    value: (b.exclusionCostEur > 0 ? `+${b.exclusionCostEur}€` : '0€') + (promoUsteda ? ` (ušteda ${promoUsteda}€)` : '')
+  });
   if (n === 1)                  rows.push({ label: 'Doplata za solo putnika', value: '+60€' });
   if (b.hasRevealBox)           rows.push({ label: 'Reveal Box', value: '+35€' });
   if (b.voucherDiscount > 0)    rows.push({ label: `Vaučer (${b.appliedVoucherCode || ''})`, value: `−${b.voucherDiscount}€` });
@@ -4751,6 +4763,7 @@ function renderPromo(p) {
   document.getElementById('promoCode').value      = p.code || '';
   document.getElementById('promoUntil').value     = p.validUntil || '';
   document.getElementById('promoEnabled').checked = !!p.enabled;
+  document.getElementById('promoFree').value      = String(p.freeCount || 3);
   const badge = document.getElementById('promoBadge');
   const istekao = p.enabled && !p.active;
   badge.className = 'promo-badge ' + (p.active ? 'on' : istekao ? 'exp' : 'off');
@@ -4759,7 +4772,8 @@ function renderPromo(p) {
   // u 1 rezervaciji, u 2-4 rezervacije, u 5+ (i 11-14) rezervacija
   const rez = k => { const j = k % 10, d = k % 100;
     return (j === 1 && d !== 11) ? 'rezervaciji' : (j >= 2 && j <= 4 && (d < 12 || d > 14)) ? 'rezervacije' : 'rezervacija'; };
-  const stanje = p.active ? `Kod <strong>${escHtml(p.code)}</strong> važi do <strong>${datum}</strong>.`
+  const daje = p.freeCount >= 4 ? 'sva isključivanja besplatno' : `prva ${p.freeCount} isključivanja besplatno`;
+  const stanje = p.active ? `Kod <strong>${escHtml(p.code)}</strong> daje <strong>${daje}</strong> i važi do <strong>${datum}</strong>.`
                : istekao  ? `Promo je uključen, ali je datum prošao - kod trenutno NE radi.`
                :            `Promo je ugašen - kod trenutno NE radi.`;
   document.getElementById('promoStats').innerHTML =
@@ -4783,7 +4797,8 @@ async function savePromo() {
   const telo = {
     code:       document.getElementById('promoCode').value.trim(),
     validUntil: document.getElementById('promoUntil').value || null,
-    enabled:    document.getElementById('promoEnabled').checked
+    enabled:    document.getElementById('promoEnabled').checked,
+    freeCount:  parseInt(document.getElementById('promoFree').value, 10) || 3
   };
   if (telo.enabled && !telo.validUntil) { apiErr('Da bi promo bio uključen, izaberi datum do kog važi.'); return; }
   btn.disabled = true; btn.textContent = 'Čuvam...';
