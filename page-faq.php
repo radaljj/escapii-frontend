@@ -578,6 +578,7 @@ function applyLang() {
   // update search placeholder
   const inp = document.getElementById('fqSearch');
   if (inp) inp.placeholder = lang === 'en' ? 'Search questions…' : 'Pretraži pitanja…';
+  remeriOtvorene();
 }
 
 function setLang(l) {
@@ -606,6 +607,15 @@ allFaqs.forEach(function(f) {
   });
   setOpen(f, f.hasAttribute('open'));
 });
+
+// Visina otvorenog odgovora se meri pri otvaranju. Kad se prozor posle suzi (okretanje
+// telefona, manji prozor) ili se promeni jezik, tekst se prelomi u vise redova i kraj bi
+// ostao odsecen dok se odgovor ne zatvori i otvori, pa se otvoreni odgovori mere ponovo.
+function remeriOtvorene() {
+  if (!allFaqs) return;   // applyLang ume da se pozove pre nego sto je harmonika spremna
+  allFaqs.forEach(function(f) { if (f.classList.contains('open')) setOpen(f, true); });
+}
+window.addEventListener('resize', remeriOtvorene);
 
 // ── Category filter ────────────────────────────────────────────────────────
 var catsEl = document.getElementById('fqCats');
