@@ -135,6 +135,19 @@ function escapii_create_admin_page() {
 add_action('after_switch_theme', 'escapii_create_admin_page');
 add_action('init', 'escapii_create_admin_page');
 
+/**
+ * Podaci rukovaoca za politiku privatnosti - SR i EN strana ih čitaju odavde.
+ * Firma još nije registrovana: kad bude, ovde se upisuju pravi podaci (jedno mesto za obe strane).
+ */
+function esc_rukovalac(): array {
+    return [
+        'naziv'   => '[NAZIV PRAVNOG LICA]',
+        'sediste' => '[SEDIŠTE]',
+        'mb'      => '[MATIČNI BROJ]',
+        'pib'     => '[PIB]',
+    ];
+}
+
 // Automatski kreiraj /politika-privatnosti stranicu ako ne postoji
 function escapii_create_privacy_page() {
     if (get_page_by_path('politika-privatnosti')) return;
@@ -451,28 +464,41 @@ function esc_token_page_security_headers(): void {
 }
 
 /**
+ * Izbor posetioca iz kolačića esc_consent, npr. "v2.a1.m0" = analitički da, marketinški ne.
+ * Upisuje ga baner (inc/cookie-consent.php). Stare vrednosti granted/denied, iz vremena kad je
+ * postojala samo jedna kategorija, više ne važe: politika se promenila, pa posetioca pitamo
+ * ponovo, a dok ne odluči ne učitava se ništa opciono.
+ */
+function esc_consent_state(): array {
+    $v = $_COOKIE['esc_consent'] ?? '';
+    if (!is_string($v) || !preg_match('/^v2\.a([01])\.m([01])$/', $v, $m)) {
+        return ['decided' => false, 'analytics' => false, 'marketing' => false];
+    }
+    return ['decided' => true, 'analytics' => $m[1] === '1', 'marketing' => $m[2] === '1'];
+}
+
+/**
  * Consent Mode v2 - MORA da se izvrši pre GTM skripte, zato prioritet 0.
- * Podrazumevano je sve odbijeno: GTM se učita, ali ne postavlja nijedan
- * analitički kolačić dok korisnik ne klikne "Prihvatam".
- *
- * Ako je korisnik ranije već odlučio, odluku primenjujemo odmah ovde iz
- * kolačića - da ne bude trenutka u kom je stanje pogrešno.
+ * Stanje se postavlja iz kolačića, po kategorijama: analitički -> analytics_storage,
+ * marketinški -> ad_storage, ad_user_data i ad_personalization. Posetilac koji još nije
+ * odlučio ima sve odbijeno, a GTM mu se ni ne učitava (vidi esc_gtm_head).
  */
 add_action('wp_head', 'esc_consent_mode_default', 0);
 function esc_consent_mode_default() {
     if (!esc_gtm_enabled()) return;
-    $choice = $_COOKIE['esc_consent'] ?? '';
-    $granted = ($choice === 'granted') ? 'granted' : 'denied';
+    $c = esc_consent_state();
+    $analitika = $c['analytics'] ? 'granted' : 'denied';
+    $marketing = $c['marketing'] ? 'granted' : 'denied';
     ?>
 <!-- Consent Mode (default: denied) -->
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('consent', 'default', {
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-  analytics_storage: '<?php echo esc_js($granted); ?>',
+  ad_storage: '<?php echo esc_js($marketing); ?>',
+  ad_user_data: '<?php echo esc_js($marketing); ?>',
+  ad_personalization: '<?php echo esc_js($marketing); ?>',
+  analytics_storage: '<?php echo esc_js($analitika); ?>',
   functionality_storage: 'granted',
   security_storage: 'granted',
   wait_for_update: 500
@@ -481,9 +507,16 @@ gtag('consent', 'default', {
     <?php
 }
 
+/**
+ * GTM se štampa samo kad je posetilac već dozvolio analitičke ili marketinške kolačiće.
+ * Bez izbora ga nema na strani, pa Google ne dobija ništa, ni ping bez kolačića. Posle
+ * klika u baneru GTM ubacuje sam baner (loadGTM u inc/cookie-consent.php).
+ */
 add_action('wp_head', 'esc_gtm_head', 1);   // prioritet 1 = odmah posle consent default-a
 function esc_gtm_head() {
     if (!esc_gtm_enabled()) return;
+    $c = esc_consent_state();
+    if (!$c['analytics'] && !$c['marketing']) return;
     ?>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -498,6 +531,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 add_action('wp_body_open', 'esc_gtm_body');
 function esc_gtm_body() {
     if (!esc_gtm_enabled()) return;
+    // Bez JavaScript-a nema ni banera ni Consent Mode-a, pa se noscript varijanta nudi
+    // samo posetiocu koji je analitiku ranije već dozvolio.
+    if (!esc_consent_state()['analytics']) return;
     ?>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo esc_attr(ESC_GTM_ID); ?>"
@@ -507,13 +543,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 }
 
 /**
- * HubSpot tracking - učitava se SAMO ako je korisnik već dao saglasnost.
- * Novi posetioci: skripta se ubacuje dinamički iz cookie-consent.php kad kliknu "Prihvatam".
+ * HubSpot tracking - učitava se SAMO ako je korisnik već dozvolio analitičke kolačiće
+ * (HubSpot je u politici privatnosti u toj kategoriji). Novi posetioci: skriptu ubacuje
+ * inc/cookie-consent.php u trenutku izbora.
  */
 add_action('wp_footer', 'esc_hubspot_tracking', 5);
 function esc_hubspot_tracking() {
     if (!esc_gtm_enabled()) return;
-    if (($_COOKIE['esc_consent'] ?? '') !== 'granted') return;
+    if (!esc_consent_state()['analytics']) return;
     ?>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/148950343.js"></script>

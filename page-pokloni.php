@@ -486,6 +486,18 @@ $site_url  = get_site_url();
     .gift-submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
     .gift-form-err { font-size: 13px; color: var(--red); margin-top: 8px; min-height: 18px; }
 
+    /* Uslovi i politika pre slanja - isto pravilo kao na rezervaciji, svetla varijanta */
+    .gf-consent {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 18px;
+      padding: 12px 14px; border: 1.5px solid rgba(45,95,107,.15); border-radius: 10px;
+      background: #faf8f6; cursor: pointer; font-size: 13px; line-height: 1.55; color: #3a3230;
+      transition: border-color .18s, background .18s;
+    }
+    .gf-consent input { width: 18px; height: 18px; margin: 1px 0 0; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+    .gf-consent a { color: var(--accent2); text-decoration: underline; }
+    .gf-consent:has(input:checked) { border-color: rgba(202,138,113,.5); }
+    .gf-consent.invalid { border-color: var(--red); background: rgba(239,68,68,.05); }
+
     /* ══ FOOTER (identičan front-page.php) ══════════════════════════════════ */
     .esc-footer { background: #EFE9E7; padding: 64px 64px 28px; border-top: 1px solid rgba(15,45,53,.07); }
     .footer-main { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
@@ -869,6 +881,11 @@ $site_url  = get_site_url();
         </div>
       </div>
 
+      <label class="gf-consent" id="vConsentRow" for="vConsent">
+        <input type="checkbox" id="vConsent" onchange="if(this.checked){this.closest('.gf-consent').classList.remove('invalid');document.getElementById('vErr').textContent='';}">
+        <span data-i18n-html="gift.consent">Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> i upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a></span>
+      </label>
+
       <div class="gift-form-err" id="vErr"></div>
       <button class="gift-submit-btn" id="vSubmitBtn" onclick="submitVoucher()" type="button" data-i18n="gift.voucher.submit">
         🎟️ Pošalji upit za vaučer →
@@ -922,6 +939,7 @@ const TR = {
     'gift.msg.label':        'Poruka na vaučeru (opciono)',
     'gift.msg.ph':           'Ovo putovanje je posebno za tebe...',
     'gift.voucher.submit':   '🎟️ Pošalji upit za vaučer →',
+    'gift.consent':          'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> i upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a>',
     'ft.desc':    'Iznenađujuća putovanja za ljude koji su spremni da puste kontrolu i probaju nešto drugačije.',
     'ft.follow':  'Pratite nas',
     'ft.nav':     'Navigacija',
@@ -973,6 +991,7 @@ const TR = {
     'gift.msg.label':        'Message on the voucher (optional)',
     'gift.msg.ph':           'This trip is something special for you...',
     'gift.voucher.submit':   '🎟️ Send voucher inquiry →',
+    'gift.consent':          'I accept the <a href="/terms-of-use" target="_blank">Terms & Conditions</a> and have read the <a href="/privacy-policy" target="_blank">Privacy Policy</a>',
     'ft.desc':    'Surprise trips for people ready to let go of control and try something different.',
     'ft.follow':  'Follow us',
     'ft.nav':     'Navigation',
@@ -1087,6 +1106,11 @@ async function submitVoucher() {
     err.textContent = isSr ? 'Unesi validan email.' : 'Enter a valid email.';
     return;
   }
+  if (!document.getElementById('vConsent').checked) {
+    document.getElementById('vConsentRow').classList.add('invalid');
+    err.textContent = isSr ? 'Označite da prihvatate uslove korišćenja i da ste se upoznali sa politikom privatnosti.' : 'Please accept the Terms & Conditions and confirm that you have read the Privacy Policy.';
+    return;
+  }
   btn.disabled = true;
   btn.textContent = isSr ? 'Slanje...' : 'Sending...';
 
@@ -1124,6 +1148,7 @@ async function submitVoucher() {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
+    document.getElementById('vConsent').checked = false;
 
   } catch (e) {
     const rateLimited = e.message?.includes('429') || e.message?.toLowerCase().includes('previše');

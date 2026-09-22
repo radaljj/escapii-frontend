@@ -3795,6 +3795,13 @@
               <div data-i18n-html="inq.summary">Javićemo ti se u roku od <strong>24 sata</strong> sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.</div>
             </div>
 
+            <!-- Uslovi i politika se prihvataju pre slanja, kao i na rezervaciji -->
+            <div class="terms-check-row" id="inqConsentRow" style="margin-bottom:6px;">
+              <input type="checkbox" id="inqConsent" onchange="if(this.checked){this.closest('.terms-check-row').classList.remove('terms-invalid');document.getElementById('inqConsentErr').classList.remove('visible');}">
+              <label for="inqConsent" data-i18n-html="consent.forms"><span>Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> i upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a> <span class="req">*</span></span></label>
+            </div>
+            <div class="terms-err-msg" id="inqConsentErr" data-i18n="err.consent.forms" style="margin:6px 0 10px;">Označite da prihvatate uslove korišćenja i da ste se upoznali sa politikom privatnosti.</div>
+
             <!-- Submit -->
             <button class="inq-submit" id="inqSubmitBtn" onclick="submitInquiry()" type="button">
               <span data-i18n="inq.submit">Pošalji upit</span>
@@ -4180,7 +4187,7 @@
                  Bez njega kupac napiše dužu napomenu, prođe celu proveru na sajtu,
                  a backend odbije rezervaciju uz generičku poruku iz koje se ne vidi
                  koje je polje krivo. Placeholder poziva na duži tekst pa se dešavalo. -->
-            <div class="f-input-wrap"><textarea class="f-input" id="fNotes" maxlength="1000" placeholder="Alergije, posebni zahtevi..." data-i18n-ph="s8.notes.ph"></textarea></div>
+            <div class="f-input-wrap"><textarea class="f-input" id="fNotes" maxlength="1000" placeholder="Posebni zahtevi, pitanja..." data-i18n-ph="s8.notes.ph"></textarea></div>
           </div>
         </div>
         <div class="payment-info">
@@ -4190,7 +4197,7 @@
           </div>
           <ol class="pi-steps">
             <li data-i18n-html="pay.s1">Pošalji upit klikom na dugme ispod - besplatno i bez obaveza</li>
-            <li data-i18n-html="pay.s2">U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun</li>
+            <li data-i18n-html="pay.s2">U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na račun partnerske turističke agencije</li>
             <li data-i18n-html="pay.s3">Izvrši uplatu - rezervacija se <strong>potvrđuje tek nakon uplate</strong></li>
             <li data-i18n-html="pay.s4">Potvrda stiže na email - putovanje je tvoje! ✓</li>
           </ol>
@@ -4212,19 +4219,14 @@
 
           <div class="terms-check-row" id="terms-row">
             <input type="checkbox" id="chkTerms">
-            <label for="chkTerms" data-i18n-html="terms.check">Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></label>
+            <label for="chkTerms" data-i18n-html="terms.check"><span>Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></span></label>
           </div>
           <div class="terms-err-msg" id="terms-err" data-i18n="err.terms">Morate prihvatiti uslove korišćenja.</div>
           <div class="terms-check-row" id="privacy-row">
             <input type="checkbox" id="chkPrivacy">
-            <label for="chkPrivacy" data-i18n-html="privacy.check">Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span></label>
+            <label for="chkPrivacy" data-i18n-html="privacy.check"><span>Upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a> <span class="req">*</span></span></label>
           </div>
-          <div class="terms-err-msg" id="privacy-err" data-i18n="err.privacy">Morate prihvatiti politiku privatnosti.</div>
-          <div class="terms-check-row" id="gdpr-row">
-            <input type="checkbox" id="chkGdpr">
-            <label for="chkGdpr" data-i18n-html="gdpr.check">Saglasan/na sam sa obradom ličnih podataka za potrebe moje rezervacije. <span class="req">*</span></label>
-          </div>
-          <div class="terms-err-msg" id="gdpr-err" data-i18n="err.gdpr">Morate dati saglasnost za obradu podataka.</div>
+          <div class="terms-err-msg" id="privacy-err" data-i18n="err.privacy">Morate potvrditi da ste se upoznali sa politikom privatnosti.</div>
         </div>
 
         <div class="step-btns">
@@ -4608,6 +4610,8 @@ const TR = {
     'inq.notes.ph':'Npr. preferišem vikend…',
     'inq.summary':'Javićemo ti se u roku od <strong>24 sata</strong> sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.submit':'Pošalji upit',
+    'consent.forms':'<span>Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> i upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a> <span class="req">*</span></span>',
+    'err.consent.forms':'Označite da prihvatate uslove korišćenja i da ste se upoznali sa politikom privatnosti.',
     'inq.ok.t':'Upit je primljen! ✈️',
     'inq.ok.m':'Javićemo ti se u roku od 24 sata sa detaljima ukoliko pronađemo odgovarajuću ponudu za tvoj termin.',
     'inq.err.date':'Izaberi datum polaska.',
@@ -4708,15 +4712,13 @@ const TR = {
     'err.required':'Ovo polje je obavezno.',
     'err.email':'Unesite ispravan email.',
     'err.terms':'Morate prihvatiti uslove korišćenja.',
-    'err.privacy':'Morate prihvatiti politiku privatnosti.',
-    'err.gdpr':'Morate dati saglasnost za obradu podataka.',
+    'err.privacy':'Morate potvrditi da ste se upoznali sa politikom privatnosti.',
     'err.transfer':'Molimo potvrdi da sam organizuješ prevoz do aerodroma.',
     // city = grad aerodroma polaska (dinamički, iz /api/airports)
     'transfer.check': city=>`Prevoz do aerodroma u gradu ${city} organizuješ sam, a mi se dalje brinemo za tvoju avanturu. 🌍`,
     'transfer.check.generic':'Prevoz do aerodroma polaska organizuješ sam, a mi se dalje brinemo za tvoju avanturu. 🌍',
-    'terms.check':'Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span>',
-    'privacy.check':'Prihvatam <a href="/politika-privatnosti" target="_blank">Politiku privatnosti</a> <span class="req">*</span>',
-    'gdpr.check':'Saglasan/na sam sa obradom ličnih podataka za potrebe moje rezervacije. <span class="req">*</span>',
+    'terms.check':'<span>Prihvatam <a href="/uslovi-koriscenja" target="_blank">Uslove korišćenja</a> <span class="req">*</span></span>',
+    'privacy.check':'<span>Upoznat/a sam sa <a href="/politika-privatnosti" target="_blank">Politikom privatnosti</a> <span class="req">*</span></span>',
     'err.srv':'Nešto nije u redu. Pokušajte ponovo, a ako se problem ponovi kontaktirajte nas na info@escapii.rs.', 'err.unexpected':'Neočekivana greška na serveru. Pokušajte ponovo ili nas kontaktirajte na info@escapii.rs.', 'success.ref': id=>`Referenca rezervacije: ${id}`,
     's3.nodates.title':'Nema dostupnih termina',
     's3.nodates.sub':'Trenutno nema otvorenih termina za izabrani aerodrom. Ostavi email - javljamo ti čim se otvore novi.',
@@ -4736,11 +4738,11 @@ const TR = {
     'waitlist.swal.err.text':'Nešto nije pošlo kako treba - pokušaj ponovo.',
     'err.dates.load':'Greška pri učitavanju termina.',
     's8.name.ph':'Marko Marković',
-    's8.notes.ph':'Alergije, posebni zahtevi...',
+    's8.notes.ph':'Posebni zahtevi, pitanja...',
     'trust.1':'Let + hotel uključeni', 'trust.2':'Destinaciju ćeš saznati 48h pre polaska', 'trust.3':'Sarađujemo sa licenciranom turističkom agencijom',
     'pay.heading':'Kako funkcioniše plaćanje?',
     'pay.s1':'Pošalji upit klikom na dugme ispod - besplatno i bez obaveza',
-    'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na naš račun',
+    'pay.s2':'U roku od <strong>24h</strong> dobićeš email sa podacima za uplatu na račun partnerske turističke agencije',
     'pay.s3':'Izvrši uplatu - rezervacija se <strong>potvrđuje tek nakon uplate</strong>',
     'pay.s4':'Potvrda stiže na email - putovanje je tvoje! ✓',
     'pay.note':'Bez naknade za karticu. Bez skrivenih troškova. Cena na sajtu je cena koju plaćaš.',
@@ -4869,6 +4871,8 @@ const TR = {
     'inq.notes.ph':'E.g. I prefer weekends…',
     'inq.summary':'We\'ll get back to you <strong>within 24 hours</strong> with details if we find a suitable offer for your dates.',
     'inq.submit':'Send inquiry',
+    'consent.forms':'<span>I accept the <a href="/terms-of-use" target="_blank">Terms & Conditions</a> and have read the <a href="/privacy-policy" target="_blank">Privacy Policy</a> <span class="req">*</span></span>',
+    'err.consent.forms':'Please accept the Terms & Conditions and confirm that you have read the Privacy Policy.',
     'inq.ok.t':'Inquiry received!',
     'inq.ok.m':'We\'ll get back to you within 24 hours with details if we find a suitable offer for your dates.',
     'inq.err.date':'Please select a departure date.',
@@ -4970,15 +4974,13 @@ const TR = {
     'err.required':'This field is required.',
     'err.email':'Please enter a valid email address.',
     'err.terms':'You must accept the Terms & Conditions.',
-    'err.privacy':'You must accept the Privacy Policy.',
-    'err.gdpr':'You must consent to data processing.',
+    'err.privacy':'Please confirm that you have read the Privacy Policy.',
     'err.transfer':'Please confirm you\'ll arrange your own transport to the airport.',
     // city = departure airport city (dynamic, from /api/airports)
     'transfer.check': city=>`You arrange your own transport to the airport in ${city}, and we take care of the rest of your adventure. 🌍`,
     'transfer.check.generic':'You arrange your own transport to the departure airport, and we take care of the rest of your adventure. 🌍',
-    'terms.check':'I accept the <a href="/uslovi-koriscenja" target="_blank">Terms & Conditions</a> <span class="req">*</span>',
-    'privacy.check':'I accept the <a href="/politika-privatnosti" target="_blank">Privacy Policy</a> <span class="req">*</span>',
-    'gdpr.check':'I consent to the processing of my personal data for the purposes of my booking. <span class="req">*</span>',
+    'terms.check':'<span>I accept the <a href="/terms-of-use" target="_blank">Terms & Conditions</a> <span class="req">*</span></span>',
+    'privacy.check':'<span>I have read the <a href="/privacy-policy" target="_blank">Privacy Policy</a> <span class="req">*</span></span>',
     'err.srv':'Something went wrong. Please try again - if the problem persists, contact us at info@escapii.rs.', 'err.unexpected':'An unexpected server error occurred. Please try again or contact us at info@escapii.rs.', 'success.ref': id=>`Booking reference: ${id}`,
     's3.nodates.title':'No available dates',
     's3.nodates.sub':'There are currently no open dates for the selected airport. Leave your email - we\'ll notify you when new ones open.',
@@ -4998,11 +5000,11 @@ const TR = {
     'waitlist.swal.err.text':'Something went wrong - please try again.',
     'err.dates.load':'Error loading dates.',
     's8.name.ph':'John Smith',
-    's8.notes.ph':'Allergies, special requests...',
+    's8.notes.ph':'Special requests, questions...',
     'trust.1':'Flight + hotel included', 'trust.2':'Destination revealed 48h before departure', 'trust.3':'We work with a licensed travel agency',
     'pay.heading':'How does payment work?',
     'pay.s1':'Submit your inquiry by clicking the button below - free and with no obligation',
-    'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with bank transfer details',
+    'pay.s2':'Within <strong>24h</strong> you\'ll receive an email with the partner travel agency\'s bank transfer details',
     'pay.s3':'Make the transfer - your booking is <strong>confirmed only after payment</strong>',
     'pay.s4':'Confirmation arrives by email - the trip is yours! ✓',
     'pay.note':'No card fees. No hidden costs. The price you see is the price you pay.',
@@ -5664,6 +5666,15 @@ function airportName(code) {
 }
 
 // ══════════ WAITLIST
+// Uslovi korišćenja i politika privatnosti moraju biti prihvaćeni pre slanja - isto pravilo
+// kao na rezervaciji, samo u jednom checkbox-u za kratke forme (upit, lista čekanja).
+function proveriSaglasnost(chkId, redId, greskaId) {
+  const ok = !!document.getElementById(chkId)?.checked;
+  document.getElementById(redId)?.classList.toggle('terms-invalid', !ok);
+  document.getElementById(greskaId)?.classList.toggle('visible', !ok);
+  return ok;
+}
+
 async function submitWaitlist() {
   if (!(await potvrdiMejlPreSlanja('waitlistEmail'))) return;
   const emailEl = document.getElementById('waitlistEmail');
@@ -5673,6 +5684,7 @@ async function submitWaitlist() {
     if (emailEl) emailEl.style.borderColor = '#ef4444';
     return;
   }
+  if (!proveriSaglasnost('waitlistConsent', 'waitlistConsentRow', 'waitlistConsentErr')) return;
 
   const airportCode = S.airport || defaultAirportCode();
   const aName = airportName(airportCode);
@@ -6151,6 +6163,11 @@ async function loadDates() {
               <input class="waitlist-input" id="waitlistEmail" type="email" placeholder="${t('waitlist.ph')}">
               <button class="waitlist-btn" onclick="submitWaitlist()">${t('s3.nodates.btn')}</button>
             </div>
+            <div class="terms-check-row" id="waitlistConsentRow" style="margin-top:12px;text-align:left;">
+              <input type="checkbox" id="waitlistConsent" onchange="if(this.checked){this.closest('.terms-check-row').classList.remove('terms-invalid');document.getElementById('waitlistConsentErr').classList.remove('visible');}">
+              <label for="waitlistConsent">${t('consent.forms')}</label>
+            </div>
+            <div class="terms-err-msg" id="waitlistConsentErr" style="margin-top:6px;text-align:left;">${t('err.consent.forms')}</div>
             <div class="waitlist-msg" id="waitlistMsg" style="display:none;margin-top:10px"></div>
           </div>
           <button class="no-dates-back" onclick="S.step=1;onEnter();showStep(1)">
@@ -6902,7 +6919,7 @@ function setupCountryDrop(idx) {
 // ── Booking draft (preživljava page refresh) ────────────────────────────────
 // Verzija uslova/politike privatnosti koja se šalje uz rezervaciju kao dokaz
 // prihvatanja. Promeniti pri svakoj izmeni pravnih dokumenata.
-const CONSENT_VERSION = '2026-08-24';
+const CONSENT_VERSION = '2026-09-22';
 
 // v2: prethodna verzija je čuvala i broj pasoša - stari ključ se briše
 // da podaci iz već otvorenih tabova ne ostanu u sessionStorage-u.
@@ -7484,19 +7501,6 @@ function validateContact() {
     privacyErr?.classList.remove('visible');
   }
 
-  // GDPR checkbox
-  const chkGdpr = document.getElementById('chkGdpr');
-  const gdprRow  = document.getElementById('gdpr-row');
-  const gdprErr  = document.getElementById('gdpr-err');
-  if (chkGdpr && !chkGdpr.checked) {
-    gdprRow?.classList.add('terms-invalid');
-    gdprErr?.classList.add('visible');
-    ok = false;
-  } else {
-    gdprRow?.classList.remove('terms-invalid');
-    gdprErr?.classList.remove('visible');
-  }
-
   // Scroll to first error field
   if (!ok) {
     const firstErr = document.querySelector('#step8 .field-error, #step8 .terms-invalid');
@@ -7602,7 +7606,9 @@ async function submitBooking() {
     // Saglasnosti - backend ih validira (@AssertTrue) i beleži kao dokaz
     acceptedTerms:   !!document.getElementById('chkTerms')?.checked,
     acceptedPrivacy: !!document.getElementById('chkPrivacy')?.checked,
-    acceptedGdpr:    !!document.getElementById('chkGdpr')?.checked,
+    // Posebne „saglasnosti za obradu" više nema: osnov za rezervaciju je ugovor, a politika se
+    // samo potvrđuje. Backend i dalje traži acceptedGdpr, pa nosi istu potvrdu.
+    acceptedGdpr:    !!document.getElementById('chkPrivacy')?.checked,
     consentVersion:  CONSENT_VERSION,
     consentLang:     lang,
     // Anti-bot polja
@@ -8095,6 +8101,7 @@ async function submitInquiry() {
     document.getElementById('inqEmail')?.focus();
     return;
   }
+  if (!proveriSaglasnost('inqConsent', 'inqConsentRow', 'inqConsentErr')) return;
 
   const btn = document.getElementById('inqSubmitBtn');
   _inqSubmitting = true;

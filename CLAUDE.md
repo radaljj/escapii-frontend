@@ -71,6 +71,18 @@ politici privatnosti jer taj link ne radi dok je coming-soon gate aktivan
 (interni linkovi su presretnuti, vidi backend CLAUDE.md). Ne diraj ovu logiku
 bez razumevanja gate-a.
 
+Saglasnost (od 2026-09-22) ima tri kategorije: neophodni (uvek), analitički
+(GA4 + HubSpot) i marketinški (Google Ads / Meta — kad se dodaju u GTM). Izbor je
+u kolačiću `esc_consent` kao `v2.aX.mY` (12 meseci); server ga čita u
+`esc_consent_state()` u `functions.php`. Stare vrednosti `granted`/`denied` se ne
+priznaju (posetilac se pita ponovo). **GTM se učitava tek posle saglasnosti**
+(analitika ili marketing), HubSpot samo uz analitiku; Consent Mode: analitički →
+`analytics_storage`, marketinški → `ad_storage`/`ad_user_data`/`ad_personalization`.
+Novi tag u GTM-u za oglase mora imati "Require additional consent: ad_storage".
+Podaci rukovaoca (naziv, sedište, MB, PIB) za politiku su u `esc_rukovalac()` —
+placeholder dok firma ne bude registrovana. Kad se menja tekst politike ili
+banera, podigni `CONSENT_VERSION` u `front-page.php`.
+
 ## Kontakt adrese na sajtu
 
 - **`info@escapii.rs`** — javna kontakt adresa, svuda u futerima, politikama,
