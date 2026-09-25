@@ -2977,7 +2977,11 @@
 
       /* Suit row - icon+text fill row 1, counter+price wrap to row 2 */
       .suit-row { padding: 14px 12px; gap: 8px; flex-wrap: wrap; }
-      .suit-row .e-txt { min-width: 0; } /* flex:1 already set; expands to fill row so counter wraps */
+      .suit-row .e-txt { min-width: 0; }
+      /* Red „Dodaj ručni kofer": tekst zauzima ceo prvi red (100% minus ikonica), pa brojač i
+         cena uvek prelaze u drugi red. Sa samim flex:1 se tekst skupljao na ~70px na ekranu od
+         375px, a brojač ostajao pored njega. Ranac iznad ima inline flex:1 i ostaje u jednom redu. */
+      #suitRow .e-txt { flex: 1 1 calc(100% - 40px); }
       .suit-row .e-label { white-space: normal; word-break: break-word; line-height: 1.3; }
       .suit-row .counter { margin-left: auto; } /* right-align counter on row 2 */
 
@@ -3871,14 +3875,14 @@
           <div class="suit-row" style="opacity:.75;pointer-events:none;">
             <div class="e-icon">🎒</div>
             <div class="e-txt" style="flex:1;">
-              <div class="e-label">Ranac / personal item (do 10kg)</div>
-              <div class="e-desc">Uključeno u svako Escapii putovanje</div>
+              <div class="e-label" data-i18n="ext.bag">Ranac / personal item (do 10kg)</div>
+              <div class="e-desc" data-i18n="ext.bag.d">Uključeno u svako Escapii putovanje</div>
             </div>
-            <div style="font-size:13px;font-weight:700;color:#4ade80;">✓ Uključeno</div>
+            <div style="font-size:13px;font-weight:700;color:#4ade80;" data-i18n="ext.bag.incl">✓ Uključeno</div>
           </div>
           <div class="connecting-tooltip">
-            <div class="connecting-tooltip-title">⚠️ Važno</div>
-            <div class="connecting-tooltip-body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina - ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong></div>
+            <div class="connecting-tooltip-title" data-i18n="ext.bag.tip.title">⚠️ Važno</div>
+            <div class="connecting-tooltip-body" data-i18n-html="ext.bag.tip.body">Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina - ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong></div>
           </div>
         </div>
 
@@ -3898,8 +3902,8 @@
             <div class="e-price" id="suitPrice">0€</div>
           </div>
           <div class="connecting-tooltip">
-            <div class="connecting-tooltip-title">🧳 Ručni kofer (carry-on)</div>
-            <div class="connecting-tooltip-body">Cena je po osobi. Podesi broj kofera prema tome koliko putnika na tvojoj rezervaciji želi da putuje sa ručnim koferom. Na kraju rezervacije, u napomeni naznači na čije ime ide svaki kofer koji si odabrao u ovom koraku.</div>
+            <div class="connecting-tooltip-title" data-i18n="ext.suit.tip.title">🧳 Ručni kofer (carry-on)</div>
+            <div class="connecting-tooltip-body" data-i18n="ext.suit.tip.body">Cena je po osobi. Podesi broj kofera prema tome koliko putnika na tvojoj rezervaciji želi da putuje sa ručnim koferom. Na kraju rezervacije, u napomeni naznači na čije ime ide svaki kofer koji si odabrao u ovom koraku.</div>
           </div>
         </div>
         <div class="extras-grid">
@@ -4656,6 +4660,11 @@ const TR = {
     'gift.sec.msg':'Poruka na vaučeru (opciono)', 'gift.sec.msg.ph':'Npr. Srećan rođendan! Spakuj kofer, idemo na put...',
     'gift.payer.note':'💳 Na ovu adresu stižu podaci za uplatu i faktura.',
     'err.gift.email':'Unesite ispravnu email adresu.',
+    'ext.bag':'Ranac / personal item (do 10kg)', 'ext.bag.d':'Uključeno u svako Escapii putovanje', 'ext.bag.incl':'✓ Uključeno',
+    'ext.bag.tip.title':'⚠️ Važno',
+    'ext.bag.tip.body':'Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina - ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong>',
+    'ext.suit.tip.title':'🧳 Ručni kofer (carry-on)',
+    'ext.suit.tip.body':'Cena je po osobi. Podesi broj kofera prema tome koliko putnika na tvojoj rezervaciji želi da putuje sa ručnim koferom. Na kraju rezervacije, u napomeni naznači na čije ime ide svaki kofer koji si odabrao u ovom koraku.',
     'ext.ins.tip.title':'🛡️ Putno osiguranje',
     'ext.ins.tip.body':'Pokriva <strong>medicinske troškove</strong> u inostranstvu. Preporučujemo svim putnicima ukoliko već nemaju ovaj vid osiguranja.',
     'ext.bfst.tip.title':'🍳 Doručak u hotelu',
@@ -4918,6 +4927,11 @@ const TR = {
     'gift.sec.msg':'Message on the voucher (optional)', 'gift.sec.msg.ph':'E.g. Happy birthday! Pack your bag, we are going on a trip...',
     'gift.payer.note':'💳 Payment details and the invoice come to this address.',
     'err.gift.email':'Enter a valid email address.',
+    'ext.bag':'Backpack / personal item (up to 10kg)', 'ext.bag.d':'Included in every Escapii trip', 'ext.bag.incl':'✓ Included',
+    'ext.bag.tip.title':'⚠️ Important',
+    'ext.bag.tip.body':'All Escapii trips include a small personal item (40 × 30 × 20 cm, up to 10kg). Sometimes we can also arrange a cabin bag at no extra cost, depending on the airline and date - but we can\'t guarantee it. If you need a cabin bag, <strong>choose the option below.</strong>',
+    'ext.suit.tip.title':'🧳 Cabin luggage (carry-on)',
+    'ext.suit.tip.body':'The price is per person. Set the number of bags to how many travellers on your booking want a cabin bag. At the end of the booking, note in the comments whose name each bag you selected in this step goes under.',
     'ext.ins.tip.title':'🛡️ Travel insurance',
     'ext.ins.tip.body':'Covers <strong>medical expenses</strong> abroad. Recommended for all travelers who don\'t already have this type of insurance.',
     'ext.bfst.tip.title':'🍳 Hotel breakfast',
@@ -5142,6 +5156,15 @@ async function checkStatus() {
       errEl.textContent = lang === 'sr'
         ? 'Rezervacija nije pronađena. Proverite broj rezervacije i prezime.'
         : 'Reservation not found. Please check your booking ref and surname.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (r.status === 429) {
+      // Backend dozvoljava 5 provera na 15 minuta po IP adresi. Poruka mora da kaže da se
+      // sačeka - „Greška. Pokušaj ponovo" samo tera na nove pokušaje i produžava čekanje.
+      errEl.textContent = lang === 'sr'
+        ? 'Previše provera za kratko vreme. Sačekaj 15 minuta pa pokušaj ponovo.'
+        : 'Too many checks in a short time. Please wait 15 minutes and try again.';
       errEl.style.display = 'block';
       return;
     }
@@ -7527,6 +7550,13 @@ function validateContact() {
 
 async function submitBooking() {
   if (_bookingSubmitting) return;
+  // Zastavica i dugme se zaključavaju ODMAH, pre prvog await-a. Ranije je zastavica išla tek
+  // posle provere mejla (dva await-a), pa su dva brza klika / dupli tap na telefonu oba prošla
+  // proveru i napravila dve rezervacije. Ako neka provera ispod ne prođe, otkljucaj() vraća na staro.
+  _bookingSubmitting = true;
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled = true;
+  const otkljucaj = () => { _bookingSubmitting = false; btn.disabled = false; };
   if(!validateContact()) {
     // Ako postoji konkretna greška polja (npr. nevaljan telefon), prikaži baš nju.
     // Inače opšta poruka - najčešće nedostaje čekiranje uslova/saglasnosti.
@@ -7536,6 +7566,7 @@ async function submitBooking() {
           ? 'Molimo popunite sva obavezna polja i prihvatite uslove.'
           : 'Please fill in all required fields and accept the terms.');
     showFormAlert(specific);
+    otkljucaj();
     return;
   }
   // Cena mora biti učitana i prikazana pre slanja. Ako je loadPrice() pao (najčešće
@@ -7549,14 +7580,13 @@ async function submitBooking() {
       showFormAlert(lang === 'sr'
         ? 'Cena trenutno nije dostupna, pa rezervaciju ne možemo poslati. Sačekajte minut i pokušajte ponovo.'
         : 'The price is currently unavailable, so we cannot send your booking. Please wait a minute and try again.');
+      otkljucaj();
       return;
     }
   }
   // Verovatna greška u kucanju domena (gmial.com): jedno pitanje pre slanja, vidi potvrdiMejlPreSlanja.
-  if (!(await potvrdiMejlPreSlanja('fEmail'))) return;
-  if (S.isGift && !(await potvrdiMejlPreSlanja('fGiftEmail'))) return;
-  _bookingSubmitting = true;
-  const btn=document.getElementById('btnSubmit');
+  if (!(await potvrdiMejlPreSlanja('fEmail'))) { otkljucaj(); return; }
+  if (S.isGift && !(await potvrdiMejlPreSlanja('fGiftEmail'))) { otkljucaj(); return; }
   const firstName=document.getElementById('fFirstName').value.trim();
   const lastName=document.getElementById('fLastName').value.trim();
   const email=document.getElementById('fEmail').value.trim();

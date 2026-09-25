@@ -546,6 +546,8 @@ const I18N = {
     failDefault:   'Vaučer kod nije validan, nije još aktiviran ili je već iskorišćen.',
     failLoad:      'Greška pri učitavanju',
     failLoadSub:   'Pokušaj ponovo za nekoliko sekundi.',
+    failTooManyTitle: 'Previše pokušaja',
+    failTooMany:   'Previše provera za kratko vreme. Sačekaj 15 minuta pa pokušaj ponovo.',
     dateLocale:    'sr-RS',
     // Poklonjeno putovanje (kind=TRIP) - isti kod, ista stranica, bez cene
     trip: {
@@ -641,6 +643,8 @@ const I18N = {
     failDefault:   'The voucher code is invalid, not yet activated, or has already been used.',
     failLoad:      'Loading error',
     failLoadSub:   'Please try again in a few seconds.',
+    failTooManyTitle: 'Too many attempts',
+    failTooMany:   'Too many checks in a short time. Please wait 15 minutes and try again.',
     dateLocale:    'en-GB',
     trip: {
       badge:      '✓ TRIP BOOKED',
@@ -1121,7 +1125,7 @@ async function revealCode(code, { inline = false } = {}) {
     if (inline) {
       msg.textContent = sub;
       btn.disabled = false;
-      btn.textContent = 'Proveri kod';
+      btn.textContent = T.entryBtn;
       show('entry');
     } else {
       document.getElementById('errTitle').textContent = title;
@@ -1134,10 +1138,17 @@ async function revealCode(code, { inline = false } = {}) {
 
   try {
     const res  = await fetch(`${API_BASE}/api/gifts/vouchers/reveal?code=${encodeURIComponent(code)}`);
+    if (res.status === 429) {
+      // Limit je 5 provera na 15 minuta po IP adresi; telo je {"error":...} bez „valid", pa bi
+      // bez ove grane pisalo „Vaučer nije aktivan" - a kod je možda sasvim ispravan.
+      fail(T.failTooManyTitle, T.failTooMany);
+      return;
+    }
     const data = await res.json();
 
     if (!data.valid) {
-      fail(T.failNotActive, data.message || T.failDefault);
+      // Poruka backenda je na srpskom - na engleskom ide prevod sa strane sa istim značenjem.
+      fail(T.failNotActive, (LANG === 'sr' && data.message) ? data.message : T.failDefault);
       return;
     }
 

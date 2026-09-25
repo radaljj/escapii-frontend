@@ -175,6 +175,15 @@
         errEl.style.display = 'block';
         return;
       }
+      if (r.status === 429) {
+        // Backend dozvoljava 5 provera na 15 minuta po IP adresi. Poruka mora da kaže da se
+        // sačeka - „Greška. Pokušaj ponovo" samo tera na nove pokušaje i produžava čekanje.
+        errEl.textContent = isSr
+          ? 'Previše provera za kratko vreme. Sačekaj 15 minuta pa pokušaj ponovo.'
+          : 'Too many checks in a short time. Please wait 15 minutes and try again.';
+        errEl.style.display = 'block';
+        return;
+      }
       if (!r.ok) throw new Error('server error');
       var d = await r.json();
 

@@ -51,6 +51,13 @@ proveri pre push-a.
   (samo `length>5` provera), backend ga odbijao, i korisnik video generičko
   "nešto nije u redu" umesto konkretne poruke. Ako menjaš validaciju na jednoj
   strani, proveri i drugu.
+- `submitBooking()`: zastavica `_bookingSubmitting` i `btn.disabled` idu u PRVU liniju, pre
+  ijednog `await`-a (provera cene, potvrda domena mejla). Stajale su posle njih i dva brza
+  klika / dupli tap su pravili dve rezervacije (26.09.2026). Svaki raniji `return` zove `otkljucaj()`.
+  Backend istu trku zatvara bravom na terminu (`findByIdForUpdate`) pre provere duplikata.
+- `429` (limit po IP-u: 5 provera „Moja rezervacija“ / 5 provera koda na /poklon za 15 min) ima
+  svoju granu i poruku „sačekaj 15 minuta“ u `checkStatus()` (front-page + `inc/status-modal.php`)
+  i u `revealCode()` na /poklon — ne sme da padne u opštu „Greška. Pokušaj ponovo“.
 - Greške sa backenda stižu kao `{"error": "poruka"}` — čitaj `err.error`, NE
   `err.message` (ovaj drugi ne postoji, desilo se da 11+ mesta u admin panelu
   čita pogrešan ključ i prikazuje golo "HTTP 409" umesto stvarnog razloga)
