@@ -35,6 +35,7 @@ proveri pre push-a.
 ## Booking wizard — bitne stvari
 
 - 8 koraka, stanje u JS objektu `S` (globalna promenljiva u `front-page.php`)
+- Reveal Box u koraku Dodaci je privremeno samo najava (`extra-card ... soon`, pilula „Uskoro“, bez onclick/cene/prekidača) - backend i dalje prima `hasRevealBox`; kako vratiti piše u HTML komentaru iznad kartice
 - **Privatni termin** (`?privateDate=TOKEN` u URL-u): `checkPrivateDateToken()`
   preskače direktno na korak 4, dodaje `.private-mode` klasu na `#esc-booking`.
   Ta klasa CSS-om sakriva karticu "Presedanje" (privatni termin uvek ima
