@@ -490,8 +490,8 @@ $site_url  = get_site_url();
   <div class="err-sub">Unesi kod sa vaučera - poklon vaučera ili poklonjenog putovanja.</div>
   <form class="entry-form" id="entryForm" novalidate>
     <input class="entry-input" id="entryCode" type="text"
-           placeholder="ESC-XXXX-XXXX-XXXX" autocomplete="off"
-           spellcheck="false" maxlength="24" aria-label="Vaučer kod">
+           placeholder="ESC-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters"
+           spellcheck="false" maxlength="40" aria-label="Vaučer kod">
     <button class="err-btn" type="submit" id="entryBtn">Proveri kod</button>
   </form>
   <div class="entry-msg" id="entryMsg"></div>
@@ -1155,10 +1155,31 @@ async function revealCode(code, { inline = false } = {}) {
   }
 }
 
+/**
+ * Kod kako ga korisnik unese, nalepi ili donese linkom → oblik koji backend zna.
+ * Kopiranje sa PDF vaučera ubaci razmak između svakog slova ("E S C - 5 8 3 5 C 9 2 9"),
+ * telefon zameni crticu dužom crtom, ruka ukuca mala slova ili izostavi crtice. Zato se
+ * zadrže samo slova i cifre, pa se crtice vrate po obliku: šifra rezervacije ESC-XXXXXXXX
+ * (poklonjeno putovanje) ili vaučer ESC-XXXX-XXXX-XXXX. Nepoznat oblik ostaje kakav jeste.
+ * Ista pravila kao GiftCodeUtils na backendu.
+ */
+function normalizujKod(raw) {
+  const s = (raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (s.startsWith('ESC')) {
+    const telo = s.slice(3);
+    if (telo.length === 8) return 'ESC-' + telo.replace(/O/g, '0').replace(/I/g, '1');   // šifra je heksadecimalna
+    if (telo.length === 12) {                                                            // azbuka vaučera nema 0
+      const t = telo.replace(/0/g, 'O');
+      return 'ESC-' + t.slice(0, 4) + '-' + t.slice(4, 8) + '-' + t.slice(8);
+    }
+  }
+  return (raw || '').replace(/\s+/g, '').toUpperCase();
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 function init() {
   const params = new URLSearchParams(window.location.search);
-  const code   = (params.get('code') || params.get('k') || '').trim().toUpperCase();
+  const code   = normalizujKod(params.get('code') || params.get('k'));
 
   if (code) history.replaceState(null, '', location.pathname);
 
@@ -1177,7 +1198,7 @@ function onEntrySubmit(e) {
   const input = document.getElementById('entryCode');
   const msg   = document.getElementById('entryMsg');
   const btn   = document.getElementById('entryBtn');
-  const code  = input.value.trim().toUpperCase();
+  const code  = normalizujKod(input.value);
 
   msg.textContent = '';
   if (!code) {
@@ -1193,6 +1214,19 @@ function onEntrySubmit(e) {
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('entryForm').addEventListener('submit', onEntrySubmit);
+  const input = document.getElementById('entryCode');
+  input.addEventListener('paste', function(e) {
+    const tekst = (e.clipboardData || window.clipboardData)?.getData('text');
+    if (!tekst) return;
+    e.preventDefault();
+    input.value = normalizujKod(tekst);
+  });
+  input.addEventListener('input', function() {
+    // kucanje: samo velika slova i bez razmaka; crtice se sređuju tek pri slanju, da se
+    // polukucan vaučer ne prepakuje ispod prstiju
+    const v = input.value.replace(/\s+/g, '').toUpperCase();
+    if (v !== input.value) input.value = v;
+  });
   init();
 });
 </script>
