@@ -22,7 +22,7 @@ $site_url  = get_site_url();
     "@type": "FAQPage",
     "mainEntity": [
       {"@type":"Question","name":"Šta je uključeno u cenu putovanja?","acceptedAnswer":{"@type":"Answer","text":"U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao dodatke, i oni su uključeni u tvoje putovanje."}},
-      {"@type":"Question","name":"Kada ću saznati kuda putujem?","acceptedAnswer":{"@type":"Answer","text":"Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska."}},
+      {"@type":"Question","name":"Kada ću saznati kuda putujem?","acceptedAnswer":{"@type":"Answer","text":"Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska."}},
       {"@type":"Question","name":"Kako Escapii bira destinaciju za tvoje putovanje?","acceptedAnswer":{"@type":"Answer","text":"Destinaciju biramo na osnovu nekoliko faktora: dostupnosti letova u odabranom terminu, cene, kvaliteta smeštaja i trenutnih mogućnosti naše partnerske agencije. Svaka destinacija u našem pool-u je pažljivo proverena, a cilj nam je uvek da pronađemo najbolju opciju za tvoj datum i budžet."}},
       {"@type":"Question","name":"Šta ako dobijem destinaciju koja mi se ne sviđa?","acceptedAnswer":{"@type":"Answer","text":"Može se desiti da destinacija nije ona koju bi sam izabrao, ali u tome je i cela poenta. Naša putovanja su kratka vikend avantura, i za svaku destinaciju u našem pool-u smo sigurni da ima šta da se vidi, uradi i doživi. Uz to, dobijaš naš vodič sa insajderskim informacijama, preporukama lokalaca, popustima i idejama."}},
       {"@type":"Question","name":"Mogu li da isključim destinacije?","acceptedAnswer":{"@type":"Answer","text":"Da! Ako putuješ iz Beograda, možeš isključiti do 4 destinacije: prva je besplatna, a svaka sledeća se doplaćuje 10€ po osobi. Ako putuješ iz Niša, zbog manjeg izbora dostupnih destinacija trenutno nije moguće isključiti pojedinačne destinacije."}},
@@ -409,7 +409,7 @@ a { color: inherit; }
 
     <details class="faq">
       <summary class="faq-q"><h3 data-i18n="q2">Kada ću saznati kuda putujem?</h3><span class="faq-ic"></span></summary>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a2">Poslaćemo ti vremensku prognozu na mejl <strong>7 dana pred put</strong>, bez otkrivanja destinacije. Destinaciju saznaješ <strong>48h pre polaska</strong>, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div></div>
+      <div class="faq-a"><div class="faq-a-inner" data-i18n-html="a2">Poslaćemo ti vremensku prognozu na mejl <strong>7 dana pred put</strong>, bez otkrivanja destinacije. Destinaciju saznaješ <strong>48h pre polaska</strong>, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska.</div></div>
     </details>
 
     <details class="faq">
@@ -497,7 +497,7 @@ const I18N_EN = {
   'q1':'What\'s included in the trip price?',
   'a1':'The base price includes <strong>round-trip flights</strong>, hotel or apartment accommodation for every night of the trip, and a small carry-on bag, typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
   'q2':'When will I find out where I\'m going?',
-  'a2':'We\'ll send you a weather forecast by email <strong>7 days before departure</strong>, with no destination revealed yet. You\'ll find out your destination <strong>48 hours before departure</strong>, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
+  'a2':'We\'ll send you a weather forecast by email <strong>7 days before departure</strong>, with no destination revealed yet. You\'ll find out your destination <strong>48 hours before departure</strong>, along with all flight and accommodation details. Coming soon: the Reveal Box, a box with your trip details delivered to your home address 2-5 days before departure.',
   'q3':'How does Escapii choose my destination?',
   'a3':'We choose based on several factors: flight availability on your selected dates, price, accommodation quality, and current options from our partner agency. Every destination in our pool has been carefully vetted, and our goal is always to find the best option for your date and budget. The rest is a surprise.',
   'q4':'What if I get a destination I don\'t like?',

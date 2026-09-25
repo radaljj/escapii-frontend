@@ -1723,6 +1723,15 @@
     }
     .extra-card.on .extra-toggle { background: var(--accent); }
     .extra-card.on .extra-toggle::after { transform: translateX(20px); }
+    /* Dodatak koji se još ne bira (Reveal Box "Uskoro"): vidi se šta je, ali nema klika ni hover pomaka */
+    .extra-card.soon { cursor: default; }
+    .extra-card.soon:hover { border-color: rgba(255,255,255,.08); background: rgba(255,255,255,.04); transform: none; }
+    .extra-card.soon .extra-card-icon, .extra-card.soon .extra-card-title { opacity: .8; }
+    .extra-card-price.soon {
+      font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gray); border: 1px solid rgba(255,255,255,.14); border-radius: 100px;
+      padding: 6px 11px; margin-right: 0; justify-self: start;
+    }
 
     /* Privatni termin: presedanje je uvek prihvaćeno (traži se let za tačno
        zadati datum), pa se izbor ne nudi - vidi checkPrivateDateToken. */
@@ -3944,16 +3953,17 @@
           💺 <span id="seatsNoticeText"></span>
         </div>
 
-        <!-- Reveal Box -->
+        <!-- Reveal Box - privremeno samo najava ("Uskoro"): bez klika, cene i prekidača dok se
+             ne odluči kako se kutija isporučuje. Backend i dalje prima hasRevealBox; za povratak
+             vrati onclick="togRevealBox(this)", cenu +35€ i <div class="extra-toggle"></div>. -->
         <div class="connecting-tooltip-wrap" style="margin-top:14px;">
-          <div class="extra-card reveal-box-card" id="ec-hasRevealBox" onclick="togRevealBox(this)">
+          <div class="extra-card reveal-box-card soon" id="ec-hasRevealBox" aria-disabled="true">
             <div class="extra-card-icon">📦</div>
             <div class="extra-card-body">
               <div class="extra-card-title" data-i18n="ext.revealbox">Reveal Box - destinacija skrivena do poslednjeg trenutka</div>
               <div class="extra-card-sub" data-i18n="ext.revealbox.d">Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦</div>
             </div>
-            <div class="extra-card-price">+35€</div>
-            <div class="extra-toggle"></div>
+            <div class="extra-card-price soon" data-i18n="ext.soon">Uskoro</div>
           </div>
           <div class="connecting-tooltip">
             <div class="connecting-tooltip-title" data-i18n="ext.revealbox.tip.title">📦 Reveal Box</div>
@@ -4299,7 +4309,7 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.2.q">Kada ću saznati kuda putujem?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div>
+        <div class="faq-a" data-i18n-html="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
@@ -4633,6 +4643,7 @@ const TR = {
     'ext.connecting':'Prihvatam let sa presedanjem', 'ext.connecting.d':'Letovi sa presedanjem, više destinacija',
     'ext.revealbox':'Reveal Box - destinacija skrivena do poslednjeg trenutka', 'ext.revealbox.d':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
+    'ext.soon':'Uskoro',
     'ext.revealbox.tip.body':'Na tvoju adresu stiže posebna kutija sa destinacijom. Otvori je kada dođe vreme za tvoju avanturu. ✈️📦 Dostava ~5 dana pre polaska.',
     'revealbox.delivery.title':'Adresa dostave Reveal Box-a',
     'revealbox.delivery.sub':'Pošalji nam adresu na koju stiže tvoja kutija iznenađenja. Isporuka 2-5 dana pre polaska.',
@@ -4697,7 +4708,7 @@ const TR = {
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
     'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
     'faq.2.q':'Kada ću saznati kuda putujem?',
-    'faq.2.a':'Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.',
+    'faq.2.a':'Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska.',
     'faq.6.q':'Mogu li da otkažem ili promenim rezervaciju?',
     'faq.6.a':'Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.',
     'faq.cta.t':'Imaš još pitanja?',
@@ -4894,6 +4905,7 @@ const TR = {
     'ext.connecting':'I accept a connecting flight', 'ext.connecting.d':'Connecting flights, more destinations',
     'ext.revealbox':'Reveal Box - destination hidden until the last moment', 'ext.revealbox.d':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦',
     'ext.revealbox.tip.title':'📦 Reveal Box',
+    'ext.soon':'Coming soon',
     'ext.revealbox.tip.body':'A special box with your destination arrives at your address. Open it when the time comes for your adventure. ✈️📦 Delivery ~5 days before departure.',
     'revealbox.delivery.title':'Reveal Box delivery address',
     'revealbox.delivery.sub':'Send us the address where your surprise box should arrive. Delivery 2-5 days before departure.',
@@ -4959,7 +4971,7 @@ const TR = {
     'faq.1.q':'What\'s included in the trip price?',
     'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag - typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
     'faq.2.q':'When will I find out where I\'m going?',
-    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure - no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
+    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure - no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. Coming soon: the Reveal Box, a box with your trip details delivered to your home address 2-5 days before departure.',
     'faq.6.q':'Can I cancel or change my booking?',
     'faq.6.a':'Unfortunately, trips cannot be canceled - we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
     'faq.cta.t':'Got more questions?',
