@@ -4309,7 +4309,7 @@
 
       <div class="faq-item" onclick="togFaq(this)">
         <div class="faq-q"><span data-i18n="faq.2.q">Kada ću saznati kuda putujem?</span><div class="faq-icon">+</div></div>
-        <div class="faq-a" data-i18n-html="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska.</div>
+        <div class="faq-a" data-i18n-html="faq.2.a">Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.</div>
       </div>
 
       <div class="faq-item" onclick="togFaq(this)">
@@ -4708,7 +4708,7 @@ const TR = {
     'faq.1.q':'Šta je uključeno u cenu putovanja?',
     'faq.1.a':'U osnovnu cenu su uključeni povratne avio karte, noćenje u hotelu ili apartmanu za svaku noć provedenu na putovanju i mali ručni prtljag, najčešće ranac dimenzija 40 x 30 x 20 cm, do 10kg. Ukoliko si odabrao/la dodatke, i oni su uključeni u tvoje putovanje.',
     'faq.2.q':'Kada ću saznati kuda putujem?',
-    'faq.2.a':'Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Uskoro i Reveal Box: kutija sa detaljima o putovanju koja ti stiže na kućnu adresu 2-5 dana pre polaska.',
+    'faq.2.a':'Poslaćemo ti vremensku prognozu na mejl 7 dana pred put, bez otkrivanja destinacije. Destinaciju saznaješ 48h pre polaska, zajedno sa svim informacijama o letu i smeštaju. Ako si se odlučio/la za Reveal Box, kutija sa detaljima o putovanju stiže između 2 i 5 dana pre polaska.',
     'faq.6.q':'Mogu li da otkažem ili promenim rezervaciju?',
     'faq.6.a':'Nažalost, putovanje ne može da se otkaže - nudimo konkurentne cene upravo zato što karte i smeštaj rezervišemo unapred, što znači da otkazivanje nije moguće ukoliko je rezervacija napravljena u roku od 90 dana pre polaska.<br><br>Međutim, postoji nekoliko opcija koje ti mogu pomoći:<br>- Ako nisi siguran/na koji datum će ti odgovarati, pošalji nam upit sa datumima koji ti najviše odgovaraju i mi ćemo kreirati paket za tebe pre nego što zvanično rezervišeš.<br>- Kao dodatak možeš odabrati fleksibilne karte, koje ti daju mogućnost promene datuma ukoliko se tvoji planovi promene.<br>- Ako razmišljaš o poklonu, opcija &#8220;Poklon putovanje iznenađenja&#8221; omogućava da se datumi ne fiksiraju sve do 30-60 dana pre polaska, u zavisnosti od paketa.<br><br>Hoteli se u nekim slučajevima mogu otkazati, ali to zavisi od uslova konkretnog termina i paketa.',
     'faq.cta.t':'Imaš još pitanja?',
@@ -4971,7 +4971,7 @@ const TR = {
     'faq.1.q':'What\'s included in the trip price?',
     'faq.1.a':'The base price includes round-trip flights, hotel or apartment accommodation for every night of the trip, and a small carry-on bag - typically a backpack sized 40×30×20 cm, up to 10 kg. If you selected any add-ons, those are included in your trip as well.',
     'faq.2.q':'When will I find out where I\'m going?',
-    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure - no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. Coming soon: the Reveal Box, a box with your trip details delivered to your home address 2-5 days before departure.',
+    'faq.2.a':'We\'ll send you a weather forecast by email 7 days before departure - no destination revealed yet. You\'ll find out your destination 48 hours before departure, along with all flight and accommodation details. If you opted for the Reveal Box, it arrives between 2 and 5 days before departure.',
     'faq.6.q':'Can I cancel or change my booking?',
     'faq.6.a':'Unfortunately, trips cannot be canceled - we offer competitive prices precisely because we book flights and accommodation in advance, which means cancellations are not possible once a reservation is made within 90 days of departure.<br><br>However, there are a few options that may help:<br>- If you\'re not sure which date will work for you, send us an inquiry with your preferred dates and we\'ll put together a package before you officially book.<br>- As an add-on, you can choose flexible tickets, which give you the option to change dates if your plans change.<br>- If you\'re thinking of a gift, the "Gift Surprise Trip" option allows dates to remain unfixed until 30–60 days before departure, depending on the package.<br><br>Hotels can in some cases be canceled, but this depends on the specific trip and package conditions.',
     'faq.cta.t':'Got more questions?',
