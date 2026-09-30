@@ -105,7 +105,8 @@ add_action('wp_head', 'escapii_head_meta', 1);
 // verifikaciju. Zato je atribut deo podatka, ne zakucan.
 function escapii_partner_verification() {
     $tags = [
-        // Impact - mreža preko koje ide Airalo affiliate program
+        // Impact - partnerska mreža preko koje ide Holafly eSIM program (nalog 7733733);
+        // tag je prvobitno stavljen za Airalo prijavu, ista mreža
         ['name' => 'impact-site-verification', 'attr' => 'value', 'content' => '5d2326cb-6b36-45bf-9d16-793565519a94'],
     ];
     foreach ($tags as $tag) {

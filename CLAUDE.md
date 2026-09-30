@@ -21,7 +21,7 @@ Push na `main` = live za par minuta, automatski. Nema ručnog koraka, nema PR to
 | `page-poklon.php` | `/poklon/` | Aktivacija/pregled poklon vaučera — radi i sa `?code=` (link iz mejla) i bez (forma za ručni unos). Isti ulaz prima i kod **poklonjenog putovanja** (kod = šifra rezervacije, `ESC-XXXXXXXX`): backend vraća `kind: VOUCHER` ili `kind: TRIP`, stranica crta karticu sa terminom/aerodromom/putnicima, bez cene. Unet kod prolazi kroz `normalizujKod()` (razmaci iz kopiranja PDF-a, mala slova, izostavljene crtice - ista pravila kao `GiftCodeUtils` na backendu) |
 | `page-pokloni.php` | `/pokloni-putovanje-iznenadjenja/` | Kupovina poklon vaučera |
 | `page-hvala.php` | `/hvala` | Zahvalnica posle rezervacije, boarding-pass prikaz |
-| `page-otkrivanje.php` | (magic link) | Reveal stranica — "grebalica" za destinaciju |
+| `page-otkrivanje.php` | (magic link) | Reveal stranica — "grebalica" za destinaciju. Posle grebanja dugme „Dodaci za put“ otvara popup sa partnerskim karticama (ture GetYourGuide / eSIM Holafly sa kodom ESCAPII / prtljag Bounce): linkove daje backend u `partnerLinks` (`TravelAddonsService`), kartica bez linka se uklanja iz DOM-a, bez ijednog linka nema ni dugmeta. Frontend nikad ne izmišlja zamenski link |
 | `page-politika-privatnosti.php` / `page-privacy-policy.php` | SR/EN | Politika privatnosti — tabela kolačića mora pratiti stvarno stanje koda |
 | `coming-soon.php` | (sve rute, gate) | Privremena "uskoro" stranica — vidi `functions.php` u backend CLAUDE.md |
 | `inc/footer.php` | (uključen svuda) | Zajednički futer — SR verzija |

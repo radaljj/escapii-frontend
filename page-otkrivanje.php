@@ -1283,15 +1283,18 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
         </span>
       </a>
 
+      <!-- eSIM = Holafly preko Impact-a. Link iz backenda vec nosi kod ESCAPII (Impact ga
+           doda kao discount_code), a tekst ga ponavlja jer Holafly to trazi: kod vazi i
+           kasnije, i vise puta. -->
       <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="esim">
         <span class="ao-ic">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a1 1 0 0 1 1-1h8l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Z"/><rect x="8.5" y="11" width="7" height="6" rx="1"/><path d="M8.5 14h7"/></svg>
         </span>
         <span class="ao-body">
-          <span class="ao-name"><span>eSIM za internet</span>
-            <span class="ao-badge">Bez rominga</span>
+          <span class="ao-name"><span>eSIM sa neograničenim internetom</span>
+            <span class="ao-badge">Kod ESCAPII: -5%</span>
           </span>
-          <span class="ao-desc">Uzmeš ga pre puta i telefon radi čim sletiš.</span>
+          <span class="ao-desc">Mape, prevod i poruke kući od prvog minuta, bez straha od računa za roming. Uzmeš ga pre puta, a popust sa kodom ESCAPII se obračuna sam.</span>
         </span>
         <span class="ao-right">
           <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
