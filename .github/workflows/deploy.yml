@@ -35,3 +35,8 @@ jobs:
             --exclude="*" \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ root@37.27.194.35:/var/www/escapii/wp-content/themes/escapii-theme/
+
+      # readme.html i license.txt odaju verziju WordPress-a, a svako azuriranje WordPress-a
+      # ih vraca. Tema ne moze da sakrije staticne fajlove, pa se brisu pri svakom deployu.
+      - name: Ukloni readme.html i license.txt iz WordPress foldera
+        run: ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@37.27.194.35 "rm -f /var/www/escapii/readme.html /var/www/escapii/license.txt"
