@@ -123,6 +123,97 @@ remove_action('wp_head', 'wp_site_icon', 99);
 // Ukloni WordPress-ov automatski canonical - mi dodajemo eksplicitan u escapii_head_meta()
 remove_action('wp_head', 'rel_canonical');
 
+// ── Jedan <title> po strani ──────────────────────────────────────────────────
+// Svaki šablon ima ručno napisan <title> (SEO naslovi), a title-tag podrška je
+// terala WP da kroz wp_head() ispiše i svoj - drugi <title> u istom <head>-u
+// („Escapii - Escapii - Putovanja…“). Podrška ostaje (WP je traži), ispis ne.
+remove_action('wp_head', '_wp_render_title_tag', 1);
+
+// ── www → glavni domen ───────────────────────────────────────────────────────
+// Oba imena su služila sajt sa 200; Google i deljeni linkovi treba da vide jedno.
+// Poredi se sa domenom iz podešavanja, ne sa zakucanim imenom, pa lokalno ne smeta.
+add_action('init', 'esc_www_na_glavni_domen', 0);
+function esc_www_na_glavni_domen(): void {
+    if (PHP_SAPI === 'cli' || wp_doing_cron()) return;
+    $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $home = strtolower((string) parse_url(home_url('/'), PHP_URL_HOST));
+    if ($home === '' || $host !== 'www.' . $home) return;
+    wp_redirect(home_url($_SERVER['REQUEST_URI'] ?? '/'), 301);
+    exit;
+}
+
+// ── Manje informacija napolje ────────────────────────────────────────────────
+// Spolja su se videli: verzija WordPress-a (<meta generator> i ?ver= na core
+// fajlovima), spisak korisnika kroz REST (/wp-json/wp/v2/users - daje korisničko
+// ime admina), XML-RPC (brute-force kroz system.multicall i pingback DDoS), arhiva
+// autora (?author=1 → /author/ime/ takođe otkriva ime) i poruka na prijavi koja
+// kaže da li korisnik postoji. readme.html je statičan fajl na hostingu - njega
+// tema ne može da sakrije, briše se rukom (ili Cloudflare pravilo).
+remove_action('wp_head', 'wp_generator');
+add_filter('the_generator', '__return_empty_string');
+
+// ?ver=7.1.2 na core fajlovima -> hash umesto verzije; keš i dalje puca pri ažuriranju
+add_filter('style_loader_src',  'esc_sakrij_verziju_u_ver', 20);
+add_filter('script_loader_src', 'esc_sakrij_verziju_u_ver', 20);
+function esc_sakrij_verziju_u_ver($src) {
+    $wp = get_bloginfo('version');
+    if (is_string($src) && $wp !== '' && strpos($src, 'ver=' . $wp) !== false) {
+        $src = add_query_arg('ver', substr(md5($wp), 0, 8), $src);
+    }
+    return $src;
+}
+
+add_filter('xmlrpc_enabled', '__return_false');
+add_filter('wp_headers', 'esc_bez_pingback_zaglavlja');
+function esc_bez_pingback_zaglavlja(array $headers): array {
+    unset($headers['X-Pingback']);
+    return $headers;
+}
+
+// Spisak korisnika samo za prijavljene (uređivač ga koristi za izbor autora)
+add_filter('rest_endpoints', 'esc_rest_bez_spiska_korisnika');
+function esc_rest_bez_spiska_korisnika(array $endpoints): array {
+    if (is_user_logged_in()) return $endpoints;
+    foreach (array_keys($endpoints) as $ruta) {
+        if (strncmp($ruta, '/wp/v2/users', 12) === 0) unset($endpoints[$ruta]);
+    }
+    return $endpoints;
+}
+
+// Arhiva autora nema šta da prikaže (blog ima jednog autora) - a otkriva korisničko ime
+add_action('template_redirect', 'esc_bez_arhive_autora', 0);
+function esc_bez_arhive_autora(): void {
+    if (is_admin()) return;
+    if (is_author() || isset($_GET['author'])) {
+        wp_redirect(home_url('/'), 301);
+        exit;
+    }
+}
+
+add_filter('login_errors', 'esc_opsta_poruka_na_prijavi');
+function esc_opsta_poruka_na_prijavi(): string {
+    return 'Podaci za prijavu nisu ispravni.';
+}
+
+// ── Bezbednosna zaglavlja za sve strane ──────────────────────────────────────
+// API ih već ima, sajt nije imao nijedno. Prioritet 5: funkcija za token strane
+// (esc_token_page_security_headers, prioritet 10) i dalje pregazi Referrer-Policy
+// strožim „no-referrer“. HSTS bez includeSubDomains i bez preload - važi za
+// escapii.rs, a ne zaključava poddomene. CSP namerno nema: sajt ima inline
+// skripte, GTM i Google fontove, pa bi slepo pravilo lomilo stranu - to traži
+// poseban prolaz sa report-only fazom.
+add_action('send_headers', 'esc_bezbednosna_zaglavlja', 5);
+function esc_bezbednosna_zaglavlja(): void {
+    if (is_admin()) return;
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
+    // Pregledač ga poštuje samo preko HTTPS-a, a do njega sve ide kroz Cloudflare
+    // sa HTTPS-om; preko običnog HTTP-a se ignoriše, pa nema uslova.
+    header('Strict-Transport-Security: max-age=31536000');
+}
+
 // Automatski kreiraj /admin-panel stranicu ako ne postoji
 function escapii_create_admin_page() {
     if (get_page_by_path('admin-panel')) return;
