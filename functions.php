@@ -66,6 +66,10 @@ function escapii_head_meta() {
     ?>
     <link rel="canonical" href="<?php echo esc_url( $canonical ); ?>">
 
+    <!-- Opis za pretraživače - isti tekst kao og:description; do sada ga je davao samo
+         Yoast, i to tagline umesto rečenice -->
+    <meta name="description" content="<?php echo esc_attr($desc); ?>">
+
     <!-- OG / Social share (1200×630) -->
     <meta property="og:type"         content="website">
     <meta property="og:url"          content="<?php echo esc_url($home); ?>">
@@ -129,6 +133,19 @@ remove_action('wp_head', 'rel_canonical');
 // („Escapii - Escapii - Putovanja…“). Podrška ostaje (WP je traži), ispis ne.
 remove_action('wp_head', '_wp_render_title_tag', 1);
 
+// Yoast SEO (na produkciji) ispisuje svoj <title>, opis, canonical i OG - tema sve to
+// već ima, pa je svega bilo po dva, a Yoast-ove vrednosti su bile podrazumevane
+// („Escapii - Escapii - …“, og:title „Escapii“). Njegov ispis u <head>-u se gasi,
+// ostaje samo schema JSON-LD koji tema nema. Plugin može da ostane ili da se ugasi,
+// ispis strane je isti. Filter je zvaničan Yoast-ov (od verzije 14).
+add_filter('wpseo_frontend_presenter_classes', 'esc_yoast_samo_schema');
+function esc_yoast_samo_schema(array $presenters): array {
+    return array_values(array_filter($presenters, function ($p) {
+        $ime = is_object($p) ? get_class($p) : (string) $p;
+        return substr($ime, -16) === 'Schema_Presenter';
+    }));
+}
+
 // ── www → glavni domen ───────────────────────────────────────────────────────
 // Oba imena su služila sajt sa 200; Google i deljeni linkovi treba da vide jedno.
 // Poredi se sa domenom iz podešavanja, ne sa zakucanim imenom, pa lokalno ne smeta.
@@ -163,7 +180,8 @@ function esc_sakrij_verziju_u_ver($src) {
     return $src;
 }
 
-add_filter('xmlrpc_enabled', '__return_false');
+add_filter('xmlrpc_enabled', '__return_false');   // metode sa prijavom (brute-force)
+add_filter('xmlrpc_methods', '__return_empty_array'); // i ostale (pingback.ping, listMethods)
 add_filter('wp_headers', 'esc_bez_pingback_zaglavlja');
 function esc_bez_pingback_zaglavlja(array $headers): array {
     unset($headers['X-Pingback']);
