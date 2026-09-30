@@ -12,6 +12,12 @@ specifično za temu.
 
 Push na `main` = live za par minuta, automatski. Nema ručnog koraka, nema PR toka.
 
+## Produkcija - SEO ispis i zaštita (functions.php, od 2026-10-01)
+
+- Svaki šablon ima svoj `<title>`; WP-ov ispis kroz `wp_head()` je ugašen (`_wp_render_title_tag`), a **Yoast SEO na produkciji** ispisuje samo schema JSON-LD (`esc_yoast_samo_schema`) - title, description, canonical i OG daje isključivo `escapii_head_meta()`. Ne vraćati Yoast-ove presentere, pravili su duple tagove sa podrazumevanim vrednostima.
+- `www.` → glavni domen (301, `esc_www_na_glavni_domen`), bez generatora/verzije, XML-RPC bez metoda, REST `/wp/v2/users` samo za prijavljene, arhiva autora ide na početnu, opšta poruka na prijavi. `readme.html` tema ne može da sakrije (statičan fajl na hostingu).
+- Bezbednosna zaglavlja za sve strane u `esc_bezbednosna_zaglavlja` (prioritet 5); token strane zadržavaju `Referrer-Policy: no-referrer` kroz `esc_token_page_security_headers` (prioritet 10). CSP namerno nema (inline skripte, GTM, fontovi) - traži poseban prolaz sa report-only fazom.
+
 ## Ključne stranice
 
 | Fajl | Ruta | Šta radi |
