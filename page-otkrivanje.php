@@ -850,7 +850,10 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     /* ══ Popup sa partnerskim dodacima (ture / eSIM / prtljag) ══════════════
        Otvara se dugmetom "Dodaci za put" posle grebanja. Namerno koristi istu
        mehaniku i istu krivu animacije kao .tp-backdrop/.tp-modal iznad - dva
-       razlicita ponasanja modala na istoj stranici deluju kao dva sajta. */
+       razlicita ponasanja modala na istoj stranici deluju kao dva sajta.
+       Izgled po Markovom dizajnu (2026-10-03): eSIM kartica prva i istaknuta
+       (.hot + zastavica), red sitnih napomena ispod opisa, ime partnera u uglu.
+       Fontovi su isti kao na ostatku strane: Georgia za naslov, sistemski za tekst. */
     .ao-backdrop {
       position: fixed; inset: 0;
       background: rgba(8,12,22,0);
@@ -862,67 +865,68 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
       overflow: hidden;
     }
     .ao-backdrop.open {
-      background: rgba(8,12,22,0.82);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: rgba(5,10,20,0.78);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       pointer-events: auto;
     }
     .ao-modal {
-      width: min(560px, 100%); max-height: calc(100vh - 32px);
+      width: min(600px, 100%); max-height: calc(100vh - 32px);
       overflow-y: auto; overflow-x: hidden;
-      background: linear-gradient(180deg, #14202f 0%, #0d1726 100%);
-      border-radius: 22px; position: relative; color: var(--ink);
+      background: radial-gradient(120% 80% at 50% 0%, #1c2b44 0%, #0f1a2c 60%);
+      border-radius: 28px; position: relative; color: var(--ink);
       font-family: system-ui, 'Segoe UI', sans-serif;
-      box-shadow: 0 32px 80px -16px rgba(0,0,0,0.85), 0 0 0 1px rgba(246,241,230,0.06);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
       transform: translateY(32px) scale(0.95); opacity: 0;
       transition: transform 0.65s cubic-bezier(0.2,0.85,0.25,1), opacity 0.45s;
-      scrollbar-width: none; padding: 34px 28px 24px;
+      scrollbar-width: none; padding: 44px 40px 32px;
     }
     .ao-modal::-webkit-scrollbar { display: none; }
     .ao-backdrop.open .ao-modal { transform: translateY(0) scale(1); opacity: 1; }
-    .ao-modal::before {
-      content: ""; position: absolute; top: 0; left: 14%; right: 14%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(232,184,154,0.55), transparent);
-    }
     .ao-close {
-      position: absolute; top: 15px; right: 16px;
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 1px solid var(--line); background: rgba(246,241,230,0.04);
+      position: absolute; top: 20px; right: 20px;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 0; background: rgba(255,255,255,0.05);
       color: var(--ink-dim); display: flex; align-items: center; justify-content: center;
       cursor: pointer; font-size: 15px; transition: 0.25s; line-height: 1; font-family: inherit;
     }
-    .ao-close:hover { color: #fff; transform: rotate(90deg); border-color: rgba(246,241,230,0.25); }
+    .ao-close:hover { color: #fff; background: rgba(255,255,255,0.1); transform: rotate(90deg); }
 
-    .ao-head { text-align: center; margin-bottom: 22px; padding: 0 8px; }
-    .ao-kicker {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--pop-accent2); background: rgba(217,152,119,0.12);
-      border: 1px solid rgba(217,152,119,0.3);
-      padding: 6px 14px; border-radius: 100px; margin-bottom: 14px;
+    .ao-head {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      text-align: center; margin-bottom: 28px; padding: 0 8px;
     }
-    .ao-kicker svg { width: 14px; height: 14px; }
+    .ao-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--pop-accent2);
+      border: 1px solid rgba(217,152,119,0.45);
+      padding: 7px 16px; border-radius: 999px;
+    }
+    .ao-kicker::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pop-accent2);
+    }
     .ao-head h2 {
-      font-family: Georgia, serif; font-weight: 500; font-size: 26px;
-      line-height: 1.22; letter-spacing: -0.3px; margin: 0 0 8px; color: #fff;
+      font-family: Georgia, serif; font-weight: 500; font-size: 36px;
+      line-height: 1.1; letter-spacing: -0.01em; margin: 0; color: #f3f0ea;
     }
     .ao-head h2 em { font-style: italic; color: var(--pop-accent2); }
     .ao-head p {
-      font-size: 13.5px; line-height: 1.55; color: var(--ink-dim);
-      margin: 0; max-width: 40ch; margin-inline: auto;
+      font-size: 15px; line-height: 1.5; color: var(--ink-dim);
+      margin: 0; max-width: 42ch; text-wrap: pretty;
     }
 
-    .ao-offers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .ao-offers { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
     .ao-offer {
-      position: relative; display: flex; align-items: center; gap: 15px;
+      position: relative; display: flex; align-items: center; gap: 18px;
       text-decoration: none; color: inherit;
-      background: rgba(246,241,230,0.035); border: 1px solid var(--line);
-      border-radius: 16px; padding: 15px 17px; overflow: hidden;
+      background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px; padding: 20px 22px;
       opacity: 0; transform: translateY(14px);
-      transition: border-color 0.24s, transform 0.24s, box-shadow 0.24s;
+      transition: border-color 0.24s, background 0.24s, transform 0.24s, box-shadow 0.24s;
     }
     .ao-backdrop.open .ao-offer {
       opacity: 1; transform: translateY(0);
-      transition: border-color 0.24s, transform 0.5s cubic-bezier(0.22,1,0.36,1),
+      transition: border-color 0.24s, background 0.24s, transform 0.5s cubic-bezier(0.22,1,0.36,1),
                   box-shadow 0.24s, opacity 0.5s;
     }
     /* Kaskada ulaska do sest kartica; preko toga sve kasni isto, da poslednja
@@ -933,71 +937,87 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     .ao-backdrop.open .ao-offer:nth-child(3) { transition-delay: 0.32s; }
     .ao-backdrop.open .ao-offer:nth-child(4) { transition-delay: 0.39s; }
     .ao-backdrop.open .ao-offer:nth-child(5) { transition-delay: 0.46s; }
-    .ao-offer::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-      background: radial-gradient(70% 120% at 12% 0%, rgba(217,152,119,0.14), transparent 62%);
-      transition: opacity 0.24s;
-    }
     .ao-offer:hover {
-      border-color: rgba(217,152,119,0.5); transform: translateY(-3px);
-      box-shadow: 0 16px 34px -18px rgba(217,152,119,0.55);
+      border-color: rgba(217,152,119,0.5); background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px -18px rgba(217,152,119,0.45);
     }
-    .ao-offer:hover::after { opacity: 1; }
+    /* Istaknuta kartica (eSIM): topla pozadina, puna strelica, zastavica iznad ivice */
+    .ao-offer.hot {
+      background: linear-gradient(135deg, rgba(217,152,119,0.14), rgba(217,152,119,0.04));
+      border-color: rgba(217,152,119,0.5);
+    }
+    .ao-offer.hot:hover { border-color: var(--pop-accent2); background: linear-gradient(135deg, rgba(217,152,119,0.18), rgba(217,152,119,0.06)); }
+    .ao-flag {
+      position: absolute; top: -10px; left: 22px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #0a1220; background: var(--pop-accent2);
+      padding: 4px 10px; border-radius: 999px; line-height: 1.2; white-space: nowrap;
+    }
 
     .ao-ic {
-      position: relative; width: 48px; height: 48px; flex: none; border-radius: 14px;
+      position: relative; width: 52px; height: 52px; flex: none; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(145deg, rgba(217,152,119,0.28), rgba(217,152,119,0.08));
-      border: 1px solid rgba(217,152,119,0.32);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
-      color: var(--pop-accent2); transition: transform 0.24s;
+      background: rgba(217,152,119,0.10); color: var(--pop-accent2); transition: transform 0.24s;
     }
+    .ao-offer.hot .ao-ic { background: rgba(217,152,119,0.18); }
     .ao-offer:hover .ao-ic { transform: scale(1.06) rotate(-3deg); }
     .ao-ic svg { width: 24px; height: 24px; }
 
     .ao-body { flex: 1; min-width: 0; }
     .ao-name {
-      font-size: 14.5px; font-weight: 700; color: #fff; line-height: 1.25;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      font-size: 17px; font-weight: 700; color: #f3f0ea; line-height: 1.25;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
     .ao-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-      color: #7fb89e; background: rgba(127,184,158,0.14);
-      border: 1px solid rgba(127,184,158,0.35);
-      padding: 3px 8px; border-radius: 100px;
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pop-accent2); border: 1px solid rgba(217,152,119,0.4);
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
     }
-    .ao-badge svg { width: 11px; height: 11px; }
     .ao-desc {
-      font-size: 12.5px; line-height: 1.45; color: var(--ink-dim);
-      margin-top: 3px; display: block;
+      font-size: 14px; line-height: 1.5; color: rgba(246,241,230,0.74);
+      margin-top: 6px; display: block; text-wrap: pretty;
     }
-    .ao-right { flex: none; display: flex; align-items: center; gap: 11px; }
+    .ao-meta {
+      margin-top: 8px; font-size: 12px; color: var(--ink-faint);
+      display: flex; gap: 14px; flex-wrap: wrap;
+    }
+    .ao-right { flex: none; display: flex; align-items: center; }
     .ao-arrow {
-      width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line);
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
-      color: var(--pop-accent); transition: 0.24s;
+      color: var(--pop-accent2); transition: 0.24s;
     }
-    .ao-offer:hover .ao-arrow {
-      background: var(--accent); border-color: var(--accent); color: #fff;
-      transform: translateX(2px);
-    }
-    .ao-arrow svg { width: 16px; height: 16px; }
+    .ao-offer.hot .ao-arrow { background: var(--pop-accent2); border-color: var(--pop-accent2); color: #0a1220; }
+    .ao-offer:hover .ao-arrow { background: var(--pop-accent2); border-color: var(--pop-accent2); color: #0a1220; transform: translateX(2px); }
+    .ao-arrow svg { width: 18px; height: 18px; }
 
-    .ao-foot { text-align: center; border-top: 1px solid var(--line); padding-top: 16px; }
+    .ao-foot {
+      text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
     /* Obavezno otkrivanje partnerske veze - trazi ga i ugovor affiliate programa
        i Zakon o oglasavanju. Bez ikonice namerno: ikonica je pretvara u upozorenje,
        a ovo treba samo tiho da stoji. */
     .ao-note {
-      font-size: 11px; line-height: 1.5; color: var(--ink-faint);
-      margin: 0 0 12px; letter-spacing: 0.2px;
+      font-size: 13px; line-height: 1.5; color: var(--ink-faint);
+      margin: 0; max-width: 40ch; text-wrap: pretty;
     }
     .ao-later {
-      font-size: 13.5px; font-weight: 600; color: var(--ink-dim); cursor: pointer;
-      background: transparent; border: none; padding: 6px 10px;
+      font-size: 14px; font-weight: 600; color: var(--ink-dim); cursor: pointer;
+      background: transparent; border: none; padding: 8px 16px; border-radius: 999px;
       transition: 0.2s; font-family: inherit;
     }
-    .ao-later:hover { color: #fff; }
+    .ao-later:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    @media (max-width: 600px) {
+      .ao-modal { padding: 36px 20px 26px; border-radius: 22px; }
+      .ao-head h2 { font-size: 28px; }
+      .ao-head p { font-size: 14px; }
+      .ao-offer { padding: 18px 16px; gap: 14px; }
+      .ao-ic { width: 44px; height: 44px; }
+      .ao-right { display: none; }   /* cela kartica je link, strelica na telefonu samo krade sirinu */
+    }
 
     @media (max-width: 560px) {
       .ao-modal { padding: 30px 16px 20px; border-radius: 18px; }
@@ -1253,48 +1273,49 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
 
 <!-- Popup sa partnerskim dodacima. Svaka kartica ima data-ao-slot koji odgovara
      kljucu iz partnerLinks u odgovoru /api/reveal. Kartica bez linka se sakriva
-     u setupAddons(), a ako nema nijednog linka ne prikazuje se ni dugme. -->
+     u setupAddons(), a ako nema nijednog linka ne prikazuje se ni dugme.
+     Redosled i tekstovi po Markovom dizajnu (2026-10-03): eSIM prvi i istaknut. -->
 <div class="ao-backdrop" id="addonsModal" style="display:none;">
   <div class="ao-modal" role="dialog" aria-modal="true" aria-labelledby="aoTitle">
     <button class="ao-close" onclick="closeAddonsPopup()" aria-label="Zatvori">✕</button>
 
     <div class="ao-head">
-      <span class="ao-kicker">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
-        Sad kad znaš kuda ideš
-      </span>
+      <span class="ao-kicker">Sad kad znaš kuda ideš</span>
       <h2 id="aoTitle">Još <em>par</em> sitnica pre puta</h2>
-      <p>Ne moraš ništa od ovoga. Većina ipak sredi bar jednu stvar unapred.</p>
+      <p>Ništa od ovoga nije obavezno. Ali većina reši bar jednu stvar unapred — i ne požali.</p>
     </div>
 
     <div class="ao-offers">
-      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="tours">
+      <!-- eSIM = Holafly preko Impact-a. Link iz backenda vec nosi kod ESCAPII (Impact ga
+           doda kao discount_code), a tekst ga ponavlja jer Holafly to trazi: kod vazi i
+           kasnije, i vise puta. -->
+      <a class="ao-offer hot" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="esim">
+        <span class="ao-flag">Najčešće uzimano</span>
         <span class="ao-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><circle cx="8" cy="12" r="1.6"/><path d="M8 6v1.6M8 16.4V18"/><path d="M12.5 10h5.5M12.5 14h3.5"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a1 1 0 0 1 1-1h8l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Z"/><rect x="8.5" y="11" width="7" height="6" rx="1"/><path d="M8.5 14h7"/></svg>
         </span>
         <span class="ao-body">
-          <span class="ao-name"><span>Ture i ulaznice</span>
-            <span class="ao-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z"/></svg> Preskoči red</span>
+          <span class="ao-name"><span>Internet od trenutka kad sletiš</span>
+            <span class="ao-badge">Kod ESCAPII · −5%</span>
           </span>
-          <span class="ao-desc">Ulaznice za popularne stvari se rasprodaju danima ranije nego što čovek očekuje.</span>
+          <span class="ao-desc">eSIM bez rominga i bez traženja Wi-Fi-ja. Aktiviraš pre puta, mape i prevod rade čim izađeš iz aviona.</span>
+          <span class="ao-meta"><span>Instalacija za 2 min</span><span>Popust se obračuna sam</span></span>
         </span>
         <span class="ao-right">
           <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </span>
       </a>
 
-      <!-- eSIM = Holafly preko Impact-a. Link iz backenda vec nosi kod ESCAPII (Impact ga
-           doda kao discount_code), a tekst ga ponavlja jer Holafly to trazi: kod vazi i
-           kasnije, i vise puta. -->
-      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="esim">
+      <a class="ao-offer" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="tours">
         <span class="ao-ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a1 1 0 0 1 1-1h8l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Z"/><rect x="8.5" y="11" width="7" height="6" rx="1"/><path d="M8.5 14h7"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><circle cx="8" cy="12" r="1.6"/><path d="M8 6v1.6M8 16.4V18"/><path d="M12.5 10h5.5M12.5 14h3.5"/></svg>
         </span>
         <span class="ao-body">
-          <span class="ao-name"><span>eSIM sa neograničenim internetom</span>
-            <span class="ao-badge">Kod ESCAPII: -5%</span>
+          <span class="ao-name"><span>Ulaznice i ture</span>
+            <span class="ao-badge">Preskoči red</span>
           </span>
-          <span class="ao-desc">Mape, prevod i poruke kući od prvog minuta, bez straha od računa za roming. Uzmeš ga pre puta, a popust sa kodom ESCAPII se obračuna sam.</span>
+          <span class="ao-desc">Za najtraženija mesta karte nestanu danima ranije. Rezerviši sad — većina se otkazuje besplatno do 24h pre.</span>
+          <span class="ao-meta"><span>preko GetYourGuide</span></span>
         </span>
         <span class="ao-right">
           <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -1309,7 +1330,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
           <span class="ao-name"><span>Čuvanje prtljaga</span>
             <span class="ao-badge">U centru</span>
           </span>
-          <span class="ao-desc">Odjava iz smeštaja je ujutru, a let često tek uveče. Kofer ostaviš dok ti ne zatreba.</span>
+          <span class="ao-desc">Odjava u 10, let u 22. Ostavi kofer u lokalu na par sati i iskoristi poslednji dan bez vučenja.</span>
+          <span class="ao-meta"><span>preko Bounce</span></span>
         </span>
         <span class="ao-right">
           <span class="ao-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -1318,8 +1340,8 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
     </div>
 
     <div class="ao-foot">
-      <p class="ao-note">Partnerski linkovi. Cena ti je ista.</p>
-      <button class="ao-later" onclick="closeAddonsPopup()">Kasnije ću</button>
+      <p class="ao-note">Partnerski linkovi. Kupuješ direktno kod naših partnera, po partnerskim cenama, bez ikakvih dodatnih troškova.</p>
+      <button class="ao-later" onclick="closeAddonsPopup()">Preskoči za sad</button>
     </div>
   </div>
 </div>
