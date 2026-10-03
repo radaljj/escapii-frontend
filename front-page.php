@@ -3993,6 +3993,37 @@
           </div>
         </div>
 
+        <!-- Najava partnerskih pogodnosti uz reveal - samo informativne kartice, bez kontrole i bez cene.
+             Nista se ne bira i nista se ne salje backendu (nema promena u S objektu ni u zahtevu).
+             Prave linkove kupac dobija u popupu na reveal strani i u mejlu sa dokumentacijom.
+             Namerno su poslednje tri stavke koraka, ispod presedanja (Marko, 2026-10-03).
+             eSIM se KUPUJE kod partnera - tekst ne sme da zvuci kao da je besplatan. -->
+        <p class="hint" data-i18n="ext.ar.h" style="margin:22px 0 10px;">Uz reveal dobijaš i:</p>
+        <div class="suit-row" style="opacity:.75;pointer-events:none;">
+          <div class="e-icon">📶</div>
+          <div class="e-txt" style="flex:1;">
+            <div class="e-label" data-i18n="ext.esim">eSIM za internet, 5% popusta uz naš kod</div>
+            <div class="e-desc" data-i18n="ext.esim.d">Kupuješ ga direktno kod Holafly-ja. Link i kod ESCAPII stižu uz reveal.</div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:#4ade80;" data-i18n="ext.ar.pill">✓ Uz reveal</div>
+        </div>
+        <div class="suit-row" style="opacity:.75;pointer-events:none;">
+          <div class="e-icon">🎟️</div>
+          <div class="e-txt" style="flex:1;">
+            <div class="e-label" data-i18n="ext.tours">Ulaznice i ture za tvoju destinaciju</div>
+            <div class="e-desc" data-i18n="ext.tours.d">Partnerski link za tvoj grad stiže uz reveal, 48h pre polaska.</div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:#4ade80;" data-i18n="ext.ar.pill">✓ Uz reveal</div>
+        </div>
+        <div class="suit-row" style="opacity:.75;pointer-events:none;">
+          <div class="e-icon">🛅</div>
+          <div class="e-txt" style="flex:1;">
+            <div class="e-label" data-i18n="ext.lugg">Čuvanje prtljaga u centru grada</div>
+            <div class="e-desc" data-i18n="ext.lugg.d">Ostaviš kofer na par sati i iskoristiš poslednji dan. Link stiže uz reveal.</div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:#4ade80;" data-i18n="ext.ar.pill">✓ Uz reveal</div>
+        </div>
+
         <div class="step-btns" style="margin-top:28px;">
           <button class="btn-back" onclick="prevStep()" data-i18n="btn.back">← Nazad</button>
           <button class="btn-next" onclick="nextStep()" data-i18n="btn.next">Nastavi →</button>
@@ -4661,6 +4692,10 @@ const TR = {
     'gift.payer.note':'💳 Na ovu adresu stižu podaci za uplatu i faktura.',
     'err.gift.email':'Unesite ispravnu email adresu.',
     'ext.bag':'Ranac / personal item (do 10kg)', 'ext.bag.d':'Uključeno u svako Escapii putovanje', 'ext.bag.incl':'✓ Uključeno',
+    'ext.ar.h':'Uz reveal dobijaš i:', 'ext.ar.pill':'✓ Uz reveal',
+    'ext.esim':'eSIM za internet, 5% popusta uz naš kod', 'ext.esim.d':'Kupuješ ga direktno kod Holafly-ja. Link i kod ESCAPII stižu uz reveal.',
+    'ext.tours':'Ulaznice i ture za tvoju destinaciju', 'ext.tours.d':'Partnerski link za tvoj grad stiže uz reveal, 48h pre polaska.',
+    'ext.lugg':'Čuvanje prtljaga u centru grada', 'ext.lugg.d':'Ostaviš kofer na par sati i iskoristiš poslednji dan. Link stiže uz reveal.',
     'ext.bag.tip.title':'⚠️ Važno',
     'ext.bag.tip.body':'Sva Escapii putovanja podrazumevaju ručni prtljag (40 × 30 × 20 cm, do 10kg). Ponekad možemo da obezbedimo i ručni kofer bez doplate, u zavisnosti od aviokompanije i termina - ali to ne možemo da garantujemo. Ako ti je ručni kofer neophodan, <strong>izaberi opciju ispod.</strong>',
     'ext.suit.tip.title':'🧳 Ručni kofer (carry-on)',
@@ -4928,6 +4963,10 @@ const TR = {
     'gift.payer.note':'💳 Payment details and the invoice come to this address.',
     'err.gift.email':'Enter a valid email address.',
     'ext.bag':'Backpack / personal item (up to 10kg)', 'ext.bag.d':'Included in every Escapii trip', 'ext.bag.incl':'✓ Included',
+    'ext.ar.h':'With your reveal you also get:', 'ext.ar.pill':'✓ With reveal',
+    'ext.esim':'eSIM for internet, 5% off with our code', 'ext.esim.d':'You buy it directly from Holafly. The link and the ESCAPII code arrive with your reveal.',
+    'ext.tours':'Tickets and tours for your destination', 'ext.tours.d':'The partner link for your city arrives with the reveal, 48h before departure.',
+    'ext.lugg':'Luggage storage in the city centre', 'ext.lugg.d':'Drop your bag for a few hours and enjoy the last day. The link arrives with the reveal.',
     'ext.bag.tip.title':'⚠️ Important',
     'ext.bag.tip.body':'All Escapii trips include a small personal item (40 × 30 × 20 cm, up to 10kg). Sometimes we can also arrange a cabin bag at no extra cost, depending on the airline and date - but we can\'t guarantee it. If you need a cabin bag, <strong>choose the option below.</strong>',
     'ext.suit.tip.title':'🧳 Cabin luggage (carry-on)',
