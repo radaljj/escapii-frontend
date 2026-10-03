@@ -1395,6 +1395,23 @@ tbody td  { padding: 11px 12px; }
             <label>Telefon</label>
             <input class="form-input" id="agPhone" placeholder="npr. +381601234567" maxlength="50">
           </div>
+          <!-- Pravni podaci za fakturu - opciono; dok nisu uneti, na PDF-u stoji samo naziv i kontakt -->
+          <div class="ag-full">
+            <label>Pun poslovni naziv (za fakturu)</label>
+            <input class="form-input" id="agLegalName" placeholder="npr. Filip Travel d.o.o. Beograd" maxlength="200">
+          </div>
+          <div class="ag-full">
+            <label>Adresa sedišta (za fakturu)</label>
+            <input class="form-input" id="agAddress" placeholder="npr. Bulevar kralja Aleksandra 73, 11000 Beograd" maxlength="200">
+          </div>
+          <div>
+            <label>PIB</label>
+            <input class="form-input" id="agPib" placeholder="9 cifara" maxlength="9" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+          </div>
+          <div>
+            <label>Matični broj</label>
+            <input class="form-input" id="agMb" placeholder="8 cifara" maxlength="8" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+          </div>
           <div class="ag-full">
             <label>Napomene</label>
             <textarea class="form-input" id="agNotes" rows="2" placeholder="Uslovi plaćanja, napomene..." maxlength="1000" style="resize:vertical;"></textarea>
@@ -5013,6 +5030,9 @@ function renderAgencies() {
           ${a.contactEmail ? `<div style="font-size:13px;color:#94a3b8;">📧 ${esc(a.contactEmail)}</div>` : ''}
           ${a.contactPhone ? `<div style="font-size:13px;color:#94a3b8;">📞 ${esc(a.contactPhone)}</div>` : ''}
           ${a.notes ? `<div style="font-size:12px;color:#64748b;margin-top:4px;font-style:italic;">${esc(a.notes)}</div>` : ''}
+          ${(a.legalName || a.address || a.pib || a.mb)
+            ? `<div style="font-size:12px;color:#94a3b8;margin-top:6px;">🏢 ${esc(a.legalName || a.name)}${a.address ? ' · ' + esc(a.address) : ''}${a.pib ? ' · PIB ' + esc(a.pib) : ''}${a.mb ? ' · MB ' + esc(a.mb) : ''}</div>`
+            : `<div style="font-size:12px;color:#f59e0b;margin-top:6px;">⚠️ Nema pravnih podataka za fakturu (naziv, adresa, PIB, MB)</div>`}
         </div>
         <div class="ag-card-actions">
           <button class="btn-action" style="background:rgba(168,94,68,.15);color:#ca8a71;border:1px solid rgba(168,94,68,.35);font-weight:700;" onclick="openAgencyInvoice(${a.id})">📄 Fakturiši</button>
@@ -5402,6 +5422,10 @@ function editAgency(id) {
   document.getElementById('agEmail').value = a.contactEmail || '';
   document.getElementById('agPhone').value = a.contactPhone || '';
   document.getElementById('agNotes').value = a.notes || '';
+  document.getElementById('agLegalName').value = a.legalName || '';
+  document.getElementById('agAddress').value = a.address || '';
+  document.getElementById('agPib').value = a.pib || '';
+  document.getElementById('agMb').value = a.mb || '';
   document.getElementById('agSaveBtn').textContent = '💾 Sačuvaj';
   document.getElementById('agCancelBtn').style.display = 'inline-block';
 }
@@ -5413,6 +5437,10 @@ function cancelEditAgency() {
   document.getElementById('agEmail').value = '';
   document.getElementById('agPhone').value = '';
   document.getElementById('agNotes').value = '';
+  document.getElementById('agLegalName').value = '';
+  document.getElementById('agAddress').value = '';
+  document.getElementById('agPib').value = '';
+  document.getElementById('agMb').value = '';
   document.getElementById('agSaveBtn').textContent = '+ Dodaj agenciju';
   document.getElementById('agCancelBtn').style.display = 'none';
 }
@@ -5425,7 +5453,11 @@ async function saveAgency() {
     contactName: document.getElementById('agContact').value.trim() || null,
     contactEmail: document.getElementById('agEmail').value.trim() || null,
     contactPhone: document.getElementById('agPhone').value.trim() || null,
-    notes: document.getElementById('agNotes').value.trim() || null
+    notes: document.getElementById('agNotes').value.trim() || null,
+    legalName: document.getElementById('agLegalName').value.trim() || null,
+    address: document.getElementById('agAddress').value.trim() || null,
+    pib: document.getElementById('agPib').value.trim() || null,
+    mb: document.getElementById('agMb').value.trim() || null
   };
   try {
     const url = _editingAgencyId ? `${API}/api/admin/agencies/${_editingAgencyId}` : `${API}/api/admin/agencies`;
