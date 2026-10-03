@@ -1290,7 +1290,7 @@ $favicon_url = get_template_directory_uri() . '/images/favicon.png';
            doda kao discount_code), a tekst ga ponavlja jer Holafly to trazi: kod vazi i
            kasnije, i vise puta. -->
       <a class="ao-offer hot" href="#" target="_blank" rel="noopener sponsored nofollow" data-ao-slot="esim">
-        <span class="ao-flag">Najčešće uzimano</span>
+        <span class="ao-flag">Naša preporuka</span>
         <span class="ao-ic">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a1 1 0 0 1 1-1h8l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Z"/><rect x="8.5" y="11" width="7" height="6" rx="1"/><path d="M8.5 14h7"/></svg>
         </span>
