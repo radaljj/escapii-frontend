@@ -247,7 +247,7 @@ add_action('init', 'escapii_create_admin_page');
 
 /**
  * Podaci rukovaoca za politiku privatnosti - SR i EN strana ih čitaju odavde.
- * Firma još nije registrovana: kad bude, ovde se upisuju pravi podaci (jedno mesto za obe strane).
+ * Jedno mesto za obe strane. Preduzetnik (PR), ne d.o.o. - podaci iz APR rešenja od 2026-10-03.
  */
 function esc_rukovalac(): array {
     return [
