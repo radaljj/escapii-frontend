@@ -251,10 +251,12 @@ add_action('init', 'escapii_create_admin_page');
  */
 function esc_rukovalac(): array {
     return [
-        'naziv'   => '[NAZIV PRAVNOG LICA]',
-        'sediste' => '[SEDIŠTE]',
-        'mb'      => '[MATIČNI BROJ]',
-        'pib'     => '[PIB]',
+        // Iz APR rešenja (registrovano 2026-10-03). Puno poslovno ime, latinicom;
+        // "Techologies" je tako upisano u registru.
+        'naziv'   => 'Marija Radalj PR agencija za marketing Escapii Techologies Beograd',
+        'sediste' => 'Lješka 2, sprat 4, stan 23, 11030 Beograd (Čukarica), Srbija',
+        'mb'      => '68810809',
+        'pib'     => '115994656',
     ];
 }
 
