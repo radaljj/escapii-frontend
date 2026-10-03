@@ -1298,7 +1298,7 @@ tbody td  { padding: 11px 12px; }
           <label class="promo-field">
             <span>Kod</span>
             <input class="form-input" id="promoCode" type="text" maxlength="40" autocomplete="off" spellcheck="false"
-                   oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_-]/g,'')" placeholder="SKIP3">
+                   oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9_-]/g,'')" placeholder="ESCAPII2">
           </label>
           <label class="promo-field">
             <span>Važi do (uključivo)</span>
@@ -1666,7 +1666,7 @@ function priceBreakdownLines(b) {
   if (b.hasSeatsTogether) rows.push({ label: 'Sedišta zajedno', value: '+24€/os' });
   rows.push({ kind: 'subtotal', label: `Po osobi (${b.totalPricePerPerson}€/os) × ${n} ${n === 1 ? 'putnik' : 'putnika'}`, value: `${b.totalPricePerPerson * n}€` });
   if (b.cabinSuitcaseCount > 0) rows.push({ label: `Ručni (kabinski) kofer × ${b.cabinSuitcaseCount}`, value: `+${100 * b.cabinSuitcaseCount}€` });
-  // Uz promo kod deo isključivanja je besplatan (SKIP3: prva tri), pa naplata i ušteda mogu da stoje zajedno.
+  // Uz promo kod deo isključivanja je besplatan (ESCAPII2: prva tri), pa naplata i ušteda mogu da stoje zajedno.
   const promoUsteda = b.promoCode && b.promoSavedEur > 0 ? b.promoSavedEur : 0;
   if (b.exclusionCostEur > 0 || promoUsteda > 0) rows.push({
     label: `Isključivanja (${b.exclusionCount}×)` + (promoUsteda ? ` · promo ${b.promoCode}` : ''),

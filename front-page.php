@@ -6566,7 +6566,7 @@ function togExcl(id, event) {
     if(tile) {
       const rect = tile.getBoundingClientRect();
       const n = S.excludedIds.length;
-      const promoOn = !!_appliedPromo && n <= _appliedPromo.free;   // SKIP3: četvrto se i dalje doplaćuje
+      const promoOn = !!_appliedPromo && n <= _appliedPromo.free;   // ESCAPII2: četvrto se i dalje doplaćuje
       const label = n === 1 ? (lang==='en' ? '🎁 1st free!' : '🎁 1. gratis!')
                   : promoOn ? (lang==='en' ? '✨ free with promo' : '✨ besplatno uz promo')
                   : (lang==='en' ? '+€10/person' : '+10€ po osobi');
@@ -7100,7 +7100,7 @@ async function loadPrice() {
     if(p.breakfastPerPerson>0) { const bfstTotal=p.breakfastPerPerson*p.numberOfTravelers; const bfstUnit=Math.round(p.breakfastPerPerson/p.numberOfNights); const bfstSub=isSr?`${bfstUnit}€ po osobi/noći`:`${bfstUnit}€/pp/night`; const bfstPers=isSr?`${p.numberOfNights} noći × ${p.numberOfTravelers} osoba`:`${p.numberOfNights} nights × ${p.numberOfTravelers} pp`; html+=`<div class="pr-row"><span><span>${t('pr.bfst')} (${bfstPers})</span>${sub(bfstSub)}</span><span>+${bfstTotal}€</span></div>`; }
     if(p.seatsTogether>0) html+=`<div class="pr-row"><span><span>${t('pr.seats')}</span>${ppSub(p.seatsTogether)}</span><span>+${p.seatsTogether * p.numberOfTravelers}€</span></div>`;
     if (p.exclusionPromoApplied && p.exclusionPromoSavedEur > 0) {
-      // Promo: red ostaje, stara cena precrtana, pored nje ono što se stvarno plaća (SKIP3 sa četiri
+      // Promo: red ostaje, stara cena precrtana, pored nje ono što se stvarno plaća (ESCAPII2 sa četiri
       // isključivanja: četvrto se i dalje naplaćuje) - kupac vidi šta je dobio.
       const exclStaro = p.exclusionCostFlat + p.exclusionPromoSavedEur;
       const exclNovo  = p.exclusionCostFlat > 0 ? `<span>+${p.exclusionCostFlat}€</span>` : `<span class="pr-free">0€</span>`;
@@ -8281,7 +8281,7 @@ document.addEventListener('click', function(e) {
 
 
 // ── Promo kod „besplatna isključivanja destinacija" ─────────────────────────
-// Kod kaže koliko isključivanja UKUPNO ne košta ništa: SKIP3 = prva tri (prvo je besplatno i bez
+// Kod kaže koliko isključivanja UKUPNO ne košta ništa: ESCAPII2 = prva tri (prvo je besplatno i bez
 // koda), a četvrto se doplaćuje kao i inače. Broj stiže sa backenda (freeExclusions /
 // exclusionPromoFreeCount) - ovde se nigde ne podrazumeva.
 // Kuca se u isto polje kao poklon vaučer (korak 7). Vaučeri su oblika ESC-XXXX-XXXX-XXXX, sve
@@ -8367,7 +8367,7 @@ function osveziPromoNaKoraku6() {
   let note = document.getElementById('exclPromoNote');
   const dozvoljeno = exclusionRules().allowed;
   const sr = lang === 'sr';
-  // Nivoi cena: bez promo koda „2. do 4. isključivanje +10€"; uz SKIP3 „2. i 3. besplatno" i
+  // Nivoi cena: bez promo koda „2. do 4. isključivanje +10€"; uz ESCAPII2 „2. i 3. besplatno" i
   // poseban red za ono što se i dalje doplaćuje.
   const rules = exclusionRules();
   const tier2Label = document.getElementById('exclTier2Label');
