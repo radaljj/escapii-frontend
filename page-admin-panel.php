@@ -5100,6 +5100,7 @@ function renderAgencyInvoices() {
         ${i.status === 'VOIDED' && i.voidReason ? `<span style="color:#fca5a5;font-size:11px;">${esc(i.voidReason)}</span>` : ''}
         <span class="ag-inv-btns">
           <button class="btn-action" onclick="downloadAgencyInvoicePdf(${i.id}, '${esc(i.invoiceNumber)}')">📄 PDF</button>
+          <button class="btn-action" onclick="openAgencyInvoiceBreakdownMail({ invoiceId: ${i.id} })" title="Obračun po rezervaciji i stavkama, za kopiranje u mejl agenciji">📝 Obrazloženje</button>
           ${i.status !== 'VOIDED' ? `<button class="btn-action" onclick="agencyInvoiceAction(${i.id}, 'resend')">✉️ Pošalji ponovo</button>` : ''}
           ${i.status === 'SENT' ? `<button class="btn-action btn-toggle-on" onclick="agencyInvoiceAction(${i.id}, 'paid')">💰 Plaćena</button>` : ''}
           ${i.status === 'PAID' ? `<button class="btn-action" onclick="agencyInvoiceAction(${i.id}, 'unpaid')">↩ Nije plaćena</button>` : ''}
@@ -5109,7 +5110,7 @@ function renderAgencyInvoices() {
   });
 }
 
-async function openAgencyInvoice(agencyId) {
+async function openAgencyInvoice(agencyId, opisPocetni) {
   const a = _agencies.find(x => x.id === agencyId);
   let p;
   try {
@@ -5152,7 +5153,12 @@ async function openAgencyInvoice(agencyId) {
         <tbody>${rows}</tbody></table></div>` : ''}
       ${skipped}${inProgress}
       <label style="display:block;margin-top:14px;font-size:12px;color:#94a3b8;">Stavka na fakturi (tekst koji agencija vidi)</label>
-      <textarea id="agInvDesc" rows="2" maxlength="500" style="width:100%;box-sizing:border-box;margin-top:4px;padding:8px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:inherit;font-size:13px;">${esc(p.suggestedDescription || '')}</textarea>
+      <textarea id="agInvDesc" rows="2" maxlength="500" style="width:100%;box-sizing:border-box;margin-top:4px;padding:8px;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;font-family:inherit;font-size:13px;">${esc(opisPocetni != null ? opisPocetni : (p.suggestedDescription || ''))}</textarea>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+        <button type="button" class="btn-action" onclick="downloadAgencyInvoicePreview(${agencyId})" title="Isti obračun kao PDF sa oznakom PREGLED - ništa se ne izdaje i ne šalje">⬇ PDF pregled</button>
+        <button type="button" class="btn-action" onclick="obrazlozenjeIzPopupa(${agencyId})" title="Tekst sa obračunom po rezervaciji i stavkama, za kopiranje u mejl agenciji">📝 Obrazloženje za mejl</button>
+      </div>
+      <div id="agInvMsg" style="margin-top:6px;min-height:14px;font-size:12px;color:#fca5a5;"></div>
       <div style="margin-top:8px;font-size:12px;color:#94a3b8;">PDF ide na: <strong style="color:#e5e7eb;">${esc(p.agencyEmail || '— nema mejla —')}</strong></div>
       ${!p.canInvoice ? `<div style="margin-top:10px;padding:8px 10px;background:#7f1d1d;border-radius:6px;font-size:12px;color:#fecaca;">${esc(p.blocker || 'Faktura sada ne može da se napravi.')}</div>` : ''}
     </div>`;
@@ -5253,6 +5259,107 @@ async function downloadAgencyInvoicePdf(id, number) {
   } catch (e) {
     Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
   }
+}
+
+// PDF pregled iz popupa "Fakturiši": isti obračun kao /invoices/preview, broj "PREGLED",
+// ništa se ne upisuje, ne troši se sekvenca brojeva i ne šalje se mejl. Opis stavke
+// ide iz textarea-e ako je nešto uneto, inače backend uzima suggestedDescription.
+async function downloadAgencyInvoicePreview(agencyId) {
+  const desc = (document.getElementById('agInvDesc')?.value || '').trim();
+  const qs = desc ? `?description=${encodeURIComponent(desc)}` : '';
+  try {
+    const r = await fetch(`${API}/api/admin/agencies/${agencyId}/invoices/preview.pdf${qs}`, { headers:{ 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'PDF pregled nije dostupan');
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `escapii-faktura-PREGLED-${agencyId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  } catch (e) {
+    // Novi Swal bi zatvorio popup "Fakturiši" i obrisao uneti tekst stavke - poruka ide u sam popup.
+    const msg = document.getElementById('agInvMsg');
+    if (msg) msg.textContent = `⚠️ ${e.message}`;
+    else Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+  }
+}
+
+// Iz popupa "Fakturiši": mail popup zamenjuje Swal, pa se posle zatvaranja popup vraća sa istim tekstom stavke.
+async function obrazlozenjeIzPopupa(agencyId) {
+  const opis = (document.getElementById('agInvDesc')?.value || '').trim();
+  await openAgencyInvoiceBreakdownMail({ agencyId, opisStavke: opis });
+  openAgencyInvoice(agencyId, opis);
+}
+
+// Srpski padež uz broj: 1 putnik, 2-4 putnika, 5+ putnika (21 putnik, 22 putnika, 11 putnika).
+function srBroj(n, jedan, dvaDoCetiri, pet) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return jedan;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return dvaDoCetiri;
+  return pet;
+}
+
+/** Obrazloženje fakture za računovođu agencije: na fakturi piše samo "Marketinške usluge",
+ *  pa ovde ide obračun po rezervaciji, po stavkama i podeli (iz AgencySettlementCalculator-a).
+ *  bd = AgencyInvoiceBreakdown sa backenda (invoiceNumber null = pregled, još nije izdato). */
+function agencyInvoiceBreakdownMail(bd, opisStavke) {
+  const broj = bd.invoiceNumber || 'PREGLED';
+  const stavka = (opisStavke || '').trim() || 'Marketinške usluge';
+  const L = [];
+  L.push('Poštovani,', '');
+  const period = bd.periodFrom ? ` (period ${dmy(bd.periodFrom)} – ${dmy(bd.periodTo)})` : '';
+  L.push(`na fakturi ${bd.invoiceNumber ? bd.invoiceNumber : 'koju pripremamo (pregled, još nije izdata)'} stavka „${stavka}“ obuhvata sledeće rezervacije${period}. Ispod je obračun po svakoj rezervaciji, po stavkama i podeli.`, '');
+  (bd.bookings || []).forEach(b => {
+    const n = Number(b.travelers) || 0;
+    L.push(`REZERVACIJA ${b.bookingRef || '-'} · ${dmy(b.departureDate)} – ${dmy(b.returnDate)} · ${n} ${srBroj(n, 'putnik', 'putnika', 'putnika')} · ${b.destination || '-'}`);
+    (b.items || []).forEach(it => {
+      // Grana po vrsti stavke, ne po tome da li je trošak unet: 50/50 stavka uvek pokazuje oba dela.
+      const deo = v => (v == null ? '-' : eur(v));
+      let red = `• ${it.description || it.itemType || '-'}: kupac ${eur(it.customerTotal)}`;
+      if (it.allocationType === 'ESCAPII_100') {
+        red += ` → Escapii ${deo(it.escapiiPart)}`;
+      } else if (it.allocationType === 'AGENCY_100') {
+        red += ` → agencija ${deo(it.agencyPart)}`;
+      } else {
+        if (it.agencyCost != null) red += ` · trošak agencije ${eur(it.agencyCost)} · marža ${deo(it.margin)}`;
+        red += ` → agencija ${deo(it.agencyPart)}, Escapii ${deo(it.escapiiPart)}`;
+      }
+      L.push(red);
+    });
+    let uk = `  Ukupno kupac ${eur(b.grossBookingValue)}`;
+    if (Number(b.voucherAmount) > 0) uk += ` (od toga vaučer ${eur(b.voucherAmount)})`;
+    uk += ` · Escapii deo: ${eur(b.escapiiEarnings)}`;
+    L.push(uk, '');
+  });
+  const br = Number(bd.bookingCount) || 0;
+  L.push(`UKUPNO NA FAKTURI: ${eur(bd.amount)} (${br} ${srBroj(br, 'rezervacija', 'rezervacije', 'rezervacija')})`);
+  L.push('', 'Za sva pitanja oko obračuna pišite nam na info@escapii.rs.');
+  L.push('', 'Srdačan pozdrav,', 'Escapii');
+  return { subject: `Obrazloženje fakture ${broj} – Escapii`, body: L.join('\n') };
+}
+
+/** Otvara mail popup sa obrazloženjem: { agencyId } = šta bi ušlo u fakturu SADA (pregled),
+ *  { invoiceId } = rezervacije već izdate fakture. Zamenjuje trenutni Swal popup ako postoji. */
+async function openAgencyInvoiceBreakdownMail({ agencyId, invoiceId, opisStavke }) {
+  const url = invoiceId != null
+    ? `${API}/api/admin/agency-invoices/${invoiceId}/breakdown`
+    : `${API}/api/admin/agencies/${agencyId}/invoices/preview/breakdown`;
+  let bd;
+  try {
+    const r = await fetch(url, { headers:{ 'X-Admin-Key': ADMIN_KEY } });
+    if (!r.ok) throw await apiError(r, 'Obračun nije dostupan');
+    bd = await r.json();
+  } catch (e) {
+    Swal.fire({ icon:'error', title:'Greška', text: e.message, background:'#0b1929', color:'#fff' });
+    return;
+  }
+  const { subject, body } = agencyInvoiceBreakdownMail(bd, opisStavke);
+  const ag = agencyId != null ? _agencies.find(x => x.id === agencyId) : null;
+  const to = (ag && ag.contactEmail) || await agencyEmailFor(bd.agencyName);
+  await openMailPopup(`Obrazloženje fakture ${esc(bd.invoiceNumber || 'PREGLED')} – ${esc(bd.agencyName || '')}`, subject, body, to);
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
