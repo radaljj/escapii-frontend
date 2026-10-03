@@ -254,7 +254,9 @@ function esc_rukovalac(): array {
         // Iz APR rešenja (registrovano 2026-10-03). Puno poslovno ime, latinicom;
         // U APR-u je upisano "Techologies" (bez n); Marko 2026-10-03: pisemo "Technologies" jer ide promena naziva u APR-u.
         'naziv'   => 'Marija Radalj PR agencija za marketing Escapii Technologies Beograd',
-        'sediste' => 'Lješka 2, sprat 4, stan 23, 11030 Beograd (Čukarica), Srbija',
+        // Samo grad: registrovano sedište je Markova kućna adresa i ne ide na sajt (Marko 2026-10-03).
+        // Puna adresa ostaje na fakturama (obavezan element računa) i u javnom APR registru.
+        'sediste' => 'Beograd, Srbija',
         'mb'      => '68810809',
         'pib'     => '115994656',
     ];
