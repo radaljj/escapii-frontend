@@ -4003,7 +4003,7 @@
           <div class="e-icon">📶</div>
           <div class="e-txt" style="flex:1;">
             <div class="e-label" data-i18n="ext.esim">eSIM za internet, 5% popusta uz naš kod</div>
-            <div class="e-desc" data-i18n="ext.esim.d">Kupuješ ga direktno kod partnera. Link i kod ESCAPII stižu uz reveal.</div>
+            <div class="e-desc" data-i18n-html="ext.esim.d">Kupuješ direktno kod našeg partnera, a uz reveal dobijaš link i promo kod <strong>ESCAPII</strong>.</div>
           </div>
           <div style="font-size:13px;font-weight:700;color:#4ade80;" data-i18n="ext.ar.pill">✓ Uz reveal</div>
         </div>
@@ -4693,7 +4693,7 @@ const TR = {
     'err.gift.email':'Unesite ispravnu email adresu.',
     'ext.bag':'Ranac / personal item (do 10kg)', 'ext.bag.d':'Uključeno u svako Escapii putovanje', 'ext.bag.incl':'✓ Uključeno',
     'ext.ar.h':'Uz reveal dobijaš i:', 'ext.ar.pill':'✓ Uz reveal',
-    'ext.esim':'eSIM za internet, 5% popusta uz naš kod', 'ext.esim.d':'Kupuješ ga direktno kod partnera. Link i kod ESCAPII stižu uz reveal.',
+    'ext.esim':'eSIM za internet, 5% popusta uz naš kod', 'ext.esim.d':'Kupuješ direktno kod našeg partnera, a uz reveal dobijaš link i promo kod <strong>ESCAPII</strong>.',
     'ext.tours':'Ulaznice i ture za tvoju destinaciju', 'ext.tours.d':'Partnerski link za tvoj grad stiže uz reveal, 48h pre polaska.',
     'ext.lugg':'Čuvanje prtljaga u centru grada', 'ext.lugg.d':'Ostaviš kofer na par sati i iskoristiš poslednji dan. Link stiže uz reveal.',
     'ext.bag.tip.title':'⚠️ Važno',
@@ -4964,7 +4964,7 @@ const TR = {
     'err.gift.email':'Enter a valid email address.',
     'ext.bag':'Backpack / personal item (up to 10kg)', 'ext.bag.d':'Included in every Escapii trip', 'ext.bag.incl':'✓ Included',
     'ext.ar.h':'With your reveal you also get:', 'ext.ar.pill':'✓ With reveal',
-    'ext.esim':'eSIM for internet, 5% off with our code', 'ext.esim.d':'You buy it directly from our partner. The link and the ESCAPII code arrive with your reveal.',
+    'ext.esim':'eSIM for internet, 5% off with our code', 'ext.esim.d':'You buy it directly from our partner, and with your reveal you get the link and the promo code <strong>ESCAPII</strong>.',
     'ext.tours':'Tickets and tours for your destination', 'ext.tours.d':'The partner link for your city arrives with the reveal, 48h before departure.',
     'ext.lugg':'Luggage storage in the city centre', 'ext.lugg.d':'Drop your bag for a few hours and enjoy the last day. The link arrives with the reveal.',
     'ext.bag.tip.title':'⚠️ Important',
